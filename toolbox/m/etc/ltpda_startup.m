@@ -416,7 +416,7 @@ function showLogo()
   disp([utils.prog.strpad('|', ll-1) '|'])
   disp([utils.prog.strpad(sprintf('|            Welcome to the %s', v.Name), ll-1) '|'])
   disp([utils.prog.strpad('|', ll-1) '|'])
-  disp([utils.prog.strpad(sprintf('|                  Version: %s (PSSL)', v.Version), ll-1) '|'])
+  disp([utils.prog.strpad(sprintf('|                  Version: %s', v.Version), ll-1) '|'])
   disp([utils.prog.strpad(sprintf('|                     Date: %s', v.Date), ll-1) '|'])
   disp([utils.prog.strpad('|', ll-1) '|'])
   disp(l1);

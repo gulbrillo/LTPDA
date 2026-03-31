@@ -181,6 +181,32 @@ For scheduled XML dumps, copy `ltpdareporobot.rb` to `/root/bin` with appropriat
 
 ---
 
+## Creating a release
+
+The script `make_release.sh` in the repo root handles everything: zipping the toolbox and repository, creating the GitHub release, and attaching both assets.
+
+### Prerequisites
+
+1. Install the [GitHub CLI](https://cli.github.com/) — on Windows:
+   ```powershell
+   winget install GitHub.cli
+   ```
+
+2. Authenticate (one-time):
+   ```bash
+   gh auth login
+   ```
+
+### Run
+
+```bash
+bash make_release.sh
+```
+
+The script will prompt before committing uncommitted changes and before deleting the local zip files. Edit the version and tag constants at the top of the script if they ever need to change.
+
+---
+
 ## Contributing
 
 This fork is a work in progress. Please [open an issue on GitHub](https://github.com/gulbrillo/LTPDA/issues) for bug reports, compatibility fixes, or questions. Pull requests are welcome.
