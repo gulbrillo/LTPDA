@@ -37,7 +37,7 @@ info() { printf "\033[1;32m[info]\033[0m  %s\n" "$*"; }
 warn() { printf "\033[1;33m[warn]\033[0m  %s\n" "$*" >&2; }
 die()  { printf "\033[1;31m[error]\033[0m %s\n" "$*" >&2; exit 1; }
 
-# Create a zip from a source directory, using 'zip' or PowerShell as fallback.
+# Create a zip from a source directory, using 'zip' or .NET ZipFile as fallback.
 make_zip() {
   local dest="$1"   # output zip filename (relative to cwd)
   local src="$2"    # source directory (relative to cwd)
@@ -48,12 +48,15 @@ make_zip() {
       --exclude "*/__pycache__/*" \
       --exclude "*.DS_Store"
   else
-    # PowerShell fallback (Git Bash on Windows without zip)
+    # .NET ZipFile fallback (Git Bash on Windows without zip).
+    # More reliable than Compress-Archive for large directories.
     local win_dest win_src
     win_dest="$(cygpath -w "$(pwd)/${dest}")"
     win_src="$(cygpath -w "$(pwd)/${src}")"
-    powershell.exe -NoProfile -Command \
-      "Compress-Archive -Path '${win_src}' -DestinationPath '${win_dest}' -Force"
+    powershell.exe -NoProfile -Command "
+      Add-Type -Assembly System.IO.Compression.FileSystem;
+      [System.IO.Compression.ZipFile]::CreateFromDirectory('${win_src}', '${win_dest}')
+    "
   fi
 }
 
