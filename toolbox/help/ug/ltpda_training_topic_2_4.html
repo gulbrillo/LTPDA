@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Interpolation of a time-series AO (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_topic_2_3.html"><img src="b_prev.gif" border="0" align="bottom" alt="Resampling a time-series AO"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_topic_2_5.html"><img src="b_next.gif" border="0" align="bottom" alt="Remove trends from a time-series AO"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Interpolation of a time-series AO</h1>
+    <hr>
+    
+    <p>
+      <p>
+  The <tt>ao</tt> class has a method for interpolating data using different forms of interpolation. This method is
+  called <tt>ao/interp</tt>.
+</p>
+<p>
+  To configure <tt>ao/interp</tt>, use the following <a href="../funcbycat/html/ao_interp.html#1">parameters</a>:
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="25%"/>
+      <col width="75%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Key</th>
+        <th class="categorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Key 'Vertices' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>VERTICES</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>A new set of vertices (relative to the data reference time t0) on which to resample.</p>
+        </td>
+      </tr>
+      <!-- Key 'method' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>METHOD</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>The method by which to interpolate. Choose from
+            <ul>
+              <li>'nearest' - nearest neighbour</li>
+              <li>'linear'  - linear interpolation</li>
+              <li>'spline'  - for piecewise cubic spline interpolation</li>
+              <li>'pchip'   - for shape-preserving piecewise cubic interpolation</li>
+              <li>'v5cubic' - same as 'pchip'</li>
+              <li>'cubic'   - for the cubic interpolation from MATLAB 5</li>
+          </ul></p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+<h2>Example</h2>
+<p>
+  Here we will interpolate a sinusoidal signal on to a new time-grid. The result will be to increase the
+  sample rate by a factor 2.
+</p>
+<p>
+  First we create a time-series ao:
+</p>
+<div class="fragment"><pre>
+    pl = plist(<span class="string">'Name'</span>, <span class="string">'None'</span>, <span class="string">'tsfcn'</span>, <span class="string">'sin(2*pi*1.733*t)'</span>, <span class="string">'fs'</span>, 20, <span class="string">'nsecs'</span>, 10, <span class="string">'yunits'</span>, <span class="string">'V'</span>);
+    x  = ao(pl);</pre></div>
+<p>
+  Then we create the new time-grid we want to resample on to.
+</p>
+<div class="fragment"><pre>
+   tt   = linspace(0, x.nsecs - 1/x.fs, 2*(x.len));
+  </pre>
+</div>
+<p>
+  Please notice the 'dot' notation we used to call a couple methods to access properties of this tsdata (time-series) AO:
+  <div class="fragment"><pre>
+  x.nsecs</pre></div>
+  will provide a double with the duration of the timeseries, in seconds.
+  <div class="fragment"><pre>
+  x.fs</pre></div>
+    will provide a double with the sampling rate of the timeseries, in Hz.
+</p>
+<p>
+  Finally, we can apply our new time-grid to the data using <tt>interp</tt>. We test two of the available interpolation methods:
+</p>
+<div class="fragment"><pre>
+    pl_spline  = plist(<span class="string">'vertices'</span>, tt);
+    pl_nearest = plist(<span class="string">'vertices'</span>, tt, <span class="string">'method'</span>, <span class="string">'nearest'</span>);
+    x_spline   = interp(x, pl_spline);
+    x_nearest  = interp(x, pl_nearest);
+    iplot(x, x_spline, x_nearest, plist(<span class="string">'Markers'</span>, {<span class="string">'o'</span>, <span class="string">'+'</span>, <span class="string">'x'</span>}, ...
+    <span class="string">'LineColors'</span>, {<span class="string">'k'</span>, <span class="string">'r'</span>, <span class="string">'g'</span>}, ...
+    <span class="string">'XRanges'</span>, [0 1]));
+  </pre>
+</div>
+<img src="images/ltpda_training_1/topic2/interp.png" alt="Interpolate" border="3">
+<p>
+Notice the settings in the plist we used for the plotting, that allow changing the marker of the plotted lines, as well as the settings
+for adjusting the colors of the line themselves. 
+</p>
+<br>
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_topic_2_3.html"><img src="b_prev.gif" border="0" align="bottom" alt="Resampling a time-series AO"></a>&nbsp;</td>
+        <td align="left">Resampling a time-series AO</td>
+        <td>&nbsp;</td>
+        <td align="right">Remove trends from a time-series AO</td>
+        <td align="right" width="20"><a href="ltpda_training_topic_2_5.html"><img src="b_next.gif" border="0" align="bottom" alt="Remove trends from a time-series AO"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

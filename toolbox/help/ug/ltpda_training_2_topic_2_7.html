@@ -1,0 +1,281 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Changing system parameters (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_2_topic_2_6_3.html"><img src="b_prev.gif" border="0" align="bottom" alt="Simulating LPF noise"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_2_topic_2_8.html"><img src="b_next.gif" border="0" align="bottom" alt="Simulate LPF with matched stiffness"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Changing system parameters</h1>
+    <hr>
+    
+    <p>
+      <p>
+  The statespace models in LTPDA have two types of parameters: configuration
+  parameters, like 'DIM', 'VERSION', which are common to all <tt>ssm</tt> models,
+  and system parameters which are model specific. These <i>system parameters</i>
+  represent symbolic entries in the underlying statespace matrices. By default, 
+  when you build a <tt>ssm</tt> object, the system parameters are replaced by their
+  numerical values and the model is returned in a fully numeric state. The numerical 
+  values that were substituted are stored in the 'numparams' field of the object. This
+  field is a <tt>plist</tt> where each key represents the parameter name, and the corresponding
+  value is the parameter value.
+</p>
+<p>
+  For example, suppose we build the LTP model like this:
+  <div class="fragment"><pre>
+      <span class="comment">% Build the default version of the LTP model</span>      
+      ltp = ssm(plist(<span class="string">'built-in'</span>, <span class="string">'LTP'</span>));
+  </pre></div>
+  Then firstly you will see that the model is numeric:
+  <div class="fragment"><pre>
+      <span class="comment">% Check if the model is numeric</span>      
+      ltp.isnumerical
+  </pre></div>
+  We can inspect the numerical parameters that were substituted during the building process
+  by looking at the field 'numparams' (numerical parameters):
+  <div class="fragment"><pre>
+      <span class="comment">% List the numerical parameters</span>      
+      ltp.numparams
+  </pre></div>
+  As you can see, the model has many parameters (351). A more useful way to view them is:
+  <div class="fragment"><pre>
+      <span class="comment">% View the 'numparams' plist in MATLAB's documentation browser</span>      
+      ltp.numparams.tohtml
+  </pre></div>
+  Since this field is a <tt>plist</tt>, if you know the name of a parameter, you can search for its 
+  value like this:
+  <div class="fragment"><pre>
+      <span class="comment">% Get the TM1 stiffness along x</span>      
+      w1 = ltp.numparams.find(<span class="string">'EOM_TM1_STIFF_XX'</span>);      
+  </pre></div>
+  Hint: if you don't know the name of the parameter, you can search using the <tt>plist/regexp</tt>
+  method. For example:
+  <div class="fragment"><pre>
+      <span class="comment">% Search for all stiffness values</span>      
+      subsetPlist = ltp.numparams.regexp(<span class="string">'stiffness'</span>);      
+  </pre></div>
+  You can even chain these searches together:
+  <div class="fragment"><pre>
+      <span class="comment">% Search for all stiffness values</span>      
+      subsetPlist = ltp.numparams.regexp(<span class="string">'stiffness'</span>).regexp(<span class="string">'TM1'</span>);      
+  </pre></div>  
+</p>
+<br>
+<br>
+<h2>Setting system parameters at build time</h2>
+<p>
+  You can override the default system parameters at build time by specifying the parameter name and a
+  value in the configuration plist used for building the model. For example, let's set the stiffness
+  of TM1 to a different value when building our LTP model:
+  <div class="fragment"><pre>
+      
+      <span class="comment">% Build the default version of the LTP model</span>      
+      modelPlist = plist(...
+                      <span class="string">'built-in'</span>, <span class="string">'LTP'</span>, ...
+                      <span class="string">'EOM_TM1_STIFF_XX'</span>, 1e-6 ...
+                      );
+      
+      <span class="comment">% Build the LTP model with our configuration plist</span>      
+      ltp = ssm(modelPlist);
+  </pre></div>
+  <table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1">
+    <tr width="90%">
+      <td>
+        Note: In the current version of the LPF models, stiffness terms are specified as positive. This will likely change in future versions.
+      </td>
+    </tr>
+  </table>
+ <br>
+  Confirm that your value for the stiffness was indeed used:
+  <div class="fragment"><pre>
+      <span class="comment">% Get the TM1 stiffness along x</span>      
+      w1Used = ltp.numparams.find(<span class="string">'EOM_TM1_STIFF_XX'</span>)   
+  </pre></div>
+  
+</p>
+<br>
+<br>
+<h2>Creating symbolic models</h2>
+<p>
+  The default is to build models completely numeric, but you can also build symbolic models. One 
+  limitation of doing this is that the model needs to be built continuous rather than discrete. This
+  imposes further constraints on the models you are able to build, especially when it comes to the 
+  version of the DFACS model that you build because we don't have continuous versions of the DFACS
+  for all versions.
+</p>
+<p>
+  To build the 'Standard' version of LTP continuous and with some symbolic parameters, you can do:
+  <div class="fragment"><pre>
+      
+      <span class="comment">% Build the default version of the LTP model</span>      
+      modelPlist = plist(...
+                      <span class="string">'built-in'</span>, <span class="string">'LTP'</span>, ...
+                      <span class="string">'SYMBOLIC PARAMS'</span>, {<span class="string">'EOM_TM1_STIFF_XX'</span>, <span class="string">'EOM_TM2_STIFF_XX'</span>}, ...
+                      <span class="string">'continuous'</span>, true ...
+                      );
+      
+      <span class="comment">% Build the symbolic LTP model with our configuration plist</span>      
+      ltp = ssm(modelPlist);
+  </pre></div>
+  If you build the LTP model like this you will see, firstly, that it is not numeric, and secondly that
+  it has a time-step of zero, i.e., it is continuous.
+  <div class="fragment"><pre>
+      
+      <span class="comment">% Check if the model is numeric</span>      
+      ltp.isnumerical
+      
+      <span class="comment">% Check if the model is continuous</span>      
+      ltp.timestep
+      
+  </pre></div>
+  You can also see that the 'params' field contains two parameters, the ones you specified when 
+  constructing the model. Like the 'numparams' field, the 'params' field is also a <tt>plist</tt>.
+  <div class="fragment"><pre>
+      <span class="comment">% List the symbolic parameters</span>      
+      ltp.params
+  </pre></div>
+</p>
+<br>
+<br>
+<h2>Setting system parameters at run time</h2>
+<p>
+  Once you have a symbolic model, you can change the values of those symbolic parameters by using
+  the <tt>ssm/setParameters</tt> method. For example, let's set the two stiffness values
+  we kept symbolic in the model we built above:
+  <div class="fragment"><pre>
+      
+      <span class="comment">% Set the values of the two stiffness parameters</span>      
+      ltp.setParameters(<span class="string">'EOM_TM1_STIFF_XX'</span>, 1e-6, <span class="string">'EOM_TM2_STIFF_XX'</span>, 3e-6);
+            
+      <span class="comment">% Check the values were set</span>      
+      ltp.params
+      
+      <span class="comment">% View the 'params' plist in MATLAB's documentation browser</span>      
+      ltp.params.tohtml
+
+  </pre></div>
+</p>
+<table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1">
+  <tr width="90%">
+    <td>
+      Note: by calling <tt>setParameters</tt> with no outputs, we modify our existing model. 
+      If we did give an output variable, then the original model would be copied, the parameters
+      set on the copy, and then the copy returned, leaving the original model untouched.
+    </td>
+  </tr>
+</table>
+<br>
+<br>
+<h2>Simulating with a symbolic model</h2>
+<p>
+  Before we can simulate with this symbolic model, we have to make the model discrete. Before
+  we can do that, we have to make the model numeric. Making the model numeric means substituting
+  all symbolic parameters with their numeric values. To do that, we use the <tt>ssm/subsParameters</tt>
+  method like this:
+  <div class="fragment"><pre>
+      
+      <span class="comment">% Substitute all symbolic parameters with their numeric values</span>      
+      numericLTP = ltp.subsParameters;
+      
+      <span class="comment">% Confirm there are no symbolic parameters remaining</span>      
+      numericLTP.params
+      
+  </pre></div>
+  The model is now numeric but still continuous. We can already look at the response of the model
+  in the frequency domain using <tt>ssm/bode</tt>. For example, we can look at the transfer 
+  function from differential force applied to the TMs to the differential displacement
+  sensed by the IFO:
+  <div class="fragment"><pre>
+      <span class="comment">% Define a plist for bode</span>
+      bodePlist = plist(...
+                    <span class="string">'inputs'</span>, <span class="string">'SIGNAL_TM12.x'</span>, ...
+                    <span class="string">'outputs'</span>, <span class="string">'DELAY_IFO.x1'</span>, ...
+                    <span class="string">'f'</span>, logspace(-4, log10(0.5), 1000) ... <span class="comment">% from 0.1mHz to 0.5Hz</span>
+                    );
+      
+      <span class="comment">% Compute system response</span>
+      out = numericLTP.bode(bodePlist);
+      
+      <span class="comment">% Plot response</span>
+      iplot(out);
+  </pre></div>
+</p>
+<p>  
+  Now we can go ahead and discretize the model using <tt>ssm/modifyTimeStep</tt>. On-board LPF the DFACS
+  controllers are discretized at 10Hz, so we'll do the same here:
+  <div class="fragment"><pre>
+      
+      <span class="comment">% Modify the time-step of the model to 0.1s (10Hz)</span>      
+      dLTP = numericLTP.modifyTimeStep(0.1);
+            
+      <span class="comment">% Confirm the model has this timestep</span>
+      dLTP.timestep
+      
+  </pre></div>
+  Again, we can compute the same bode response as above and explore the effect of discretizing
+  the model:
+  <div class="fragment"><pre>
+      
+      <span class="comment">% Compute system response</span>
+      dout = dLTP.bode(bodePlist);
+      
+      <span class="comment">% Get the continuous response and set its name</span>
+      contResp = out.unpack;
+      contResp.setName('Force->displacement (Continuous)');
+      
+      <span class="comment">% Get the discrete response and set its name</span>
+      discResp = dout.unpack;
+      discResp.setName('Force->displacement (Discrete)');
+      
+      <span class="comment">% Compare the two bode plots</span>
+      iplot(contResp, discResp)
+      
+  </pre></div>
+  <IMG src="images/ltpda_training_2/Topic2/bode_discrete_vs_continuous.png" width="1000px" align="center" border="0">
+  <br>
+  <br>
+  Discretizing a model is not an exact mapping, and should be used with 
+  care. It is always better, where possible, to build a discrete model from the outset. When doing
+  that, each submodel is built discrete before assembling. Doing it this way round means that each 
+  model is built continuous, then assembled, and the final full system is discretized.
+</p>
+<p>
+  Since the model is now numerical and discrete, we can simulate the noise of the system just as
+  we did earlier.
+</p>
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_2_topic_2_6_3.html"><img src="b_prev.gif" border="0" align="bottom" alt="Simulating LPF noise"></a>&nbsp;</td>
+        <td align="left">Simulating LPF noise</td>
+        <td>&nbsp;</td>
+        <td align="right">Simulate LPF with matched stiffness</td>
+        <td align="right" width="20"><a href="ltpda_training_2_topic_2_8.html"><img src="b_next.gif" border="0" align="bottom" alt="Simulate LPF with matched stiffness"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

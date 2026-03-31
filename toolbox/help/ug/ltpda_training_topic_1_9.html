@@ -1,0 +1,323 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>IFO/Temperature Example - Introduction (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_topic_1_7.html"><img src="b_prev.gif" border="0" align="bottom" alt="Writing LTPDA scripts"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_topic_2.html"><img src="b_next.gif" border="0" align="bottom" alt="Topic 2 - Pre-processing of data"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">IFO/Temperature Example - Introduction</h1>
+    <hr>
+    
+    <p>
+      <p>
+  In your data pack, you will find two raw data series. These are real measurements
+  of a system that looks like
+</p>
+<img src="images/ltpda_training_1/ifo_temp_model.png" alt="Model of the IFO/temperature system" width="600px" border="1">
+<p>
+  We have measured the two signals, <tt>T(t)</tt> and <tt>X(t)</tt>. The displacement input to the
+  interferometer, <tt>dx(t)</tt>, is inaccessible to us, and is in fact the data we want to
+  recover from the data analysis.
+</p>
+<br>
+<br>
+<h2>Reading and calibrating the interferometer data</h2>
+<br>
+<p>
+  The interferometer data, X(t), is saved in the file <tt>ifo_temp_example/ifo_training.dat</tt>. This is a
+  two-column ASCII file with the first column giving the time-stamps of the data and the second column the
+  measured IFO output in radians.
+</p>
+<p>
+  To read in the data, we can use the AO constuctor, with the set of parameters "From ASCII File". The key
+  parameters are:
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="15%"/>
+      <col width="35%"/>
+      <col width="50%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Key</th>
+        <th class="categorylist">Value</th>
+        <th class="categorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Key 'filename' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>FILENAME</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">'ifo_temp_example/ifo_training.dat'</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>The name of the file to read the data from.</p>
+        </td>
+      </tr>
+      <!-- Key 'type' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>TYPE</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">'tsdata'</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Interpret the data in the file as time-series data.</p>
+        </td>
+      </tr>
+      <!-- Key 'columns' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>COLUMNS</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>[1 2]</p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Load the data x-y pairs from columns 1 (as x) and 2 (as y).</p>
+        </td>
+      </tr>
+      <!-- Key 'xunits' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>XUNITS</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">'s'</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Set the units of the x-data to seconds (s).</p>
+        </td>
+      </tr>
+      <!-- Key 'yunits' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>YUNITS</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">'rad'</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Set the units of the y-data to radians (rad).</p>
+        </td>
+      </tr>
+      <!-- Key 'robust' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>ROBUST</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">'no'</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Use fast data reading for this simple file format.</p>
+        </td>
+      </tr>
+      <!-- Key 'description' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>DESCRIPTION</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">'Interferometer data'</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Set some text to the 'description' field of the AO.</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+<p>
+  Once we've loaded the data we can calibrate it to displacement using the following
+  equation:
+</p>
+<img src="images/ltpda_training_1/topic1/ifo_cal_factor.png" alt="Convert rad to m" width="200px" border="1">
+<p>
+  
+  where lambda=1064nm.
+</p>
+<p>
+  To do the calibration, you can use the method <tt>ao/scale</tt>,
+  specifying the <tt>factor</tt> and the <tt>yunits</tt> of the factor
+  itself. Then save the resulting time-series to disk in <tt>ifo_temp_example/ifo_disp.xml</tt>.
+</p>
+
+<br>
+<h2>Reading and calibrating the temperature data</h2>
+<br>
+<p>
+  The temperature data, T(t), is saved in the file <tt>ifo_temp_example/temp_training.dat</tt>. Again, this is a
+  two-column ASCII file; the first column contains the time-stamps of the data, the second column
+  contains the temperature values in degrees Celsius.
+</p>
+<p>
+  To read in the data, we can use the AO constuctor, with the set of parameters "From ASCII File". The key
+  parameters are:
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="15%"/>
+      <col width="35%"/>
+      <col width="50%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Key</th>
+        <th class="categorylist">Value</th>
+        <th class="categorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Key 'filename' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>FILENAME</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">'ifo_temp_example/temp_training.dat'</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>The name of the file to read the data from.</p>
+        </td>
+      </tr>
+      <!-- Key 'type' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>TYPE</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">'tsdata'</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Interpret the data in the file as time-series data.</p>
+        </td>
+      </tr>
+      <!-- Key 'columns' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>COLUMNS</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>[1 2]</p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Load the data x-y pairs from columns 1 (as x) and 2 (as y).</p>
+        </td>
+      </tr>
+      <!-- Key 'xunits' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>XUNITS</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">'s'</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Set the units of the x-data to seconds (s).</p>
+        </td>
+      </tr>
+      <!-- Key 'yunits' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>YUNITS</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">'degC'</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Set the units of the y-data to degrees Celsius.</p>
+        </td>
+      </tr>
+      <!-- Key 'robust' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>ROBUST</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">'no'</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Use fast data reading for this simple file format.</p>
+        </td>
+      </tr>
+      <!-- Key 'description' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>DESCRIPTION</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">'Temperature data'</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Set some text to the 'description' field of the AO.</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+<p>
+  Having loaded the temperature data, we can proceed to calibrate it to Kelvin by adding
+  273.15 to the data and then change the y-units. You can do this using the two AO methods:
+  <br>
+  <ul>
+    <li><tt>offset</tt> -- to add the offset</li>
+    <li><tt>setYunits</tt> -- to change the y-units of the data</li>
+  </ul>
+</p>
+<p>
+  The final step is to save this calibrated temperature data to disk as an AO XML file called
+  <tt>ifo_temp_example/temp_kelvin.xml</tt>, ready for input to the next topic.
+</p>
+<p>
+  <table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1">
+    <tr width="90%">
+      <td>
+        To plot the data with hours on the x-axis instead of seconds, use the <tt>iplot</tt> parameter <tt>XUNITS</tt>.
+        For example:
+        <div class="fragment"><pre>
+            iplot(a, plist(<span class="string">'XUNITS'</span>, <span class="string">'h'</span>))
+        </pre></div>
+      </td>
+    </tr>
+  </table>
+</p>
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_topic_1_7.html"><img src="b_prev.gif" border="0" align="bottom" alt="Writing LTPDA scripts"></a>&nbsp;</td>
+        <td align="left">Writing LTPDA scripts</td>
+        <td>&nbsp;</td>
+        <td align="right">Topic 2 - Pre-processing of data</td>
+        <td align="right" width="20"><a href="ltpda_training_topic_2.html"><img src="b_next.gif" border="0" align="bottom" alt="Topic 2 - Pre-processing of data"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

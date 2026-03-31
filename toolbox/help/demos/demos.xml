@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Revision$  $Date$ -->
+<demos>
+  <name>LTPDA</name>
+  <type>toolbox</type>
+  <icon>$toolbox/matlab/icons/matlabicon.gif</icon>
+  <description>
+    <p>The LTPDA Toolbox is a MATLAB&#174; Toolbox designed for the analysis 
+    of data from the LISA Technology Package (part of the LISA Pathfinder
+    Mission). However, the toolbox can be used for any general purpose signal
+    processing, and is particularly useful for analysis of typical lab-based
+    experiments.</p>
+  </description>
+  <website>
+    <a href="http://www.mathworks.com">LTPDA web side</a>
+  </website>
+
+  <demosection>
+    <label>LTPDA Toolbox Demos</label>
+       <demoitem>
+         <label>Coming soon ...</label>
+         <type>M-File</type>
+         <callback>disp('Coming soon')</callback>
+      </demoitem>
+     <!--
+      <demoitem>
+        <label>My nice demo script</label>
+        <type>M-file</type>
+        - If you want a different thumbnail in the general demo page than add a .png file with the same name as the .html file -
+        - HERE: ./html/demo.png -
+        <file>./html/demo.html</file>
+      </demoitem>
+      <demoitem>
+        <label>Computational Demos</label>
+        - Do not add a <type> element if executable_demo is executable -
+        - File to execute for "Run this demo" -
+        <callback>executable_demo</callback>
+        - File to display in the Viewing pane -
+        <file>./html/executable_demo2.html</file>
+      </demoitem>
+      <demoitem>
+        <type>video</type>
+          - This is an actual MATLAB Flash video demo -
+          - If Flash is installed, it runs in your system bowser -
+          <label>Video Demo (4 min, 7 sec)</label>
+          - Command or file to execute for "Run this demo" -
+          <callback>
+            playbackdemo('demoName', 'relativePath');
+          </callback>
+      </demoitem>
+      -->
+  </demosection>
+
+  <demosection>
+    <label>LTPDA Workbench Demos</label>
+       <demoitem>
+         <label>Coming soon ...</label>
+         <type>M-File</type>
+         <callback>disp('Coming soon')</callback>
+      </demoitem>
+  </demosection>
+
+  <demosection>
+    <label>Other Demos</label>
+       <demoitem>
+         <label>Coming soon ...</label>
+         <type>M-File</type>
+         <callback>disp('Coming soon')</callback>
+      </demoitem>
+  </demosection>
+
+</demos>

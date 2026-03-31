@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Spectral Estimation Methods (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="specwin_using.html"><img src="b_prev.gif" border="0" align="bottom" alt="Using spectral windows"></a>&nbsp;&nbsp;&nbsp;<a href="sigproc_psd.html"><img src="b_next.gif" border="0" align="bottom" alt="Power spectral density estimates"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Spectral Estimation Methods</h1>
+    <hr>
+    
+    <p>
+      <h2>Linear and Log-scale Methods</a></h2>
+
+<p>
+  The LTPDA Toolbox offers two kind of spectral estimators. The first ones are based on <tt>pwelch</tt> from MATLAB, which is an
+  implementation of Welch's averaged, modified periodogram method  <a href="#references"> [1]</a>. More details about spectral 
+estimation techniques can be found <a href="sigproc_intro.html" >here</a>.</p>
+
+<p>
+  The following pages describe the different Welch-based spectral estimation <tt>ao</tt> methods
+  available in the LTPDA toolbox:
+  <ul>
+    <li><a href="sigproc_psd.html"> power spectral density estimates </a></li>
+    <li><a href="sigproc_cpsd.html"> cross-spectral density estimates </a></li>
+    <li><a href="sigproc_cohere.html"> cross-coherence estimates </a></li>
+    <li><a href="sigproc_tfe.html"> transfer function estimates </a></li>
+  </ul>
+</p>
+
+<p>
+  As an alternative, the LTPDA toolbox makes available the same set of estimators, based on an
+  implementation of the LPSD algorithm  <a href="#references"> [2]</a>).
+</p>
+<p>
+  The following pages describe the different LPSD-based spectral estimation <tt>ao</tt> methods
+  available in the LTPDA toolbox:
+  <ul>
+    <li><a href="sigproc_lpsd.html"> log-scale power spectral density estimates </a></li>
+    <li><a href="sigproc_lcpsd.html"> log-scale cross-spectral density estimates </a></li>
+    <li><a href="sigproc_lcohere.html"> log-scale cross-coherence estimates </a></li>
+    <li><a href="sigproc_ltfe.html"> log-scale transfer function estimates</a></li>
+  </ul>
+</p>
+
+<p> More detailed help on spectral estimation can also be found in the help associated with
+  the <a href="matlab:doc('signal')" >Signal Processing Toolbox</a>.
+</p>
+
+<h2>Computing the sample variance</h2>
+<p>
+  The spectral estimators previously described usually return the average of the spectral estimator applied 
+  to different segments. This is a standard technique used in spectral analysis to reduce the variance of the 
+  estimator.
+</p>
+<p>
+  When using one of the previous methods in the LTPDA Toolbox, the value of this average over different segments 
+  is stored in the <tt>ao.y</tt> field of the output analysis object, but the user obtains also information about
+  the spectral estimator variance in the <tt>ao.dy</tt> field.
+</p>
+<p>
+  The methods listed above store in the <tt>ao.dy</tt> field the <b>standard deviation of the mean</b>, defined as
+</p>
+<div align="center">
+  <img src="images/mean_variance.png" >
+</div>
+<br>
+<p>
+  For more details on how the variance of the mean is computed, please refer to the the help page of each method. 
+</p>
+ <p>
+  <table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1">
+    <tr width="90%">
+      <td>
+        Note that when we only have one segment we can not evaluate the variance. This will happen in 
+        <ul>
+          <li>linear estimators: when the number of averages is equal to one.</li>
+          <li>log-scale estimators: in the lowest frequency bins.</li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+</p>
+<br> 
+<p>
+  The following example compares the sample variance computed by <tt>ao/psd</tt> with two different segment length.
+</p>
+<div class="fragment"><pre><br>
+<span class="comment">% create white noise AO </span>
+pl = plist(<span class="string">'nsecs'</span>, 500, <span class="string">'fs'</span>, 5, <span class="string">'tsfcn'</span>, <span class="string">'randn(size(t))'</span>);
+a = ao(pl);
+
+<span class="comment">% compute psd with different Nfft</span>
+b1 = psd(a, plist(<span class="string">'Nfft'</span>, 500));
+b1.setName(<span class="string">'Nfft = 500'</span>);
+b2 = psd(a, plist(<span class="string">'Nfft'</span>, 200));
+b2.setName(<span class="string">'Nfft = 200'</span>);
+
+<span class="comment">% plot with errorbars</span>
+iplot(b1,b2,plist(<span class="string">'YErrU'</span>,{b1.dy,b2.dy}))   
+</pre></div>
+<p>
+  <div align="center">
+    <p>
+    </p>
+    <IMG src="images/spectral_error.png" align="center" border="0">
+  </div>
+</p>
+<br>
+<h2><a name="references">References</a></h2>
+
+<ol>
+<li> P.D. Welch, The Use of Fast Fourier Transform for the Estimation of Power Spectra: A Method Based on Time Averaging Over Short,
+Modified Periodograms, <i>IEEE Trans. on Audio and Electroacoustics</i>, Vol. 15, No. 2 (1967), pp. 70 - 73</a></li>
+ <li> M. Troebs, G. Heinzel, Improved spectrum estimation from digitized time series
+on a logarithmic frequency axis, <a href="http://dx.doi.org/10.1016/j.measurement.2005.10.010" ><i>Measurement</i>, Vol. 39 (2006), pp. 120 - 129</a>.  See also the <a href="http://dx.doi.org/10.1016/j.measurement.2008.04.004" >Corrigendum</a>. </li>  
+</ol>
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="specwin_using.html"><img src="b_prev.gif" border="0" align="bottom" alt="Using spectral windows"></a>&nbsp;</td>
+        <td align="left">Using spectral windows</td>
+        <td>&nbsp;</td>
+        <td align="right">Power spectral density estimates</td>
+        <td align="right" width="20"><a href="sigproc_psd.html"><img src="b_next.gif" border="0" align="bottom" alt="Power spectral density estimates"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

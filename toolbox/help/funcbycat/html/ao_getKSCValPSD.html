@@ -1,0 +1,230 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!-- $Id$ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="../../ug/docstyle.css">
+    <title>LTPDA Method: ao/getKSCValPSD</title>
+  </head>
+  <body>
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <p style="font-size:1px;">&nbsp;</p>
+
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../../ug/../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ao_getAbsTimeRange.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ao/getAbsTimeRange"></a>&nbsp;&nbsp;&nbsp;<a href="ao_getdof.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ao/getdof"></a></td>
+      </tr>
+    </table>
+
+    <h1 class="title">Method ao/getKSCValPSD</h1>
+    <hr />
+
+<pre>  <span class="helptopic">getKSCValPSD</span> provides critical value for KStest on the PSD
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+  DESCRIPTION: The method provides critical value for KStest on the PSD.
+  Critical values are read from look-up tables that are calculated with
+  5000 iteration Monte Carlo simulations.
+  
+  Note that the method has some imortant limitations:
+  i)   It works only for BH92 window.
+  ii)  Number of samples is limited in the range 50000 - 100.
+  iii) Number of averages is limited in the range 0 - 32.
+  iv)  Possible confidence values required are 0.5, 0.683, 0.955, 0.99,
+       0.997, 0.999.
+  v)   It assumes to deal with normalized or white noise spectra. Tthe
+       spectrum can be normalized if divied by a smooth model
+       representative of its expectation value. I.e. If Sn is the data
+       spectrum and S a smooth model, then normS = Sn./S.
+       In the case of data vs data test the two spectra must be normalized
+       with the same model. Such model has to be representative of the
+       expectation value for at least one of the two spectra.
+ 
+  CALL:         For testing data vs model:
+                cVal = <span class="helptopic">getKSCValPSD</span>(a1, pl)
+  
+                For testing data vs data
+                cVal = <span class="helptopic">getKSCValPSD</span>(a1, a2, pl)
+  
+  INPUT:        ai: are frequency series AO containing the PSDs that will
+                be tested with the KStest
+  
+  OUTPUT:       cVal: is the critical vale that should be used in the
+                KStest.
+ 
+ 
+  <a href="ao_getKSCValPSD.html#down">Parameters Description</a>
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</pre>
+
+    <!-- =====        Striped 4x2 table: Begin        ==== -->
+    <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+    <div class="sectiontitle"></div>
+    <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+      <colgroup>
+        <col width="30%"/>
+        <col width="70%"/>
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th class="categorylist">Method Details</th>
+          <th class="categorylist"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Access</td>
+          <td bgcolor="#f3f4f5">public</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Defining Class</td>
+          <td bgcolor="#ffffff">ao</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Sealed</td>
+          <td bgcolor="#f3f4f5">0</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Static</td>
+          <td bgcolor="#ffffff">0</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- ===== Striped 4x2 table: End ==== -->
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <h2>Parameter Description</h2>    <a name="down" id="down"></a>
+
+    <!-- Link-Table of the sets -->
+    <table border="0" cellpadding="4" cellspacing="0" class="pagenavtable">
+      <tr><th>Sets for this method &#8230;</th></tr>
+        <tr><td><a href="#1">Default</a></td></tr>
+    </table>
+
+    <a name="1"></a>
+    <!-- Parameter List Table: Default -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>Default</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">getKSCValPSD</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAVS</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Number of averages used in the PSD calculation.<br></br>Allowed values are between 0 and 32</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CONFIDENCE</td>
+            <td bgcolor="#F2F2F2">0.95499999999999996</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0.5</font></li><li><font color="#1111FF">0.68300000000000005</font></li><li><font color="#1111FF">0.95499999999999996</font></li><li><font color="#1111FF">0.98999999999999999</font></li><li><font color="#1111FF">0.997</font></li><li><font color="#1111FF">0.999</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Required confidence level.<br></br>Allowed values are 0.5, 0.683, 0.955, 0.99, 0.997, 0.999.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('NAVS', [0], 'CONFIDENCE', [0.95499999999999996])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <p><!-- Table of the minfo object -->
+      <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+        <colgroup>
+          <col width="25%"/>
+          <col width="75%"/>
+        </colgroup>
+        <thead>
+          <tr valign="top">
+            <th class="categorylist" colspan="2">Some information of the method ao/getKSCValPSD are listed below:</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Property: 'mclass' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Class name</td>
+            <td bgcolor="#f3f4f5">ao</td>
+          </tr>
+          <!-- Property: 'mname' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Method name</td>
+            <td bgcolor="#ffffff">getKSCValPSD</td>
+          </tr>
+          <!-- Property: 'mcategory' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Category</td>
+            <td bgcolor="#f3f4f5">Signal Processing</td>
+          </tr>
+          <!-- Property: 'mpackage' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Package name</td>
+            <td bgcolor="#ffffff">ltpda</td>
+          </tr>
+          <!-- Property: 'modifier' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Can be used as modifier</td>
+            <td bgcolor="#f3f4f5">0</td>
+          </tr>
+          <!-- Property: 'supportedNumTypes' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Supported numeric types</td>
+            <td bgcolor="#ffffff">{'double'}</td>
+          </tr>
+        </tbody>
+      </table>
+    </p>
+
+
+    <br>
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ao_getAbsTimeRange.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ao/getAbsTimeRange"></a>&nbsp;</td>
+        <td align="left">Method: ao/getAbsTimeRange</td>
+        <td>&nbsp;</td>
+        <td align="right">Method: ao/getdof</td>
+        <td align="right" width="20"><a href="ao_getdof.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ao/getdof"></a></td>
+      </tr>
+    </table>
+
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+
+   </body>
+</html>

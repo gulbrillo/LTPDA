@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Basic math with AOs (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_topic_1_3.html"><img src="b_prev.gif" border="0" align="bottom" alt="Making a time-series AO"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_topic_1_5.html"><img src="b_next.gif" border="0" align="bottom" alt="Saving and loading AOs"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Basic math with AOs</h1>
+    <hr>
+    
+    <p>
+      <p>
+  Most of the basic math operations supported by MATLAB have been implemented 
+  as AO class methods. For example, suppose you want to add two AOs together, then you can do
+</p>
+<div class="fragment"><pre>
+    a = ao(1);
+    b = ao(2);
+    c = a+b
+    c.viewHistory
+</pre></div>
+<p>
+  <i>Note: the units of the two AOs for addition and subtraction must be the same. You can't 
+  add apples to oranges, but you can add dimensionless (empty units) to oranges.</i>
+</p>
+<p>
+  Some of the standard operators can act as modifiers. For example, if you want to square an AO:
+</p>
+<div class="fragment"><pre>
+    a = ao(2);
+    a.^2
+</pre></div>
+<p>
+  will do the job.
+</p>
+<p>
+  The operators follow MATLAB rules whenever possible. So if you want to add 
+  a single AO to a vector of AOs, you can. However, if you want to add two 
+  vectors of AOs together, the two vectors must contain the same number of AOs. 
+  For example,
+</p>
+<div class="fragment"><pre>
+    a = [ao(1) ao(2) ao(3)];
+    b = ao(4);
+    c = a + b
+</pre></div>
+<p>
+  will work fine and result in <tt>b</tt> being added to each element of <tt>a</tt>. However,
+</p>
+<div class="fragment"><pre>
+    a = [ao(1) ao(2) ao(3)];
+    b = [ao(4) ao(5)];
+    c = a + b
+</pre></div>
+<p>
+  will give an error.
+</p>
+<p>
+Addition operator on AOs by default acts on the <tt>y</tt> field, and it can be used to 'smartly' sum 
+objects. For instance, time-series AOs can be added together provided they have the same time-base:
+<div class="fragment"><pre>
+    a = ao(plist(<span class="string">'waveform'</span>, <span class="string">'noise'</span>, <span class="string">'fs'</span>, 10, <span class="string">'nsecs'</span>, 100, ...
+    <span class="string">'sigma'</span>, 0.1));
+    b = ao(plist(<span class="string">'waveform'</span>, <span class="string">'sinewave'</span>, <span class="string">'fs'</span>, 10, <span class="string">'nsecs'</span>, 100, ...
+    <span class="string">'A'</span>, 1, <span class="string">'f'</span>, 0.1));
+    c = a + b
+    iplot(a, b, c)
+</pre></div>
+Yielding a plot like the following:
+<img src="images/ltpda_training_1/topic1/ao_plus_plot.png" alt="AO plus plot" border="1"></li>
+</p>
+
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_topic_1_3.html"><img src="b_prev.gif" border="0" align="bottom" alt="Making a time-series AO"></a>&nbsp;</td>
+        <td align="left">Making a time-series AO</td>
+        <td>&nbsp;</td>
+        <td align="right">Saving and loading AOs</td>
+        <td align="right" width="20"><a href="ltpda_training_topic_1_5.html"><img src="b_next.gif" border="0" align="bottom" alt="Saving and loading AOs"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

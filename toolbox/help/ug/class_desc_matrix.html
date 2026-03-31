@@ -1,0 +1,1085 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>matrix Class (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="class_desc_filterbank.html"><img src="b_prev.gif" border="0" align="bottom" alt="filterbank Class"></a>&nbsp;&nbsp;&nbsp;<a href="class_desc_mfh.html"><img src="b_next.gif" border="0" align="bottom" alt="mfh Class"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">matrix Class</h1>
+    <hr>
+    
+    <p>
+      <!-- $Id$ -->
+
+  <!-- ================================================== -->
+  <!--                 BEGIN CONTENT FILE                 -->
+  <!-- ================================================== -->
+
+  <!-- =====           Link Table: Begin           ===== -->
+  <!-- ===== Created by docHelper.htmlAddLinkTable ===== -->
+  <p>
+    <table border="1"  width="80%">
+      <tr>
+        <td>
+          <table border="0" cellpadding="5" class="categorylist" width="100%">
+            <colgroup>
+              <col width="25%"/>
+              <col width="75%"/>
+            </colgroup>
+            <tbody>
+              <tr valign="top">
+                <td><a href="class_desc_matrix.html#top_properties">Properties</a></td>
+                <td>Properties of the class</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_matrix.html#top_methods">Methods</a></td>
+                <td>All Methods of the class ordered by category.</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="constructor_examples_matrix.html">Examples</a></td>
+                <td>Some constructor examples</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </p>
+  <!-- ===== Link Table: End ====== -->
+
+  <!-- ===== Back to Class descriptions ===== -->
+  <a href="class_desc_main.html">
+    <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Class descriptions"/>
+    Back to Class descriptions
+  </a>
+
+  <h2 class="title"><a name="top_properties"/>Properties</h2>
+  <p>
+    The LTPDA toolbox restrict access of the properties.<br></br>
+    The get access is 'public' and thus it is possible to get the values with the dot-command (similar to structures).<br></br>
+    <pre class="programlisting">For example:<br></br>val = obj.prop(2).prop;</pre>
+    The set access is 'protected' and thus it is only possible to assign a value to a property with a set-method.
+    <pre class="programlisting">
+For example:
+obj2 = obj1.setName(<span class="string">'my name'</span>) <span class="comment">% This command creates a copy of obj1 (obj1 ~= obj2)</span>
+obj.setName(<span class="string">'my name'</span>);        <span class="comment">% This command applies to obj</span>    </pre>
+  </p>
+
+  <!-- =====        Striped 9x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Properties</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix.objs')">objs</a></td>
+        <td bgcolor="#f3f4f5">Objects in matrix</td>
+        <td bgcolor="#f3f4f5">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix.hist')">hist</a></td>
+        <td bgcolor="#ffffff">History of the object (history object)</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix.historyArray')">historyArray</a></td>
+        <td bgcolor="#f3f4f5">Array of history objects for saving</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix.procinfo')">procinfo</a></td>
+        <td bgcolor="#ffffff">Plist with additional information for an object.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix.plotinfo')">plotinfo</a></td>
+        <td bgcolor="#f3f4f5">Plotinfo object</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix.timespan')">timespan</a></td>
+        <td bgcolor="#ffffff">A timespan indicating the valid time-range of the object</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix.name')">name</a></td>
+        <td bgcolor="#f3f4f5">Name of the object</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix.description')">description</a></td>
+        <td bgcolor="#ffffff">Description of the object</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix.UUID')">UUID</a></td>
+        <td bgcolor="#f3f4f5">Universally Unique Identifier of 128-bit</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 9x3 table: End ==== -->
+
+  <!-- ===== Top of page ===== -->
+  <a href="#top_of_page">
+    <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top"/>
+    Back to Top
+  </a>
+
+  <h2 class="title"><a name="top_methods"/>Methods</h2>
+
+  <!-- =====           Link Table: Begin           ===== -->
+  <!-- ===== Created by docHelper.htmlAddLinkTable ===== -->
+  <p>
+    <table border="1"  width="80%">
+      <tr>
+        <td>
+          <table border="0" cellpadding="5" class="subcategorylist" width="100%">
+            <colgroup>
+              <col width="25%"/>
+              <col width="75%"/>
+            </colgroup>
+            <tbody>
+              <tr valign="top">
+                <td><a href="class_desc_matrix.html#arithmetic_operator">Arithmetic Operator</a></td>
+                <td>Arithmetic Operator</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_matrix.html#constructor">Constructor</a></td>
+                <td>Constructor of this class</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_matrix.html#converter">Converter</a></td>
+                <td>Convertor methods</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_matrix.html#helper">Helper</a></td>
+                <td>Helper methods only for internal usage</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_matrix.html#internal">Internal</a></td>
+                <td>Internal methods only for internal usage</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_matrix.html#operator">Operator</a></td>
+                <td>Operator methods</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_matrix.html#output">Output</a></td>
+                <td>Output methods</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_matrix.html#relational_operator">Relational Operator</a></td>
+                <td>Relational operator methods</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_matrix.html#signal_processing">Signal Processing</a></td>
+                <td>Signal processing methods</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </p>
+  <!-- ===== Link Table: End ====== -->
+
+  <!-- ===== Top of page ===== -->
+  <a href="#top_of_page">
+    <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top"/>
+    Back to Top
+  </a>
+
+  <!-- ===== Methods Category: Arithmetic_Operator ===== -->
+  <h3 class="title"><a name="arithmetic_operator"/>Arithmetic Operator</h3>
+
+  <!-- =====        Striped 11x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/cross')">cross</a></td>
+        <td bgcolor="#f3f4f5">Implements cross operator for matrix objects.</td>
+        <td bgcolor="#f3f4f5">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/ctranspose')">ctranspose</a></td>
+        <td bgcolor="#ffffff">Implements conjugate transpose operator for matrix objects.</td>
+        <td bgcolor="#ffffff">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/filter')">filter</a></td>
+        <td bgcolor="#f3f4f5">Implements N-dim filter operator for matrix objects.</td>
+        <td bgcolor="#f3f4f5">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/filtfilt')">filtfilt</a></td>
+        <td bgcolor="#ffffff">Overrides the filtfilt function for matrices of analysis objects.</td>
+        <td bgcolor="#ffffff">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/minus')">minus</a></td>
+        <td bgcolor="#f3f4f5">Implements subtraction operator for ltpda model objects.</td>
+        <td bgcolor="#f3f4f5">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/mtimes')">mtimes</a></td>
+        <td bgcolor="#ffffff">Implements mtimes operator for matrix objects.</td>
+        <td bgcolor="#ffffff">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/plus')">plus</a></td>
+        <td bgcolor="#f3f4f5">Implements addition operator for matrix objects.</td>
+        <td bgcolor="#f3f4f5">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/power')">power</a></td>
+        <td bgcolor="#ffffff">TIMES implements multiplication operator for matrix objects.</td>
+        <td bgcolor="#ffffff">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/rdivide')">rdivide</a></td>
+        <td bgcolor="#f3f4f5">Implements division operator for matrix objects.</td>
+        <td bgcolor="#f3f4f5">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/times')">times</a></td>
+        <td bgcolor="#ffffff">Implements multiplication operator for matrix objects.</td>
+        <td bgcolor="#ffffff">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/transpose')">transpose</a></td>
+        <td bgcolor="#f3f4f5">Implements transpose operator for matrix objects.</td>
+        <td bgcolor="#f3f4f5">matrix</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 11x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Constructor ===== -->
+  <h3 class="title"><a name="constructor"/>Constructor</h3>
+
+  <!-- =====        Striped 2x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/rebuild')">rebuild</a></td>
+        <td bgcolor="#f3f4f5">Rebuilds the input objects using the history.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix')">matrix</a></td>
+        <td bgcolor="#ffffff">Constructor for matrix class.</td>
+        <td bgcolor="#ffffff">matrix</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 2x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Converter ===== -->
+  <h3 class="title"><a name="converter"/>Converter</h3>
+
+  <!-- =====        Striped 1x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/double')">double</a></td>
+        <td bgcolor="#f3f4f5">Converts a matrix of objects into matrix of numbers</td>
+        <td bgcolor="#f3f4f5">matrix</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 1x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Helper ===== -->
+  <h3 class="title"><a name="helper"/>Helper</h3>
+
+  <!-- =====        Striped 28x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/search')">search</a></td>
+        <td bgcolor="#f3f4f5">Selects objects inside the collection/matrix object that match the given name.</td>
+        <td bgcolor="#f3f4f5">ltpda_container</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/get')">get</a></td>
+        <td bgcolor="#ffffff">Get a property of a object.</td>
+        <td bgcolor="#ffffff">ltpda_obj</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/setDescription')">setDescription</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'description' property of a ltpda_uo object.</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/setName')">setName</a></td>
+        <td bgcolor="#ffffff">Sets the property 'name' of an ltpda_uoh object.</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/created')">created</a></td>
+        <td bgcolor="#f3f4f5">Returns a time object of the last modification.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/creator')">creator</a></td>
+        <td bgcolor="#ffffff">Extract the creator(s) from the history.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/csvexport')">csvexport</a></td>
+        <td bgcolor="#f3f4f5">Exports the data of an object to a csv file.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/index')">index</a></td>
+        <td bgcolor="#ffffff">Index into a 'ltpda_uoh' object array or matrix. This properly captures the history.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/requirements')">requirements</a></td>
+        <td bgcolor="#f3f4f5">Returns a list of LTPDA extension requirements for a given object.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/setPlotAxes')">setPlotAxes</a></td>
+        <td bgcolor="#ffffff">Sets the 'axes' property of a the object's plotinfo.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/setPlotColor')">setPlotColor</a></td>
+        <td bgcolor="#f3f4f5">Sets the color of a the object's plotinfo.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/setPlotFigure')">setPlotFigure</a></td>
+        <td bgcolor="#ffffff">Sets the 'figure' property of a the object's plotinfo.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/setPlotFillmarker')">setPlotFillmarker</a></td>
+        <td bgcolor="#f3f4f5">Defines if the plot function fill the marker or not.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/setPlotLineStyle')">setPlotLineStyle</a></td>
+        <td bgcolor="#ffffff">Sets the linestyle of a the object's plotinfo.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/setPlotLinewidth')">setPlotLinewidth</a></td>
+        <td bgcolor="#f3f4f5">Sets the linewidth of a the object's plotinfo.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/setPlotMarker')">setPlotMarker</a></td>
+        <td bgcolor="#ffffff">Sets the marker of a the object's plotinfo.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/setPlotMarkerEdgeColor')">setPlotMarkerEdgeColor</a></td>
+        <td bgcolor="#f3f4f5">Sets the color of a the object's marker edge.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/setPlotMarkerFaceColor')">setPlotMarkerFaceColor</a></td>
+        <td bgcolor="#ffffff">Sets the color of a the object's marker face.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/setPlotMarkersize')">setPlotMarkersize</a></td>
+        <td bgcolor="#f3f4f5">Sets the markersize of a the object's plotinfo.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/setPlotinfo')">setPlotinfo</a></td>
+        <td bgcolor="#ffffff">Sets the 'plotinfo' property of a ltpda_uoh object.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/setPlottingStyle')">setPlottingStyle</a></td>
+        <td bgcolor="#f3f4f5">Sets the style property of a the object's plotinfo.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/setProcinfo')">setProcinfo</a></td>
+        <td bgcolor="#ffffff">Sets the 'procinfo' property of a ltpda_uoh object.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/setShowsErrors')">setShowsErrors</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'showErrors' property of a the object's plotinfo.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/setTimespan')">setTimespan</a></td>
+        <td bgcolor="#ffffff">Sets the 'timespan' property of a ltpda_uoh object.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/flscovSegments')">flscovSegments</a></td>
+        <td bgcolor="#f3f4f5">Tool to perform a least square fit in frequency domain</td>
+        <td bgcolor="#f3f4f5">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/getObjectAtIndex')">getObjectAtIndex</a></td>
+        <td bgcolor="#ffffff">Index into the inner objects of one matrix object.</td>
+        <td bgcolor="#ffffff">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/osize')">osize</a></td>
+        <td bgcolor="#f3f4f5">Returns the size of the inner object array.</td>
+        <td bgcolor="#f3f4f5">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/setObjs')">setObjs</a></td>
+        <td bgcolor="#ffffff">Sets the 'objs' property of a matrix object.</td>
+        <td bgcolor="#ffffff">matrix</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 28x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Internal ===== -->
+  <h3 class="title"><a name="internal"/>Internal</h3>
+
+  <!-- =====        Striped 8x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/isprop')">isprop</a></td>
+        <td bgcolor="#f3f4f5">Tests if the given field is one of the object properties.</td>
+        <td bgcolor="#f3f4f5">ltpda_obj</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/bsubmit')">bsubmit</a></td>
+        <td bgcolor="#ffffff">Submits the given collection of objects in binary form to an LTPDA repository</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/submit')">submit</a></td>
+        <td bgcolor="#f3f4f5">Submits the given collection of objects to an LTPDA repository</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/update')">update</a></td>
+        <td bgcolor="#ffffff">Updates the given object in an LTPDA repository</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/string')">string</a></td>
+        <td bgcolor="#f3f4f5">Writes a command string that can be used to recreate the input object(s).</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/type')">type</a></td>
+        <td bgcolor="#ffffff">Converts the input objects to MATLAB functions.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/generateConstructorPlist')">generateConstructorPlist</a></td>
+        <td bgcolor="#f3f4f5">Generates a PLIST from the properties which can rebuild the object.</td>
+        <td bgcolor="#f3f4f5">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/plot')">plot</a></td>
+        <td bgcolor="#ffffff">The matrix objects on the given axes.</td>
+        <td bgcolor="#ffffff">matrix</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 8x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Operator ===== -->
+  <h3 class="title"><a name="operator"/>Operator</h3>
+
+  <!-- =====        Striped 10x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/conj')">conj</a></td>
+        <td bgcolor="#f3f4f5">Implements conj operator for ltpda_container objects.</td>
+        <td bgcolor="#f3f4f5">ltpda_container</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/det')">det</a></td>
+        <td bgcolor="#ffffff">Evaluates the determinant for matrix object.</td>
+        <td bgcolor="#ffffff">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/fftfilt')">fftfilt</a></td>
+        <td bgcolor="#f3f4f5">Fft filter for matrix objects</td>
+        <td bgcolor="#f3f4f5">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/inv')">inv</a></td>
+        <td bgcolor="#ffffff">Evaluates the inverse for matrix object.</td>
+        <td bgcolor="#ffffff">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/linearize')">linearize</a></td>
+        <td bgcolor="#f3f4f5">Output the derivatives of the model relative to the parameters.</td>
+        <td bgcolor="#f3f4f5">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/lscov')">lscov</a></td>
+        <td bgcolor="#ffffff">Is a wrapper for MATLAB's lscov function.</td>
+        <td bgcolor="#ffffff">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/mean')">mean</a></td>
+        <td bgcolor="#f3f4f5">Evaluates the meanerse for matrix object.</td>
+        <td bgcolor="#f3f4f5">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/rotate')">rotate</a></td>
+        <td bgcolor="#ffffff">Applies rotation factor to matrix objects</td>
+        <td bgcolor="#ffffff">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/simplify')">simplify</a></td>
+        <td bgcolor="#f3f4f5">Each model in the matrix.</td>
+        <td bgcolor="#f3f4f5">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/spsdSubtraction')">spsdSubtraction</a></td>
+        <td bgcolor="#ffffff">Makes a sPSD-weighted least-square iterative fit</td>
+        <td bgcolor="#ffffff">matrix</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 10x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Output ===== -->
+  <h3 class="title"><a name="output"/>Output</h3>
+
+  <!-- =====        Striped 8x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/save')">save</a></td>
+        <td bgcolor="#f3f4f5">Overloads save operator for ltpda objects.</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/report')">report</a></td>
+        <td bgcolor="#ffffff">Generates an HTML report about the input objects.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/viewHistory')">viewHistory</a></td>
+        <td bgcolor="#f3f4f5">Displays the history of an object as a dot-view or a MATLAB figure.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/char')">char</a></td>
+        <td bgcolor="#ffffff">Convert a matrix object into a string.</td>
+        <td bgcolor="#ffffff">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/disp')">disp</a></td>
+        <td bgcolor="#f3f4f5">Overloads display functionality for matrix objects.</td>
+        <td bgcolor="#f3f4f5">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/iplot')">iplot</a></td>
+        <td bgcolor="#ffffff">Calls ao/iplot on all inner ao objects.</td>
+        <td bgcolor="#ffffff">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/toArray')">toArray</a></td>
+        <td bgcolor="#f3f4f5">Unpacks the objects in a matrix and places them into a MATLAB</td>
+        <td bgcolor="#f3f4f5">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/unpack')">unpack</a></td>
+        <td bgcolor="#ffffff">Unpacks the objects in a matrix and sets them to the given output</td>
+        <td bgcolor="#ffffff">matrix</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 8x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Relational_Operator ===== -->
+  <h3 class="title"><a name="relational_operator"/>Relational Operator</h3>
+
+  <!-- =====        Striped 1x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/isequal')">isequal</a></td>
+        <td bgcolor="#f3f4f5">Overloads the isequal operator for ltpda objects.</td>
+        <td bgcolor="#f3f4f5">ltpda_obj</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 1x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Signal_Processing ===== -->
+  <h3 class="title"><a name="signal_processing"/>Signal Processing</h3>
+
+  <!-- =====        Striped 42x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/abs')">abs</a></td>
+        <td bgcolor="#f3f4f5">Overloads the Absolute value method for analysis objects in a ltpda_container object.</td>
+        <td bgcolor="#f3f4f5">ltpda_container</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/consolidate')">consolidate</a></td>
+        <td bgcolor="#ffffff">Resamples all input AOs in a ltpda_container object onto the same time grid.</td>
+        <td bgcolor="#ffffff">ltpda_container</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/detrend')">detrend</a></td>
+        <td bgcolor="#f3f4f5">Detrends the analysis objects in a ltpda_container object using a polynomial of degree N.</td>
+        <td bgcolor="#f3f4f5">ltpda_container</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/diff')">diff</a></td>
+        <td bgcolor="#ffffff">Differentiates the data in a ltpda_container object.</td>
+        <td bgcolor="#ffffff">ltpda_container</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/downsample')">downsample</a></td>
+        <td bgcolor="#f3f4f5">Downsamples each time-series AO in the ltpda_container.</td>
+        <td bgcolor="#f3f4f5">ltpda_container</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/dsmean')">dsmean</a></td>
+        <td bgcolor="#ffffff">Resamples each time-series AO in the ltpda_container.</td>
+        <td bgcolor="#ffffff">ltpda_container</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/fft')">fft</a></td>
+        <td bgcolor="#f3f4f5">Implements the fft operator for ltpda_container objects.</td>
+        <td bgcolor="#f3f4f5">ltpda_container</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/fixfs')">fixfs</a></td>
+        <td bgcolor="#ffffff">Adjusts the sample frequency of each time-series AO in the ltpda_container.</td>
+        <td bgcolor="#ffffff">ltpda_container</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/heterodyne')">heterodyne</a></td>
+        <td bgcolor="#f3f4f5">Heterodynes time-series in a ltpda_container object.</td>
+        <td bgcolor="#f3f4f5">ltpda_container</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/interp')">interp</a></td>
+        <td bgcolor="#ffffff">Interpolate the values of each AO in the ltpda_container at new values.</td>
+        <td bgcolor="#ffffff">ltpda_container</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/interpmissing')">interpmissing</a></td>
+        <td bgcolor="#f3f4f5">Interpolate missing samples of each time-series AO in the ltpda_container.</td>
+        <td bgcolor="#f3f4f5">ltpda_container</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/lpsd')">lpsd</a></td>
+        <td bgcolor="#ffffff">Computes the log-scale PSD of the time-series AOs in a ltpda_container object.</td>
+        <td bgcolor="#ffffff">ltpda_container</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/polyfit')">polyfit</a></td>
+        <td bgcolor="#f3f4f5">Overloads polyfit() function of MATLAB for ltpda_container objects.</td>
+        <td bgcolor="#f3f4f5">ltpda_container</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/psd')">psd</a></td>
+        <td bgcolor="#ffffff">Computes the PSD of the time-series in a ltpda_container object.</td>
+        <td bgcolor="#ffffff">ltpda_container</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/removeVal')">removeVal</a></td>
+        <td bgcolor="#f3f4f5">Removes values from each AO in the ltpda_container.</td>
+        <td bgcolor="#f3f4f5">ltpda_container</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/resample')">resample</a></td>
+        <td bgcolor="#ffffff">Resamples each time-series AO in the ltpda_container.</td>
+        <td bgcolor="#ffffff">ltpda_container</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/simplifyYunits')">simplifyYunits</a></td>
+        <td bgcolor="#f3f4f5">Overloads the simplifyYunits value method for analysis objects in a ltpda_container object.</td>
+        <td bgcolor="#f3f4f5">ltpda_container</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/split')">split</a></td>
+        <td bgcolor="#ffffff">Splits a ltpda_container object into the specified segments.</td>
+        <td bgcolor="#ffffff">ltpda_container</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/sqrt')">sqrt</a></td>
+        <td bgcolor="#f3f4f5">Computes the sqrt of each object in the ltpda_container.</td>
+        <td bgcolor="#f3f4f5">ltpda_container</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/subsData')">subsData</a></td>
+        <td bgcolor="#ffffff">Computes the SUBSDATA of the time-series in a ltpda_container object.</td>
+        <td bgcolor="#ffffff">ltpda_container</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/timeaverage')">timeaverage</a></td>
+        <td bgcolor="#f3f4f5">Averages time series intervals in a ltpda_container object.</td>
+        <td bgcolor="#f3f4f5">ltpda_container</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/toSI')">toSI</a></td>
+        <td bgcolor="#ffffff">Overloads the toSI value method for analysis objects in a ltpda_container object.</td>
+        <td bgcolor="#ffffff">ltpda_container</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/uminus')">uminus</a></td>
+        <td bgcolor="#f3f4f5">Overloads the uminus operator for all AOs in the ltpda_container.</td>
+        <td bgcolor="#f3f4f5">ltpda_container</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/cohere')">cohere</a></td>
+        <td bgcolor="#ffffff">Estimates the coherence between elements of the vector.</td>
+        <td bgcolor="#ffffff">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/cpsd')">cpsd</a></td>
+        <td bgcolor="#f3f4f5">Estimates the cross-spectral density between elements of the vector.</td>
+        <td bgcolor="#f3f4f5">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/crb')">crb</a></td>
+        <td bgcolor="#ffffff">Computes the inverse of the Fisher Matrix</td>
+        <td bgcolor="#ffffff">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/delay')">delay</a></td>
+        <td bgcolor="#f3f4f5">Overloads ao/delay for matrix objects.</td>
+        <td bgcolor="#f3f4f5">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/dispersion')">dispersion</a></td>
+        <td bgcolor="#ffffff">Computes the dispersion function</td>
+        <td bgcolor="#ffffff">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/dispersionLoop')">dispersionLoop</a></td>
+        <td bgcolor="#f3f4f5">DISPERSION computes the dispersion function</td>
+        <td bgcolor="#f3f4f5">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/lcohere')">lcohere</a></td>
+        <td bgcolor="#ffffff">Estimates the coherence between elements of the vector using</td>
+        <td bgcolor="#ffffff">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/lcpsd')">lcpsd</a></td>
+        <td bgcolor="#f3f4f5">Estimates the coherence between elements of the vector using a</td>
+        <td bgcolor="#f3f4f5">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/lincom')">lincom</a></td>
+        <td bgcolor="#ffffff">Make a linear combination of analysis objects</td>
+        <td bgcolor="#ffffff">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/linfitsvd')">linfitsvd</a></td>
+        <td bgcolor="#f3f4f5">Linear fit with singular value decomposition</td>
+        <td bgcolor="#f3f4f5">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/linlsqsvd')">linlsqsvd</a></td>
+        <td bgcolor="#ffffff">Linear least squares with singular value decomposition</td>
+        <td bgcolor="#ffffff">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/loglikelihood')">loglikelihood</a></td>
+        <td bgcolor="#f3f4f5">Compute log-likelihood for MATRIX objects</td>
+        <td bgcolor="#f3f4f5">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/ltfe')">ltfe</a></td>
+        <td bgcolor="#ffffff">Estimates the transfer function between elements of the vector using</td>
+        <td bgcolor="#ffffff">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/mchNoisegen')">mchNoisegen</a></td>
+        <td bgcolor="#f3f4f5">Generates multichannel noise data series given a model</td>
+        <td bgcolor="#f3f4f5">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/mchNoisegenFilter')">mchNoisegenFilter</a></td>
+        <td bgcolor="#ffffff">Construct a matrix filter from cross-spectral density matrix</td>
+        <td bgcolor="#ffffff">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/mcmc')">mcmc</a></td>
+        <td bgcolor="#f3f4f5">Estimates paramters using a Monte Carlo Markov Chain.</td>
+        <td bgcolor="#f3f4f5">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/modelSelect')">modelSelect</a></td>
+        <td bgcolor="#ffffff">Method to compute the Bayes Factor using RJMCMC, LF, LM, SBIC methods</td>
+        <td bgcolor="#ffffff">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('matrix/tdfit')">tdfit</a></td>
+        <td bgcolor="#f3f4f5">Fit a MATRIX of transfer function SMODELs to a matrix of input and output signals.</td>
+        <td bgcolor="#f3f4f5">matrix</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('matrix/tfe')">tfe</a></td>
+        <td bgcolor="#ffffff">Estimates the transfer functions between elements of the vector.</td>
+        <td bgcolor="#ffffff">matrix</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 42x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ================================================== -->
+  <!--                  END CONTENT FILE                  -->
+  <!-- ================================================== -->
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="class_desc_filterbank.html"><img src="b_prev.gif" border="0" align="bottom" alt="filterbank Class"></a>&nbsp;</td>
+        <td align="left">filterbank Class</td>
+        <td>&nbsp;</td>
+        <td align="right">mfh Class</td>
+        <td align="right" width="20"><a href="class_desc_mfh.html"><img src="b_next.gif" border="0" align="bottom" alt="mfh Class"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

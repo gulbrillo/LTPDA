@@ -1,0 +1,1275 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!-- $Id$ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="../../ug/docstyle.css">
+    <title>LTPDA Method: matrix/iplot</title>
+  </head>
+  <body>
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <p style="font-size:1px;">&nbsp;</p>
+
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../../ug/../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="matrix_disp.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: matrix/disp"></a>&nbsp;&nbsp;&nbsp;<a href="matrix_report.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: matrix/report"></a></td>
+      </tr>
+    </table>
+
+    <h1 class="title">Method matrix/iplot</h1>
+    <hr />
+
+<pre>  <SPAN CLASS="HELPTOPIC">IPLOT</SPAN> calls ao/<span class="helptopic">iplot</span> on all inner ao objects.
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+  DESCRIPTION: <SPAN CLASS="HELPTOPIC">IPLOT</SPAN> calls ao/<span class="helptopic">iplot</span> on all inner ao objects.
+ 
+  CALL:        obj = <span class="helptopic">iplot</span>(mat)
+               obj = mat.<span class="helptopic">iplot</span>()
+ 
+  Note: if the matrix object does not contain AOs, then an error will be
+  thrown.
+ 
+  <a href="matrix_iplot.html#down">Parameters Description</a>
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</pre>
+
+    <!-- =====        Striped 4x2 table: Begin        ==== -->
+    <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+    <div class="sectiontitle"></div>
+    <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+      <colgroup>
+        <col width="30%"/>
+        <col width="70%"/>
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th class="categorylist">Method Details</th>
+          <th class="categorylist"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Access</td>
+          <td bgcolor="#f3f4f5">public</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Defining Class</td>
+          <td bgcolor="#ffffff">matrix</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Sealed</td>
+          <td bgcolor="#f3f4f5">0</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Static</td>
+          <td bgcolor="#ffffff">0</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- ===== Striped 4x2 table: End ==== -->
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <h2>Parameter Description</h2>    <a name="down" id="down"></a>
+
+    <!-- Link-Table of the sets -->
+    <table border="0" cellpadding="4" cellspacing="0" class="pagenavtable">
+      <tr><th>Sets for this method &#8230;</th></tr>
+        <tr><td><a href="#1">Time-series Plot</a></td></tr>
+        <tr><td><a href="#2">Frequency-series Plot</a></td></tr>
+        <tr><td><a href="#3">Y Data Plot</a></td></tr>
+        <tr><td><a href="#4">X-Y Data Plot</a></td></tr>
+        <tr><td><a href="#5">3D Plot</a></td></tr>
+    </table>
+
+    <a name="1"></a>
+    <!-- Parameter List Table: Time-series Plot -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>Time-series Plot</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">iplot</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FIGURE</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The handle of the figure to plot in to. This will be ignored if the AOs to plot are inconsistent,<br>containing different class of data (such as tsdata and fsdata), or if the 'arrangement'<br>parameter is passed as 'single'.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ARRANGEMENT</td>
+            <td bgcolor="#F2F2F2">'stacked'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'stacked'</font></li><li><font color="#1111FF">'single'</font></li><li><font color="#1111FF">'subplots'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Select the plot layout:<ul><li>'single'   - plot all AOs on individual figures</li><li>'stacked'  - plot all AOs on the same axes</li><li>'subplots' - plot all AOs on subplots</li></ul></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FUNCTION</td>
+            <td bgcolor="#F2F2F2">'plot'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'plot'</font></li><li><font color="#1111FF">'stairs'</font></li><li><font color="#1111FF">'stem'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Specify the plot function:<ul><li>'plot'</li><li>'stairs'</li><li>'stem'</li></ul>[*** doesn't work for xyzdata AOs]</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FUNCTION3D</td>
+            <td bgcolor="#F2F2F2">'pcolor'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'pcolor'</font></li><li><font color="#1111FF">'surf'</font></li><li><font color="#1111FF">'mesh'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Specify the plot function:<ul><li>'pcolor'</li><li>'surf'</li><li>'mesh'</li></ul></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LINECOLORS</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of color definitions, one for each trace.<br>Give an empty string to use the default color.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LINESTYLES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of line styles, one for each trace.<br>Give an empty string to use the default style.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">MARKERS</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of markers, one for each trace.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">MARKERSIZES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of marker sizes, one for each trace.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LINEWIDTHS</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of line widths, one for each trace.<br>Give an empty string to use the default line width.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LEGENDS</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a cell-array of strings to be used for<br>the plot legends. If a cell contains an empty<br>string, the default legend string is built.<br>If a single string 'off' is given instead of a<br>cell-array, then the legends are all switched off.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LEGENDLOCATION</td>
+            <td bgcolor="#F2F2F2">'NorthEast'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'North'</font></li><li><font color="#1111FF">'South'</font></li><li><font color="#1111FF">'East'</font></li><li><font color="#1111FF">'West'</font></li><li><font color="#1111FF">'NorthEast'</font></li><li><font color="#1111FF">'NorthWest'</font></li><li><font color="#1111FF">'SouthEast'</font></li><li><font color="#1111FF">'SouthWest'</font></li><li><font color="#1111FF">'NorthOutside'</font></li><li><font color="#1111FF">'SouthOutside'</font></li><li><font color="#1111FF">'EastOutside'</font></li><li><font color="#1111FF">'WestOutside'</font></li><li><font color="#1111FF">'NorthEastOutside'</font></li><li><font color="#1111FF">'NorthWestOutside'</font></li><li><font color="#1111FF">'SouthEastOutside'</font></li><li><font color="#1111FF">'SouthWestOutside'</font></li><li><font color="#1111FF">'Best'</font></li><li><font color="#1111FF">'BestOutside'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Choose the legend location.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LEGENDFONTSIZE</td>
+            <td bgcolor="#F2F2F2">18</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Choose the legend font size.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SHOWDESCRIPTIONS</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Include object descriptions in the legend string.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FIGURENAMES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Sets the figure name.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SHOW PROVENANCE</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">A flag to enable/disable the provenance text patch.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XERRL</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Lower bound error values for the X data points.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XERRU</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Upper bound error values for the X data points.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YERRL</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Lower bound error values for the Y data points.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YERRU</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Upper bound error values for the Y data points.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XSCALES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array specifying the scale to be used on each x-axis.<br>For example, {'lin', 'log'}</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YSCALES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array specifying the scale to be used on each y-axis.<br>For example, {'lin', 'log'}</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XRANGES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array specifying the ranges to be displayed on each x-axis.<br>For example, {[0 1], [-4 4]}.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YRANGES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array specifying the ranges to be displayed on each y-axis.<br>For example, {[0 1], [-4 4]}.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TITLES, TITLE</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array specifying the titles to be displayed above each set of axes.<br></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LATEXLABELS</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Use latex interpreter for axis labels.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">AUTOERRORS</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">If the AO contains errors, they will be plotted. You can avoid plotting the <br>errors by setting this to false.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ERRORBARTYPE</td>
+            <td bgcolor="#F2F2F2">'bar'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'bar'</font></li><li><font color="#1111FF">'area'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Choose the way the errors should be displayed.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XLABELS</td>
+            <td bgcolor="#F2F2F2">'Time'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Specify the labels to be used on the x-axes. The units are added from<br>the data object 'xunits' property.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YLABELS</td>
+            <td bgcolor="#F2F2F2">'Amplitude'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Specify the labels to be used on the y-axes. The units are added from<br>the data object 'yunits' property.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XUNITS</td>
+            <td bgcolor="#F2F2F2">'s'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'us'</font></li><li><font color="#1111FF">'ms'</font></li><li><font color="#1111FF">'s'</font></li><li><font color="#1111FF">'m'</font></li><li><font color="#1111FF">'h'</font></li><li><font color="#1111FF">'D'</font></li><li><font color="#1111FF">'M'</font></li><li><font color="#1111FF">'HH:MM:SS'</font></li><li><font color="#1111FF">'yyyy-mm-dd HH:MM:SS'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Specify the units of time on the x-axis as<ul><li>'us'        - microseconds<li><li>'ms'        - milliseconds<li><li>'s'         - seconds<li><li>'m'         - minutes<li><li>'h'         - hours<li><li>'D'         - days<li><li>'M'         - months<li><li>'HH:MM:SS'  - using a date/time format</li></ul></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DISPLAY TIME ORIGIN</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">True-False flag to display the origin time of the data.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIME FORMAT</td>
+            <td bgcolor="#F2F2F2">'yyyy-mm-dd HH:MM:SS.FFF'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Specify the format used to display the time origin which prefixes the x-axis label. See help time/format.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('FIGURE', [[]], 'ARRANGEMENT', 'stacked', 'FUNCTION', 'plot', 'FUNCTION3D', 'pcolor', 'LINECOLORS', '', 'LINESTYLES', '', 'MARKERS', '', 'MARKERSIZES', '', 'LINEWIDTHS', '', 'LEGENDS', '', 'LEGENDLOCATION', 'NorthEast', 'LEGENDFONTSIZE', [18], 'SHOWDESCRIPTIONS', [false], 'FIGURENAMES', '', 'SHOW PROVENANCE', [true], 'XERRL', [[]], 'XERRU', [[]], 'YERRL', [[]], 'YERRU', [[]], 'XSCALES', '', 'YSCALES', '', 'XRANGES', '', 'YRANGES', '', 'TITLES', '', 'LATEXLABELS', [false], 'AUTOERRORS', [false], 'ERRORBARTYPE', 'bar', 'XLABELS', 'Time', 'YLABELS', 'Amplitude', 'XUNITS', 's', 'DISPLAY TIME ORIGIN', [true], 'TIME FORMAT', 'yyyy-mm-dd HH:MM:SS.FFF')</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="2"></a>
+    <!-- Parameter List Table: Frequency-series Plot -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>Frequency-series Plot</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">iplot</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FIGURE</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The handle of the figure to plot in to. This will be ignored if the AOs to plot are inconsistent,<br>containing different class of data (such as tsdata and fsdata), or if the 'arrangement'<br>parameter is passed as 'single'.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ARRANGEMENT</td>
+            <td bgcolor="#F2F2F2">'stacked'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'stacked'</font></li><li><font color="#1111FF">'single'</font></li><li><font color="#1111FF">'subplots'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Select the plot layout:<ul><li>'single'   - plot all AOs on individual figures</li><li>'stacked'  - plot all AOs on the same axes</li><li>'subplots' - plot all AOs on subplots</li></ul></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FUNCTION</td>
+            <td bgcolor="#F2F2F2">'plot'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'plot'</font></li><li><font color="#1111FF">'stairs'</font></li><li><font color="#1111FF">'stem'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Specify the plot function:<ul><li>'plot'</li><li>'stairs'</li><li>'stem'</li></ul>[*** doesn't work for xyzdata AOs]</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FUNCTION3D</td>
+            <td bgcolor="#F2F2F2">'pcolor'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'pcolor'</font></li><li><font color="#1111FF">'surf'</font></li><li><font color="#1111FF">'mesh'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Specify the plot function:<ul><li>'pcolor'</li><li>'surf'</li><li>'mesh'</li></ul></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LINECOLORS</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of color definitions, one for each trace.<br>Give an empty string to use the default color.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LINESTYLES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of line styles, one for each trace.<br>Give an empty string to use the default style.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">MARKERS</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of markers, one for each trace.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">MARKERSIZES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of marker sizes, one for each trace.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LINEWIDTHS</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of line widths, one for each trace.<br>Give an empty string to use the default line width.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LEGENDS</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a cell-array of strings to be used for<br>the plot legends. If a cell contains an empty<br>string, the default legend string is built.<br>If a single string 'off' is given instead of a<br>cell-array, then the legends are all switched off.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LEGENDLOCATION</td>
+            <td bgcolor="#F2F2F2">'NorthEast'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'North'</font></li><li><font color="#1111FF">'South'</font></li><li><font color="#1111FF">'East'</font></li><li><font color="#1111FF">'West'</font></li><li><font color="#1111FF">'NorthEast'</font></li><li><font color="#1111FF">'NorthWest'</font></li><li><font color="#1111FF">'SouthEast'</font></li><li><font color="#1111FF">'SouthWest'</font></li><li><font color="#1111FF">'NorthOutside'</font></li><li><font color="#1111FF">'SouthOutside'</font></li><li><font color="#1111FF">'EastOutside'</font></li><li><font color="#1111FF">'WestOutside'</font></li><li><font color="#1111FF">'NorthEastOutside'</font></li><li><font color="#1111FF">'NorthWestOutside'</font></li><li><font color="#1111FF">'SouthEastOutside'</font></li><li><font color="#1111FF">'SouthWestOutside'</font></li><li><font color="#1111FF">'Best'</font></li><li><font color="#1111FF">'BestOutside'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Choose the legend location.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LEGENDFONTSIZE</td>
+            <td bgcolor="#F2F2F2">18</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Choose the legend font size.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SHOWDESCRIPTIONS</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Include object descriptions in the legend string.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FIGURENAMES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Sets the figure name.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SHOW PROVENANCE</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">A flag to enable/disable the provenance text patch.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XERRL</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Lower bound error values for the X data points.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XERRU</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Upper bound error values for the X data points.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YERRL</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Lower bound error values for the Y data points.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YERRU</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Upper bound error values for the Y data points.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XSCALES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array specifying the scale to be used on each x-axis.<br>For example, {'lin', 'log'}</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YSCALES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array specifying the scale to be used on each y-axis.<br>For example, {'lin', 'log'}</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XRANGES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array specifying the ranges to be displayed on each x-axis.<br>For example, {[0 1], [-4 4]}.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YRANGES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array specifying the ranges to be displayed on each y-axis.<br>For example, {[0 1], [-4 4]}.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TITLES, TITLE</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array specifying the titles to be displayed above each set of axes.<br></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LATEXLABELS</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Use latex interpreter for axis labels.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">AUTOERRORS</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">If the AO contains errors, they will be plotted. You can avoid plotting the <br>errors by setting this to false.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ERRORBARTYPE</td>
+            <td bgcolor="#F2F2F2">'bar'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'bar'</font></li><li><font color="#1111FF">'area'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Choose the way the errors should be displayed.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">COMPLEXPLOTTYPE</td>
+            <td bgcolor="#F2F2F2">'absdeg'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'absdeg'</font></li><li><font color="#1111FF">'realimag'</font></li><li><font color="#1111FF">'absrad'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Specify how to plot complex data. Choose from:<ul><li>'realimag'</li><li>'absdeg'</li><li>'absrad'</li></ul></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XLABELS</td>
+            <td bgcolor="#F2F2F2">'Frequency'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Specify the labels to be used on the x-axes. The units are added from<br>the data object 'xunits' property.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YLABELS</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Specify the labels to be used on the y-axes. The units are added from<br>the data object 'yunits' property.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('FIGURE', [[]], 'ARRANGEMENT', 'stacked', 'FUNCTION', 'plot', 'FUNCTION3D', 'pcolor', 'LINECOLORS', '', 'LINESTYLES', '', 'MARKERS', '', 'MARKERSIZES', '', 'LINEWIDTHS', '', 'LEGENDS', '', 'LEGENDLOCATION', 'NorthEast', 'LEGENDFONTSIZE', [18], 'SHOWDESCRIPTIONS', [false], 'FIGURENAMES', '', 'SHOW PROVENANCE', [true], 'XERRL', [[]], 'XERRU', [[]], 'YERRL', [[]], 'YERRU', [[]], 'XSCALES', '', 'YSCALES', '', 'XRANGES', '', 'YRANGES', '', 'TITLES', '', 'LATEXLABELS', [false], 'AUTOERRORS', [false], 'ERRORBARTYPE', 'bar', 'COMPLEXPLOTTYPE', 'absdeg', 'XLABELS', 'Frequency', 'YLABELS', '')</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="3"></a>
+    <!-- Parameter List Table: Y Data Plot -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>Y Data Plot</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">iplot</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FIGURE</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The handle of the figure to plot in to. This will be ignored if the AOs to plot are inconsistent,<br>containing different class of data (such as tsdata and fsdata), or if the 'arrangement'<br>parameter is passed as 'single'.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ARRANGEMENT</td>
+            <td bgcolor="#F2F2F2">'stacked'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'stacked'</font></li><li><font color="#1111FF">'single'</font></li><li><font color="#1111FF">'subplots'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Select the plot layout:<ul><li>'single'   - plot all AOs on individual figures</li><li>'stacked'  - plot all AOs on the same axes</li><li>'subplots' - plot all AOs on subplots</li></ul></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FUNCTION</td>
+            <td bgcolor="#F2F2F2">'plot'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'plot'</font></li><li><font color="#1111FF">'stairs'</font></li><li><font color="#1111FF">'stem'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Specify the plot function:<ul><li>'plot'</li><li>'stairs'</li><li>'stem'</li></ul>[*** doesn't work for xyzdata AOs]</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FUNCTION3D</td>
+            <td bgcolor="#F2F2F2">'pcolor'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'pcolor'</font></li><li><font color="#1111FF">'surf'</font></li><li><font color="#1111FF">'mesh'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Specify the plot function:<ul><li>'pcolor'</li><li>'surf'</li><li>'mesh'</li></ul></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LINECOLORS</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of color definitions, one for each trace.<br>Give an empty string to use the default color.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LINESTYLES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of line styles, one for each trace.<br>Give an empty string to use the default style.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">MARKERS</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of markers, one for each trace.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">MARKERSIZES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of marker sizes, one for each trace.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LINEWIDTHS</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of line widths, one for each trace.<br>Give an empty string to use the default line width.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LEGENDS</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a cell-array of strings to be used for<br>the plot legends. If a cell contains an empty<br>string, the default legend string is built.<br>If a single string 'off' is given instead of a<br>cell-array, then the legends are all switched off.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LEGENDLOCATION</td>
+            <td bgcolor="#F2F2F2">'NorthEast'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'North'</font></li><li><font color="#1111FF">'South'</font></li><li><font color="#1111FF">'East'</font></li><li><font color="#1111FF">'West'</font></li><li><font color="#1111FF">'NorthEast'</font></li><li><font color="#1111FF">'NorthWest'</font></li><li><font color="#1111FF">'SouthEast'</font></li><li><font color="#1111FF">'SouthWest'</font></li><li><font color="#1111FF">'NorthOutside'</font></li><li><font color="#1111FF">'SouthOutside'</font></li><li><font color="#1111FF">'EastOutside'</font></li><li><font color="#1111FF">'WestOutside'</font></li><li><font color="#1111FF">'NorthEastOutside'</font></li><li><font color="#1111FF">'NorthWestOutside'</font></li><li><font color="#1111FF">'SouthEastOutside'</font></li><li><font color="#1111FF">'SouthWestOutside'</font></li><li><font color="#1111FF">'Best'</font></li><li><font color="#1111FF">'BestOutside'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Choose the legend location.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LEGENDFONTSIZE</td>
+            <td bgcolor="#F2F2F2">18</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Choose the legend font size.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SHOWDESCRIPTIONS</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Include object descriptions in the legend string.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FIGURENAMES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Sets the figure name.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SHOW PROVENANCE</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">A flag to enable/disable the provenance text patch.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XERRL</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Lower bound error values for the X data points.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XERRU</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Upper bound error values for the X data points.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YERRL</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Lower bound error values for the Y data points.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YERRU</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Upper bound error values for the Y data points.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XSCALES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array specifying the scale to be used on each x-axis.<br>For example, {'lin', 'log'}</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YSCALES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array specifying the scale to be used on each y-axis.<br>For example, {'lin', 'log'}</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XRANGES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array specifying the ranges to be displayed on each x-axis.<br>For example, {[0 1], [-4 4]}.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YRANGES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array specifying the ranges to be displayed on each y-axis.<br>For example, {[0 1], [-4 4]}.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TITLES, TITLE</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array specifying the titles to be displayed above each set of axes.<br></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LATEXLABELS</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Use latex interpreter for axis labels.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">AUTOERRORS</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">If the AO contains errors, they will be plotted. You can avoid plotting the <br>errors by setting this to false.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ERRORBARTYPE</td>
+            <td bgcolor="#F2F2F2">'bar'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'bar'</font></li><li><font color="#1111FF">'area'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Choose the way the errors should be displayed.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XLABELS</td>
+            <td bgcolor="#F2F2F2">'Sample'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Specify the labels to be used on the x-axes. The units are added from<br>the data object 'xunits' property.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YLABELS</td>
+            <td bgcolor="#F2F2F2">'Value'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Specify the labels to be used on the y-axes. The units are added from<br>the data object 'yunits' property.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('FIGURE', [[]], 'ARRANGEMENT', 'stacked', 'FUNCTION', 'plot', 'FUNCTION3D', 'pcolor', 'LINECOLORS', '', 'LINESTYLES', '', 'MARKERS', '', 'MARKERSIZES', '', 'LINEWIDTHS', '', 'LEGENDS', '', 'LEGENDLOCATION', 'NorthEast', 'LEGENDFONTSIZE', [18], 'SHOWDESCRIPTIONS', [false], 'FIGURENAMES', '', 'SHOW PROVENANCE', [true], 'XERRL', [[]], 'XERRU', [[]], 'YERRL', [[]], 'YERRU', [[]], 'XSCALES', '', 'YSCALES', '', 'XRANGES', '', 'YRANGES', '', 'TITLES', '', 'LATEXLABELS', [false], 'AUTOERRORS', [false], 'ERRORBARTYPE', 'bar', 'XLABELS', 'Sample', 'YLABELS', 'Value')</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="4"></a>
+    <!-- Parameter List Table: X-Y Data Plot -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>X-Y Data Plot</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">iplot</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FIGURE</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The handle of the figure to plot in to. This will be ignored if the AOs to plot are inconsistent,<br>containing different class of data (such as tsdata and fsdata), or if the 'arrangement'<br>parameter is passed as 'single'.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ARRANGEMENT</td>
+            <td bgcolor="#F2F2F2">'stacked'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'stacked'</font></li><li><font color="#1111FF">'single'</font></li><li><font color="#1111FF">'subplots'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Select the plot layout:<ul><li>'single'   - plot all AOs on individual figures</li><li>'stacked'  - plot all AOs on the same axes</li><li>'subplots' - plot all AOs on subplots</li></ul></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FUNCTION</td>
+            <td bgcolor="#F2F2F2">'plot'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'plot'</font></li><li><font color="#1111FF">'stairs'</font></li><li><font color="#1111FF">'stem'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Specify the plot function:<ul><li>'plot'</li><li>'stairs'</li><li>'stem'</li></ul>[*** doesn't work for xyzdata AOs]</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FUNCTION3D</td>
+            <td bgcolor="#F2F2F2">'pcolor'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'pcolor'</font></li><li><font color="#1111FF">'surf'</font></li><li><font color="#1111FF">'mesh'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Specify the plot function:<ul><li>'pcolor'</li><li>'surf'</li><li>'mesh'</li></ul></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LINECOLORS</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of color definitions, one for each trace.<br>Give an empty string to use the default color.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LINESTYLES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of line styles, one for each trace.<br>Give an empty string to use the default style.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">MARKERS</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of markers, one for each trace.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">MARKERSIZES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of marker sizes, one for each trace.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LINEWIDTHS</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of line widths, one for each trace.<br>Give an empty string to use the default line width.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LEGENDS</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a cell-array of strings to be used for<br>the plot legends. If a cell contains an empty<br>string, the default legend string is built.<br>If a single string 'off' is given instead of a<br>cell-array, then the legends are all switched off.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LEGENDLOCATION</td>
+            <td bgcolor="#F2F2F2">'NorthEast'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'North'</font></li><li><font color="#1111FF">'South'</font></li><li><font color="#1111FF">'East'</font></li><li><font color="#1111FF">'West'</font></li><li><font color="#1111FF">'NorthEast'</font></li><li><font color="#1111FF">'NorthWest'</font></li><li><font color="#1111FF">'SouthEast'</font></li><li><font color="#1111FF">'SouthWest'</font></li><li><font color="#1111FF">'NorthOutside'</font></li><li><font color="#1111FF">'SouthOutside'</font></li><li><font color="#1111FF">'EastOutside'</font></li><li><font color="#1111FF">'WestOutside'</font></li><li><font color="#1111FF">'NorthEastOutside'</font></li><li><font color="#1111FF">'NorthWestOutside'</font></li><li><font color="#1111FF">'SouthEastOutside'</font></li><li><font color="#1111FF">'SouthWestOutside'</font></li><li><font color="#1111FF">'Best'</font></li><li><font color="#1111FF">'BestOutside'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Choose the legend location.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LEGENDFONTSIZE</td>
+            <td bgcolor="#F2F2F2">18</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Choose the legend font size.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SHOWDESCRIPTIONS</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Include object descriptions in the legend string.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FIGURENAMES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Sets the figure name.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SHOW PROVENANCE</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">A flag to enable/disable the provenance text patch.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XERRL</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Lower bound error values for the X data points.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XERRU</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Upper bound error values for the X data points.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YERRL</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Lower bound error values for the Y data points.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YERRU</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Upper bound error values for the Y data points.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XSCALES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array specifying the scale to be used on each x-axis.<br>For example, {'lin', 'log'}</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YSCALES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array specifying the scale to be used on each y-axis.<br>For example, {'lin', 'log'}</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XRANGES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array specifying the ranges to be displayed on each x-axis.<br>For example, {[0 1], [-4 4]}.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YRANGES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array specifying the ranges to be displayed on each y-axis.<br>For example, {[0 1], [-4 4]}.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TITLES, TITLE</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array specifying the titles to be displayed above each set of axes.<br></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LATEXLABELS</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Use latex interpreter for axis labels.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">AUTOERRORS</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">If the AO contains errors, they will be plotted. You can avoid plotting the <br>errors by setting this to false.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ERRORBARTYPE</td>
+            <td bgcolor="#F2F2F2">'bar'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'bar'</font></li><li><font color="#1111FF">'area'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Choose the way the errors should be displayed.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XLABELS</td>
+            <td bgcolor="#F2F2F2">'X-data'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Specify the labels to be used on the x-axes. The units are added from<br>the data object 'xunits' property.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YLABELS</td>
+            <td bgcolor="#F2F2F2">'Y-data'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Specify the labels to be used on the y-axes. The units are added from<br>the data object 'yunits' property.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('FIGURE', [[]], 'ARRANGEMENT', 'stacked', 'FUNCTION', 'plot', 'FUNCTION3D', 'pcolor', 'LINECOLORS', '', 'LINESTYLES', '', 'MARKERS', '', 'MARKERSIZES', '', 'LINEWIDTHS', '', 'LEGENDS', '', 'LEGENDLOCATION', 'NorthEast', 'LEGENDFONTSIZE', [18], 'SHOWDESCRIPTIONS', [false], 'FIGURENAMES', '', 'SHOW PROVENANCE', [true], 'XERRL', [[]], 'XERRU', [[]], 'YERRL', [[]], 'YERRU', [[]], 'XSCALES', '', 'YSCALES', '', 'XRANGES', '', 'YRANGES', '', 'TITLES', '', 'LATEXLABELS', [false], 'AUTOERRORS', [false], 'ERRORBARTYPE', 'bar', 'XLABELS', 'X-data', 'YLABELS', 'Y-data')</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="5"></a>
+    <!-- Parameter List Table: 3D Plot -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>3D Plot</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">iplot</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FIGURE</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The handle of the figure to plot in to. This will be ignored if the AOs to plot are inconsistent,<br>containing different class of data (such as tsdata and fsdata), or if the 'arrangement'<br>parameter is passed as 'single'.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ARRANGEMENT</td>
+            <td bgcolor="#F2F2F2">'single'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Select the plot layout:<ul><li>'single'   - plot all AOs on individual figures</li><li>'stacked'  - plot all AOs on the same axes</li><li>'subplots' - plot all AOs on subplots</li></ul></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FUNCTION</td>
+            <td bgcolor="#F2F2F2">'plot'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'plot'</font></li><li><font color="#1111FF">'stairs'</font></li><li><font color="#1111FF">'stem'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Specify the plot function:<ul><li>'plot'</li><li>'stairs'</li><li>'stem'</li></ul>[*** doesn't work for xyzdata AOs]</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FUNCTION3D</td>
+            <td bgcolor="#F2F2F2">'pcolor'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'pcolor'</font></li><li><font color="#1111FF">'surf'</font></li><li><font color="#1111FF">'mesh'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Specify the plot function:<ul><li>'pcolor'</li><li>'surf'</li><li>'mesh'</li></ul></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LEGENDS</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a cell-array of strings to be used for<br>the plot legends. If a cell contains an empty<br>string, the default legend string is built.<br>If a single string 'off' is given instead of a<br>cell-array, then the legends are all switched off.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LEGENDLOCATION</td>
+            <td bgcolor="#F2F2F2">'NorthEast'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'North'</font></li><li><font color="#1111FF">'South'</font></li><li><font color="#1111FF">'East'</font></li><li><font color="#1111FF">'West'</font></li><li><font color="#1111FF">'NorthEast'</font></li><li><font color="#1111FF">'NorthWest'</font></li><li><font color="#1111FF">'SouthEast'</font></li><li><font color="#1111FF">'SouthWest'</font></li><li><font color="#1111FF">'NorthOutside'</font></li><li><font color="#1111FF">'SouthOutside'</font></li><li><font color="#1111FF">'EastOutside'</font></li><li><font color="#1111FF">'WestOutside'</font></li><li><font color="#1111FF">'NorthEastOutside'</font></li><li><font color="#1111FF">'NorthWestOutside'</font></li><li><font color="#1111FF">'SouthEastOutside'</font></li><li><font color="#1111FF">'SouthWestOutside'</font></li><li><font color="#1111FF">'Best'</font></li><li><font color="#1111FF">'BestOutside'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Choose the legend location.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LEGENDFONTSIZE</td>
+            <td bgcolor="#F2F2F2">18</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Choose the legend font size.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SHOWDESCRIPTIONS</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Include object descriptions in the legend string.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FIGURENAMES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Sets the figure name.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SHOW PROVENANCE</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">A flag to enable/disable the provenance text patch.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XERRL</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Lower bound error values for the X data points.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XERRU</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Upper bound error values for the X data points.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YERRL</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Lower bound error values for the Y data points.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YERRU</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Upper bound error values for the Y data points.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XSCALES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array specifying the scale to be used on each x-axis.<br>For example, {'lin', 'log'}</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YSCALES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array specifying the scale to be used on each y-axis.<br>For example, {'lin', 'log'}</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XRANGES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array specifying the ranges to be displayed on each x-axis.<br>For example, {[0 1], [-4 4]}.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YRANGES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array specifying the ranges to be displayed on each y-axis.<br>For example, {[0 1], [-4 4]}.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TITLES, TITLE</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array specifying the titles to be displayed above each set of axes.<br></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LATEXLABELS</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Use latex interpreter for axis labels.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">AUTOERRORS</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">If the AO contains errors, they will be plotted. You can avoid plotting the <br>errors by setting this to false.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ERRORBARTYPE</td>
+            <td bgcolor="#F2F2F2">'bar'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'bar'</font></li><li><font color="#1111FF">'area'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Choose the way the errors should be displayed.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XLABELS</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Specify the labels to be used on the x-axes. The units are added from<br>the data object 'xunits' property.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YLABELS</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Specify the labels to be used on the y-axes. The units are added from<br>the data object 'yunits' property.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ZLABELS</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Specify the labels to be used on the z-axes. The units are added from<br>the data object 'zunits' property.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ZSCALES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array specifying the scale to be used on each z-axis.<br>For example, {'lin', 'log'}</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ZRANGES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array specifying the ranges to be displayed on each z-axis.<br>For example, {[0 1], [-4 4]}.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">INVERTY</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Invert the y-axis or not.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('FIGURE', [[]], 'ARRANGEMENT', 'single', 'FUNCTION', 'plot', 'FUNCTION3D', 'pcolor', 'LEGENDS', '', 'LEGENDLOCATION', 'NorthEast', 'LEGENDFONTSIZE', [18], 'SHOWDESCRIPTIONS', [false], 'FIGURENAMES', '', 'SHOW PROVENANCE', [true], 'XERRL', [[]], 'XERRU', [[]], 'YERRL', [[]], 'YERRU', [[]], 'XSCALES', '', 'YSCALES', '', 'XRANGES', '', 'YRANGES', '', 'TITLES', '', 'LATEXLABELS', [false], 'AUTOERRORS', [false], 'ERRORBARTYPE', 'bar', 'XLABELS', '', 'YLABELS', '', 'ZLABELS', '', 'ZSCALES', '', 'ZRANGES', '', 'INVERTY', [true])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <p><!-- Table of the minfo object -->
+      <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+        <colgroup>
+          <col width="25%"/>
+          <col width="75%"/>
+        </colgroup>
+        <thead>
+          <tr valign="top">
+            <th class="categorylist" colspan="2">Some information of the method matrix/iplot are listed below:</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Property: 'mclass' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Class name</td>
+            <td bgcolor="#f3f4f5">matrix</td>
+          </tr>
+          <!-- Property: 'mname' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Method name</td>
+            <td bgcolor="#ffffff">iplot</td>
+          </tr>
+          <!-- Property: 'mcategory' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Category</td>
+            <td bgcolor="#f3f4f5">Output</td>
+          </tr>
+          <!-- Property: 'mpackage' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Package name</td>
+            <td bgcolor="#ffffff">ltpda</td>
+          </tr>
+          <!-- Property: 'modifier' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Can be used as modifier</td>
+            <td bgcolor="#f3f4f5">1</td>
+          </tr>
+          <!-- Property: 'supportedNumTypes' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Supported numeric types</td>
+            <td bgcolor="#ffffff">{'double'}</td>
+          </tr>
+        </tbody>
+      </table>
+    </p>
+
+
+    <br>
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="matrix_disp.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: matrix/disp"></a>&nbsp;</td>
+        <td align="left">Method: matrix/disp</td>
+        <td>&nbsp;</td>
+        <td align="right">Method: matrix/report</td>
+        <td align="right" width="20"><a href="matrix_report.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: matrix/report"></a></td>
+      </tr>
+    </table>
+
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+
+   </body>
+</html>

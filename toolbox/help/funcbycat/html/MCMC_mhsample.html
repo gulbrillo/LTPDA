@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!-- $Id$ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="../../ug/docstyle.css">
+    <title>LTPDA Method: MCMC/mhsample</title>
+  </head>
+  <body>
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <p style="font-size:1px;">&nbsp;</p>
+
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../../ug/../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="MCMC_list_tests.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: MCMC/list_tests"></a>&nbsp;&nbsp;&nbsp;<a href="MCMC_plotLogLikelihood.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: MCMC/plotLogLikelihood"></a></td>
+      </tr>
+    </table>
+
+    <h1 class="title">Method MCMC/mhsample</h1>
+    <hr />
+
+<pre>  <SPAN CLASS="HELPTOPIC">MHSAMPLE</SPAN>.M The Metropolis - Hastings algorithm
+ 
+  The Metropolis-Hastings algorithm: Samples a given likelihood function.
+                   
+               Warning: The function <span class="helptopic">mhsample</span> does not performs sanity
+                        checks on the inputs. It assumes that the given
+                        data-sets are in frequency domain and correctly
+                        defined.
+ 
+     CALL:     b  = MCMC.<span class="helptopic">mhsample</span>(pl)
+ 
+   INPUTS:     pl - parameter list
+ 
+  OUTPUTS:     b  - pest object contatining estimated information
+ 
+     NOTE:     The resulting pest object has its 'chain' field defined 
+               with the MCMC chains. The chain is a (# of samples x 2 +
+               # of parameters) numerical matrix. In the first column
+               the log-likelihood values are stored, while in the second
+               the SNR. The rest of them contain the parameter values.
+               If the log-likelihood is a 'mfh' object, due to 
+               Matlab limitations, the SNR column contains also the
+               log-likelihood values. 
+ 
+  <a href="matlab:utils.helper.displayMethodInfo('MCMC', 'MCMC.mhsample')">Parameters Description</a>      
+ 
+  MN/NK 2013
+ </pre>
+
+    <!-- =====        Striped 4x2 table: Begin        ==== -->
+    <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+    <div class="sectiontitle"></div>
+    <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+      <colgroup>
+        <col width="30%"/>
+        <col width="70%"/>
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th class="categorylist">Method Details</th>
+          <th class="categorylist"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Access</td>
+          <td bgcolor="#f3f4f5">public</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Defining Class</td>
+          <td bgcolor="#ffffff">MCMC</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Sealed</td>
+          <td bgcolor="#f3f4f5">0</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Static</td>
+          <td bgcolor="#ffffff">1</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- ===== Striped 4x2 table: End ==== -->
+
+    <br>
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="MCMC_list_tests.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: MCMC/list_tests"></a>&nbsp;</td>
+        <td align="left">Method: MCMC/list_tests</td>
+        <td>&nbsp;</td>
+        <td align="right">Method: MCMC/plotLogLikelihood</td>
+        <td align="right" width="20"><a href="MCMC_plotLogLikelihood.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: MCMC/plotLogLikelihood"></a></td>
+      </tr>
+    </table>
+
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+
+   </body>
+</html>

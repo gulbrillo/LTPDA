@@ -1,0 +1,238 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Results and Comparison (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_2_topic_5_6_2_2.html"><img src="b_prev.gif" border="0" align="bottom" alt="Linear Parameter Estimation"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_2_topic_5_8.html"><img src="b_next.gif" border="0" align="bottom" alt="Use parameter estimates to estimate residual differential acceleration"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Results and Comparison</h1>
+    <hr>
+    
+    <p>
+      
+
+<h2>Results for the Linear Parameter Estimation</h2>
+
+Results of linear parameter estimation can be visualized with the method
+'linfitsvdPlot'
+
+<p>
+  <div class="fragment"><pre> 
+      
+  params = {...
+        <span class="string">'FEEPS_XX'</span>, ...
+        <span class="string">'CAPACT_TM2_XX'</span>, ...
+        <span class="string">'IFO_X12X1'</span>, ...
+        <span class="string">'EOM_TM1_STIFF_XX'</span>, ...
+        <span class="string">'EOM_TM2_STIFF_XX'</span>};
+  
+  values = [0.82 1.08 0.0004 1.3e-6 1.9e-6];
+  
+  plshow = plist(...
+        <span class="string">'FitParams'</span>, params,...
+        <span class="string">'FitParamsValues'</span>, values);
+  
+  linfitsvdPlot(fpars, plshow);
+      
+  </pre></div>
+  
+  <div align="center">
+  <IMG src="images/ltpda_training_2/Topic5/topic_5_7_no1.png" align="center" border="0" height="50%" width="50%">
+  <IMG src="images/ltpda_training_2/Topic5/topic_5_7_no2.png" align="center" border="0" height="50%" width="50%"></div>
+
+  <div align="center">
+  <IMG src="images/ltpda_training_2/Topic5/topic_5_7_no3.png" align="center" border="0" height="50%" width="50%"></div>
+
+  <div align="center">
+  <IMG src="images/ltpda_training_2/Topic5/topic_5_7_no4.png" align="center" border="0" height="50%" width="50%">
+  <IMG src="images/ltpda_training_2/Topic5/topic_5_7_no5.png" align="center" border="0" height="50%" width="50%"></div>
+
+</p>
+
+
+<h2>Results for the MCMC</h2>
+
+If our <tt>pest</tt> object obtained with MCMC is <tt>b</tt>, then we can plot the results, or print them to screen
+with the following piece of code:
+
+<div class="fragment"><pre> 
+  
+  pl = plist(...
+          <span class="string">'burnin'</span>, 1000, ...                   <span class="comment">% The number of samples to be discarded from the chain</span>
+          <span class="string">'pdfs'</span>, true, ...                     <span class="comment">% Plot the pdfs of the parameters</span>
+          <span class="string">'chain'</span>, 0 ,...                       <span class="comment">% Do not plot chains</span>
+          <span class="string">'separate pdfs'</span>, [1 2 3 4 5], ...     <span class="comment">% Plot the pdfs in separate figures</span>
+          <span class="string">'nbins'</span>, 20, ...                      <span class="comment">% Number of bins for the histograms</span>
+          <span class="string">'colormap'</span>, summer, ...               <span class="comment">% choose colormap for cosmetics!</span>
+          <span class="string">'results'</span>, true);                     <span class="comment">% Print results to screen</span>
+  
+  mcmcPlot(b,pl)
+  
+</pre></div> 
+
+Note: Here we assumed that we used the <tt>simplex</tt> algorithm before the 
+mcmc sampling as in section 5.6.1. The PDFs of the parameters will look like 
+the following:
+
+<div align="center">
+<IMG src="images/ltpda_training_2/Topic5/A1.png" align="center" border="0" height="50%" width="50%">
+<IMG src="images/ltpda_training_2/Topic5/A2.png" align="center" border="0" height="50%" width="50%"></div>
+
+<div align="center">
+<IMG src="images/ltpda_training_2/Topic5/deltaIFO.png" align="center" border="0" height="50%" width="50%"></div>
+  
+<div align="center">
+<IMG src="images/ltpda_training_2/Topic5/w1.png" align="center" border="0" height="50%" width="50%">
+<IMG src="images/ltpda_training_2/Topic5/w2.png" align="center" border="0" height="50%" width="50%"></div>
+
+
+<h2>Comparison</h2>
+<p>
+The table below show the comparison of the results obtained with the two
+methods. We compare as well the error on the parameter with the optimal error
+expected from the Fisher matrix analysis
+</p>
+
+ <table cellspacing="0" class="body" cellpadding="4" summary="" width="80%" border="2">
+    <colgroup>
+      <col width="20%"/>
+      <col width="10%"/>
+      <col width="10%"/>
+      <col width="25%"/>
+      <col width="25%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th bgcolor="#D7D7D7">Parameter</th>
+        <th bgcolor="#D7D7D7">True value</th>
+        <th bgcolor="#D7D7D7">Exp. error</th>
+        <th bgcolor="#D7D7D7">Linear </th>
+        <th bgcolor="#D7D7D7">MCMC</th>
+    </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          FEEPS_XX
+        </td>
+        <td> 
+          0.82
+        </td>
+         <td> 
+          0.0002
+        </td>
+         <td> 
+          0.8185 &plusmn 3e-4
+        </td>
+         <td> 
+          0.8201 &plusmn 2.5e-04
+        </td>
+      </tr>
+      <tr>
+        <td>
+          CAPACT_TM2_XX
+        </td>
+        <td> 
+          1.08
+        </td>
+         <td> 
+          3.0e-06
+        </td>
+         <td> 
+          1.080007 &plusmn 4e-06
+        </td>
+         <td> 
+          1.080004 &plusmn 3e-06 
+        </td>
+      </tr>
+      <tr>
+        <td>
+          IFO_X12X1
+        </td>
+        <td> 
+          0.0004
+        </td>
+         <td> 
+          1.1e-07
+        </td>
+         <td> 
+          3.998e-04 &plusmn 1.5e-07
+        </td>
+         <td> 
+          4.000e-04 &plusmn 1e-07
+        </td>
+      </tr>
+      <tr>
+        <td>
+          EOM_TM1_STIFF_XX
+        </td>
+        <td> 
+          1.3e-6
+        </td>
+         <td> 
+          1.7e-10
+        </td>
+         <td> 
+          1.3004e-06 &plusmn 2.0e-10
+        </td>
+         <td> 
+          1.2999e-06 &plusmn 1.6e-10
+        </td>
+      </tr>
+      <tr>
+        <td>
+          EOM_TM2_STIFF_XX
+        </td>
+        <td> 
+          1.9e-6
+        </td>
+         <td> 
+          1.6e-10
+        </td>
+         <td> 
+          1.9002e-06 &plusmn 2.0e-10
+        </td>
+         <td> 
+          1.8999e-06 &plusmn 1.5e-10
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_2_topic_5_6_2_2.html"><img src="b_prev.gif" border="0" align="bottom" alt="Linear Parameter Estimation"></a>&nbsp;</td>
+        <td align="left">Linear Parameter Estimation</td>
+        <td>&nbsp;</td>
+        <td align="right">Use parameter estimates to estimate residual differential acceleration</td>
+        <td align="right" width="20"><a href="ltpda_training_2_topic_5_8.html"><img src="b_next.gif" border="0" align="bottom" alt="Use parameter estimates to estimate residual differential acceleration"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

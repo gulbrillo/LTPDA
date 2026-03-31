@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Analysis Objects (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="objects_working.html"><img src="b_prev.gif" border="0" align="bottom" alt="Working with LTPDA objects"></a>&nbsp;&nbsp;&nbsp;<a href="ao_create.html"><img src="b_next.gif" border="0" align="bottom" alt="Creating Analysis Objects"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Analysis Objects</h1>
+    <hr>
+    
+    <p>
+      
+  <p>Based on the requirement that all results produced by the LTP Data Analysis software must be
+	easily reproducible as well as fully traceable, the idea of implementing analysis objects (AO) as
+	they are described in S2-AEI-TN-3037 arose.</p>
+
+  <p>An analysis object contains all information necessary to be able to reproduce a given result. For 
+	example
+	<ul>
+ 		<li>which raw data was involved (date, channel, time segment, time of retrieval if data can be 
+	        changed later by new downlinks)</li>
+  	    <li>all operations performed on the data</li>
+		<li>the above for all channels of a multi-channel plot</li>
+	</ul>		
+  </p>
+  <p>The AO will therefore hold
+	<ul>
+ 		<li>the numerical data belonging to the result</li>
+		<li>the full processing history needed to reproduce the numerical result</li>
+	</ul>
+  </p>
+
+  <p>The majority of algorithms in the LTPDA Toolbox will operate on AOs only (these are always	methods 
+  of the AO class) but there are also utility functions which do not take AOs as inputs, as well as methods
+  of other classes. Functions in the toolbox are designed to be as simple and elementary as 
+	possible. </p>
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="objects_working.html"><img src="b_prev.gif" border="0" align="bottom" alt="Working with LTPDA objects"></a>&nbsp;</td>
+        <td align="left">Working with LTPDA objects</td>
+        <td>&nbsp;</td>
+        <td align="right">Creating Analysis Objects</td>
+        <td align="right" width="20"><a href="ao_create.html"><img src="b_next.gif" border="0" align="bottom" alt="Creating Analysis Objects"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

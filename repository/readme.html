@@ -1,0 +1,190 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
+<title>Help</title>
+<!-- CVS ID: $Id: readme.html,v 1.20 2012/02/10 09:47:29 gerrit Exp $ -->
+</head>
+<body>
+<h1>LTPDA Repository README and Installation Guide</h1>
+
+<ol>
+	<li><a href="#quick_install">Quick installation guide</a></li>
+	<li><a href="#requirements">Software requirements</a></li>
+	<li><a href="#requirement_details">Requirement details</a></li>
+	<li><a href="#clean_installation">Clean installation</a></li>
+	<li><a href="#upgrading">Upgrading from an older repository</a></li>
+	<li><a href="#ltpda_robot">Configuring data plotting</a></li>
+	<li><a href="#information">Additional information</a></li>
+</ol>
+
+<p>While this document should cover most of the possible installation issues it is probably not perfect. Feel free to
+<a href="mailto:gerrit@visscher.de">contact me</a>.</p>
+
+<a name="quick_install" />
+<h2>Quick installation guide</h2>
+<ol>
+<li>Ensure you have these packages installed (or equivalent): apache2, php, mysql, ruby, ruby-mysql, gnuplot</li>
+<li>To support large objects, set <tt>max_allowed_packet = 256M</tt> in my.cnf and <tt>memory_limit = 256M</tt> in php.ini</li>
+<li>Copy all files into the webserver directory and change the rights to fit the server (+write access)</li>
+<li>Run install.php from the browser</li>
+</ol>
+
+<a name="requirements" />
+<h2>1.0 Software requirements</h2>
+<table border="1">
+<tr><th>Software</th>  <th>tested versions</th>              <th>should work on</th></tr>
+<tr><td>Apache</td>    <td align="right">2.2.6, 2.2.8</td>          <td align="right">&gt;2.0</td></tr>
+<tr><td>MySQL</td>     <td align="right">5.0, 5.0.45</td>            <td align="right">&gt;4.0</td></tr>
+<tr><td>PHP</td>       <td align="right">5.2.4, 5.2.6</td>          <td align="right">&gt;4.0</td></tr>
+<tr><td>Sendmail</td>  <td align="right">8.14.1</td>              <td align="right"></td></tr>
+<tr><td>Ruby*</td>     <td align="right">1.8.6, 1.8.7</td>              <td align="right">&gt;1.8.6</td></tr>
+<tr><td>Gnuplot*</td>  <td align="right">4.0.0, 4.4.2</td>          <td align="right">&gt;4.0.0</td></tr>
+</table>
+* needed for on-line <a href="#ltpdareporobot">plot generation and the database upgrade script</a>
+<br />
+<br />
+You can use postfix or qmail instead, they provide a sendmail wrapper. For more information see <a href="http://de2.php.net/manual/en/ref.mail.php">http://de2.php.net/manual/en/ref.mail.php</a>.
+
+<h3>Browsers</h3>
+<table border="1">
+<tr><th>Software</th>  <th>tested versions</th></tr>
+<tr><td>Firefox</td>   <td align="right">8.0, 9.0.1</td></tr>
+<tr><td>Konqueror</td> <td align="right">3.5.8</td></tr>
+<tr><td>Opera</td>     <td align="right">9.5</td></tr>
+<tr><td>Safari</td>    <td align="right">5.1</td></tr>
+<tr><td>Chrome</td>    <td align="right">16</td></tr>
+<tr><td>Chromium</td>  <td align="right">15</td></tr>
+</table>
+
+<a name="requirement_details" />
+<h2>Requirement details</h2>
+<p>The robot needs ruby  &gt;1.8.6 and the mysql module for ruby. This can be installed in two ways:</p>
+<ol>
+	<li>via package manager: Most linux distributions bring a package like "ruby-mysql" (Fedora) or "libmysql-ruby" (Debian/Ubuntu)</li>
+	<li>or via gem: Make sure, the "rubygems" package is installed. On a binary distribution, the mysql header files need to be installed.
+		They are usually in a package called "libmysqlclient-dev" (Debian/Ubuntu) or "mysql-devel" (Fedora)
+		 The mysql gem can be installed via <tt>gem install mysql</tt>.</li>
+</ol>
+<!-- Redhat
+yum install php-mysql
+yum install ruby
+
+
+ //-->
+<p>More general installation instructions can be found on the <a href="http://www.ruby-lang.org/en/downloads/">ruby download page</a>.</p>
+
+<p>If you installed the mysql support via package manager and a first run of the script complains about missing "rubygems" you can either comment out that line or quickly install the rubygems package.</p>
+
+<h5>Mac OS X 10.7 (Lion) with Homebrew</h5>
+If you installed MySQL via <a href="http://mxcl.github.com/homebrew/">Homebrew</a>, you can just run "sudo gem install mysql". The header files should be found automatically.
+
+<h5>Mac OSX 10.6/10.7 mith manually installed MySQL-Server</h5>
+If you installed MySQL via a package directly vom mysql.com, you need to supply the mysql config to the gem installer.<br />
+<code>sudo env ARCHFLAGS="-arch x86_64" gem install mysql -- --with-mysql-config=/usr/local/mysql/bin/mysql_config</code>
+
+<a name="clean_installation" />
+<h2>Clean Installation</h2>
+<p>
+	First check that the server machine on which you want to run an LTPDA Repository has a working apache server with properly configured PHP support complete with the PHP MySQL modules. Also check that a MySQL server is running and that you have the root access for the machine and the MySQL server.
+</p>
+<h3>Configure MySQL Server</h3>
+<p>
+	The MySQL server should be configured (in <tt>my.cnf</tt>) to have:</p>
+	<ul>
+		<li><tt>max_allowed_packet = 256M</tt></li>
+	</ul> 
+	<p>Then restart the MySQL server by doing, for example,
+	<tt>/etc/init.d/mysqld restart</tt> 
+</p>
+<h3>Configuring Apache</h3>
+<p>
+	The apache server needs to be configured (in <tt>php.ini</tt>) to have: <tt>memory_limit = 256M</tt>. You need to restart the apache server after this change.
+</p>
+<h3>Installing the PHP code</h3>
+<p>
+	Installing an LTPDA Repository from scratch, then requires the following steps (may be slightly different on different Linux distributions):</p>
+	<ol>
+		<li>Unzip the repository source files</li>
+		<li>Copy all files/folders contained within the unzipped folder to the apache html folder. For example:<br />
+			<tt># cp -r * /var/www/html/ltpdarepo</tt></li>
+		<li>Check that the apache server is running</li>
+		<li>Change the owner of the repository files:<br /> 
+			<tt># cd /var/www/html</tt><br />
+			<tt># chown -R apache:apache ltpdarepo</tt><br />
+			</li>
+		<li>Change permissions of the config file.<br />
+			<tt># cd ltpdarepo</tt><br />
+			<tt># chmod a+w config.inc.php</tt><br />
+			</li>
+		<li>Confirm the MySQL server is running.</li>
+		<li>Start the install procedure by opening a web-browser (either on the server, or another client machine) and enter the URL <tt>http://my.servermachine.com/ltpdarepo/install.php</tt></li>
+		<li>Follow the on-screen instructions</li>
+		<li>After all that, delete the file <tt>install.php</tt> and change the permissions of <tt>config.inc.php</tt> back to <tt># chmod 640 config.inc.php</tt></li>
+	</ol>	
+
+
+<a name="upgrading" />
+<h2>Upgrading</h2>
+<ol>
+<li>Make sure you have a recent backup of both the php files and all databases</li>
+<li>Copy all the files from the .zip file into your ltpdarepo directory, overwrite existing files (e.g. /var/www/ltpdarepo)</li>
+<li>Change the owner of the files to the webserver (e.g. <tt>chown -R www-data:www-data /var/www/ltpdarepo</tt>)</li>
+<li>Log in as an adminstrator to update the administrational database</li>
+<li>Follow the instructions shown at the bottom of the index page</li>
+</ol>
+
+<p>
+<b>NOTE:</b> After updating the web-interface, you will be prompted to upgrade your repository databases to the new database layout using
+the included ruby script. During that process, you should take the server off-line to avoid
+any conflicts during the upgrade process (which can take several hours).
+</p>
+
+<a name="ltpda_robot" />
+<h3>Installing the LTPDA Repository Robot</h3>
+<p>
+	The LTPDA Repository includes an additional program which is intended to be used for two purposes:</p>
+	<ol>
+		<li>To generate plots of data in the repository on demand (when the use clicks on a object in the
+	web interface)</li>
+	<li>To generate dumps of the XML data to a specified directory. This is intended to be run via
+	crontab.</li>
+	</ol>
+
+
+<h4>Setting up the on-demand plot generation</h4>
+<p>On most systems, the default configuration does not need to be changed.</p>
+	<ol>
+	<li>On the web-interface, go to "general options"</li>
+	<li>Check/set the paths in the section "Repository Robot", for
+	example:<br /><br />
+	<table border="1" cellspacing="0">
+		<tr><td><b>Internal path to plot and meta files:</b></td><td><tt>/var/www/html/ltpdarepo/plots</tt></td></tr>
+		<tr><td><b>External path to plot files:</b></td><td><tt>http://my.servermachine.com/ltpdarepo/plots</tt></td></tr>
+		<tr><td><b>Path to ltpda repo robot:</b></td><td><tt>/var/www/html/ltpdarepo/ltpda_robot.rb</tt></td></tr>
+	</table>
+	(remember to click <tt>save</tt> if you make any changes)</li>
+	</ol>
+
+<h4>Setting up the XML dump as a cron job</h4>
+<p>
+	If you want to dump the xml data into a folder on your server, run<br />
+	<tt>ruby ltpda_robot.rb --export-xml --xml-path /path/to/xml/folder --noplot</tt><br />
+	which will automatically dump all xml data from all databases into that folder. 
+</p>
+<p>
+	You can set up a cron job to generate xml dumps and plots of the data every night. Add this line to <tt>/etc/crontab</tt>:<br />
+	<tt>* 2 * * *   www-data    cd /var/www/ltpdarepo; ruby ltpda_robot.rb --export-xml --xml-path /path/to/xml/folder</tt>
+	Modify the values to fit your system.
+</p>
+
+<a name="information" />
+<h2>Additional information</h2>
+<h3>Internal names</h3>
+<p>Tables and columns for the data sets must not contain any other characters than alphanumeric, underscore (_) or a dash (-)</p>
+<h3>Custom querys</h3>
+<p>When executing a custom query, the script reconnects to the database with the login data of the user. This prevents that the user can access or even modify more data than he is allowed to. As the passwords are encrypted, the user has to supply his password everytime he wants to execute a query.</p>
+</body>
+</html>

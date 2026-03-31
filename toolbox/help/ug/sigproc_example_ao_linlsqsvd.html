@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Linear least squares with singular value deconposition - single experiment (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="sigproc_linear_param_estimation_svd.html"><img src="b_prev.gif" border="0" align="bottom" alt="Linear Parameter Estimation with Singular Value Decomposition"></a>&nbsp;&nbsp;&nbsp;<a href="sigproc_example_matrix_linlsqsvd.html"><img src="b_next.gif" border="0" align="bottom" alt="Linear least squares with singular value deconposition - multiple experiments"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Linear least squares with singular value deconposition - single experiment</h1>
+    <hr>
+    
+    <p>
+      
+
+
+<p>Determine the coefficients of a linear combination of noises and comapre with lscov</p>
+<h2>Contents</h2>
+<div>
+  <ul>
+    <li><a href="#1">Make data</a></li>
+    <li><a href="#2">Do fit and check results</a></li>
+  </ul>
+</div>
+
+<h2>Make data<a name="1"></a></h2>
+
+<div class="fragment"><pre>
+  
+  fs    = 10;
+  nsecs = 10;
+
+  <span class="comment">% Elements of the fit basis</span>
+  B1 = ao(plist(<span class="string">'tsfcn'</span>, <span class="string">'randn(size(t))'</span>, <span class="string">'fs'</span>, fs, <span class="string">'nsecs'</span>, nsecs, <span class="string">'yunits'</span>, <span class="string">'T'</span>));
+  B1.setName;
+  B2 = ao(plist(<span class="string">'tsfcn'</span>, <span class="string">'randn(size(t))'</span>, <span class="string">'fs'</span>, fs, <span class="string">'nsecs'</span>, nsecs, <span class="string">'yunits'</span>, <span class="string">'T'</span>));
+  B2.setName;
+  B3 = ao(plist(<span class="string">'tsfcn'</span>, <span class="string">'randn(size(t))'</span>, <span class="string">'fs'</span>, fs, <span class="string">'nsecs'</span>, nsecs, <span class="string">'yunits'</span>, <span class="string">'T'</span>));
+  B3.setName;
+
+  <span class="comment">% random additive noise</span>
+  n  = ao(plist(<span class="string">'tsfcn'</span>, <span class="string">'randn(size(t))'</span>, <span class="string">'fs'</span>, fs, <span class="string">'nsecs'</span>, nsecs, <span class="string">'yunits'</span>, <span class="string">'m'</span>));
+
+  <span class="comment">% coefficients of the linear combination</span>
+  c1 = ao(1,plist(<span class="string">'yunits'</span>,<span class="string">'m/T'</span>));
+  c1.setName;
+
+  c2 = ao(2,plist(<span class="string">'yunits'</span>,<span class="string">'m/T'</span>));
+  c2.setName;
+
+  c3 = ao(3,plist(<span class="string">'yunits'</span>,<span class="string">'m T^-1'</span>));
+  c3.setName;
+
+  <span class="comment">% build output of linear system</span>
+  y = c1*B1 + c2*B2 + c3*B3 + n;
+  y.simplifyYunits;
+
+</pre></div>
+
+
+<h2>Do fit and check results<a name="2"></a></h2>
+
+<div class="fragment"><pre>
+  
+  <span class="comment">% Get a fit with linlsqsvd</span>
+  pobj1 = linlsqsvd(B1, B2, B3, y)
+
+</pre></div>
+
+<div class="fragment"><pre>
+
+  ---- pest 1 ----
+         name: a1*B1+a2*B2+a3*B3
+  param names: {'a1', 'a2', 'a3'}
+            y: [0.81162366736073077;1.8907151217948008;3.0098623857384701]
+           dy: [0.091943725803872112;0.089863977231447567;0.097910574305897308]
+       yunits: [m T^(-1)][m T^(-1)][m T^(-1)]
+          pdf: []
+          cov: [3x3], ([0.00845364871469762 0.000268768332741779 0.000180072770333592;0.000268768332741779 0.00807553440385413 0.00125972375325089;0.000180072770333592 0.00125972375325089 0.00958648056091064])
+         corr: [3x3], ([1 0.0325289738130578 0.020003055941376;0.0325289738130578 1 0.143172656986983;0.020003055941376 0.143172656986983 1])
+        chain: []
+         chi2: 0.87276552675043451
+          dof: 97
+       models: B1/tsdata Ndata=[100x1], fs=10, nsecs=10, t0=1970-01-01 00:00:00.000 UTC, B2/tsdata Ndata=[100x1], fs=10, nsecs=10, t0=1970-01-01 00:00:00.000 UTC, B3/tsdata Ndata=[100x1], fs=10, nsecs=10, t0=1970-01-01 00:00:00.000 UTC
+  description: 
+         UUID: b8628843-a1e8-4815-b69b-90efdadc16c2
+  ----------------
+
+</pre></div>
+
+<div class="fragment"><pre>
+
+  <span class="comment">% do linear combination: using eval</span>
+  yfit = pobj1.eval(B1, B2, B3);
+
+  <span class="comment">% Plot - compare data with fit result</span>
+  iplot(y, yfit)
+
+</pre></div>
+
+<p>
+  <div align="center">
+    <IMG src="images/example_ao_linlsqsvd_01.png" align="center" border="0">
+  </div>
+</p>
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="sigproc_linear_param_estimation_svd.html"><img src="b_prev.gif" border="0" align="bottom" alt="Linear Parameter Estimation with Singular Value Decomposition"></a>&nbsp;</td>
+        <td align="left">Linear Parameter Estimation with Singular Value Decomposition</td>
+        <td>&nbsp;</td>
+        <td align="right">Linear least squares with singular value deconposition - multiple experiments</td>
+        <td align="right" width="20"><a href="sigproc_example_matrix_linlsqsvd.html"><img src="b_next.gif" border="0" align="bottom" alt="Linear least squares with singular value deconposition - multiple experiments"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

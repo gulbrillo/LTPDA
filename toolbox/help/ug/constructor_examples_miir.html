@@ -1,0 +1,605 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Constructor examples of the MIIR class (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="constructor_examples_mfir.html"><img src="b_prev.gif" border="0" align="bottom" alt="Constructor examples of the MFIR class"></a>&nbsp;&nbsp;&nbsp;<a href="constructor_examples_pzmodel.html"><img src="b_next.gif" border="0" align="bottom" alt="Constructor examples of the PZMODEL class"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Constructor examples of the MIIR class</h1>
+    <hr>
+    
+    <p>
+      <!-- $Id$ -->
+
+<!-- -------------------------------------------------- -->
+<!-- --------------- BEGIN CONTENT FILE --------------- -->
+<!-- -------------------------------------------------- -->
+
+<!-- --------------- Link box: begin --------------- -->
+<table border="0" summary="Simple list" class="simplelist_nottable_last">
+  <tr>
+    <td>
+      <a href="constructor_examples_miir.html#empty">Copy a MIIR object</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="constructor_examples_miir.html#xml_file">Construct a MIIR object by loading the object from a file</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="constructor_examples_miir.html#parfrac">Construct a MIIR object from a parfrac object <tt>(PARFRAC)</tt></a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="constructor_examples_miir.html#pzmodel">Construct a MIIR object from a pole/zero model <tt>(PZMODEL)</tt></a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="constructor_examples_miir.html#std_type">Construct a MIIR object from a standard type</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="constructor_examples_miir.html#exist_model">Construct a MIIR object from an existing model</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="constructor_examples_miir.html#equation">Construct a MIIR object from a difference equation</a>
+    </td>
+  </tr>
+</table>
+<!-- --------------- Link box: end --------------- -->
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a name="copy"></a>Copy an IIR filter object</h2>
+<p>The following example creates a copy of an IIR filter object (blue command).</p>
+<div class="fragment"><pre class="programlisting">
+>> iir1 = miir(plist(<span class="string">'type'</span>, <span class="string">'lowpass'</span>));
+<span class="blue">>> iir2 = miir(iir2)</span>
+------ miir/1 -------
+      b: [1 -0.509525449494429]
+ histin: 0
+version: $Id: miir.m,v 1.98 2009/02/20 15:59:48 nicola Exp
+  ntaps: 2
+     fs: 1
+ infile:
+      a: [0.245237275252786 0.245237275252786]
+histout: 0
+ iunits: [] [1x1 unit]
+ ounits: [] [1x1 unit]
+   hist: miir.hist  [1x1 history]
+   name: lowpass
+---------------------
+</pre></div>
+<br></br>
+<p>REMARK: The following command copies only the handle of an object and doesn't create a copy of the object (as above). This means that everything that happens to the copy or original happens to the other object.</p>
+<div class="fragment"><pre class="programlisting">
+>> iir1 = miir()
+------ miir/1 -------
+      b: []
+ histin: []
+version: $Id: miir.m,v 1.98 2009/02/20 15:59:48 nicola Exp
+  ntaps: 0
+     fs: []
+ infile:
+      a: []
+histout: []
+ iunits: [] [1x1 unit]
+ ounits: [] [1x1 unit]
+   hist: miir.hist  [1x1 history]
+   name: none
+---------------------
+>> iir2 = iir1;
+>> iir2.setName(<span class="string">'my new name'</span>)
+------ miir/1 -------
+      b: []
+ histin: []
+version: $Id: miir.m,v 1.98 2009/02/20 15:59:48 nicola Exp
+  ntaps: 0
+     fs: []
+ infile:
+      a: []
+histout: []
+ iunits: [] [1x1 unit]
+ ounits: [] [1x1 unit]
+   hist: miir.hist  [1x1 history]
+   name: <span class="string">my new name</span>
+---------------------
+</pre></div>
+<br></br>
+<p>If we display iir1 again then we see that the property 'name' was changed although we only have changed iir2.</p>
+<div class="fragment"><pre class="programlisting">
+>> iir1
+------ miir/1 -------
+      b: []
+ histin: []
+version: $Id: miir.m,v 1.98 2009/02/20 15:59:48 nicola Exp
+  ntaps: 0
+     fs: []
+ infile:
+      a: []
+histout: []
+ iunits: [] [1x1 unit]
+ ounits: [] [1x1 unit]
+   hist: miir.hist  [1x1 history]
+   name: <span class="string">my new name</span>
+---------------------
+</pre></div>
+
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a name="xml_file"></a>Construct a MIIR object by loading the object from a file</h2>
+<p>The following example creates a new miir object by loading the miir object from disk.</p>
+<div class="fragment"><pre class="programlisting">
+f = miir(<span class="string">'f.mat'</span>)
+f = miir(<span class="string">'f.xml'</span>)
+</pre></div>
+<p>or in a <tt>PLIST</tt></p>
+<div class="fragment"><pre class="programlisting">
+pl  = plist(<span class="string">'filename'</span>, <span class="string">'iir.xml'</span>);
+iir = miir(pl)
+</pre></div>
+
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a name="parfrac"></a>Construct a MIIR object from a parfrac object</h2>
+<p> An IIR filter object can be generated based on a parfrac object. The next example shows how you can convert a parfrac object into a iir filter object.</p>
+<div class="fragment"><pre class="programlisting">
+pf  = parfrac([1 2+1i 2-1i], [6 1+3i 1-3i], 3);
+iir = miir(pf)
+</pre></div>
+<p>or in a PLIST with the relevant parameters:</p>
+<p>
+  <table cellspacing="0" border="0" cellpadding="2" class="simplelist_nottable_last" width="80%">
+    <colgroup>
+      <col width="25%"/>
+      <col width="75%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="subcategorylist">Key</th>
+        <th class="subcategorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td>
+          <p>'parfrac'</p>
+        </td>
+        <td>
+          <p>a parfrac object to construct the filters from [default: empty parfrac]</p>
+        </td>
+      </tr>
+      <tr valign="top">
+        <td>
+          <p>'fs'</p>
+        </td>
+        <td>
+          <p>sample rate for the filter(s) [default: 8 * upper frequency of the parfrac object]</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+<p>The following example creates a IIR filter object from an parfrac object.</p>
+<div class="fragment"><pre class="programlisting">
+pf  = parfrac([1 2+1i 2-1i], [6 1+3i 1-3i], 3);
+pl  = plist(<span class="string">'parfrac'</span>, pf, <span class="string">'fs'</span>, 100);
+</pre></div>
+
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+
+<hr>
+<h2 class="title"><a name="pzmodel"></a>Construct an IIR filter object from a pole/zero model</h2>
+<p>The following example creates a new IIR filter object from a pole/zero model.</p>
+<div class="fragment"><pre class="programlisting">
+>> pzm = pzmodel(1, {1 2 3}, {4 5}, <span class="string">'my pzmodel'</span>)
+---- pzmodel 1 ----
+    name: my pzmodel
+    gain: 1
+   delay: 0
+  iunits: []
+  ounits: []
+pole 001: (f=1 Hz,Q=NaN)
+pole 002: (f=2 Hz,Q=NaN)
+pole 003: (f=3 Hz,Q=NaN)
+zero 001: (f=4 Hz,Q=NaN)
+zero 002: (f=5 Hz,Q=NaN)
+-------------------
+>> iir = miir(pzm) <span class="comment">% Use the default sample rate fs=8 * frequency of the highest pole or zero in the model</span>
+>> iir = miir(pzm, plist(<span class="string">'fs'</span>, 100))
+------ miir/1 -------
+      b: [1 -0.6485 -1.9619 1.3364 0.9644 -0.6854]
+ histin: [0 0 0 0 0]
+version: $Id: miir.m,v 1.98 2009/02/20 15:59:48 nicola Exp
+  ntaps: 6
+     fs: 100
+ infile:
+      a: [0.0102 0.0152 -0.0097 -0.0186 0.0019 0.0057]
+histout: [0 0 0 0 0]
+ iunits: [] [1x1 unit]
+ ounits: [] [1x1 unit]
+   hist: miir.hist  [1x1 history]
+   name: my pzmodel
+---------------------
+</pre></div>
+<p>or in a PLIST with the relevant parameters:</p>
+<p>
+  <table cellspacing="0" border="0" cellpadding="2" class="simplelist_nottable_last" width="80%">
+    <colgroup>
+      <col width="25%"/>
+      <col width="75%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="subcategorylist">Key</th>
+        <th class="subcategorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td>
+          <p>'pzmodel'</p>
+        </td>
+        <td>
+          <p>A pzmodel object to construct the filter from [default: empty pzmodel]</p>
+        </td>
+      </tr>
+      <tr valign="top">
+        <td>
+          <p>'fs'</p>
+        </td>
+        <td>
+          <p>Sample rate [default: 8 * frequency of the highest pole or zero in the model]</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+<div class="fragment"><pre class="programlisting">
+>> pzm = pzmodel(1, {1 2 3}, {4 5}, <span class="string">'my pzmodel'</span>)
+>> pl  = plist(<span class="string">'pzmodel'</span>, pzm, <span class="string">'fs'</span>, 100)
+>> iir = miir(pl)
+</pre></div>
+
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+
+<hr></hr>
+<h2 class="title"><a name="std_type"></a>Construct a MIIR object from a standard type</h2>
+<p>Construct an IIR filter object from a standard type: 'lowpass', 'highpass', 'bandpass' or 'bandreject'</p>
+<p>The relevant parameters are:</p>
+<p>
+  <table cellspacing="0" border="0" cellpadding="2" class="simplelist_nottable_last" width="80%">
+    <colgroup>
+      <col width="25%"/>
+      <col width="75%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="subcategorylist">Key</th>
+        <th class="subcategorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td>
+          <p>'type'</p>
+        </td>
+        <td>
+          <p>one of the types: 'highpass', 'lowpass', 'bandpass', 'bandreject'<br></br>
+            [default 'lowpass']</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+<p>You can also specify optional parameters:</p>
+<p>
+  <table cellspacing="0" border="0" cellpadding="2" class="simplelist_nottable_last" width="80%">
+    <colgroup>
+      <col width="25%"/>
+      <col width="75%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="subcategorylist">Key</th>
+        <th class="subcategorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td>
+          <p>'gain'</p>
+        </td>
+        <td>
+          <p>The gain of the filter [default: 1]</p>
+        </td>
+      </tr>
+      <tr valign="top">
+        <td>
+          <p>'fc'</p>
+        </td>
+        <td>
+          <p>The roll-off frequency [default: 0.1 Hz]</p>
+        </td>
+      </tr>
+      <tr valign="top">
+        <td>
+          <p>'fs'</p>
+        </td>
+        <td>
+          <p>The sampling frequency to design for [default: 1 Hz]</p>
+        </td>
+      </tr>
+      <tr valign="top">
+        <td>
+          <p>'order'</p>
+        </td>
+        <td>
+          <p>The filter order [default: 64]</p>
+        </td>
+      </tr>
+      <tr valign="top">
+        <td>
+          <p>'win'</p>
+        </td>
+        <td>
+          <p>Specify window function used in filter design [default: 'Hamming']</p>
+        </td>
+      </tr>
+      <tr valign="top">
+        <td>
+          <p>'iunits'</p>
+        </td>
+        <td>
+          <p>the input unit of the filter</p>
+        </td>
+      </tr>
+      <tr valign="top">
+        <td>
+          <p>'ounits'</p>
+        </td>
+        <td>
+          <p>the output unit of the filter</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+<p>The following example creates an order 64 highpass filter with high frequency gain 2. Filter is designed for 1 Hz sampled data and has a cut-off frequency of 0.2 Hz.</p>
+<div class="fragment"><pre class="programlisting">
+pl = plist(<span class="string">'type'</span>, <span class="string">'highpass'</span>,   ...
+                   <span class="string">'order'</span>, 64,  ...
+                   <span class="string">'gain'</span>,  2.0, ...
+                   <span class="string">'fs'</span>,    1,   ...
+                   <span class="string">'fc'</span>,    0.2);
+f = miir(pl)
+</pre></div>
+<p>Furthermore it is possible to specify a spectral window.</p>
+<div class="fragment"><pre class="programlisting">
+win = specwin(<span class="string">'Kaiser'</span>, 11, 150);
+pl = plist(<span class="string">'type'</span>, <span class="string">'lowpass'</span>, ...
+           <span class="string">'Win'</span>,   win,      ...
+           <span class="string">'fs'</span>,    100,      ...
+           <span class="string">'fc'</span>,    20,       ...
+           <span class="string">'order'</span>, 10);
+f = miir(pl)
+</pre></div>
+
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+
+<hr>
+<h2 class="title"><a name="exist_model"></a>Construct a MIIR object from an existing model</h2>
+<p>The miir constructor also accepts as an input existing models in different formats:</p>
+<p>LISO files</p>
+<div class="fragment"><pre class="programlisting">
+f = miir(<span class="string">'foo_iir.fil'</span>)
+</pre></div>
+<p>XML files</p>
+<div class="fragment"><pre class="programlisting">
+f = miir(<span class="string">'foo_iir.xml'</span>)
+</pre></div>
+<p>MAT files</p>
+<div class="fragment"><pre class="programlisting">
+f = miir(<span class="string">'foo_iir.mat'</span>)
+</pre></div>
+<p>From repository</p>
+<p>The relevant parameters for retrieving a IIR filter from a LTPDA repository are:</p>
+<p>
+  <table cellspacing="0" border="0" cellpadding="2" class="simplelist_nottable_last" width="80%">
+    <colgroup>
+      <col width="25%"/>
+      <col width="75%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="subcategorylist">Key</th>
+        <th class="subcategorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td>
+          <p>'hostname'</p>
+        </td>
+        <td>
+          <p>the repository hostname. [default: 'localhost']</p>
+        </td>
+      </tr>
+      <tr valign="top">
+        <td>
+          <p>'database'</p>
+        </td>
+        <td>
+          <p>The database name [default: 'ltpda']</p>
+        </td>
+      </tr>
+      <tr valign="top">
+        <td>
+          <p>'id'</p>
+        </td>
+        <td>
+          <p>A vector of object IDs. [default: []]</p>
+        </td>
+      </tr>
+      <tr valign="top">
+        <td>
+          <p>'cid'</p>
+        </td>
+        <td>
+          <p>Retrieve all rational objects from a particular collection</p>
+        </td>
+      </tr>
+      <tr valign="top">
+        <td>
+          <p>'binary'</p>
+        </td>
+        <td>
+          <p>Set to true to retrieve from stored binary representation (not always available). [default: true]</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+<div class="fragment"><pre class="programlisting">
+f = miir(plist(<span class="string">'hostname'</span>, <span class="string">'localhost'</span>, <span class="string">'database'</span>, <span class="string">'ltpda'</span>, <span class="string">'ID'</span>, []))
+</pre></div>
+
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a name="equation"></a>Construct a MIIR object from a difference equation</h2>
+<p>Alternatively, the filter can be defined in terms of two vectors specifying the coefficients of the filter and the sampling frequency. The following example creates a IIR filter with sampling frequency 1 Hz and the following recursive equation:</p>
+<div align="center">
+  <IMG src="images/sigproc_9.png" width="299" height="28" align="middle" border="0">
+</div>
+<div class="fragment"><pre class="programlisting">
+a  = [0.5 -0.01];
+b  = [1 0.1]
+fs = 1;
+
+f = miir(a,b,fs)
+</pre></div>
+<p>or in a <tt>PLIST</tt></p>
+<p>The relevant parameters are:</p>
+<p>
+  <table cellspacing="0" border="0" cellpadding="2" class="simplelist_nottable_last" width="80%">
+    <colgroup>
+      <col width="25%"/>
+      <col width="75%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="subcategorylist">Key</th>
+        <th class="subcategorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td>
+          <p>'a'</p>
+        </td>
+        <td>
+          <p>vector of A coefficients (see note ** below) [default: empty]</p>
+        </td>
+      </tr>
+      <tr valign="top">
+        <td>
+          <p>'b'</p>
+        </td>
+        <td>
+          <p>vector of B coefficients (see note ** below) [default: empty]</p>
+        </td>
+      </tr>
+      <tr valign="top">
+        <td>
+          <p>'fs'</p>
+        </td>
+        <td>
+          <p>sampling frequency of the filter [default: empty]</p>
+        </td>
+      </tr>
+      <tr valign="top">
+        <td>
+          <p>'name'</p>
+        </td>
+        <td>
+          <p>name of filter [default: 'None']</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+<div class="fragment"><pre class="programlisting">
+a  = [0.5 -0.01];
+b  = [1 0.1]
+fs = 1;
+name = <span class="string">'my IIR'</span>;
+pl = plist(<span class="string">'a'</span>, a, <span class="string">'fs'</span>, fs, <span class="string">'name'</span>, name);
+
+iir = miir(pl)
+</pre></div>
+<br></br>
+<div class="fragment">
+NOTES:<br></br>
+** The convention used here for naming the filter coefficients is the opposite to MATLAB's convention. The recursion formula for this convention is<br></br>
+b(1)*y(n) = a(1)*x(n) + a(2)*x(n-1) + ... + a(na+1)*x(n-na) - b(2)*y(n-1) - ... - b(nb+1)*y(n-nb)
+</div>
+
+<!-- ------------------------------------------------ -->
+<!-- --------------- END CONTENT FILE --------------- -->
+<!-- ------------------------------------------------ -->
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="constructor_examples_mfir.html"><img src="b_prev.gif" border="0" align="bottom" alt="Constructor examples of the MFIR class"></a>&nbsp;</td>
+        <td align="left">Constructor examples of the MFIR class</td>
+        <td>&nbsp;</td>
+        <td align="right">Constructor examples of the PZMODEL class</td>
+        <td align="right" width="20"><a href="constructor_examples_pzmodel.html"><img src="b_next.gif" border="0" align="bottom" alt="Constructor examples of the PZMODEL class"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

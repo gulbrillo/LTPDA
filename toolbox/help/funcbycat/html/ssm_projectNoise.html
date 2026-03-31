@@ -1,0 +1,333 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!-- $Id$ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="../../ug/docstyle.css">
+    <title>LTPDA Method: ssm/projectNoise</title>
+  </head>
+  <body>
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <p style="font-size:1px;">&nbsp;</p>
+
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../../ug/../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ssm_loglikelihood.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ssm/loglikelihood"></a>&nbsp;&nbsp;&nbsp;<a href="ssm_resp.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ssm/resp"></a></td>
+      </tr>
+    </table>
+
+    <h1 class="title">Method ssm/projectNoise</h1>
+    <hr />
+
+<pre>  <SPAN CLASS="HELPTOPIC">PROJECTNOISE</SPAN> performs actions on ao objects.
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+  DESCRIPTION: <SPAN CLASS="HELPTOPIC">PROJECTNOISE</SPAN> performs a component noise projection on SSM
+  models. The noise projection can be done either in the frequency domain
+  (faster) or the time domain (slower), but the former does not preserve
+  phase relations between multiple outputs.
+ 
+ 
+  CALL:        out = obj.subsData(pl)
+               out = <span class="helptopic">projectNoise</span>(objs, pl)
+ 
+  INPUTS:      pl      - a parameter list
+               obj(s)  - input SSM object(s)
+ 
+  OUTPUTS:     out - a collection of noise projetion outputs
+ 
+  <a href="ssm_projectNoise.html#down">Parameters Description</a>
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</pre>
+
+    <!-- =====        Striped 4x2 table: Begin        ==== -->
+    <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+    <div class="sectiontitle"></div>
+    <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+      <colgroup>
+        <col width="30%"/>
+        <col width="70%"/>
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th class="categorylist">Method Details</th>
+          <th class="categorylist"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Access</td>
+          <td bgcolor="#f3f4f5">public</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Defining Class</td>
+          <td bgcolor="#ffffff">ssm</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Sealed</td>
+          <td bgcolor="#f3f4f5">0</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Static</td>
+          <td bgcolor="#ffffff">0</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- ===== Striped 4x2 table: End ==== -->
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <h2>Parameter Description</h2>    <a name="down" id="down"></a>
+
+    <!-- Link-Table of the sets -->
+    <table border="0" cellpadding="4" cellspacing="0" class="pagenavtable">
+      <tr><th>Sets for this method &#8230;</th></tr>
+        <tr><td><a href="#1">Time</a></td></tr>
+        <tr><td><a href="#2">Frequency</a></td></tr>
+    </table>
+
+    <a name="1"></a>
+    <!-- Parameter List Table: Time -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>Time</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">projectNoise</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">METHOD</td>
+            <td bgcolor="#F2F2F2">'Time'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'Time'</font></li><li><font color="#1111FF">'Frequency'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Method to use for computing noise projection.<ul><li>Time - Time domain simulation for each individual component</li><li>Frequency - Fourier Domain noise projection</li></ul></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">INPUTS</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Input signal blocks for each component to be projected. Can be<ul><li>1D Array of ssmport objects - project each port individually</li><li>Cell array of arrays of ssmport objects - for each cell element, project all ports in array simultaneously</li><li>1D Cell array of strings - for each element, project all ports with matching name strings </li><li>2D Cell array of strings - for each row, project all ports with a name string matching any of the columns </li></ul></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">INPUT LABELS</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Cell array of strings for labeling inputs</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">OUTPUTS</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Output signal block(s). Can be<ul><li>1D array of ssmport objects<\li><li>Cell array of port names<\li><li>String for single port name<\li><\ul></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NSECS</td>
+            <td bgcolor="#F2F2F2">10000</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Number of seconds to run the simulation</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('METHOD', 'Time', 'INPUTS', cell(0,0), 'INPUT LABELS', cell(0,0), 'OUTPUTS', cell(0,0), 'NSECS', [10000])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="2"></a>
+    <!-- Parameter List Table: Frequency -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>Frequency</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">projectNoise</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">METHOD</td>
+            <td bgcolor="#F2F2F2">'Time'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'Time'</font></li><li><font color="#1111FF">'Frequency'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Method to use for computing noise projection.<ul><li>Time - Time domain simulation for each individual component</li><li>Frequency - Fourier Domain noise projection</li></ul></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">INPUTS</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Input signal blocks for each component to be projected. Can be<ul><li>1D Array of ssmport objects - project each port individually</li><li>Cell array of arrays of ssmport objects - for each cell element, project all ports in array simultaneously</li><li>1D Cell array of strings - for each element, project all ports with matching name strings </li><li>2D Cell array of strings - for each row, project all ports with a name string matching any of the columns </li></ul></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">INPUT LABELS</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Cell array of strings for labeling inputs</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">OUTPUTS</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Output signal block(s). Can be<ul><li>1D array of ssmport objects<\li><li>Cell array of port names<\li><li>String for single port name<\li><\ul></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">F_START, F1</td>
+            <td bgcolor="#F2F2F2">0.0001</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Starting frequency </td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">F_STOP, F2</td>
+            <td bgcolor="#F2F2F2">0.10000000000000001</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Stoping frequency </td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">N</td>
+            <td bgcolor="#F2F2F2">512</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Number of frequency points</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SPACING</td>
+            <td bgcolor="#F2F2F2">'log'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'log'</font></li><li><font color="#1111FF">'lin'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">frequency spacing</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">F</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Frequency vector</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('METHOD', 'Time', 'INPUTS', cell(0,0), 'INPUT LABELS', cell(0,0), 'OUTPUTS', cell(0,0), 'F_START', [0.0001], 'F_STOP', [0.10000000000000001], 'N', [512], 'SPACING', 'log', 'F', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <p><!-- Table of the minfo object -->
+      <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+        <colgroup>
+          <col width="25%"/>
+          <col width="75%"/>
+        </colgroup>
+        <thead>
+          <tr valign="top">
+            <th class="categorylist" colspan="2">Some information of the method ssm/projectNoise are listed below:</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Property: 'mclass' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Class name</td>
+            <td bgcolor="#f3f4f5">ssm</td>
+          </tr>
+          <!-- Property: 'mname' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Method name</td>
+            <td bgcolor="#ffffff">projectNoise</td>
+          </tr>
+          <!-- Property: 'mcategory' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Category</td>
+            <td bgcolor="#f3f4f5">Signal Processing</td>
+          </tr>
+          <!-- Property: 'mpackage' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Package name</td>
+            <td bgcolor="#ffffff">ltpda</td>
+          </tr>
+          <!-- Property: 'modifier' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Can be used as modifier</td>
+            <td bgcolor="#f3f4f5">1</td>
+          </tr>
+          <!-- Property: 'supportedNumTypes' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Supported numeric types</td>
+            <td bgcolor="#ffffff">{'double'}</td>
+          </tr>
+        </tbody>
+      </table>
+    </p>
+
+
+    <br>
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ssm_loglikelihood.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ssm/loglikelihood"></a>&nbsp;</td>
+        <td align="left">Method: ssm/loglikelihood</td>
+        <td>&nbsp;</td>
+        <td align="right">Method: ssm/resp</td>
+        <td align="right" width="20"><a href="ssm_resp.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ssm/resp"></a></td>
+      </tr>
+    </table>
+
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+
+   </body>
+</html>

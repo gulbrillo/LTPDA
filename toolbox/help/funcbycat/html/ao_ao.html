@@ -1,0 +1,2751 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!-- $Id$ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="../../ug/docstyle.css">
+    <title>LTPDA Method: ao/ao</title>
+  </head>
+  <body>
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <p style="font-size:1px;">&nbsp;</p>
+
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../../ug/../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ao_xor.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ao/xor"></a>&nbsp;&nbsp;&nbsp;<a href="ao_rebuild.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ao/rebuild"></a></td>
+      </tr>
+    </table>
+
+    <h1 class="title">Method ao/ao</h1>
+    <hr />
+
+<pre>  check if the caller was a user of another method</pre>
+
+    <!-- =====        Striped 4x2 table: Begin        ==== -->
+    <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+    <div class="sectiontitle"></div>
+    <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+      <colgroup>
+        <col width="30%"/>
+        <col width="70%"/>
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th class="categorylist">Method Details</th>
+          <th class="categorylist"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Access</td>
+          <td bgcolor="#f3f4f5">public</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Defining Class</td>
+          <td bgcolor="#ffffff">ao</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Sealed</td>
+          <td bgcolor="#f3f4f5">0</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Static</td>
+          <td bgcolor="#ffffff">0</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- ===== Striped 4x2 table: End ==== -->
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <h2>Parameter Description</h2>    <a name="down" id="down"></a>
+
+    <!-- Link-Table of the sets -->
+    <table border="0" cellpadding="4" cellspacing="0" class="pagenavtable">
+      <tr><th>Sets for this method &#8230;</th></tr>
+        <tr><td><a href="#1">Default</a></td></tr>
+        <tr><td><a href="#2">From MAT File</a></td></tr>
+        <tr><td><a href="#3">From XML File</a></td></tr>
+        <tr><td><a href="#4">From Repository</a></td></tr>
+        <tr><td><a href="#5">From Built-in Model</a></td></tr>
+        <tr><td><a href="#6">From MAT Data File</a></td></tr>
+        <tr><td><a href="#7">From ASCII File</a></td></tr>
+        <tr><td><a href="#8">From Complex ASCII File</a></td></tr>
+        <tr><td><a href="#9">From Function</a></td></tr>
+        <tr><td><a href="#10">From Values</a></td></tr>
+        <tr><td><a href="#11">From XY Values</a></td></tr>
+        <tr><td><a href="#12">From XYZ Values</a></td></tr>
+        <tr><td><a href="#13">From Time-series Function</a></td></tr>
+        <tr><td><a href="#14">From XY Function</a></td></tr>
+        <tr><td><a href="#15">From Frequency-series Function</a></td></tr>
+        <tr><td><a href="#16">From Window</a></td></tr>
+        <tr><td><a href="#17">From Waveform</a></td></tr>
+        <tr><td><a href="#18">From Polynomial</a></td></tr>
+        <tr><td><a href="#19">From Pzmodel</a></td></tr>
+        <tr><td><a href="#20">From Smodel</a></td></tr>
+        <tr><td><a href="#21">From Pest</a></td></tr>
+        <tr><td><a href="#22">From Parameter</a></td></tr>
+    </table>
+
+    <a name="1"></a>
+    <!-- Parameter List Table: Default -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>Default</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YUNITS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on Y axis</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]], 'YUNITS', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="2"></a>
+    <!-- Parameter List Table: From MAT File -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From MAT File</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uo.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FILENAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">MAT filename.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YUNITS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on Y axis</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('FILENAME', '', 'NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]], 'YUNITS', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="3"></a>
+    <!-- Parameter List Table: From XML File -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From XML File</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uo.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FILENAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">XML filename.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YUNITS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on Y axis</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('FILENAME', '', 'NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]], 'YUNITS', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="4"></a>
+    <!-- Parameter List Table: From Repository -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From Repository</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uo.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">HOSTNAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Database server hostname.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DATABASE</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Database name.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">USERNAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">User name to use when connecting to the database. Leave blank to be prompted.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PASSWORD</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Password to use when connecting to the database. Leave blank to be prompted.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CONN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Java mysql object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ID, IDS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A vector of object IDs.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CID</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A vector of collection IDs.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">UUID, UUIDS</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell array of UUIDs.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">BINARY</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Use binary representation (not always available).</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YUNITS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on Y axis</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('HOSTNAME', '', 'DATABASE', '', 'USERNAME', '', 'PASSWORD', cell(0,0), 'CONN', [[]], 'ID', [[]], 'CID', [[]], 'UUID', cell(0,0), 'BINARY', [true], 'NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]], 'YUNITS', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="5"></a>
+    <!-- Parameter List Table: From Built-in Model -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From Built-in Model</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uo.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">BUILT-IN</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Choose one of the built-in models. (use <i>class</i>.getBuiltInModels to get a list for a particular user class)</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">VERSION</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Version of the built in model. The default version is used for the case that no 'Version' is defined.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YUNITS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on Y axis</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('BUILT-IN', '', 'VERSION', [[]], 'NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]], 'YUNITS', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="6"></a>
+    <!-- Parameter List Table: From MAT Data File -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From MAT Data File</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FILENAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">MAT data filename.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FILEPATH</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Path to the data file in case the filename is a relative path.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TYPE</td>
+            <td bgcolor="#F2F2F2">'cdata'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'tsdata'</font></li><li><font color="#1111FF">'fsdata'</font></li><li><font color="#1111FF">'xydata'</font></li><li><font color="#1111FF">'cdata'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Choose the data type.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">COLUMNS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Specify column pairs for the <tt>x-y</tt> variables, e.g. [1 2 1 4].<br>Each column pair creates an analysis object.<br>If the value 'fs' is set then each column represents only the <tt>y</tt>-axes.<br></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XUNITS</td>
+            <td bgcolor="#F2F2F2">[s]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on X axis.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">If this value is set, the x-axes is computed from the fs value.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YUNITS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on Y axis</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('FILENAME', '', 'FILEPATH', '', 'TYPE', 'cdata', 'COLUMNS', [[]], 'XUNITS', [ unit(' s ') ], 'FS', [[]], 'NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]], 'YUNITS', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="7"></a>
+    <!-- Parameter List Table: From ASCII File -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From ASCII File</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FILENAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">ASCII filename.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FILEPATH</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Path to the data file in case the filename is a relative path.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TYPE</td>
+            <td bgcolor="#F2F2F2">'cdata'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'tsdata'</font></li><li><font color="#1111FF">'fsdata'</font></li><li><font color="#1111FF">'xydata'</font></li><li><font color="#1111FF">'cdata'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Choose the data type.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">COLUMNS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Specify column pairs for the <tt>x-y</tt> variables, e.g. [1 2 1 4].<br>Each column pair creates an analysis object.<br>If the value 'fs' is set then each column represents only the <tt>y</tt>-axes.<br></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XUNITS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on X axis.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">COMMENT_CHAR</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The comment character in the file.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">MAXLINES</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Maximum number of lines which should be read.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">If this value is set, the x-axes is computed from the fs value.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DELIMITER</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Field delimiter character(s).</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">T0</td>
+            <td bgcolor="#F2F2F2">'1970-01-01 00:00:00.000 UTC'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The UTC time of the first sample.<br>For data types other than tsdata, this is ignored.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">IGNORELINES</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Ignore the first few lines. Reading numeric data starting from line IgnoreLines + 1.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">HEADERLINES</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Use the first N lines for the description. Reading numeric data starting from line HeaderLines + 1.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ROBUST</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Set this to 'true' to use (slow) data reading.<br>All values must be numbers and separated by blanks.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YUNITS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on Y axis</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('FILENAME', '', 'FILEPATH', '', 'TYPE', 'cdata', 'COLUMNS', [[]], 'XUNITS', [[]], 'COMMENT_CHAR', '', 'MAXLINES', [[]], 'FS', [[]], 'DELIMITER', '', 'T0', '1970-01-01 00:00:00.000 UTC', 'IGNORELINES', [0], 'HEADERLINES', [0], 'ROBUST', [false], 'NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]], 'YUNITS', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="8"></a>
+    <!-- Parameter List Table: From Complex ASCII File -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From Complex ASCII File</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FILENAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">ASCII filename.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FILEPATH</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Path to the data file in case the filename is a relative path.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">COMPLEX_TYPE</td>
+            <td bgcolor="#F2F2F2">'real/imag'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'real/imag'</font></li><li><font color="#1111FF">'abs/deg'</font></li><li><font color="#1111FF">'dB/deg'</font></li><li><font color="#1111FF">'abs/rad'</font></li><li><font color="#1111FF">'dB/rad'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">String defining the format of the complex data.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TYPE</td>
+            <td bgcolor="#F2F2F2">'fsdata'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'tsdata'</font></li><li><font color="#1111FF">'fsdata'</font></li><li><font color="#1111FF">'xydata'</font></li><li><font color="#1111FF">'cdata'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">String defining the data type</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">COLUMNS</td>
+            <td bgcolor="#F2F2F2">[1 2 3]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Colums to consider inside the file. <br>It must be 3 or a multiple: the first column defines the x-axis and the next <br>two columns the complex y-axis. If a multiple of 3 columns are specified, <br>the constructor will output multiple aos. (e.g. [1 2 3])</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XUNITS</td>
+            <td bgcolor="#F2F2F2">[Hz]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on X axis.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">COMMENT_CHAR</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The comment character in the file.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">T0</td>
+            <td bgcolor="#F2F2F2">'1970-01-01 00:00:00.000 UTC'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The UTC time of the first sample.<br>For data types other than tsdata, this is ignored.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YUNITS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on Y axis</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('FILENAME', '', 'FILEPATH', '', 'COMPLEX_TYPE', 'real/imag', 'TYPE', 'fsdata', 'COLUMNS', [[1 2 3]], 'XUNITS', [ unit(' Hz ') ], 'COMMENT_CHAR', '', 'T0', '1970-01-01 00:00:00.000 UTC', 'NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]], 'YUNITS', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="9"></a>
+    <!-- Parameter List Table: From Function -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From Function</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FCN</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Any valid MATLAB function. [e.g. 'randn(100,1)']</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DY</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A set of errors values for y.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RAND_STREAM</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Internal MATLAB state of the pseudorandom number generator. You can set the state with a structure which should contain all properties of the MATLAB class RandStream</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YUNITS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on Y axis</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('FCN', '', 'DY', [[]], 'RAND_STREAM', [[]], 'NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]], 'YUNITS', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="10"></a>
+    <!-- Parameter List Table: From Values -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From Values</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">VALS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A set of values.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DY</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A set of errors values for y.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">AXIS</td>
+            <td bgcolor="#F2F2F2">'y'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'x'</font></li><li><font color="#1111FF">'y'</font></li><li><font color="#1111FF">'z'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">If an AO is input in 'vals', this key specifies which axis we get the data from.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">N</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Repeat 'N' times.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YUNITS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on Y axis</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('VALS', [[]], 'DY', [[]], 'AXIS', 'y', 'N', [1], 'NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]], 'YUNITS', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="11"></a>
+    <!-- Parameter List Table: From XY Values -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From XY Values</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TYPE</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">''</font></li><li><font color="#1111FF">'tsdata'</font></li><li><font color="#1111FF">'fsdata'</font></li><li><font color="#1111FF">'xydata'</font></li><li><font color="#1111FF">'cdata'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">The data type.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Frequency: if this is set, xvals (if passed) will be ignored and the <br>resulting tsdata will contain an X vector sampled according to fs. <br>For data types other than tsdata, this is ignored.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">T0</td>
+            <td bgcolor="#F2F2F2">'1970-01-01 00:00:00.000 UTC'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The time of the first sample.<br>For data types other than tsdata, this is ignored.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TOFFSET</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The offset between the first x sample and t0.<br>For data types other than tsdata, this is ignored.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XVALS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A set of x values.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YVALS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A set of y values.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DX</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A set of errors values for x.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DY</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A set of errors values for y.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XUNITS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on X axis.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YUNITS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on Y axis</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('TYPE', '', 'FS', [[]], 'T0', '1970-01-01 00:00:00.000 UTC', 'TOFFSET', [0], 'XVALS', [[]], 'YVALS', [[]], 'DX', [[]], 'DY', [[]], 'XUNITS', [[]], 'NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]], 'YUNITS', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="12"></a>
+    <!-- Parameter List Table: From XYZ Values -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From XYZ Values</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XVALS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A set of x values.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YVALS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A set of y values.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ZVALS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A set of z values.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ZAXIS</td>
+            <td bgcolor="#F2F2F2">'z'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'x'</font></li><li><font color="#1111FF">'y'</font></li><li><font color="#1111FF">'z'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Indicate which axis/field to take the values from to populate the z data.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DX</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A set of errors values for x.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DY</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A set of errors values for y.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DZ</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A set of errors values for z.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XUNITS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on X axis.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ZUNITS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on Z axis</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YUNITS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on Y axis</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('XVALS', [[]], 'YVALS', [[]], 'ZVALS', [[]], 'ZAXIS', 'z', 'DX', [[]], 'DY', [[]], 'DZ', [[]], 'XUNITS', [[]], 'ZUNITS', [[]], 'NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]], 'YUNITS', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="13"></a>
+    <!-- Parameter List Table: From Time-series Function -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From Time-series Function</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TSFCN</td>
+            <td bgcolor="#F2F2F2">'t'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A function of time.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The sampling frequency of the signal. [for all]</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NSECS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The number of seconds of data. [for all]</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XUNITS</td>
+            <td bgcolor="#F2F2F2">[s]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on X axis.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">T0</td>
+            <td bgcolor="#F2F2F2">'1970-01-01 00:00:00.000 UTC'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The UTC time of the first sample. [for all]</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TOFFSET</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The offset between the first x sample and t0.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DY</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A set of errors values for y.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RAND_STREAM</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Internal MATLAB state of the pseudorandom number generator. You can set the state with a structure which should contain all properties of the MATLAB class RandStream</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YUNITS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on Y axis</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('TSFCN', 't', 'FS', [[]], 'NSECS', [[]], 'XUNITS', [ unit(' s ') ], 'T0', '1970-01-01 00:00:00.000 UTC', 'TOFFSET', [0], 'DY', [[]], 'RAND_STREAM', [[]], 'NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]], 'YUNITS', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="14"></a>
+    <!-- Parameter List Table: From XY Function -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From XY Function</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XYFCN</td>
+            <td bgcolor="#F2F2F2">'x'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Specify a function of x. (e.g. x.^2)</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">X</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The x values.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XUNITS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on X axis.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DX</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A set of errors values for x.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DY</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A set of errors values for y.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RAND_STREAM</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Internal MATLAB state of the pseudorandom number generator. You can set the state with a structure which should contain all properties of the MATLAB class RandStream</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YUNITS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on Y axis</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('XYFCN', 'x', 'X', [[]], 'XUNITS', [[]], 'DX', [[]], 'DY', [[]], 'RAND_STREAM', [[]], 'NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]], 'YUNITS', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="15"></a>
+    <!-- Parameter List Table: From Frequency-series Function -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From Frequency-series Function</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FSFCN</td>
+            <td bgcolor="#F2F2F2">'f'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A function of frequency.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">F1</td>
+            <td bgcolor="#F2F2F2">1.0000000000000001e-09</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The initial frequency.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">F2</td>
+            <td bgcolor="#F2F2F2">10000</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The final frequency.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NF</td>
+            <td bgcolor="#F2F2F2">1000</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The number of frequency samples.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SCALE</td>
+            <td bgcolor="#F2F2F2">'log'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'lin'</font></li><li><font color="#1111FF">'log'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Choose the frequency spacing.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">F</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">a vector of frequencies on which to evaluate the function.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DY</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A set of errors values for y.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XUNITS</td>
+            <td bgcolor="#F2F2F2">[Hz]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on X axis.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RAND_STREAM</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Internal MATLAB state of the pseudorandom number generator. You can set the state with a structure which should contain all properties of the MATLAB class RandStream</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YUNITS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on Y axis</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('FSFCN', 'f', 'F1', [1.0000000000000001e-09], 'F2', [10000], 'NF', [1000], 'SCALE', 'log', 'F', [[]], 'DY', [[]], 'XUNITS', [ unit(' Hz ') ], 'RAND_STREAM', [[]], 'NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]], 'YUNITS', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="16"></a>
+    <!-- Parameter List Table: From Window -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From Window</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">WIN</td>
+            <td bgcolor="#F2F2F2">'Hanning'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'Rectangular'</font></li><li><font color="#1111FF">'Welch'</font></li><li><font color="#1111FF">'Bartlett'</font></li><li><font color="#1111FF">'Hanning'</font></li><li><font color="#1111FF">'Hamming'</font></li><li><font color="#1111FF">'Nuttall3'</font></li><li><font color="#1111FF">'Nuttall4'</font></li><li><font color="#1111FF">'Nuttall3a'</font></li><li><font color="#1111FF">'Nuttall3b'</font></li><li><font color="#1111FF">'Nuttall4a'</font></li><li><font color="#1111FF">'Nuttall4b'</font></li><li><font color="#1111FF">'Nuttall4c'</font></li><li><font color="#1111FF">'BH92'</font></li><li><font color="#1111FF">'SFT3F'</font></li><li><font color="#1111FF">'SFT3M'</font></li><li><font color="#1111FF">'FTNI'</font></li><li><font color="#1111FF">'SFT4F'</font></li><li><font color="#1111FF">'SFT5F'</font></li><li><font color="#1111FF">'SFT4M'</font></li><li><font color="#1111FF">'FTHP'</font></li><li><font color="#1111FF">'HFT70'</font></li><li><font color="#1111FF">'FTSRS'</font></li><li><font color="#1111FF">'SFT5M'</font></li><li><font color="#1111FF">'HFT90D'</font></li><li><font color="#1111FF">'HFT95'</font></li><li><font color="#1111FF">'HFT116D'</font></li><li><font color="#1111FF">'HFT144D'</font></li><li><font color="#1111FF">'HFT169D'</font></li><li><font color="#1111FF">'HFT196D'</font></li><li><font color="#1111FF">'HFT223D'</font></li><li><font color="#1111FF">'HFT248D'</font></li><li><font color="#1111FF">'Kaiser'</font></li><li><font color="#1111FF">'levelledHanning'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">A Spectral window name.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LENGTH</td>
+            <td bgcolor="#F2F2F2">100</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The length of the window (number of samples).</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PSLL</td>
+            <td bgcolor="#F2F2F2">150</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">If you choose a 'kaiser' window, you can also specify the peak-sidelobe-level.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LEVELORDER</td>
+            <td bgcolor="#F2F2F2">2</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">If you choose a 'levelledHanning' window, you can also specify the order of the contraction.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YUNITS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on Y axis</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('WIN', 'Hanning', 'LENGTH', [100], 'PSLL', [150], 'LEVELORDER', [2], 'NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]], 'YUNITS', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="17"></a>
+    <!-- Parameter List Table: From Waveform -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From Waveform</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">WAVEFORM</td>
+            <td bgcolor="#F2F2F2">'sine wave'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'sine wave'</font></li><li><font color="#1111FF">'noise'</font></li><li><font color="#1111FF">'chirp'</font></li><li><font color="#1111FF">'gaussian pulse'</font></li><li><font color="#1111FF">'square wave'</font></li><li><font color="#1111FF">'sawtooth'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">A waveform description.<br>A special case is the '<b>sine wave</b>' because you can create more sinewaves which are summed. For this case you can add several values for 'A', 'f', 'phi', 'nsecs' and/or 'Toff'</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">A</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Amplitude of the signal. [for 'sine wave'].</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">F</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Frequency of the signal, in Hz. [for 'sine wave', 'square wave', 'sawtooth'].</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PHI</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Phase of the signal, in rad. [for 'sine wave']<br>The phase is lag, i.e. y = sin(2*pi*f*t + phi)</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TOFF</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Offset of the different sine waves, as [for 'sine wave']<ul><li>a vector of seconds</li><li>a cell array with the offsets as a string</li><li>a vector time objects</li></ul>Remark: If t0 is not specified then it will be set to the first value of Toff.<br><br>Offset of the signal, in seconds.  [for all other]</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">GAPS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Instead of defining an offset it is possible to define a gap before the sine wave. [for 'sine wave']<br/></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TYPE</td>
+            <td bgcolor="#F2F2F2">'Normal'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'Normal'</font></li><li><font color="#1111FF">'Uniform'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Noise type. [for 'noise']</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SIGMA</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The standard deviation of the noise. [for 'noise']</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">F0</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A fundamental/start frequency of the signal. [for 'chirp', 'gaussian pulse']</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">F1</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The end frequency of the signal. [for 'chirp']</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">T1</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The end time of the signal. [for 'chirp']</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">BW</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The bandwidth of the signal. [for 'gaussian pulse']</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DUTY</td>
+            <td bgcolor="#F2F2F2">50</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The duty-cycle of the signal (in %). [for 'square wave']</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">WIDTH</td>
+            <td bgcolor="#F2F2F2">0.5</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The width of the signal. [0-1] [for 'sawtooth']</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">OFFSET</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Offset to be added to the signal.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The sampling frequency of the signal. [for all]</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NSECS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The number of seconds of data. [for all]</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XUNITS</td>
+            <td bgcolor="#F2F2F2">[s]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on X axis.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">T0</td>
+            <td bgcolor="#F2F2F2">'1970-01-01 00:00:00.000 UTC'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The UTC time of the first sample. [for all]</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TOFFSET</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The offset between the first x sample and t0.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RAND_STREAM</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Internal MATLAB state of the pseudorandom number generator. You can set the state with a structure which should contain all properties of the MATLAB class RandStream</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YUNITS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on Y axis</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('WAVEFORM', 'sine wave', 'A', [1], 'F', [1], 'PHI', [0], 'TOFF', [0], 'GAPS', [[]], 'TYPE', 'Normal', 'SIGMA', [1], 'F0', [1], 'F1', [[]], 'T1', [[]], 'BW', [[]], 'DUTY', [50], 'WIDTH', [0.5], 'OFFSET', [0], 'FS', [[]], 'NSECS', [[]], 'XUNITS', [ unit(' s ') ], 'T0', '1970-01-01 00:00:00.000 UTC', 'TOFFSET', [0], 'RAND_STREAM', [[]], 'NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]], 'YUNITS', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="18"></a>
+    <!-- Parameter List Table: From Polynomial -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From Polynomial</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">POLYVAL</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A set of polynomial coefficients. This can also be an AO, <br>in which case the Y values from the AO are used.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The sampling frequency of the signal. [for all]</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NSECS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The number of seconds of data. [for all]</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">T0</td>
+            <td bgcolor="#F2F2F2">'1970-01-01 00:00:00.000 UTC'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The UTC time of the first sample. [for all]</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TOFFSET</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The offset between the first x sample and t0.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">T</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Vector of time vertices for tsdata type. <br>The value can also be an AO, in which case the X vector is used.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">X</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Vector of X values for xydata type. <br></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">F</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Vector of frequency values for fsdata type. <br></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TYPE</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">''</font></li><li><font color="#1111FF">'tsdata'</font></li><li><font color="#1111FF">'fsdata'</font></li><li><font color="#1111FF">'xydata'</font></li><li><font color="#1111FF">'cdata'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">The data type. If this is empty, the constructor will attempt to determine the type from the other parameters.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XUNITS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on X axis.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YUNITS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on Y axis</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('POLYVAL', [[]], 'FS', [[]], 'NSECS', [[]], 'T0', '1970-01-01 00:00:00.000 UTC', 'TOFFSET', [0], 'T', [[]], 'X', [[]], 'F', [[]], 'TYPE', '', 'XUNITS', [[]], 'NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]], 'YUNITS', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="19"></a>
+    <!-- Parameter List Table: From Pzmodel -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From Pzmodel</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PZMODEL</td>
+            <td bgcolor="#F2F2F2">pzmodel(g:no gain p:no pole z:no zero)</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A pole/zero model which builds the time-series AO.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NDIGITS</td>
+            <td bgcolor="#F2F2F2">32</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Set the number of digits of precision to be used when calculating the noise generation coefficients.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The sampling frequency of the signal. [for all]</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NSECS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The number of seconds of data. [for all]</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XUNITS</td>
+            <td bgcolor="#F2F2F2">[s]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on X axis.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">T0</td>
+            <td bgcolor="#F2F2F2">'1970-01-01 00:00:00.000 UTC'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The UTC time of the first sample. [for all]</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TOFFSET</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The offset between the first x sample and t0.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">STATE</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Initial state vector. If empty, and initial state will be calculated. The final state of a noise generation will be stored in the procinfo of the resulting AO.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RAND_STREAM</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Internal MATLAB state of the pseudorandom number generator. You can set the state with a structure which should contain all properties of the MATLAB class RandStream</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YUNITS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on Y axis</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('PZMODEL', [pzmodel()], 'NDIGITS', [32], 'FS', [[]], 'NSECS', [[]], 'XUNITS', [ unit(' s ') ], 'T0', '1970-01-01 00:00:00.000 UTC', 'TOFFSET', [0], 'STATE', [[]], 'RAND_STREAM', [[]], 'NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]], 'YUNITS', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="20"></a>
+    <!-- Parameter List Table: From Smodel -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From Smodel</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">MODEL</td>
+            <td bgcolor="#F2F2F2">smodel()</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The smodel to evaluate and convert to an AO. </td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">X</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Values for X axis.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XUNITS</td>
+            <td bgcolor="#F2F2F2">[s]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on X axis.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TYPE</td>
+            <td bgcolor="#F2F2F2">'tsdata'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'tsdata'</font></li><li><font color="#1111FF">'fsdata'</font></li><li><font color="#1111FF">'xydata'</font></li><li><font color="#1111FF">'cdata'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Choose the data type.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RAND_STREAM</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Internal MATLAB state of the pseudorandom number generator. You can set the state with a structure which should contain all properties of the MATLAB class RandStream</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YUNITS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on Y axis</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('MODEL', smodel([plist('NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [], 'CALLERISMETHOD', [])]), 'X', [[]], 'XUNITS', [ unit(' s ') ], 'TYPE', 'tsdata', 'RAND_STREAM', [[]], 'NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]], 'YUNITS', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="21"></a>
+    <!-- Parameter List Table: From Pest -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From Pest</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PEST</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The pest object to extract the AO from. </td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PARAMETER</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Name of the parameter(s) to be extracted.<br>If empty, all parameters will be extracted into a vector ao AOs.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RAND_STREAM</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Internal MATLAB state of the pseudorandom number generator. You can set the state with a structure which should contain all properties of the MATLAB class RandStream</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YUNITS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on Y axis</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('PEST', [[]], 'PARAMETER', '', 'RAND_STREAM', [[]], 'NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]], 'YUNITS', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="22"></a>
+    <!-- Parameter List Table: From Parameter -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From Parameter</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PARAMETER</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The parameter or plist to make an AO from. <br>If the plist is a built-in one, it is also possible just to input its name.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">KEY</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The parameter name to extract from the plist. </td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RAND_STREAM</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Internal MATLAB state of the pseudorandom number generator. You can set the state with a structure which should contain all properties of the MATLAB class RandStream</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ao.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YUNITS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Unit on Y axis</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('PARAMETER', '', 'KEY', '', 'RAND_STREAM', [[]], 'NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]], 'YUNITS', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <p><!-- Table of the minfo object -->
+      <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+        <colgroup>
+          <col width="25%"/>
+          <col width="75%"/>
+        </colgroup>
+        <thead>
+          <tr valign="top">
+            <th class="categorylist" colspan="2">Some information of the method ao/ao are listed below:</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Property: 'mclass' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Class name</td>
+            <td bgcolor="#f3f4f5">ao</td>
+          </tr>
+          <!-- Property: 'mname' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Method name</td>
+            <td bgcolor="#ffffff">ao</td>
+          </tr>
+          <!-- Property: 'mcategory' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Category</td>
+            <td bgcolor="#f3f4f5">Constructor</td>
+          </tr>
+          <!-- Property: 'mpackage' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Package name</td>
+            <td bgcolor="#ffffff">ltpda</td>
+          </tr>
+          <!-- Property: 'modifier' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Can be used as modifier</td>
+            <td bgcolor="#f3f4f5">0</td>
+          </tr>
+          <!-- Property: 'supportedNumTypes' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Supported numeric types</td>
+            <td bgcolor="#ffffff">{'double'}</td>
+          </tr>
+        </tbody>
+      </table>
+    </p>
+
+
+    <br>
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ao_xor.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ao/xor"></a>&nbsp;</td>
+        <td align="left">Method: ao/xor</td>
+        <td>&nbsp;</td>
+        <td align="right">Method: ao/rebuild</td>
+        <td align="right" width="20"><a href="ao_rebuild.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ao/rebuild"></a></td>
+      </tr>
+    </table>
+
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+
+   </body>
+</html>

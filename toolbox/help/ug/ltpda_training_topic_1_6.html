@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Constructing AOs from data files (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_topic_1_5.html"><img src="b_prev.gif" border="0" align="bottom" alt="Saving and loading AOs"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_topic_1_7.html"><img src="b_next.gif" border="0" align="bottom" alt="Writing LTPDA scripts"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Constructing AOs from data files</h1>
+    <hr>
+    
+    <p>
+      <p>
+  You can build AOs from existing ASCII data files. Various formats are supported,
+  for example: multiple columns, or files containing comments.
+</p>
+<br>
+<h2>Install the data pack</h2>
+<br>
+<p>
+  The data-pack for this training session should be downloaded from the <a href="http://www.lisa.aei-hannover.de/ltpda/training_sessions/training_session_1/training_session_1.html">LTPDA web-site</a>.
+  The zip file will expand to a top-level directory. This should contain sub-directories
+  for each topic of the training session.
+</p>
+<p>
+  The rest of the tutorial will assume that you have changed directories in MATLAB
+  to the data-pack directory so that filenames are relative to that directory. To
+  change the working directory of MATLAB, either use the MATLAB interface
+  or type
+</p>
+<div class="fragment"><pre>
+  cd /path/to/my/data/pack
+</pre></div>
+<br>
+<h2>Create an AO from a simple ASCII file</h2>
+<br>
+<p>
+  The data-pack contains a simple two-column text file which represents a time-series
+  sampled at 10Hz. The first column contains the time-stamps, the second column the amplitude values.
+</p>
+<p>
+  To convert this data file to an AO, use the following command:
+</p>
+<div class="fragment"><pre>
+>> pl = plist(<span class="string">'filename'</span>, <span class="string">'topic1/simpleASCII.txt'</span>, ...
+              <span class="string">'columns'</span>, [1 2], ...
+              <span class="string">'type'</span>, <span class="string">'tsdata'</span>);
+>> a = ao(pl)
+M:     constructing from plist
+M:     load file: simpleASCII.txt
+M:     constructing from filename and/or plist
+M:     constructing from data object tsdata
+----------- ao 01: a -----------
+ 
+       name: ''
+       data: (0,1.13549060238654) (0.1,2.37202031808076) (0.2,-0.531181753855465) (0.3,1.25684477541224) (0.4,1.30895517480354) ...
+             -------- tsdata [x, y] --------
+              
+                  x:  [1000 1], double
+                  y:  [1000 1], double
+                 dx:  [0 0], double
+                 dy:  [0 0], double
+             xunits:  [s]
+             yunits:  
+                  fs:  10
+               nsecs:  100
+                  t0:  1970-01-01 00:00:00.000 UTC
+             -------------------------------
+              
+       hist: ao / ao / 8c11cf35c322925062d6fb1759d7c589b696a19b
+description: 
+       UUID: a1757c14-e6e7-4857-b213-0707d7a282ae
+--------------------------------
+</pre></div>
+<p>
+  From the output on the screen you can see that
+  <ol>
+    <li>the sample rate of the data is 10Hz, as expected</li>
+    <li>the length of the data is 100s</li>
+    <li>no name of the AO has automatically been set</li>
+  </ol>
+</p>
+<p>
+  You can plot this data and see that it is just a randon noise time-series.
+</p>
+<br>
+<h2>Create an AO from a multi-column ASCII file</h2>
+<br>
+<p>
+  The data-pack contains a data file which contains multiple columns of data. Here
+  we will load only selected columns from the file and produce multiple AOs, one
+  for each column loaded. Column 1 of the file contains the time-stamps; columns
+  2-6 contain sine waves at frequencies 1-5Hz.
+</p>
+<p>
+  Let's load the 2Hz and 4Hz sine waves from the file. At the same time, we'll
+  give the AOs names, Y units, and descriptions.
+</p>
+<div class="fragment"><pre>
+sigs = ao(plist(<span class="string">'filename'</span>, <span class="string">'topic1/multicolumnASCII.txt'</span>, ...
+                <span class="string">'type'</span>, <span class="string">'tsdata'</span>, ...
+                <span class="string">'columns'</span>, [1 3 1 5], ...
+                <span class="string">'name'</span>, {<span class="string">'sin2'</span>, <span class="string">'sin4'</span>}, ...
+                <span class="string">'yunits'</span>, {<span class="string">'m'</span>, <span class="string">'m'</span>}, ...
+                <span class="string">'description'</span>, {<span class="string">'sine wave at 2Hz'</span>, <span class="string">'sine wave at 4Hz'</span>}))
+</pre></div>
+<p>
+  You can plot the results and focus on the first 2 seconds of data
+</p>
+<div class="fragment"><pre>
+    sigs.iplot(plist(<span class="string">'XRanges'</span>, [0 2]))
+</pre></div>
+
+
+
+
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_topic_1_5.html"><img src="b_prev.gif" border="0" align="bottom" alt="Saving and loading AOs"></a>&nbsp;</td>
+        <td align="left">Saving and loading AOs</td>
+        <td>&nbsp;</td>
+        <td align="right">Writing LTPDA scripts</td>
+        <td align="right" width="20"><a href="ltpda_training_topic_1_7.html"><img src="b_next.gif" border="0" align="bottom" alt="Writing LTPDA scripts"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

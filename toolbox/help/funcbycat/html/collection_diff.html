@@ -1,0 +1,223 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!-- $Id$ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="../../ug/docstyle.css">
+    <title>LTPDA Method: collection/diff</title>
+  </head>
+  <body>
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <p style="font-size:1px;">&nbsp;</p>
+
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../../ug/../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="collection_detrend.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: collection/detrend"></a>&nbsp;&nbsp;&nbsp;<a href="collection_downsample.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: collection/downsample"></a></td>
+      </tr>
+    </table>
+
+    <h1 class="title">Method collection/diff</h1>
+    <hr />
+
+<pre>  <SPAN CLASS="HELPTOPIC">DIFF</SPAN> differentiates the data in a ltpda_container object.
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+  DESCRIPTION: <SPAN CLASS="HELPTOPIC">DIFF</SPAN> differentiates the data in a ltpda_container object.
+ 
+  CALL:        out = <span class="helptopic">diff</span>(in, pl);
+ 
+  Note: this is just a wrapper of ao/<span class="helptopic">diff</span>. Each AO in the ltpda_container is passed
+  to ao/<span class="helptopic">diff</span> with the input plist. 
+  
+  INPUTS:      in      -  input ltpda_container objects 
+               pl      -  parameter list
+ 
+  OUTPUTS:     out     -  output ltpda_container objects 
+ 
+  <a href="collection_diff.html#down">Parameters Description</a>
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</pre>
+
+    <!-- =====        Striped 4x2 table: Begin        ==== -->
+    <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+    <div class="sectiontitle"></div>
+    <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+      <colgroup>
+        <col width="30%"/>
+        <col width="70%"/>
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th class="categorylist">Method Details</th>
+          <th class="categorylist"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Access</td>
+          <td bgcolor="#f3f4f5">public</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Defining Class</td>
+          <td bgcolor="#ffffff">ltpda_container</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Sealed</td>
+          <td bgcolor="#f3f4f5">0</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Static</td>
+          <td bgcolor="#ffffff">0</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- ===== Striped 4x2 table: End ==== -->
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <h2>Parameter Description</h2>    <a name="down" id="down"></a>
+
+    <!-- Link-Table of the sets -->
+    <table border="0" cellpadding="4" cellspacing="0" class="pagenavtable">
+      <tr><th>Sets for this method &#8230;</th></tr>
+        <tr><td><a href="#1">Default</a></td></tr>
+    </table>
+
+    <a name="1"></a>
+    <!-- Parameter List Table: Default -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>Default</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">diff</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">METHOD</td>
+            <td bgcolor="#F2F2F2">'3POINT'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'DIFF'</font></li><li><font color="#1111FF">'2POINT'</font></li><li><font color="#1111FF">'3POINT'</font></li><li><font color="#1111FF">'5POINT'</font></li><li><font color="#1111FF">'ORDER2'</font></li><li><font color="#1111FF">'ORDER2SMOOTH'</font></li><li><font color="#1111FF">'FILTER'</font></li><li><font color="#1111FF">'FPS'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">The method to use. Choose between:<ul><li>'diff' - uses MATLAB's diff function. For 2D data, the last x sample is dropped.</li><li>'2POINT' - 2 point derivative computed as [y(i+1)-y(i)]./[x(i+1)-x(i)]</li><li>'3POINT' - 3 point derivative. Compute derivative dx at i as <br><tt>[y(i+1)-y(i-1)] / [x(i+1)-x(i-1)]</tt><br>For <tt>i==1</tt>, the output is computed as <tt>[y(2)-y(1)]/[x(2)-x(1)]</tt>.<br>The last sample is computed as <tt>[y(N)-y(N-1)]/[x(N)-x(N-1)]</tt></li><li>'5POINT' - 5 point derivative. Compute derivative dx at i as <br><tt>[-y(i+2)+8*y(i+1)-8*y(i-1)+y(i-2)] / [3*(x(i+2)-x(i-2))]</tt><br>For <tt>i==1</tt>, the output is computed as <tt>[y(2)-y(1)]/[x(2)-x(1)]</tt><br>The last sample is computed as <tt>[y(N)-y(N-1)]/[x(N)-x(N-1)]</tt></li><li>'ORDER2' - Compute derivative using a 2nd order method</li><li>'ORDER2SMOOTH' - Compute derivative using a 2nd order method<br>with a parabolic fit to 5 consecutive samples</li><li>'filter' - applies an IIR filter built from a single pole at the chosen frequency.<br>The filter is applied forwards and backwards (filtfilt) to achieve the desired f^2<br>response. This only works for time-series AOs.<br>For this method, you can specify the pole frequency with an additional parameter 'F0' (see below):</li><li>'FPS' - Calculates five points derivative using utils.math.fpsder.<br>When calling with this option you may add also the parameters <br>'ORDER' (see below) and 'COEFF' (see below)</li></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">F0</td>
+            <td bgcolor="#F2F2F2">'1/Nsecs'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The pole frequency for the 'filter' method.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ORDER</td>
+            <td bgcolor="#F2F2F2">'FIRST'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'ZERO'</font></li><li><font color="#1111FF">'FIRST'</font></li><li><font color="#1111FF">'SECOND'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Derivative order. <br>This applys only to the cases where 'METHOD' is set to: <ul><li>'FPS'</li> <li>'DIFF'</li> <li>'2POINT'</li> <li>'3POINT'</li> <li>'5POINT'</li></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">COEFF</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Coefficient used for the derivation. <br>This applys only to the case where 'METHOD' is set to 'FPS'. <br>Refer to the <a href="matlab:doc('utils.math.fpsder')">fpsder help</a> for further details</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('METHOD', '3POINT', 'F0', '1/Nsecs', 'ORDER', 'FIRST', 'COEFF', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <p><!-- Table of the minfo object -->
+      <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+        <colgroup>
+          <col width="25%"/>
+          <col width="75%"/>
+        </colgroup>
+        <thead>
+          <tr valign="top">
+            <th class="categorylist" colspan="2">Some information of the method ltpda_container/diff are listed below:</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Property: 'mclass' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Class name</td>
+            <td bgcolor="#f3f4f5">ltpda_container</td>
+          </tr>
+          <!-- Property: 'mname' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Method name</td>
+            <td bgcolor="#ffffff">diff</td>
+          </tr>
+          <!-- Property: 'mcategory' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Category</td>
+            <td bgcolor="#f3f4f5">Signal Processing</td>
+          </tr>
+          <!-- Property: 'mpackage' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Package name</td>
+            <td bgcolor="#ffffff">ltpda</td>
+          </tr>
+          <!-- Property: 'modifier' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Can be used as modifier</td>
+            <td bgcolor="#f3f4f5">0</td>
+          </tr>
+          <!-- Property: 'supportedNumTypes' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Supported numeric types</td>
+            <td bgcolor="#ffffff">{'double'}</td>
+          </tr>
+        </tbody>
+      </table>
+    </p>
+
+
+    <br>
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="collection_detrend.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: collection/detrend"></a>&nbsp;</td>
+        <td align="left">Method: collection/detrend</td>
+        <td>&nbsp;</td>
+        <td align="right">Method: collection/downsample</td>
+        <td align="right" width="20"><a href="collection_downsample.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: collection/downsample"></a></td>
+      </tr>
+    </table>
+
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+
+   </body>
+</html>

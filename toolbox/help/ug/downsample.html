@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Downsampling data (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="preproc.html"><img src="b_prev.gif" border="0" align="bottom" alt="Signal Pre-processing in LTPDA"></a>&nbsp;&nbsp;&nbsp;<a href="upsample.html"><img src="b_next.gif" border="0" align="bottom" alt="Upsampling data"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Downsampling data</h1>
+    <hr>
+    
+    <p>
+      <h2>Description</h2>
+<p>
+  Downsampling is the process of reducing the sampling rate of a signal. <a href="matlab:doc('ao/downsample')"><tt>Downsample</tt></a> 
+  reduces the sampling rate of the input AOs by an integer factor by picking up one out of N samples. 
+  Note that no anti-aliasing filter is applied to the original data. Moreover, a <tt>offset</tt> can be 
+  specified, i.e., the sample at which the output data starts ---see examples below.
+</p>
+<h2>Syntax</h2>
+<div class="fragment"><pre>
+    <br>
+    b = downsample(a, pl)
+  </pre>
+</div>
+<h2>Parameters</h2>
+<p>  The following parameters can be set in this method:
+  <ul>
+    <li> <tt>factor</tt> - decimation factor [by default is 1: no downsampling] (must be an integer) </li>
+    <li> <tt>offset</tt> - sample offset for decimation </li>
+  </ul>
+</p>
+<p>
+  <h2>Examples</h2>
+</p>
+<p>
+  1. Downsampling a sequence of random data at original sampling rate of 10 Hz by a factor of 4 (<tt>fsout</tt> = 2.5 Hz) and no <tt>offset</tt>.
+</p>
+<div class="fragment"><pre>
+    <br>
+    <span class="comment">% create an AO of random data with fs = 10 Hz</span>
+    pl      = plist(<span class="string">'tsfcn'</span>, <span class="string">'randn(size(t))'</span>,<span class="string">'fs'</span>,10,<span class="string">'nsecs'</span>,10,<span class="string">'yunits'</span>,<span class="string">'m'</span>);
+    x       = ao(pl)
+    pl_down = plist(<span class="string">'factor'</span>, 4);     <span class="comment">% add the decimation factor</span>
+    y       = downsample(x, pl_down); <span class="comment">% downsample the input AO, x</span>
+    iplot(x, y)
+  </pre>
+</div>
+
+<img src="images/downsample1.png" alt="Downsample" border="0">
+
+<p>
+  2. Downsampling a sequence of random data at original sampling rate of 10 Hz by a factor of 4 (<tt>fsout</tt> = 2.5 Hz) and <tt>offset</tt> = 10.
+</p>
+<div class="fragment"><pre>
+    <br>
+    <span class="comment">% create an AO of random data with fs = 10 Hz</span>
+    pl         = plist(<span class="string">'tsfcn'</span>, <span class="string">'randn(size(t))'</span>,<span class="string">'fs'</span>,10,<span class="string">'nsecs'</span>,10,<span class="string">'yunits'</span>,<span class="string">'m'</span>);
+    x          = ao(pl)
+    pl_downoff = plist(<span class="string">'factor'</span>, 4,<span class="string">'offset'</span>,10);  <span class="comment">% add the decimation factor and the offset parameter</span>
+    y          = downsample(x, pl_downoff);       <span class="comment">% downsample the input AO, x</span>
+    iplot(x, y)
+  </pre>
+</div>
+
+<img src="images/downsample2.png" alt="Downsample" border="0">
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="preproc.html"><img src="b_prev.gif" border="0" align="bottom" alt="Signal Pre-processing in LTPDA"></a>&nbsp;</td>
+        <td align="left">Signal Pre-processing in LTPDA</td>
+        <td>&nbsp;</td>
+        <td align="right">Upsampling data</td>
+        <td align="right" width="20"><a href="upsample.html"><img src="b_next.gif" border="0" align="bottom" alt="Upsampling data"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

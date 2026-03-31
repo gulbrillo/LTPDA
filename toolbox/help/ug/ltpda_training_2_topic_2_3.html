@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Building an LTP model (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_2_topic_2_2.html"><img src="b_prev.gif" border="0" align="bottom" alt="Introduction to the LPF state-space models in LTPDA"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_2_topic_2_4.html"><img src="b_next.gif" border="0" align="bottom" alt="Introduction to the various LPF noise models"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Building an LTP model</h1>
+    <hr>
+    
+    <p>
+      <p>
+  Building the LTP model is straightforward. It is simply another built-in model
+  of the <tt>ssm</tt> class. Here's an example of building the default version
+  of the LTP model:
+  <div class="fragment"><pre>
+      <span class="comment">% Build the default version of the LTP model</span>      
+      ltp = ssm(plist(<span class="string">'built-in'</span>, <span class="string">'LTP'</span>));</pre></div>
+  To see what other versions of the LTP model are available, and the parameters that can be adjusted, 
+  you can look at the model documentation:
+  <div class="fragment"><pre>
+      help ssm_model_LTP
+  </pre></div>
+  then click on the 'Model Information' link to open a documentation window
+  like the one shown here:  
+  <br>
+  <br>
+  <IMG src="images/ltpda_training_2/Topic2/ltp_model_documentation.png" width="800px" align="center" border="0">
+  <br>
+  <br>
+  As you can see, there are various 'Versions' of the model available. Each version
+  uses different versions of the various submodels, and different default values of the parameters.
+  <table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1">
+  <tr width="90%">
+    <td>
+      The default version is always the first one!
+    </td>
+  </tr>
+</table>
+  In addition, you can scroll to the 
+  details section for a particular model version and see what configuration parameters
+  are available to you.
+  <br>
+  Since the LTP model is assembled from sub-models, it is possible, for each version of the LTP model, 
+  to click on the name of the sub-models to access the documentation window associated with sub-model itself.
+</p>
+<p>
+  For example, we could build a version of the LTP model which is 1D and has DFACS
+  set to Science Mode 2.2. To do that, you would do:
+  <div class="fragment"><pre>
+      <span class="comment">% Plist defining the LTP model we want to build</span>      
+      modelPlist = plist(...
+                    <span class="string">'built-in'</span>, <span class="string">'LTP'</span>, ...
+                    <span class="string">'Version'</span>, <span class="string">'Standard'</span>, ...
+                    <span class="string">'DIM'</span>, 1, ...
+                    <span class="string">'DFACS Mode'</span>, <span class="string">'SCI2.2 M1'</span> ...
+                    );
+                    
+      <span class="comment">% Build the defined LTP model</span>      
+      ltp = ssm(modelPlist);</pre></div>
+  To look at the details of the model you've built, you can either enter the variable name
+  on the MATLAB terminal without a terminating semicolon and hit enter. Or, more effectively, you can use the <tt>ssm/viewDetails</tt> method which will display details
+  of the model you've constructed in a documentation window:
+  <div class="fragment"><pre>
+      ltp.viewDetails
+  </pre></div>
+  
+</p>
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_2_topic_2_2.html"><img src="b_prev.gif" border="0" align="bottom" alt="Introduction to the LPF state-space models in LTPDA"></a>&nbsp;</td>
+        <td align="left">Introduction to the LPF state-space models in LTPDA</td>
+        <td>&nbsp;</td>
+        <td align="right">Introduction to the various LPF noise models</td>
+        <td align="right" width="20"><a href="ltpda_training_2_topic_2_4.html"><img src="b_next.gif" border="0" align="bottom" alt="Introduction to the various LPF noise models"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Iterative linear parameter estimation for multichannel systems - ssm system model in time domain (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="sigproc_example_matrix_linfitsvd.html"><img src="b_prev.gif" border="0" align="bottom" alt="Iterative linear parameter estimation for multichannel systems - symbolic system model in frequency domain"></a>&nbsp;&nbsp;&nbsp;<a href="zdomainfit.html"><img src="b_next.gif" border="0" align="bottom" alt="Z-Domain Fit"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Iterative linear parameter estimation for multichannel systems - ssm system model in time domain</h1>
+    <hr>
+    
+    <p>
+      
+<p>Iterative linear parameter estimation for multichannel systems - ssm system model in time domain.</p>
+
+<h2>Contents</h2>
+<div>
+  <ul>
+    <li><a href="#1">set plist for retriving</a></li>
+    <li><a href="#2">retrive data</a></li>
+    <li><a href="#3">Load input signal</a></li>
+    <li><a href="#4">load Whitening filters</a></li>
+    <li><a href="#5">System Model</a></li>
+    <li><a href="#6">Build input objects</a></li>
+    <li><a href="#7">Do Fit</a></li>
+  </ul>
+</div>
+
+<h2>set plist for retriving<a name="1"></a></h2>
+
+<div class="fragment"><pre>
+  
+  pl = plist(<span class="string">'hostname'</span>, <span class="string">'lpsdas01.esac.esa.int'</span>, <span class="string">'database'</span>, <span class="string">'ex6'</span>);
+</pre></div>
+
+<h2>retrive data<a name="2"></a></h2>
+
+<div class="fragment"><pre>
+  
+  o1_1 = ao(pl.pset(<span class="string">'binary'</span>, <span class="string">'yes'</span>, <span class="string">'id'</span>, 68));
+  o12_1 = ao(pl.pset(<span class="string">'binary'</span>, <span class="string">'yes'</span>, <span class="string">'id'</span>, 69));
+
+  o1_2 = ao(pl.pset(<span class="string">'binary'</span>, <span class="string">'yes'</span>, <span class="string">'id'</span>, 74));
+  o12_2 = ao(pl.pset(<span class="string">'binary'</span>, <span class="string">'yes'</span>, <span class="string">'id'</span>, 75));
+</pre></div>
+
+<h2>Load input signal<a name="3"></a></h2>
+
+<div class="fragment"><pre>
+  
+  is1 = matrix(pl.pset(<span class="string">'binary'</span>, <span class="string">'yes'</span>, <span class="string">'id'</span>, 78));
+is2 = matrix(pl.pset(<span class="string">'binary'</span>, <span class="string">'yes'</span>, <span class="string">'id'</span>, 79));
+
+is1ao = is1.getObjectAtIndex(1);
+is2ao = is2.getObjectAtIndex(2);
+
+<span class="comment">% set port names for fit</span>
+is1names = {<span class="string">'INPUTGUIDANCE.ifo_x1'</span>};
+is2names = {<span class="string">'INPUTGUIDANCE.ifo_x12'</span>};
+
+InputNames = {is1names,is2names};
+</pre></div>
+
+<h2>load Whitening filters<a name="4"></a></h2>
+
+<div class="fragment"><pre>
+  
+  <span class="comment">% Stoc filter</span>
+fil1 = filterbank(pl.pset(<span class="string">'binary'</span>, <span class="string">'yes'</span>, <span class="string">'id'</span>, 76));
+fil2 = filterbank(pl.pset(<span class="string">'binary'</span>, <span class="string">'yes'</span>, <span class="string">'id'</span>, 77));
+fil3 = filterbank(miir());
+<span class="comment">% build matrix</span>
+wf = matrix(fil1,fil3,fil3,fil2,plist(<span class="string">'shape'</span>,[2 2]));
+</pre></div>
+
+<h2>System Model<a name="5"></a></h2>
+
+<div class="fragment"><pre>
+  
+    H = ssm(plist(<span class="string">'built-in'</span>,<span class="string">'LTP'</span>,<span class="keyword">...</span>
+    <span class="string">'Version'</span>,<span class="string">'Fitting'</span>,<span class="keyword">...</span>
+    <span class="string">'Continuous'</span>,true,<span class="keyword">...</span>
+    <span class="string">'dim'</span>,1,<span class="keyword">...</span>
+    <span class="string">'SYMBOLIC PARAMS'</span>,<span class="keyword">...</span>
+    {<span class="string">'FEEPS_XX'</span>,<span class="string">'CAPACT_TM2_XX'</span>,<span class="string">'IFO_X12X1'</span>,<span class="string">'EOM_TM1_STIFF_XX'</span>,<span class="string">'EOM_TM2_STIFF_XX'</span>,<span class="string">'DELAY_X1'</span>,<span class="string">'DELAY_X12'</span>}));
+</pre></div>
+
+<h2>Build input objects<a name="6"></a></h2>
+
+<div class="fragment"><pre>
+  
+  <span class="comment">% empty ao</span>
+	
+</pre></div>
+
+<div class="fragment"><pre>
+  
+  <span class="comment">%%% exp_3_1 %%%</span>
+  os1 = matrix(o1_1,o12_1,plist(<span class="string">'shape'</span>,[2 1]));
+
+  <span class="comment">%%% exp_3_2 %%%</span>
+  os2 = matrix(o1_2,o12_2,plist(<span class="string">'shape'</span>,[2 1]));
+
+  <span class="comment">%%% output names</span>
+  OutputNames = {{<span class="string">'IFO.x1'</span>,<span class="string">'IFO.x12'</span>},{<span class="string">'IFO.x1'</span>,<span class="string">'IFO.x12'</span>}};
+
+  <span class="comment">%%% Input signals</span>
+  iS = collection(is1ao,is2ao);
+
+  <span class="comment">%%% Fit Params %%%</span>
+  usedparams = {<span class="string">'FEEPS_XX'</span>,<span class="string">'CAPACT_TM2_XX'</span>,<span class="string">'IFO_X12X1'</span>,<span class="string">'EOM_TM1_STIFF_XX'</span>,<span class="string">'EOM_TM2_STIFF_XX'</span>,<span class="string">'DELAY_X1'</span>,<span class="string">'DELAY_X12'</span>};
+
+  <span class="comment">%%% set bounded params</span>
+  bdparams = {<span class="string">'DELAY_X1'</span>,<span class="string">'DELAY_X12'</span>};
+  bdvals   = {[0.1 0.3],[0.1 0.3]};
+
+  <span class="comment">%%% set numerical derivative step</span>
+  diffStep = [0.01,0.01,1e-7,1e-7,1e-7,0.001,0.001];
+
+</pre></div>
+
+<h2>Do Fit<a name="7"></a></h2>
+
+<div class="fragment"><pre>
+  
+  plfit = plist(<span class="keyword">...</span>
+    <span class="string">'FitParams'</span>,usedparams,<span class="keyword">...</span>
+    <span class="string">'BoundedParams'</span>,bdparams,<span class="keyword">...</span>
+    <span class="string">'BoundVals'</span>,bdvals,<span class="keyword">...</span>
+    <span class="string">'diffStep'</span>,diffStep,<span class="keyword">...</span>
+    <span class="string">'Model'</span>,H,<span class="keyword">...</span>
+    <span class="string">'Input'</span>,iS,<span class="keyword">...</span>
+    <span class="string">'InputNames'</span>,InputNames,<span class="keyword">...</span>
+    <span class="string">'OutputNames'</span>,OutputNames,<span class="keyword">...</span>
+    <span class="string">'WhiteningFilter'</span>,wf,<span class="keyword">...</span>
+    <span class="string">'tol'</span>,1,<span class="keyword">...</span>
+    <span class="string">'Nloops'</span>,5,<span class="keyword">...</span>
+    <span class="string">'Ncut'</span>,1e5);
+
+  opars = linfitsvd(os1,os2,plfit);
+
+</pre></div>
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="sigproc_example_matrix_linfitsvd.html"><img src="b_prev.gif" border="0" align="bottom" alt="Iterative linear parameter estimation for multichannel systems - symbolic system model in frequency domain"></a>&nbsp;</td>
+        <td align="left">Iterative linear parameter estimation for multichannel systems - symbolic system model in frequency domain</td>
+        <td>&nbsp;</td>
+        <td align="right">Z-Domain Fit</td>
+        <td align="right" width="20"><a href="zdomainfit.html"><img src="b_next.gif" border="0" align="bottom" alt="Z-Domain Fit"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

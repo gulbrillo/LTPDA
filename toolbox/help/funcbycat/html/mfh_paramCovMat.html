@@ -1,0 +1,339 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!-- $Id$ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="../../ug/docstyle.css">
+    <title>LTPDA Method: mfh/paramCovMat</title>
+  </head>
+  <body>
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <p style="font-size:1px;">&nbsp;</p>
+
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../../ug/../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="mfh_multinest.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: mfh/multinest"></a>&nbsp;&nbsp;&nbsp;<a href="mfh_setParamsToConst.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: mfh/setParamsToConst"></a></td>
+      </tr>
+    </table>
+
+    <h1 class="title">Method mfh/paramCovMat</h1>
+    <hr />
+
+<pre>  <span class="helptopic">paramCovMat</span> calculate the covariace matrix for the parameters.
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+  CALL:                         cov = <span class="helptopic">paramCovMat</span>(func,pl)
+  
+  INPUTS:
+          - func. The function in the form of a mfh object.
+                  func. The function handle. If you use 'jacobian'
+                  algorith, func must be the fit function. If you use
+                  'hessian' algorith, func must be the cost function.
+ 
+  PARAMETERS:
+ 
+          - pars. The set of parameters. (double vector or pest).
+          - DerivStep. The set of derivative steps. (doble vactor).
+          - mse. Mean Square Error. (Chi^2).
+          - algo. Algorithm used to calculate the covariance matrix. Can be
+          'jacobian' and 'hessian'.
+          In case of 'jacobian' algorith, func must be the fit function
+          (model).
+          In case of 'hessian' algorith, func must be the cost function.
+          For the difference between fit function and cost function see the
+          remarks below.
+          - dy. errors on y measurements. If you input dy the function does
+          not compensates for mse.
+ 
+  OUTPUTS:
+          - cov. Covariance matrix for the parameters.
+ 
+  IMPORTANT REMARKS
+ 
+  GENERAL REMARKS ON THE HESSIAN MATRIX AND ERROR CALCULATION.
+ 
+  Care must be taken in definining the cost function from which we
+  calculate the errors. The hessian matrix calculation is aiming to provide
+  the curvature of the cost function around its maximum. The formalism is
+  perfectly consistent in case of Gaussian assumption for which the inverse
+  of the expected covariance (Fisher Information) is:
+ 
+  F(i,j) = -E(dlLike / dxi dxj)   i,j = 1,...,n
+ 
+  where E is the expectation value, lLike is the log Likelihood, xi and xj
+  are parameters with i and j running over the parameters numbers.
+  In the Gaussian assumption:
+ 
+  lLike = -(1/2)*sum_k(((yk - f(x1,...,xn))/sk)^2) + const.
+ 
+  Here yk are the data, xi the parameters, sk is the standard error on the
+  data yk and f(x1,...,xn) is the fit function (model). As it is customary
+  in least square fits, we minimize -2*lLike, i.e.
+ 
+  SE(x1,...,xn) = sum_k(((yk - f(x1,...,xn))/sk)^2)
+ 
+  Assuming SE is the cost function we have:
+  
+  H(SE) = dSE / dxi dxj   i,j = 1,...,n
+ 
+  where H is the Hessian matrix. Following the definition of F as the
+  inverse of the expected covariance we have:
+ 
+  C = 2*inv(H)
+ 
+  Where C is the expected covariance matrix of the fit parameters.
+  It is important to follow the definition given above in order to obtain a
+  proper error. In case a cost function different from SE is used the
+  result should be adapted accordingly.
+ 
+  DIFFERENCE BETWEEN FIT FUNCTION AND COST FUNCTION
+ 
+  Fit function is the fit model while cost function is the function
+  minimized (maximized) in the fit. As an exaples in least squares fits
+  with Gaussian assumption we have:
+ 
+  cost function = sum_k(((yk - f(x1,...,xn))/sk)^2)
+ 
+  fit function = f(x1,...,xn)
+ 
+  Where yk are the data samples and xi are the fit parameters with
+  i=1,...,n.
+ 
+  COST FUNCTION AND MEAN SQUARED ERROR
+ 
+  Mean Squared Error is the average of the squares of the fit residuals.
+  The average is typically weighted for the fit parameters so following the
+  definitions introduced above, the cost function or squared error is:
+ 
+  SE(x1,...,xn) = sum_k(((yk - f(x1,...,xn))/sk)^2)
+ 
+  While the MSE is:
+ 
+  MSE = SE/(K-n)
+ 
+  Where K is the number of data points and n is the number of parameters.
+  MSE is used in error calculation to compensate for unknown data errors
+  sk. In that case an average data error can be estimated with the MSE.
+  That provides the correct estimation of the data error only if it is
+  costant, in general instead it just provides a coefficient for error
+  adjustment.
+  In case you know data errors sk it is mandatory to:
+  1) Define the cost function including that information. i.e.
+     SE(x1,...,xn) = sum_k(((yk - f(x1,...,xn))/sk)^2)
+  2) Input sk vactor in the input field dy. In that case the function will
+     not compensate for MSE.
+ 
+  If you use a cost function with no error information, i.e. 
+  CF(x1,...,xn) = sum_k(((yk - f(x1,...,xn)))^2)
+  then error are calculating assuming that your errors sk = 1 for each k.
+  In that case it is a good practice at least to try to compensate for the
+  MSE.
+ 
+  COST FUNCTION DEFINITION
+ 
+  Never use an averaged cost function if you want to calculate the errors
+  with the Hessian option. An example of non-averaged cost function is the
+  squared error defined above:
+ 
+  SE(x1,...,xn) = sum_k(((yk - f(x1,...,xn))/sk)^2)
+ 
+  Its averaged version is the MSE
+ 
+  MSE = SE/(K-n)
+ 
+  In oder to have a meaningful error estimate with the Hessian option the
+  input 'func' must be the non-averaged one, i.e. SE.
+ 
+  <a href="mfh_paramCovMat.html#down">Parameters Description</a>
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</pre>
+
+    <!-- =====        Striped 4x2 table: Begin        ==== -->
+    <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+    <div class="sectiontitle"></div>
+    <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+      <colgroup>
+        <col width="30%"/>
+        <col width="70%"/>
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th class="categorylist">Method Details</th>
+          <th class="categorylist"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Access</td>
+          <td bgcolor="#f3f4f5">public</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Defining Class</td>
+          <td bgcolor="#ffffff">mfh</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Sealed</td>
+          <td bgcolor="#f3f4f5">0</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Static</td>
+          <td bgcolor="#ffffff">0</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- ===== Striped 4x2 table: End ==== -->
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <h2>Parameter Description</h2>    <a name="down" id="down"></a>
+
+    <!-- Link-Table of the sets -->
+    <table border="0" cellpadding="4" cellspacing="0" class="pagenavtable">
+      <tr><th>Sets for this method &#8230;</th></tr>
+        <tr><td><a href="#1">Default</a></td></tr>
+    </table>
+
+    <a name="1"></a>
+    <!-- Parameter List Table: Default -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>Default</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">paramCovMat</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PARS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The set of parameter values. A NumParams x 1 array or a pest object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DERIVSTEP</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The set of derivative steps. A NumParams x 1 array</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">MSE</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Fit mean square error.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ALGO</td>
+            <td bgcolor="#F2F2F2">'jacobian'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'jacobian'</font></li><li><font color="#1111FF">'hessian'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Algorithm used to calculate the covariance matrix.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DY</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Errors on y measurements. If you input dy the function does not compensates for mse.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('PARS', [[]], 'DERIVSTEP', [[]], 'MSE', [1], 'ALGO', 'jacobian', 'DY', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <p><!-- Table of the minfo object -->
+      <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+        <colgroup>
+          <col width="25%"/>
+          <col width="75%"/>
+        </colgroup>
+        <thead>
+          <tr valign="top">
+            <th class="categorylist" colspan="2">Some information of the method mfh/paramCovMat are listed below:</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Property: 'mclass' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Class name</td>
+            <td bgcolor="#f3f4f5">mfh</td>
+          </tr>
+          <!-- Property: 'mname' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Method name</td>
+            <td bgcolor="#ffffff">paramCovMat</td>
+          </tr>
+          <!-- Property: 'mcategory' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Category</td>
+            <td bgcolor="#f3f4f5">Signal Processing</td>
+          </tr>
+          <!-- Property: 'mpackage' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Package name</td>
+            <td bgcolor="#ffffff">ltpda</td>
+          </tr>
+          <!-- Property: 'modifier' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Can be used as modifier</td>
+            <td bgcolor="#f3f4f5">1</td>
+          </tr>
+          <!-- Property: 'supportedNumTypes' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Supported numeric types</td>
+            <td bgcolor="#ffffff">{'double'}</td>
+          </tr>
+        </tbody>
+      </table>
+    </p>
+
+
+    <br>
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="mfh_multinest.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: mfh/multinest"></a>&nbsp;</td>
+        <td align="left">Method: mfh/multinest</td>
+        <td>&nbsp;</td>
+        <td align="right">Method: mfh/setParamsToConst</td>
+        <td align="right" width="20"><a href="mfh_setParamsToConst.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: mfh/setParamsToConst"></a></td>
+      </tr>
+    </table>
+
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+
+   </body>
+</html>

@@ -1,0 +1,1123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!-- $Id$ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="../../ug/docstyle.css">
+    <title>LTPDA Method: ssm/ssm</title>
+  </head>
+  <body>
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <p style="font-size:1px;">&nbsp;</p>
+
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../../ug/../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ssm_rebuild.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ssm/rebuild"></a>&nbsp;&nbsp;&nbsp;<a href="ssm_ssm2miir.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ssm/ssm2miir"></a></td>
+      </tr>
+    </table>
+
+    <h1 class="title">Method ssm/ssm</h1>
+    <hr />
+
+<pre>  <SPAN CLASS="HELPTOPIC">SSM</SPAN> statespace model class constructor.
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+  DESCRIPTION: <SPAN CLASS="HELPTOPIC">SSM</SPAN> statespace model class constructor.
+ 
+  CONSTRUCTORS:
+ 
+        s = <span class="helptopic">ssm</span>()            - creates an empty statespace model
+        s = <span class="helptopic">ssm</span>('a1.xml')    - creates a new statespace model by loading the
+                               object from disk.
+        s = <span class="helptopic">ssm</span>('a1.mat')    - creates a new statespace model by loading the
+                               object from disk.
+        a = <span class="helptopic">ssm</span>(plist)       - creates a statespace model from the description
+                               given in the parameter list
+        a = <span class="helptopic">ssm</span>(struct)      - creates a statespace model from the
+                               structure returned by struct(<span class="helptopic">ssm</span>).
+ 
+ 
+  EXAMPLES:
+ 
+  1) Construct an <SPAN CLASS="HELPTOPIC">SSM</SPAN> object by description:
+ 
+                  name = 'sys';
+                  statenames = {'ss1' 'ss2' 'ss3'};
+                  inputnames = {'input1' 'input2' 'input3'};
+                  outputnames = {'output1' 'output2' 'output3'};
+                  timestep = 0;
+                  params = plist({'omega', 'system frequency'}, 2);
+                  amats = cell(3, 3);
+                  bmats = cell(3, 3);
+                  cmats = cell(3, 3);
+                  dmats = cell(3, 3);
+                  amats{1, 1} = -(sym('omega'));
+                  amats{2, 2} = -2;
+                  amats{3, 3} = -3*eye(2);
+                  amats{3, 1} = [-1;-3];
+                  bmats{1, 1} = 1;
+                  bmats{2, 2} = 2;
+                  bmats{3, 3} = 3*eye(2);
+                  cmats{1, 1} = 1;
+                  cmats{2, 2} = 1;
+                  cmats{3, 3} = eye(2);
+                  dmats{1, 3} = [6 6];
+                  dmats{2, 1} = 6;
+                  dmats{3, 2} = [6;6];
+                  sys = <span class="helptopic">ssm</span>(plist( ...
+                    'amats', amats, 'bmats', bmats, 'cmats', cmats, 'dmats', dmats, ...
+                    'timestep', timestep, 'name', name, 'params', params, ...
+                    'statenames', statenames, 'inputnames', inputnames, 'outputnames', outputnames ));
+ 
+ 
+      A shortcut (incomplete) syntax is :
+                 sys = <span class="helptopic">ssm</span>( amats, bmats, cmats, dmats, timestep, name, params, ...
+                            statenames, inputnames, outputnames )
+      Also :
+                 sys = <span class="helptopic">ssm</span>(miirObject);
+                 sys = <span class="helptopic">ssm</span>(rationalObject);
+                 sys = <span class="helptopic">ssm</span>(parfracObject);
+ 
+      More complete call
+                 % here computation of the system's matrices, declaration
+                 % of parameters, some symbolic may be stored in the user
+                 % plist
+                 sys = struct
+                 SMD_W = 0.2;  SMD_C = 0.5; SMD_S1 = 0; SMD_S2 = 0; SMD_B = 1; SMD_D1 = 0;
+                 sys.params = plist;
+ 
+ 
+                 sys.amats    = {[0 1 ; -SMD_W*SMD_W -2*SMD_C*SMD_W]};
+                 sys.cmats    = {[1+SMD_S1 SMD_S2]};
+                 sys.bmats    = {[0;SMD_B] [0 0; 1 0]};
+                 sys.dmats    = {SMD_D1 [0 1]};
+ 
+                 sys.timestep = 0;
+ 
+                 sys.name = 'SRPINGMASSDAMPER';
+                 sys.description = 'standard spring-mass-damper test system';
+ 
+                 inputnames    = {'CMD' 'DIST_SMD'};
+                 inputdescription = {'force noise' 'observation noise'};
+                 inputvarnames = {{'F'} {'F' 'S'}};
+                 inputvarunits = {unit('kg m s^-2') [unit('kg m s^-2') unit('m')]};
+                 inputvardescription = [];
+ 
+                 ssnames    = {'SMD'};
+                 ssdescription = {'TM position and speed'};
+                 ssvarnames = {{'x' 'xdot'}};
+                 ssvarunits={[unit('m') unit('m s^-1')]};
+                 ssvardescription = [];
+ 
+                 outputnames    = {'SMD'};
+                 outputdescription = {'observed position'};
+                 outputvarnames ={{'OBS'}};
+                 outputvarunits={unit('m')};
+                 outputvardescription = [];
+ 
+                 %% Build ssmblocks
+                 sys.inputs = ssmblock.makeBlocksWithData(inputnames, inputdescription, inputvarnames, inputvarunits, inputvardescription);
+                 sys.outputs = ssmblock.makeBlocksWithData(outputnames, outputdescription, outputvarnames, outputvarunits, outputvardescription);
+                 sys.states =  ssmblock.makeBlocksWithData(ssnames, ssdescription, ssvarnames, ssvarunits, ssvardescription);
+                 %% plist constructors
+                 sys = <span class="helptopic">ssm</span>(plist( ...
+                   'amats',sys.amats, 'bmats', sys.bmats, 'cmats', sys.cmats, 'dmats', sys.dmats, ...
+                   'timestep', 0, 'name', sys.name, 'inputs', sys.inputs, ...
+                   'states', sys.states, 'outputs', sys.outputs));
+ 
+ 
+  <a href="ssm_ssm.html#down">Parameters Description</a>
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</pre>
+
+    <!-- =====        Striped 4x2 table: Begin        ==== -->
+    <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+    <div class="sectiontitle"></div>
+    <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+      <colgroup>
+        <col width="30%"/>
+        <col width="70%"/>
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th class="categorylist">Method Details</th>
+          <th class="categorylist"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Access</td>
+          <td bgcolor="#f3f4f5">public</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Defining Class</td>
+          <td bgcolor="#ffffff">ssm</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Sealed</td>
+          <td bgcolor="#f3f4f5">0</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Static</td>
+          <td bgcolor="#ffffff">0</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- ===== Striped 4x2 table: End ==== -->
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <h2>Parameter Description</h2>    <a name="down" id="down"></a>
+
+    <!-- Link-Table of the sets -->
+    <table border="0" cellpadding="4" cellspacing="0" class="pagenavtable">
+      <tr><th>Sets for this method &#8230;</th></tr>
+        <tr><td><a href="#1">Default</a></td></tr>
+        <tr><td><a href="#2">From MAT File</a></td></tr>
+        <tr><td><a href="#3">From XML File</a></td></tr>
+        <tr><td><a href="#4">From Repository</a></td></tr>
+        <tr><td><a href="#5">From Built-in Model</a></td></tr>
+        <tr><td><a href="#6">From Description</a></td></tr>
+        <tr><td><a href="#7">From Pzmodel</a></td></tr>
+        <tr><td><a href="#8">From Miir</a></td></tr>
+        <tr><td><a href="#9">From Rational</a></td></tr>
+    </table>
+
+    <a name="1"></a>
+    <!-- Parameter List Table: Default -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>Default</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ssm.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">STATES</td>
+            <td bgcolor="#F2F2F2"></td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">State space blocks.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">OUTPUTS</td>
+            <td bgcolor="#F2F2F2"></td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Output blocks.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">INPUTS</td>
+            <td bgcolor="#F2F2F2"></td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Input blocks.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESTEP</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Timestep of the difference equation. Zero means the representation is time continuous</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">AMATS</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A matrix representing a difference/differential term in the state equation.Specify as a cell-array of matrices.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">BMATS</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">B matrix representing an input coefficient matrix in the state equation.Specify as a cell-array of matrices.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CMATS</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">C matrix representing the state projection in the observation equation.Specify as a cell-array of matrices.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DMATS</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">D matrix representing the direct feed through term in the observation equation.Specify as a cell-array of matrices.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PARAMS</td>
+            <td bgcolor="#F2F2F2">(empty-plist)</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Parameter data arrays.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('STATES', [ ], 'OUTPUTS', [ ], 'INPUTS', [ ], 'TIMESTEP', [0], 'AMATS', cell(0,0), 'BMATS', cell(0,0), 'CMATS', cell(0,0), 'DMATS', cell(0,0), 'PARAMS', plist(), 'NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="2"></a>
+    <!-- Parameter List Table: From MAT File -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From MAT File</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uo.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FILENAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">MAT filename.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('FILENAME', '', 'NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="3"></a>
+    <!-- Parameter List Table: From XML File -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From XML File</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uo.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FILENAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">XML filename.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('FILENAME', '', 'NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="4"></a>
+    <!-- Parameter List Table: From Repository -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From Repository</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uo.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">HOSTNAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Database server hostname.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DATABASE</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Database name.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">USERNAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">User name to use when connecting to the database. Leave blank to be prompted.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PASSWORD</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Password to use when connecting to the database. Leave blank to be prompted.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CONN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Java mysql object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ID, IDS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A vector of object IDs.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CID</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A vector of collection IDs.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">UUID, UUIDS</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell array of UUIDs.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">BINARY</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Use binary representation (not always available).</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('HOSTNAME', '', 'DATABASE', '', 'USERNAME', '', 'PASSWORD', cell(0,0), 'CONN', [[]], 'ID', [[]], 'CID', [[]], 'UUID', cell(0,0), 'BINARY', [true], 'NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="5"></a>
+    <!-- Parameter List Table: From Built-in Model -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From Built-in Model</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uo.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">BUILT-IN</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Choose one of the built-in models. (use <i>class</i>.getBuiltInModels to get a list for a particular user class)</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">VERSION</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Version of the built in model. The default version is used for the case that no 'Version' is defined.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ssm.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SYMBOLIC PARAMS</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a cell-array of parameter names to keep in the expression.<br>By default this is empty and the model will be returned fully numeric.You can also specify 'ALL' to keep all parameters. Some models don't support thisoption; see the specific help of the models for details.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PARAM NAMES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Cell-array of parameter names for user defined values.<br>This way, parameter values can be modified even if they are never used symbolically.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PARAM VALUES</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Array of parameter values for numerical substitutions.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('BUILT-IN', '', 'VERSION', [[]], 'SYMBOLIC PARAMS', cell(0,0), 'PARAM NAMES', cell(0,0), 'PARAM VALUES', [[]], 'NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="6"></a>
+    <!-- Parameter List Table: From Description -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From Description</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ssm.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">STATES</td>
+            <td bgcolor="#F2F2F2"></td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">State space blocks.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">OUTPUTS</td>
+            <td bgcolor="#F2F2F2"></td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Output blocks.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">INPUTS</td>
+            <td bgcolor="#F2F2F2"></td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Input blocks.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESTEP</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Timestep of the difference equation. Zero means the representation is time continuous</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">AMATS</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A matrix representing a difference/differential term in the state equation.Specify as a cell-array of matrices.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">BMATS</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">B matrix representing an input coefficient matrix in the state equation.Specify as a cell-array of matrices.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CMATS</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">C matrix representing the state projection in the observation equation.Specify as a cell-array of matrices.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DMATS</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">D matrix representing the direct feed through term in the observation equation.Specify as a cell-array of matrices.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PARAMS</td>
+            <td bgcolor="#F2F2F2">(empty-plist)</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Parameter data arrays.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('STATES', [ ], 'OUTPUTS', [ ], 'INPUTS', [ ], 'TIMESTEP', [0], 'AMATS', cell(0,0), 'BMATS', cell(0,0), 'CMATS', cell(0,0), 'DMATS', cell(0,0), 'PARAMS', plist(), 'NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="7"></a>
+    <!-- Parameter List Table: From Pzmodel -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From Pzmodel</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ssm.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PZMODEL</td>
+            <td bgcolor="#F2F2F2">pzmodel(g:no gain p:no pole z:no zero)</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A pole/zero model object.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('PZMODEL', [pzmodel()], 'NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="8"></a>
+    <!-- Parameter List Table: From Miir -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From Miir</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ssm.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">MIIR</td>
+            <td bgcolor="#F2F2F2">(fs=, ntaps=0.00, a=[], b=[])</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">An IIR filter object (MIIR).</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('MIIR', miir([plist('NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [], 'CALLERISMETHOD', [])]), 'NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="9"></a>
+    <!-- Parameter List Table: From Rational -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From Rational</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ssm.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RATIONAL</td>
+            <td bgcolor="#F2F2F2">rational()</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A rational (transfer function) model object.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('RATIONAL', rational([plist('NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [], 'CALLERISMETHOD', [])]), 'NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <p><!-- Table of the minfo object -->
+      <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+        <colgroup>
+          <col width="25%"/>
+          <col width="75%"/>
+        </colgroup>
+        <thead>
+          <tr valign="top">
+            <th class="categorylist" colspan="2">Some information of the method ssm/ssm are listed below:</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Property: 'mclass' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Class name</td>
+            <td bgcolor="#f3f4f5">ssm</td>
+          </tr>
+          <!-- Property: 'mname' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Method name</td>
+            <td bgcolor="#ffffff">ssm</td>
+          </tr>
+          <!-- Property: 'mcategory' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Category</td>
+            <td bgcolor="#f3f4f5">Constructor</td>
+          </tr>
+          <!-- Property: 'mpackage' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Package name</td>
+            <td bgcolor="#ffffff">ltpda</td>
+          </tr>
+          <!-- Property: 'modifier' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Can be used as modifier</td>
+            <td bgcolor="#f3f4f5">0</td>
+          </tr>
+          <!-- Property: 'supportedNumTypes' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Supported numeric types</td>
+            <td bgcolor="#ffffff">{'double'}</td>
+          </tr>
+        </tbody>
+      </table>
+    </p>
+
+
+    <br>
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ssm_rebuild.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ssm/rebuild"></a>&nbsp;</td>
+        <td align="left">Method: ssm/rebuild</td>
+        <td>&nbsp;</td>
+        <td align="right">Method: ssm/ssm2miir</td>
+        <td align="right" width="20"><a href="ssm_ssm2miir.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ssm/ssm2miir"></a></td>
+      </tr>
+    </table>
+
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+
+   </body>
+</html>

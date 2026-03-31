@@ -1,0 +1,16 @@
+----------------------------------------------------------------
+2015-06-12 12:54:28.843 GMT:
+ Booting Derby version The Apache Software Foundation - Apache Derby - 10.1.1.0 - (208786): instance c013800d-014d-e7d5-f6c8-0000348fccf8
+on database directory /Volumes/Work/working/ltp/git/ltpda_extensions_clean/LPF_DA_Module/jar/MIB/LTPDA_STOC_DB_01/lpf_stoc_db 
+
+Database Class Loader started - derby.database.classpath=''
+
+2015-06-12 12:54:29.427 GMT:
+Shutting down instance c013800d-014d-e7d5-f6c8-0000348fccf8
+----------------------------------------------------------------
+----------------------------------------------------------------
+2015-06-12 13:03:19.315 GMT:
+ Booting Derby version The Apache Software Foundation - Apache Derby - 10.1.1.0 - (208786): instance f81e0010-014d-e7d5-f6c8-0000348fccf8
+on database directory /Users/hewitson/matlab/ltpda_toolbox_installed/ltpda_toolbox/extensions/LPF_DA_Module/jar/MIB/LTPDA_STOC_DB_01/lpf_stoc_db 
+
+Database Class Loader started - derby.database.classpath=''

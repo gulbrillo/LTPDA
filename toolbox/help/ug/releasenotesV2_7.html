@@ -1,0 +1,207 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Version 2.7 LTPDA Toolbox Software (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="releasenotesV2_7_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="Version 2.7.1 LTPDA Toolbox Software"></a>&nbsp;&nbsp;&nbsp;<a href="releasenotesV2_6_1.html"><img src="b_next.gif" border="0" align="bottom" alt="Version 2.6.1 LTPDA Toolbox Software"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Version 2.7 LTPDA Toolbox Software</h1>
+    <hr>
+    
+    <p>
+          
+    <style type="text/css">
+      p { margin-left:30px; }
+      h4 { margin-left:15px; }
+      h5.title {color:#990000; margin-left:20px; margin-top:1ex; margin-bottom:.9ex; font-weight:bold; font-size:2ex}
+    </style>
+    
+    <!-- BEGIN: Content file -->
+
+    <a name="top_of_page"></a>
+    This table summarizes what's new in Version 2.7:
+    <table cellspacing="0" class="body" cellpadding="4" border="2" width="100%">
+      <colgroup>
+        <col width="25%">
+        <col width="25%">
+        <col width="25%">
+        <col width="25%">
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th bgcolor="#B2B2B2" valign="top">New Features and Changes</th>
+          <th bgcolor="#B2B2B2" valign="top">Version Compatibility Considerations</th>
+          <th bgcolor="#B2B2B2" valign="top">Fixed Bugs and Known Problems</th>
+          <th bgcolor="#B2B2B2" valign="top">Related Documentation at Web Site</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#F2F2F2">Yes<br>Details below</td>
+          <td bgcolor="#F2F2F2">No</td>
+          <td bgcolor="#F2F2F2"><a href="https://ed.fbk.eu/ltpda/mantis/login_page.php" target="_top">Bug Reports</a> at Web site</td>
+          <td bgcolor="#F2F2F2">Printable Release Notes: <a href="http://www.lisa.aei-hannover.de/ltpda/downloads/version_27/files/Release_Notes_v2.7.pdf" target="_top">PDF</a></td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <ul>
+      <li><a href="#introduction">Introduction</a></li>
+      <li><a href="#main_changes">Main Changes</a></li>
+      <ul>
+        <li><a href="#copying_objects">Copying Objects</a></li>
+        <li><a href="#history_context">History context</a></li>
+        <li><a href="#fhandle_objects">Function handle objects</a></li>
+        <li><a href="#new_methods">New Methods</a></li>
+        <li><a href="#changes">Changes to methods</a></li>
+        <li><a href="#repo_interaction">LTPDA Repository Interaction</a></li>
+      </ul>
+      <li><a href="#mantis_issues">MANTIS Issues Resolved</a></li>
+      <li><a href="http://www.lisa.aei-hannover.de/ltpda/downloads/version_27/files/Release_Notes_v2.7.pdf">Detailed changes since v2.6.1</a></li>
+    </ul>
+    
+    <!-- HEADLINE: Introduction -->
+    <h3 class="title" id="introduction">Introduction</h3>
+    <p>This version of LTPDA is 2.7. This document lists the changes since V2.6.1.</p>
+    <p><i>This version requires MATLAB 2010a or above.</i></p>
+    
+    <!-- HEADLINE: Main Changes -->
+    <h3 class="title" id="main_changes">Main Changes</h3>
+    <p>This version of LTPDA contains many under-the-hood improvements, 
+      particularly in the area of speed, and also some changes to the underlying
+      data structures for analysis objects. In addition, a new test infrastructure
+      is under development which includes a significant number of new unit tests.
+      As a result a large number of bug fixes have been made.</p>
+    
+    <!-- HEADLINE: Copying Objects -->
+    <h4 class="title" id="copying_objects">Copying Objects</h4> 
+    <p>In order to make deep copies of objects, users should now use the copy() 
+      method rather than the old (and confusing) copy constructor. 
+      So, instead of</p>
+      
+<div class="fragment"><pre class="programlisting">
+a = ao.randn(10,1)
+b = ao(a)</pre></div>
+
+    <p>users should now do</p>
+    
+<div class="fragment"><pre class="programlisting">
+b = copy(a)</pre></div>
+
+    <!-- HEADLINE: History context -->
+    <h4 class="title" id="history_context">History context</h4> 
+    <p>When tracking processing steps the &lsquo;context&rsquo; in which the
+    current command is executed is captured in the history structure. 
+    For example, it may capture the name of the script or pipeline being 
+    executed. In a later release this may be used to group history steps 
+    in the history tree displays.</p>
+    
+    <!-- HEADLINE: Function handle objects -->
+    <h4 class="title" id="fhandle_objects">Function handle objects</h4> 
+    <p>Function handle objects have a new property &lsquo;transform&rsquo; 
+    where you can specify a single or a list of functions that should be 
+    applied to the input objects prior to evaluating the function.</p>
+    
+    <!-- HEADLINE: New Methods -->
+    <h4 class="title" id="new_methods">New Methods</h4> 
+    <ul>
+      <li>the <b>ao</b> class has a new method <b>subsData</b> which can be used to replace segments of a data series in different ways.</li>
+      <li>the <b>ao</b> class has a new method <b>cgfill</b> which can replace segments of a data series with constrained gaussian noise generated from an input spectral model.</li>
+      <li>the function handle class (<b>mfh</b>) has a new bounded non-linear least squares search (<b>fminsearchbnd</b>). This can be considered a beta version as it doesn&lsquo;t yet return error estimates.</li>
+      <li>the <b>ao</b> class has 4 new convenient filtering methods: <b>lowpass</b>, <b>highpass</b>, <b>bandpass</b> and <b>bandreject</b>.</li>
+      <li>there is a new <b>ao</b> built-in model which computes a set of notches in the frequency domain (<b>ao_model_notch</b>)</li>
+      <li>the <b>matrix</b> class now supports element-wise power operations. For now it only supports for <b>X = matrix.^scalar</b>.</li>
+    </ul>
+    
+    <!-- HEADLINE: Changes to methods -->
+    <h4 class="title" id="changes">Changes to methods</h4> 
+    <ul>
+      <li><b>ao/polyfit</b> now returns error estimates (assuming uncorrelated inputs)</li>
+      <li>in <b>ao/iplot</b> the provenance info patches can now be disabled in the plist</li>
+      <li><b>ao/setPlotinfo</b> now accepts an empty array to allow the user to clear the <b>plotinfo</b></li>
+      <li>the built-in <b>ao</b> model <b>retrieve_in_timespan</b> has a new <b>dryrun</b> parameter which just reports on whether the request will result in any objects.</li>
+      <li><b>mfh/fminsearch</b> now returns error estimates if the original data model is input in the plist.</li>
+      <li><b>timespan/plot</b> has been improved to allow the boxes representing the timespans to be transparent so they can be overlaid on other data plots.</li>
+      <li><b>ao/iplotyy</b> has been updated to work properly with the plotinfo objects.</li>
+    </ul>   
+    
+    <!-- HEADLINE: LTPDA Repository Interaction -->
+    <h4 class="title" id="repo_interaction">LTPDA Repository Interaction</h4> 
+    <p>This version of the toolbox has some new utilities for querying 
+      LTPDA repositories from within MATLAB.</p>
+    <ul>
+      <li><b>utils.repository.report</b> dumps the records of a database to a file</li>
+      <li><b>utils.repository.existObjectInDB</b> checks if a given name exist in the database table objmeta.name. It is also possible to specify for AOs with time-series a time-span.</li>
+    </ul>   
+    
+    <!-- HEADLINE: MANTIS Issues Resolved -->
+    <h3 class="title" id="mantis_issues">MANTIS Issues Resolved</h3>
+    <table cellspacing="0" class="body" cellpadding="4" border="2" width="100%">
+      <thead>
+        <tr valign="top">
+          <th bgcolor="#B2B2B2" valign="top">Issue</th>
+          <th bgcolor="#B2B2B2" valign="top">Type</th>
+          <th bgcolor="#B2B2B2" valign="top">Decription</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>0000510</td><td>Change Request</td><td>A possibility to specify the dy field of an ao without knowing its length</td></tr>
+        <tr><td>0000559</td><td>Change Request</td><td>Give warning if negative samping rate is found.</td></tr>
+        <tr><td>0000625</td><td>Change Request</td><td>More matrix methods</td></tr>
+        <tr><td>0000642</td><td>Change Request</td><td>Power operator for matrix objects</td></tr>
+        <tr><td>0000643</td><td>Bug Report</td><td>ao.setXunits rejects certain units</td></tr>
+        <tr><td>0000641</td><td>Bug Report</td><td>iplot returns error if objects have no dependency information</td></tr>
+        <tr><td>0000658</td><td>Bug Report</td><td>Iplot does not work as documented / plotinfo objects overrule manual plot settings</td></tr>
+        <tr><td>0000656</td><td>Change Request</td><td>ao/search should warn of failure</td></tr>
+        <tr><td>0000660</td><td>Change Request</td><td>A report method for get_data step of pipelines</td></tr>
+        <tr><td>0000662</td><td>Change Request</td><td>Warnings about telemetry parameters alias</td></tr>
+        <tr><td>0000668</td><td>Bug Report</td><td>Applying Yranges on multiple iplots</td></tr>
+        <tr><td>0000666</td><td>Bug Report</td><td>Manual is not accessible online</td></tr>
+        <tr><td>0000647</td><td>Change Request</td><td>Test mode in retrieve in timespan</td></tr>
+        <tr><td>0000665</td><td>Bug Report</td><td>ao.polyfit does not calculate errors for the estimated coefficients</td></tr>
+        <tr><td>0000661</td><td>Change Request</td><td>An easy way to access names of LTPDApipeline telemetry parameters</td></tr>
+        <tr><td>0000659</td><td>Change Request</td><td>Release notes are not accessible/file is damaged</td></tr>
+        <tr><td>0000650</td><td>Bug Report</td><td>Mantis doesn't allow to select product version 2.6</td></tr>
+        <tr><td>0000664</td><td>Change Request</td><td>pest class needs a y method</td></tr>
+        <tr><td>0000655</td><td>Bug Report</td><td>iplot for aos from (older version) files is broken</td></tr>
+        <tr><td>0000653</td><td>Bug Report</td><td>simplifyYunits does not like kg and does not scale errors</td></tr>     
+      </tbody>
+    </table>    
+    
+    <!-- END: Content file -->
+    
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="releasenotesV2_7_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="Version 2.7.1 LTPDA Toolbox Software"></a>&nbsp;</td>
+        <td align="left">Version 2.7.1 LTPDA Toolbox Software</td>
+        <td>&nbsp;</td>
+        <td align="right">Version 2.6.1 LTPDA Toolbox Software</td>
+        <td align="right" width="20"><a href="releasenotesV2_6_1.html"><img src="b_next.gif" border="0" align="bottom" alt="Version 2.6.1 LTPDA Toolbox Software"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

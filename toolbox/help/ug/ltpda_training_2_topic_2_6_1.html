@@ -1,0 +1,241 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Simulating harmonic oscillator noise (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_2_topic_2_6.html"><img src="b_prev.gif" border="0" align="bottom" alt="Simulating noise"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_2_topic_2_6_2.html"><img src="b_next.gif" border="0" align="bottom" alt="Simulating capacitive actuation noise"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Simulating harmonic oscillator noise</h1>
+    <hr>
+    
+    <p>
+      <h2>Basic system simulations</h2>
+<p>Let's begin with a simple example, namely the harmonic oscillator. The system can be built easily,
+specifying the values for the key parameters (mass, spring constant, viscous damping coefficient):
+<div class="fragment"><pre>
+  <span class="comment">% Build a Harmonic Oscillator model</span>
+  <span class="comment">% Physical parameters</span>
+  m     = .1;     <span class="comment">% mass: 0.1 kg</span>
+  k     = 1e-2;   <span class="comment">% spring constant: 1e-2 N / m</span>
+  vbeta = 1e-3;   <span class="comment">% viscous damping coefficient: 1e-3 N s / m</span>
+
+  <span class="comment">% Definition plist</span>
+  buildPlist = plist(...
+              	<span class="string">'built-in'</span>, <span class="string">'HARMONIC_OSC_1D'</span>, ...
+                <span class="string">'m'</span>, m, ...
+                <span class="string">'vbeta'</span>, vbeta, ...
+                <span class="string">'k'</span>, k ...
+                );
+
+  <span class="comment">% Build the ssm model</span>
+  harm_osc = ssm(buildPlist);</pre></div>
+  
+  Now, a call to <tt>ssm/viewDetails</tt> is telling us that the system has two input blocks, namely 'COMMAND' and 'NOISE', 
+  representing respectively the force acting on the particle and the readout additive noise. Each of the input blocks has
+  a single port, respectively 'COMMAND.force' and 'NOISE.readout', where data needs to have the proper physical units.
+  <div class="fragment"><pre>
+  <span class="comment">%% Look at the model details</span>
+  harm_osc.viewDetails</pre></div>
+  The system is continuous, i.e., it has a time-step of zero. We can verify this by inspecting its <tt>timestep</tt> property:
+  <div class="fragment"><pre>
+  <span class="comment">%% Check if the model is continuous</span>
+  harm_osc.timestep</pre></div>
+</p>
+<p>
+Now we want to calculate the system transfer function of the input to the outputs, in order to estimate the effect of the sources.
+In order to do that, we can call the <tt>ssm/bode</tt> method, specifying the input port, the output port, and the frequency range. 
+Here is an example, where we look at the response of the harmonic oscillator mass position to the application of an external force,
+in the range from 0.1 mHz t 1 Hz:
+<div class="fragment"><pre>
+  <span class="comment">%% Calcolate the bode response from force to displacement for the continuous system</span>
+  forceBodePlist = plist(...
+    <span class="string">'inputs'</span>, <span class="string">'COMMAND.force'</span>, ...
+    <span class="string">'outputs'</span>, <span class="string">'HARMONIC_OSC_1D.position'</span>, ...
+    <span class="string">'f'</span>, logspace(-4, 0, 1000) ... <span class="comment">% from 0.1mHz to 1Hz</span>
+    );
+
+  bode_output              = bode(harm_osc, forceBodePlist);
+  harm_osc_cont_resp_force = bode_output.unpack();</pre></div>
+  <table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1">
+  <tr width="90%">
+    <td>
+      NOTE: The output of bode is a <tt>matrix</tt> object. The single response we want (1 input to 1 output) is represented by the single <tt>ao</tt> inside the output matrix. So we unpack that single object from the matrix.
+    </td>
+  </tr>
+</table>  
+<br>
+Similarly, we could look at the response of the harmonic oscillator mass position to the additive readout noise,
+in the range from 0.1 mHz t 1 Hz:
+<div class="fragment"><pre>
+  <span class="comment">%% Calcolate the bode response from readout noise to displacement for the continuous system</span>
+  readoutBodePlist = plist(...
+    <span class="string">'inputs'</span>, <span class="string">'NOISE.readout'</span>, ...
+    <span class="string">'outputs'</span>, <span class="string">'HARMONIC_OSC_1D.position'</span>, ...
+    <span class="string">'f'</span>, logspace(-4, 0, 1000) ... <span class="comment">% from 0.1mHz to 1Hz</span>
+    );
+
+  bode_output                = bode(harm_osc, readoutBodePlist);
+  harm_osc_cont_resp_readout = bode_output.unpack();</pre></div>
+</p>
+<h2>Discretizing the system</h2>
+In order to simulate the <tt>ssm</tt> models, we need to discretize them. This is done by setting the time-step to a non-zero value.
+<div class="fragment"><pre>
+  <span class="comment">%% Discretize the system to be simulated at 10 Hz</span>
+  timestep = 0.1;
+  harm_osc_discrete = harm_osc.modifyTimeStep(timestep);
+  </pre></div>
+The discretization of a continuous system is a delicate step, because it involves a change from s-domain to z-domain representation.
+In this case, we want to evaluate the impact of discretizing our harmonic oscillator at 10 Hz. To do so, we go ahead and
+calculate the transfer function of the discretized system, for both inputs, and compare them with the continuous ones.
+<div class="fragment"><pre>
+  <span class="comment">% Calculate the bode response from force to displacement for the discrete system</span>
+  bode_output              = bode(harm_osc_discrete, forceBodePlist);
+  harm_osc_disc_resp_force = bode_output.unpack();
+
+  <span class="comment">% Calculate the bode response from readout noise to displacement for the discrete system</span>
+  bode_output                = bode(harm_osc, readoutBodePlist);
+  harm_osc_disc_resp_readout = bode_output.unpack();
+
+  <span class="comment">% Compare the transfer functions for the discrete and continuous case</span>
+  plot_plist = plist(<span class="string">'linestyles'</span>, {<span class="string">'-'</span>, <span class="string">'--'</span>});
+
+  iplot(harm_osc_cont_resp_readout, harm_osc_disc_resp_readout, plot_plist);
+  iplot(harm_osc_cont_resp_force, harm_osc_disc_resp_force, plot_plist);</pre></div>
+We expect to see two plots similar to the following ones, showing that the effect of discretizing at this rate is very tiny,
+and as expected it impacts only at very high frequencies:
+
+  <br>
+  <br>
+  <IMG src="images/ltpda_training_2/Topic2/harmonic_oscillator_force_position_bode.png" width="1000px" align="center" border="0">
+  <br>
+  <br>
+  <IMG src="images/ltpda_training_2/Topic2/harmonic_oscillator_readout_position_bode.png" width="1000px" align="center" border="0">
+  <br>
+  <br>
+  </p>
+  <h2>Simulating the system</h2>
+<p>Let's assume we only want to simulate the effect of the external force noise, so we simulate a single noise source. 
+We can do that by specifying a single input name and a value for the CPSD of that noise source:
+<div class="fragment"><pre>
+  <span class="comment">%% Simulate the system behavior: only force noise</span>
+  <span class="comment">% Simulation configuration plist</span>
+  simPlist_force = plist(...
+    <span class="string">'CPSD Variable Names'</span>, <span class="string">'COMMAND.force'</span>, ...
+    <span class="string">'CPSD'</span>, 1e-6, ...
+    <span class="string">'Return outputs'</span>, {<span class="string">'HARMONIC_OSC_1D.position'</span>}, ...
+    <span class="string">'Nsamples'</span>, 100000 ...
+    );
+
+  <span class="comment">% Launch the simulation</span>
+  sim_output = harm_osc_discrete.simulate(simPlist_force);
+  
+  <span class="comment">% Extract the AO with the postion data</span>
+  out_force = sim_output.unpack();
+  
+  <span class="comment">% Plot the results</span>
+  iplot(out_force)</pre></div>
+You should see a plot similar to the following one:
+
+  <br>
+  <br>
+  <IMG src="images/ltpda_training_2/Topic2/harmonic_oscillator_simuation_force.png" width="1000px" align="center" border="0">
+  <br>
+  <br>
+</p>
+<p>Similarly, let's assume we only want to simulate the effect of the readout noise, so we simulate a single noise source. 
+We can do that by specifying a single input name and a value for the CPSD of that noise source:
+<div class="fragment"><pre>
+  <span class="comment">%% Simulate the system behavior: only readout noise</span>
+  <span class="comment">% Simulation configuration plist</span>
+  simPlist_readout = plist(...
+    <span class="string">'CPSD Variable Names'</span>, <span class="string">'NOISE.readout'</span>, ...
+    <span class="string">'CPSD'</span>, 0.01, ...
+    <span class="string">'Return outputs'</span>, {<span class="string">'HARMONIC_OSC_1D.position'</span>}, ...
+    <span class="string">'Nsamples'</span>, 100000 ...
+    );
+
+  <span class="comment">% Launch the simulation</span>
+  sim_output = harm_osc_discrete.simulate(simPlist_readout);
+  
+  <span class="comment">% Extract the AO with the postion data</span>
+  out_readout = sim_output.unpack();
+  
+  <span class="comment">% Plot the results</span>
+  iplot(out_readout)</pre></div>
+You should see a plot similar to the following one:
+
+  <br>
+  <br>
+  <IMG src="images/ltpda_training_2/Topic2/harmonic_oscillator_simuation_readout.png" width="1000px" align="center" border="0">
+  <br>
+  <br>
+  You can verify that by changing the CPSD quantity, the noise level changes accordingly.
+</p>
+<h2>Estimating the PSD</h2>
+<p>
+Eventually, we want to estimate the PSD of the displacement in the two cases. Just for curiosity, 
+we change the number of averages in the two cases.
+<div class="fragment"><pre>
+  <span class="comment">%% Estimate the PSD</span>
+  <span class="comment">% PSD estimation configuration plist</span>
+  psdPlist = plist(...
+    <span class="string">'scale'</span>, <span class="string">'PSD'</span>, ...
+    <span class="string">'order'</span>, 1, ...
+    <span class="string">'win'</span>, <span class="string">'BH92'</span> ...
+    );
+
+  <span class="comment">% Estimate the PSD</span>
+  S_out_force   = out_force.psd(psdPlist.pset(<span class="string">'navs'</span>, 16));
+  S_out_readout = out_readout.psd(psdPlist.pset(<span class="string">'navs'</span>, 100));
+
+  <span class="comment">% Plot the ASD (sqrt(PSD))</span>
+  iplot(sqrt(S_out_readout));
+  iplot(sqrt(S_out_force));</pre></div>
+<br>
+We expect to see two plots similar to the following ones:
+
+  <br>
+  <br>
+  <IMG src="images/ltpda_training_2/Topic2/harmonic_oscillator_simuation_force_noise.png" width="1000px" align="center" border="0">
+  <br>
+  <br>
+  <IMG src="images/ltpda_training_2/Topic2/harmonic_oscillator_simuation_readout_noise.png" width="1000px" align="center" border="0">
+  <br>
+  <br>
+Again, you can verify that by changing the CPSD quantity, the noise levels change accordingly.
+</p>
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_2_topic_2_6.html"><img src="b_prev.gif" border="0" align="bottom" alt="Simulating noise"></a>&nbsp;</td>
+        <td align="left">Simulating noise</td>
+        <td>&nbsp;</td>
+        <td align="right">Simulating capacitive actuation noise</td>
+        <td align="right" width="20"><a href="ltpda_training_2_topic_2_6_2.html"><img src="b_next.gif" border="0" align="bottom" alt="Simulating capacitive actuation noise"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Modelling a system (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_topic_4_2.html"><img src="b_prev.gif" border="0" align="bottom" alt="Transforming models between representations"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_topic_4_4.html"><img src="b_next.gif" border="0" align="bottom" alt="How to filter data"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Modelling a system</h1>
+    <hr>
+    
+    <p>
+      <p>
+  To show some of the possibilities of the toolbox to model digital system we
+  introduce the usual notation for a closed loop model:
+</p>
+<div align="center">
+  <img src="images/ltpda_training_1/topic4/ClosedLoop.png" alt="Closed Loop" border="3">
+</div>
+<p>
+  In our example we will assume that we know the <tt>pzmodel</tt> of the filter,
+  <tt>H</tt>, and the open loop gain (OLG). These are related with the closed
+  loop gain (CLG) by the following equation:
+</p>
+<br>
+<div align="center">
+  <img src="images/ltpda_training_1/topic4/ClosedLoop_eq.png" border="3">
+</div>
+<br>
+<p>
+  We want to determine G and CLG. We would also like to find a digital filter
+  for H, but we will deal with this in the following section.
+</p>
+<h2>Loading the starting models</h2>
+<p>
+  Imagine that we have somehow managed to find the following model for OLG:
+</p>
+<table cellspacing="0" class="body" cellpadding="2" border="0" width="50%">
+  <colgroup>
+    <col width="15%"/>
+    <col width="35%"/>
+  </colgroup>
+  <thead>
+    <tr valign="top">
+      <th class="categorylist">Key</th>
+      <th class="categorylist">Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Key 'filename' -->
+    <tr valign="top">
+      <td bgcolor="#f3f4f5">
+        <p><tt>GAIN</tt></p>
+      </td>
+      <td bgcolor="#f3f4f5">
+        4e6
+      </td>
+    </tr>
+    <!-- Key 'filename' -->
+    <tr valign="top">
+      <td bgcolor="#f3f4f5">
+        <p><tt>POLES</tt></p>
+      </td>
+      <td bgcolor="#f3f4f5">
+        1e-6
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>
+  then we can create a <tt>pzmodel</tt> with these parameters as follows
+</p>
+<div class="fragment"><pre>
+    OLG = pzmodel(4e6, 1e-6, [], <span class="string">'OLG'</span>)
+    ---- pzmodel 1 ----
+           name: OLG
+           gain: 4000000
+          delay: 0
+         iunits: []
+         ounits: []
+    description:
+           UUID: 3d8bce32-a9a9-4e72-ab4d-183da69a9b5d
+    pole 001: (f=1e-06 Hz, Q=NaN, ri=-6.283e-06)
+    -------------------
+</pre></div>
+<p>
+  To introduce the second model, the one describing <tt>H</tt>, we will show another feature
+  of the <tt>pzmodel</tt> constructor. We will read it from a LISO file,
+  since this contructor accepts this files as inputs. We can then type
+</p>
+<div class="fragment"><pre>
+    H = pzmodel(<span class="string">'topic4/LISOfile.fil'</span>)
+    ---- pzmodel 1 ----
+           name: none
+           gain: 1000000000
+          delay: 0
+         iunits: []
+         ounits: []
+    description:
+           UUID: e683b32f-4653-474e-b457-939d33aeb63c
+	pole 001: (f=1e-06 Hz, Q=NaN, ri=-6.283e-06)
+    pole 002: (f=1e-06 Hz, Q=NaN, ri=-6.283e-06)
+    zero 001: (f=0.001 Hz, Q=NaN, ri=-0.006283)
+-------------------
+</pre></div>
+<pp>
+  and we see how the constructor recognizes and translates the poles and zeros in the file.
+  The model gets the name from the file but we can easily change it to have
+  the name of our model:
+</pp>
+<div class="fragment"><pre>
+    H.setName();
+</pre></div>
+<pp>
+  According to our previous definition we can get the <tt>plant</tt> by dividing the
+  OLG by H. We can do so directly when dealing with <tt>pzmodel</tt> objects
+  since multiplication and division are allowed for these objects, then
+</pp>
+<div class="fragment"><pre>
+    G = OLG/H
+    ---- pzmodel 1 ----
+           name: (OLG./H)
+           gain: 0.004
+          delay: 0
+         iunits: []
+         ounits: []
+    description:
+           UUID: fcd166f7-d726-4d39-ad2e-0f3b7141415b
+	pole 001: (f=1e-06 Hz, Q=NaN, ri=-6.283e-06)
+	pole 002: (f=0.001 Hz, Q=NaN, ri=-0.006283)
+	zero 001: (f=1e-06 Hz, Q=NaN, ri=-6.283e-06)
+	zero 002: (f=1e-06 Hz, Q=NaN, ri=-6.283e-06)
+    -------------------
+</pre></div>
+<pp>
+  which we need to simplify to get rid of cancelling poles and zeros. We also
+  set the model name here.
+</pp>
+<div class="fragment"><pre>
+    G.setName();
+    G.simplify
+    ---- pzmodel 1 ----
+           name: simplify(G)
+           gain: 0.004
+          delay: 0
+         iunits: []
+         ounits: []
+    description:
+           UUID: c1883713-b860-4942-a127-e42ea565460f
+	pole 001: (f=0.001 Hz, Q=NaN, ri=-0.006283)
+	zero 001: (f=1e-06 Hz, Q=NaN, ri=-6.283e-06)
+    -------------------
+</pre></div>
+<pp>
+  The CLG requires more than a simple multiplication or division between models
+  and we will not be able to derive a <tt>pzmodel</tt> for it. However, we can
+  evaluate the response of this object as follows:
+</pp>
+<div class="fragment"><pre>
+    pl = plist(<span class="string">'f1'</span>, 1e-3, <span class="string">'f2'</span>, 5, <span class="string">'nf'</span>, 100);
+    CLG = 1/(1-resp(OLG, pl));
+    CLG.setName();
+    CLG.iplot();
+</pre></div>
+<p>
+  which gives us an AO that we can plot:
+</p>
+<div align="center">
+  <img src="images/ltpda_training_1/topic4/ClosedLoop_resp.png" alt="Closed Loop response" border="1">
+</div>
+<br>
+<br>
+<h2>Fine, but my (real) system has a delay...</h2>
+<p>
+  You can now repeat the same procedure but loading a <tt>H</tt> model with a delay
+  from the LISO file 'LISOFileDelay.fil':
+</p>
+<div class="fragment"><pre>
+    H_Delay = pzmodel(<span class="string">'topic4/LISOfileDelay.fil'</span>)
+    ---- pzmodel 1 ----
+           name: none
+           gain: 1000000000
+          delay: 0.125
+         iunits: []
+         ounits: []
+    description:
+           UUID: 6dfbddc5-b186-4405-8f6e-02a2822a22c5
+	pole 001: (f=1e-06 Hz, Q=NaN, ri=-6.283e-06)
+	pole 002: (f=1e-06 Hz, Q=NaN, ri=-6.283e-06)
+	zero 001: (f=0.001 Hz, Q=NaN, ri=-0.006283)
+    -------------------
+    </pre></div>
+    and calculate the response:
+    <div class="fragment"><pre>
+    H_Delay.setName();
+    pl = plist(<span class="string">'f1'</span>, 1e-3, <span class="string">'f2'</span>, 5, <span class="string">'nf'</span>, 100);
+    resp([H, H_Delay], pl)
+</pre></div>
+<p>
+  You will see how the delay is correctly handled, meaning that it is added when
+  we multiply two models and subtracted if the models are divided.
+</p>
+<div align="center">
+  <img src="images/ltpda_training_1/topic4/ClosedLoop_H_delay.png" alt="Response with delay" border="1">
+</div>
+
+
+
+
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_topic_4_2.html"><img src="b_prev.gif" border="0" align="bottom" alt="Transforming models between representations"></a>&nbsp;</td>
+        <td align="left">Transforming models between representations</td>
+        <td>&nbsp;</td>
+        <td align="right">How to filter data</td>
+        <td align="right" width="20"><a href="ltpda_training_topic_4_4.html"><img src="b_next.gif" border="0" align="bottom" alt="How to filter data"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

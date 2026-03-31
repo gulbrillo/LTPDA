@@ -1,0 +1,167 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>PLIST built-in models (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="builtin_models_ssm.html"><img src="b_prev.gif" border="0" align="bottom" alt="SSM built-in models"></a>&nbsp;&nbsp;&nbsp;<a href="noisegen.html"><img src="b_next.gif" border="0" align="bottom" alt="Generating model noise"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">PLIST built-in models</h1>
+    <hr>
+    
+    <p>
+      <p>
+  The handling of built-in <tt>plist</tt> models is different from the other classes built-in models. To see a list of available models, use
+</p>
+<div class="fragment"><pre>
+  >> plist.getBuiltInModels
+</pre></div>
+<p>The built-in <tt>plist</tt> models contain lists of parameters, that are usually needed to have centralized source.
+They are typically employed to group together reference values, and can hold a lot of useful informations.
+In order to build them, you need a configuration <tt>plist</tt>. But they are <tt>plist</tt> objects ... so the syntax is:</p>
+<div class="fragment"><pre>
+    pl = plist(plist(<span class="string">'built-in'</span>, <span class="string">'physical_constants'</span>))
+----------- plist 01 -----------
+n params: 34
+---- param 1 ----
+key:    C
+val:    299792458
+desc:   Speed of light in vacuum
+origin: default
+props: units='m s^-1', error=[], subsystem='universal', reference='http://en.wikipedia.org/wiki/Physical_constants'
+-----------------
+---- param 2 ----
+key:    G
+val:    6.6742867000000001e-11
+desc:   Newtonian constant of gravitation
+origin: default
+props: units='m^3 kg^-1 s^-2', error=0.0001, subsystem='universal', reference='http://en.wikipedia.org/wiki/Physical_constants'
+-----------------
+---- param 3 ----
+key:    H
+val:    6.6260689633000002e-34
+desc:   Planck constant
+origin: default
+props: units='J s', error=4.9999999999999998e-08, subsystem='universal', reference='http://en.wikipedia.org/wiki/Physical_constants'
+-----------------
+---- param 4 ----
+key:    PLANCK_CONST
+val:    6.6260689633000002e-34
+desc:   Planck constant
+origin: default
+props: units='J s', error=4.9999999999999998e-08, subsystem='universal', reference='http://en.wikipedia.org/wiki/Physical_constants'
+-----------------
+---- param 5 ----
+key:    RED_PLANCK_CONST
+val:    1.0545716287769856e-34
+desc:   Reduced Planck constant (h/(2*pi))
+origin: default
+props: units='J s', error=4.9999999999999998e-08, subsystem='universal', reference='http://en.wikipedia.org/wiki/Physical_constants'
+-----------------
+---- param 6 ----
+key:    MAGNETIC_CONST
+val:    1.2566370614359173e-06
+desc:   Magnetic constant
+origin: default
+props: units='N A^-2', error=[], subsystem='electromagnetic', reference='http://en.wikipedia.org/wiki/Physical_constants'
+-----------------
+</pre></div>
+<p>Now, in order to search for a given value, you can use the <tt>find</tt> method of the <tt>plist</tt> class. Let's assume you wish to access the value of the speed of light in vacuum, usually known as 'c':</p>
+<div class="fragment"><pre>
+    c = pl.find(<span class="string">'c'</span>)
+ans =
+   299792458
+    </pre></div>
+<p>As you can see, the numeric value of the desired constant is returned. Now, LTPDA provides a better way to know which are the values (parameters) contained in such a built-in <tt>plist</tt>.
+In order to access these information, just remember that all <tt>plist</tt> model files are called <tt>plist_model_&lt;model_name&gt;</tt> and then type</p>
+    <div class="fragment"><pre>
+    help plist_model_physical_constants
+    plist_model_physical_constants constructs a PLIST with physical constants.
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+  DESCRIPTION: plist_model_physical_constants constructs a PLIST with
+               physical constants.
+ 
+  CALL:
+            pl = plist(plist('built-in', 'physical_constants'));
+ 
+  INPUTS:
+            additional parameters (see below)
+ 
+  OUTPUTS:
+            pl - an PLIST object representing the physical constants
+ 
+  INFO:
+    Model Information
+ 
+  MODEL CONTENT:
+    Model Content
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    </pre></div>
+<p>The 'Model Content' link is very useful since it will open a help browser html page like the following:</p>
+<img src="images/model_content.png" alt="Built-in plist model content" border="3" width="800px">
+<p>In this way you can know the content of the model, in particular the name of the parameters.</p>
+<br>
+<p>A very powerful usage of these parameters list built-in model is in conjunction with the <tt>ao</tt> constructor:</p>
+<div class="fragment"><pre>
+c = ao(plist(<span class="string">'parameter'</span>, <span class="string">'physical_constants'</span>, <span class="string">'key'</span>, <span class="string">'c'</span>))
+----------- ao 01: C -----------
+ 
+       name: C
+       data: 299792458
+             -------- cdata [vals] ------------
+                  y:  [1x1], double
+                 dy:  [0x0], double
+             yunits:  [m s^(-1)]
+             ----------------------------------
+              
+       hist: ao / ao / fece767e70dde615b6543df76c3ecd63c958633d
+description: Speed of light in vacuum
+       UUID: 657c1a8c-499f-41d7-bbe5-d3577c9cb570
+--------------------------------
+</pre></div>
+<br>
+<p>
+  For creating your own <tt>plist</tt> models, follow similar rules as in the <tt>ao</tt> case. A good example to follow is
+</p>
+<div class="fragment"><pre>
+  >> edit plist_model_physical_constants
+</pre></div>
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="builtin_models_ssm.html"><img src="b_prev.gif" border="0" align="bottom" alt="SSM built-in models"></a>&nbsp;</td>
+        <td align="left">SSM built-in models</td>
+        <td>&nbsp;</td>
+        <td align="right">Generating model noise</td>
+        <td align="right" width="20"><a href="noisegen.html"><img src="b_next.gif" border="0" align="bottom" alt="Generating model noise"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

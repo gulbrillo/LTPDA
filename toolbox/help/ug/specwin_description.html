@@ -1,0 +1,548 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>What are LTPDA spectral windows? (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="specwin.html"><img src="b_prev.gif" border="0" align="bottom" alt="Spectral Windows"></a>&nbsp;&nbsp;&nbsp;<a href="specwin_using.html"><img src="b_next.gif" border="0" align="bottom" alt="Using spectral windows"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">What are LTPDA spectral windows?</h1>
+    <hr>
+    
+    <p>
+        <p>
+	MATLAB already contains a number of window functions suitable for spectral analysis. However,
+	these functions simply return vectors of window samples; no additional information is given. 
+	It is also desirable to have more information about a window function, for example, its normalised
+	equivalent noise bandwidth (NENBW), its peak side-lobe level (PSLL), and its recommended overlap 
+	(ROV).
+  </p>	
+  <p>
+	The <a href="class_desc_specwin.html"><tt>specwin</tt></a> class implements many window
+	functions as class objects that contain many descriptive properties. The following table lists
+	the available window functions and some of their properties:
+  </p>
+  <div align="center">
+  <table cellspacing="0" class="body" cellpadding="4" border="2">
+    <colgroup>
+      <col width="37%">
+      <col width="63%">
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th bgcolor="#B2B2B2">Window name</th>
+        <th bgcolor="#B2B2B2">NENBW</th>
+        <th bgcolor="#B2B2B2">PSLL [dB]</th>
+        <th bgcolor="#B2B2B2">ROV [%]</th>
+      </tr>
+    </thead>
+    <tbody>
+		<!-- Rectangular -->
+		  <tr valign="top">
+		    <td bgcolor="#F2F2F2">
+		      <p>Rectangular</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>1.000</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>-13.3</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>0.0</p>
+		    </td>
+		  </tr>
+		<!-- Welch -->
+		  <tr valign="top">
+		    <td bgcolor="#F2F2F2">
+		      <p>Welch</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>1.200</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>-21.3</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>29.3</p>
+		    </td>
+		  </tr>
+		<!-- Bartlett -->
+		  <tr valign="top">
+		    <td bgcolor="#F2F2F2">
+		      <p>Bartlett</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>1.333</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>-26.5</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>50.0</p>
+		    </td>
+		  </tr>
+		<!-- Hanning -->
+		  <tr valign="top">
+		    <td bgcolor="#F2F2F2">
+		      <p>Hanning</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>1.500</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>-31.5</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>50.0</p>
+		    </td>
+		  </tr>
+		<!-- Hamming -->
+		  <tr valign="top">
+		    <td bgcolor="#F2F2F2">
+		      <p>Hamming</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>1.363</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>-42.7</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>50.0</p>
+		    </td>
+		  </tr>
+		<!-- Nuttall3 -->
+		  <tr valign="top">
+		    <td bgcolor="#F2F2F2">
+		      <p>Nuttall3</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>1.944</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>-46.7</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>64.7</p>
+		    </td>
+		  </tr>
+		<!-- Nuttall4 -->
+		  <tr valign="top">
+		    <td bgcolor="#F2F2F2">
+		      <p>Nuttall4</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>2.310</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>-60.9</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>70.5</p>
+		    </td>
+		  </tr>
+		<!-- Nuttall3a -->
+		  <tr valign="top">
+		    <td bgcolor="#F2F2F2">
+		      <p>Nuttall3a</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>1.772</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>-64.2</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>61.2</p>
+		    </td>
+		  </tr>
+		<!-- Nuttall3b -->
+		  <tr valign="top">
+		    <td bgcolor="#F2F2F2">
+		      <p>Nuttall3b</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>1.704</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>-71.5</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>59.8</p>
+		    </td>
+		  </tr>
+		<!-- Nuttall4a -->
+		  <tr valign="top">
+		    <td bgcolor="#F2F2F2">
+		      <p>Nuttall4a</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>2.125</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>-82.6</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>68.0</p>
+		    </td>
+		  </tr>
+		<!-- Nuttall4b -->
+		  <tr valign="top">
+		    <td bgcolor="#F2F2F2">
+		      <p>Nuttall4b</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>2.021</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>-93.3</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>66.3</p>
+		    </td>
+		  </tr>
+		<!-- Nuttall4c -->
+		  <tr valign="top">
+		    <td bgcolor="#F2F2F2">
+		      <p>Nuttall4c</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>1.976</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>-98.1</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>65.6</p>
+		    </td>
+		  </tr>
+		<!-- BH92 -->
+		  <tr valign="top">
+		    <td bgcolor="#F2F2F2">
+		      <p>BH92</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>2.004</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>-92.0</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>66.1</p>
+		    </td>
+		  </tr>
+		<!-- SFT3F -->
+		  <tr valign="top">
+		    <td bgcolor="#F2F2F2">
+		      <p>SFT3F</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>3.168</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>-31.7</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>66.7</p>
+		    </td>
+		  </tr>
+		<!-- SFT3M -->
+		  <tr valign="top">
+		    <td bgcolor="#F2F2F2">
+		      <p>SFT3M</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>2.945</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>-44.2</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>65.5</p>
+		    </td>
+		  </tr>
+		<!-- FTNI -->
+		  <tr valign="top">
+		    <td bgcolor="#F2F2F2">
+		      <p>FTNI</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>2.966</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>-44.4</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>65.6</p>
+		    </td>
+		  </tr>
+		<!-- SFT4F -->
+		  <tr valign="top">
+		    <td bgcolor="#F2F2F2">
+		      <p>SFT4F</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>3.797</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>-44.7</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>75.0</p>
+		    </td>
+		  </tr>
+		<!-- SFT5F -->
+		  <tr valign="top">
+		    <td bgcolor="#F2F2F2">
+		      <p>SFT5F</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>4.341</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>-57.3</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>78.5</p>
+		    </td>
+		  </tr>
+		<!-- SFT4M -->
+		  <tr valign="top">
+		    <td bgcolor="#F2F2F2">
+		      <p>SFT4M</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>3.387</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>-66.5</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>72.1</p>
+		    </td>
+		  </tr>
+		<!-- FTHP -->
+		  <tr valign="top">
+		    <td bgcolor="#F2F2F2">
+		      <p>FTHP</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>3.428</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>-70.4</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>72.3</p>
+		    </td>
+		  </tr>
+		<!-- HFT70 -->
+		  <tr valign="top">
+		    <td bgcolor="#F2F2F2">
+		      <p>HFT70</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>3.413</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>-70.4</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>72.2</p>
+		    </td>
+		  </tr>
+		<!-- FTSRS -->
+		  <tr valign="top">
+		    <td bgcolor="#F2F2F2">
+		      <p>FTSRS</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>3.770</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>-76.6</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>75.4</p>
+		    </td>
+		  </tr>
+		<!-- SFT5M -->
+		  <tr valign="top">
+		    <td bgcolor="#F2F2F2">
+		      <p>SFT5M</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>3.885</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>-89.9</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>76.0</p>
+		    </td>
+		  </tr>
+		<!-- HFT90D -->
+		  <tr valign="top">
+		    <td bgcolor="#F2F2F2">
+		      <p>HFT90D</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>3.883</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>-90.2</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>76.0</p>
+		    </td>
+		  </tr>
+		<!-- HFT95 -->
+		  <tr valign="top">
+		    <td bgcolor="#F2F2F2">
+		      <p>HFT95</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>3.811</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>-95.0</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>75.6</p>
+		    </td>
+		  </tr>
+		<!-- HFT116D -->
+		  <tr valign="top">
+		    <td bgcolor="#F2F2F2">
+		      <p>HFT116D</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>4.219</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>-116.8</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>78.2</p>
+		    </td>
+		  </tr>
+		<!-- HFT144D -->
+		  <tr valign="top">
+		    <td bgcolor="#F2F2F2">
+		      <p>HFT144D</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>4.539</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>-114.1</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>79.9</p>
+		    </td>
+		  </tr>
+		<!-- HFT169D -->
+		  <tr valign="top">
+		    <td bgcolor="#F2F2F2">
+		      <p>HFT169D</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>4.835</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>-169.5</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>81.2</p>
+		    </td>
+		  </tr>
+		<!-- HFT196D -->
+		  <tr valign="top">
+		    <td bgcolor="#F2F2F2">
+		      <p>HFT196D</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>5.113</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>-196.2</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>82.3</p>
+		    </td>
+		  </tr>
+		<!-- HFT223D -->
+		  <tr valign="top">
+		    <td bgcolor="#F2F2F2">
+		      <p>HFT223D</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>5.389</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>-223.0</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>83.3</p>
+		    </td>
+		  </tr>
+		<!-- HFT248D -->
+		  <tr valign="top">
+		    <td bgcolor="#F2F2F2">
+		      <p>HFT248D</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>5.651</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>-248.0</p>
+		    </td>
+		    <td bgcolor="#F2F2F2">
+		      <p>84.1</p>
+		    </td>
+		  </tr>
+
+    </tbody>
+  </table>
+</div>
+  <p>
+	In addition to these 'standard' windows, Kaiser windows can be designed to give a chosen
+	PSLL.
+  </p>	
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="specwin.html"><img src="b_prev.gif" border="0" align="bottom" alt="Spectral Windows"></a>&nbsp;</td>
+        <td align="left">Spectral Windows</td>
+        <td>&nbsp;</td>
+        <td align="right">Using spectral windows</td>
+        <td align="right" width="20"><a href="specwin_using.html"><img src="b_next.gif" border="0" align="bottom" alt="Using spectral windows"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

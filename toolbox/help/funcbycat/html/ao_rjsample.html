@@ -1,0 +1,384 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!-- $Id$ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="../../ug/docstyle.css">
+    <title>LTPDA Method: ao/rjsample</title>
+  </head>
+  <body>
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <p style="font-size:1px;">&nbsp;</p>
+
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../../ug/../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ao_resample.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ao/resample"></a>&nbsp;&nbsp;&nbsp;<a href="ao_rms.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ao/rms"></a></td>
+      </tr>
+    </table>
+
+    <h1 class="title">Method ao/rjsample</h1>
+    <hr />
+
+<pre>  <SPAN CLASS="HELPTOPIC">RJSAMPLE</SPAN> Reverse Jump MCMC sampling using the "Metropolized Carlin And Chib" Method.
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+  Reverse Jump MCMC sampling using the "Metropolized Carlin And Chib" Method.
+ 
+               Warning: The function mhsample does not performs sanity
+                        checks on the inputs. It assumes that the given
+                        data-sets are in frequency domain and correctly
+                        defined.
+ 
+  CALL:        p = <span class="helptopic">rjsample</span>(out, pl)
+ 
+  INPUTS:      out     - analysis objects with measured outputs
+ 
+               pl      - parameter list
+ 
+  OUTPUTS:     p       - pest object contatining estimated information
+ 
+  <a href="ao_rjsample.html#down">Parameters Description</a>
+ 
+  N. Karnesis 27/09/2011
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</pre>
+
+    <!-- =====        Striped 4x2 table: Begin        ==== -->
+    <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+    <div class="sectiontitle"></div>
+    <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+      <colgroup>
+        <col width="30%"/>
+        <col width="70%"/>
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th class="categorylist">Method Details</th>
+          <th class="categorylist"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Access</td>
+          <td bgcolor="#f3f4f5">public</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Defining Class</td>
+          <td bgcolor="#ffffff">ao</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Sealed</td>
+          <td bgcolor="#f3f4f5">0</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Static</td>
+          <td bgcolor="#ffffff">0</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- ===== Striped 4x2 table: End ==== -->
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <h2>Parameter Description</h2>    <a name="down" id="down"></a>
+
+    <!-- Link-Table of the sets -->
+    <table border="0" cellpadding="4" cellspacing="0" class="pagenavtable">
+      <tr><th>Sets for this method &#8230;</th></tr>
+        <tr><td><a href="#1">Default</a></td></tr>
+    </table>
+
+    <a name="1"></a>
+    <!-- Parameter List Table: Default -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>Default</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">rjsample</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">METHOD</td>
+            <td bgcolor="#F2F2F2">'RJMCMC'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'RJMCMC'</font></li><li><font color="#1111FF">'LF'</font></li><li><font color="#1111FF">'LM'</font></li><li><font color="#1111FF">'SBIC'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Method to use to compare two (or more) models. The choises available are; RJMCMC, Laplace-Metropolis (LM), Laplace-Fisher (LF) and Schwarz-Bayes Information Criterion (SBIC). Default is RJMCMC. Each method needs some compulsory fields to be filled in the plist.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">INNAMES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Input names. Used for ssm models</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">OUTNAMES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Output names. Used for ssm models</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">MODELS</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell array input of models.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FITPARAMS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell array of evaluated parameters for each model.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">INPUT</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A matrix array of input signals.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">N</td>
+            <td bgcolor="#F2F2F2">1000</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">number of samples of the chain.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NEFF</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Number of effective samples to be used for the estimation of the SBIC. If left empty, then Neff = number of samples of the data.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">COV</td>
+            <td bgcolor="#F2F2F2">0.0001</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Cell array containing the covariances of the gaussian jumping distribution for each model.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NOISE</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A matrix array of noise spectrum (PSD) used to compute the likelihood.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">MODELFREQDEPENDENT</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Set to true to use frequency dependent s models, set to false when using constant models</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SEARCH</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Set to true to use bigger jumps in parameter space during annealing and cool down.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FREQUENCIES</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Range of frequencies where the analysis is performed. If an array, only first and last are used</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FSOUT</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Desired sampling frequency to resample the input time series</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">HEAT</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The heat index flattening likelihood surface during annealing.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TC</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">An array of two values setting the initial and final value for the cooling down.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">X0</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The proposed initial values (cell array again).</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RANGE</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Ranges</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">BURNIN</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">If method is RJMCMC, choose number of samples to be discarded to compute B.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">JUMPS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">An array of four numbers setting the rescaling of the covariance matrix during the search phase.The first value is the one applied by default, the following thhree apply just when the chain sample ismod(10), mod(25) and mod(100) respectively.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PLOT BF</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Case: RJMCMC: If set equal to true, the evolution of the Bayes factor and the Loglikelihoodsare plotted every 500 steps. Case: LM: vector for plotting the chains during the mcmc runs.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PLOT PARAMETERS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell array that includes the parameters names desired to create the trace plots.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DEBUG</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Set to true to get debug information of the MCMC process.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">OUTMODEL</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Output model. Still under test</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SCALE MATRIX</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A matrix array of noise spectrum (PSD) used to compute the likelihood. It is possible to input just a scale matrix, containing the desirable weights.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LOG PARAMETERS</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Select the parameters to be treated in log scale.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LOG-LIKELIHOOD</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The log-likelihood to sample with the MH algorithm. If left empty, then the standard Gaussian approximation will be employed.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FREQUENCIES VECTOR</td>
+            <td bgcolor="#F2F2F2">200</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A vector of frequencies. Used for the update of the Fisher Matrix during the MH sampling.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">INMODEL</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Input model. Still under test</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FPRINT</td>
+            <td bgcolor="#F2F2F2">100</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Print progress on screen every specified numeber of samples.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('METHOD', 'RJMCMC', 'INNAMES', '', 'OUTNAMES', '', 'MODELS', '', 'FITPARAMS', [[]], 'INPUT', '', 'N', [1000], 'NEFF', [[]], 'COV', [0.0001], 'NOISE', '', 'MODELFREQDEPENDENT', [true], 'SEARCH', [true], 'FREQUENCIES', [[]], 'FSOUT', [[]], 'HEAT', [1], 'TC', '', 'X0', [[]], 'RANGE', [[]], 'BURNIN', [1], 'JUMPS', [[]], 'PLOT BF', [[]], 'PLOT PARAMETERS', [[]], 'DEBUG', [false], 'OUTMODEL', '', 'SCALE MATRIX', '', 'LOG PARAMETERS', '', 'LOG-LIKELIHOOD', '', 'FREQUENCIES VECTOR', [200], 'INMODEL', '', 'FPRINT', [100])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <p><!-- Table of the minfo object -->
+      <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+        <colgroup>
+          <col width="25%"/>
+          <col width="75%"/>
+        </colgroup>
+        <thead>
+          <tr valign="top">
+            <th class="categorylist" colspan="2">Some information of the method ao/rjsample are listed below:</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Property: 'mclass' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Class name</td>
+            <td bgcolor="#f3f4f5">ao</td>
+          </tr>
+          <!-- Property: 'mname' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Method name</td>
+            <td bgcolor="#ffffff">rjsample</td>
+          </tr>
+          <!-- Property: 'mcategory' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Category</td>
+            <td bgcolor="#f3f4f5">Signal Processing</td>
+          </tr>
+          <!-- Property: 'mpackage' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Package name</td>
+            <td bgcolor="#ffffff">ltpda</td>
+          </tr>
+          <!-- Property: 'modifier' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Can be used as modifier</td>
+            <td bgcolor="#f3f4f5">1</td>
+          </tr>
+          <!-- Property: 'supportedNumTypes' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Supported numeric types</td>
+            <td bgcolor="#ffffff">{'double'}</td>
+          </tr>
+        </tbody>
+      </table>
+    </p>
+
+
+    <br>
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ao_resample.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ao/resample"></a>&nbsp;</td>
+        <td align="left">Method: ao/resample</td>
+        <td>&nbsp;</td>
+        <td align="right">Method: ao/rms</td>
+        <td align="right" width="20"><a href="ao_rms.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ao/rms"></a></td>
+      </tr>
+    </table>
+
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+
+   </body>
+</html>

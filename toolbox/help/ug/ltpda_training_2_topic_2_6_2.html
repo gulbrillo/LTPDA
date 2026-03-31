@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Simulating capacitive actuation noise (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_2_topic_2_6_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="Simulating harmonic oscillator noise"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_2_topic_2_6_3.html"><img src="b_next.gif" border="0" align="bottom" alt="Simulating LPF noise"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Simulating capacitive actuation noise</h1>
+    <hr>
+    
+    <p>
+      <h2>LPF noise source simulations</h2>
+<p>In this section we want to investigate how the DIST_* models behave, by simulating them.
+Let's begin with the DIST_CAPACT model, that provides the force/torque noise associated with the 
+electrostatic actuation in the LPF TMs. We build the standard version of the system:
+<div class="fragment"><pre>
+  <span class="comment">% Build the default version of the GRS CAPactive ACTuation noise model</span>
+  GRScapactNoise = ssm(plist(<span class="string">'built-in'</span>, <span class="string">'DIST_CAPACT'</span>));
+</pre></div>
+We just recall that is it possible to obtain more informations about the system by:
+<div class="fragment"><pre>
+  <span class="comment">%% Get help on the GRS CAPactive ACTuation noise model</span>
+  help ssm_model_DIST_CAPACT</pre></div>
+and:
+<div class="fragment"><pre>
+  <span class="comment">%% Obtain more details about this model</span>
+  GRScapactNoise.viewDetails</pre></div>
+
+Now, as we can see from the call to <tt>ssm/viewDetails</tt>, the system has two input blocks, 
+namely 'DIST_CAPACT_NOISE' and 'DIST_CAPACT_DC', representing respectively the DC forces/torques acting on the 
+TMs and the fluctuating part (the noise). Each of the input block has 12 ports, one for each degree of freedom of the two test-masses.
+<br>
+We also see that the system has one output block, 
+namely 'DIST_CAPACT' representing the total forces/torques acting on the 
+TMs. The output block has 12 ports, one for each degree of freedom of the two test-masses.
+<br>  
+Now we want to calculate the system transfer function of the input to the outputs, in order to estimate the effect of the sources.
+In order to do that, we can call the <tt>ssm/bode</tt> method, specifying the input port, the output port, and the frequency range. 
+Here is an example, where we look at the response of the force noise along x acting on TM2 to the noise in input for the same quantity. 
+Practically speaking, we charaterize the transfer function of the noise shaping filter.
+  <div class="fragment"><pre>
+      <span class="comment">%% Calculate the bode response of the noise coloring filter for the continuous system, tm2_x port</span>
+      tm2_xNoisePlist = plist(...
+                          <span class="string">'inputs'</span>, <span class="string">'DIST_CAPACT_NOISE.tm2_x'</span>, ...
+                          <span class="string">'outputs'</span>, <span class="string">'DIST_CAPACT.tm2_x'</span>, ...
+                          <span class="string">'f'</span>, logspace(-4, log10(0.5), 1000) ... <span class="comment">% from 0.1mHz to 0.5Hz</span>
+                          );
+      
+      bode_out                       = bode(GRScapactNoise, tm2_xNoisePlist);
+      GRScapactNoise_tm2_x_cont_resp = bode_out.unpack();
+  </pre></div>
+  <table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1">
+    <tr width="90%">
+      <td>
+        Remember: the output of bode is a <tt>matrix</tt> object. The single response we want (1 input to 1 output) is represented by the single <tt>ao</tt> inside the output matrix. So we unpack that single object from the matrix.
+      </td>
+    </tr>
+  </table>  
+</p>
+<br>
+<br>
+<h2>Discretizing the system</h2>
+<p>
+In order to simulate the <tt>ssm</tt> models, we need to discretize them, by setting the time-step to a non-zero value.
+<div class="fragment"><pre>
+  <span class="comment">%% Discretize the system to be simulated at 1 Hz</span>
+  timestep = 1;
+  GRScapactNoise_discrete = GRScapactNoise.modifyTimeStep(timestep);</pre></div>
+The discretization of a continuous system is a delicate step, because it involves a change from s-domain to z-domain representation.
+In this case, we want to evalue the impact of discretizing our capacitive actuation noise model at 1 Hz. To do so, we go ahead and
+calculate the transfer function of the discretized system, for both inputs, and compare them with the continuous ones.
+<div class="fragment"><pre>
+  <span class="comment">%% Calculate the bode response of the noise coloring filter for the discrete system, tm2_x port</span>
+  bode_out                       = bode(GRScapactNoise_discrete, tm2_xNoisePlist);
+  GRScapactNoise_tm2_x_disc_resp = bode_out.unpack();
+
+  <span class="comment">%% Compare the transfer functions for the discrete and continuous case</span>
+  iplot(GRScapactNoise_tm2_x_cont_resp, GRScapactNoise_tm2_x_disc_resp);</pre></div>
+We expect to see a plot similar to the following one, showing that the effect of discretizing at this rate is very tiny,
+and as expected it impacts only at very high frequencies:
+
+  <br>
+  <br>
+  <IMG src="images/ltpda_training_2/Topic2/CAPACT_tmx2_bode.png" width="1000px" align="center" border="0">
+  <br>
+  <br>
+  </p>
+  <h2>Simulating the system</h2>
+<p>Let's assume we only want to simulate the effect of the force noise acting on TM2 along x, so we simulate a single noise source. 
+We can do that by specifying a single input name and a value for the CPSD of that noise source:
+<div class="fragment"><pre>
+  <span class="comment">%% Simulate the system behavior: only tm2_x force noise</span>
+  <span class="comment">% Simulation configuration plist</span>
+  simPlist_noise = plist(...
+    <span class="string">'CPSD Variable Names'</span>, <span class="string">'DIST_CAPACT_NOISE.tm2_x'</span>, ...
+    <span class="string">'CPSD'</span>, 1, ...
+    <span class="string">'Return outputs'</span>, {<span class="string">'DIST_CAPACT.tm2_x'</span>}, ...
+    <span class="string">'Nsamples'</span>, 1e6 ...
+    );
+
+  <span class="comment">% Launch the simulation</span>
+  sim_output = GRScapactNoise_discrete.simulate(simPlist_noise);
+  
+  <span class="comment">% Extract the AO with the force data</span>
+  out_tm2_x = sim_output.unpack();
+  
+  <span class="comment">% Plot the results</span>
+  iplot(out_tm2_x)
+
+</pre></div>
+The output of <tt>ssm/simulate</tt> is always encapsulated inside a a <tt>matrix</tt> object, 
+so we can handle multiple output variables (blocks and ports) together. If we want to extract the individual 
+<tt>ao</tt> object with the individual noise realizations for each port, we use the <tt>matrix/unpack</tt> method.
+We expect to see a plot similar to the following one:
+
+  <br>
+  <br>
+  <IMG src="images/ltpda_training_2/Topic2/CAPACT_tmx2.png" width="1000px" align="center" border="0">
+  <br>
+  <br>
+  You can verify that by changing the CPSD quantity, the noise level changes accordingly.
+  </p>
+<h2>Estimating the PSD</h2>
+<p>
+Eventually, we want to estimate the PSD of the force. We also want to compare the estimated PSD with the expected 
+output of the coloring filter; in order to do that, we have to change the units, so to account for the fact
+that the input CPSD is expressed in Hz^-1.
+<div class="fragment"><pre>
+  <span class="comment">%% Estimate the PSD</span>
+  <span class="comment">% PSD estimation configuration plist</span>
+  psdPlist = plist(...
+    <span class="string">'scale'</span>, <span class="string">'PSD'</span>, ...
+    <span class="string">'order'</span>, 1, ...
+    <span class="string">'win'</span>, <span class="string">'BH92'</span>, ...
+    <span class="string">'navs'</span>, 25 ...
+    );
+
+  <span class="comment">% Estimate the PSD</span>
+  S_out_tm2_x = out_tm2_x.psd(psdPlist);
+
+  <span class="comment">% Plot the PSD and compare with the expected noise shape</span>
+  <span class="comment">% We have to account for the unit of the input to the coloring filter</span>
+  GRScapactNoise_tm2_x_disc_resp.setYunits(sqrt(S_out_tm2_x.yunits));
+  iplot(sqrt(S_out_tm2_x), abs(GRScapactNoise_tm2_x_disc_resp));  </pre></div>
+<br>
+We expect to see a plot similar to the following one:
+
+  <br>
+  <br>
+  <IMG src="images/ltpda_training_2/Topic2/CAPACT_tmx2_noise.png" width="1000px" align="center" border="0">
+  <br>
+  <br>
+Again, you can verify that by changing the CPSD quantity, the noise levels change accordingly.
+</p>
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_2_topic_2_6_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="Simulating harmonic oscillator noise"></a>&nbsp;</td>
+        <td align="left">Simulating harmonic oscillator noise</td>
+        <td>&nbsp;</td>
+        <td align="right">Simulating LPF noise</td>
+        <td align="right" width="20"><a href="ltpda_training_2_topic_2_6_3.html"><img src="b_next.gif" border="0" align="bottom" alt="Simulating LPF noise"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

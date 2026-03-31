@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Building from built-in models (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ssm_build_description.html"><img src="b_prev.gif" border="0" align="bottom" alt="Building from scratch"></a>&nbsp;&nbsp;&nbsp;<a href="ssm_modify.html"><img src="b_next.gif" border="0" align="bottom" alt="Modifying systems"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Building from built-in models</h1>
+    <hr>
+    
+    <p>
+      <P>Built-in models enable to build fast predefined models to use
+later in simulations.</P>
+<H2>Using existing built-in models</H2>
+<P>The constructor can be called using either of the following
+syntax:</P>
+<DIV CLASS="fragment"><PRE>
+sys = ssm(plist(<span class="string">'built-in'</span>, <span class="string">'&lt;model name&gt'</span>));</PRE></DIV>
+If the user does not know the model name, then he may use the
+following call to see the list of all models:</P>
+<DIV CLASS="fragment"><PRE STYLE="margin-bottom: 0.5cm">
+ssm.getBuiltInModels</PRE></DIV>
+<P STYLE="margin-bottom: 0cm">
+This way the numbers and names are displayed in an error message. 
+</P>
+<P STYLE="margin-bottom: 0cm">Note that the numbers may change if a
+new model is added, and using the name is highly recommended.</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm">The LTPDA includes one mass-spring
+model which can be generated:</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<DIV CLASS="fragment"><PRE>
+sys = ssm(plist(<span class="string">'built-in'</span>, <span class="string">'SMD'</span>))
+M:   running buildParamPlist
+M:   running buildParamPlist
+M:   running update_struct
+M:   running validate
+M:   running validate
+M:   running display
+------ ssm/1 -------
+      amats: {  [2 x2 ]  }  [1x1]
+      bmats: {  [2 x1 ]   [2 x2 ]  }  [1x2]
+      cmats: {  [1 x2 ]  }  [1x1]
+      dmats: { [0]  [1 x2 ]  }  [1x2]
+   timestep: 0
+     inputs:  [1x2 ssmblock]
+         1 : CMD | f [kg m s^(-2)]
+         2 : DIST_SMD | f [kg m s^(-2)], s [m]
+     states:  [1x1 ssmblock]
+         1 : SMD | x [m], xdot [m s^(-1)]
+    outputs:  [1x1 ssmblock]
+         1 : SMD | obs [m]
+  numparams: (SMD_W=0.20000000000000001, SMD_C=0.5, SMD_S1=0, SMD_S2=0, SMD_B=1, SMD_D1=0)
+     params: (empty-plist)
+    Ninputs: 2
+ inputsizes: [1 2]
+   Noutputs: 1
+outputsizes: 1
+    Nstates: 1
+ statesizes: 2
+ Nnumparams: 6
+    Nparams: 0
+isnumerical: true
+       hist: ssm.hist 
+   procinfo: []
+   plotinfo: []
+       name: SPRINGMASSDAMPER
+description: standard spring-mass-damper test system
+       UUID: 888a56bc-f736-4d4b-b557-1521134770a6
+--------------------</PRE></DIV>
+<H2>Options for the built-in constructor</H2>
+<P>There are two options:</P>
+<UL>
+	<LI><P>NAME and DESCRIPTION allow to set the object's name and
+	description in the constructor</P>
+	<LI><P>DIM allows to reduce the model to 3, 2 or 1 dimension. Lower
+	dimension models are built using the 3D model and deleting
+	inputs/states/outputs. The consequence is that parameters that
+	affect primarily the 3D model may still remain in the 1D model in
+	the &bdquo;params&ldquo; field, but also in the matrices if they
+	have a small effect on the 1D dynamics.</P>
+	<LI><P>WITHPARAMS allows to keep selected parameters symbolic, to
+	modify their value later. However current issues with MuPad make the
+	use of multiple symbolic systems complicated, as the symbolic
+	parameters are global variable with problematic side effects. The
+	keyword 'ALL' returns the system with all its parameters symbolic.</P>
+	<DIV CLASS="fragment"><PRE>
+sys = ssm(plist(<span class="string">'built-in'</span>, <span class="string">'SMD'</span>, <span class="string">'SYMBOLIC PARAMS'</span>, {<span class="string">'D'</span>}))
+sys = ssm(plist(<span class="string">'built-in'</span>, <span class="string">'SMD'</span>, <span class="string">'SYMBOLIC PARAMS'</span>, <span class="string">'all'</span>))
+sys = ssm(plist(<span class="string">'built-in'</span>, <span class="string">'SMD'</span>, <span class="string">'PARAM NAMES'</span>, {<span class="string">'SMD_W'</span>}, <span class="string">'PARAM VALUES'</span>, 0.2*i));</PRE></DIV><P>
+	Trying <DIV CLASS="fragment"><PRE>
+	sys.isStable 
+	</PRE></DIV>with the first and the fourth system shows a
+	different result, the negative stiffness making the latter unstable.
+</UL>
+<UL>
+	<LI><P>PARAM NAMES and PARAM VALUES allow to set the value for parameters,
+	including those which are not kept symbolic. The first field is a
+	cell array of strings, the second is a double array of the
+	corresponding values.</P>
+</UL>
+<H2>How to make your own built-in model?</H2>
+<P>The model must exist as a function mfile in the built-in folders
+defined in the LTPDA preferences panel. The file name must be
+&ldquo;ssm_model_&lt;model name&gt;.m&rdquo; .</P>
+<P>A good template to start writing a file should be
+&ldquo;ssm_model_standard_system_params.m&rdquo;. The model should
+support all the options above, and the use of the ssm &ldquo;structure&ldquo;
+constructor is recommended because it does not increment the history.</P>
+<P><BR><BR>
+</P>
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ssm_build_description.html"><img src="b_prev.gif" border="0" align="bottom" alt="Building from scratch"></a>&nbsp;</td>
+        <td align="left">Building from scratch</td>
+        <td>&nbsp;</td>
+        <td align="right">Modifying systems</td>
+        <td align="right" width="20"><a href="ssm_modify.html"><img src="b_next.gif" border="0" align="bottom" alt="Modifying systems"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

@@ -1,0 +1,37 @@
+%%%%%%%%%%%%%%%%%%%%   path: classes/+utils/@prog   %%%%%%%%%%%%%%%%%%%%
+%
+%   <a href="matlab:help classes/+utils/@prog/cell2str">classes/+utils/@prog/cell2str</a>             -  Convert a 2-D cell array to a string in MATLAB syntax.
+%   <a href="matlab:help classes/+utils/@prog/convertComString">classes/+utils/@prog/convertComString</a>     - replaceString changes the input string accordingly to a predefined list of rules
+%   <a href="matlab:help classes/+utils/@prog/csv">classes/+utils/@prog/csv</a>                  -  makes comma separated list of numbers
+%   <a href="matlab:help classes/+utils/@prog/csvFile2struct">classes/+utils/@prog/csvFile2struct</a>       -  Reads a CSV file into a structure
+%   <a href="matlab:help classes/+utils/@prog/cutString">classes/+utils/@prog/cutString</a>            -  Cuts a string to maximum length
+%   <a href="matlab:help classes/+utils/@prog/dirscan">classes/+utils/@prog/dirscan</a>              -  recursively scans the given directory for subdirectories that match the given pattern.
+%   <a href="matlab:help classes/+utils/@prog/disp">classes/+utils/@prog/disp</a>                 -  display a formatted string to screen.
+%   <a href="matlab:help classes/+utils/@prog/fields2list">classes/+utils/@prog/fields2list</a>          -  splits a string containing fields seperated by ','
+%   <a href="matlab:help classes/+utils/@prog/filescan">classes/+utils/@prog/filescan</a>             -  recursively scans the given directory for files that end in 'ext'
+%   <a href="matlab:help classes/+utils/@prog/find_in_models">classes/+utils/@prog/find_in_models</a>       -  Search full block diagram hierarchy
+%   <a href="matlab:help classes/+utils/@prog/findchildren">classes/+utils/@prog/findchildren</a>         - This function retrieves the handles of all blocks children of a given
+%   <a href="matlab:help classes/+utils/@prog/findparent">classes/+utils/@prog/findparent</a>           - This function retrieves the handles of all blocks parents of a given
+%   <a href="matlab:help classes/+utils/@prog/funchash">classes/+utils/@prog/funchash</a>             -  compute MD5 hash of a MATLAB m-file.
+%   <a href="matlab:help classes/+utils/@prog/gcbsh">classes/+utils/@prog/gcbsh</a>                -  gets the handles for the currently selected blocks.
+%   <a href="matlab:help classes/+utils/@prog/get_curr_m_file_path">classes/+utils/@prog/get_curr_m_file_path</a> -  returns the path for a mfile.
+%   <a href="matlab:help classes/+utils/@prog/hash">classes/+utils/@prog/hash</a>                 -  - Convert an input variable into a message digest.
+%   <a href="matlab:help classes/+utils/@prog/issubclass">classes/+utils/@prog/issubclass</a>           - % check this level
+%   <a href="matlab:help classes/+utils/@prog/jcolor2mcolor">classes/+utils/@prog/jcolor2mcolor</a>        -  converts a java color object to a MATLAB color array.
+%   <a href="matlab:help classes/+utils/@prog/label">classes/+utils/@prog/label</a>                -  makes the input string into a suitable string for using on plots.
+%   <a href="matlab:help classes/+utils/@prog/mcell2str">classes/+utils/@prog/mcell2str</a>            -  recursively converts a cell-array to an executable string.
+%   <a href="matlab:help classes/+utils/@prog/mcolor2jcolor">classes/+utils/@prog/mcolor2jcolor</a>        -  converts a MATLAB color to a java Color object.
+%   <a href="matlab:help classes/+utils/@prog/mup2mat">classes/+utils/@prog/mup2mat</a>              -  converts Mupad string to MATLAB string
+%   <a href="matlab:help classes/+utils/@prog/obj2binary">classes/+utils/@prog/obj2binary</a>           -  Converts an object to binary representation
+%   <a href="matlab:help classes/+utils/@prog/obj2xml">classes/+utils/@prog/obj2xml</a>              -  Converts an object to an XML representation
+%   <a href="matlab:help classes/+utils/@prog/prog">classes/+utils/@prog/prog</a>                 -  helper class for prog utility functions.
+%   <a href="matlab:help classes/+utils/@prog/rnfield">classes/+utils/@prog/rnfield</a>              -  Rename Structure Fields.
+%   <a href="matlab:help classes/+utils/@prog/rstruct">classes/+utils/@prog/rstruct</a>              -  recursively converts an object into a structure.
+%   <a href="matlab:help classes/+utils/@prog/str2cells">classes/+utils/@prog/str2cells</a>            -  Take a single string and separate out individual "elements" into a new cell array.
+%   <a href="matlab:help classes/+utils/@prog/strjoin">classes/+utils/@prog/strjoin</a>              -  Concatenate an array into a single string.
+%   <a href="matlab:help classes/+utils/@prog/strpad">classes/+utils/@prog/strpad</a>               -  Pads a string with blank spaces until it is N characters long.
+%   <a href="matlab:help classes/+utils/@prog/strs2cells">classes/+utils/@prog/strs2cells</a>           -  convert a set of input strings to a cell array.
+%   <a href="matlab:help classes/+utils/@prog/struct2csvFile">classes/+utils/@prog/struct2csvFile</a>       -  Saves a structure as a CSV file.
+%   <a href="matlab:help classes/+utils/@prog/structcat">classes/+utils/@prog/structcat</a>            -  concatonate structures to make one large structure.
+%   <a href="matlab:help classes/+utils/@prog/wrapstring">classes/+utils/@prog/wrapstring</a>           -  wraps a string to a cell array of strings with each cell less than n characters long.
+%   <a href="matlab:help classes/+utils/@prog/yes2true">classes/+utils/@prog/yes2true</a>             -  converts strings containing 'yes'/'no' into boolean true/false

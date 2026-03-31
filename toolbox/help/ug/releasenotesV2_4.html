@@ -1,0 +1,396 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Version 2.4 LTPDA Toolbox Software (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="releasenotesV2_5.html"><img src="b_prev.gif" border="0" align="bottom" alt="Version 2.5 LTPDA Toolbox Software"></a>&nbsp;&nbsp;&nbsp;<a href="releasenotesV2_3_1.html"><img src="b_next.gif" border="0" align="bottom" alt="Version 2.3.1 LTPDA Toolbox Software"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Version 2.4 LTPDA Toolbox Software</h1>
+    <hr>
+    
+    <p>
+      
+    <style type="text/css">
+      p { margin-left:30px; }
+      h4 { margin-left:15px; }
+    </style>
+
+    <!-- BEGIN: Content file -->
+
+    <a name="top_of_page"></a>
+    This table summarizes what's new in Version 2.4:
+    <table cellspacing="0" class="body" cellpadding="4" border="2" width="100%">
+      <colgroup>
+        <col width="25%">
+        <col width="25%">
+        <col width="25%">
+        <col width="25%">
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th bgcolor="#B2B2B2" valign="top">New Features and Changes</th>
+          <th bgcolor="#B2B2B2" valign="top">Version Compatibility Considerations</th>
+          <th bgcolor="#B2B2B2" valign="top">Fixed Bugs and Known Problems</th>
+          <th bgcolor="#B2B2B2" valign="top">Related Documentation at Web Site</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#F2F2F2">Yes<br>Details below</td>
+          <td bgcolor="#F2F2F2">Yes &#8212; Details labeled as <b>Deprecated methods</b> and <b>Removed methods</b> in descriptions of changes, below. See <a href="#deprecated">Deprecated</a> or <a href="#removed_methods">Removed</a>.</td>
+          <td bgcolor="#F2F2F2"><a href="https://ed.fbk.eu/ltpda/mantis/login_page.php" target="_top">Bug Reports</a> at Web site</td>
+          <td bgcolor="#F2F2F2">Printable Release Notes: <a href="http://www.lisa.aei-hannover.de/ltpda/downloads/version_24/files/Release_Notes_v2.4.pdf" target="_top">PDF</a></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ul>
+      <li><a href="#introduction">Introduction</a></li>
+      <li><a href="#newFeatures">New features and major changes</a></li>
+      <ul>
+        <li><a href="#Extension_modules">Extension modules</a></li>
+        <li><a href="#saving_loading">Saving and loading AOs</a></li>
+        <li><a href="#preferences">Preferences</a></li>
+        <li><a href="#logical_aos">Logical AOs</a></li>
+        <li><a href="#plotting_aos">Plotting AOs</a></li>
+        <li><a href="#error_propagation">Error propagation</a></li>
+        <li><a href="#matrix_constructors">Matrix constructors</a></li>
+        <li><a href="#new_class_methods">New class methods</a></li>
+        <li><a href="#removed_methods">Removed methods</a></li>
+        <li><a href="#multiplying_matrices">Multiplying matrices of AOs</a></li>
+        <li><a href="#method_outputs">Method outputs</a></li>
+        <li><a href="#changes_smodel_pest">Changes to evaluating smodel and pest object</a></li>
+        <li><a href="#smodel_properties">Smodel class has new properties</a></li>
+        <li><a href="#built_in_model_format">Built-in model format</a></li>
+        <li><a href="#ssm_class">SSM class user-interface</a></li>
+        <li><a href="#detrending">Detrending</a></li>
+      </ul>
+      <li><a href="#other_changes">Other Minor Changes of Note</a></li>
+      <li><a href="https://ed.fbk.eu/ltpda/mantis/login_page.php">MANTIS Issues Resolved</a></li>
+    </ul>
+    
+    <!-- HEADLINE: Introduction -->
+
+    <h3 class="title" id="introduction">Introduction</h3>
+    <p>This version of LTPDA is 2.4. This document lists the changes since V2.3.1.</p>
+    <p><i>This version requires MATLAB 2010a or above</i></p>
+    <p>The main focus of this release has been on code optimisation to improve execution speed and to aid in maintainability. There have also been some fairly major changes to the toolbox, so keep reading to find out what they are! In addition, a significant number of bugs and change requests have been addressed.</p>
+
+    <!-- HEADLINE:  -->
+
+    <h3 class="title" id="newFeatures">New features and major changes</h3>
+    
+    <!-- HEADLINE: Extension modules -->
+    
+    <h4 class="title" id="Extension_modules">Extension modules</h4>
+    <p>LTPDA now supports 3rd party extension modules. See the LTPDA user manual for details how to build and install extension modules.</p>
+    <p>Note: this is now the supported way to add your own-built in models to LTPDA. The old scheme of adding directories in the LTPDA preferences is no longer supported and has been removed. Users with their own built-in models should build an extension module and move the models in to the extension module. The user manual explains where to put them.</p>
+
+    <!-- HEADLINE: Saving and loading AOs -->
+    
+    <h4 class="title" id="saving_loading">Saving and loading AOs</h4>
+    <ul>
+      <li><b>ao/save</b>If the user doesn't specify the filename then <b>save</b> saves the object(s) as a MAT file using the variable name in the current folder</li>
+      <li>The AO constructor for loading data from ASCII files now makes fewer assumptions about the content of the file. Instead the user is expected to pass more information in the plist. The only assumption we make is that the data files contains at least one column of data. As such, the call<br/>
+	     <b>a = ao('mydata.txt')</b><br/>
+	     will result in a cdata AO containing the all columns of data in the file stored as a matrix.</li>
+      <li>When constructing AOs from files, all file extensions other than 'xml' and 'mat' are treated as if they contain ASCII data.</li>
+    </ul>
+
+    <!-- HEADLINE: Preferences -->
+    
+    <h4 class="title" id="preferences">Preferences</h4>
+    <p>LTPDA preferences has new panel for configuring the default look of plots</p>
+
+    <!-- HEADLINE: Logical AOs -->
+    
+    <h4 class="title" id="logical_aos">Logical AOs</h4>
+    <p>AOs now accept logical values for construction and we have some new logical logical operators (see below).</p>
+
+    <!-- HEADLINE: Plotting AOs -->
+    
+    <h4 class="title" id="plotting_aos">Plotting AOs</h4>
+    <p><b>ao/iplot</b> now has a new plist key for overriding the default legend font size <b>'LegendFontSize'</b>. You can also include object descriptions in the legend by setting the corresponding preference is set in LTPDAprefs.</p>
+    <p><b>ao/iplot</b> The use of the '<b>xmaths</b>', '<b>ymaths</b>', and '<b>zmaths</b>' parameters is now deprecated and will be removed in a future release.</p>
+
+    <!-- HEADLINE: Error propagation -->
+    
+    <h4 class="title" id="error_propagation">Error propagation</h4>
+    <p>More AO methods now propagate errors: <b>ao/scale</b>, <b>ao/power</b>, <b>ao/mtimes</b>, <b>ao/mrdivide</b>.</p>
+
+    <!-- HEADLINE: matrix constructors -->
+    
+    <h4 class="title" id="matrix_constructors">Matrix constructors</h4>
+    <p>We have some new constructors for the matrix class:</p>
+    <p><b>matrix(plist('values', ..., 'names', ..., 'yunits', ...))</b><br/>
+       <b>matrix(doubleArray)</b><br/>
+       <b>matrix(doubleArray, cellArray)</b><br/>
+    </p>
+
+    <!-- HEADLINE: New Class Methods -->
+    
+    <h4 class="title" id="new_class_methods">New Class Methods</h4>
+    <ul>
+      <li><b>smodel/hessian</b> computes the hessian matrix for <b>smodels</b></li>
+      <li><b>ao/intersect</b> forms the intersection of two AOs</li>
+      <li>new logical binary operators for AO class: <b>ao/and, ao/or</b></li>
+      <li><b>ao/bicohere</b> computes the bicoherence of two input time-series. The result is a complex frequency-frequency-complex coherence map.</li>
+      <li><b>ao/average</b> is a method to average AOs point-by-point. For each point, an average is taken over all the input objects.</li>
+      <p><li>New AO factory constructors:
+	   <ol>
+	     <li><b>ao.randn(nsecs, fs)</b> - produces a time-series of random numbers</li>
+	     <li><b>ao.randn(nsamples)</b> - produces a cdata AO of random numbers</li>
+	     <li><b>ao.sinewave(nsecs, fs, f0, phi)</b> - produces a time-series of a sine-wave</li>
+	     <li><b>[o1, o2, ...] = ao.load(filename)</b> - load multiple objects from a file. You need to know how many objects are in the file so that you can specify the correct number of output objects.</li>
+	   </ol>
+         </li></p>
+      <li><b>ltpda_uoh/requirements</b> lists the required extensions for rebuilding an object.</li>
+      <li><b>ao/zunits</b> returns the zunits of an xzydata AO</li>
+      <li><b>ao/setZunits</b> sets the units of the z-data for an xyzdata AO</li>
+      <li>We added a new AO constructor from a parameter contained in a plist. Suppose we have a plist containing a key <b>'a'</b>, then we can make a cdata AO with the value of <b>'a'</b>. Other properties are also used in constructing the AO (at the moment only properties 'unit' and 'units' are supported). All properties are added to the procinfo.<br/>
+             e.g. <b>a = ao(plist('parameter', pl, 'key', 'a'))</b></li>
+    </ul>
+
+    <!-- HEADLINE: Removed methods -->
+    
+    <h4 class="title" id="removed_methods">Removed methods</h4>
+    <p>Some LTP-specific methods have been removed and moved in to extension modules.</p>
+    <p>The following were all moved to the LPF_DA_Module extension module:
+      <ul>
+        <li><b>ao/ltp_ifo2ac</b></li>
+        <li><b>ao/smallvec_coef</b></li>
+        <li><b>ao/smallvector_lincom</b></li>
+        <li><b>ao/smallvectorfit</b></li>
+        <li><b>ao/mdc1_ifo2acc_inloop</b></li>
+        <li><b>ao/mdc1_ifo2cont_utn</b></li>
+        <li><b>ao/mdc1_cont2act_utn</b></li>
+        <li><b>ao/mdc1_ifo2control</b></li>
+        <li><b>ao/mdc1_ifo2acc_fd_utn</b></li>
+        <li><b>ao/mdc1_x2acc</b></li>
+        <li><b>ao/mdc1_ifo2acc_fd</b></li>
+        <li><b>pest/LTPimperf2physParams</b></li>
+      </ul>
+    </p>
+    <p id="deprecated">Other methods removed which were deprecated in previous releases:
+      <ul>
+        <li><b>ao/pwelch</b> - use ao/psd instead</li>
+        <li><b>ao/curvefit</b> - use ao/xfit or ao/tdfit instead</li>
+        <li><b>ao/straightLineFit</b> - use ao/linfit instead</li>
+        <li><b>ao/timedomainfit</b> - use ao/lscov instead</li>
+        <li><b>pest/toAO</b> - use pest/find instead</li>
+        <li><b>ao/ltpda_fitChiSquare</b></li>
+        <li><b>ao/hist_gauss</b> use ao/hist instead</li>
+      </ul>
+    </p>
+
+    <!-- HEADLINE: Multiplying matrices of AOs -->
+    
+    <h4 class="title" id="multiplying_matrices">Multiplying matrices of AOs</h4>
+    <p>Given two matrices of AOs, the inner multiplication operator has changed from a matrix multiplication to an element multiplication.</p>
+    <p><b>M1 = [a1 a2; a3 a4];</b> % a# is an AO<br/>
+       <b>M2 = [b1 b2; b3 b4];</b> % b# is an AO<br/>
+       <b>M = M1*M2</b><br/><br/>
+       then <b>M(1) = a1.*b1 + a2.*b3</b>
+    </p>
+
+    <!-- HEADLINE: Method outputs -->
+    
+    <h4 class="title" id="method_outputs">Method outputs</h4>
+    <p>The output of some methods are now matrix objects and no longer vectors of AOs to make rebuilding work:
+      <ul>
+        <li><b>ssm/simulate</b></li>
+        <li><b>ssm/CPSD</b></li>
+        <li><b>ssm/PSD</b></li>
+        <li><b>ssm/bode</b></li>
+        <li><b>ssm/kalman</b></li>
+        <li><b>ssm/resp</b></li>
+      </ul>
+    </p>
+    <p><b>ao/rotate</b> no longer supports the multiple output function call.</p>
+    <p>To retrieve the AOs from inside the matrix object in a 'history safe' way, use <b>matrix/getObjectAtIndex</b>.</p>
+    <p><b>matrix/det</b> no longer returns a matrix object, but instead an object of the same class as the inner objects.</p>
+
+    <!-- HEADLINE: Smodel class changes -->
+
+    <h4 class="title" id="smodel_properties">Smodel class has new properties</h4>
+    <p>The <b>xvals</b> field is now always a cell-array of vectors</p>
+    <p>The properties <b>aliasNames</b> and <b>aliasValues</b> can be used to defines variable aliases which are then used in the model expression.</p>
+    <p>The <b>trans</b> field usage is depracted in favour of setting an <b>alias</b>.</p>    
+
+    <!-- HEADLINE: Changes to evaluating smodel and pest object -->    
+
+    <h4 class="title" id="changes_smodel_pest">Changes to evaluating smodel and pest object</h4>
+    <p>The smodel/double method has been harmonized with Matlab double: the values for the independent variables x must now be vectors of double, and they must be set before the call to the method, that now has no parameters.</p>
+    <p>The smodel/eval method has been changed to build the output AO is built from the smodel, based on these parameters:
+      <ul>
+         <li>'output type' to choose the output data type</li>
+         <li>'output x', to choose the X values for the output data ao. In case of a double vector, the result is a cdata AO. In case of an ao, the output is a copy of this object but the ''y'' field is calculated from the model.</li>
+      </ul>
+    </p>
+
+    <p>As a consequence, the pest/eval method has been modified. If the user input the independent variable values XDATA within aos, their 'y' field will be used if not otherwise specified. This is different from previous versions of the Toolbox.
+    Furthermore, if the user input the independent data XDATA within aos, the output data type will be of the same type.</p>
+
+    <!-- HEADLINE: Built-in model format -->
+    
+    <h4 class="title" id="built_in_model_format">Built-in model format</h4>
+    <p>The format of built-in models was completely written to allow a more flexible versioning of models. You can build new-style built-in models using the utility <b>utils.models.makeBuiltInModel()</b>. See the documentation for more details.</p>
+
+    <!-- HEADLINE: ssm class user-interface -->
+    
+    <h4 class="title" id="ssm_class">ssm class user-interface</h4>
+    <p>The user interface of some ssm class methods was simplified and changed. As such, some old usages may no longer work. Please consult the relevant method help if you encounter any problems.</p>
+
+    <!-- HEADLINE: Detrending -->
+    
+    <h4 class="title" id="detrending">Detrending</h4>
+    <p>Default detrending order in <b>ao/detrend</b> was changed from 0 to 1 to match the corresponding MATLAB detrend behaviour.</p>
+
+    <!-- HEADLINE:  -->
+
+    <h3 class="title" id="other_changes">Other Minor Changes of Note</h3>
+
+    <ul>
+      <li>The verbose level for many output messages was increased to make LTPDA a bit quieter.</li>
+      <li>User objects now have an empty default name.</li>
+      <li><b>ao/search</b> now properly tracks history</li>
+      <li>constructing AOs from data files (<b>'from ASCII'</b> constructor) works with arbitrary delimiters now. The delimiter can be set in the plist.</li>
+      <li><b>ao/fft</b> and <b>ao/ifft</b> support a scaling option (<b>'scale'</b> plist key) which scales the output by the sampling rate if the AO is a time-series.</li>
+      <li>ssm class speed improvements for bode and simulate</li>
+      <li><b>ao/select</b> now returns an AO with the x-field filled, even if the result is evenly sampled. The idea here is that selecting samples from a vector (especially a time-series) is not well defined in terms of the resulting sample rate. So we leave the x data alone and let the user decide what to do next.</li>
+    </ul>
+    
+    <p>
+      <h3 class="title" id="MANTIS Issues">MANTIS Issues Resolved</h3>
+      <table cellspacing="0" class="body" cellpadding="4" border="2" width="100%">
+      <thead>
+        <tr valign="top">
+          <th bgcolor="#B2B2B2" valign="top">Issue</th>
+          <th bgcolor="#B2B2B2" valign="top">Type</th>
+          <th bgcolor="#B2B2B2" valign="top">Decription</th>
+        </tr>
+      </thead>
+        <tbody>
+          <tr><td>0000529</td><td>Bug Report</td><td>LTPDAPrefs GUI not reading the .dot file location</td></tr>
+          <tr><td>0000528</td><td>Bug Report</td><td>Rebuilt library does not become live until the workbench is restarted</td></tr>
+          <tr><td>0000527</td><td>Bug Report</td><td>inconsistency in AO cdata/xydata class for handling logicals.</td></tr>
+          <tr><td>0000525</td><td>Bug Report</td><td>Error message: ??? Operands to the || and && operators must be convertible to logical scalar values. Error in ==> param.getVal</td></tr>
+          <tr><td>0000518</td><td>Bug Report</td><td>pzmodel help/documentation</td></tr>
+          <tr><td>0000516</td><td>Bug Report</td><td>Problem with default preferences being written on first use</td></tr>
+          <tr><td>0000515</td><td>Bug Report</td><td>ao/transpose not working for cdata aos</td></tr>
+          <tr><td>0000513</td><td>Bug Report</td><td>ao/join with data not in sequence </td></tr>
+          <tr><td>0000512</td><td>Change Request</td><td>FFT/IFFT unit conventions and scaling</td></tr>
+          <tr><td>0000508</td><td>Change Request</td><td>Make the parameter overview table editable.</td></tr>
+          <tr><td>0000507</td><td>Change Request</td><td>FIlter by key the parameter overview table</td></tr>
+          <tr><td>0000506</td><td>Bug Report</td><td>Length of the pipeline name is not updated upon pipeline renaming</td></tr>
+          <tr><td>0000503</td><td>Change Request</td><td>Don't limit the loading of ASCII files to .txt and .dat</td></tr>
+          <tr><td>0000502</td><td>Bug Report</td><td>Loading single column ascii files</td></tr>
+          <tr><td>0000501</td><td>Bug Report</td><td>Arithmetic operations on frequency-series</td></tr>
+          <tr><td>0000498</td><td>Bug Report</td><td>LTPDAworkbench/reset has a bug in V2.3</td></tr>
+          <tr><td>0000497</td><td>Bug Report</td><td>Remove all mention of non-user classes from the user manual</td></tr>
+          <tr><td>0000496</td><td>Bug Report</td><td>Specifying multiple values for 'Xunits' key of ao/iplot</td></tr>
+          <tr><td>0000495</td><td>Bug Report</td><td>ltpda_filter/impresp has fixed sample rate.</td></tr>
+          <tr><td>0000488</td><td>Bug Report</td><td>Problem with ltpda_startup and LTPDARepositoryManager</td></tr>
+          <tr><td>0000487</td><td>Bug Report</td><td>Java error choosing repository</td></tr>
+          <tr><td>0000486</td><td>Bug Report</td><td>Original wb filename is stored inside pipelines</td></tr>
+          <tr><td>0000485</td><td>Bug Report</td><td>Resize the library tree when gui is maximized</td></tr>
+          <tr><td>0000481</td><td>Bug Report</td><td>ao/submit fails to create meta data.</td></tr>
+          <tr><td>0000480</td><td>Bug Report</td><td>The Web interface on objmeta table shows: validation, validation date and author , the datail page shows only 2</td></tr>
+          <tr><td>0000478</td><td>Bug Report</td><td>Retrieving objects from database, when not specifying completely hostaname, database, username</td></tr>
+          <tr><td>0000476</td><td>Bug Report</td><td>Cannot change the size of the pipeline window</td></tr>
+          <tr><td>0000474</td><td>Bug Report</td><td>ssm/kalman: parameter 'select' is of wrong type.</td></tr>
+          <tr><td>0000473</td><td>Bug Report</td><td>ssm/simulate: field AOS default value lacks a left square bracket.</td></tr>
+          <tr><td>0000470</td><td>Change Request</td><td>The databases 'tsdata' table should also store the timezone of the 't0'</td></tr>
+          <tr><td>0000465</td><td>Bug Report</td><td>Keyboard shortcut CTRL+O does not work.</td></tr>
+          <tr><td>0000460</td><td>Bug Report</td><td>no plot is available with frequency series with 1 point size</td></tr>
+          <tr><td>0000459</td><td>Bug Report</td><td>no plot is available with time series with 1 point size.</td></tr>
+          <tr><td>0000458</td><td>Bug Report</td><td>Web repository interface generate wrong iplot.</td></tr>
+          <tr><td>0000458</td><td>Bug Report</td><td>Web repository interface generate wrong plot</td></tr>
+          <tr><td>0000457</td><td>Bug Report</td><td>ao.table doesn't show third column with xyz data.</td></tr>
+          <tr><td>0000447</td><td>Bug Report</td><td>ltpdareporobot error</td></tr>
+          <tr><td>0000444</td><td>Bug Report</td><td>Submitting 1 object with proc5 verbose i get submitting 2 objects to repository.</td></tr>
+          <tr><td>0000443</td><td>Bug Report</td><td>After deleting a object the submit button is still enable</td></tr>
+          <tr><td>0000442</td><td>Bug Report</td><td>Interpolation methods 4 resample and downsample.</td></tr>
+          <tr><td>0000438</td><td>Bug Report</td><td>Error changing model during execution</td></tr>
+          <tr><td>0000437</td><td>Bug Report</td><td>Annoying parameter editing issue </td></tr>
+          <tr><td>0000434</td><td>Bug Report</td><td>Annoying zoom problem</td></tr>
+          <tr><td>0000433</td><td>Bug Report</td><td>mysql-connector-java-5.1.6-bin.jar is installed in two copies.</td></tr>
+          <tr><td>0000427</td><td>Bug Report</td><td>Up arrow and down buttons don't work in execution plan form</td></tr>
+          <tr><td>0000426</td><td>Bug Report</td><td>Hitting cancel in the execution Plan panel the modified parameters are stored</td></tr>
+          <tr><td>0000424</td><td>Bug Report</td><td>NullPointerException using PEST constructor.</td></tr>
+          <tr><td>0000421</td><td>Bug Report</td><td>delay prameter missing in pzmodel plist and is present in mfir from pzmodel</td></tr>
+          <tr><td>0000420</td><td>Bug Report</td><td>AO built-in FreeDyn_1: suspicius error message.</td></tr>
+          <tr><td>0000417</td><td>Bug Report</td><td>Pole/Zero model editor: problem reading the value of a modified gain.</td></tr>
+          <tr><td>0000416</td><td>Bug Report</td><td>Issues reading LISO files.</td></tr>
+          <tr><td>0000412</td><td>Bug Report</td><td>Web documentation: downsample, etc.</td></tr>
+          <tr><td>0000411</td><td>Bug Report</td><td>SSM: some built-in models generate errors.</td></tr>
+          <tr><td>0000409</td><td>Bug Report</td><td>Pzmodel from parfrac conversion problem.</td></tr>
+          <tr><td>0000403</td><td>Bug Report</td><td>Plot of different xunits.</td></tr>
+          <tr><td>0000401</td><td>Bug Report</td><td>Some Ghost subsystem when iconize all command</td></tr>
+          <tr><td>0000390</td><td>Bug Report</td><td>Warning should be given if plist contains parameters that are not applicable.</td></tr>
+          <tr><td>0000389</td><td>Bug Report</td><td>Java error when opening the Char prefs of the annotation into the LTPDAWorkbench preferences</td></tr>
+          <tr><td>0000387</td><td>Bug Report</td><td>The relational operators do not mention the "exceptions" parameters in their help</td></tr>
+          <tr><td>0000381</td><td>Bug Report</td><td>miir.resp and filterbank.resp have different plists.</td></tr>
+          <tr><td>0000375</td><td>Bug Report</td><td>Error using the "include in legend" checkbox.</td></tr>
+          <tr><td>0000370</td><td>Bug Report</td><td>Setting plotinfo marker stops execution and throws exception </td></tr>
+          <tr><td>0000360</td><td>Change Request</td><td>saving the submit info into a file</td></tr>
+          <tr><td>0000355</td><td>Change Request</td><td>We have two positions in the cvs where we store the jar files -> remove one.</td></tr>
+          <tr><td>0000354</td><td>Bug Report</td><td>Two different plots swapping inputs (sum function on x axis).</td></tr>
+          <tr><td>0000349</td><td>Bug Report</td><td>Wrong pipe creation when trying to create a pipeline from an input port and an object</td></tr>
+          <tr><td>0000339</td><td>Bug Report</td><td>Problem with subsystem execution</td></tr>
+          <tr><td>0000333</td><td>Bug Report</td><td>Wrong error message when constructing a miir with fc [0.1 0.6] and fs 1.</td></tr>
+          <tr><td>0000327</td><td>Bug Report</td><td>Parfrac constructor ignores a parameter and does not show errors/warnings</td></tr>
+          <tr><td>0000301</td><td>Bug Report</td><td>We should not store the password of a connection that was refused because of wrong credentials</td></tr>
+          <tr><td>0000280</td><td>Bug Report</td><td>Documentation: some classes do not provide examples or information.</td></tr>
+          <tr><td>0000277</td><td>Bug Report</td><td>WEB INTERFACE: graph shows wrong x-axis</td></tr>
+          <tr><td>0000258</td><td>Change Request</td><td>Provide a way to load submission info fields from a simple text file.</td></tr>
+          <tr><td>0000245</td><td>Bug Report</td><td>iplot labels/legends with real and complex objects</td></tr>
+          <tr><td>0000244</td><td>Bug Report</td><td>Problem handling PORT choice</td></tr>
+          <tr><td>0000220</td><td>Bug Report</td><td>the operation remove output to MUX block or input to Demux Block are undoable</td></tr>
+          <tr><td>0000201</td><td>Change Request</td><td>The class filterbank needs a response method.</td></tr>
+          <tr><td>0000133</td><td>Bug Report</td><td>Coefficients reported by ao/detrend are wrong</td></tr>
+          <tr><td>0000053</td><td>Change Request</td><td>change zDomainFit so that it returns the best paramters and not the last iteration.</td></tr>
+          <tr><td>0000027</td><td>Change Request</td><td>Units conversion to SI method.</td></tr>
+        </tbody>
+      </table>
+    </p>
+    <!-- END: Content file -->
+
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="releasenotesV2_5.html"><img src="b_prev.gif" border="0" align="bottom" alt="Version 2.5 LTPDA Toolbox Software"></a>&nbsp;</td>
+        <td align="left">Version 2.5 LTPDA Toolbox Software</td>
+        <td>&nbsp;</td>
+        <td align="right">Version 2.3.1 LTPDA Toolbox Software</td>
+        <td align="right" width="20"><a href="releasenotesV2_3_1.html"><img src="b_next.gif" border="0" align="bottom" alt="Version 2.3.1 LTPDA Toolbox Software"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

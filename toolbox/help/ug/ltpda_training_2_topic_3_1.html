@@ -1,0 +1,273 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Principles and theory (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_2_topic_3.html"><img src="b_prev.gif" border="0" align="bottom" alt="Topic 3 - Estimation of equivalent acceleration."></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_2_topic_3_2.html"><img src="b_next.gif" border="0" align="bottom" alt="Tools for estimating the equivalent acceleration in LTPDA"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Principles and theory</h1>
+    <hr>
+    
+    <p>
+      <p>
+  LTP along the principal measurement axis (x) is represented schematically 
+  by the diagram reported in figure below.
+</p>
+
+<p>
+  <div align="center">
+    <IMG src="images/ltpda_training_2/Topic3/LTP1D_Diagram002.png"  align="center" border="0" width="50%">
+  </div>
+  Schematic representation of LTP along the x axis.
+</p>
+
+
+<p>
+  The available signal is the displacement at the output of the optical 
+  metrology system (OMS). In order to extract the acceleration noise from 
+  the displacement signal we have to process the data accordingly to the 
+  scheme reported in figure below.
+</p>
+
+<p>
+  <div align="center">
+    <IMG src="images/ltpda_training_2/Topic3/LTP1D_Diagram004.png"  align="center" border="0" width="50%">
+  </div>
+
+  Schematic representation of the conversion to acceleration process.
+</p>
+
+
+<p>
+  In case the commanded forces are available, the scheme for the conversion 
+  to acceleration is reported in the diagram.
+</p>
+
+<p>
+<div align="center">
+  <IMG src="images/ltpda_training_2/Topic3/LTP1D_Diagram003.png"  align="center" border="0" width="50%">
+</div>
+  Schematic representation of the conversion to acceleration process when 
+  commended forces are available.
+</p>
+
+
+<p>
+  Since displacement data contains interferometer sensing noise, the 
+  reconstructed acceleration is the combination of the proper acceleration 
+  noise and a contribution from the sensing noise (shaped by the inverse 
+  of the dynamics). For such reason the reconstructed signal is indicated 
+  with the term equivalent acceleration.
+</p>
+
+<p>
+  LPF can be considered as a three body controlled system composed of the 
+  two TMs and the spacecraft (SC). Its equations of motion along the 
+  measurement axis can be written as:
+</p>
+
+<p>
+  <div align="center">
+    <IMG src="images/ltpda_training_2/Topic3/conv2acc_eq1.png"  align="center" border="0" width="50%">
+  </div>
+</p>
+
+<p>
+  In order to avoid confusion, TM1 is the free-fall reference and TM2 is the actuated TM.
+</p>
+
+<p>
+  Moving to the Laplace domain, substituting for the spacecraft dynamics 
+  and substituting for the differential coordinate, the equation of motion 
+  can be rewritten as:
+</p>
+
+<p>
+  <div align="center">
+    <IMG src="images/ltpda_training_2/Topic3/conv2acc_eq2.png"  align="center" border="0" width="50%">
+  </div>
+</p>
+
+<p>
+  Introducing matrix notation.
+</p>
+
+<p>
+  <div align="center">
+    <IMG src="images/ltpda_training_2/Topic3/conv2acc_eq3.png"  align="center" border="0" width="50%">
+  </div>
+</p>
+
+<p>
+  The equation of motion can be rewritten:
+</p>
+
+<p>
+  <div align="center">
+    <IMG src="images/ltpda_training_2/Topic3/conv2acc_eq4.png"  align="center" border="0" width="22%">
+  </div>
+</p>
+
+<p>
+  The output displacement o corresponds to the measurement of x provided by 
+  the sensing system:
+</p>
+
+<p>
+  <div align="center">
+    <IMG src="images/ltpda_training_2/Topic3/conv2acc_eq5.png"  align="center" border="0" width="15%">
+  </div>
+</p>
+
+<p>
+  The dynamics can be now rewritten in terms of the known output o:
+</p>
+
+<p>
+  <div align="center">
+    <IMG src="images/ltpda_training_2/Topic3/conv2acc_eq6.png"  align="center" border="0" width="40%">
+  </div>
+</p>
+
+<p>
+  The quantity on the right-hand side represents the target force-per-unit-mass 
+  acting on the test masses combined with the sensing noise. This is the only 
+  quantity that can be estimated from the displacement output by means of 
+  the left-hand side of the equation above.
+  The tool described in the following section performs the calculation reported 
+  in the left-hand side of the equation.
+</p>
+
+<p>Notation table.
+  <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+    <colgroup>
+      <col width="20%"/>
+      <col width="80%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th bgcolor="#D7D7D7">Symbol</th>
+        <th bgcolor="#D7D7D7">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <IMG src="images/ltpda_training_2/Topic3/x1.png"  align="center" border="0" height="12">
+            and
+          <IMG src="images/ltpda_training_2/Topic3/x2.png"  align="center" border="0" height="12">
+        </td>
+        <td> 
+          TMs coordinates along the sensitive axis. They are relative coordinates 
+          in the spacecraft reference frame.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <IMG src="images/ltpda_training_2/Topic3/xsc.png"  align="center" border="0" height="12">
+        </td>
+        <td> 
+          Absolute spacecraft coordinate along the sensitive axis.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <IMG src="images/ltpda_training_2/Topic3/m1.png"  align="center" border="0" height="12">,
+          <IMG src="images/ltpda_training_2/Topic3/m2.png"  align="center" border="0" height="12"> and
+          <IMG src="images/ltpda_training_2/Topic3/msc.png"  align="center" border="0" height="12">
+        </td>
+        <td> 
+          Masses of the two TMs and of the spacecraft.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <IMG src="images/ltpda_training_2/Topic3/omega1.png"  align="center" border="0" height="20"> and
+          <IMG src="images/ltpda_training_2/Topic3/omega2.png"  align="center" border="0" height="20">
+        </td>
+        <td> 
+          Stiffnesses coupling the TMs and the spacecraft.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <IMG src="images/ltpda_training_2/Topic3/f1.png"  align="center" border="0" height="20">,
+          <IMG src="images/ltpda_training_2/Topic3/f2.png"  align="center" border="0" height="20"> and
+          <IMG src="images/ltpda_training_2/Topic3/fsc.png"  align="center" border="0" height="20">
+        </td>
+        <td> 
+          Forces acting on TMs and the spacecraft respectively.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <IMG src="images/ltpda_training_2/Topic3/fc2.png"  align="center" border="0" height="20"> and
+          <IMG src="images/ltpda_training_2/Topic3/fcsc.png"  align="center" border="0" height="20">
+        </td>
+        <td> 
+          Control forces on the second TM and the spacecraft respectively.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <IMG src="images/ltpda_training_2/Topic3/o1.png"  align="center" border="0" height="12"> and
+          <IMG src="images/ltpda_training_2/Topic3/oDelta.png"  align="center" border="0" height="12">
+        </td>
+        <td> 
+          Output displacement signals as provided by the interferometer readout system.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <IMG src="images/ltpda_training_2/Topic3/H2.png"  align="center" border="0" height="17"> and
+          <IMG src="images/ltpda_training_2/Topic3/Hsc.png"  align="center" border="0" height="17">
+        </td>
+        <td> 
+          Transfer functions of the control systems on TM2 and the spacecraft. 
+          The force applied by the controllers is calculated on the basis of 
+          the output displacement, therefore 
+          <IMG src="images/ltpda_training_2/Topic3/fc2H2.png"  align="center" border="0" height="17"> 
+            and 
+          <IMG src="images/ltpda_training_2/Topic3/fcscHsc.png"  align="center" border="0" height="17">.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_2_topic_3.html"><img src="b_prev.gif" border="0" align="bottom" alt="Topic 3 - Estimation of equivalent acceleration."></a>&nbsp;</td>
+        <td align="left">Topic 3 - Estimation of equivalent acceleration.</td>
+        <td>&nbsp;</td>
+        <td align="right">Tools for estimating the equivalent acceleration in LTPDA</td>
+        <td align="right" width="20"><a href="ltpda_training_2_topic_3_2.html"><img src="b_next.gif" border="0" align="bottom" alt="Tools for estimating the equivalent acceleration in LTPDA"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

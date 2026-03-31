@@ -1,0 +1,193 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Introducing objects in LTPDA (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_2_topic_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="Topic 1 - LTPDA Review."></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_2_topic_1_2.html"><img src="b_next.gif" border="0" align="bottom" alt="Saving and loading objects"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Introducing objects in LTPDA</h1>
+    <hr>
+    
+    <p>
+      <p>
+  LTPDA uses an object-oriented approach for data analysis. That means that the
+  user deals with objects. So what are objects? Objects are instances of a particular
+  class. And what's a class? Well, a class just describes an object. For example, you
+  may have a class 'Car' which has certain properties that describe the features of a
+  car. Once you build a Car according to the class description, then you have an instance
+  of a Car - you have an object. We mentioned properties here. Part of the description
+  of a real-world object (or idea) are the features of that object. These features are
+  captured as properties of the class. For example, our 'Car' class may have a property 
+  'color'. Once we build (instantiate) a 'Car' object, then the property 'color' will have
+  a particular value.
+</p>
+<p>
+  Once you have an object, what can you do with it? Well, classes don't only have properties,
+  they also have methods. These are actions you can perform on or with the object. For example, 
+  if we return to our Car analogy, the class 'Car' may have a method called 'start' which, 
+  when applied to an instance of the 'Car' class (an object), will start the car.
+</p>
+<p>
+  To bring this more in to the field of data analysis, let's look at another example. Suppose
+  we have a class which defines a digital filter. Let's call this class 'miir' - a MATLAB Infinite 
+  Impulse Response filter. Such a class would need to have properties which capture features
+  of a digital filter, for example, numerator and denominator coefficients (or 'a' and 'b' coefficients).
+  We might have methods in the class such as 'resp' to calculate the response of the filter.
+</p>
+<p>
+  One special set of methods that a class typically has are the constructor methods. These
+  don't act on objects, but rather act on the class itself. And, as the name suggests, they
+  are the methods which actually build the objects. They always have the class name and typically, 
+  they take a set of input parameters which describe how to build the object we want. Returning 
+  to our digital filter example, in LTPDA we have such a class 'miir'. To build an miir object 
+  (or make an instance of the class 'miir') you can do:
+  <div class="fragment"><pre>
+      filt = miir()</pre></div>
+<br>
+    This will create an 'empty' miir object. On the terminal you should see:
+<div class="fragment"><pre>
+  ------ miir/1 -------
+          b: []
+     histin: []
+      ntaps: 0
+         fs: []
+     infile: 
+          a: []
+    histout: []
+     iunits: []
+     ounits: []
+       hist: miir.hist 
+   procinfo: []
+   plotinfo: []
+       name: 
+description: 
+       UUID: 70b4b3cd-2e65-4332-94cc-cffea1b0028c
+---------------------</pre></div>
+  <br>
+  You can see that the class 'miir' has a number of properties, including 'name', 
+  'description', 'a', 'b', 'iunits', and 'ounits'. To build a more interesting
+  filter you can do something like:
+  <div class="fragment"><pre>
+      filt = miir(plist(<span class="string">'type'</span>, <span class="string">'lowpass'</span>, ...
+          <span class="string">'order'</span>, 1, ...
+          <span class="string">'fs'</span>, 10, ...
+          <span class="string">'fc'</span>, 1))</pre></div>
+  <br>
+  If you run that command, you will see the following on the terminal:
+  <br>  
+  <div class="fragment"><pre>
+  ------ miir/1 -------
+          b: [1 -0.50952544949442879]
+     histin: 0
+      ntaps: 2
+         fs: 10
+     infile: 
+          a: [0.2452372752527856 0.2452372752527856]
+    histout: 0
+     iunits: []
+     ounits: []
+       hist: miir.hist 
+   procinfo: []
+   plotinfo: []
+       name: lowpass
+description: 
+       UUID: 6729d0ab-b29c-4c4c-9f90-0aca13b496fc
+---------------------</pre></div>
+<br>
+  Now you're asking yourself "How do I know which parameters I pass to the constructors?"
+  To find out, read the following section.
+  
+</p>
+<h2>Getting Help</h2>
+<p>
+  There are various places where you can get help with using LTPDA. The most obvious
+  is the User Manual. To access the LTPDA user manual, click on the menu "Help->Product Help" to 
+  launch MATLAB's documentation browser (or type 'doc' on the terminal). From there you can 
+  browse to the LTPDA Toolbox section.
+  <div align="center">
+    <IMG width="800px" src="images/ltpda_training_2/Topic1/ltpda_doc.png"  align="center" border="0">
+  </div>
+</p>
+<h3>Help for methods</h3>
+<p>
+  To get help on individual methods, you use the built-in documentation. For our <tt>miir</tt> class, you do:
+  <div class="fragment"><pre>
+    help miir</pre></div>
+  <br>  
+  which will display some description of the class constructor. The important part is the
+  "Parameters Description" link.
+  <div class="fragment"><pre>
+  <font color="blue"><u>Parameters Description</u></font></pre></div>
+  <br>  
+    Clicking on the link will open a window which describes the possible sets of parameters that you 
+    can pass to the constructor. In fact, these "Parameters Description" links are available for all
+    methods in LTPDA, not just class constructors. The figure below shows an example for our miir case.
+  <div align="center">
+    <IMG src="images/ltpda_training_2/Topic1/method_help_eg1.png"  align="center" border="0">
+  </div>
+</p>
+<p>
+  The following table summarises the terms used in this section.
+  <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+    <colgroup>
+      <col width="20%"/>
+      <col width="80%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th bgcolor="#D7D7D7">Term</th>
+        <th bgcolor="#D7D7D7">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Class</td><td>A description of a real-word object or idea</td>
+      </tr>
+      <tr>
+        <td>Property</td><td>Classes have properties which encapsulate features of the real-world object.</td>
+      </tr>
+      <tr>
+        <td>Object</td><td>An example of a realisation (or instantiation) of a class.</td>
+      </tr>
+      <tr>
+        <td>Method</td><td>A function that acts on instances of a class (objects).</td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_2_topic_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="Topic 1 - LTPDA Review."></a>&nbsp;</td>
+        <td align="left">Topic 1 - LTPDA Review.</td>
+        <td>&nbsp;</td>
+        <td align="right">Saving and loading objects</td>
+        <td align="right" width="20"><a href="ltpda_training_2_topic_1_2.html"><img src="b_next.gif" border="0" align="bottom" alt="Saving and loading objects"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

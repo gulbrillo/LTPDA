@@ -1,0 +1,246 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!-- $Id$ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="../../ug/docstyle.css">
+    <title>LTPDA Method: ao/firwhiten</title>
+  </head>
+  <body>
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <p style="font-size:1px;">&nbsp;</p>
+
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../../ug/../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ao_filtfilt.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ao/filtfilt"></a>&nbsp;&nbsp;&nbsp;<a href="ao_fixfs.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ao/fixfs"></a></td>
+      </tr>
+    </table>
+
+    <h1 class="title">Method ao/firwhiten</h1>
+    <hr />
+
+<pre>  <SPAN CLASS="HELPTOPIC">FIRWHITEN</SPAN> whitens the input time-series by building an FIR whitening filter.
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+  DESCRIPTION: <SPAN CLASS="HELPTOPIC">FIRWHITEN</SPAN> whitens the input time-series by building an FIR
+               whitening filter. The algorithm ultimately uses fir2() to
+               build the whitening filter.
+ 
+  ALGORITHM:
+             1) Make ASD of time-series
+             2) Perform running median to get noise-floor estimate (ao/smoother)
+             3) Invert noise-floor estimate
+             4) Call mfir() on noise-floor estimate to produce whitening filter
+             5) Filter data
+ 
+  CALL:                   b = <span class="helptopic">firwhiten</span>(a, pl) % returns whitened time-series AOs
+                 [b, filts] = <span class="helptopic">firwhiten</span>(a, pl) % returns the mfir filters used
+            [b, filts, nfs] = <span class="helptopic">firwhiten</span>(a, pl) % returns the noise-floor
+                                               % estimates as fsdata AOs
+ 
+ 
+  <a href="ao_firwhiten.html#down">Parameters Description</a>
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</pre>
+
+    <!-- =====        Striped 4x2 table: Begin        ==== -->
+    <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+    <div class="sectiontitle"></div>
+    <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+      <colgroup>
+        <col width="30%"/>
+        <col width="70%"/>
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th class="categorylist">Method Details</th>
+          <th class="categorylist"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Access</td>
+          <td bgcolor="#f3f4f5">public</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Defining Class</td>
+          <td bgcolor="#ffffff">ao</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Sealed</td>
+          <td bgcolor="#f3f4f5">0</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Static</td>
+          <td bgcolor="#ffffff">0</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- ===== Striped 4x2 table: End ==== -->
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <h2>Parameter Description</h2>    <a name="down" id="down"></a>
+
+    <!-- Link-Table of the sets -->
+    <table border="0" cellpadding="4" cellspacing="0" class="pagenavtable">
+      <tr><th>Sets for this method &#8230;</th></tr>
+        <tr><td><a href="#1">Default</a></td></tr>
+    </table>
+
+    <a name="1"></a>
+    <!-- Parameter List Table: Default -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>Default</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">firwhiten</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NFFT</td>
+            <td bgcolor="#F2F2F2">-1</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The number of points in the FFT used to estimate<br>the power spectrum. If unspecified, this is calculated as Ndata/4.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">BW</td>
+            <td bgcolor="#F2F2F2">20</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The bandwidth of the running median filter used to<br>estimate the noise-floor.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">HC</td>
+            <td bgcolor="#F2F2F2">0.80000000000000004</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The cutoff used to reject outliers (0-1).</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">WIN</td>
+            <td bgcolor="#F2F2F2">'Hanning'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'Rectangular'</font></li><li><font color="#1111FF">'Welch'</font></li><li><font color="#1111FF">'Bartlett'</font></li><li><font color="#1111FF">'Hanning'</font></li><li><font color="#1111FF">'Hamming'</font></li><li><font color="#1111FF">'Nuttall3'</font></li><li><font color="#1111FF">'Nuttall4'</font></li><li><font color="#1111FF">'Nuttall3a'</font></li><li><font color="#1111FF">'Nuttall3b'</font></li><li><font color="#1111FF">'Nuttall4a'</font></li><li><font color="#1111FF">'Nuttall4b'</font></li><li><font color="#1111FF">'Nuttall4c'</font></li><li><font color="#1111FF">'BH92'</font></li><li><font color="#1111FF">'SFT3F'</font></li><li><font color="#1111FF">'SFT3M'</font></li><li><font color="#1111FF">'FTNI'</font></li><li><font color="#1111FF">'SFT4F'</font></li><li><font color="#1111FF">'SFT5F'</font></li><li><font color="#1111FF">'SFT4M'</font></li><li><font color="#1111FF">'FTHP'</font></li><li><font color="#1111FF">'HFT70'</font></li><li><font color="#1111FF">'FTSRS'</font></li><li><font color="#1111FF">'SFT5M'</font></li><li><font color="#1111FF">'HFT90D'</font></li><li><font color="#1111FF">'HFT95'</font></li><li><font color="#1111FF">'HFT116D'</font></li><li><font color="#1111FF">'HFT144D'</font></li><li><font color="#1111FF">'HFT169D'</font></li><li><font color="#1111FF">'HFT196D'</font></li><li><font color="#1111FF">'HFT223D'</font></li><li><font color="#1111FF">'HFT248D'</font></li><li><font color="#1111FF">'Kaiser'</font></li><li><font color="#1111FF">'levelledHanning'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Spectral window used in spectral estimation.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ORDER</td>
+            <td bgcolor="#F2F2F2">-1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">-1</font></li><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li><li><font color="#1111FF">2</font></li><li><font color="#1111FF">3</font></li><li><font color="#1111FF">4</font></li><li><font color="#1111FF">5</font></li><li><font color="#1111FF">6</font></li><li><font color="#1111FF">7</font></li><li><font color="#1111FF">8</font></li><li><font color="#1111FF">9</font></li></ul></td>
+            <td bgcolor="#F2F2F2">The order of segment detrending:<ul><li>-1 - no detrending</li><li>0 - subtract mean</li><li>1 - subtract linear fit</li><li>N - subtract fit of polynomial, order N</li></ul></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FIRWIN</td>
+            <td bgcolor="#F2F2F2">'Hanning'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'Rectangular'</font></li><li><font color="#1111FF">'Welch'</font></li><li><font color="#1111FF">'Bartlett'</font></li><li><font color="#1111FF">'Hanning'</font></li><li><font color="#1111FF">'Hamming'</font></li><li><font color="#1111FF">'Nuttall3'</font></li><li><font color="#1111FF">'Nuttall4'</font></li><li><font color="#1111FF">'Nuttall3a'</font></li><li><font color="#1111FF">'Nuttall3b'</font></li><li><font color="#1111FF">'Nuttall4a'</font></li><li><font color="#1111FF">'Nuttall4b'</font></li><li><font color="#1111FF">'Nuttall4c'</font></li><li><font color="#1111FF">'BH92'</font></li><li><font color="#1111FF">'SFT3F'</font></li><li><font color="#1111FF">'SFT3M'</font></li><li><font color="#1111FF">'FTNI'</font></li><li><font color="#1111FF">'SFT4F'</font></li><li><font color="#1111FF">'SFT5F'</font></li><li><font color="#1111FF">'SFT4M'</font></li><li><font color="#1111FF">'FTHP'</font></li><li><font color="#1111FF">'HFT70'</font></li><li><font color="#1111FF">'FTSRS'</font></li><li><font color="#1111FF">'SFT5M'</font></li><li><font color="#1111FF">'HFT90D'</font></li><li><font color="#1111FF">'HFT95'</font></li><li><font color="#1111FF">'HFT116D'</font></li><li><font color="#1111FF">'HFT144D'</font></li><li><font color="#1111FF">'HFT169D'</font></li><li><font color="#1111FF">'HFT196D'</font></li><li><font color="#1111FF">'HFT223D'</font></li><li><font color="#1111FF">'HFT248D'</font></li><li><font color="#1111FF">'Kaiser'</font></li><li><font color="#1111FF">'levelledHanning'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">The window to use in the filter design.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NTAPS</td>
+            <td bgcolor="#F2F2F2">256</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The length of the FIR filter to build.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('NFFT', [-1], 'BW', [20], 'HC', [0.80000000000000004], 'WIN', 'Hanning', 'ORDER', [-1], 'FIRWIN', 'Hanning', 'NTAPS', [256])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <p><!-- Table of the minfo object -->
+      <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+        <colgroup>
+          <col width="25%"/>
+          <col width="75%"/>
+        </colgroup>
+        <thead>
+          <tr valign="top">
+            <th class="categorylist" colspan="2">Some information of the method ao/firwhiten are listed below:</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Property: 'mclass' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Class name</td>
+            <td bgcolor="#f3f4f5">ao</td>
+          </tr>
+          <!-- Property: 'mname' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Method name</td>
+            <td bgcolor="#ffffff">firwhiten</td>
+          </tr>
+          <!-- Property: 'mcategory' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Category</td>
+            <td bgcolor="#f3f4f5">Signal Processing</td>
+          </tr>
+          <!-- Property: 'mpackage' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Package name</td>
+            <td bgcolor="#ffffff">ltpda</td>
+          </tr>
+          <!-- Property: 'modifier' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Can be used as modifier</td>
+            <td bgcolor="#f3f4f5">1</td>
+          </tr>
+          <!-- Property: 'supportedNumTypes' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Supported numeric types</td>
+            <td bgcolor="#ffffff">{'double'}</td>
+          </tr>
+        </tbody>
+      </table>
+    </p>
+
+
+    <br>
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ao_filtfilt.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ao/filtfilt"></a>&nbsp;</td>
+        <td align="left">Method: ao/filtfilt</td>
+        <td>&nbsp;</td>
+        <td align="right">Method: ao/fixfs</td>
+        <td align="right" width="20"><a href="ao_fixfs.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ao/fixfs"></a></td>
+      </tr>
+    </table>
+
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+
+   </body>
+</html>

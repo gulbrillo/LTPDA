@@ -1,0 +1,175 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Setting-up MATLAB (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="sysreqts.html"><img src="b_prev.gif" border="0" align="bottom" alt="System Requirements"></a>&nbsp;&nbsp;&nbsp;<a href="additional_progs.html"><img src="b_next.gif" border="0" align="bottom" alt="Additional 3rd-party software"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Setting-up MATLAB</h1>
+    <hr>
+    
+    <p>
+      
+<p>Setting up MATLAB to work properly with the LTPDA Toolbox requires a few steps:</p>
+
+<ul>
+  <li>
+    <p><a href="setup.html#path">Add the LTPDA Toolbox to the MATLAB path</a></p>
+  </li>
+  <li>
+    <p><a href="setup.html#startup">Starting LTPDA Toolbox</a></p>
+  </li>
+  <li>
+    <p><a href="setup.html#database">Build LTPDA documentation search database</a></p>
+  </li>
+  <li>
+    <p><a href="setup.html#prefs">Edit the LTPDA Preferences</a></p>
+  </li>
+</ul>
+
+<a name="path" id= "path"></a>
+<h3 class="title">Add the LTPDA Toolbox to the MATLAB path</h3>
+
+<p>
+  After downloading and un-compressing the LTPDA Toolbox, you should add the
+  directory <tt>ltpda_toolbox</tt> to your MATLAB path. To do this:
+  <ul>
+    <li>In MATLAB versions earlier than <b>R2012b</b><br>
+      File -> Set Path...<br>
+      With MATLAB version <b>R2012b</b><br>
+      HOME-tab -> Set Path ...
+    </li>
+    <li> Choose "Add with Subfolders" and browse to the location of <tt>ltpda_toolbox</tt> </li>
+    <li> "Save" your new path. MATLAB may require you to save your new <tt>pathdef.m</tt> to a 
+      new location in the case that you don't have write access to the default location. For more
+    details read the documentation on "pathdef" (<tt>>> doc pathdef</tt>). </li>
+  </ul>
+</p>
+
+<a name="ltpdastartup" id= "ltpdastartup"></a>
+
+<a name="startup" id= "startup"></a>
+<h3 class="title">Starting LTPDA Toolbox</h3>
+
+<p>
+  To start using the LTPDA Toolbox, execute the following command on the MATLAB terminal:
+  <div class="fragment"><pre>
+    ltpda_startup</pre></div>
+  This should launch the LTPDA Launchbay, and you should see the LTPDA logo on the MATLAB terminal.
+  When you run this for the first time, you will also be presented with the LTPDA Preferences GUI from
+  where you can edit the preferences for the toolbox (see below).
+</p>
+<p>
+  If everything has gone well, you should be able to run a set of built-in tests by doing:
+  <div class="fragment"><pre>
+    run_tests</pre></div>
+  This will run about 100 test scripts. These test scripts can be found in <tt>$ltpda_toolbox/examples</tt>
+  and serve as useful example scripts.
+</p>
+<p>
+  In order to automatically start the LTPDA Toolbox
+  when MATLAB starts up, add the command <tt>ltpda_startup</tt> to your own <tt>startup.m</tt>
+  file. See <tt>>> doc startup</tt> for more details on installing and editing your own <tt>startup.m</tt> file.
+</p>
+
+<a name="database" id= "prefs"></a>
+<h3 class="title">Build LTPDA documentation search database</h3>
+<p>
+  It is necessary for the 'Search' in the LTPDA help section to build the documentation search database.
+  Execute the following command on the MATLAB terminal
+    <div class="fragment"><pre>
+    builddocsearchdb(utils.helper.getHelpPath)</pre></div>
+  or since LTPDA version 2.9.4
+    <div class="fragment"><pre>
+    utils.helper.buildSearchDatabase()</pre></div>
+</p>
+
+<a name="prefs" id= "prefs"></a>
+<h3 class="title">Edit the LTPDA Preferences</h3>
+<p>
+  The LTPDA Toolbox comes with a default set of starting preferences. These may need
+  to be edited for your particular system (though most of the defaults should be fine). 
+  To edit the preferences, you first need to have the LTPDA toolbox installed as described 
+  above, then run the command
+  <div class="fragment"><pre>
+  LTPDAprefs</pre></div>
+  You should see the following GUI:
+</p>
+<p>
+  <img src="images/LTPDAprefs.png" alt="LTPDA Preferences GUI" border="0"></img>
+</p>
+<p>
+  Edit all the preferences you want and then click 'Apply' to save the preferences. These new preferences
+  will be used each time you start LTPDA.
+</p>
+
+<a name="prefs_display" id= "prefs_display"></a>
+<h4 class="title">LTPDA Preferences: Display</h4>
+
+<a name="prefs_plot" id= "prefs_plot"></a>
+<h4 class="title">LTPDA Preferences: Plot</h4>
+
+<a name="prefs_plot_styles" id= "prefs_plot_styles"></a>
+<h4 class="title">LTPDA Preferences: Plot Styles</h4>
+
+<a name="prefs_extensions" id= "prefs_extensions"></a>
+<h4 class="title">LTPDA Preferences: Extensions</h4>
+
+<a name="prefs_time" id= "prefs_time"></a>
+<h4 class="title">LTPDA Preferences: Time</h4>
+
+<a name="prefs_repository" id= "prefs_repository"></a>
+<h4 class="title">LTPDA Preferences: Repository</h4>
+
+<a name="prefs_external" id= "prefs_external"></a>
+<h4 class="title">LTPDA Preferences: External</h4>
+
+<a name="prefs_misc" id= "prefs_misc"></a>
+<h4 class="title">LTPDA Preferences: Misc</h4>
+
+<p>The 'Misc' tab allows to add user-defined units, such as 'bar', 'arcsec' and so on. Just type the string
+in the field 'New unit' and hit the '+' button.
+</p>
+<p>The 'Misc' tab allows also to choose the default type of spectral window to be applied when using the Welch-based
+estimators. More info about each window can be obtained by using the spectral wind GUI, accessible via:
+<div class="fragment"><pre>
+specwinViewer
+</pre></div>
+</p>
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="sysreqts.html"><img src="b_prev.gif" border="0" align="bottom" alt="System Requirements"></a>&nbsp;</td>
+        <td align="left">System Requirements</td>
+        <td>&nbsp;</td>
+        <td align="right">Additional 3rd-party software</td>
+        <td align="right" width="20"><a href="additional_progs.html"><img src="b_next.gif" border="0" align="bottom" alt="Additional 3rd-party software"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

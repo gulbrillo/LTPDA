@@ -1,0 +1,192 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Constructor examples of the TIMESPAN class (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="constructor_examples_rational.html"><img src="b_prev.gif" border="0" align="bottom" alt="Constructor examples of the RATIONAL class"></a>&nbsp;&nbsp;&nbsp;<a href="constructor_examples_plist.html"><img src="b_next.gif" border="0" align="bottom" alt="Constructor examples of the PLIST class"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Constructor examples of the TIMESPAN class</h1>
+    <hr>
+    
+    <p>
+      <!-- $Id$ -->
+
+<!-- -------------------------------------------------- -->
+<!-- --------------- BEGIN CONTENT FILE --------------- -->
+<!-- -------------------------------------------------- -->
+
+<!-- --------------- Link box: begin --------------- -->
+<table border="0" summary="Simple list" class="simplelist_nottable_last">
+  <tr>
+    <td>
+      <a href="constructor_examples_timespan.html#empty">Construct empty TIMESPAN object</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="constructor_examples_timespan.html#xml_file">Construct a TIMESPAN object by loading the object from a file</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="constructor_examples_timespan.html#start_end">Construct a TIMESPAN object with a start and end time</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="constructor_examples_timespan.html#plist">Construct a TIMESPAN object from a parameter list (PLIST) object</a>
+    </td>
+  </tr>
+</table>
+<!-- --------------- Link box: end --------------- -->
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a name="empty"></a>Construct empty TIMESPAN object</h2>
+<p>The following example creates an empty timespan object</p>
+<div class="fragment"><pre class="programlisting">
+ts = timespan()
+---------- timespan 01 ----------
+
+name      : None
+start     : 2008-03-30 20:00:00.000
+end       : 2008-03-30 20:00:00.000
+timeformat: yyyy-mm-dd HH:MM:SS.FFF
+interval  :
+timezone  : UTC
+
+created   : 2008-03-30 20:00:00.000
+version   : $Id: timespan.m,v 1.23 2008/03/25 10:57:49 mauro Exp
+plist     : plist class
+---------------------------------
+</pre></div>
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a name="xml_file"></a>Construct a TIMESPAN object by loading the object from a file</h2>
+<p>The following example creates a new timespan object by loading the timespan object from disk.</p>
+<div class="fragment"><pre class="programlisting">
+t = timespan(<span class="string">'timespan.mat'</span>)
+t = timespan(<span class="string">'timespan.xml'</span>)
+</pre></div>
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a name="start_end"></a>Construct a TIMESPAN object with a start and end time</h2>
+<p>It is possible to specify the start-/end- time either with a time-object or with a time string.</p>
+<div class="fragment"><pre class="programlisting">
+t1_obj = time(<span class="string">'14:00:00'</span>);
+t2_obj = time(<span class="string">'15:00:00'</span>);
+t1_str = <span class="string">'14:00:00'</span>;
+t2_str = <span class="string">'15:00:00'</span>;
+
+ts1 = timespan(t1_obj, t2_obj)    <span class="comment">% two time-objects</span>
+ts2 = timespan(t1_obj, t2_obj)    <span class="comment">% two strings</span>
+ts3 = timespan(t1_str, t2_obj)    <span class="comment">% combination of time-object and string</span>
+ts4 = timespan(t1_str, t2_str)    <span class="comment">% combination of time-object and string</span>
+</pre></div>
+
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a name="plist"></a>Construct a TIMESPAN object from a parameter list (PLIST) object</h2>
+<p>Construct an TIMESPAN by its properties definition
+  <table border="0" summary="Simple list" class="simplelist_nottable_last" width="50%">
+    <tr valign="top">
+      <td width="25%">
+        <p>'start'</p>
+      </td>
+      <td width="75%">
+        <p>The starting time<br />[default: '1970-01-01 00:30:00.000']</p>
+      </td>
+    </tr>
+    <tr valign="top">
+      <td width="25%">
+        <p>'end'</p>
+      </td>
+      <td width="75%">
+        <p>The ending time<br />[default: '1980-01-01 12:00:00.010']</p>
+      </td>
+    </tr>
+  </table>
+</p>
+<p>Additional parameters:
+  <table border="0" summary="Simple list" class="simplelist_nottable_last" width="50%">
+    <tr valign="top">
+      <td width="25%">
+        <p>'timezone'</p>
+      </td>
+      <td width="75%">
+        <p>Timezone (string or java object) [default: 'UTC']</p>
+      </td>
+    </tr>
+    <tr valign="top">
+      <td width="25%">
+        <p>'timeformat'</p>
+      </td>
+      <td width="75%">
+        <p>Time format (string) [default: 'yyyy-mm-dd HH:MM:SS.FFF']</p>
+      </td>
+    </tr>
+  </table>
+</p>
+<div class="fragment"><pre class="programlisting">
+t1 = time(<span class="string">'14:00:00'</span>);
+t2 = time(<span class="string">'15:00:00'</span>);
+
+pl1 = plist(<span class="string">'start'</span>, t1, ...
+            <span class="string">'end'</span>,   t2);
+pl2 = plist(<span class="string">'start'</span>,       t1, ...
+            <span class="string">'end'</span>,         t2, ...
+            <span class="string">'timeformat'</span>, <span class="string">'yyyy-mm-dd HH:MM:SS'</span>, ...
+            <span class="string">'timezone'</span>,   <span class="string">'CET'</span>);
+
+ts1 = timespan(pl1)
+ts2 = timespan(pl2)
+</pre></div>
+
+
+
+<!-- ------------------------------------------------ -->
+<!-- --------------- END CONTENT FILE --------------- -->
+<!-- ------------------------------------------------ -->
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="constructor_examples_rational.html"><img src="b_prev.gif" border="0" align="bottom" alt="Constructor examples of the RATIONAL class"></a>&nbsp;</td>
+        <td align="left">Constructor examples of the RATIONAL class</td>
+        <td>&nbsp;</td>
+        <td align="right">Constructor examples of the PLIST class</td>
+        <td align="right" width="20"><a href="constructor_examples_plist.html"><img src="b_next.gif" border="0" align="bottom" alt="Constructor examples of the PLIST class"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

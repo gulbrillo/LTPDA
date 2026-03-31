@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Simulate LPF with matched stiffness (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_2_topic_2_7.html"><img src="b_prev.gif" border="0" align="bottom" alt="Changing system parameters"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_2_topic_3.html"><img src="b_next.gif" border="0" align="bottom" alt="Topic 3 - Estimation of equivalent acceleration."></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Simulate LPF with matched stiffness</h1>
+    <hr>
+    
+    <p>
+      <p>
+  Simulating LPF with matched stiffness involves bringing together the details
+  of the previous section. The following code snippet builds two versions of the
+  LPF model: one with matched stiffness, one with unmatched stiffness.
+  <div class="fragment"><pre>
+        
+    <span class="comment">% Configuration plist for building our model with matched stiffness</span>
+    modelPlistMatched = plist(...
+                          <span class="string">'built-in'</span>, <span class="string">'LPF'</span>, ...
+                          <span class="string">'EOM_TM1_STIFF_XX'</span>, 2e-6, ...
+                          <span class="string">'EOM_TM2_STIFF_XX'</span>, 2e-6 ...
+                          );
+    
+    <span class="comment">% Configuration plist for building our model with unmatched stiffness</span>
+    modelPlistUnmatched = plist(...
+                            <span class="string">'built-in'</span>, 'LPF'</span>, ...
+                            <span class="string">'EOM_TM1_STIFF_XX'</span>, 1e-6, ...
+                            <span class="string">'EOM_TM2_STIFF_XX'</span>, 5e-6 ...
+                            );
+    
+    <span class="comment">% Build the LPF model with our configuration plists</span>
+    lpfMatched   = ssm(modelPlistMatched);
+    lpfUnmatched = ssm(modelPlistUnmatched);
+    
+  </pre></div>
+  We can simulate both of these models with all noise on: 
+  <div class="fragment"><pre>
+      
+      <span class="comment">% Create a covariance matrix and port list sized for our LPF model</span>
+      cov_matrix = lpfMatched.generateCovariance();
+      
+      <span class="comment">% Define the simulation plist for a 100,000s simulation</span>
+      simPlist = plist(...
+                  <span class="string">'CPSD Variable Names'</span>, cov_matrix.find(<span class="string">'names'</span>), ...
+                  <span class="string">'CPSD'</span>, cov_matrix.find(<span class="string">'cov'</span>), ...
+                  <span class="string">'Return outputs'</span>, {<span class="string">'IFO.x1'</span>, <span class="string">'IFO.x12'</span>, <span class="string">'DFACS.sc_x'</span>, <span class="string">'DFACS.tm2_x'</span>}, ...
+                  <span class="string">'Nsamples'</span>, 1000000 ...
+                  );
+      
+      <span class="comment">% Run the simulations</span>
+      outMatched   = simulate(lpfMatched, simPlist);
+      outUnmatched = simulate(lpfUnmatched, simPlist);
+      
+  </pre></div>
+  Now we have two simulated data sets. We can look at the effect of matching the stiffness
+  by looking at the coherence of the force commanded on the spacecraft with the differential
+  displacement of the TMs measured by the IFO:
+  <div class="fragment"><pre>
+      <span class="comment">% Compare the coherence between force on SC and the diff. displacement</span>
+      
+      <span class="comment">% Unpack the outputs from the simulations</span>
+      [o1m, o12m, F_cmd_Xm, F_cmd_x2m] = unpack(outMatched);
+      [o1u, o12u, F_cmd_Xu, F_cmd_x2u] = unpack(outUnmatched);
+      
+      <span class="comment">% Compute the coherence</span>
+      coherePlist = plist(...
+                      <span class="string">'navs'</span>, 16, ...
+                      <span class="string">'order'</span>, 1 ...
+                      );
+      
+      Cm = cohere(F_cmd_Xm, o12m, coherePlist);
+      Cm.setName(<span class="string">'SC Jitter to X12 coherence (matched stiffness)'</span>);
+      
+      Cu = cohere(F_cmd_Xu, o12u, coherePlist);
+      Cu.setName(<span class="string">'SC Jitter to X12 coherence (unmatched stiffness)'</span>);
+      
+      <span class="comment">% Bin the data to do some frequency-domain averaging</span>
+      Cm_binned = Cm.bin_data;
+      Cu_binned = Cu.bin_data;
+      
+      <span class="comment">% Plot the results with error bars</span>
+      iplot(Cm_binned, Cu_binned)
+  </pre></div>
+  You should see a plot like the following, showing a clear decrease in coherence in the 
+  matched stiffness case:
+  <br>
+  <br>
+  <IMG src="images/ltpda_training_2/Topic2/matched_vs_unmatched_stiffness_coherence.png" width="1000px" align="center" border="0">
+  <br>
+  <br>
+
+</p>
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_2_topic_2_7.html"><img src="b_prev.gif" border="0" align="bottom" alt="Changing system parameters"></a>&nbsp;</td>
+        <td align="left">Changing system parameters</td>
+        <td>&nbsp;</td>
+        <td align="right">Topic 3 - Estimation of equivalent acceleration.</td>
+        <td align="right" width="20"><a href="ltpda_training_2_topic_3.html"><img src="b_next.gif" border="0" align="bottom" alt="Topic 3 - Estimation of equivalent acceleration."></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

@@ -1,0 +1,2061 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>ao Class (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="class_desc_MCMC.html"><img src="b_prev.gif" border="0" align="bottom" alt="MCMC Class"></a>&nbsp;&nbsp;&nbsp;<a href="class_desc_collection.html"><img src="b_next.gif" border="0" align="bottom" alt="collection Class"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">ao Class</h1>
+    <hr>
+    
+    <p>
+      <!-- $Id$ -->
+
+  <!-- ================================================== -->
+  <!--                 BEGIN CONTENT FILE                 -->
+  <!-- ================================================== -->
+
+  <!-- =====           Link Table: Begin           ===== -->
+  <!-- ===== Created by docHelper.htmlAddLinkTable ===== -->
+  <p>
+    <table border="1"  width="80%">
+      <tr>
+        <td>
+          <table border="0" cellpadding="5" class="categorylist" width="100%">
+            <colgroup>
+              <col width="25%"/>
+              <col width="75%"/>
+            </colgroup>
+            <tbody>
+              <tr valign="top">
+                <td><a href="class_desc_ao.html#top_properties">Properties</a></td>
+                <td>Properties of the class</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_ao.html#top_methods">Methods</a></td>
+                <td>All Methods of the class ordered by category.</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="constructor_examples_ao.html">Examples</a></td>
+                <td>Some constructor examples</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </p>
+  <!-- ===== Link Table: End ====== -->
+
+  <!-- ===== Back to Class descriptions ===== -->
+  <a href="class_desc_main.html">
+    <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Class descriptions"/>
+    Back to Class descriptions
+  </a>
+
+  <h2 class="title"><a name="top_properties"/>Properties</h2>
+  <p>
+    The LTPDA toolbox restrict access of the properties.<br></br>
+    The get access is 'public' and thus it is possible to get the values with the dot-command (similar to structures).<br></br>
+    <pre class="programlisting">For example:<br></br>val = obj.prop(2).prop;</pre>
+    The set access is 'protected' and thus it is only possible to assign a value to a property with a set-method.
+    <pre class="programlisting">
+For example:
+obj2 = obj1.setName(<span class="string">'my name'</span>) <span class="comment">% This command creates a copy of obj1 (obj1 ~= obj2)</span>
+obj.setName(<span class="string">'my name'</span>);        <span class="comment">% This command applies to obj</span>    </pre>
+  </p>
+
+  <!-- =====        Striped 9x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Properties</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao.data')">data</a></td>
+        <td bgcolor="#f3f4f5">Data object associated with this AO</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao.hist')">hist</a></td>
+        <td bgcolor="#ffffff">History of the object (history object)</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao.historyArray')">historyArray</a></td>
+        <td bgcolor="#f3f4f5">Array of history objects for saving</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao.procinfo')">procinfo</a></td>
+        <td bgcolor="#ffffff">Plist with additional information for an object.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao.plotinfo')">plotinfo</a></td>
+        <td bgcolor="#f3f4f5">Plotinfo object</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao.timespan')">timespan</a></td>
+        <td bgcolor="#ffffff">A timespan indicating the valid time-range of the object</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao.name')">name</a></td>
+        <td bgcolor="#f3f4f5">Name of the object</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao.description')">description</a></td>
+        <td bgcolor="#ffffff">Description of the object</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao.UUID')">UUID</a></td>
+        <td bgcolor="#f3f4f5">Universally Unique Identifier of 128-bit</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 9x3 table: End ==== -->
+
+  <!-- ===== Top of page ===== -->
+  <a href="#top_of_page">
+    <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top"/>
+    Back to Top
+  </a>
+
+  <h2 class="title"><a name="top_methods"/>Methods</h2>
+
+  <!-- =====           Link Table: Begin           ===== -->
+  <!-- ===== Created by docHelper.htmlAddLinkTable ===== -->
+  <p>
+    <table border="1"  width="80%">
+      <tr>
+        <td>
+          <table border="0" cellpadding="5" class="subcategorylist" width="100%">
+            <colgroup>
+              <col width="25%"/>
+              <col width="75%"/>
+            </colgroup>
+            <tbody>
+              <tr valign="top">
+                <td><a href="class_desc_ao.html#arithmetic_operator">Arithmetic Operator</a></td>
+                <td>Arithmetic Operator</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_ao.html#constructor">Constructor</a></td>
+                <td>Constructor of this class</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_ao.html#converter">Converter</a></td>
+                <td>Convertor methods</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_ao.html#helper">Helper</a></td>
+                <td>Helper methods only for internal usage</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_ao.html#internal">Internal</a></td>
+                <td>Internal methods only for internal usage</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_ao.html#operator">Operator</a></td>
+                <td>Operator methods</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_ao.html#output">Output</a></td>
+                <td>Output methods</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_ao.html#relational_operator">Relational Operator</a></td>
+                <td>Relational operator methods</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_ao.html#signal_processing">Signal Processing</a></td>
+                <td>Signal processing methods</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_ao.html#trigonometry">Trigonometry</a></td>
+                <td>Trigometry methods</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </p>
+  <!-- ===== Link Table: End ====== -->
+
+  <!-- ===== Top of page ===== -->
+  <a href="#top_of_page">
+    <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top"/>
+    Back to Top
+  </a>
+
+  <!-- ===== Methods Category: Arithmetic_Operator ===== -->
+  <h3 class="title"><a name="arithmetic_operator"/>Arithmetic Operator</h3>
+
+  <!-- =====        Striped 18x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/and')">and</a></td>
+        <td bgcolor="#f3f4f5">Overloads the and (&) method for analysis objects.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/eq')">eq</a></td>
+        <td bgcolor="#ffffff">Overloads == operator for analysis objects. Compare the y-axis values.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/ge')">ge</a></td>
+        <td bgcolor="#f3f4f5">Overloads >= operator for analysis objects. Compare the y-axis values.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/gt')">gt</a></td>
+        <td bgcolor="#ffffff">Overloads > operator for analysis objects. Compare the y-axis values.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/le')">le</a></td>
+        <td bgcolor="#f3f4f5">Overloads <= operator for analysis objects. Compare the y-axis values.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/lt')">lt</a></td>
+        <td bgcolor="#ffffff">Overloads < operator for analysis objects. Compare the y-axis values.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/minus')">minus</a></td>
+        <td bgcolor="#f3f4f5">Implements subtraction operator for analysis objects.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/mod')">mod</a></td>
+        <td bgcolor="#ffffff">Overloads the modulus function for analysis objects.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/mpower')">mpower</a></td>
+        <td bgcolor="#f3f4f5">Implements mpower operator for analysis objects.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/mrdivide')">mrdivide</a></td>
+        <td bgcolor="#ffffff">Implements mrdivide operator for analysis objects.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/mtimes')">mtimes</a></td>
+        <td bgcolor="#f3f4f5">Implements mtimes operator for analysis objects.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/ne')">ne</a></td>
+        <td bgcolor="#ffffff">Overloads ~= operator for analysis objects. Compare the y-axis values.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/or')">or</a></td>
+        <td bgcolor="#f3f4f5">Overloads the or (|) method for Analysis objects.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/plus')">plus</a></td>
+        <td bgcolor="#ffffff">Implements addition operator for analysis objects.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/power')">power</a></td>
+        <td bgcolor="#f3f4f5">Implements power operator for analysis objects.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/rdivide')">rdivide</a></td>
+        <td bgcolor="#ffffff">Implements division operator for analysis objects.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/times')">times</a></td>
+        <td bgcolor="#f3f4f5">Implements multiplication operator for analysis objects.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/xor')">xor</a></td>
+        <td bgcolor="#ffffff">Overloads the xor (exclusive or) method for Analysis objects.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 18x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Constructor ===== -->
+  <h3 class="title"><a name="constructor"/>Constructor</h3>
+
+  <!-- =====        Striped 2x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao')">ao</a></td>
+        <td bgcolor="#f3f4f5">Analysis object class constructor.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/rebuild')">rebuild</a></td>
+        <td bgcolor="#ffffff">Rebuilds the input objects using the history.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 2x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Converter ===== -->
+  <h3 class="title"><a name="converter"/>Converter</h3>
+
+  <!-- =====        Striped 3x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/cast')">cast</a></td>
+        <td bgcolor="#f3f4f5">Converts the numeric values in an AO to the data type specified by type.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/double')">double</a></td>
+        <td bgcolor="#ffffff">Overloads double() function for analysis objects.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/logical')">logical</a></td>
+        <td bgcolor="#f3f4f5">Overloads logical() function for analysis objects.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 3x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Helper ===== -->
+  <h3 class="title"><a name="helper"/>Helper</h3>
+
+  <!-- =====        Striped 78x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/checkTimestamps')">checkTimestamps</a></td>
+        <td bgcolor="#f3f4f5">Performs a check on the timestamps of the input AOs.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/convert')">convert</a></td>
+        <td bgcolor="#ffffff">Perform various conversions on the ao.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/demux')">demux</a></td>
+        <td bgcolor="#f3f4f5">Splits the input vector of AOs into a number of output AOs.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/dx')">dx</a></td>
+        <td bgcolor="#ffffff">Get the data property 'dx'.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/dy')">dy</a></td>
+        <td bgcolor="#f3f4f5">Get the data property 'dy'.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/dz')">dz</a></td>
+        <td bgcolor="#ffffff">DX Get the data property 'dz'.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/find')">find</a></td>
+        <td bgcolor="#f3f4f5">Particular samples that satisfy the input query and return a new AO.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/flscov')">flscov</a></td>
+        <td bgcolor="#ffffff">M - Tool to perform a least square fit in frequency domain.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/fromProcinfo')">fromProcinfo</a></td>
+        <td bgcolor="#f3f4f5">Returns for a given key-name the value of the procinfo-plist</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/fs')">fs</a></td>
+        <td bgcolor="#ffffff">Get the data property 'fs'.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/getCommonInterval')">getCommonInterval</a></td>
+        <td bgcolor="#f3f4f5">Estimates the common interval spun by a group of Analysis Objects</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/getGeneralInterval')">getGeneralInterval</a></td>
+        <td bgcolor="#ffffff">Estimates the maximum interval spun by a group of Analysis Objects</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/join')">join</a></td>
+        <td bgcolor="#f3f4f5">Multiple AOs into a single AO.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/len')">len</a></td>
+        <td bgcolor="#ffffff">Overloads the length operator for Analysis objects. Length of the data samples.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/nsecs')">nsecs</a></td>
+        <td bgcolor="#f3f4f5">Get the data property 'nsecs'.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/resampleToCommonGrid')">resampleToCommonGrid</a></td>
+        <td bgcolor="#ffffff">Resamples Analysis Objects to a common grid</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/scatter3D')">scatter3D</a></td>
+        <td bgcolor="#f3f4f5">Creates from the y-values of the input AOs a new AO with a xyz-data object</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/scatterData')">scatterData</a></td>
+        <td bgcolor="#ffffff">Creates from the y-values of two input AOs an new AO(xydata)</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/setDx')">setDx</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'dx' property of the ao.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/setDy')">setDy</a></td>
+        <td bgcolor="#ffffff">Sets the 'dy' property of the ao.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/setDz')">setDz</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'dz' property of the ao.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/setEnbw')">setEnbw</a></td>
+        <td bgcolor="#ffffff">Sets the 'enbw' property of the ao/fsdata.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/setFs')">setFs</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'fs' property of the ao.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/setNavs')">setNavs</a></td>
+        <td bgcolor="#ffffff">Sets the 'navs' property of the ao/fsdata.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/setReferenceTime')">setReferenceTime</a></td>
+        <td bgcolor="#f3f4f5">Sets the t0 to the new value but doesn't move the data in time</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/setT0')">setT0</a></td>
+        <td bgcolor="#ffffff">Sets the 't0' property of the ao.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/setToffset')">setToffset</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'toffset' property of the ao with tsdata</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/setX')">setX</a></td>
+        <td bgcolor="#ffffff">Sets the 'x' property of the ao.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/setXY')">setXY</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'x' and 'y' properties of the ao.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/setXaxisName')">setXaxisName</a></td>
+        <td bgcolor="#ffffff">Sets the x-axis name of the ao.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/setXunits')">setXunits</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'xunits' property of the ao.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/setY')">setY</a></td>
+        <td bgcolor="#ffffff">Sets the 'y' property of the ao.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/setYaxisName')">setYaxisName</a></td>
+        <td bgcolor="#f3f4f5">Sets the y-axis name of the ao.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/setYunits')">setYunits</a></td>
+        <td bgcolor="#ffffff">Sets the 'yunits' property of the ao.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/setZ')">setZ</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'z' property of the ao.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/setZaxisName')">setZaxisName</a></td>
+        <td bgcolor="#ffffff">Sets the z-axis name of the ao.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/setZunits')">setZunits</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'zunits' property of the ao.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/simplifyXunits')">simplifyXunits</a></td>
+        <td bgcolor="#ffffff">Simplify the 'xunits' of the ao.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/simplifyYunits')">simplifyYunits</a></td>
+        <td bgcolor="#f3f4f5">Simplify the 'yunits' property of the ao.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/simplifyZunits')">simplifyZunits</a></td>
+        <td bgcolor="#ffffff">Simplify the 'zunits' of the ao.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/t0')">t0</a></td>
+        <td bgcolor="#f3f4f5">Get the data property 't0'.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/timeshift')">timeshift</a></td>
+        <td bgcolor="#ffffff">For AO/tsdata objects, shifts data in time by the specified value in seconds.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/toffset')">toffset</a></td>
+        <td bgcolor="#f3f4f5">Get the data property 'toffset'.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/truncate')">truncate</a></td>
+        <td bgcolor="#ffffff">Splits Analysis Objects over a common timespan</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/validate')">validate</a></td>
+        <td bgcolor="#f3f4f5">Checks that the input Analysis Object is reproducible and valid.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/x')">x</a></td>
+        <td bgcolor="#ffffff">Get the data property 'x'.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/xaxisname')">xaxisname</a></td>
+        <td bgcolor="#f3f4f5">Get the x axis name of the underlying data object.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/xunits')">xunits</a></td>
+        <td bgcolor="#ffffff">Get the data property 'xunits'.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/y')">y</a></td>
+        <td bgcolor="#f3f4f5">Get the data property 'y'.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/yaxisname')">yaxisname</a></td>
+        <td bgcolor="#ffffff">Get the y axis name of the underlying data object.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/yunits')">yunits</a></td>
+        <td bgcolor="#f3f4f5">Get the data property 'yunits'.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/z')">z</a></td>
+        <td bgcolor="#ffffff">Get the data property 'z'.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/zaxisname')">zaxisname</a></td>
+        <td bgcolor="#f3f4f5">Get the z axis name of the underlying data object.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/zunits')">zunits</a></td>
+        <td bgcolor="#ffffff">Get the data property 'zunits'.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/get')">get</a></td>
+        <td bgcolor="#f3f4f5">Get a property of a object.</td>
+        <td bgcolor="#f3f4f5">ltpda_obj</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/search')">search</a></td>
+        <td bgcolor="#ffffff">Select objects that match the given name.</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/setDescription')">setDescription</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'description' property of a ltpda_uo object.</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/setName')">setName</a></td>
+        <td bgcolor="#ffffff">Sets the property 'name' of an ltpda_uoh object.</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/created')">created</a></td>
+        <td bgcolor="#f3f4f5">Returns a time object of the last modification.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/creator')">creator</a></td>
+        <td bgcolor="#ffffff">Extract the creator(s) from the history.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/csvexport')">csvexport</a></td>
+        <td bgcolor="#f3f4f5">Exports the data of an object to a csv file.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/index')">index</a></td>
+        <td bgcolor="#ffffff">Index into a 'ltpda_uoh' object array or matrix. This properly captures the history.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/requirements')">requirements</a></td>
+        <td bgcolor="#f3f4f5">Returns a list of LTPDA extension requirements for a given object.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/setPlotAxes')">setPlotAxes</a></td>
+        <td bgcolor="#ffffff">Sets the 'axes' property of a the object's plotinfo.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/setPlotColor')">setPlotColor</a></td>
+        <td bgcolor="#f3f4f5">Sets the color of a the object's plotinfo.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/setPlotFigure')">setPlotFigure</a></td>
+        <td bgcolor="#ffffff">Sets the 'figure' property of a the object's plotinfo.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/setPlotFillmarker')">setPlotFillmarker</a></td>
+        <td bgcolor="#f3f4f5">Defines if the plot function fill the marker or not.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/setPlotLineStyle')">setPlotLineStyle</a></td>
+        <td bgcolor="#ffffff">Sets the linestyle of a the object's plotinfo.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/setPlotLinewidth')">setPlotLinewidth</a></td>
+        <td bgcolor="#f3f4f5">Sets the linewidth of a the object's plotinfo.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/setPlotMarker')">setPlotMarker</a></td>
+        <td bgcolor="#ffffff">Sets the marker of a the object's plotinfo.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/setPlotMarkerEdgeColor')">setPlotMarkerEdgeColor</a></td>
+        <td bgcolor="#f3f4f5">Sets the color of a the object's marker edge.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/setPlotMarkerFaceColor')">setPlotMarkerFaceColor</a></td>
+        <td bgcolor="#ffffff">Sets the color of a the object's marker face.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/setPlotMarkersize')">setPlotMarkersize</a></td>
+        <td bgcolor="#f3f4f5">Sets the markersize of a the object's plotinfo.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/setPlotinfo')">setPlotinfo</a></td>
+        <td bgcolor="#ffffff">Sets the 'plotinfo' property of a ltpda_uoh object.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/setPlottingStyle')">setPlottingStyle</a></td>
+        <td bgcolor="#f3f4f5">Sets the style property of a the object's plotinfo.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/setProcinfo')">setProcinfo</a></td>
+        <td bgcolor="#ffffff">Sets the 'procinfo' property of a ltpda_uoh object.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/setShowsErrors')">setShowsErrors</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'showErrors' property of a the object's plotinfo.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/setTimespan')">setTimespan</a></td>
+        <td bgcolor="#ffffff">Sets the 'timespan' property of a ltpda_uoh object.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 78x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Internal ===== -->
+  <h3 class="title"><a name="internal"/>Internal</h3>
+
+  <!-- =====        Striped 10x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/char')">char</a></td>
+        <td bgcolor="#f3f4f5">Overloads char() function for analysis objects.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/generateConstructorPlist')">generateConstructorPlist</a></td>
+        <td bgcolor="#ffffff">Generates a PLIST from the properties which can rebuild the object.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/md5')">md5</a></td>
+        <td bgcolor="#f3f4f5">Computes an MD5 checksum from an analysis objects.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/plot')">plot</a></td>
+        <td bgcolor="#ffffff">The analysis objects on the given axes.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/isprop')">isprop</a></td>
+        <td bgcolor="#f3f4f5">Tests if the given field is one of the object properties.</td>
+        <td bgcolor="#f3f4f5">ltpda_obj</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/bsubmit')">bsubmit</a></td>
+        <td bgcolor="#ffffff">Submits the given collection of objects in binary form to an LTPDA repository</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/submit')">submit</a></td>
+        <td bgcolor="#f3f4f5">Submits the given collection of objects to an LTPDA repository</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/update')">update</a></td>
+        <td bgcolor="#ffffff">Updates the given object in an LTPDA repository</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/string')">string</a></td>
+        <td bgcolor="#f3f4f5">Writes a command string that can be used to recreate the input object(s).</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/type')">type</a></td>
+        <td bgcolor="#ffffff">Converts the input objects to MATLAB functions.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 10x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Operator ===== -->
+  <h3 class="title"><a name="operator"/>Operator</h3>
+
+  <!-- =====        Striped 48x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/abs')">abs</a></td>
+        <td bgcolor="#f3f4f5">Overloads the Absolute value method for analysis objects.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/all')">all</a></td>
+        <td bgcolor="#ffffff">Overloads the all operator for analysis objects. True if all elements</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/angle')">angle</a></td>
+        <td bgcolor="#f3f4f5">Overloads the angle operator for analysis objects.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/any')">any</a></td>
+        <td bgcolor="#ffffff">Overloads the any operator for analysis objects. True if any element</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/ao2numMatrices')">ao2numMatrices</a></td>
+        <td bgcolor="#f3f4f5">Transforms AO objects to numerical matrices.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/bilinfit')">bilinfit</a></td>
+        <td bgcolor="#ffffff">Is a linear fitting tool</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/cat')">cat</a></td>
+        <td bgcolor="#f3f4f5">Concatenate AOs into a row vector.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/complex')">complex</a></td>
+        <td bgcolor="#ffffff">Overloads the complex operator for Analysis objects.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/conj')">conj</a></td>
+        <td bgcolor="#f3f4f5">Overloads the conjugate operator for analysis objects.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/ctranspose')">ctranspose</a></td>
+        <td bgcolor="#ffffff">Overloads the ' operator for Analysis Objects.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/cumsum')">cumsum</a></td>
+        <td bgcolor="#f3f4f5">Overloads the cumsum operator for analysis objects.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/det')">det</a></td>
+        <td bgcolor="#ffffff">Overloads the determinant function for analysis objects.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/diag')">diag</a></td>
+        <td bgcolor="#f3f4f5">Overloads the diagonal operator for analysis objects.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/eig')">eig</a></td>
+        <td bgcolor="#ffffff">Overloads the eigenvalues/eigenvectors function for analysis objects.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/exp')">exp</a></td>
+        <td bgcolor="#f3f4f5">Overloads the exp operator for analysis objects. Exponential.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/hypot')">hypot</a></td>
+        <td bgcolor="#ffffff">Overloads robust computation of the square root of the sum of squares for AOs.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/imag')">imag</a></td>
+        <td bgcolor="#f3f4f5">Overloads the imaginary operator for analysis objects.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/inv')">inv</a></td>
+        <td bgcolor="#ffffff">Overloads the inverse function for analysis objects.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/ln')">ln</a></td>
+        <td bgcolor="#f3f4f5">Overloads the log operator for analysis objects. Natural logarithm.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/log')">log</a></td>
+        <td bgcolor="#ffffff">Overloads the log operator for analysis objects. Natural logarithm.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/log10')">log10</a></td>
+        <td bgcolor="#f3f4f5">Overloads the log10 operator for analysis objects. Common (base 10) logarithm.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/max')">max</a></td>
+        <td bgcolor="#ffffff">Computes the maximum value of the data in the AO</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/mean')">mean</a></td>
+        <td bgcolor="#f3f4f5">Computes the mean value of the data in the AO.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/median')">median</a></td>
+        <td bgcolor="#ffffff">Computes the median value of the data in the AO.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/min')">min</a></td>
+        <td bgcolor="#f3f4f5">Computes the minimum value of the data in the AO</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/mode')">mode</a></td>
+        <td bgcolor="#ffffff">Computes the modal value of the data in the AO.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/norm')">norm</a></td>
+        <td bgcolor="#f3f4f5">Overloads the norm operator for analysis objects.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/not')">not</a></td>
+        <td bgcolor="#ffffff">Overloads the logical not operator for analysis objects.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/offset')">offset</a></td>
+        <td bgcolor="#f3f4f5">Adds an offset to the data in the AO.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/phase')">phase</a></td>
+        <td bgcolor="#ffffff">Is the phase operator for analysis objects.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/quasiSweptSine')">quasiSweptSine</a></td>
+        <td bgcolor="#f3f4f5">Computes a transfer function from swept-sine measurements</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/real')">real</a></td>
+        <td bgcolor="#ffffff">Overloads the real operator for analysis objects.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/rotate')">rotate</a></td>
+        <td bgcolor="#f3f4f5">Applies rotation factor to AOs</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/round')">round</a></td>
+        <td bgcolor="#ffffff">Overloads the Round method for analysis objects.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/scale')">scale</a></td>
+        <td bgcolor="#f3f4f5">Scales the data in the AO by the specified factor.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/sign')">sign</a></td>
+        <td bgcolor="#ffffff">Overloads the sign operator for analysis objects.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/sort')">sort</a></td>
+        <td bgcolor="#f3f4f5">The values in the AO.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/spsdSubtraction')">spsdSubtraction</a></td>
+        <td bgcolor="#ffffff">Makes a sPSD-weighted least-square iterative fit</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/sqrt')">sqrt</a></td>
+        <td bgcolor="#f3f4f5">Computes the square root of the data in the AO.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/stack')">stack</a></td>
+        <td bgcolor="#ffffff">Xydata.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/std')">std</a></td>
+        <td bgcolor="#f3f4f5">Computes the standard deviation of the data in the AO.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/sum')">sum</a></td>
+        <td bgcolor="#ffffff">Computes the sum of the data in the AO.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/sumjoin')">sumjoin</a></td>
+        <td bgcolor="#f3f4f5">Sums time-series signals togther</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/svd')">svd</a></td>
+        <td bgcolor="#ffffff">Overloads the svd (singular value decomposition) function for analysis objects.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/transpose')">transpose</a></td>
+        <td bgcolor="#f3f4f5">Overloads the .' operator for Analysis Objects.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/uminus')">uminus</a></td>
+        <td bgcolor="#ffffff">Overloads the uminus operator for analysis objects.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/unwrap')">unwrap</a></td>
+        <td bgcolor="#f3f4f5">Overloads the unwrap operator for analysis objects.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/var')">var</a></td>
+        <td bgcolor="#ffffff">Computes the variance of the data in the AO.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 48x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Output ===== -->
+  <h3 class="title"><a name="output"/>Output</h3>
+
+  <!-- =====        Striped 10x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/disp')">disp</a></td>
+        <td bgcolor="#f3f4f5">Implement terminal display for analysis object.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/export')">export</a></td>
+        <td bgcolor="#ffffff">Export the data of an analysis object to a text file.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/gnuplot')">gnuplot</a></td>
+        <td bgcolor="#f3f4f5">A gnuplot interface for AOs.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/iplot')">iplot</a></td>
+        <td bgcolor="#ffffff">Provides an intelligent plotting tool for LTPDA.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/iplotyy')">iplotyy</a></td>
+        <td bgcolor="#f3f4f5">Provides an intelligent plotting tool for LTPDA.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/summaryReport')">summaryReport</a></td>
+        <td bgcolor="#ffffff">Generates an HTML report about the input objects.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/table')">table</a></td>
+        <td bgcolor="#f3f4f5">Display the data from the AO in a table.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/save')">save</a></td>
+        <td bgcolor="#ffffff">Overloads save operator for ltpda objects.</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/report')">report</a></td>
+        <td bgcolor="#f3f4f5">Generates an HTML report about the input objects.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/viewHistory')">viewHistory</a></td>
+        <td bgcolor="#ffffff">Displays the history of an object as a dot-view or a MATLAB figure.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 10x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Relational_Operator ===== -->
+  <h3 class="title"><a name="relational_operator"/>Relational Operator</h3>
+
+  <!-- =====        Striped 1x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/isequal')">isequal</a></td>
+        <td bgcolor="#f3f4f5">Overloads the isequal operator for ltpda objects.</td>
+        <td bgcolor="#f3f4f5">ltpda_obj</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 1x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Signal_Processing ===== -->
+  <h3 class="title"><a name="signal_processing"/>Signal Processing</h3>
+
+  <!-- =====        Striped 122x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/average')">average</a></td>
+        <td bgcolor="#f3f4f5">Averages aos point-by-point</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/bandpass')">bandpass</a></td>
+        <td bgcolor="#ffffff">AOs containing time-series data.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/bandreject')">bandreject</a></td>
+        <td bgcolor="#f3f4f5">AOs containing time-series data.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/bicohere')">bicohere</a></td>
+        <td bgcolor="#ffffff">Computes the bicoherence of two input time-series</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/bin_data')">bin_data</a></td>
+        <td bgcolor="#f3f4f5">Rebins aos data, on logarithmic scale, linear scale, or arbitrarly chosen.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/blrms')">blrms</a></td>
+        <td bgcolor="#ffffff">Computes band-limited RMS trends of the input time-series.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/buildWhitener1D')">buildWhitener1D</a></td>
+        <td bgcolor="#f3f4f5">Builds a whitening filter based on the input frequency-series.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/cdfplot')">cdfplot</a></td>
+        <td bgcolor="#ffffff">Makes cumulative distribution plot</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/cgfill')">cgfill</a></td>
+        <td bgcolor="#f3f4f5">Fills specified gaps in the data given an inital guess for the spectrum.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/cohere')">cohere</a></td>
+        <td bgcolor="#ffffff">Estimates the coherence between time-series objects</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/compute')">compute</a></td>
+        <td bgcolor="#f3f4f5">Performs the given operations on the input AOs.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/confint')">confint</a></td>
+        <td bgcolor="#ffffff">Calculates confidence levels and variance for psd, lpsd, cohere, lcohere and curvefit parameters</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/consolidate')">consolidate</a></td>
+        <td bgcolor="#f3f4f5">Resamples all input AOs onto the same time grid.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/conv')">conv</a></td>
+        <td bgcolor="#ffffff">Vector convolution.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/corr')">corr</a></td>
+        <td bgcolor="#f3f4f5">Estimate linear correlation coefficients.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/cov')">cov</a></td>
+        <td bgcolor="#ffffff">Estimate covariance of data streams.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/cpsd')">cpsd</a></td>
+        <td bgcolor="#f3f4f5">Estimates the cross-spectral density between time-series objects</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/crb')">crb</a></td>
+        <td bgcolor="#ffffff">Computes the inverse of the Fisher Matrix</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/crbound')">crbound</a></td>
+        <td bgcolor="#f3f4f5">Computes the inverse of the Fisher Matrix</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/delay')">delay</a></td>
+        <td bgcolor="#ffffff">Delays a time-series using various methods.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/delayEstimate')">delayEstimate</a></td>
+        <td bgcolor="#f3f4f5">Estimates the delay between two AOs</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/detectOutliers')">detectOutliers</a></td>
+        <td bgcolor="#ffffff">Locates outliers in data.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/detrend')">detrend</a></td>
+        <td bgcolor="#f3f4f5">Detrends the input analysis object using a polynomial of degree N.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/dft')">dft</a></td>
+        <td bgcolor="#ffffff">Computes the DFT of the input time-series at the requested frequencies.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/diff')">diff</a></td>
+        <td bgcolor="#f3f4f5">Differentiates the data in AO.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/dispersionLoop')">dispersionLoop</a></td>
+        <td bgcolor="#ffffff">DipersionLoop computes the dispersion function in loop</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/downsample')">downsample</a></td>
+        <td bgcolor="#f3f4f5">Decimate AOs by an integer factor.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/dropduplicates')">dropduplicates</a></td>
+        <td bgcolor="#ffffff">Drops all duplicate samples in time-series AOs.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/dsmean')">dsmean</a></td>
+        <td bgcolor="#f3f4f5">Performs a simple downsampling by taking the mean of every N samples.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/dtfe')">dtfe</a></td>
+        <td bgcolor="#ffffff">Estimates transfer function between time-series objects.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/ecdf')">ecdf</a></td>
+        <td bgcolor="#f3f4f5">Calculate empirical cumulative distribution function</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/edgedetect')">edgedetect</a></td>
+        <td bgcolor="#ffffff">Detects edges in a binary pulse-train.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/eqmotion')">eqmotion</a></td>
+        <td bgcolor="#f3f4f5">Solves numerically a given linear equation of motion</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/evaluateModel')">evaluateModel</a></td>
+        <td bgcolor="#ffffff">Evaluate a curvefit model.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/fft')">fft</a></td>
+        <td bgcolor="#f3f4f5">Overloads the fft method for Analysis objects.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/fftfilt')">fftfilt</a></td>
+        <td bgcolor="#ffffff">Overrides the fft filter function for analysis objects.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/filtSubtract')">filtSubtract</a></td>
+        <td bgcolor="#f3f4f5">Subtracts a frequency dependent noise contribution from an input ao.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/filter')">filter</a></td>
+        <td bgcolor="#ffffff">Overrides the filter function for analysis objects.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/filtfilt')">filtfilt</a></td>
+        <td bgcolor="#f3f4f5">Overrides the filtfilt function for analysis objects.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/firwhiten')">firwhiten</a></td>
+        <td bgcolor="#ffffff">Whitens the input time-series by building an FIR whitening filter.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/fixfs')">fixfs</a></td>
+        <td bgcolor="#f3f4f5">Resamples the input time-series to have a fixed sample rate.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/fngen')">fngen</a></td>
+        <td bgcolor="#ffffff">Creates an arbitrarily long time-series based on the input PSD.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/gapfilling')">gapfilling</a></td>
+        <td bgcolor="#f3f4f5">Fills possible gaps in data.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/gapfillingoptim')">gapfillingoptim</a></td>
+        <td bgcolor="#ffffff">Fills possible gaps in data.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/getAbsTimeRange')">getAbsTimeRange</a></td>
+        <td bgcolor="#f3f4f5">Returns a timespan object which span the absolute time range of an AO</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/getKSCValPSD')">getKSCValPSD</a></td>
+        <td bgcolor="#ffffff">Provides critical value for KStest on the PSD</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/getdof')">getdof</a></td>
+        <td bgcolor="#f3f4f5">Calculates degrees of freedom for psd, lpsd, cohere and lcohere</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/heterodyne')">heterodyne</a></td>
+        <td bgcolor="#ffffff">Heterodynes time-series.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/highpass')">highpass</a></td>
+        <td bgcolor="#f3f4f5">Highpass AOs containing time-series data.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/hist')">hist</a></td>
+        <td bgcolor="#ffffff">Overloads the histogram function (hist) of MATLAB for Analysis Objects.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/iacf')">iacf</a></td>
+        <td bgcolor="#f3f4f5">Computes the inverse auto-correlation function from a spectrum.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/ifft')">ifft</a></td>
+        <td bgcolor="#ffffff">Overloads the ifft operator for Analysis objects.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/integrate')">integrate</a></td>
+        <td bgcolor="#f3f4f5">Integrates the data in AO.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/interp')">interp</a></td>
+        <td bgcolor="#ffffff">Interpolate the values in the input AO(s) at new values.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/interpmissing')">interpmissing</a></td>
+        <td bgcolor="#f3f4f5">Interpolate missing samples in a time-series.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/intersect')">intersect</a></td>
+        <td bgcolor="#ffffff">Overloads the intersect operator for Analysis objects.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/kstest')">kstest</a></td>
+        <td bgcolor="#f3f4f5">Perform KS test on input AOs</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/lcohere')">lcohere</a></td>
+        <td bgcolor="#ffffff">Implement magnitude-squadred coherence estimation on a log frequency axis.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/lcpsd')">lcpsd</a></td>
+        <td bgcolor="#f3f4f5">Implement cross-power-spectral density estimation on a log frequency axis.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/linSubtract')">linSubtract</a></td>
+        <td bgcolor="#ffffff">Subtracts a linear contribution from an input ao.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/lincom')">lincom</a></td>
+        <td bgcolor="#f3f4f5">Make a linear combination of analysis objects</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/linedetect')">linedetect</a></td>
+        <td bgcolor="#ffffff">Find spectral lines in the ao/fsdata objects.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/linfit')">linfit</a></td>
+        <td bgcolor="#f3f4f5">Is a linear fitting tool</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/linlsqsvd')">linlsqsvd</a></td>
+        <td bgcolor="#ffffff">Linear least squares with singular value decomposition</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/lisovfit')">lisovfit</a></td>
+        <td bgcolor="#f3f4f5">Uses LISO to fit a pole/zero model to the input frequency-series.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/lowpass')">lowpass</a></td>
+        <td bgcolor="#ffffff">Lowpass AOs containing time-series data.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/lpsd')">lpsd</a></td>
+        <td bgcolor="#f3f4f5">Implements the LPSD algorithm for analysis objects.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/lscov')">lscov</a></td>
+        <td bgcolor="#ffffff">Is a wrapper for MATLAB's lscov function.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/ltfe')">ltfe</a></td>
+        <td bgcolor="#f3f4f5">Implements transfer function estimation computed on a log frequency axis.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/map3D')">map3D</a></td>
+        <td bgcolor="#ffffff">Maps the input 1 or 2D AOs on to a 3D AO</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/mcmc')">mcmc</a></td>
+        <td bgcolor="#f3f4f5">Estimates paramters using a Monte Carlo Markov Chain.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/modelSelect')">modelSelect</a></td>
+        <td bgcolor="#ffffff">Method to compute the Bayes Factor using RJMCMC, LF, LM, BIC methods</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/mve')">mve</a></td>
+        <td bgcolor="#f3f4f5">Minimum Volume Ellipsoid estimator</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/noisePower')">noisePower</a></td>
+        <td bgcolor="#ffffff">Computes the noise power spectral density in a time-series as a function of time.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/noisegen1D')">noisegen1D</a></td>
+        <td bgcolor="#f3f4f5">Generates colored noise from white noise.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/noisegen2D')">noisegen2D</a></td>
+        <td bgcolor="#ffffff">Generates cross correleted colored noise from white noise.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/normdist')">normdist</a></td>
+        <td bgcolor="#f3f4f5">Computes the equivalent normal distribution for the data.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/nyquistplot')">nyquistplot</a></td>
+        <td bgcolor="#ffffff">Fits a piecewise powerlaw to the given data.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/overlap')">overlap</a></td>
+        <td bgcolor="#f3f4f5">This method cuts out the the overlapping data of the input AOs.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/pad')">pad</a></td>
+        <td bgcolor="#ffffff">Pads the input data series to a given value.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/play')">play</a></td>
+        <td bgcolor="#f3f4f5">Plays a time-series using MATLAB's audioplay function.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/polyfit')">polyfit</a></td>
+        <td bgcolor="#ffffff">Overloads polyfit() function of MATLAB for Analysis Objects.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/polyfitSpectrum')">polyfitSpectrum</a></td>
+        <td bgcolor="#f3f4f5">Does a polynomial fit to the log of the input spectrum.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/polynomfit')">polynomfit</a></td>
+        <td bgcolor="#ffffff">Is a polynomial fitting tool</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/powerFit')">powerFit</a></td>
+        <td bgcolor="#f3f4f5">Fits a piecewise powerlaw to the given data.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/ppsd')">ppsd</a></td>
+        <td bgcolor="#ffffff">Makes power spectral density estimates of the time-series objects in the input analysis objects by estimating ARMA models coefficients.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/preprocessDataForMCMC')">preprocessDataForMCMC</a></td>
+        <td bgcolor="#f3f4f5">Split, resample and apply FFT to time series for MCMC analysis.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/psd')">psd</a></td>
+        <td bgcolor="#ffffff">Makes power spectral density estimates of the time-series objects</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/psdconf')">psdconf</a></td>
+        <td bgcolor="#f3f4f5">Calculates confidence levels and variance for psd</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/psdvfit')">psdvfit</a></td>
+        <td bgcolor="#ffffff">Performs a fitting loop to identify model for a psd.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/qqplot')">qqplot</a></td>
+        <td bgcolor="#f3f4f5">Makes quantile-quantile plot</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/removeVal')">removeVal</a></td>
+        <td bgcolor="#ffffff">Removes values from the input AO(s).</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/resample')">resample</a></td>
+        <td bgcolor="#f3f4f5">Overloads resample function for AOs.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/rjsample')">rjsample</a></td>
+        <td bgcolor="#ffffff">Reverse Jump MCMC sampling using the "Metropolized Carlin And Chib" Method.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/rms')">rms</a></td>
+        <td bgcolor="#f3f4f5">Calculate RMS deviation from spectrum</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/sDomainFit')">sDomainFit</a></td>
+        <td bgcolor="#ffffff">Performs a fitting loop to identify model order and</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/select')">select</a></td>
+        <td bgcolor="#f3f4f5">Select particular samples from the input AOs and return new AOs with only those samples.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/simplex')">simplex</a></td>
+        <td bgcolor="#ffffff">Multidimensional unconstrained nonlinear minimization (Nelder-Mead)</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/sineParams')">sineParams</a></td>
+        <td bgcolor="#f3f4f5">Estimates parameters of sinusoids</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/smoother')">smoother</a></td>
+        <td bgcolor="#ffffff">Smooths a given series of data points using the specified method.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/spcorr')">spcorr</a></td>
+        <td bgcolor="#f3f4f5">Calculate Spearman Rank-Order Correlation Coefficient</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/spectrogram')">spectrogram</a></td>
+        <td bgcolor="#ffffff">Computes a spectrogram of the given ao/tsdata.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/spikecleaning')">spikecleaning</a></td>
+        <td bgcolor="#f3f4f5">Detects and corrects possible spikes in analysis objects</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/split')">split</a></td>
+        <td bgcolor="#ffffff">Split an analysis object into the specified segments.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/spsd')">spsd</a></td>
+        <td bgcolor="#f3f4f5">Implements the smoothed (binned) PSD algorithm for analysis objects.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/subsData')">subsData</a></td>
+        <td bgcolor="#ffffff">Performs actions on ao objects.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/svd_fit')">svd_fit</a></td>
+        <td bgcolor="#f3f4f5">Estimates parameters for a linear model using SVD</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/tdfit')">tdfit</a></td>
+        <td bgcolor="#ffffff">Fit a set of smodels to a set of input and output signals..</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/tfe')">tfe</a></td>
+        <td bgcolor="#f3f4f5">Estimates transfer function between time-series objects.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/timeaverage')">timeaverage</a></td>
+        <td bgcolor="#ffffff">Averages time series intervals</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/toSI')">toSI</a></td>
+        <td bgcolor="#f3f4f5">Converts the units of the x, y and z axes into SI units.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/trends')">trends</a></td>
+        <td bgcolor="#ffffff">Computes the trend statistics of the input time-series.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/union')">union</a></td>
+        <td bgcolor="#f3f4f5">Overloads the union operator for Analysis Objects.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/upsample')">upsample</a></td>
+        <td bgcolor="#ffffff">Overloads upsample function for AOs.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/validateSpectrumMod')">validateSpectrumMod</a></td>
+        <td bgcolor="#f3f4f5">Statistically validate a model for a psd.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/whiten1D')">whiten1D</a></td>
+        <td bgcolor="#ffffff">Whitens the input time-series.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/whiten2D')">whiten2D</a></td>
+        <td bgcolor="#f3f4f5">Whiten the noise for two cross correlated time series.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/window')">window</a></td>
+        <td bgcolor="#ffffff">Applies the specified window to the input time-series objects</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/xcorr')">xcorr</a></td>
+        <td bgcolor="#f3f4f5">Makes cross-correlation estimates of the time-series</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/xfit')">xfit</a></td>
+        <td bgcolor="#ffffff">Fit a function of x to data.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/zDomainFit')">zDomainFit</a></td>
+        <td bgcolor="#f3f4f5">Performs a fitting loop to identify model order and</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/zeropad')">zeropad</a></td>
+        <td bgcolor="#ffffff">Zero pads the input data series.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 122x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Trigonometry ===== -->
+  <h3 class="title"><a name="trigonometry"/>Trigonometry</h3>
+
+  <!-- =====        Striped 7x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/acos')">acos</a></td>
+        <td bgcolor="#f3f4f5">Overloads the acos method for analysis objects.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/asin')">asin</a></td>
+        <td bgcolor="#ffffff">Overloads the asin method for analysis objects.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/atan')">atan</a></td>
+        <td bgcolor="#f3f4f5">Overloads the atan method for analysis objects.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/atan2')">atan2</a></td>
+        <td bgcolor="#ffffff">Overloads the atan2 operator for analysis objects. Four quadrant inverse tangent.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/cos')">cos</a></td>
+        <td bgcolor="#f3f4f5">Overloads the cos method for analysis objects.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ao/sin')">sin</a></td>
+        <td bgcolor="#ffffff">Overloads the sin method for analysis objects.</td>
+        <td bgcolor="#ffffff">ao</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ao/tan')">tan</a></td>
+        <td bgcolor="#f3f4f5">Overloads the tan method for analysis objects.</td>
+        <td bgcolor="#f3f4f5">ao</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 7x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ================================================== -->
+  <!--                  END CONTENT FILE                  -->
+  <!-- ================================================== -->
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="class_desc_MCMC.html"><img src="b_prev.gif" border="0" align="bottom" alt="MCMC Class"></a>&nbsp;</td>
+        <td align="left">MCMC Class</td>
+        <td>&nbsp;</td>
+        <td align="right">collection Class</td>
+        <td align="right" width="20"><a href="class_desc_collection.html"><img src="b_next.gif" border="0" align="bottom" alt="collection Class"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

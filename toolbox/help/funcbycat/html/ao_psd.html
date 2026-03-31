@@ -1,0 +1,262 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!-- $Id$ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="../../ug/docstyle.css">
+    <title>LTPDA Method: ao/psd</title>
+  </head>
+  <body>
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <p style="font-size:1px;">&nbsp;</p>
+
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../../ug/../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ao_preprocessDataForMCMC.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ao/preprocessDataForMCMC"></a>&nbsp;&nbsp;&nbsp;<a href="ao_psdconf.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ao/psdconf"></a></td>
+      </tr>
+    </table>
+
+    <h1 class="title">Method ao/psd</h1>
+    <hr />
+
+<pre>  <SPAN CLASS="HELPTOPIC">PSD</SPAN> makes power spectral density estimates of the time-series objects
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+  DESCRIPTION: <SPAN CLASS="HELPTOPIC">PSD</SPAN> makes power spectral density estimates of the
+               time-series objects in the input analysis objects
+               using the Welch Overlap method. <SPAN CLASS="HELPTOPIC">PSD</SPAN> is computed
+               using a modified version of MATLAB's welch (&gt;&gt; help welch).
+ 
+  CALL:        bs = <span class="helptopic">psd</span>(a1,a2,a3,...,pl)
+               bs = <span class="helptopic">psd</span>(as,pl)
+               bs = as.<span class="helptopic">psd</span>(pl)
+ 
+  INPUTS:      aN   - input analysis objects
+               as   - input analysis objects array
+               pl   - input parameter list
+ 
+  OUTPUTS:     bs   - array of analysis objects, one for each input
+ 
+  <a href="ao_psd.html#down">Parameters Description</a>
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</pre>
+
+    <!-- =====        Striped 4x2 table: Begin        ==== -->
+    <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+    <div class="sectiontitle"></div>
+    <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+      <colgroup>
+        <col width="30%"/>
+        <col width="70%"/>
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th class="categorylist">Method Details</th>
+          <th class="categorylist"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Access</td>
+          <td bgcolor="#f3f4f5">public</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Defining Class</td>
+          <td bgcolor="#ffffff">ao</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Sealed</td>
+          <td bgcolor="#f3f4f5">0</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Static</td>
+          <td bgcolor="#ffffff">0</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- ===== Striped 4x2 table: End ==== -->
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <h2>Parameter Description</h2>    <a name="down" id="down"></a>
+
+    <!-- Link-Table of the sets -->
+    <table border="0" cellpadding="4" cellspacing="0" class="pagenavtable">
+      <tr><th>Sets for this method &#8230;</th></tr>
+        <tr><td><a href="#1">Default</a></td></tr>
+    </table>
+
+    <a name="1"></a>
+    <!-- Parameter List Table: Default -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>Default</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">psd</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NFFT</td>
+            <td bgcolor="#F2F2F2">-1</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The number of samples in each fft [default: length of input data]. <br>A string value containing the variable 'fs' can also be used, e.g., <br> <tt>plist('Nfft', '2*fs')</tt></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">WIN</td>
+            <td bgcolor="#F2F2F2">'Hanning'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'Rectangular'</font></li><li><font color="#1111FF">'Welch'</font></li><li><font color="#1111FF">'Bartlett'</font></li><li><font color="#1111FF">'Hanning'</font></li><li><font color="#1111FF">'Hamming'</font></li><li><font color="#1111FF">'Nuttall3'</font></li><li><font color="#1111FF">'Nuttall4'</font></li><li><font color="#1111FF">'Nuttall3a'</font></li><li><font color="#1111FF">'Nuttall3b'</font></li><li><font color="#1111FF">'Nuttall4a'</font></li><li><font color="#1111FF">'Nuttall4b'</font></li><li><font color="#1111FF">'Nuttall4c'</font></li><li><font color="#1111FF">'BH92'</font></li><li><font color="#1111FF">'SFT3F'</font></li><li><font color="#1111FF">'SFT3M'</font></li><li><font color="#1111FF">'FTNI'</font></li><li><font color="#1111FF">'SFT4F'</font></li><li><font color="#1111FF">'SFT5F'</font></li><li><font color="#1111FF">'SFT4M'</font></li><li><font color="#1111FF">'FTHP'</font></li><li><font color="#1111FF">'HFT70'</font></li><li><font color="#1111FF">'FTSRS'</font></li><li><font color="#1111FF">'SFT5M'</font></li><li><font color="#1111FF">'HFT90D'</font></li><li><font color="#1111FF">'HFT95'</font></li><li><font color="#1111FF">'HFT116D'</font></li><li><font color="#1111FF">'HFT144D'</font></li><li><font color="#1111FF">'HFT169D'</font></li><li><font color="#1111FF">'HFT196D'</font></li><li><font color="#1111FF">'HFT223D'</font></li><li><font color="#1111FF">'HFT248D'</font></li><li><font color="#1111FF">'Kaiser'</font></li><li><font color="#1111FF">'levelledHanning'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">The window to be applied to the data to remove the discontinuities at edges of segments. [default: taken from user prefs] <br>Only the design parameters of the window object are used. Enter a string value containing the window name e.g.<br><tt>plist('Win', 'Kaiser', 'psll', 200)</tt><br><tt>plist('Win', 'BH92')</tt></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PSLL</td>
+            <td bgcolor="#F2F2F2">200</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The peak sidelobe level for Kaiser windows.<br>Note: it is ignored for all other windows</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">OLAP</td>
+            <td bgcolor="#F2F2F2">-1</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The segment percent overlap [-1 == take from window function]</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ORDER, N</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">-1</font></li><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li><li><font color="#1111FF">2</font></li><li><font color="#1111FF">3</font></li><li><font color="#1111FF">4</font></li><li><font color="#1111FF">5</font></li><li><font color="#1111FF">6</font></li><li><font color="#1111FF">7</font></li><li><font color="#1111FF">8</font></li><li><font color="#1111FF">9</font></li></ul></td>
+            <td bgcolor="#F2F2F2">The order of segment detrending:<ul><li>-1 - no detrending</li><li>0 - subtract mean</li><li>1 - subtract linear fit</li><li>N - subtract fit of polynomial, order N</li></ul></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAVS</td>
+            <td bgcolor="#F2F2F2">-1</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Force number of averages. If set, and if Nfft was set to 0 or -1,<br>the number of points for each window will be calculated to match the request.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DROP WINDOW SAMPLES</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Drop the recommended (by the window) number of samples of the final computed spectral series.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMES, SPLIT</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The time range to analyze. If not empty, sets the time interval to operate on.<br>As in ao/split, the interval can be specified by:<ul><li>a vector of doubles</li><li>a timespan object</li><li>a cell array of time strings</li><li>a vector of time objects</li></ul></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">MASK</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Mask out segments in the averaging process. The mask should be a vector of logical values, one value per segment being averaged. The plist method [psdSegments] can be used to generate a default mask for your PSD settings. If empty, all segments will be included in the average.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SCALE</td>
+            <td bgcolor="#F2F2F2">'PSD'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'PSD'</font></li><li><font color="#1111FF">'ASD'</font></li><li><font color="#1111FF">'PS'</font></li><li><font color="#1111FF">'AS'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">The scaling of output. Choose from:<ul><li>PSD - Power Spectral Density</li><li>ASD - Amplitude (linear) Spectral Density</li><li>PS  - Power Spectrum</li><li>AS  - Amplitude (linear) Spectrum</li></ul></td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('NFFT', [-1], 'WIN', 'Hanning', 'PSLL', [200], 'OLAP', [-1], 'ORDER', [0], 'NAVS', [-1], 'DROP WINDOW SAMPLES', [true], 'TIMES', [[]], 'MASK', [[]], 'SCALE', 'PSD')</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <p><!-- Table of the minfo object -->
+      <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+        <colgroup>
+          <col width="25%"/>
+          <col width="75%"/>
+        </colgroup>
+        <thead>
+          <tr valign="top">
+            <th class="categorylist" colspan="2">Some information of the method ao/psd are listed below:</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Property: 'mclass' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Class name</td>
+            <td bgcolor="#f3f4f5">ao</td>
+          </tr>
+          <!-- Property: 'mname' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Method name</td>
+            <td bgcolor="#ffffff">psd</td>
+          </tr>
+          <!-- Property: 'mcategory' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Category</td>
+            <td bgcolor="#f3f4f5">Signal Processing</td>
+          </tr>
+          <!-- Property: 'mpackage' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Package name</td>
+            <td bgcolor="#ffffff">ltpda</td>
+          </tr>
+          <!-- Property: 'modifier' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Can be used as modifier</td>
+            <td bgcolor="#f3f4f5">1</td>
+          </tr>
+          <!-- Property: 'supportedNumTypes' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Supported numeric types</td>
+            <td bgcolor="#ffffff">{'double'}</td>
+          </tr>
+        </tbody>
+      </table>
+    </p>
+
+
+    <br>
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ao_preprocessDataForMCMC.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ao/preprocessDataForMCMC"></a>&nbsp;</td>
+        <td align="left">Method: ao/preprocessDataForMCMC</td>
+        <td>&nbsp;</td>
+        <td align="right">Method: ao/psdconf</td>
+        <td align="right" width="20"><a href="ao_psdconf.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ao/psdconf"></a></td>
+      </tr>
+    </table>
+
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+
+   </body>
+</html>

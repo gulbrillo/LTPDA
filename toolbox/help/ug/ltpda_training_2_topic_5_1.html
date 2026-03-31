@@ -1,0 +1,218 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Introduction to LTPDA's parameter estimation tools (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_2_topic_5.html"><img src="b_prev.gif" border="0" align="bottom" alt="Topic 5 - Introduction to system identification of LPF."></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_2_topic_5_2.html"><img src="b_next.gif" border="0" align="bottom" alt="A simplified LPF system identification experiment"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Introduction to LTPDA's parameter estimation tools</h1>
+    <hr>
+    
+    <p>
+      <p>
+In this topic we will rum some parameter estimation analysis on LTP simulated 
+data. Although the analysis will run on <tt>ssm</tt> objects, 
+the basics of the analysis and tools used can be understood in 
+the following terms. Assume a system described (in frequency
+domain) as follows, 
+</p>
+  <div align="center">
+    <IMG width="250px" src="images/ltpda_training_2/Topic5/training_5_1_system.png"  align="center" border="0">
+  </div><br>
+<p>
+where we have an applied input (s) that goes through a system defined 
+by a set of transfer functions (G) to produce a measured output (o), 
+that is usually contaminated by a random process (n). Notice 
+that in our exercise we use two LTP measurement, x1 and x12 and, 
+therefore in reality we will be dealing with a 2D problem.
+Our system decomposed in components (and omitting dependences) is: 
+</p>
+  <div align="center">
+    <IMG width="550px" src="images/ltpda_training_2/Topic5/training_5_1_2Dsystem.png"  align="center" border="0">
+  </div><br>
+  <p>
+Our
+aim is to obtain the parameters via the dependence on the transfer 
+function. We will use two different methods for that.
+</p>
+
+<h2><a name="#linfitsvd">Linear Parameter Estimation with Singular Value Decomposition</a></h2>
+<p>
+The first approach is based on least-squares. If we expand
+the transfer function and keep it to the first order, 
+</p>
+  <div align="center">
+    <IMG width="600px" src="images/ltpda_training_2/Topic5/training_5_1_linear.png"  align="center" border="0">
+  </div><br>
+<p>
+If we do not consider 2nd order terms, we get a constant zeroth order
+term and the parameters enter only with a linear dependence. This 
+equation define a linear system that can be solved analytical.
+</p>
+<h3><a name="#linfitsvd">Whitening filter</a></h2>
+
+<p>
+It is worth mentioning that to correctly apply the least-squares
+approach, the noise must be uncorrelated and therefore the 
+method will need to whiten (or uncorrelate) the data. In a 1D
+case, the process requires to fit the square root of the noise power
+spectrum density with a digital filter 
+</p>
+  <div align="center">
+    <IMG width="200px" src="images/ltpda_training_2/Topic5/training_5_1_filter.png"  align="center" border="0">
+  </div><br>
+<p>
+and use the inverse of that filter to 'whiten' the data. 
+In 2D systems, like the ones treated here
+the procedure is more involved, implying the eigendecomposition of the
+cross-power spectrum matrix.
+</p>
+<h3><a name="#linfitsvd">Implementation</a></h2>
+<p>
+    In LTPDA, the previous scheme is implemented in different methods that 
+    the user can tune and apply. In particular, for this analysis we 
+    will use a method to fit a frequency domain object
+</p>
+<div class="fragment">
+    <pre><br>
+     <span class="comment">% Fit frequency domain (continuous)</span>
+      out = sDomainFit(in, pl_fit);
+     <span class="comment">% Fit frequency domain (discrete)</span>
+      out = zDomainFit(in, pl_fit);</pre>
+</div>
+<p>
+A method that builds the whitening filters
+</p>
+<div class="fragment">
+    <pre><br>
+     <span class="comment">% Build whitening filter</span>
+     out = buildWhitener1D(in, plw);
+</pre>
+</div>
+<p>
+An the method to solve the linear system and get the parameters
+</p>
+<div class="fragment">
+    <pre><br>
+     <span class="comment">% Run Linear Fit</span>
+     params = linfitsvd(in, plist);
+</pre>
+</div>
+<h2><a name="#mcmc">Markov Chain Monte Carlo</a></h2>
+<p>
+The second apporoach that we will use is a statistical method 
+based on a random sampling of the parameter space.
+In this method, new samples are generated using a 
+Markov Chain mechanism and in each jump (or step) in the parameter space, 
+the likelihood is calculated. According to our previous description, the 
+likelihood reads as
+</p>
+
+  <div align="center">
+    <IMG width="500px" src="images/ltpda_training_2/Topic5/training_5_1_loglikelihood.png"  align="center" border="0">
+  </div><br>
+  
+<p>
+where the C stands here for the covariance matrix between channels, that 
+we build computing the cross-power spectrum matrix. This term plays the role
+here of the whitening filter in the previous method.
+
+The MCMC will sample the parameter space looking for the parameters 
+that maximize the likelihood, eventually reaching the maximum likelihood estimates.
+Since the method will draw random samples during this process, we 
+will be able to trace the shape of the likelihood surface during the process
+from where we will be able to derive the posterior probability distribution of the 
+parameters.
+</p>
+<h3><a name="#linfitsvd">Fisher matrix</a></h2>
+<p>
+An important tool in this section will be the Fisher matrix, usually defined as
+</p>
+
+  <div align="center">
+    <IMG width="300px" src="images/ltpda_training_2/Topic5/training_5_1_fisher.png"  align="center" border="0">
+  </div><br>
+<p> 
+which can be used to derive a lower bound for the variance of an unbiased estimator.
+This result is known as the Cramer-Rao bound,
+</p>
+<div align="center">
+    <IMG width="120px" src="images/ltpda_training_2/Topic5/training_5_1_crb.png"  align="center" border="0">
+  </div><br>
+<p>
+  We will use this in two different steps. First, to get an estimate of the expected 
+errors that we should get for each parameter (and correlations between them).
+In this sense, the Fisher matrix is directly related with the design of our experiment.
+
+Second,we will use the inverse of the Fisher matrix as an input to the MCMC.
+It is a standard procedure in MCMC algorithms to use a proposal distribution 
+which encodes the information of this covariance matrix to draw new samples in the Markov Chain process.
+In that way we increase efficiency by 'jumping' into the right directions. 
+In our case the proposal distribution will be a multivariate gaussian with the covariance
+given by the inverse of the Fisher matrix
+</p>
+<h3><a name="#linfitsvd">Implementation</a></h2>
+<p>
+Methods to implement this analysis scheme are, first, the one to compute the
+inverse of the Fisher matrix</p>
+<div class="fragment">
+    <pre><br>
+     <span class="comment">% Compute inverse of Fisher matrix</span>
+     out = crb(in, pl_crb);
+</pre>
+</div>
+<p>
+An one implementin the MCMC
+</p>
+<div class="fragment">
+    <pre><br>
+     <span class="comment">% Run MCMC</span>
+     out = mcmc(in, pl_mcmc);
+</pre>
+</div>
+
+  <h2><a name="#References">References</a></h2>
+  
+  http://prd.aps.org/abstract/PRD/v82/i12/e122002
+<ul>  
+  <li>F Ferraioli et al., Calibrating spectral estimation for the LISA Technology Package with multichannel synthetic noise generation,  <a href="http://prd.aps.org/abstract/PRD/v82/i4/e042001">Phys. Rev. D 82, 042001</a> (2010).  
+  <li>M Nofrarias et al., Bayesian parameter estimation in the second LISA Pathfinder mock data challenge, <a href="http://prd.aps.org/abstract/PRD/v82/i4/e042001">Phys. Rev. D 82, 042001</a> (2010).
+  <li>F Ferraioli et al., Quantitative analysis of LISA pathfinder test-mass noise,  <a href="http://prd.aps.org/abstract/PRD/v84/i12/e122003">Phys. Rev. D 84, 122003 </a> (2011).  
+  <li>M Nofrarias et al., Parameter estimation in LISA Pathfinder operational exercises <a href="http://arxiv.org/abs/1111.4916">arXiv: gr-qc:1111.4916</a> (2011).
+</ul>
+  
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_2_topic_5.html"><img src="b_prev.gif" border="0" align="bottom" alt="Topic 5 - Introduction to system identification of LPF."></a>&nbsp;</td>
+        <td align="left">Topic 5 - Introduction to system identification of LPF.</td>
+        <td>&nbsp;</td>
+        <td align="right">A simplified LPF system identification experiment</td>
+        <td align="right" width="20"><a href="ltpda_training_2_topic_5_2.html"><img src="b_next.gif" border="0" align="bottom" alt="A simplified LPF system identification experiment"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

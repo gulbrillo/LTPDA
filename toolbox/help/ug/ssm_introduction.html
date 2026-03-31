@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Introduction to Statespace Models with LTPDA (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ssm.html"><img src="b_prev.gif" border="0" align="bottom" alt="Statespace models"></a>&nbsp;&nbsp;&nbsp;<a href="ssm_building.html"><img src="b_next.gif" border="0" align="bottom" alt="Building Statespace models"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Introduction to Statespace Models with LTPDA</h1>
+    <hr>
+    
+    <p>
+      <H2>What is a ssm object?</H2>
+<P>The <tt>ssm</tt> class is a class to use &ldquo;state space models&rdquo;
+for simulation, identification and modeling in the LTPDA toolbox. A state
+space model is a mathematical object constituted of</P>
+<UL>
+	<LI><P>A time model represented by the field &ldquo;timestep&rdquo;,
+	either discrete or continuous (&ldquo;timestep&rdquo; is then 0)</P>
+	<LI><P>A linear differential equation, which turns into a difference
+	equation it the model is time discrete. This equation is written
+	using a state space x in the form x' = Ax + Bu where A is the state
+	transition matrix and B the state input matrix, u being the
+	exogenous input signal. In this setup, x and u are time series.</P>
+	<LI><P>An observation equation which allows for linear observation
+	of the input and the state : y = Cx+Du. The variable y is the output
+	of the system.</P>
+</UL>
+<P>Input and output variables (lines in u and y) may be named and
+assigned a unit. However for the state x there is more of a choice
+since if free of choice via a basis change. The most usual choice is
+that x contents the same units as y and it derivatives, or the same
+units as u and its integrals. In general the size of the state space
+is equal to the number of poles in the system.</P>
+<P>In the LTPDA toolbox, lines in u,y,x are grouped in blocks (input
+blocks, state blocks, output blocks) to ease the understanding of a
+large system. This means the matrices A, B, C, and D are also split
+into blocks of the corresponding size. The diagonal blocks of A may
+represent the dynamics of a LTP subsystem (the controller, the
+propulsion &hellip;) or the coupling between two systems (from the
+propulsion to the equations of motion)... In addition the dynamic
+equation also contains an inertia matrix M so that the parametric
+equation is made simple. The equation becomes M x' = Ax + Bu. If not
+user set M is supposed to be the identity.</P>
+<P>Below we build a standard system to show the contents of the
+object.</P>
+<DIV CLASS="fragment"><PRE>
+sys = ssm(plist(<span class="string">'built-in'</span>, <span class="string">'HARMONIC_OSC_1D'</span>, <span class="string">'symbolic params'</span>, <span class="string">'all'</span>))
+M:   running buildParamPlist
+M:   running buildParamPlist
+M:   running update_struct
+M:   running validate
+M:   running validate
+M:   running display
+------ ssm/1 -------
+      amats: {  [2 x2 ]  }  [1x1]
+      bmats: {  [2 x1 ]    []    }  [1x2]
+      cmats: {  [1 x2 ]  }  [1x1]
+      dmats: { [0] [1] }  [1x2]
+   timestep: 0
+     inputs:  [1x2 ssmblock]
+         1 : COMMAND | force [kg m s^(-2)]
+         2 : NOISE | readout [m]
+     states:  [1x1 ssmblock]
+         1 : HARMONIC_OSC_1D | x [m], xdot [m s^(-1)]
+    outputs:  [1x1 ssmblock]
+         1 : HARMONIC_OSC_1D | position [m]
+  numparams: (empty-plist)
+     params: (M=1, K=1, VBETA=1)
+    Ninputs: 2
+ inputsizes: [1 1]
+   Noutputs: 1
+outputsizes: 1
+    Nstates: 1
+ statesizes: 2
+ Nnumparams: 0
+    Nparams: 3
+isnumerical: false
+       hist: ssm.hist 
+   procinfo: []
+   plotinfo: []
+       name: HARMONIC_OSC_1D
+description: Harmonic oscillator
+       UUID: 25bf3710-6057-45a7-b817-bea4dff74021
+--------------------
+</PRE></DIV><P>
+The fields &ldquo;amats&rdquo;, &ldquo;mmats&rdquo;, &ldquo;bmats&rdquo;,
+&ldquo;cmats&rdquo;, &ldquo;dmats&rdquo; contain the matrices of the
+differential and observation equation of a mass spring system with
+dampening.</P>
+<P>The systems inputs/states/outputs are listed by blocks. There are
+two input blocks, which correspond to the commanded signal (COMMAND) and
+the noise (NOISE). There is one state block and one output block. Each
+input has its name displayed followed with individual input variable
+names and units. Note that the empty ssm object does not have an
+input block, a state block and an output block of size 0, it has no
+such blocks, and the size fields are empty.</P>
+<P>The &ldquo;params&rdquo; field is the 1x1 default plist with the symbolic
+parameters. In the case when the system is fully numerical,
+parameters are deleted from the field &ldquo;params&rdquo; as they
+get substituted. Viceversa, when the model is not fully numeric (as in this case), the &ldquo;params&rdquo; plist is filled with the names of
+the symbolic parameters.</P>
+<P>Inputs, states and output sizes are summed up in the fields N* and
+*sizes.</P>
+<p>Useful informations about the structure and the content of the <tt>ssm</tt> built-in models can be obtained by 
+accessing their dynamics documentation. In order to access these information, just remember that all <tt>ssm</tt> 
+model files are called <tt>ssm_model_&lt;model_name&gt;</tt> and then type</p>
+<DIV CLASS="fragment"><PRE>
+help ssm_model_HARMONIC_OSC_1D
+  HARMONIC_OSC_1D A statespace model of the HARMONIC OSCILLATOR 1D
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+  DESCRIPTION: A statespace model of the HARMONIC OSCILLATOR 1D
+ 
+  CALL:
+            HARMONIC_OSC_1D = ssm(plist('built-in','HARMONIC_OSC_1D'))
+ 
+ 
+  OUTPUTS:
+            - HARMONIC_OSC_1D is an SSM object
+ 
+ 
+  REFERENCES:
+ 
+ 
+ 
+  INFO:
+    Model Information
+ 
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ </PRE></DIV>
+ <p>The 'Model Information' link is very useful since it will open a help browser html page like the following:</p>
+<img src="images/model_info.png" alt="Built-in ssm model info" border="3" width="800px">
+<p>In this way you can know the structure of the model, in terms of the building blocks, the input and output ports and so on.</p>
+<br>
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ssm.html"><img src="b_prev.gif" border="0" align="bottom" alt="Statespace models"></a>&nbsp;</td>
+        <td align="left">Statespace models</td>
+        <td>&nbsp;</td>
+        <td align="right">Building Statespace models</td>
+        <td align="right" width="20"><a href="ssm_building.html"><img src="b_next.gif" border="0" align="bottom" alt="Building Statespace models"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

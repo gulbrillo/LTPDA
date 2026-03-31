@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Version 2.3 LTPDA Toolbox Software (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="releasenotesV2_3_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="Version 2.3.1 LTPDA Toolbox Software"></a>&nbsp;&nbsp;&nbsp;<a href="releasenotesV2_2.html"><img src="b_next.gif" border="0" align="bottom" alt="Version 2.2 LTPDA Toolbox Software"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Version 2.3 LTPDA Toolbox Software</h1>
+    <hr>
+    
+    <p>
+      
+    <style type="text/css">
+      p { margin-left:30px; }
+      h4 { margin-left:15px; }
+    </style>
+
+    <!-- BEGIN: Content file -->
+
+    <a name="top_of_page"></a>
+    This table summarizes what's new in Version 2.3:
+    <table cellspacing="0" class="body" cellpadding="4" border="2" width="100%">
+      <colgroup>
+        <col width="25%">
+        <col width="25%">
+        <col width="25%">
+        <col width="25%">
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th bgcolor="#B2B2B2" valign="top">New Features and Changes</th>
+          <th bgcolor="#B2B2B2" valign="top">Version Compatibility Considerations</th>
+          <th bgcolor="#B2B2B2" valign="top">Fixed Bugs and Known Problems</th>
+          <th bgcolor="#B2B2B2" valign="top">Related Documentation at Web Site</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#F2F2F2">Yes<br>Details below</td>
+          <td bgcolor="#F2F2F2">Yes &#8212; Details labeled as <b>Deprecated methods</b> in descriptions of changes, below. See also <a href="#deprecated">Summary</a>.</td>
+          <td bgcolor="#F2F2F2"><a href="https://ed.fbk.eu/ltpda/mantis/login_page.php" target="_top">Bug Reports</a> at Web site</td>
+          <td bgcolor="#F2F2F2">Printable Release Notes: <a href="http://www.lisa.aei-hannover.de/ltpda/downloads/version_2_3/files/Release_Notes_v2.3.pdf" target="_top">PDF</a></td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <ul>
+      <li><a href="#introduction">Introduction</a></li>
+      <li><a href="#newFeatures">New toolbox features</a></li>
+      <li><a href="#newFunctions">New Algorithms and Functions</a></li>
+      <li><a href="#workbench">Changes to the LTPDA Workbench</a></li>
+      <li><a href="#ssm">Updates to the Statespace Modelling class</a></li>
+      <li><a href="#deprecated">Deprecated methods</a></li>
+    </ul>
+
+    <!-- HEADLINE: Introduction -->
+
+    <h3 class="title" id="introduction">Introduction</h3>
+    <p>This version of LTPDA is 2.3. This document lists the changes since V2.2.</p>
+
+    <!-- HEADLINE:  -->
+
+    <h3 class="title" id="newFeatures">New toolbox features</h3>
+    <p>As well as a large number of bug fixes, version 2.3 of LTPDA has various significant changes and new features.</p>
+    <ul>
+      <li>The viewing of object history via the DOT interpreter now does a smarter job for shared sections of the history tree.</li>
+      <li>The saving of LTPDA objects to XML files has been completely rewritten. The resulting XML files are now significantly smaller and the reading and writing is much faster.</li>
+      <li>We no longer convert LTPDA objects to structures when saving to MAT files. This used to be necessary due to a bug in MATLAB R2008a, but that bug is now fixed and we can skip this step. This results in much faster saving and loading, and in smaller MAT files.</li>
+      <li>The <b>time</b> class now supports arithmetic operations: plus and minus.</li>
+      <li><b>pest/eval</b> has been modified to allow evaluation of <b>pest</b> & <b>smodels</b> with multiple x (independent variables)</li>
+      <li>The <b>smodel</b> class supports now multiple 'xvar', 'xvals', and 'xunits' values. This allows the evaluation of the outputs of multidimensional fit routines (e.g. lscov, bilinfit)</li>
+    </ul>
+
+    <!-- HEADLINE: New Algorithms and Functions -->
+
+    <h3 class="title" id="newFunctions">New Algorithms and Functions</h3>
+    <ul>
+      <li><b>ao/removeVal</b> - a method to remove unwanted values from a data set</li>
+      <li><b>ao/rotate</b> - applies a rotation factor to the input AOs</li>
+      <li><b>ao/buildWhitener</b> - builds a whitening filter for the input AO</li>
+    </ul>
+
+    <!-- HEADLINE: Changes to the LTPDA Workbench -->
+
+    <h3 class="title" id="workbench">Changes to the LTPDA Workbench</h3>
+    <ul>
+      <li>The workbench now has a “Parameter Overview” dialog which shows a list of all parameters of all blocks on the active canvas. This is useful to compare the different parameters for different blocks. The table can be sorted by block name, parameter key, parameter value.</li>
+      <li>The workbench now has a console showing messages, warnings, and errors. The console can be opened and brought to the front when the pipeline is executed. This behaviour is configurable in the workbench preferences.</li>
+      <li>The layout of the controls and various panels has been changed to maximise the canvas area. Now all controls and tables are arranged in the tab panel on the left leaving the whole of the right of the screen for the canvas.</li>
+      <li>The commenting-out of blocks is now more under the user’s control. To support this, the pipeline variables are no longer cleared from the MATLAB workspace when the pipeline is executed. That means that blocks which were previously executed and are then commented out, still have values in the workspace which can be used.</li>
+      <li>ctrl-o (cmd-o) now offers to load a workbench from disk. This means that the current workbench will be reset (the user is prompted if the workbench is not saved) and then the workbench from disk will be loaded.</li>
+      <li>ctrl-shift-o offers the user to import the pipelines from a workbench on disk in to the current workbench.</li>
+      <li>Closing a pipeline (with the little cross on the pipeline window) no longer deletes it from the workbench. Double clicking the pipeline in the pipeline list makes the window appear again.</li>
+      <li>To remove a pipeline from the workbench, you can right click in the pipeline list and select "remove pipeline" or select "Pipeline -> Remove from Workbench".</li>
+      <li>The "File -> Export Active Pipeline As..." has now moved to "Pipeline -> Export As..."</li>
+    </ul>
+    
+    <!-- HEADLINE: Updates to the Statespace Modelling class -->
+
+    <h3 class="title" id="ssm">Updates to the Statespace Modelling class</h3>
+    <ul>
+      <li>The <b>ssm</b> property <b>mmats</b> was removed, as it was not used.</li>
+      <li>The block names are now upper-case, port names lower case. The characters ' ' and '.' are now forbidden.</li>
+      <li>The function <b>resp</b> returns the step/impulse response of an <b>ssm</b> for specified i/o.</li>
+      <li>The function "<b>bode2</b>" is now "<b>bode</b>", and does not need the control toolbox.</li>
+      <li>The function <b>bode</b> now has default values for the frequency vector.</li>
+      <li><b>cpsd</b> and <b>psd</b> are new functions. They return the output theoretical noise spectrum given an input psd/cpsd. <b>cpsd</b> accepts cross spectral inputs. <b>psd</b> takes only diagonal noise inputs, but returns the individual noise contributions as well as the total contribution, <b>cpsd</b> returns only the total contribution.</li>
+      <li>The input indexes for <b>kalman, simulate, bode, steadyState, psd, cpsd, resp</b> was modified. Now are accepted : the strings 'ALL', 'NONE', or a cellstr with mixed port and block-names. Port names may be specified as 'portName ' or 'blockName.portName', 'blockName_portName' for a faster detection. The outputs are now returned in the order provided by the user in the cellstr.</li>
+      <li>The function "<b>reorganize</b>" was introduced. It does a pre-processing of the system's matrices for the functions <b>kalman, simulate, bode, steadyState, psd, cpsd, resp</b>. If these functions are called multiple times, it allows for a faster execution.</li>
+      <li>The noise inputs to <b>simulate</b> and <b>kalman</b> were modified to match each other, and split into two options ((two sided) 'cpsd' and 'variance') so the user can scale the input white noise according to his needs.</li>
+      <li><b>simulate, kalman, psd, cpsdn bode</b> and <b>resp</b> now call <b>iplot</b> if no output variable is provided by the user.</li>
+      <li>The <b>ssm</b> built-in model facility looks for upper-case m-files names.</li>
+      <li>The function <b>parameterDiff</b> provides a numerical differentiation of the system's outputs regarding some selected parameters.</li>
+      <li>The function "<b>append</b>" allows to merge multiple <b>ssm</b>s without assembling the input/output blocks. Assemble now works with a single system as an input.</li>
+      <li>The conversion from/to a <b>pzmodel</b> bug is corrected, gain is now correct.</li>
+      <li>The conversion from a <b>parfrac</b> is now enabled.</li>
+    </ul>
+    
+    <!-- HEADLINE: Deprecated methods -->
+
+    <h3 class="title" id="deprecated">Deprecated methods</h3>
+    <p>The following ao methods are deprecated</p>
+    <ul>
+      <li>timedomainfit</li>
+      <li>straightLineFit</li>
+      <li>curvefit</li>
+      <li>evaluateModel</li>
+    </ul>
+
+    <!-- END: Content file -->
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="releasenotesV2_3_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="Version 2.3.1 LTPDA Toolbox Software"></a>&nbsp;</td>
+        <td align="left">Version 2.3.1 LTPDA Toolbox Software</td>
+        <td>&nbsp;</td>
+        <td align="right">Version 2.2 LTPDA Toolbox Software</td>
+        <td align="right" width="20"><a href="releasenotesV2_2.html"><img src="b_next.gif" border="0" align="bottom" alt="Version 2.2 LTPDA Toolbox Software"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

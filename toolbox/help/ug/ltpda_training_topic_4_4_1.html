@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>By discretizing transfer function models (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_topic_4_4.html"><img src="b_prev.gif" border="0" align="bottom" alt="How to filter data"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_topic_4_4_2.html"><img src="b_next.gif" border="0" align="bottom" alt="By defining filter properties"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">By discretizing transfer function models</h1>
+    <hr>
+    
+    <p>
+      <h2>By discretizing transfer functions</h2>
+<p>
+  In the following we want to show how to go from continuous (s) domain
+  to digital (z) domain when working with transfer function models. We will keep
+  working with the models from our previous closed loop example.
+</p>
+<h3>Discretizing a transfer function model</h3>
+<p>
+  Once we have our continuous models it is fairly simple to obtain their digital
+  representation. We can insert them into the <tt>miir</tt> constructor specifying
+  a sampling frequency, for instance fs = 10 Hz, as follows:
+</p>
+<div class="fragment"><pre>
+    G_digital = miir(G, plist(<span class="string">'fs'</span>, 10));
+    H_digital = miir(H, plist(<span class="string">'fs'</span>, 10));
+    OLG_digital = miir(OLG, plist(<span class="string">'fs'</span>, 10));
+</pre></div>
+<p>
+  We want to check if the discretization went right, but in order to do that we
+  need to compute the response for the digital and the continuous versions separately, 
+  since the <tt>resp</tt> method can not process inputs from different types.
+  We can do the following:
+</p>
+<div class="fragment"><pre>
+    <span class="comment">%% Compare response</span>
+
+    pl_resp = plist(<span class="string">'f1'</span>, 1e-3, <span class="string">'f2'</span>, 5, <span class="string">'nf'</span>, 100);
+
+    <span class="comment">% Digital</span>
+    rG_digital = resp(G_digital, pl_resp);
+    rG_digital.setName(<span class="string">'G_digital'</span>);
+    rH_digital = resp(H_digital, pl_resp);
+    rH_digital.setName(<span class="string">'H_digital'</span>);
+    rOLG_digital = resp(OLG_digital, pl_resp);
+    rOLG_digital.setName(<span class="string">'OLG_digital'</span>);
+
+    <span class="comment">% Continuous</span>
+    rG = resp(G, pl_resp);
+    rG.setName(<span class="string">'G'</span>);
+    rH = resp(H, pl_resp);
+    rH.setName(<span class="string">'H'</span>);
+    rOLG = resp(OLG, pl_resp);
+    rOLG.setName(<span class="string">'OLG'</span>);
+
+    <span class="comment">% Plot</span>
+    iplot(rG_digital, rG)
+    iplot(rH_digital, rH)
+    iplot(rOLG_digital, rOLG)
+
+</pre></div>
+<p>
+  <img src="images/ltpda_training_1/topic4/ClosedLoopG.png" alt="Closed loop G" border="1" >
+</p>
+<p>
+  <img src="images/ltpda_training_1/topic4/ClosedLoopH.png" alt="Closed loop H" border="1" >
+</p>
+<p>
+  <img src="images/ltpda_training_1/topic4/ClosedLoopOLG.png" alt="Open loop gain from closed loop" border="1" >
+</p>
+<p>
+  Once the comparison is done, one is usually interested in the coefficients of the digital
+  implementation. These are directly accessible as, for example, <tt>Gd.a</tt> or
+  <tt>Gd.b</tt>
+</p>
+<div class="fragment"><pre>
+    >> Gd.a
+
+    ans =
+
+    3.99874501384116      2.51248480253707e-06         -3.99874250135635
+
+    >> Gd.b
+
+    ans =
+
+    1      0.000628121200622944        -0.999371878799377
+</pre></div>
+
+<h3>The Delay strikes back</h3>
+<p>
+ The current version of the toolbox (v2.8) is not able to translate a model
+ with a delay into a digital filter. In such a case, the delay is ignored and
+ a warning is thrown.
+ <div class="fragment"><pre>
+     M: running miir/miir
+     !!!  PZmodel delay is not used in the discretization
+</pre></div>
+ You can repeat the previous example with the model with
+ delay ('LISOFileDelay.fil') to obtain the following:
+</p>
+
+<p>
+  <img src="images/ltpda_training_1/topic4/ClosedLoop_Gd_delay.png" alt="Discretization with delay" border="1">
+  <img src="images/ltpda_training_1/topic4/ClosedLoop_Hd_delay.png" alt="Discretization with delay" border="1">
+</p>
+
+
+
+
+
+
+
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_topic_4_4.html"><img src="b_prev.gif" border="0" align="bottom" alt="How to filter data"></a>&nbsp;</td>
+        <td align="left">How to filter data</td>
+        <td>&nbsp;</td>
+        <td align="right">By defining filter properties</td>
+        <td align="right" width="20"><a href="ltpda_training_topic_4_4_2.html"><img src="b_next.gif" border="0" align="bottom" alt="By defining filter properties"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

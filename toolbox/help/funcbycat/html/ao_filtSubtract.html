@@ -1,0 +1,312 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!-- $Id$ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="../../ug/docstyle.css">
+    <title>LTPDA Method: ao/filtSubtract</title>
+  </head>
+  <body>
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <p style="font-size:1px;">&nbsp;</p>
+
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../../ug/../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ao_fftfilt.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ao/fftfilt"></a>&nbsp;&nbsp;&nbsp;<a href="ao_filter.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ao/filter"></a></td>
+      </tr>
+    </table>
+
+    <h1 class="title">Method ao/filtSubtract</h1>
+    <hr />
+
+<pre>  <SPAN CLASS="HELPTOPIC">FILTSUBTRACT</SPAN> subtracts a frequency dependent noise contribution from an input ao.
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+  DESCRIPTION: <SPAN CLASS="HELPTOPIC">FILTSUBTRACT</SPAN> subtracts a frequency dependent noise contribution from an input ao.
+               The method computes the transfer function between both input AOs and
+               fits a miir model to it. The frequency band is applied is set by a
+               threshold in the coherence that the user defines as an input
+               parameter.
+ 
+  CALL:        c = <span class="helptopic">filtSubtract</span>(a,b pl)
+ 
+  INPUTS:      a  - AO from where subtract linear contributions
+               b  - AOs with noise contributions
+               pl - parameter list (see below)
+ 
+  OUTPUTs:     c  - output AO with contributions subtracted (tsdata)
+ 
+  <a href="ao_filtSubtract.html#down">Parameters Description</a>
+ 
+  TODO: handling errors
+        split by coherence function
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</pre>
+
+    <!-- =====        Striped 4x2 table: Begin        ==== -->
+    <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+    <div class="sectiontitle"></div>
+    <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+      <colgroup>
+        <col width="30%"/>
+        <col width="70%"/>
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th class="categorylist">Method Details</th>
+          <th class="categorylist"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Access</td>
+          <td bgcolor="#f3f4f5">public</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Defining Class</td>
+          <td bgcolor="#ffffff">ao</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Sealed</td>
+          <td bgcolor="#f3f4f5">0</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Static</td>
+          <td bgcolor="#ffffff">0</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- ===== Striped 4x2 table: End ==== -->
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <h2>Parameter Description</h2>    <a name="down" id="down"></a>
+
+    <!-- Link-Table of the sets -->
+    <table border="0" cellpadding="4" cellspacing="0" class="pagenavtable">
+      <tr><th>Sets for this method &#8230;</th></tr>
+        <tr><td><a href="#1">Default</a></td></tr>
+    </table>
+
+    <a name="1"></a>
+    <!-- Parameter List Table: Default -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>Default</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">filtSubtract</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">target sampling frequency to resample the data.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">selects the interval where the subtraction is applied.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMES POSTFILTER</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">selects the filter transient intervals to be removed.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FREQUENCIES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">selects the frequency band where the transfer<br></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FILT</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">a miir/mfir object which will be used as a<br>transfer function. If this option is selected<br> the fit is avoided.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">AUTOSEARCH</td>
+            <td bgcolor="#F2F2F2">'on'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'on'</font></li><li><font color="#1111FF">'off'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">(ao.zDomainFit)</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">MAXITER</td>
+            <td bgcolor="#F2F2F2">50</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Maximum number of iterations in fit routine (ao.zDomainFit).</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">MINORDER</td>
+            <td bgcolor="#F2F2F2">2</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Minimum order to fit with (ao.zDomainFit).</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">MAXORDER</td>
+            <td bgcolor="#F2F2F2">20</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Maximum order to fit with (ao.zDomainFit).</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">WEIGHTPARAM</td>
+            <td bgcolor="#F2F2F2">'abs'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'ones'</font></li><li><font color="#1111FF">'abs'</font></li><li><font color="#1111FF">'sqrt'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">(ao.zDomainFit)</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FORCESTABILITY</td>
+            <td bgcolor="#F2F2F2">'off'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'on'</font></li><li><font color="#1111FF">'off'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Force poles to be stable (ao.zDomainFit)</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PLOT</td>
+            <td bgcolor="#F2F2F2">'off'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'on'</font></li><li><font color="#1111FF">'off'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Plot results of each fitting step (ao.zDomainFit)</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CHECKPROGRESS</td>
+            <td bgcolor="#F2F2F2">'off'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'on'</font></li><li><font color="#1111FF">'off'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Display the status of the fit iteration. (ao.zDomainFit)</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">KDES</td>
+            <td bgcolor="#F2F2F2">100</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The desired number of averages (ao.ltfe).</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">JDES</td>
+            <td bgcolor="#F2F2F2">1000</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The desired number of spectral frequencies to compute (ao.ltfe).</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SCALE</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2"></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TYPE</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2"></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">WIN</td>
+            <td bgcolor="#F2F2F2">'Hanning'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'Rectangular'</font></li><li><font color="#1111FF">'Welch'</font></li><li><font color="#1111FF">'Bartlett'</font></li><li><font color="#1111FF">'Hanning'</font></li><li><font color="#1111FF">'Hamming'</font></li><li><font color="#1111FF">'Nuttall3'</font></li><li><font color="#1111FF">'Nuttall4'</font></li><li><font color="#1111FF">'Nuttall3a'</font></li><li><font color="#1111FF">'Nuttall3b'</font></li><li><font color="#1111FF">'Nuttall4a'</font></li><li><font color="#1111FF">'Nuttall4b'</font></li><li><font color="#1111FF">'Nuttall4c'</font></li><li><font color="#1111FF">'BH92'</font></li><li><font color="#1111FF">'SFT3F'</font></li><li><font color="#1111FF">'SFT3M'</font></li><li><font color="#1111FF">'FTNI'</font></li><li><font color="#1111FF">'SFT4F'</font></li><li><font color="#1111FF">'SFT5F'</font></li><li><font color="#1111FF">'SFT4M'</font></li><li><font color="#1111FF">'FTHP'</font></li><li><font color="#1111FF">'HFT70'</font></li><li><font color="#1111FF">'FTSRS'</font></li><li><font color="#1111FF">'SFT5M'</font></li><li><font color="#1111FF">'HFT90D'</font></li><li><font color="#1111FF">'HFT95'</font></li><li><font color="#1111FF">'HFT116D'</font></li><li><font color="#1111FF">'HFT144D'</font></li><li><font color="#1111FF">'HFT169D'</font></li><li><font color="#1111FF">'HFT196D'</font></li><li><font color="#1111FF">'HFT223D'</font></li><li><font color="#1111FF">'HFT248D'</font></li><li><font color="#1111FF">'Kaiser'</font></li><li><font color="#1111FF">'levelledHanning'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">The window to be applied to the data to remove the discontinuities at edges of segments (ao.ltfe).</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('FS', [[]], 'TIMES', '', 'TIMES POSTFILTER', '', 'FREQUENCIES', '', 'FILT', '', 'AUTOSEARCH', 'on', 'MAXITER', [50], 'MINORDER', [2], 'MAXORDER', [20], 'WEIGHTPARAM', 'abs', 'FORCESTABILITY', 'off', 'PLOT', 'off', 'CHECKPROGRESS', 'off', 'KDES', [100], 'JDES', [1000], 'SCALE', '', 'TYPE', '', 'WIN', 'Hanning')</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <p><!-- Table of the minfo object -->
+      <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+        <colgroup>
+          <col width="25%"/>
+          <col width="75%"/>
+        </colgroup>
+        <thead>
+          <tr valign="top">
+            <th class="categorylist" colspan="2">Some information of the method ao/filtSubtract are listed below:</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Property: 'mclass' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Class name</td>
+            <td bgcolor="#f3f4f5">ao</td>
+          </tr>
+          <!-- Property: 'mname' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Method name</td>
+            <td bgcolor="#ffffff">filtSubtract</td>
+          </tr>
+          <!-- Property: 'mcategory' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Category</td>
+            <td bgcolor="#f3f4f5">Signal Processing</td>
+          </tr>
+          <!-- Property: 'mpackage' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Package name</td>
+            <td bgcolor="#ffffff">ltpda</td>
+          </tr>
+          <!-- Property: 'modifier' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Can be used as modifier</td>
+            <td bgcolor="#f3f4f5">1</td>
+          </tr>
+          <!-- Property: 'supportedNumTypes' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Supported numeric types</td>
+            <td bgcolor="#ffffff">{'double'}</td>
+          </tr>
+        </tbody>
+      </table>
+    </p>
+
+
+    <br>
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ao_fftfilt.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ao/fftfilt"></a>&nbsp;</td>
+        <td align="left">Method: ao/fftfilt</td>
+        <td>&nbsp;</td>
+        <td align="right">Method: ao/filter</td>
+        <td align="right" width="20"><a href="ao_filter.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ao/filter"></a></td>
+      </tr>
+    </table>
+
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+
+   </body>
+</html>

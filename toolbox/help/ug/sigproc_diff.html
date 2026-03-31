@@ -1,0 +1,324 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Discrete Derivative (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="sigproc_applyfilt.html"><img src="b_prev.gif" border="0" align="bottom" alt="Applying digital filters to data"></a>&nbsp;&nbsp;&nbsp;<a href="sigproc_spec.html"><img src="b_next.gif" border="0" align="bottom" alt="Spectral Estimation"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Discrete Derivative</h1>
+    <hr>
+    
+    <p>
+      <!-- $Id$ -->
+
+<!-- ================================================== -->
+<!--                 BEGIN CONTENT FILE                 -->
+<!-- ================================================== -->
+<!-- ===== link box: Begin ===== -->
+<p>
+  <table border="1"  width="80%">
+    <tr>
+      <td>
+        <table border="0" cellpadding="5" class="categorylist" width="100%">
+          <colgroup>
+            <col width="37%"/>
+            <col width="63%"/>
+          </colgroup>
+          <tbody>
+            <tr valign="top">
+              <td>
+                <a href="#description">Description</a>
+              </td>
+              <td>Discrete derivative estimation in LTPDA.</td>
+            </tr>
+            <tr valign="top">
+              <td>
+                <a href="#algorithm">Algorithm</a>
+              </td>
+              <td>Derivatives Algorithms.</td>
+            </tr>
+            <tr valign="top">
+              <td>
+                <a href="#examples">Examples</a>
+              </td>
+              <td>Usage examples of discrete derivative estimation tools.</td>
+            </tr>
+            <tr valign="top">
+              <td>
+                <a href="#references">References</a>
+              </td>
+              <td>Bibliographic references.</td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </table>
+</p>
+<!-- ===== link box: End ====== -->
+
+
+
+<p>
+  
+</p>
+
+
+<h2><a name="description">Derivative calculation for dicrete data series</a></h2>
+
+<p>
+  Derivative estimation on discrete data series is implemented by the function
+  <a href="matlab:doc('ao/diff')">ao/diff</a>.
+  This function embeds several algorithms for the calculation
+  of zero, first and second order derivative. Where with zero order derivative we intend
+  a particular category of data smoothers [1].
+</p>
+
+
+
+<h2><a name="algorithm">Algorithm</a></h2>
+
+<p>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="15%"/>
+      <col width="85%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Method</th>
+        <th class="categorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">'2POINT'</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>
+            Compute first derivative with two point equation according to:
+            <div align="center">
+              <IMG src="images/sigproc_diff_algo01.gif" align="center" border="0">
+            </div>
+          </p>
+        </td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">'3POINT'</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>
+            Compute first derivative with three point equation according to:
+            <div align="center">
+              <IMG src="images/sigproc_diff_algo02.gif" align="center" border="0">
+            </div>
+          </p>
+        </td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">'5POINT'</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>
+            Compute first derivative with five point equation according to:
+            <div align="center">
+              <IMG src="images/sigproc_diff_algo03.gif" align="center" border="0">
+            </div>
+          </p>
+        </td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">'FPS'</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>
+            Five Point Stencil is a generalized method to calculate zero, first and second
+            order discrete derivative of a given time series. Derivative approximation,
+            at a given time <i>t = kT</i> (<i>k</i> being an integer and <i>T</i>
+            being the sampling time), is calculated by means of finite differences
+            between the element at <i>t</i> with its four neighbors:
+            <div align="center">
+              <IMG src="images/sigproc_diff_algo04.gif" align="center" border="0">
+            </div>
+          </p>
+          <p>
+            It can be demonstrated that the coefficients of the expansion can be
+            expressed as a function of one of them [1]. This allows the construction
+            of a family of discrete derivative estimators characterized by a
+            good low frequency accuracy and a smoothing behavior at high frequencies
+            (near the nyquist frequency). <br/>
+            Non-trivial values for the <span class="string">'COEFF'</span> parameter are:
+            <ul>
+              <li> Parabolic fit approximation <br/>
+              These coefficients can be obtained by a parabolic fit procedure on
+              a generic set of data [1].
+              <ul>
+                <li> Zeroth order -3/35
+                <li> First order -1/5
+                <li> Second order 2/7
+              </ul>
+              <li> Taylor series expansion <br/>
+              These coefficients can be obtained by a series expansion of a generic set of data [1 - 3].
+              <ul>
+                <li> First order 1/12
+                <li> Second order -1/12
+              </ul>
+              <li> PI <br/>
+              This coefficient allows to define a second derivative estimator with
+              a notch feature at the nyquist frequency [1].
+              <ul>
+                <li> Second order 1/4
+              </ul>
+            </ul>
+          </p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+
+<h2><a name="examples"></a>Examples</h2>
+
+Consider <tt>a</tt> as a time series analysis object. First and second
+derivative of <tt>a</tt> can be easily obtained with a call to 
+<a href="matlab:doc('ao/diff')">diff</a>. Please refer to 
+<a href="matlab:doc('ao/diff')">ao/diff</a> documantation page for the
+meaning of any parameter.
+<p>
+  Frequency response of first and second order estimators is reported in 
+  figures 1 and 2 respectively.
+</p>
+
+<h3>First derivative</h3>
+
+<div class="fragment"><pre>
+    
+    pl = plist(...
+      <span class="string">'method'</span>, <span class="string">'2POINT'</span>);
+    b = diff(a, pl);
+    
+    pl = plist(...
+      <span class="string">'method'</span>, <span class="string">'ORDER2SMOOTH'</span>);
+    c = diff(a, pl);
+    
+    pl = plist(...
+      <span class="string">'method'</span>, <span class="string">'3POINT'</span>);
+    d = diff(a, pl);
+    
+    pl = plist(...
+      <span class="string">'method'</span>, <span class="string">'5POINT'</span>);
+    e = diff(a, pl);
+    
+    pl = plist(...
+      <span class="string">'method'</span>, <span class="string">'FPS'</span>, ...
+      <span class="string">'ORDER'</span>, <span class="string">'FIRST'</span>, ...
+      <span class="string">'COEFF'</span>, -1/5);
+    f = diff(a, pl);
+    
+</pre></div>
+
+<h3>Second derivative</h3>
+
+<div class="fragment"><pre>
+    
+    pl = plist(...
+      <span class="string">'method'</span>, <span class="string">'FPS'</span>, ...
+      <span class="string">'ORDER'</span>, <span class="string">'SECOND'</span>, ...
+      <span class="string">'COEFF'</span>, 2/7);
+    b = diff(a, pl);
+    
+    pl = plist(...
+      <span class="string">'method'</span>, <span class="string">'FPS'</span>, ...
+      <span class="string">'ORDER'</span>, <span class="string">'SECOND'</span>, ...
+      <span class="string">'COEFF'</span>, -1/12);
+    c = diff(a, pl);
+    
+    pl = plist(...
+      <span class="string">'method'</span>, <span class="string">'FPS'</span>, ...
+      <span class="string">'ORDER'</span>, <span class="string">'SECOND'</span>, ...
+      <span class="string">'COEFF'</span>, 1/4);
+    d = diff(a, pl);
+    
+</pre></div>
+
+
+<div align="center">
+  <p>
+    <IMG src="images/sigproc_diff_algo05.png" align="center" border="0">
+  </p>
+  <p>
+    <b> Figure 1:</b> Frequency response of first derivative estimators.
+  </p>
+  
+</div>
+<div align="center">
+  <p>
+  </p>
+  <IMG src="images/sigproc_diff_algo06.png" align="center" border="0">
+  <p>
+    <b> Figure 2:</b> Frequency response of second derivative estimators.
+  </p>
+</div>
+
+
+<h2><a name="references">References</a></h2>
+
+<ol>
+  <li> L. Ferraioli, M. Hueller and S. Vitale, Discrete derivative
+  estimation in LISA Pathfinder data reduction, 
+  <a href="http://www.iop.org/EJ/abstract/0264-9381/26/9/094013/">Class. Quantum Grav. 26 (2009) 094013.</a>. <br/>
+  L. Ferraioli, M. Hueller and S. Vitale, Discrete derivative
+  estimation in LISA Pathfinder data reduction
+  <a href="http://arxiv.org/abs/0903.0324v1">arXiv:0903.0324v1</a>
+  <li> Steven E. Koonin and Dawn C. Meredith, Computational Physics, Westview Press (1990).
+  <li> John H. Mathews, Computer derivations of numerical differentiation formulae,
+  <i>Int. J. Math. Educ. Sci. Technol.<i>, 34:2, 280 - 287.
+</ol>
+
+
+
+
+
+
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="sigproc_applyfilt.html"><img src="b_prev.gif" border="0" align="bottom" alt="Applying digital filters to data"></a>&nbsp;</td>
+        <td align="left">Applying digital filters to data</td>
+        <td>&nbsp;</td>
+        <td align="right">Spectral Estimation</td>
+        <td align="right" width="20"><a href="sigproc_spec.html"><img src="b_next.gif" border="0" align="bottom" alt="Spectral Estimation"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

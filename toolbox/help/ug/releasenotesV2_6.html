@@ -1,0 +1,284 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Version 2.6 LTPDA Toolbox Software (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="releasenotesV2_6_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="Version 2.6.1 LTPDA Toolbox Software"></a>&nbsp;&nbsp;&nbsp;<a href="releasenotesV2_5_5.html"><img src="b_next.gif" border="0" align="bottom" alt="Version 2.5.5 LTPDA Toolbox Software"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Version 2.6 LTPDA Toolbox Software</h1>
+    <hr>
+    
+    <p>
+          
+    <style type="text/css">
+      p { margin-left:30px; }
+      h4 { margin-left:15px; }
+      h5.title {color:#990000; margin-left:20px; margin-top:1ex; margin-bottom:.9ex; font-weight:bold; font-size:2ex}
+    </style>
+    
+    <!-- BEGIN: Content file -->
+
+    <a name="top_of_page"></a>
+    This table summarizes what's new in Version 2.6:
+    <table cellspacing="0" class="body" cellpadding="4" border="2" width="100%">
+      <colgroup>
+        <col width="25%">
+        <col width="25%">
+        <col width="25%">
+        <col width="25%">
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th bgcolor="#B2B2B2" valign="top">New Features and Changes</th>
+          <th bgcolor="#B2B2B2" valign="top">Version Compatibility Considerations</th>
+          <th bgcolor="#B2B2B2" valign="top">Fixed Bugs and Known Problems</th>
+          <th bgcolor="#B2B2B2" valign="top">Related Documentation at Web Site</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#F2F2F2">Yes<br>Details below</td>
+          <td bgcolor="#F2F2F2">Yes &#8212; Details labeled as <a href="#removed_features">Deprecated and removed features</a> in descriptions of changes, below.</td>
+          <td bgcolor="#F2F2F2"><a href="https://ed.fbk.eu/ltpda/mantis/login_page.php" target="_top">Bug Reports</a> at Web site</td>
+          <td bgcolor="#F2F2F2">Printable Release Notes: <a href="http://www.lisa.aei-hannover.de/ltpda/downloads/version_26/files/Release_Notes_v2.6.pdf" target="_top">PDF</a></td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <ul>
+      <li><a href="#introduction">Introduction</a></li>
+      <li><a href="#main_changes">Main Changes</a></li>
+      <ul>
+        <li><a href="#function_handles">Function Handles</a></li>
+        <li><a href="#algorithm_classes">Algorithm Classes</a></li>
+      </ul>
+      <li><a href="#other_changes">Other Changes</a></li>
+      <li><a href="#new_methods">New Methods</a></li>
+      <li><a href="#removed_features">Deprecated and removed features</a></li>
+      <li><a href="#mantis_issues">MANTIS Issues Resolved</a></li>
+      <li><a href="http://www.lisa.aei-hannover.de/ltpda/downloads/version_26/files/Release_Notes_v2.6.pdf">Detailed changes since v2.5.5</a></li>
+    </ul>
+    
+    <!-- HEADLINE: Introduction -->
+    <h3 class="title" id="introduction">Introduction</h3>
+    <p>This version of LTPDA is 2.6. This document lists the changes since V2.5.5.</p>
+    <p><i>This version requires MATLAB 2010a or above.</i></p>
+    
+    <!-- HEADLINE: Main Changes -->
+    <h3 class="title" id="main_changes">Main Changes</h3>
+    <p>This version of LTPDA includes a vast number of speed improvements and bug fixes. 
+    In addition, the following significant changes are included in this release.</p>
+    
+    <!-- HEADLINE: Parameter lists -->
+    <h4 class="title" id="function_handles">Function Handles</h4> 
+    <p>This release of LTPDA contains a first implementation of a new user-level class 
+      for creating LTPDA function handles. This class is called mfh and is somewhat 
+      similar to MATLAB function handles except that history is tracked.</p>
+    <p>Here are some example usages:</p>
+    
+<div class="fragment"><pre class="programlisting">
+<span class="comment">%% Simple function of x</span>
+f1 = mfh(plist(<span class="string">'func'</span>, <span class="string">'x.^2'</span>, <span class="string">'inputs'</span>, {<span class="string">'x'</span>}));
+x1 = ao(12);
+o1 = f1(x1);</pre></div>
+
+<div class="fragment"><pre class="programlisting">
+<span class="comment">%% Simple function of x and y</span>
+f2 = mfh(plist(<span class="string">'func'</span>, <span class="string">'x^2 + y^2'</span>, <span class="string">'inputs'</span>, {<span class="string">'x'</span>, <span class="string">'y'</span>}));
+x = ao(2);
+y = ao(3);
+o2 = f2(x, y)</pre></div>
+
+<div class="fragment"><pre class="programlisting">
+<span class="comment">%% chain functions</span>
+x = ao(2);
+y = ao(3);
+o4 = f2(f1(x), y)</pre></div>
+
+<div class="fragment"><pre class="programlisting">
+<span class="comment">%% Use constants</span>
+a = ao.randn(10,10);
+c = ao(2);
+f6 = mfh(plist(<span class="string">'func'</span>, <span class="string">'x + c.*x'</span>, <span class="string">'inputs'</span>, <span class="string">'x'</span>, ...
+<span class="string">'constants'</span>, {<span class="string">'c'</span>}, <span class="string">'constant objects'</span>, c));
+o6 = f6(a)</pre></div>
+
+<div class="fragment"><pre class="programlisting">
+<span class="comment">%% Nest functions</span>
+c = ao(2);
+h1 = mfh(plist(<span class="string">'name'</span>, <span class="string">'myFunc'</span>, <span class="string">'func'</span>, <span class="string">'x.^2'</span>, <span class="string">'inputs'</span>, {<span class="string">'x'</span>}));
+f5 = mfh(plist(<span class="string">'func'</span>, <span class="string">'myFunc(x) + c.*x'</span>, ...
+<span class="string">'inputs'</span>, <span class="string">'x'</span>, ...
+<span class="string">'subfuncs'</span>, h1, ...
+<span class="string">'constants'</span>, {<span class="string">'c'</span>}, <span class="string">'constant objects'</span>, c));
+o5 = f5(a)</pre></div>
+    
+    <!-- HEADLINE: Plotting -->
+    <h4 class="title" id="algorithm_classes">Algorithm Classes</h4> 
+    <p>There has been some work to implement what we call Algorithm Classes. That is, 
+      classes which are not associated with data, but instead implement an algorithm.
+      You then create an instance of the algorithm and use it to process data. 
+      This is particularly sensible for complex algorithms because it allows us 
+      to keep the various utility functions and tests associated with the algorithm 
+      together in one class. This version of the toolbox includes the base class 
+      for these algorithm classes, <b>ltpda_algorithm</b>, and a new implementation of the 
+      MCMC algorithm as one of these classes. We maintain backwards compatibility 
+      for the most part by creating an using an MCMC object with the <b>ao/mcmc</b> method. 
+      Nonetheless, this was a large structural change so please report any strange behaviour.</p>
+    
+    <!-- HEADLINE: Other Changes -->
+    <h3 class="title" id="other_changes">Other Changes</h3>
+    <ul>
+      <li>The state of the Franklin number generator used in the <b>ao(pzmodel)</b>
+        constructor is now returned in the <b>procinfo</b> of the output ao, and 
+        can be input when constructing further AOs to continue the sequence.</li>
+      <li>You can now add and subtract <b>timespan</b> objects.</li>
+      <li>The <b>ssm/bode</b> method no longer throws an error if the system is 
+        not stable. Instead a warning is thrown.</li>
+      <li>The x ranges on an <b>ao/iplot</b> call can now be specified using
+        <b>timespan</b> objects.</li>
+      <li>The equality operators <b>ao/eq</b> and <b>ao/ne</b> now return AOs 
+        containing logical values to match the behaviour of <b>ao/ge</b> and <b>ao/gt</b> etc.</li>
+      <li>The <b>ao/fft</b> method now supports other input data types (cdata and xydata).
+        See commit dd86b5b below for details.</li>
+      <li>The user object <b>submit</b> and <b>bsubmit</b> methods now return a 
+        plist containing the IDs etc of the submitted objects.</li>
+      <li>The ao waveform constructor now has an &lsquo;offset&rsquo; parameter.</li>
+      <li>The <b>ao/find</b> method can now be configured to return the indices
+        of the samples found as the main output.</li>
+      <li>The ao data file reading constructor can now ignore header lines (via the &lsquo;ignorelines&rsquo; plist key)</li>
+      <li>The <b>ao/split</b> method has a new way to split data: into segments of a defined length.</li>
+      <li>The <b>ao</b> constructor can now build &lsquo;from xyz&rsquo; values.<br>
+        <p><b>a = ao('*.mat')</b><br></p></li>
+      <li>You can now specify the vertices in <b>ao/interp</b> by passing an AO.</li>
+      <li>The <b>ao/delay</b> method now has a &lsquo;mode&rsquo; parameter which
+        has a default of &lsquo;samples&rsquo; which keeps the old sample shifting
+        behaviour. A new mode &lsquo;fftfilter&rsquo; performs fft filtering using
+        a simple delay model (constructed from a pzmodel) to apply the delay. Another
+        mode &lsquo;timedomain&rsquo; which does a time-domain fractional delay
+        filtering of the data.</li>
+      </ul>
+      
+    <!-- HEADLINE: New Methods -->
+    <h3 class="title" id="new_methods">New Methods</h3>
+    <ul>
+      <li>The <b>ao</b> class has two new static convenience constructors, 
+        <b>ao.zeros</b> and <b>ao.ones</b>.</li>
+      <li>The matrix class now have a <b>sqrt</b> method.</li>
+      <li>There is a new ao method called <b>powerFit</b> to fit a power-law to 
+        a frequency series using a log-likelihood approach.</li>
+      <li>The <b>ao</b> class has a new method, <b>subsData</b>, which can replace 
+        the values at the specified indices in a number of different ways.</li>
+      <li>The <b>ao</b> class has a new method called <b>iacf</b> which computes 
+        the inverse-auto-correlation function of a spectrum. There is also a method 
+        <b>ao/cgfill</b> which uses <b>iacf</b> then <b>subsData</b> in constrained 
+        gaussian filling mode to fill a data series containing gaps. These methods 
+        should be considered as beta releases.</li>
+      <li>The <b>miir</b> and <b>mfir</b> classes have new convenience static 
+        constructors for creating standard filters: <b>miir.lowpass</b>, 
+        <b>miir.highpass</b>, <b>miir.bandpass</b>, <b>miir.bandreject</b>.</li>
+      <li>You can create 3D AOs from a sequence of 2D AOs (by forming a matrix 
+        from the y values) using the new <b>ao/scatter3D</b> method.</li>
+      <li>The <b>matrix</b> and <b>collection</b> classes have new methods: 
+        <b>uminus</b>, <b>lpsd</b>, <b>abs</b>, <b>consolidate</b>, <b>detrend</b>, 
+        <b>diff</b>, <b>heterodyne</b>, <b>polyfit</b>, <b>timeaverage</b>, 
+        <b>downsample</b>, <b>interp</b>, <b>interpmissing</b>, <b>removeVal</b>.</li>
+      <li>The <b>matrix</b> class gets other new methods: fftfilter,</li>
+      <li>The <b>collection</b> class gets other new methods: cohere, cpsd, tfe, filter, filtfilt</li>
+    </ul>
+    
+    <!-- HEADLINE: Deprecated and removed features -->
+    <h3 class="title" id="removed_features">Deprecated and removed features</h3>
+    <p>The following methods and features have been deprecated:</p>
+    <ul>
+      <li>The LTPDAWorkbench is no longer supported but will kept in the toolbox 
+        as long as it continues to function. Once it fails to comply with the status
+        of the toolbox, we will remove it from future releases.</li>
+    </ul>
+    <p>The following methods and features have been removed:</p>
+    <ul>
+      <li>Some constructors historically supported a call like this:<br>
+        <p><b>a = ao(plist('plist', plist('vals', 1:10)))</b></p><br>
+        These nested <b>plist</b> calls are no longer supported.</li>
+    </ul>
+    
+    <!-- HEADLINE: Deprecated and removed features -->
+    <h3 class="title" id="mantis_issues">MANTIS Issues Resolved</h3>
+    <table cellspacing="0" class="body" cellpadding="4" border="2" width="100%">
+      <thead>
+        <tr valign="top">
+          <th bgcolor="#B2B2B2" valign="top">Issue</th>
+          <th bgcolor="#B2B2B2" valign="top">Type</th>
+          <th bgcolor="#B2B2B2" valign="top">Decription</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>0000615</td><td>Bug Report</td><td>Capacitive actuation models descriptions are wrong</td></tr>
+        <tr><td>0000606</td><td>Change Request</td><td>Improvement to pipeline chainability</td></tr>
+        <tr><td>0000604</td><td>Bug Report</td><td>Bug in quicklook pipeline steps regarding the 'consolidated' subdir</td></tr>
+        <tr><td>0000619</td><td>Change Request</td><td>Pipelines should be allowed to retrieve data from multiple repositories/databases</td></tr>
+        <tr><td>0000631</td><td>Change Request</td><td>eliminating Running simulate complete when display time is 'false'</td></tr>
+        <tr><td>0000635</td><td>Change Request</td><td>ao/split only accepts a single timespan</td></tr>
+        <tr><td>0000627</td><td>Change Request</td><td>ao/heterodyne should accept a 'split' / 'times' option</td></tr>
+        <tr><td>0000640</td><td>Change Request</td><td>ao.diff should support order higher than 1 for the '3point' case</td></tr>
+        <tr><td>0000639</td><td>Bug Report</td><td>Hash files for extension modules</td></tr>
+        <tr><td>0000598</td><td>Bug Report</td><td>AO constructor from mat file doesn't set xunits</td></tr>
+        <tr><td>0000603</td><td>Bug Report</td><td>ao/plotSpectrogram not available</td></tr>
+        <tr><td>0000597</td><td>Change Request</td><td>ao/interp should accept an ao for the vertices</td></tr>
+        <tr><td>0000600</td><td>Change Request</td><td>ao/interp should accept AOs in input plist</td></tr>
+        <tr><td>0000596</td><td>Change Request</td><td>Searching in plists</td></tr>
+        <tr><td>0000622</td><td>Change Request</td><td>Display plist parameter properties</td></tr>
+        <tr><td>0000629</td><td>Bug Report</td><td>ao.linfit does not deal properly with data with no errors</td></tr>
+        <tr><td>0000616</td><td>Bug Report</td><td>linfitsvd.m is not dealing with units properly</td></tr>
+        <tr><td>0000614</td><td>Bug Report</td><td>submit/bsubmit methods shoul also return UUID</td></tr>
+        <tr><td>0000620</td><td>Change Request</td><td>Introducing windowing for FFT</td></tr>
+        <tr><td>0000623</td><td>Bug Report</td><td>Integrate does not look after units properly</td></tr>
+        <tr><td>0000621</td><td>Bug Report</td><td>test_ltp_iof2acc does not work ...</td></tr>
+        <tr><td>0000618</td><td>Change Request</td><td>Suppress output in ao/plot</td></tr>
+        <tr><td>0000602</td><td>Bug Report</td><td>3rd party extensions return error during ltpda_startup</td></tr>
+        <tr><td>0000611</td><td>Bug Report</td><td>Timespan objects should be accepted as x-range specifier</td></tr>
+        <tr><td>0000613</td><td>Bug Report</td><td>Vectors of time objects: issue with minusv</td></tr>
+        <tr><td>0000612</td><td>Bug Report</td><td>Timespan class needs a minus method</td></tr>
+        <tr><td>0000599</td><td>Change Request</td><td>Bode plots for unstable SSM systems</td></tr>
+        <tr><td>0000605</td><td>Bug Report</td><td>Clicking help on STOCEstimateAcc/estimate_acc raises error</td></tr>
+        <tr><td>0000617</td><td>Change Request</td><td>Accessing param properties</td></tr>
+      </tbody>
+    </table>    
+    
+    <!-- END: Content file -->
+    
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="releasenotesV2_6_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="Version 2.6.1 LTPDA Toolbox Software"></a>&nbsp;</td>
+        <td align="left">Version 2.6.1 LTPDA Toolbox Software</td>
+        <td>&nbsp;</td>
+        <td align="right">Version 2.5.5 LTPDA Toolbox Software</td>
+        <td align="right" width="20"><a href="releasenotesV2_5_5.html"><img src="b_next.gif" border="0" align="bottom" alt="Version 2.5.5 LTPDA Toolbox Software"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Version 2.1 LTPDA Toolbox Software (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="releasenotesV2_2.html"><img src="b_prev.gif" border="0" align="bottom" alt="Version 2.2 LTPDA Toolbox Software"></a>&nbsp;&nbsp;&nbsp;<a href="releasenotesV2_0_1.html"><img src="b_next.gif" border="0" align="bottom" alt="Version 2.0.1 LTPDA Toolbox Software"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Version 2.1 LTPDA Toolbox Software</h1>
+    <hr>
+    
+    <p>
+      
+    <style type="text/css">
+      p { margin-left:30px; }
+      h4 { margin-left:15px; }
+    </style>
+
+    <!-- BEGIN: Content file -->
+
+    <a name="top_of_page"></a>
+    This table summarizes what's new in Version 2.1:
+    <table cellspacing="0" class="body" cellpadding="4" border="2" width="100%">
+      <colgroup>
+        <col width="25%">
+        <col width="25%">
+        <col width="25%">
+        <col width="25%">
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th bgcolor="#B2B2B2" valign="top">New Features and Changes</th>
+          <th bgcolor="#B2B2B2" valign="top">Version Compatibility Considerations</th>
+          <th bgcolor="#B2B2B2" valign="top">Fixed Bugs and Known Problems</th>
+          <th bgcolor="#B2B2B2" valign="top">Related Documentation at Web Site</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#F2F2F2">Yes<br>Details below</td>
+          <td bgcolor="#F2F2F2">Yes &#8212; Details labeled as <b>Deprecated methods</b> in descriptions of changes, below. See also <a href="#deprecated">Summary</a>.</td>
+          <td bgcolor="#F2F2F2"><a href="https://ed.fbk.eu/ltpda/mantis/login_page.php" target="_top">Bug Reports</a> at Web site</td>
+          <td bgcolor="#F2F2F2">Printable Release Notes: <a href="http://www.lisa.aei-hannover.de/ltpda/downloads/version_2_1/files/Release_Notes_v2.pdf" target="_top">PDF</a></td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <ul>
+      <li><a href="#introduction">Introduction</a></li>
+      <li><a href="#newFeatures">New toolbox features</a></li>
+      <li><a href="#newWbFeatures">New Workbench features</a></li>
+      <li><a href="#newAOMethods">New AO methods</a></li>
+      <li><a href="#mc">Main Changes</a></li>
+      <li><a href="#deprecated">Deprecated methods</a></li>
+    </ul>
+
+    <!-- HEADLINE: Introduction -->
+
+    <h3 class="title" id="introduction">Introduction</h3>
+    <p>This version of LTPDA is 2.1. This document lists the changes since V2.0.1.</p>
+
+    <!-- HEADLINE: New toolbox features -->
+
+    <h3 class="title" id="newFeatures">New toolbox features</h3>
+    <p>Version 2.1 of LTPDA has various new features.</p>
+    <ul>
+      <li>Analysis Objects have two new properties, <b>dx</b> and <b>dy</b>,
+          for storing errors/uncertainties on the <b>x</b> and <b>y</b> data
+          vectors. Currently, the spectral estimation tools
+          (<b>psd, cohere</b>, etc) are calculating sample variances and
+          assigning the values to <b>dy</b>. In this release, errors are not
+          properly propagated through all additional functions; this is
+          sometimes left to the user to handle. In a future release, the aim is
+          to properly handle error propagation in all functions, where possible.
+          Often this will mean deleting these vectors, or calculating new errors
+          based on the input AOs.</li>
+      <li>
+        All user objects now have the following new fields:
+        <ul>
+          <li>description: a string that can be assigned to describe the object</li>
+          <li>procinfo: a <b>plist</b> containing additional information
+              produced during processing by an algorithm. The contents of the
+              <b>plist</b> depend on the algorithm being applied.
+          </li>
+        </ul>
+      </li>
+      <li>Documentation (<b>>>help</b> method) has been significantly 
+          simplified. Now the details of the parameters for configuring a method
+          are dynamically created and presented to the user in the MATLAB help
+          browser after clicking on the &lsquo;Parameter Sets&rsquo; link in the
+          help text.</li>
+      <li>
+        New user classes:
+        <ul>
+          <li><b>smodel</b>: defines parametric models of an X variable which can be combined and evaluated to AOs.</li>
+          <li><b>matrix</b>: a container class which can be used to group together other user objects and perform some basic matrix operations on the group of objects, not necessarily on the data in the objects.</li>
+          <li><b>filterbank</b>: represents a bank of digital filters. It can be either a &lsquo;parallel&rsquo; or &lsquo;serial&rsquo; filter bank.</li>
+        </ul>
+      </li>
+      <li>All user classes now support built-in models.</li>
+      <li>LTPDA now provides direct access to NDS (version 1) servers using
+          the AO constructor &lsquo;From NDS Server&rsquo;. This requires the (3rd party)
+          NDS client mex files to be available on the MATLAB path.</li>
+      <li>The repository interactions are now done through purpose written
+          java code so that no database toolbox is required. Also, the
+          repository GUI (repogui) has been removed and the various features
+          are replaced by individual GUI components which can be launched either
+          via the workbench or via the new workspace browser 
+          (<b>workspaceBrowser</b>).</li>
+      <li>A new GUI, the Workspace Browser (workspaceBrowser) allows fast
+          access to various toolbox features as well as showing the current
+          LTPDA user objects in the workspace.</li>
+    </ul>
+
+    <!-- HEADLINE: New Workbench features -->
+
+    <h3 class="title" id="newWbFeatures">New Workbench features</h3>
+    <p>Apart from various cosmetic improvements, the workbench has the following new features:</p>
+    <ul>
+      <li>The workbench now has a &lsquo;recent files&rsquo; list under the File menu</li>
+      <li>The workbench now has the concept of an &lsquo;Execution plan&rsquo;. Any or
+          all of the pipelines in the workbench can be entered in the execution
+          plan. The full plan can then be executed in the order given. To edit
+          the plan: File->Plan->Edit. To run the plan: File->Plan->Run.</li>
+      <li>
+        New block types:
+        <ul>
+          <li>&lsquo;From Pipeline&rsquo; block allows the user to link
+              together pipelines in the current workbench. Double clicking
+              the &lsquo;From Pipeline&rsquo; block allows the user to select
+              the source to be from the output of any block on any other
+              pipeline in the workbench. This goes along with the new &lsquo;
+              Plan&rsquo; concept.
+          </li>
+          <li>Mux/Demux blocks allow objects to be put in to, or removed from, arrays.</li>
+          <li>&lsquo;To Workspace&rsquo; block pushes the objects to the MATLAB workspace.</li>
+        </ul>
+      </li>
+      <li>A graphical representation of the current pipeline can be exported
+          as a JPEG image.</li>
+      <li>The workbench has a new panel called the &lsquo;Shelf&rsquo;. 
+          Users can store subsystems on the shelf and pull them off anytime in
+          the future to include them in a different pipeline. The Shelf supports
+          nested categories, exporting and importing of categories, and adding
+          of subsystems from the canvas or from the shelf context menus.</li>
+      <li>The pipelines of the current workbench are now shown in a tree-like
+          structure, where the subsystems of each pipeline can also be seen.</li>
+      <li>The block-property table has been re-coded to more nicely present
+          the options to the user.</li>
+      <li>
+        The parameter list table now supports:
+        <ul>
+          <li>activating and deactivating individual parameters</li>
+          <li>double-click in-place editing of the key and value</li>
+          <li>selection of parameters with options via drop-down menus</li>
+          <li>selection of boolean parameters via check-boxes</li>
+          <li>editing of parameter values in special editors via the edit
+              button (&lsquo;...&rsquo;)
+          </li>
+          <li>changing the type of a parameter (double/char/boolean) via the context menu</li>
+        </ul>
+      </li>
+      <li>
+        The workbench has the following new block button commands:
+        <ul>
+          <li><img alt="Controls save" width="18px" height="18px" src="images/release2_1_save.png">saves the outputs of selected objects to disk.</li>
+          <li><img alt="Controls save" width="18px" height="18px" src="images/release2_1_table.png">displays the data of the selected objects in tables.</li>
+          <li><img alt="Controls save" width="18px" height="18px" src="images/release2_1_report.png">present a report on the selected objects.</li>
+        </ul>
+      </li>
+      <li>
+        New menu entries for
+        <ul>
+          <li>show quickblock (ctrl-b)</li>
+          <li>edit canvas info (ctrl-i)</li>
+          <li>search workbench (ctrl-f)</li>
+        </ul>
+      </li>
+      <li>The element searching now has new features, like the ability 
+          to choose whether to search for block names, algorithms, or both.
+          Info about the block <b>plist</b> is now shown as a tooltip on the
+          results table, and double clicking a result highlights that block in
+          the workbench.</li>
+      <li>The workbench now supports plain text documents.</li>
+      <li>The workbench output files have seen some optimisation and are much
+          smaller than in earlier versions.</li>
+      <li>A new special editor for keys: 'xunit', 'xunits', 'yunit', 'yunits', 'unit'.</li>
+      <li>A new special editor for assembling a list of colors that can, for
+          example, be passed to <b>iplot</b>. So far this will activate for any
+          parameter with key 'colors' or 'linecolors'.</li>
+      <li>A new special editor for a cell-array of line-styles, like that
+          used in configuring iplot.</li>
+      <li>A new special editor for building a list of markers. Activated for
+          key 'markers'.</li>
+      <li>A new special editor for the key 'plotinfo'. Allows to edit the
+          line style, line width, color and marker for AOs.</li>
+      <li>The workbench can now be attached to any or all output objects 
+          from all blocks on a pipeline. The workbench can then be loaded from
+          the object, whether it&rsquo;s on disk or in the MATLAB workspace.
+          To attach the workbench to an object, select the block and set the
+          property &lsquo;Attach Workbench&rsquo; in the property table.
+          To import a pipeline from an existing object,
+          &lsquo;File->Import Pipelines->From LTPDA Object...&rsquo;.</li>
+      <li>Blocks can be &lsquo;Commented Out&rsquo; (deactivated) on 
+          the pipeline. These &lsquo;commented out&rsquo; blocks will not be
+          considered during pipeline execution.</li>
+      <li>
+        The workbench now supports some direct interaction with an LTPDA 
+          Repository, avoiding the need to go through the repository GUI.
+          For example, it is possible to:
+        <ul>
+          <li>(dis-)connect to a repository via the (dis-)connect (<img alt="Connect Button" width="18px" height="18px" src="images/release2_1_connect.png"><img alt="Disconnect Button" width="18px" height="18px" src="images/release2_1_disconnect.png">) button(s)</li>
+          <li>To submit the output of the selected blocks to the repository (pipeline must have been executed first) using the submit (<img alt="Connect Button" width="18px" height="18px" src="images/release2_1_add_to_database.png"><img alt="Disconnect Button" width="18px" height="18px" src="images/release2_1_disconnect.png">) button.</li>
+          <li>Query a repository using the query button (<img alt="Connect Button" width="18px" height="18px" src="images/release2_1_add_to_database.png"><img alt="Disconnect Button" width="18px" height="18px" src="images/release2_1_search_database.png">). Results of the query can be used to automatically build constructor blocks on the current pipeline.</li>
+        </ul>
+      </li>
+      <li>The workbench now has an autosave feature. This can be activated in the preferences (&lsquo;File->Preferences...&rsquo;) and the interval can be set.</li>
+    </ul>
+
+    <!-- HEADLINE: New AO methods -->
+
+    <h3 class="title" id="newAOMethods">New AO methods</h3>
+    <ul>
+      <li><b>ao/table</b>: display the data in the AO in a graphical table.</li>
+      <li><b>ao/normdist</b>: computes a normal distributed pdf based on the
+          mean and variance of the data in the AO.</li>
+      <li><b>ao/corr</b>: computes the sample correlation matrix using
+          Pearson's product-moment method.</li>
+      <li><b>ao/linSubtract</b>: subtract linear contributions to a data set.</li>
+      <li><b>ao/filtSubtract</b>: subtracts a frequency dependent noise
+          contribution from an input ao.</li>
+      <li><b>ao/hypot</b>: robust computation of square-root of the sum of the squares.</li>
+      <li><b>ao/xfit</b>: fits a function of x to a data set using simplex
+          non-linear fitting routine.</li>
+      <li><b>ao/tdfit</b>: fits a model to a set of input and output data. 
+          The parametric model (<b>smodel</b>) should represent the system(s)
+          which gives the outputs for the given inputs.</li>
+    </ul>
+    
+    <!-- HEADLINE: Main Changes -->
+
+    <h3 class="title" id="mc">Main Changes</h3>
+    <ul>
+      <li>All user-created objects now have a Universal Unique Identifier
+          (UUID) which is reset whenever the object is modified (a history step
+          is added).</li>
+      <li>Cross-spectral estimators (<b>ltfe, cohere</b>, etc) now only
+          accept two inputs and return a single output.</li>
+      <li><b>ao/lscov</b> now returns a vector of AOs, each containing a
+          single parameter, with units and errors.</li>
+      <li>The statespace modelling class has been heavily rewritten and as
+          such behaves differently than in previous versions. Review the LTPDA
+          documentation for the new behaviour of this class.</li>
+      <li>On Windows, Microsoft&rsquo;s Visual C++ compiler version 2008 is used
+          to compile the mex files. That means that the appropriate runtime
+          environment must be installed. The installation files for 32-bit
+          (<b>vcredist_x86.exe</b>) and 64-bit (<b>vcredist_x64.exe</b>) are
+          included in the ltpda/src directory.</li>
+      <li>
+        updated versions of <b>fft</b> and <b>ifft</b>.
+        <ul>
+          <li>
+            <b>fft</b>
+            &ndash; added 'plain' option which output the standard matlab <b>fft</b> results. Available parameters are now 'type' = 'plain', 'one' (onesided), 'two' (twosided)
+            &ndash; frequency bins now are correctly calculated
+          </li>
+          <li>
+            <b>ifft</b>
+            &ndash; option twosided is no more necessary, the algorithm now is capable to distinguish between 'plain' fft, twosided fft, onesided fft with odd nfft or onesided fft with even nfft
+          </li>
+        </ul>
+      </li>
+      <li><b>ao/iplot</b> now supports the <b>plotinfo</b> field of an AO.
+          This means that each AO can be given specific plotting attributes.
+          The <b>plotinfo</b> field can be set using <b>ao/setPlotinfo</b>.
+          It is a parameter list of properties and values; see help of
+          <b>ao/iplot</b> for supported properties. The values in <b>plotinfo</b>
+          override all other inputs to <b>iplot</b> for that particular AO.</li>
+      <li>The AO methods <b>polyfit, zDomainFit</b> and <b>sDomainFit</b> now return matrix objects. This change is not backwards compatible.</li>
+    </ul>
+    
+    <!-- HEADLINE: Deprecated methods -->
+
+    <h3 class="title" id="deprecated">Deprecated methods</h3>
+    <p>The following ao methods are deprecated</p>
+    <ul>
+      <li><b>ao/curvefit</b>: has been replaced by <b>ao/xfit</b> and as such will no longer be maintained.</li>
+      <li><b>ao/pwelch</b>: is still deprecated. Use <b>ao/psd</b> instead.</li>
+    </ul>
+
+    <!-- END: Content file -->
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="releasenotesV2_2.html"><img src="b_prev.gif" border="0" align="bottom" alt="Version 2.2 LTPDA Toolbox Software"></a>&nbsp;</td>
+        <td align="left">Version 2.2 LTPDA Toolbox Software</td>
+        <td>&nbsp;</td>
+        <td align="right">Version 2.0.1 LTPDA Toolbox Software</td>
+        <td align="right" width="20"><a href="releasenotesV2_0_1.html"><img src="b_next.gif" border="0" align="bottom" alt="Version 2.0.1 LTPDA Toolbox Software"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

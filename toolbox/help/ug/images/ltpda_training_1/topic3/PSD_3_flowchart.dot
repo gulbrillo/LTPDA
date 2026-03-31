@@ -1,0 +1,26 @@
+digraph G {
+  rankdir=LR
+  node00 [shape=box, label="Simulated IFO data ASCII file"]
+  node01 [shape=box, label="Set units"]
+  node04 [shape=box, label="window type"]
+  node05 [shape=box, label="window length"]
+  node06 [shape=box, label="window detrending"]
+  node07 [shape=box, label="window overlap"]
+  node08 [shape=box, label="output type"]
+  node10 [shape=box, label = "lpsd"]
+  node11 [shape=box, label = "global plot"]
+  node14 [shape=box, label = "plot attributes"]
+
+  node00 -> node01
+  node04 -> node10 
+  node06 -> node10
+  node07 -> node10  
+
+  node05 -> node10
+  node01 -> node10
+  node08 -> node10
+
+  node10 -> node11
+  node14 -> node11
+
+}

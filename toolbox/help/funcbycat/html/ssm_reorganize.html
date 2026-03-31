@@ -1,0 +1,847 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!-- $Id$ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="../../ug/docstyle.css">
+    <title>LTPDA Method: ssm/reorganize</title>
+  </head>
+  <body>
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <p style="font-size:1px;">&nbsp;</p>
+
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../../ug/../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ssm_removeEmptyBlocks.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ssm/removeEmptyBlocks"></a>&nbsp;&nbsp;&nbsp;<a href="ssm_sMinReal.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ssm/sMinReal"></a></td>
+      </tr>
+    </table>
+
+    <h1 class="title">Method ssm/reorganize</h1>
+    <hr />
+
+<pre>  REOGANIZE rearranges a ssm object for fast input to BODE, SIMULATE, PSD.
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+  DESCRIPTION: rearranges a ssm object for fast input to BODE, SIMULATE, PSD.
+ 
+  CALL:    sys = reshuffle(sys, plist)
+ 
+  INPUTS:
+          'sys'      - ssm object
+          'plist'    - plist object
+ 
+   The inputs/states/outputs can only be indexed using a cellstr containing
+   block names or port names.
+   Then the object can be passed to BODE, SIMULATE, PSD, CPSD, RESP with
+   the option "rearrange" turned to "false". These functions will run
+   significantly faster.
+ 
+  OUTPUTS:
+ 
+         'sys' - a ssm object.
+ 
+   <a href="ssm_reorganize.html#down">Parameters Description</a>
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</pre>
+
+    <!-- =====        Striped 4x2 table: Begin        ==== -->
+    <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+    <div class="sectiontitle"></div>
+    <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+      <colgroup>
+        <col width="30%"/>
+        <col width="70%"/>
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th class="categorylist">Method Details</th>
+          <th class="categorylist"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Access</td>
+          <td bgcolor="#f3f4f5">public</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Defining Class</td>
+          <td bgcolor="#ffffff">ssm</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Sealed</td>
+          <td bgcolor="#f3f4f5">0</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Static</td>
+          <td bgcolor="#ffffff">0</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- ===== Striped 4x2 table: End ==== -->
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <h2>Parameter Description</h2>    <a name="down" id="down"></a>
+
+    <!-- Link-Table of the sets -->
+    <table border="0" cellpadding="4" cellspacing="0" class="pagenavtable">
+      <tr><th>Sets for this method &#8230;</th></tr>
+        <tr><td><a href="#1">For bode</a></td></tr>
+        <tr><td><a href="#2">For simulate</a></td></tr>
+        <tr><td><a href="#3">For kalman</a></td></tr>
+        <tr><td><a href="#4">For cpsd</a></td></tr>
+        <tr><td><a href="#5">For resp</a></td></tr>
+        <tr><td><a href="#6">For psd</a></td></tr>
+        <tr><td><a href="#7">for cpsdforindependentinputs</a></td></tr>
+        <tr><td><a href="#8">for cpsdforcorrelatedinputs</a></td></tr>
+    </table>
+
+    <a name="1"></a>
+    <!-- Parameter List Table: For bode -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>For bode</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">reorganize</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SET</td>
+            <td bgcolor="#F2F2F2">'for cpsdforindependentinputs'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'For bode'</font></li><li><font color="#1111FF">'For simulate'</font></li><li><font color="#1111FF">'For kalman'</font></li><li><font color="#1111FF">'For cpsd'</font></li><li><font color="#1111FF">'For resp'</font></li><li><font color="#1111FF">'For psd'</font></li><li><font color="#1111FF">'for cpsdforindependentinputs'</font></li><li><font color="#1111FF">'for cpsdforcorrelatedinputs'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Choose for which operation the ssm iois re-organized is done</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">INPUTS</td>
+            <td bgcolor="#F2F2F2">'ALL'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of input ports and blocks.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">OUTPUTS</td>
+            <td bgcolor="#F2F2F2">'ALL'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of output ports and blocks.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">STATES</td>
+            <td bgcolor="#F2F2F2">'NONE'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of states ports and blocks.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('SET', 'for cpsdforindependentinputs', 'INPUTS', 'ALL', 'OUTPUTS', 'ALL', 'STATES', 'NONE')</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="2"></a>
+    <!-- Parameter List Table: For simulate -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>For simulate</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">reorganize</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SET</td>
+            <td bgcolor="#F2F2F2">'for cpsdforindependentinputs'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'For bode'</font></li><li><font color="#1111FF">'For simulate'</font></li><li><font color="#1111FF">'For kalman'</font></li><li><font color="#1111FF">'For cpsd'</font></li><li><font color="#1111FF">'For resp'</font></li><li><font color="#1111FF">'For psd'</font></li><li><font color="#1111FF">'for cpsdforindependentinputs'</font></li><li><font color="#1111FF">'for cpsdforcorrelatedinputs'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Choose for which operation the ssm iois re-organized is done</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">COVARIANCE VARIABLE NAMES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of strings specifying the desired input variable names.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CPSD VARIABLE NAMES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of strings specifying the desired input variable names.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">AOS VARIABLE NAMES, AO NAMES, AO PORT NAMES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of input port names corresponding to the different input AOs.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CONSTANT VARIABLE NAMES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of strings of the desired input variable names.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RETURN STATES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of names of state ports to return.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RETURN OUTPUTS, OUTPUTS</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of output ports to return.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('SET', 'for cpsdforindependentinputs', 'COVARIANCE VARIABLE NAMES', cell(0,0), 'CPSD VARIABLE NAMES', cell(0,0), 'AOS VARIABLE NAMES', cell(0,0), 'CONSTANT VARIABLE NAMES', cell(0,0), 'RETURN STATES', cell(0,0), 'RETURN OUTPUTS', cell(0,0))</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="3"></a>
+    <!-- Parameter List Table: For kalman -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>For kalman</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">reorganize</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SET</td>
+            <td bgcolor="#F2F2F2">'for cpsdforindependentinputs'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'For bode'</font></li><li><font color="#1111FF">'For simulate'</font></li><li><font color="#1111FF">'For kalman'</font></li><li><font color="#1111FF">'For cpsd'</font></li><li><font color="#1111FF">'For resp'</font></li><li><font color="#1111FF">'For psd'</font></li><li><font color="#1111FF">'for cpsdforindependentinputs'</font></li><li><font color="#1111FF">'for cpsdforcorrelatedinputs'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Choose for which operation the ssm iois re-organized is done</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">COVARIANCE VARIABLE NAMES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of strings specifying the desired input variable names.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CPSD VARIABLE NAMES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of strings specifying the desired input variable names.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">AOS VARIABLE NAMES, AO NAMES, AO PORT NAMES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of input port names corresponding to the different input AOs.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CONSTANT VARIABLE NAMES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of strings of the desired input variable names.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RETURN STATES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of names of state ports to return.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RETURN OUTPUTS, OUTPUTS</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of output ports to return.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">KNOWN OUTPUT VARIABLE NAMES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of strings of the known output variable names.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('SET', 'for cpsdforindependentinputs', 'COVARIANCE VARIABLE NAMES', cell(0,0), 'CPSD VARIABLE NAMES', cell(0,0), 'AOS VARIABLE NAMES', cell(0,0), 'CONSTANT VARIABLE NAMES', cell(0,0), 'RETURN STATES', cell(0,0), 'RETURN OUTPUTS', cell(0,0), 'KNOWN OUTPUT VARIABLE NAMES', cell(0,0))</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="4"></a>
+    <!-- Parameter List Table: For cpsd -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>For cpsd</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">reorganize</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SET</td>
+            <td bgcolor="#F2F2F2">'for cpsdforindependentinputs'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'For bode'</font></li><li><font color="#1111FF">'For simulate'</font></li><li><font color="#1111FF">'For kalman'</font></li><li><font color="#1111FF">'For cpsd'</font></li><li><font color="#1111FF">'For resp'</font></li><li><font color="#1111FF">'For psd'</font></li><li><font color="#1111FF">'for cpsdforindependentinputs'</font></li><li><font color="#1111FF">'for cpsdforcorrelatedinputs'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Choose for which operation the ssm iois re-organized is done</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">COVARIANCE VARIABLE NAMES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of strings specifying the desired input variable names.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CPSD VARIABLE NAMES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of strings specifying the desired input variable names.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PZMODEL VARIABLE NAMES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of strings of the desired input variable names.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">AOS VARIABLE NAMES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of input defined with AOs spectrums.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RETURN STATES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of names of state ports to return.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RETURN OUTPUTS, OUTPUTS</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of output ports to return.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('SET', 'for cpsdforindependentinputs', 'COVARIANCE VARIABLE NAMES', cell(0,0), 'CPSD VARIABLE NAMES', cell(0,0), 'PZMODEL VARIABLE NAMES', cell(0,0), 'AOS VARIABLE NAMES', cell(0,0), 'RETURN STATES', cell(0,0), 'RETURN OUTPUTS', cell(0,0))</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="5"></a>
+    <!-- Parameter List Table: For resp -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>For resp</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">reorganize</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SET</td>
+            <td bgcolor="#F2F2F2">'for cpsdforindependentinputs'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'For bode'</font></li><li><font color="#1111FF">'For simulate'</font></li><li><font color="#1111FF">'For kalman'</font></li><li><font color="#1111FF">'For cpsd'</font></li><li><font color="#1111FF">'For resp'</font></li><li><font color="#1111FF">'For psd'</font></li><li><font color="#1111FF">'for cpsdforindependentinputs'</font></li><li><font color="#1111FF">'for cpsdforcorrelatedinputs'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Choose for which operation the ssm iois re-organized is done</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">INPUTS</td>
+            <td bgcolor="#F2F2F2">'ALL'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of input ports and blocks.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">OUTPUTS</td>
+            <td bgcolor="#F2F2F2">'ALL'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of output ports and blocks.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">STATES</td>
+            <td bgcolor="#F2F2F2">'NONE'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of states ports and blocks.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('SET', 'for cpsdforindependentinputs', 'INPUTS', 'ALL', 'OUTPUTS', 'ALL', 'STATES', 'NONE')</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="6"></a>
+    <!-- Parameter List Table: For psd -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>For psd</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">reorganize</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SET</td>
+            <td bgcolor="#F2F2F2">'for cpsdforindependentinputs'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'For bode'</font></li><li><font color="#1111FF">'For simulate'</font></li><li><font color="#1111FF">'For kalman'</font></li><li><font color="#1111FF">'For cpsd'</font></li><li><font color="#1111FF">'For resp'</font></li><li><font color="#1111FF">'For psd'</font></li><li><font color="#1111FF">'for cpsdforindependentinputs'</font></li><li><font color="#1111FF">'for cpsdforcorrelatedinputs'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Choose for which operation the ssm iois re-organized is done</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">VARIANCE VARIABLE NAMES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of strings specifying the desired input variable names.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PSD VARIABLE NAMES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of strings specifying the desired input variable names.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PZMODEL VARIABLE NAMES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of strings of the desired input variable names.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">AOS VARIABLE NAMES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of input defined with AOs spectrums.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RETURN STATES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of names of state ports to return.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RETURN OUTPUTS, OUTPUTS</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of output ports to return.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('SET', 'for cpsdforindependentinputs', 'VARIANCE VARIABLE NAMES', cell(0,0), 'PSD VARIABLE NAMES', cell(0,0), 'PZMODEL VARIABLE NAMES', cell(0,0), 'AOS VARIABLE NAMES', cell(0,0), 'RETURN STATES', cell(0,0), 'RETURN OUTPUTS', cell(0,0))</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="7"></a>
+    <!-- Parameter List Table: for cpsdforindependentinputs -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>for cpsdforindependentinputs</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">reorganize</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SET</td>
+            <td bgcolor="#F2F2F2">'for cpsdforindependentinputs'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'For bode'</font></li><li><font color="#1111FF">'For simulate'</font></li><li><font color="#1111FF">'For kalman'</font></li><li><font color="#1111FF">'For cpsd'</font></li><li><font color="#1111FF">'For resp'</font></li><li><font color="#1111FF">'For psd'</font></li><li><font color="#1111FF">'for cpsdforindependentinputs'</font></li><li><font color="#1111FF">'for cpsdforcorrelatedinputs'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Choose for which operation the ssm iois re-organized is done</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">VARIANCE VARIABLE NAMES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of strings specifying the desired input variable names.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PSD VARIABLE NAMES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of strings specifying the desired input variable names.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PZMODEL VARIABLE NAMES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of strings of the desired input variable names.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">AOS VARIABLE NAMES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of input defined with AOs spectrums.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RETURN STATES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of names of state ports to return.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RETURN OUTPUTS, OUTPUTS</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of output ports to return.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('SET', 'for cpsdforindependentinputs', 'VARIANCE VARIABLE NAMES', cell(0,0), 'PSD VARIABLE NAMES', cell(0,0), 'PZMODEL VARIABLE NAMES', cell(0,0), 'AOS VARIABLE NAMES', cell(0,0), 'RETURN STATES', cell(0,0), 'RETURN OUTPUTS', cell(0,0))</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="8"></a>
+    <!-- Parameter List Table: for cpsdforcorrelatedinputs -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>for cpsdforcorrelatedinputs</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">reorganize</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SET</td>
+            <td bgcolor="#F2F2F2">'for cpsdforindependentinputs'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'For bode'</font></li><li><font color="#1111FF">'For simulate'</font></li><li><font color="#1111FF">'For kalman'</font></li><li><font color="#1111FF">'For cpsd'</font></li><li><font color="#1111FF">'For resp'</font></li><li><font color="#1111FF">'For psd'</font></li><li><font color="#1111FF">'for cpsdforindependentinputs'</font></li><li><font color="#1111FF">'for cpsdforcorrelatedinputs'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Choose for which operation the ssm iois re-organized is done</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">COVARIANCE VARIABLE NAMES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of strings specifying the desired input variable names.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CPSD VARIABLE NAMES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of strings specifying the desired input variable names.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PZMODEL VARIABLE NAMES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of strings of the desired input variable names.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">AOS VARIABLE NAMES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of input defined with AOs spectrums.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RETURN STATES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of names of state ports to return.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RETURN OUTPUTS, OUTPUTS</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of output ports to return.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('SET', 'for cpsdforindependentinputs', 'COVARIANCE VARIABLE NAMES', cell(0,0), 'CPSD VARIABLE NAMES', cell(0,0), 'PZMODEL VARIABLE NAMES', cell(0,0), 'AOS VARIABLE NAMES', cell(0,0), 'RETURN STATES', cell(0,0), 'RETURN OUTPUTS', cell(0,0))</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <p><!-- Table of the minfo object -->
+      <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+        <colgroup>
+          <col width="25%"/>
+          <col width="75%"/>
+        </colgroup>
+        <thead>
+          <tr valign="top">
+            <th class="categorylist" colspan="2">Some information of the method ssm/reorganize are listed below:</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Property: 'mclass' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Class name</td>
+            <td bgcolor="#f3f4f5">ssm</td>
+          </tr>
+          <!-- Property: 'mname' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Method name</td>
+            <td bgcolor="#ffffff">reorganize</td>
+          </tr>
+          <!-- Property: 'mcategory' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Category</td>
+            <td bgcolor="#f3f4f5">Operator</td>
+          </tr>
+          <!-- Property: 'mpackage' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Package name</td>
+            <td bgcolor="#ffffff">ltpda</td>
+          </tr>
+          <!-- Property: 'modifier' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Can be used as modifier</td>
+            <td bgcolor="#f3f4f5">1</td>
+          </tr>
+          <!-- Property: 'supportedNumTypes' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Supported numeric types</td>
+            <td bgcolor="#ffffff">{'double'}</td>
+          </tr>
+        </tbody>
+      </table>
+    </p>
+
+
+    <br>
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ssm_removeEmptyBlocks.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ssm/removeEmptyBlocks"></a>&nbsp;</td>
+        <td align="left">Method: ssm/removeEmptyBlocks</td>
+        <td>&nbsp;</td>
+        <td align="right">Method: ssm/sMinReal</td>
+        <td align="right" width="20"><a href="ssm_sMinReal.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ssm/sMinReal"></a></td>
+      </tr>
+    </table>
+
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+
+   </body>
+</html>

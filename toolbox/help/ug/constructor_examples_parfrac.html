@@ -1,0 +1,508 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Constructor examples of the PARFRAC class (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="constructor_examples_pzmodel.html"><img src="b_prev.gif" border="0" align="bottom" alt="Constructor examples of the PZMODEL class"></a>&nbsp;&nbsp;&nbsp;<a href="constructor_examples_rational.html"><img src="b_next.gif" border="0" align="bottom" alt="Constructor examples of the RATIONAL class"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Constructor examples of the PARFRAC class</h1>
+    <hr>
+    
+    <p>
+      <!-- $Id$ -->
+
+<!-- -------------------------------------------------- -->
+<!-- --------------- BEGIN CONTENT FILE --------------- -->
+<!-- -------------------------------------------------- -->
+
+
+<!-- --------------- Link box: begin --------------- -->
+<table border="0" summary="Simple list" class="simplelist_nottable_last">
+  <tr>
+    <td>
+      <a href="constructor_examples_parfrac.html#copy">Copy an parfrac object</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="constructor_examples_parfrac.html#xml_file">Construct an parfrac object by loading the object from a file</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="constructor_examples_parfrac.html#rational">Construct an parfrac object from a rational object</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="constructor_examples_parfrac.html#pzmodel">Construct an parfrac object from a pole/zero model</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="constructor_examples_parfrac.html#direct_values">Construct an parfrac object from residuals, poles and direct terms</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="constructor_examples_parfrac.html#plist">Construct an parfrac object from a parameter list object (PLIST)</a>
+    </td>
+  </tr>
+</table>
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a name="copy"></a>Copy an parfrac object</h2>
+<p>The following example creates a copy of an parfrac object (blue command).</p>
+<div class="fragment"><pre class="programlisting">
+>> pf1 = parfrac([1 2+1i 2-1i], [6 1+3i 1-3i], 3)
+<span class="blue">>> pf2 = parfrac(pf1)</span>
+---- parfrac 1 ----
+model:    None
+res:      [1;2+i*1;2-i*1]
+poles:    [6;1+i*3;1-i*3]
+dir:      3
+pmul:     [1;1;1]
+iunits:   []
+ounits:   []
+-------------------
+</pre></div>
+<br></br>
+<p>REMARK: The following command copies only the handle of an object and doesn't create a copy of the object (as above). This means that everything that happens to the copy or original happens to the other object.</p>
+<div class="fragment"><pre class="programlisting">
+>> pf1 = parfrac()
+---- parfrac 1 ----
+model:    none
+res:      []
+poles:    []
+dir:      0
+pmul:     []
+iunits:   []
+ounits:   []
+-------------------
+>> pf2 = pf1;
+>> pf2.setName(<span class="string">'my new name'</span>)
+---- parfrac 1 ----
+model:    <span class="string">my new name</span>
+res:      []
+poles:    []
+dir:      0
+pmul:     []
+iunits:   []
+ounits:   []
+-------------------
+</pre></div>
+<br></br>
+<p>If we display pf1 again then we see that the property 'name' was changed although we only have changed pf2.</p>
+<div class="fragment"><pre class="programlisting">
+>> pf1
+---- parfrac 1 ----
+model:    <span class="string">my new name</span>
+res:      []
+poles:    []
+dir:      0
+pmul:     []
+iunits:   []
+ounits:   []
+-------------------
+</pre></div>
+
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a name="xml_file"></a>Construct an parfrac object by loading the object from a file</h2>
+<p>The following example creates a new parfrac object by loading the object from disk.</p>
+<div class="fragment"><pre class="programlisting">
+pf = parfrac(<span class="string">'parfrac_object.mat'</span>)
+pf = parfrac(<span class="string">'parfrac_object.xml'</span>)
+</pre></div>
+<p>or in a <tt>PLIST</tt></p>
+<div class="fragment"><pre class="programlisting">
+pl = plist(<span class="string">'filename'</span>, <span class="string">'parfrac_object.xml'</span>);
+pf = parfrac(pl)
+</pre></div>
+
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a name="rational"></a>Construct an parfrac object from a rational object</h2>
+<p>The following example creates a new parfrac object from a rational object.</p>
+<div class="fragment"><pre class="programlisting">
+>> rat = rational([1 2 3], [4 5 6 7], <span class="string">'my rational'</span>)
+---- rational 1 ----
+model:    my rational
+num:      [1 2 3]
+den:      [4 5 6 7]
+iunits:   []
+ounits:   []
+--------------------
+>> pf = parfrac(rat)
+---- parfrac 1 ----
+model:    parfrac(my rational)
+res:      [0.0355+i*0.1682; 0.0355-i*0.1682; 0.1788]
+poles:    [-0.021-i*1.2035;-0.0211+i*1.2035;-1.2077]
+dir:      0
+pmul:     [1;1;1]
+iunits:   []
+ounits:   []
+-------------------
+</pre></div>
+<p>or in a plist</p>
+<div class="fragment"><pre class="programlisting">
+>> rat = rational([1 2 3], [4 5 6 7], <span class="string">'my rational'</span>);
+>> pl  = plist(<span class="string">'rational'</span>, rat)
+>> pf  = parfrac(pl)
+</pre></div>
+
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a name="pzmodel"></a>Construct an parfrac object from a pole/zero model</h2>
+<p>The following example creates a new parfrac object from a pole/zero model.</p>
+<div class="fragment"><pre class="programlisting">
+>> pzm = pzmodel(1, {1 2 3}, {4 5})
+---- pzmodel 1 ----
+    name: None
+    gain: 1
+   delay: 0
+  iunits: []
+  ounits: []
+pole 001: (f=1 Hz,Q=NaN)
+pole 002: (f=2 Hz,Q=NaN)
+pole 003: (f=3 Hz,Q=NaN)
+zero 001: (f=4 Hz,Q=NaN)
+zero 002: (f=5 Hz,Q=NaN)
+-------------------
+>> pf = parfrac(pzm)
+--- parfrac 1 ----
+model:    parfrac(None)
+res:      [0.999999999999999;-6.00000000000001;5.99999999999999]
+poles:    [-18.8495559215388;-12.5663706143592;-6.28318530717959]
+dir:      0
+pmul:     [1;1;1]
+iunits:   []
+ounits:   []
+-------------------
+</pre></div>
+<p>or in a plist</p>
+<div class="fragment"><pre class="programlisting">
+>> pzm = pzmodel(1, {1 2 3}, {4 5})
+>> pl  = plist(<span class="string">'pzmodel'</span>, pzm)
+>> pf  = parfrac(pl)
+</pre></div>
+
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a name="direct_values"></a>Construct an parfrac object from residuals, poles and direct terms</h2>
+<p>The following example creates a new parfrac direct from the values.</p>
+<div class="fragment"><pre class="programlisting">
+>> res    = [1;2+i*1;2-i*1];
+>> poles  = [6;1+i*3;1-i*3];
+>> dir    = 3;
+>> name   = <span class="string">'my parfrac'</span>;
+>> iunits = <span class="string">'Hz'</span>;
+>> ounits = <span class="string">'V'</span>;
+
+>> pf = parfrac(res, poles, dir)
+>> pf = parfrac(res, poles, dir, name)
+>> pf = parfrac(res, poles, dir, name, iunits, ounits)
+---- parfrac 1 ----
+model:    my parfrac
+res:      [1;2+i*1;2-i*1]
+poles:    [6;1+i*3;1-i*3]
+dir:      3
+pmul:     [1;1;1]
+iunits:   [Hz]
+ounits:   [V]
+-------------------
+</pre></div>
+
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a name="plist"></a>Construct an parfrac object from a parameter list  (<tt>plist</tt>)</h2>
+<p>Constructs an parfrac object from the description given in the parameter list.</p>
+
+<!-- --------------- Link box: begin --------------- -->
+<table border="0" summary="Simple list" class="simplelist_nottable_last">
+  <tr>
+    <td>
+      <a href="constructor_examples_parfrac.html#hostname">Use the key word 'hostname'</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="constructor_examples_parfrac.html#direct_terms">Use the key word 'res' or 'poles' or 'dir'</a>
+    </td>
+  </tr>
+</table>
+<!-- --------------- Link box: end --------------- -->
+
+
+<!-- --------------- 'hostname' --------------- -->
+
+<hr>
+<h3 class="title"><a name="hostname"></a>Use the key word 'hostname'</h3>
+<p>Construct an parfrac object by retrieving it from a LTPDA repository.
+<p>The relevant parameters are:</p>
+<p>
+  <table cellspacing="0" border="0" cellpadding="2" class="simplelist_nottable_last" width="80%">
+    <colgroup>
+      <col width="25%"/>
+      <col width="75%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="subcategorylist">Key</th>
+        <th class="subcategorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td>
+          <p>'hostname'</p>
+        </td>
+        <td>
+          <p>the repository hostname. [default: 'localhost']</p>
+        </td>
+      </tr>
+      <tr valign="top">
+        <td>
+          <p>'database'</p>
+        </td>
+        <td>
+          <p>The database name [default: 'ltpda']</p>
+        </td>
+      </tr>
+      <tr valign="top">
+        <td>
+          <p>'id'</p>
+        </td>
+        <td>
+          <p>A vector of object IDs. [default: []]</p>
+        </td>
+      </tr>
+      <tr valign="top">
+        <td>
+          <p>'cid'</p>
+        </td>
+        <td>
+          <p>Retrieve all parfrac objects from a particular collection</p>
+        </td>
+      </tr>
+      <tr valign="top">
+        <td>
+          <p>'binary'</p>
+        </td>
+        <td>
+          <p>Set to true to retrieve from stored binary representation (not always available). [default: true]</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+<div class="fragment"><pre class="programlisting">
+pl = plist(<span class="string">'hostname'</span>, <span class="string">'130.75.117.67'</span>, <span class="string">'database'</span>, <span class="string">'ltpda_test'</span>, <span class="string">'id'</span>, 1)
+a1 = parfrac(pl)
+</pre></div>
+
+
+<!-- --------------- 'direct_terms' --------------- -->
+
+<hr>
+<h3 class="title"><a name="direct_terms"></a>Use the key word 'res' or 'poles' or 'dir'</h3>
+<p>Construct an parfrac object direct from the residual, pole or direct terms.<br></br>
+The relevant parameters are:</p>
+<p>
+  <table cellspacing="0" border="0" cellpadding="2" class="simplelist_nottable_last" width="80%">
+    <colgroup>
+      <col width="25%"/>
+      <col width="75%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="subcategorylist">Key</th>
+        <th class="subcategorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td>
+          <p>'res'</p>
+        </td>
+        <td>
+          <p>residuals [default: []]</p>
+        </td>
+      </tr>
+      <tr valign="top">
+        <td>
+          <p>'poles'</p>
+        </td>
+        <td>
+          <p>poles [default: []]</p>
+        </td>
+      </tr>
+      <tr valign="top">
+        <td>
+          <p>'dir'</p>
+        </td>
+        <td>
+          <p>direct terms [default: []]</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+<p>You can also specify optional parameters:</p>
+<p>
+  <table cellspacing="0" border="0" cellpadding="2" class="simplelist_nottable_last" width="80%">
+    <colgroup>
+      <col width="25%"/>
+      <col width="75%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="subcategorylist">Key</th>
+        <th class="subcategorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td>
+          <p>'name'</p>
+        </td>
+        <td>
+          <p>name of the parfrac object [default: 'none']</p>
+        </td>
+      </tr>
+      <tr valign="top">
+        <td>
+          <p>'xunits'</p>
+        </td>
+        <td>
+          <p>unit of the x-axis</p>
+        </td>
+      </tr>
+      <tr valign="top">
+        <td>
+          <p>'yunits'</p>
+        </td>
+        <td>
+          <p>unit of the y-axis</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+<div class="fragment"><pre class="programlisting">
+res    = [1;2+i*1;2-i*1];
+poles  = [6;1+i*3;1-i*3];
+dir    = 3;
+name   = <span class="string">'my parfrac'</span>;
+iunits = <span class="string">'Hz'</span>;
+ounits = <span class="string">'V'</span>;
+
+pl = plist(<span class="string">'res'</span>, res, <span class="string">'poles'</span>, poles);
+pf = parfrac(pl)
+---- parfrac 1 ----
+model:    None
+res:      [1;2+i*1;2-i*1]
+poles:    [6;1+i*3;1-i*3]
+dir:      0
+pmul:     [1;1;1]
+iunits:   []
+ounits:   []
+-------------------
+
+pl = plist(<span class="string">'res'</span>, res, <span class="string">'poles'</span>, poles, <span class="string">'name'</span>, name, <span class="string">'iunits'</span>, iunits, <span class="string">'ounits'</span>, ounits);
+pf = parfrac(pl)
+---- parfrac 1 ----
+model:    my parfrac
+res:      [1;2+i*1;2-i*1]
+poles:    [6;1+i*3;1-i*3]
+dir:      0
+pmul:     [1;1;1]
+iunits:   [Hz]
+ounits:   [V]
+-------------------
+</pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="constructor_examples_pzmodel.html"><img src="b_prev.gif" border="0" align="bottom" alt="Constructor examples of the PZMODEL class"></a>&nbsp;</td>
+        <td align="left">Constructor examples of the PZMODEL class</td>
+        <td>&nbsp;</td>
+        <td align="right">Constructor examples of the RATIONAL class</td>
+        <td align="right" width="20"><a href="constructor_examples_rational.html"><img src="b_next.gif" border="0" align="bottom" alt="Constructor examples of the RATIONAL class"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

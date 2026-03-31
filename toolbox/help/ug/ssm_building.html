@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Building Statespace models (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ssm_introduction.html"><img src="b_prev.gif" border="0" align="bottom" alt="Introduction to Statespace Models with LTPDA"></a>&nbsp;&nbsp;&nbsp;<a href="ssm_build_description.html"><img src="b_next.gif" border="0" align="bottom" alt="Building from scratch"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Building Statespace models</h1>
+    <hr>
+    
+    <p>
+      <H2>How to build a ssm object. 
+</H2>
+<UL>
+	<LI><p>The empty constructor creates an empty statespace model</p>
+	<div class="fragment"><pre>s = ssm()</pre></div>
+</UL>
+<UL>
+	<LI><p>Models can be built out of built-in
+	models (mfiles stored in a folder), out of a description with a
+	plist, from a repository or a xml file, but also out of a <tt>pzmodel</tt>, a
+	<tt>rational</tt> or a <tt>miir</tt> model. Conversion out of a <tt>parfrac</tt> object is not
+	implemented yet.</p>
+	<div class="fragment"><pre>s = ssm(&lt;pzmodel&gt;)<br>s = ssm(&lt;miir&gt;)<br>s = ssm(&lt;rational&gt;)</pre></div>
+</UL>
+<UL>
+	<LI><p>This creates a new statespace model by
+	loading the object from disk, either out of an xml file or a .mat
+	file. The latter is not recommended as Matlab data format poses some
+	new retro-compatibility issues at each new release.</FONT></P>
+	<div class="fragment"><pre>s = ssm(<span class="string">'a1.xml'</span>)<br>
+s = ssm(<span class="string">'a1.mat'</span>)</pre></div>
+</UL>
+<UL>
+	<LI><p>For internal use (see built-in models),
+	a structure constructor is available. This is constructor should not
+	be used &ndash; except inside a built-in model &ndash; as it does
+	not increment history, making it impossible to rebuild the object.</p>
+	<div class="fragment"><pre>s = ssm(&lt;struct&gt;)</pre></div>
+</UL>
+<UL>
+	<LI><p>There are dedicated help pages on how
+	to build a model out of a built-in object or a plist description.</p>
+<div class="fragment"><pre>
+sys = ssm(plist(<span class="string">'built-in'</span>, '&lt;model name&gt;'))<br>
+sys = ssm(plist(<span class="string">'amats'</span>, &lt;a matrices&gt;  ... ))</pre></div>
+</UL>
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ssm_introduction.html"><img src="b_prev.gif" border="0" align="bottom" alt="Introduction to Statespace Models with LTPDA"></a>&nbsp;</td>
+        <td align="left">Introduction to Statespace Models with LTPDA</td>
+        <td>&nbsp;</td>
+        <td align="right">Building from scratch</td>
+        <td align="right" width="20"><a href="ssm_build_description.html"><img src="b_next.gif" border="0" align="bottom" alt="Building from scratch"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

@@ -1,0 +1,694 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!-- $Id$ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="../../ug/docstyle.css">
+    <title>LTPDA Method: ao/iplotyy</title>
+  </head>
+  <body>
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <p style="font-size:1px;">&nbsp;</p>
+
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../../ug/../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ao_iplot.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ao/iplot"></a>&nbsp;&nbsp;&nbsp;<a href="ao_report.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ao/report"></a></td>
+      </tr>
+    </table>
+
+    <h1 class="title">Method ao/iplotyy</h1>
+    <hr />
+
+<pre>  <SPAN CLASS="HELPTOPIC">IPLOTYY</SPAN> provides an intelligent plotting tool for LTPDA.
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+  DESCRIPTION: <SPAN CLASS="HELPTOPIC">IPLOTYY</SPAN> provides an intelligent plotting tool for LTPDA.
+ 
+  CALL:               hfig = <span class="helptopic">iplotyy</span> (a1,a2,pl)
+               [hfig, hax] = <span class="helptopic">iplotyy</span> (a1,a2,pl)
+          [hfig, hax, hli] = <span class="helptopic">iplotyy</span> (a1,a2,pl)
+ 
+  INPUTS:      pl  - a parameter list
+               a1  - input analysis object for left y-axis
+               a2  - input analysis object for right y-axis
+ 
+  NOTE: the two input AOs must be the same data type.
+ 
+  OUTPUTS:     hfig - handles to figures
+               hax  - handles to axes
+               hli  - handles to lines
+ 
+  <a href="ao_iplotyy.html#down">Parameters Description</a>
+ 
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</pre>
+
+    <!-- =====        Striped 4x2 table: Begin        ==== -->
+    <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+    <div class="sectiontitle"></div>
+    <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+      <colgroup>
+        <col width="30%"/>
+        <col width="70%"/>
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th class="categorylist">Method Details</th>
+          <th class="categorylist"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Access</td>
+          <td bgcolor="#f3f4f5">public</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Defining Class</td>
+          <td bgcolor="#ffffff">ao</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Sealed</td>
+          <td bgcolor="#f3f4f5">0</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Static</td>
+          <td bgcolor="#ffffff">0</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- ===== Striped 4x2 table: End ==== -->
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <h2>Parameter Description</h2>    <a name="down" id="down"></a>
+
+    <!-- Link-Table of the sets -->
+    <table border="0" cellpadding="4" cellspacing="0" class="pagenavtable">
+      <tr><th>Sets for this method &#8230;</th></tr>
+        <tr><td><a href="#1">Time-series Plot</a></td></tr>
+        <tr><td><a href="#2">Frequency-series Plot</a></td></tr>
+        <tr><td><a href="#3">Y Plot</a></td></tr>
+        <tr><td><a href="#4">X-Y Plot</a></td></tr>
+    </table>
+
+    <a name="1"></a>
+    <!-- Parameter List Table: Time-series Plot -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>Time-series Plot</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">plot</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SHOW PROVENANCE</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">A flag to enable/disable the provenance text patch.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ADDITIONAL REQUIREMENTS</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Specify any additional requirements needed to produce the data in the plot.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">iplotyy</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FCN</td>
+            <td bgcolor="#F2F2F2">'plot'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'plot'</font></li><li><font color="#1111FF">'stairs'</font></li><li><font color="#1111FF">'stem'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">The plot function to use. Note: if errors are plotted, then this value is ignored.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XRANGE</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A 2-element array specifying the ranges to be displayed on the x-axis.<br></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LEFTYRANGE</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A 2-element array specifying the range to be displayed on the left y-axis.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RIGHTYRANGE</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A 2-element array specifying the range to be displayed on the right y-axis.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FIGURENAMES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Sets the figure name.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FIGURE</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The handle of the figure to plot in to.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TITLE</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A string specifying the title.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LEFTYLABELS</td>
+            <td bgcolor="#F2F2F2">'Amplitude'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Specify the labels to be used on the left y-axes. The units are added from<br>the data object 'yunits' property.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RIGHTYLABELS</td>
+            <td bgcolor="#F2F2F2">'Amplitude'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Specify the labels to be used on the right y-axes. The units are added from<br>the data object 'yunits' property.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LATEXLABELS</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Use latex interpreter for axis labels.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LEFTYSCALE</td>
+            <td bgcolor="#F2F2F2">'lin'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2"></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RIGHTYSCALE</td>
+            <td bgcolor="#F2F2F2">'lin'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2"></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XSCALE</td>
+            <td bgcolor="#F2F2F2">'lin'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2"></td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('SHOW PROVENANCE', [true], 'ADDITIONAL REQUIREMENTS', cell(0,0), 'FCN', 'plot', 'XRANGE', '', 'LEFTYRANGE', '', 'RIGHTYRANGE', '', 'FIGURENAMES', '', 'FIGURE', [[]], 'TITLE', '', 'LEFTYLABELS', 'Amplitude', 'RIGHTYLABELS', 'Amplitude', 'LATEXLABELS', [false], 'LEFTYSCALE', 'lin', 'RIGHTYSCALE', 'lin', 'XSCALE', 'lin')</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="2"></a>
+    <!-- Parameter List Table: Frequency-series Plot -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>Frequency-series Plot</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">plot</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SHOW PROVENANCE</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">A flag to enable/disable the provenance text patch.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ADDITIONAL REQUIREMENTS</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Specify any additional requirements needed to produce the data in the plot.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">iplotyy</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FCN</td>
+            <td bgcolor="#F2F2F2">'plot'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'plot'</font></li><li><font color="#1111FF">'stairs'</font></li><li><font color="#1111FF">'stem'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">The plot function to use. Note: if errors are plotted, then this value is ignored.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XRANGE</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A 2-element array specifying the ranges to be displayed on the x-axis.<br></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LEFTYRANGE</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A 2-element array specifying the range to be displayed on the left y-axis.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RIGHTYRANGE</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A 2-element array specifying the range to be displayed on the right y-axis.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FIGURENAMES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Sets the figure name.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FIGURE</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The handle of the figure to plot in to.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TITLE</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A string specifying the title.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LEFTYLABELS</td>
+            <td bgcolor="#F2F2F2">'Amplitude'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Specify the labels to be used on the left y-axes. The units are added from<br>the data object 'yunits' property.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RIGHTYLABELS</td>
+            <td bgcolor="#F2F2F2">'Amplitude'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Specify the labels to be used on the right y-axes. The units are added from<br>the data object 'yunits' property.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LATEXLABELS</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Use latex interpreter for axis labels.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LEFTYSCALE</td>
+            <td bgcolor="#F2F2F2">'log'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2"></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RIGHTYSCALE</td>
+            <td bgcolor="#F2F2F2">'log'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2"></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XSCALE</td>
+            <td bgcolor="#F2F2F2">'log'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2"></td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('SHOW PROVENANCE', [true], 'ADDITIONAL REQUIREMENTS', cell(0,0), 'FCN', 'plot', 'XRANGE', '', 'LEFTYRANGE', '', 'RIGHTYRANGE', '', 'FIGURENAMES', '', 'FIGURE', [[]], 'TITLE', '', 'LEFTYLABELS', 'Amplitude', 'RIGHTYLABELS', 'Amplitude', 'LATEXLABELS', [false], 'LEFTYSCALE', 'log', 'RIGHTYSCALE', 'log', 'XSCALE', 'log')</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="3"></a>
+    <!-- Parameter List Table: Y Plot -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>Y Plot</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">plot</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SHOW PROVENANCE</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">A flag to enable/disable the provenance text patch.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ADDITIONAL REQUIREMENTS</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Specify any additional requirements needed to produce the data in the plot.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">iplotyy</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FCN</td>
+            <td bgcolor="#F2F2F2">'plot'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'plot'</font></li><li><font color="#1111FF">'stairs'</font></li><li><font color="#1111FF">'stem'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">The plot function to use. Note: if errors are plotted, then this value is ignored.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XRANGE</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A 2-element array specifying the ranges to be displayed on the x-axis.<br></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LEFTYRANGE</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A 2-element array specifying the range to be displayed on the left y-axis.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RIGHTYRANGE</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A 2-element array specifying the range to be displayed on the right y-axis.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FIGURENAMES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Sets the figure name.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FIGURE</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The handle of the figure to plot in to.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TITLE</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A string specifying the title.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LEFTYLABELS</td>
+            <td bgcolor="#F2F2F2">'Amplitude'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Specify the labels to be used on the left y-axes. The units are added from<br>the data object 'yunits' property.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RIGHTYLABELS</td>
+            <td bgcolor="#F2F2F2">'Amplitude'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Specify the labels to be used on the right y-axes. The units are added from<br>the data object 'yunits' property.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LATEXLABELS</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Use latex interpreter for axis labels.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('SHOW PROVENANCE', [true], 'ADDITIONAL REQUIREMENTS', cell(0,0), 'FCN', 'plot', 'XRANGE', '', 'LEFTYRANGE', '', 'RIGHTYRANGE', '', 'FIGURENAMES', '', 'FIGURE', [[]], 'TITLE', '', 'LEFTYLABELS', 'Amplitude', 'RIGHTYLABELS', 'Amplitude', 'LATEXLABELS', [false])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="4"></a>
+    <!-- Parameter List Table: X-Y Plot -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>X-Y Plot</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">plot</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SHOW PROVENANCE</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">A flag to enable/disable the provenance text patch.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ADDITIONAL REQUIREMENTS</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Specify any additional requirements needed to produce the data in the plot.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">iplotyy</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FCN</td>
+            <td bgcolor="#F2F2F2">'plot'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'plot'</font></li><li><font color="#1111FF">'stairs'</font></li><li><font color="#1111FF">'stem'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">The plot function to use. Note: if errors are plotted, then this value is ignored.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XRANGE</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A 2-element array specifying the ranges to be displayed on the x-axis.<br></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LEFTYRANGE</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A 2-element array specifying the range to be displayed on the left y-axis.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RIGHTYRANGE</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A 2-element array specifying the range to be displayed on the right y-axis.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FIGURENAMES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Sets the figure name.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FIGURE</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The handle of the figure to plot in to.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TITLE</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A string specifying the title.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LEFTYLABELS</td>
+            <td bgcolor="#F2F2F2">'Amplitude'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Specify the labels to be used on the left y-axes. The units are added from<br>the data object 'yunits' property.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RIGHTYLABELS</td>
+            <td bgcolor="#F2F2F2">'Amplitude'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Specify the labels to be used on the right y-axes. The units are added from<br>the data object 'yunits' property.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LATEXLABELS</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Use latex interpreter for axis labels.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LEFTYSCALE</td>
+            <td bgcolor="#F2F2F2">'lin'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2"></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RIGHTYSCALE</td>
+            <td bgcolor="#F2F2F2">'lin'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2"></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XSCALE</td>
+            <td bgcolor="#F2F2F2">'lin'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2"></td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('SHOW PROVENANCE', [true], 'ADDITIONAL REQUIREMENTS', cell(0,0), 'FCN', 'plot', 'XRANGE', '', 'LEFTYRANGE', '', 'RIGHTYRANGE', '', 'FIGURENAMES', '', 'FIGURE', [[]], 'TITLE', '', 'LEFTYLABELS', 'Amplitude', 'RIGHTYLABELS', 'Amplitude', 'LATEXLABELS', [false], 'LEFTYSCALE', 'lin', 'RIGHTYSCALE', 'lin', 'XSCALE', 'lin')</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <p><!-- Table of the minfo object -->
+      <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+        <colgroup>
+          <col width="25%"/>
+          <col width="75%"/>
+        </colgroup>
+        <thead>
+          <tr valign="top">
+            <th class="categorylist" colspan="2">Some information of the method ao/iplotyy are listed below:</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Property: 'mclass' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Class name</td>
+            <td bgcolor="#f3f4f5">ao</td>
+          </tr>
+          <!-- Property: 'mname' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Method name</td>
+            <td bgcolor="#ffffff">iplotyy</td>
+          </tr>
+          <!-- Property: 'mcategory' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Category</td>
+            <td bgcolor="#f3f4f5">Output</td>
+          </tr>
+          <!-- Property: 'mpackage' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Package name</td>
+            <td bgcolor="#ffffff">ltpda</td>
+          </tr>
+          <!-- Property: 'modifier' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Can be used as modifier</td>
+            <td bgcolor="#f3f4f5">0</td>
+          </tr>
+          <!-- Property: 'supportedNumTypes' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Supported numeric types</td>
+            <td bgcolor="#ffffff">{'double'}</td>
+          </tr>
+        </tbody>
+      </table>
+    </p>
+
+
+    <br>
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ao_iplot.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ao/iplot"></a>&nbsp;</td>
+        <td align="left">Method: ao/iplot</td>
+        <td>&nbsp;</td>
+        <td align="right">Method: ao/report</td>
+        <td align="right" width="20"><a href="ao_report.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ao/report"></a></td>
+      </tr>
+    </table>
+
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+
+   </body>
+</html>

@@ -1,0 +1,1168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>What is an LTPDA Repository (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="repo.html"><img src="b_prev.gif" border="0" align="bottom" alt="Working with an LTPDA Repository"></a>&nbsp;&nbsp;&nbsp;<a href="repo_connect.html"><img src="b_next.gif" border="0" align="bottom" alt="Connecting to an LTPDA Repository"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">What is an LTPDA Repository</h1>
+    <hr>
+    
+    <p>
+      <h2>Introduction</h2>
+<p>
+  An LTPDA repository has at its core a database server (in fact,
+  a <a href="http://www.mysql.com">MySQL server</a>).  A
+  single MySQL server can host multiple databases (LTPDA
+  repositories).  A single database/repository comprises a particular
+  set of database tables. These tables hold meta-data about the
+  objects stored in the database.
+</p>
+<p>
+  Since the core engine is a MySQL database, in principle any MySQL
+  client can be used to interface with the repository. In order to
+  submit and retrieve objects in the proper way (entering all expected
+  meta-data), it is strongly suggested that you use the LTPDA Toolbox
+  client commands <tt>submit</tt> and the "From Repository"
+  constructors.
+</p>
+<p>
+  Any standard MySQL client can be used to query and search an LTPDA
+  repository.  For example, using a web-client or the standard MySQL
+  command-line interface.
+</p>
+<h2>Database primer</h2>
+<p>
+  A MySQL database comprises a collection of tables. Each table has a
+  number of fields.  Each field describes the type of data stored in
+  that field (numerical, string, date, etc).  When an entry is made in
+  a table a new row is created. Interaction with MySQL databases is
+  done using Structured Query Language (SQL) statements. For examples
+  see <a href="http://dev.mysql.com/doc/refman/5.1/en/examples.html">MySQL
+  Common Queries</a>.
+</p>
+<h2>Database design</h2>
+<p>
+  The database for a single repository uses the tables as shown below:
+</p>
+<p>
+  <img src="images/db_tables.png" alt="DB Tables">
+</p>
+<p>
+  As you can see, each object that is submitted to a repository
+  receives a unique ID number. This ID number is used to link together
+  the various pieces of meta-data that are collected about each
+  object. In addition, each object that is submitted is check-summed
+  using
+  the <a href="http://en.wikipedia.org/wiki/MD5">MD5
+  algorithm</a>. That way, the integrity of each object can be checked
+  upon retrieval.
+</p>
+<p>
+  In order to access a particular repository you need:
+  <ul>
+    <li>The IP address of the MySQL host server</li>
+    <li>The name of the repository (the database name)</li>
+    <li>An account on the MySQL host server</li>
+    <li>Permissions to access the desired database/repository</li>
+  </ul>
+</p>
+
+<h2>Database tables</h2>
+<p>An LTPDA repository consists of the following database tables:</p>
+
+<!-- OBJS table -->
+<h3><tt>objs</tt> table</h3>
+<p>
+  The <tt>objs</tt> table stores the XML representation of the
+  submitted object and assigns an unique identifier to each object in
+  the database. Together with the database name and the hostname of
+  the server this forms a unique tag for all LTPDA objects. The XML
+  representaion can be dumped to a file and read with LTPDA Toolbox
+  object constructrors.
+</p>
+<p>
+  <table cellspacing="0" class="body" cellpadding="2" border="1" width="90%">
+    <colgroup>
+      <col width="15%"/> <col width="10%"/> <col width="75%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Field Name</th>
+        <th class="categorylist">Data Type</th>
+        <th class="categorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Field: 'id' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <tt>id</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <tt>INTEGER</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          Object unique identification number used to link all database tables entries.
+        </td>
+      </tr>
+      <!-- Field: 'hash' -->
+      <tr valign="top">
+        <td bgcolor="#e3e4e5">
+          <tt>hash</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          <tt>TEXT</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          MD5 hash of the XML representation of the object.
+        </td>
+      </tr>
+      <!-- Field: 'uuid' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <tt>uuid</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <tt>TEXT</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+	  Universally Unique Identified assigned to the object at
+	  creation time.
+        </td>
+      </tr>
+      <!-- Field: 'xml' -->
+      <tr valign="top">
+        <td bgcolor="#e3e4e5">
+          <tt>xml</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          <tt>LONGTEXT</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          XML representation of the object.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+
+<!-- OBJMETA table -->
+<h3><tt>objmeta</tt> table</h3>
+<p>
+  The <tt>objmeta</tt> table stores various pieces of information
+  associated with the object being submitted. The aim of this table is
+  to provide useful fields on which to perform queries.
+</p>
+<p>
+  <table cellspacing="0" class="body" cellpadding="2" border="1" width="90%">
+    <colgroup>
+      <col width="15%"/> <col width="10%"/> <col width="75%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Field Name</th>
+        <th class="categorylist">Data Type</th>
+        <th class="categorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Field: 'obj_id' -->
+      <tr valign="top">
+        <td bgcolor="#e3e4e5">
+          <tt>obj_id</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          <tt>INTEGER</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          Object ID.
+        </td>
+      </tr>
+      <!-- Field: 'obj_type' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <tt>obj_type</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <tt>ENUM</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          Objedct type.
+        </td>
+      </tr>
+      <!-- Field: 'name' -->
+      <tr valign="top">
+        <td bgcolor="#e3e4e5">
+          <tt>name</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          <tt>TEXT</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          Object user-assigned name.
+        </td>
+      </tr>
+      <!-- Field: 'created' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <tt>created</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <tt>DATETIME</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          Object creation time.
+        </td>
+      </tr>
+      <!-- Field: 'version' -->
+      <tr valign="top">
+        <td bgcolor="#e3e4e5">
+          <tt>version</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          <tt>TEXT</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          Version of the LTPDA Toolbox used to construct the object.
+        </td>
+      </tr>
+      <!-- Field: 'ip' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <tt>ip</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <tt>TEXT</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          IP address of the machine which submitted the object.
+        </td>
+      </tr>
+      <!-- Field: 'hostname' -->
+      <tr valign="top">
+        <td bgcolor="#e3e4e5">
+          <tt>hostname</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          <tt>TEXT</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          Hostname of the machine which submitted the object.
+        </td>
+      </tr>
+      <!-- Field: 'os' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <tt>os</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <tt>TEXT</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          Operating system of the machine which submitted the object.
+        </td>
+      </tr>
+      <!-- Field: 'submitted' -->
+      <tr valign="top">
+        <td bgcolor="#e3e4e5">
+          <tt>submitted</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          <tt>DATETIME</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          Object submission time.
+        </td>
+      </tr>
+      <!-- Field: 'experiment_title' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <tt>experiment_title</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <tt>TEXT</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          Title for the experiment to which the object is associated.
+        </td>
+      </tr>
+      <!-- Field: 'experiment_desc' -->
+      <tr valign="top">
+        <td bgcolor="#e3e4e5">
+          <tt>experiment_desc</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          <tt>TEXT</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          Description of the experiment to which the object is associated.
+        </td>
+      </tr>
+      <!-- Field: 'analysis_desc' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <tt>analysis_desc</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <tt>TEXT</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          Description of the analysis to which the object is associated.
+        </td>
+      </tr>
+      <!-- Field: 'author' -->
+      <tr valign="top">
+        <td bgcolor="#e3e4e5">
+          <tt>author</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          <tt>TEXT</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+	  Username of the user which submitted the object.
+        </td>
+      </tr>
+      <!-- Field: 'quantity' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <tt>quantity</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <tt>TEXT</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          Physical quantity the object describes.
+        </td>
+      </tr>
+      <!-- Field: 'additional_authors' -->
+      <tr valign="top">
+        <td bgcolor="#e3e4e5">
+          <tt>additional_authors</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          <tt>TEXT</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          Other authors involved in creating the object.
+        </td>
+      </tr>
+      <!-- Field: 'additional_comments' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <tt>additional_comments</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <tt>TEXT</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          Free-form field for additional comments regarding the object.
+        </td>
+      </tr>
+      <!-- Field: 'keywords' -->
+      <tr valign="top">
+        <td bgcolor="#e3e4e5">
+          <tt>keywords</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          <tt>TEXT</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          List of keywords associated to the object.
+        </td>
+      </tr>
+      <!-- Field: 'reference_ids' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <tt>reference_ids</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <tt>TEXT</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          Other object IDs associated with the object.
+        </td>
+      </tr>
+      <!-- Field: 'validated' -->
+      <tr valign="top">
+        <td bgcolor="#e3e4e5">
+          <tt>validated</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          <tt>TINYINT</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          Object validation status.
+        </td>
+      </tr>
+      <!-- Field: 'vdate' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <tt>vdate</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <tt>DATETIME</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          Object validation time.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+
+
+<!-- TRANSACTIONS table -->
+<h3><tt>transactions</tt> table</h3>
+<p>
+  The <tt>transactions</tt> table records all user transactions. A
+  transaction corresponds to submitting or retrieving a single or a
+  collection of LTPDA objects.
+</p>
+<p>
+  <table cellspacing="0" class="body" cellpadding="2" border="1" width="90%">
+    <colgroup>
+      <col width="15%"/> <col width="10%"/> <col width="75%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Field Name</th>
+        <th class="categorylist">Data Type</th>
+        <th class="categorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Field: 'obj_id' -->
+      <tr valign="top">
+        <td bgcolor="#e3e4e5">
+          <tt>obj_id</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          <tt>INTEGER</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          Object ID.
+        </td>
+      </tr>
+      <!-- Field: 'user_id' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <tt>user_id</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <tt>INTEGER</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          User ID who carried out the transaction.
+        </td>
+      </tr>
+      <!-- Field: 'transdate' -->
+      <tr valign="top">
+        <td bgcolor="#e3e4e5">
+          <tt>transdate</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          <tt>DATETIME</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          Transaction time.
+        </td>
+      </tr>
+      <!-- Field: 'direction' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <tt>direction</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <tt>TEXT</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          Direction of the transaction: "in" or "out".
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+
+<!-- USERS table -->
+<h3><tt>users</tt> table</h3>
+<p>
+  The <tt>users</tt> table stores information about the users allowed
+  to access the database. This is a view collecting informations
+  stored elsewhere in the database server which are replicated here
+  for convenience in obtaining the user ID to populate
+  the <tt>transactions</tt> table.
+</p>
+<p>
+  <table cellspacing="0" class="body" cellpadding="2" border="1" width="90%">
+    <colgroup>
+      <col width="15%"/> <col width="10%"/> <col width="75%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Field Name</th>
+        <th class="categorylist">Data Type</th>
+        <th class="categorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Field: 'id' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <tt>id</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <tt>INTEGER</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          User ID.
+        </td>
+      </tr>
+      <!-- Field: 'username' -->
+      <tr valign="top">
+        <td bgcolor="#e3e4e5">
+          <tt>username</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          <tt>TEXT</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          Username.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+
+<!-- COLLECTIONS table -->
+<h3><tt>collections</tt> table</h3>
+<p>
+  The <tt>collections</tt> table stores virtual collections of objects
+  submitted to the database.  When the user submits one or more
+  objects at the same time a collection composed of the submitted
+  objects is created. This table serves the purpose of assigning an
+  collection ID number. The collection ID allows the user to retrieve
+  multiple objects at time.
+</p>
+<p>
+  <table cellspacing="0" class="body" cellpadding="2" border="1" width="90%">
+    <colgroup>
+      <col width="15%"/> <col width="10%"/> <col width="75%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Field Name</th>
+        <th class="categorylist">Data Type</th>
+        <th class="categorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Field: 'id' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <tt>id</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <tt>INTEGER</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          Collection ID.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+
+<!-- COLLECTIONS2OBJS table -->
+<h3><tt>collections2objs</tt> table</h3>
+<p>
+  The <tt>collections2objs</tt> table links each collection to the
+  objects that composes it and viceversa.
+</p>
+<p>
+  <table cellspacing="0" class="body" cellpadding="2" border="1" width="90%">
+    <colgroup>
+      <col width="15%"/> <col width="10%"/> <col width="75%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Field Name</th>
+        <th class="categorylist">Data Type</th>
+        <th class="categorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Field: 'id' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <tt>id</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <tt>INTEGER</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          Collection ID.
+        </td>
+      </tr>
+      <!-- Field: 'obj_id' -->
+      <tr valign="top">
+        <td bgcolor="#e3e4e5">
+          <tt>obj_id</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          <tt>INTEGER</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          Object ID.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+
+<!-- AO table -->
+<h3><tt>ao</tt> table</h3>
+<p>
+  The <tt>ao</tt> table stores additional meta-data specific to
+  analysis objects.
+</p>
+<p>
+  <table cellspacing="0" class="body" cellpadding="2" border="1" width="90%">
+    <colgroup>
+      <col width="15%"/> <col width="10%"/> <col width="75%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Field Name</th>
+        <th class="categorylist">Data Type</th>
+        <th class="categorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Field: 'obj_id' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <tt>obj_id</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <tt>INTEGER</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          Object ID.
+        </td>
+      </tr>
+      <!-- Field: 'data_type' -->
+      <tr valign="top">
+        <td bgcolor="#e3e4e5">
+          <tt>data_type</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          <tt>ENUM</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          Object data type.
+        </td>
+      </tr>
+      <!-- Field: 'description' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <tt>description</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <tt>TEXT</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          AO description.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+
+<!-- BOBJS table -->
+<h3><tt>bobjs</tt> table</h3>
+<p>
+  The <tt>bobjs</tt> table stores an optional Matlab bionary
+  representation of the submitted object. This object representation
+  can be dumped directly to a file and read with LTPDA Toolbox object
+  constructrors much quicker that the otherwise equivalent XML format.
+</p>
+<p>
+  <table cellspacing="0" class="body" cellpadding="2" border="1" width="90%">
+    <colgroup>
+      <col width="15%"/> <col width="10%"/> <col width="75%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Field Name</th>
+        <th class="categorylist">Data Type</th>
+        <th class="categorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Field: 'id' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <tt>obj_id</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <tt>INTEGER</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          Object ID.
+        </td>
+      </tr>
+      <!-- Field: 'mat' -->
+      <tr valign="top">
+        <td bgcolor="#e3e4e5">
+          <tt>mat</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          <tt>LONGBLOB</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+	  Matlab binary representation of the object.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+
+<!-- MFIR table -->
+<h3><tt>mfir</tt> table</h3>
+<p>
+  The <tt>mfir</tt> table stores additional meta-data specific to MFIR
+  filter objects.
+</p>
+<p>
+  <table cellspacing="0" class="body" cellpadding="2" border="1" width="90%">
+    <colgroup>
+      <col width="15%"/> <col width="10%"/> <col width="75%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Field Name</th>
+        <th class="categorylist">Data Type</th>
+        <th class="categorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Field: 'obj_id' -->
+      <tr valign="top">
+        <td bgcolor="#e3e4e5">
+          <tt>obj_id</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          <tt>INTEGER</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          Object ID.
+        </td>
+      </tr>
+      <!-- Field: 'in_file' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <tt>in_file</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <tt>TEXT</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          Input filename (if applicable) used to create the filter object.
+        </td>
+      </tr>
+      <!-- Field: 'fs' -->
+      <tr valign="top">
+        <td bgcolor="#e3e4e5">
+          <tt>fs</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          <tt>INTEGER</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          Sample rate of the data the filter is designed for.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+
+<!-- MIIR table -->
+<h3><tt>miir</tt> table</h3>
+<p>
+  The <tt>miir</tt> table stores additional meta-data specific to MIIR
+  filter objects.
+</p>
+<p>
+  <table cellspacing="0" class="body" cellpadding="2" border="1" width="90%">
+    <colgroup>
+      <col width="15%"/> <col width="10%"/> <col width="75%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Field Name</th>
+        <th class="categorylist">Data Type</th>
+        <th class="categorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Field: 'obj_id' -->
+      <tr valign="top">
+        <td bgcolor="#e3e4e5">
+          <tt>obj_id</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          <tt>INTEGER</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          Object ID.
+        </td>
+      </tr>
+      <!-- Field: 'in_file' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <tt>in_file</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <tt>TEXT</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          Input filename (if applicable) used to create the filter object.
+        </td>
+      </tr>
+      <!-- Field: 'fs' -->
+      <tr valign="top">
+        <td bgcolor="#e3e4e5">
+          <tt>fs</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          <tt>INTEGER</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          Sample rate of the data the filter is designed for.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+
+<!-- CDATA table -->
+<h3><tt>cdata</tt> table</h3>
+<p>
+  The <tt>cdata</tt> table stores additional meta-data specific to
+  cdata objects. Cdata objects are used to represent 1D data.
+</p>
+<p>
+  <table cellspacing="0" class="body" cellpadding="2" border="1" width="90%">
+    <colgroup>
+      <col width="15%"/> <col width="10%"/> <col width="75%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Field Name</th>
+        <th class="categorylist">Data Type</th>
+        <th class="categorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Field: 'obj_id' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <tt>obj_id</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <tt>INTEGER</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          Object ID.
+        </td>
+      </tr>
+      <!-- Field: 'yunits' -->
+      <tr valign="top">
+        <td bgcolor="#e3e4e5">
+          <tt>yunits</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          <tt>TEXT</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          Units for the contained data vector.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+
+<!-- FSDATA table -->
+<h3><tt>fsdata</tt> table</h3>
+<p>
+  The <tt>fsdata</tt> table stores additional meta-data specific to
+  fsdata objects. Fsdata objects are used to represent
+  frequency-series data.
+</p>
+<p>
+  <table cellspacing="0" class="body" cellpadding="2" border="1" width="90%">
+    <colgroup>
+      <col width="15%"/> <col width="10%"/> <col width="75%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Field Names</th>
+        <th class="categorylist">Data Type</th>
+        <th class="categorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Field: 'obj_id' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <tt>obj_id</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <tt>INTEGER</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          Object ID.
+        </td>
+      </tr>
+      <!-- Field: 'xunits' -->
+      <tr valign="top">
+        <td bgcolor="#e3e4e5">
+          <tt>xunits</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          <tt>TEXT</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+	  Units for the contained frequency vector.
+        </td>
+      </tr>
+      <!-- Field: 'yunits' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <tt>yunits</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <tt>TEXT</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+	  Units for the contained data vector.
+        </td>
+      </tr>
+      <!-- Field: 'fs' -->
+      <tr valign="top">
+        <td bgcolor="#e3e4e5">
+          <tt>fs</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          <tt>DOUBLE</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          Sample rate of the contained data.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+
+<!-- TSDATA table -->
+<h3><tt>tsdata</tt> table</h3>
+<p>
+  The <tt>tsdata</tt> table stores additional meta-data specific to
+  tsdata objects. Tsdata objects are used to store time-series data.
+</p>
+<p>
+  <table cellspacing="0" class="body" cellpadding="2" border="1" width="90%">
+    <colgroup>
+      <col width="15%"/> <col width="10%"/> <col width="75%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Field</th>
+        <th class="categorylist">Data Type</th>
+        <th class="categorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Field: 'obj_id' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <tt>obj_id</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <tt>INTEGER</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+	  Object ID.
+        </td>
+      </tr>
+      <!-- Field: 'xunits' -->
+      <tr valign="top">
+        <td bgcolor="#e3e4e5">
+          <tt>xunits</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          <tt>TEXT</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+	  Units for the contained time vector.
+        </td>
+      </tr>
+      <!-- Field: 'yunits' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <tt>yunits</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <tt>TEXT</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+	  Units for the contained data vector.
+        </td>
+      </tr>
+      <!-- Field: 'fs' -->
+      <tr valign="top">
+        <td bgcolor="#e3e4e5">
+          <tt>fs</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          <tt>INTEGER</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          Sample rate of the contained data.
+        </td>
+      </tr>
+      <!-- Field: 'nsecs' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <tt>nsecs</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <tt>DOUBLE</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          Duration of the contained time-series in seconds.
+        </td>
+      </tr>
+      <!-- Field: 't0' -->
+      <tr valign="top">
+        <td bgcolor="#e3e4e5">
+          <tt>t0</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          <tt>DATETIME</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          Start time of the contained time-series.
+        </td>
+      </tr>
+      <!-- Field: 'toffset' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <tt>toffset</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <tt>BIGINT</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          Difference between t0 and the reference time in seconds.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+
+<!-- XYDATA table -->
+<h3><tt>xydata</tt> table</h3>
+<p>
+  The <tt>xydata</tt> table stores additional meta-data specific to
+  xydata objects. Xydata objects are used to store 2D data.
+</p>
+<p>
+  <table cellspacing="0" class="body" cellpadding="2" border="1" width="90%">
+    <colgroup>
+      <col width="15%"/> <col width="10%"/> <col width="75%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Field Name</th>
+        <th class="categorylist">Data Type</th>
+        <th class="categorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Field: 'obj_id' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <tt>obj_id</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <tt>INTEGER</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+	  Object ID.
+        </td>
+      </tr>
+      <!-- Field: 'xunits' -->
+      <tr valign="top">
+        <td bgcolor="#e3e4e5">
+          <tt>xunits</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+          <tt>TEXT</tt>
+        </td>
+        <td bgcolor="#e3e4e5">
+	  Units for the contained X vector.
+        </td>
+      </tr>
+      <!-- Field: 'yunits' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <tt>yunits</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <tt>TEXT</tt>
+        </td>
+        <td bgcolor="#f3f4f5">
+	  Units for the contained Y vector.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="repo.html"><img src="b_prev.gif" border="0" align="bottom" alt="Working with an LTPDA Repository"></a>&nbsp;</td>
+        <td align="left">Working with an LTPDA Repository</td>
+        <td>&nbsp;</td>
+        <td align="right">Connecting to an LTPDA Repository</td>
+        <td align="right" width="20"><a href="repo_connect.html"><img src="b_next.gif" border="0" align="bottom" alt="Connecting to an LTPDA Repository"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

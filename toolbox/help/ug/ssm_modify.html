@@ -1,0 +1,212 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Modifying systems (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ssm_build_built_in.html"><img src="b_prev.gif" border="0" align="bottom" alt="Building from built-in models"></a>&nbsp;&nbsp;&nbsp;<a href="ssm_assemble.html"><img src="b_next.gif" border="0" align="bottom" alt="Assembling systems"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Modifying systems</h1>
+    <hr>
+    
+    <p>
+      <P>Built-in models enable to build fast predefined models to use
+later in simulations. 
+</P>
+<H2>Modifying the parameter values</H2>
+<P>Once the parameters field &ldquo;params&rdquo; is set, one may want
+to set or modify (like in an optimizer) the parameter values. This is
+done by the functions &ldquo;*Parameters.m&rdquo;. The function
+setParameters takes two inputs ('setnames' and 'setvalues') which are
+the names of the parameters to modify and the values assigned to
+them.</P>
+<DIV CLASS="fragment"><PRE>sys.params
+----------- plist 01 -----------
+n params: 1
+---- param 1 ----
+key:    OMEGA
+val:    2
+desc:   system frequency
+origin: default
+-----------------
+description: 
+--------------------------------
+sys.setParameters(<span class="string">'OMEGA'</span>, 0.002);
+sys.params
+----------- plist 01 -----------
+n params: 1
+---- param 1 ----
+key:    OMEGA
+val:    0.002
+origin: default
+-----------------
+description: 
+--------------------------------</PRE></DIV><P>
+The function <tt>subsParameters</tt> substitute numerical
+values to the symbolic expressions, using a list of the parameters to
+substitute (or its complementary). All parameters substituted are
+removed from the &ldquo;params&rdquo; field. The call
+<tt>&lt;system&gt;.subsParameters</tt> substitutes all the parameters. The
+field &ldquo;isnumerical&rdquo; is then set to true, unless a parameter in the
+matrices was forgotten in the params field.</P>
+<DIV CLASS="fragment"><PRE>
+ sys.subsParameters;
+ sys.params
+----------- plist 01 -----------
+n params: 0
+description: 
+--------------------------------
+sys.numparams
+----------- plist 01 -----------
+n params: 1
+---- param 1 ----
+key:    OMEGA
+val:    0.002
+desc:   system frequency
+origin: default
+-----------------
+description: 
+--------------------------------</PRE></DIV>
+<H2>Modifying the inputs/states/outputs</H2>
+<P><FONT COLOR="#000000">Les us first build a simple system
+constituted of four parallel 1</FONT><FONT COLOR="#000000"><SUP>st</SUP></FONT><FONT COLOR="#000000">
+order systems.</FONT> Please notice that we do not need to specify names for the states, the inputs, and the outputs, since they are only 1.</P>
+<DIV CLASS="fragment"><PRE>
+name = <span class="string">'sys'</span>;
+timestep = 0;
+amats = {diag([-1 -2 -3 -4])};
+bmats = {diag([1 2 0 0])};
+cmats = {[diag([1 0 3 0]) ; [0 0 0 0]]};
+dmats = {[diag([0 0 0 0]) ; [0 0 0 0]]};
+sys = ssm(plist(<FONT COLOR="#0000ff">...</FONT>
+<span class="string">'amats'</span>, amats, <span class="string">'bmats'</span>, bmats, <span class="string">'cmats'</span>, cmats, <span class="string">'dmats'</span>, dmats, </FONT><FONT COLOR="#0000ff">...</FONT>
+<span class="string">'timestep'</span>, timestep, <span class="string">'name'</span>, name));
+</PRE></DIV>
+<P>It is possible to obtain the structural realization of the system using <tt>sMinReal</tt>. 
+This function deletes states which are either not observable or controllable. However, there may still exist such linear combinations of states.
+The process only modify the states, here the 2</FONT><FONT COLOR="#000000"><SUP>nd</SUP></FONT><FONT COLOR="#000000"> and 4rt states disappear since they are not observable, and the 3</FONT><FONT COLOR="#000000"><SUP>rd</SUP></FONT><FONT COLOR="#000000"> and 4</FONT><FONT COLOR="#000000"><SUP>th</SUP></FONT><FONT COLOR="#000000"> disappear since they are not controllable.
+<DIV CLASS="fragment"><PRE>
+sys.sMinReal
+M:   running display
+------ ssm/1 -------
+      amats: { [-1] }  [1x1]
+      bmats: {  [1 x4 ]  }  [1x1]
+      cmats: {  [5 x1 ]  }  [1x1]
+      dmats: {   []    }  [1x1]
+   timestep: 0
+     inputs:  [1x1 ssmblock]
+         1 : INPUT | variable_1 [], variable_2 [], variable_3 [], variable_4 []
+     states:  [1x1 ssmblock]
+         1 : STATE | variable_1 []
+    outputs:  [1x1 ssmblock]
+         1 : OUTPUT | variable_1 [], variable_2 [], variable_3 [], variable_4 [], variable_5 []
+  numparams: (empty-plist)
+     params: (empty-plist)
+    Ninputs: 1
+ inputsizes: 4
+   Noutputs: 1
+outputsizes: 5
+    Nstates: 1
+ statesizes: 1
+ Nnumparams: 0
+    Nparams: 0
+isnumerical: true
+       hist: ssm.hist 
+   procinfo: []
+   plotinfo: []
+       name: sys
+description: 
+       UUID: 35d11cad-45a5-4f42-bace-e1d179cf00b6
+--------------------</PRE></DIV><P>
+Then we can work on the input/outputs to simplify the model.</P>
+<P>The user must specify which block variable he want to keep, and
+three syntaxes are allowed. 
+</P>
+<UL>
+	<LI><P>'ALL'
+	meaning all ports in all blocks are kept</P>
+	<LI><P>{&lt;varname1&gt;
+	&lt;varname2&gt; &hellip;} giving the name of each port to keep, in
+	this case one must ensure ports of different blocks have different
+	names.</P>
+	<LI><P>{&lt;logical
+	index for block1&gt; &lt;double index for block2&gt; &lt;varnames
+	cellstr for block3&gt; &ldquo;ALL&rdquo; &ldquo;NONE&rdquo;} using a
+	different index for each individual block.</P>
+</UL>
+<P>This
+syntax is also used for any converter to select the inputs and
+outputs in the ssm.</P>
+<P>It is important to note that this removes lines and columns in the
+system's matrices, but no parameters are removed. So second order
+parameters that should be remove (by setting them to a neutral value)
+must be taken care of separately.</P>
+<DIV CLASS="fragment"><PRE>
+sys.simplify(plist(<span class="string">'inputs'</span>, {[1 2]} , <span class="string">'states'</span>, <span class="string">'ALL'</span> , <span class="string">'outputs'</span>, { <span class="string">'OUTPUT1.variable_1'</span> <span class="string">'OUTPUT1.variable_4'</span>}))
+M:   running display
+------ ssm/1 -------
+      amats: {  [4 x4 ]  }  [1x1]
+      bmats: {  [4 x2 ]  }  [1x1]
+      cmats: {  [2 x4 ]  }  [1x1]
+      dmats: {   []    }  [1x1]
+   timestep: 0
+     inputs:  [1x1 ssmblock]
+         1 : INPUT1 | variable_1 [], variable_2 []
+     states:  [1x1 ssmblock]
+         1 : SS1 | variable_1 [], variable_2 [], variable_3 [], variable_4 []
+    outputs:  [1x1 ssmblock]
+         1 : OUTPUT1 | variable_1 [], variable_4 []
+  numparams: (empty-plist)
+     params: (empty-plist)
+    Ninputs: 1
+ inputsizes: 2
+   Noutputs: 1
+outputsizes: 2
+    Nstates: 1
+ statesizes: 4
+ Nnumparams: 0
+    Nparams: 0
+isnumerical: true
+       hist: ssm.hist 
+   procinfo: []
+   plotinfo: []
+       name: sys
+description: 
+       UUID: 75efcf24-d714-4c6d-9ec8-b069c48dff4d
+--------------------
+</PRE></DIV>
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ssm_build_built_in.html"><img src="b_prev.gif" border="0" align="bottom" alt="Building from built-in models"></a>&nbsp;</td>
+        <td align="left">Building from built-in models</td>
+        <td>&nbsp;</td>
+        <td align="right">Assembling systems</td>
+        <td align="right" width="20"><a href="ssm_assemble.html"><img src="b_next.gif" border="0" align="bottom" alt="Assembling systems"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

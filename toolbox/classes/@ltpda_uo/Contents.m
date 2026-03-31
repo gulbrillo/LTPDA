@@ -1,0 +1,32 @@
+%%%%%%%%%%%%%%%%%%%%   class: ltpda_uo   %%%%%%%%%%%%%%%%%%%%
+%
+%   <a href="matlab:help ltpda_uo/attachToDom">ltpda_uo/attachToDom</a>           - % Add name
+%   <a href="matlab:help ltpda_uo/bsubmit">ltpda_uo/bsubmit</a>               -  Submits the given collection of objects in binary form to an LTPDA repository
+%   <a href="matlab:help ltpda_uo/convertSinfo2Plist">ltpda_uo/convertSinfo2Plist</a>    -  Converts the 'old' sinfo structure to a PLIST-object.
+%   <a href="matlab:help ltpda_uo/copy">ltpda_uo/copy</a>                  -  copies all fields of the ltpda_uo class to the new object.
+%   <a href="matlab:help ltpda_uo/fromComplexDatafile">ltpda_uo/fromComplexDatafile</a>   -  Default method to convert a complex data-file into a ltpda_uoh-object
+%   <a href="matlab:help ltpda_uo/fromDataInMAT">ltpda_uo/fromDataInMAT</a>         -  Default method to convert a data-array into am ltpda_uoh
+%   <a href="matlab:help ltpda_uo/fromDatafile">ltpda_uo/fromDatafile</a>          -  Default method to convert a data-file into a ltpda_uoh-object
+%   <a href="matlab:help ltpda_uo/fromDom">ltpda_uo/fromDom</a>               - %%%%%%%%%% Call super-class
+%   <a href="matlab:help ltpda_uo/fromFile">ltpda_uo/fromFile</a>              - Construct a ltpda_ob from a file
+%   <a href="matlab:help ltpda_uo/fromLISO">ltpda_uo/fromLISO</a>              -  Default method to read LISO files
+%   <a href="matlab:help ltpda_uo/fromModel">ltpda_uo/fromModel</a>             -  Construct an a built in model
+%   <a href="matlab:help ltpda_uo/fromRepository">ltpda_uo/fromRepository</a>        - Retrieve a ltpda_uo from a repository
+%   <a href="matlab:help ltpda_uo/fromStruct">ltpda_uo/fromStruct</a>            -  sets all properties which are defined in the ltpda_uo class from the structure to the input object.
+%   <a href="matlab:help ltpda_uo/getBuiltInModels">ltpda_uo/getBuiltInModels</a>      -  returns a list of the built-in AO models found on the
+%   <a href="matlab:help ltpda_uo/legendString">ltpda_uo/legendString</a>          -  returns a string suitable for use in plot legends.
+%   <a href="matlab:help ltpda_uo/load">ltpda_uo/load</a>                  -  Loads LTPDA objects from a file
+%   <a href="matlab:help ltpda_uo/ltpda_uo">ltpda_uo/ltpda_uo</a>              -  is the abstract ltpda base class for ltpda user object classes.
+%   <a href="matlab:help ltpda_uo/prepareSinfoForSubmit">ltpda_uo/prepareSinfoForSubmit</a> -  With this method is it possible to modify the submission structure
+%   <a href="matlab:help ltpda_uo/processSetterValues">ltpda_uo/processSetterValues</a>   - (No help available)
+%   <a href="matlab:help ltpda_uo/retrieve">ltpda_uo/retrieve</a>              -  retrieves a collection of objects from an LTPDA repository.
+%   <a href="matlab:help ltpda_uo/save">ltpda_uo/save</a>                  -  overloads save operator for ltpda objects.
+%   <a href="matlab:help ltpda_uo/search">ltpda_uo/search</a>                -  select objects that match the given name.
+%   <a href="matlab:help ltpda_uo/setDescription">ltpda_uo/setDescription</a>        -  sets the 'description' property of a ltpda_uo object.
+%   <a href="matlab:help ltpda_uo/setName">ltpda_uo/setName</a>               -  Sets the property 'name' of an ltpda_uoh object.
+%   <a href="matlab:help ltpda_uo/setPropertyValue">ltpda_uo/setPropertyValue</a>      -  sets the value of a property of one or more objects.
+%   <a href="matlab:help ltpda_uo/setPropertyValue_core">ltpda_uo/setPropertyValue_core</a> -  sets the value of a property of one or more objects.
+%   <a href="matlab:help ltpda_uo/setUUID">ltpda_uo/setUUID</a>               -  Set the property 'UUID'
+%   <a href="matlab:help ltpda_uo/submit">ltpda_uo/submit</a>                -  Submits the given collection of objects to an LTPDA repository
+%   <a href="matlab:help ltpda_uo/submitDialog">ltpda_uo/submitDialog</a>          -  Creates a connection and the sinfo structure depending of the input variables.
+%   <a href="matlab:help ltpda_uo/update">ltpda_uo/update</a>                -  Updates the given object in an LTPDA repository

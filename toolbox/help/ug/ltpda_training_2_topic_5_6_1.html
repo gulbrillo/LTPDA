@@ -1,0 +1,204 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Parameter estimation with MCMC (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_2_topic_5_6.html"><img src="b_prev.gif" border="0" align="bottom" alt="Perform system identification to estimate desired parameters"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_2_topic_5_6_2.html"><img src="b_next.gif" border="0" align="bottom" alt="Linear Parameter Estimation with Singular Value Decomposition"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Parameter estimation with MCMC</h1>
+    <hr>
+    
+    <p>
+      <h2><a name="#mcmc">A) Markov Chain Monte Carlo</a></h2> 
+
+<p>
+At this point we have all the inputs necessary to use the Markoc Chain Monte Carlo.
+We have the injected signals, the simulated output signals, the covariance matrix of 
+the parameters and the LTP model. First, of course, we load all the objects we created 
+before: the signals and the fitting model.
+</p>
+
+<div class="fragment">
+    <pre><br>
+    
+  in    = matrix(<span class="string">'input.mat'</span>);
+  out   = matrix(<span class="string">'output.mat'</span>);
+  noise = matrix(<span class="string">'noise.mat'</span>);
+  mdl   = ssm(<span class="string">'fitting_model.mat'</span>);
+      
+      </pre>
+</div>
+
+<p>
+  Secondly, we arrange again the parameters to estimate in a cell array and 
+  define a vector with their initial values. We also create cell arrays containing 
+  the inputs and outputs of the system.
+</p>
+
+<div class="fragment">
+    <pre><br>
+
+  inNames  = { <span class="string">'GUIDANCE.IFO_x1'</span>  <span class="string">'GUIDANCE.IFO_x12'</span>};
+  outNames = {<span class="string">'DELAY_IFO.x1'</span> <span class="string">'DELAY_IFO.x12'</span>};
+
+  <span class="comment">% Also define again the parameters to estimate and our starting values</span>
+  params = {<span class="string">'FEEPS_XX'</span>, <span class="string">'CAPACT_TM2_XX'</span>, <span class="string">'IFO_X12X1'</span>, <span class="string">'EOM_TM1_STIFF_XX'</span>, <span class="string">'EOM_TM2_STIFF_XX'</span>};
+  values = [1 1 0.0001 1.e-6 1.e-6];  
+      
+      </pre>
+</div>
+
+<p>
+  Now, we have to estimate the expected errors of the parameters based on 
+  our first guess of the parameters (<tt>[1 1 0.0001 1.e-6 1.e-6]</tt>). The 
+  covariance matrix extracted from the <tt>crb</tt> function will be used 
+  as the covariance matrix for the proposal distribution of the metropolis algorithm.
+  Just like in section 5.5:
+</p>
+
+<div class="fragment">
+   <pre><br> 
+
+   <span class="comment">% as in section 5.5 we provide the optimal differentiation step</span>
+   steps =  [1e-11 2.3e-07 1e-15 8.4e-11 2.4e-12];
+      
+   <span class="comment">% We define the plist to input to the crb fuction</span>
+   <span class="comment">% to estimate the errors of the parameters.</span>
+   pl_crb = plist(<span class="string">'FitParams'</span>, params, ...  
+              <span class="string">'paramsValues'</span>, values, ...         
+              <span class="string">'diffStep'</span>, steps, ...
+              <span class="string">'ngrid'</span>, 5 ,...                      <span class="comment">% Number of points in the grid to compute the optimal differentiation step for ssm models </span>
+              <span class="string">'inNames'</span>, inNames, ...
+              <span class="string">'outNames'</span>, outNames, ...
+              <span class="string">'input'</span>, in, ...
+              <span class="string">'f1'</span>, 1e-4, ...                      <span class="comment">% Initial frequency for the analysis</span>
+              <span class="string">'f2'</span>, 1, ...                         <span class="comment">% Final frequency for the analysis</span>
+              <span class="string">'model'</span>, mdl, ...                   
+              <span class="string">'Navs'</span>, 5, ...                       <span class="comment">% Force number of averages</span>
+              <span class="string">'pinv'</span>, false);                     <span class="comment">% Use the Penrose-Moore pseudoinverse</span>
+
+   <span class="comment">% Estimate the CRB</span>
+   mcrb = crb(noise, pl_crb);
+   
+   <span class="comment">% Save object</span>
+   save(mcrb, <span class="string">'crb_5params_fitting.mat'</span>);
+ </pre>
+</div>
+
+<p>
+The next step is to call the <tt>mcmc</tt> method of the <tt>LTPDA</tt> after we define 
+the input <tt>plist</tt>. The <tt>plist</tt> will contain all the settings for the metropolis sampling.
+There are two parameters which set the main characteristics ot the metropolis algorithm:
+<ul>
+<li><tt>h</tt> is a tempering coefficient that will prevent the chains of getting
+stuck in localities during the search phase. Increasing it implies 'heating' the chain.
+<li><tt>Tc</tt> defines the profile of the cooling down, i.e. the duration of the annealing
+where the 'heat' is on. 
+</ul>
+<p>
+We show schematically in the picture below the meaning of these two parameters.    
+ </p>
+  <div align="center">
+    <IMG width="700px" src="images/ltpda_training_2/Topic5/training_5_6_1_chain.png"  align="center" border="0">
+  </div><br>
+<p>
+Other parameters to be set are: <tt>fsout</tt>, the desired sampling 
+frequency to resample the input time series or a cell array of 
+<tt>ranges</tt> for the parameters, meaning the upper and lower bound to
+search for each one.
+</p>
+
+<div class="fragment"><pre> 
+
+<span class="comment">% Now we define some parameters for the mcmc plist</span>
+
+h = 2;              <span class="comment">% heat index for simulated annealing</span>
+Tc = [100 1000];    <span class="comment">% An array of two values setting the initial </span>
+                    <span class="comment">% and final value for the cooling down. We set it to</span>
+                    <span class="comment">% these values because we use the simplex algorithm</span>
+                    <span class="comment">% before the sampling and we get close to the real</span>
+                    <span class="comment">% values. If simplex was set to false then we should set </span>
+                    <span class="comment">% Tc = [5000 7000] and 'N' to 9000.</span>
+                    
+numsampl = 2000;    <span class="comment">% Total number of samples</span>
+
+<span class="comment">% Upper and lower bounds to search for the parameters</span> 
+ranges = {[0 2], [0 2], [0 1], [0 1e-4], [0 1e-4]};                    
+
+</pre></div> 
+
+<p>
+Filling the plist:
+</p>
+
+<div class="fragment"><pre> 
+
+  <span class="comment">% defining the mcmc plist</span>  
+  pl_mcmc = plist(<span class="string">'N'</span>, numsampl, ...       <span class="comment">% Total number of samples</span>
+              <span class="string">'J'</span>, 1, ...
+              <span class="string">'cov'</span>, mcrb, ...                 
+              <span class="string">'range'</span>, ranges, ...
+              <span class="string">'FitParams'</span>, params, ...            
+              <span class="string">'input'</span>, in, ...
+              <span class="string">'noise'</span>, noise, ...
+              <span class="string">'model'</span>, mdl, ...
+              <span class="string">'inNames'</span>, inNames, ...
+              <span class="string">'outNames'</span>, outNames, ...
+              <span class="string">'frequencies'</span>, [1e-4 0.5], ... 
+              <span class="string">'Navs'</span>, 5, ...
+              <span class="string">'search'</span>, true, ...
+              <span class="string">'x0'</span>, values, ...
+              <span class="string">'Tc'</span>, Tc, ...
+              <span class="string">'heat'</span>, h, ...
+              <span class="string">'jumps'</span>, [2e0 1e2 1e3 1e4], ...
+              <span class="string">'simplex'</span>, true, ...    <span class="comment">% Set simplex to true for speed!</span>
+              <span class="string">'plot'</span>, [1 2 3 4 5 6], ...
+              <span class="string">'debug'</span>, false);
+  
+<span class="comment">% start the mcmc sampling and create a new pest object b</span>  
+b = mcmc(out, pl_mcmc);
+
+</pre></div> 
+
+Now we can save the <tt>pest</tt> object.
+
+<div class="fragment"><pre>   
+<span class="comment">%% save mcmc output</span>
+save(b, <span class="string">'fit_mcmc.mat'</span>);
+    
+ </pre></div> 
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_2_topic_5_6.html"><img src="b_prev.gif" border="0" align="bottom" alt="Perform system identification to estimate desired parameters"></a>&nbsp;</td>
+        <td align="left">Perform system identification to estimate desired parameters</td>
+        <td>&nbsp;</td>
+        <td align="right">Linear Parameter Estimation with Singular Value Decomposition</td>
+        <td align="right" width="20"><a href="ltpda_training_2_topic_5_6_2.html"><img src="b_next.gif" border="0" align="bottom" alt="Linear Parameter Estimation with Singular Value Decomposition"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

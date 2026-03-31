@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Pole zero model representation (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_topic_4_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="Create transfer function models in s domain"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_topic_4_1_2.html"><img src="b_next.gif" border="0" align="bottom" alt="Partial fraction representation"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Pole zero model representation</h1>
+    <hr>
+    
+    <p>
+      <h2>Creating a pole zero model</h2>
+
+<p>
+  Let's build a pole zero model with the following characteristics:
+</p>
+<p>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="50%">
+    <colgroup>
+      <col width="15%"/>
+      <col width="35%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Key</th>
+        <th class="categorylist">Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Key 'filename' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>GAIN</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          5
+        </td>
+      </tr>
+      <!-- Key 'filename' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>POLES</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          (f = 10 Hz, Q = 2)
+        </td>
+      </tr>
+      <!-- Key 'filename' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>ZEROS</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          (f = 1 Hz), (f = 0.1 Hz)
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+<p>
+  Our pole zero model has a pole at 10 Hz with a quality factor of Q = 2, and two zeros,
+  one at 1 Hz, one at 0.1 Hz.
+</p>
+<div class="fragment"><pre>
+    m = pzmodel(5, [10 2], {1, 0.1})</pre></div>
+<p>
+  We can easily obtain the response of this transfer function by using the
+  <tt>pzmodel/resp</tt> method.
+</p>
+<div class="fragment"><pre>
+resp(m)
+</pre></div>
+<p>
+  The result is the figure shown below.
+</p>
+<p>
+  <img src="images/ltpda_training_1/topic4/resp_pzm.png" alt="Response of a pzmodel" border="1" >
+</p>
+
+<h3>About the quality factor Q</h3>
+
+<p>
+  The quality factor notation comes from the mechanical analogy of the harmonic oscillator.
+  In short, we can classify systems in terms of Q as
+</p>
+<p>
+  <ul>
+    <li><b>Underdamped system (Q > 0.5):</b> the system is described by a complex conjugate pair
+    that represents an oscillating solution</li>
+    <li><b>Critically damped system (Q = 0.5):</b> the system is described by two equal real poles.
+    The system decays exponentially to equilibrium faster than in any other case.</li>
+    <li><b>Overdamped system (Q < 0.5):</b> the system is described by two reals poles. The
+    response is a exponential decay.</li>
+  </ul>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_topic_4_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="Create transfer function models in s domain"></a>&nbsp;</td>
+        <td align="left">Create transfer function models in s domain</td>
+        <td>&nbsp;</td>
+        <td align="right">Partial fraction representation</td>
+        <td align="right" width="20"><a href="ltpda_training_topic_4_1_2.html"><img src="b_next.gif" border="0" align="bottom" alt="Partial fraction representation"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

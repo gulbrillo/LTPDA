@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Converting models between different representations (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="rational.html"><img src="b_prev.gif" border="0" align="bottom" alt="Rational representation"></a>&nbsp;&nbsp;&nbsp;<a href="pzmodel_filter.html"><img src="b_next.gif" border="0" align="bottom" alt="Converting models to digital filters"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Converting models between different representations</h1>
+    <hr>
+    
+    <p>
+      The different constructors from each transfer function representations accept as 
+an input a model from a another representation so that they can all be converted 
+between the different representations. In the current LTPDA version, this applies 
+for pole/zero model and rational representation. Following versions will cover the 
+partial fraction representation. This is shown in the following transformation table:
+
+<div align="center">
+  <img src="images/TransformTable.png" alt="Pole/zero model TF" border="3">
+</div>
+
+<h2>From pzmodel to rational</a></h2>
+You can transform a <tt>pzmodel</tt> into a <tt>rational</tt> by typing: 
+<br>
+<div class="fragment"><pre>
+    >> rat   = rational(pzmodel)
+</pre></div>
+<br>
+
+<h2>From rational to pzmodel</a></h2>
+You can transform a <tt>rational</tt> into a <tt>pzmodel</tt> by typing: 
+<br>
+<div class="fragment"><pre>
+    >> rat   = pzmodel(rational)
+</pre></div>  
+<br>
+
+<h2>Algorithm</a></h2>
+To translate from <tt>rational</tt> to <tt>pzmodel</tt> representation we need to 
+compute the roots of a polynomial and the inverse operation is performed going from 
+<tt>pzmodel</tt> to <tt>rational</tt>. More information about the algorithm used can be 
+found in MATLAB's functions <a href="matlab:doc('poly')">poly</a> and 
+<a href="matlab:doc('roots')">roots</a>.
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="rational.html"><img src="b_prev.gif" border="0" align="bottom" alt="Rational representation"></a>&nbsp;</td>
+        <td align="left">Rational representation</td>
+        <td>&nbsp;</td>
+        <td align="right">Converting models to digital filters</td>
+        <td align="right" width="20"><a href="pzmodel_filter.html"><img src="b_next.gif" border="0" align="bottom" alt="Converting models to digital filters"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

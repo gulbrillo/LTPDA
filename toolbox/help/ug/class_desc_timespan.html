@@ -1,0 +1,666 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>timespan Class (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="class_desc_ssm.html"><img src="b_prev.gif" border="0" align="bottom" alt="ssm Class"></a>&nbsp;&nbsp;&nbsp;<a href="constructor_examples_main.html"><img src="b_next.gif" border="0" align="bottom" alt="Constructor Examples"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">timespan Class</h1>
+    <hr>
+    
+    <p>
+      <!-- $Id$ -->
+
+  <!-- ================================================== -->
+  <!--                 BEGIN CONTENT FILE                 -->
+  <!-- ================================================== -->
+
+  <!-- =====           Link Table: Begin           ===== -->
+  <!-- ===== Created by docHelper.htmlAddLinkTable ===== -->
+  <p>
+    <table border="1"  width="80%">
+      <tr>
+        <td>
+          <table border="0" cellpadding="5" class="categorylist" width="100%">
+            <colgroup>
+              <col width="25%"/>
+              <col width="75%"/>
+            </colgroup>
+            <tbody>
+              <tr valign="top">
+                <td><a href="class_desc_timespan.html#top_properties">Properties</a></td>
+                <td>Properties of the class</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_timespan.html#top_methods">Methods</a></td>
+                <td>All Methods of the class ordered by category.</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="constructor_examples_timespan.html">Examples</a></td>
+                <td>Some constructor examples</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </p>
+  <!-- ===== Link Table: End ====== -->
+
+  <!-- ===== Back to Class descriptions ===== -->
+  <a href="class_desc_main.html">
+    <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Class descriptions"/>
+    Back to Class descriptions
+  </a>
+
+  <h2 class="title"><a name="top_properties"/>Properties</h2>
+  <p>
+    The LTPDA toolbox restrict access of the properties.<br></br>
+    The get access is 'public' and thus it is possible to get the values with the dot-command (similar to structures).<br></br>
+    <pre class="programlisting">For example:<br></br>val = obj.prop(2).prop;</pre>
+    The set access is 'protected' and thus it is only possible to assign a value to a property with a set-method.
+    <pre class="programlisting">
+For example:
+obj2 = obj1.setName(<span class="string">'my name'</span>) <span class="comment">% This command creates a copy of obj1 (obj1 ~= obj2)</span>
+obj.setName(<span class="string">'my name'</span>);        <span class="comment">% This command applies to obj</span>    </pre>
+  </p>
+
+  <!-- =====        Striped 13x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Properties</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('timespan.startT')">startT</a></td>
+        <td bgcolor="#f3f4f5">Start time of the time span. (time-object)</td>
+        <td bgcolor="#f3f4f5">timespan</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('timespan.endT')">endT</a></td>
+        <td bgcolor="#ffffff">End time of the time span.   (time-object)</td>
+        <td bgcolor="#ffffff">timespan</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('timespan.interval')">interval</a></td>
+        <td bgcolor="#f3f4f5">Interval between start/end time</td>
+        <td bgcolor="#f3f4f5">timespan</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('timespan.timeformat')">timeformat</a></td>
+        <td bgcolor="#ffffff">Timeformat of the time span (see preferences)</td>
+        <td bgcolor="#ffffff">timespan</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('timespan.timezone')">timezone</a></td>
+        <td bgcolor="#f3f4f5">Timezone of the time span (see preferences)</td>
+        <td bgcolor="#f3f4f5">timespan</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('timespan.hist')">hist</a></td>
+        <td bgcolor="#ffffff">History of the object (history object)</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('timespan.historyArray')">historyArray</a></td>
+        <td bgcolor="#f3f4f5">Array of history objects for saving</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('timespan.procinfo')">procinfo</a></td>
+        <td bgcolor="#ffffff">Plist with additional information for an object.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('timespan.plotinfo')">plotinfo</a></td>
+        <td bgcolor="#f3f4f5">Plotinfo object</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('timespan.timespan')">timespan</a></td>
+        <td bgcolor="#ffffff">-- No description found --</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('timespan.name')">name</a></td>
+        <td bgcolor="#f3f4f5">Name of the object</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('timespan.description')">description</a></td>
+        <td bgcolor="#ffffff">Description of the object</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('timespan.UUID')">UUID</a></td>
+        <td bgcolor="#f3f4f5">Universally Unique Identifier of 128-bit</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 13x3 table: End ==== -->
+
+  <!-- ===== Top of page ===== -->
+  <a href="#top_of_page">
+    <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top"/>
+    Back to Top
+  </a>
+
+  <h2 class="title"><a name="top_methods"/>Methods</h2>
+
+  <!-- =====           Link Table: Begin           ===== -->
+  <!-- ===== Created by docHelper.htmlAddLinkTable ===== -->
+  <p>
+    <table border="1"  width="80%">
+      <tr>
+        <td>
+          <table border="0" cellpadding="5" class="subcategorylist" width="100%">
+            <colgroup>
+              <col width="25%"/>
+              <col width="75%"/>
+            </colgroup>
+            <tbody>
+              <tr valign="top">
+                <td><a href="class_desc_timespan.html#constructor">Constructor</a></td>
+                <td>Constructor of this class</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_timespan.html#helper">Helper</a></td>
+                <td>Helper methods only for internal usage</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_timespan.html#internal">Internal</a></td>
+                <td>Internal methods only for internal usage</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_timespan.html#output">Output</a></td>
+                <td>Output methods</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_timespan.html#relational_operator">Relational Operator</a></td>
+                <td>Relational operator methods</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </p>
+  <!-- ===== Link Table: End ====== -->
+
+  <!-- ===== Top of page ===== -->
+  <a href="#top_of_page">
+    <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top"/>
+    Back to Top
+  </a>
+
+  <!-- ===== Methods Category: Constructor ===== -->
+  <h3 class="title"><a name="constructor"/>Constructor</h3>
+
+  <!-- =====        Striped 2x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('timespan/rebuild')">rebuild</a></td>
+        <td bgcolor="#f3f4f5">Rebuilds the input objects using the history.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('timespan')">timespan</a></td>
+        <td bgcolor="#ffffff">Timespan object class constructor.</td>
+        <td bgcolor="#ffffff">timespan</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 2x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Helper ===== -->
+  <h3 class="title"><a name="helper"/>Helper</h3>
+
+  <!-- =====        Striped 34x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('timespan/get')">get</a></td>
+        <td bgcolor="#f3f4f5">Get a property of a object.</td>
+        <td bgcolor="#f3f4f5">ltpda_obj</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('timespan/search')">search</a></td>
+        <td bgcolor="#ffffff">Select objects that match the given name.</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('timespan/setDescription')">setDescription</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'description' property of a ltpda_uo object.</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('timespan/setName')">setName</a></td>
+        <td bgcolor="#ffffff">Sets the property 'name' of an ltpda_uoh object.</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('timespan/created')">created</a></td>
+        <td bgcolor="#f3f4f5">Returns a time object of the last modification.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('timespan/creator')">creator</a></td>
+        <td bgcolor="#ffffff">Extract the creator(s) from the history.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('timespan/csvexport')">csvexport</a></td>
+        <td bgcolor="#f3f4f5">Exports the data of an object to a csv file.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('timespan/index')">index</a></td>
+        <td bgcolor="#ffffff">Index into a 'ltpda_uoh' object array or matrix. This properly captures the history.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('timespan/requirements')">requirements</a></td>
+        <td bgcolor="#f3f4f5">Returns a list of LTPDA extension requirements for a given object.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('timespan/setPlotAxes')">setPlotAxes</a></td>
+        <td bgcolor="#ffffff">Sets the 'axes' property of a the object's plotinfo.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('timespan/setPlotColor')">setPlotColor</a></td>
+        <td bgcolor="#f3f4f5">Sets the color of a the object's plotinfo.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('timespan/setPlotFigure')">setPlotFigure</a></td>
+        <td bgcolor="#ffffff">Sets the 'figure' property of a the object's plotinfo.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('timespan/setPlotFillmarker')">setPlotFillmarker</a></td>
+        <td bgcolor="#f3f4f5">Defines if the plot function fill the marker or not.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('timespan/setPlotLineStyle')">setPlotLineStyle</a></td>
+        <td bgcolor="#ffffff">Sets the linestyle of a the object's plotinfo.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('timespan/setPlotLinewidth')">setPlotLinewidth</a></td>
+        <td bgcolor="#f3f4f5">Sets the linewidth of a the object's plotinfo.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('timespan/setPlotMarker')">setPlotMarker</a></td>
+        <td bgcolor="#ffffff">Sets the marker of a the object's plotinfo.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('timespan/setPlotMarkerEdgeColor')">setPlotMarkerEdgeColor</a></td>
+        <td bgcolor="#f3f4f5">Sets the color of a the object's marker edge.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('timespan/setPlotMarkerFaceColor')">setPlotMarkerFaceColor</a></td>
+        <td bgcolor="#ffffff">Sets the color of a the object's marker face.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('timespan/setPlotMarkersize')">setPlotMarkersize</a></td>
+        <td bgcolor="#f3f4f5">Sets the markersize of a the object's plotinfo.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('timespan/setPlotinfo')">setPlotinfo</a></td>
+        <td bgcolor="#ffffff">Sets the 'plotinfo' property of a ltpda_uoh object.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('timespan/setPlottingStyle')">setPlottingStyle</a></td>
+        <td bgcolor="#f3f4f5">Sets the style property of a the object's plotinfo.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('timespan/setProcinfo')">setProcinfo</a></td>
+        <td bgcolor="#ffffff">Sets the 'procinfo' property of a ltpda_uoh object.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('timespan/setShowsErrors')">setShowsErrors</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'showErrors' property of a the object's plotinfo.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('timespan/getEndT')">getEndT</a></td>
+        <td bgcolor="#ffffff">Get the timespan property 'endT'.</td>
+        <td bgcolor="#ffffff">timespan</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('timespan/getNsecs')">getNsecs</a></td>
+        <td bgcolor="#f3f4f5">Get the timespan property 'nsecs'.</td>
+        <td bgcolor="#f3f4f5">timespan</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('timespan/getStartT')">getStartT</a></td>
+        <td bgcolor="#ffffff">Get the timespan property 'startT'.</td>
+        <td bgcolor="#ffffff">timespan</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('timespan/human')">human</a></td>
+        <td bgcolor="#f3f4f5">Returns a human readable string representing the time range.</td>
+        <td bgcolor="#f3f4f5">timespan</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('timespan/inTimespan')">inTimespan</a></td>
+        <td bgcolor="#ffffff">Checks if an input time is inbetween a timespan.</td>
+        <td bgcolor="#ffffff">timespan</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('timespan/merge')">merge</a></td>
+        <td bgcolor="#f3f4f5">The input timespan objects into one output timespan object.</td>
+        <td bgcolor="#f3f4f5">timespan</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('timespan/minus')">minus</a></td>
+        <td bgcolor="#ffffff">Implements subtraction operator for timespan objects.</td>
+        <td bgcolor="#ffffff">timespan</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('timespan/plus')">plus</a></td>
+        <td bgcolor="#f3f4f5">Implements addition operator for timespan objects.</td>
+        <td bgcolor="#f3f4f5">timespan</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('timespan/setEndT')">setEndT</a></td>
+        <td bgcolor="#ffffff">Sets the 'endT' property of the timespan objects.</td>
+        <td bgcolor="#ffffff">timespan</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('timespan/setStartT')">setStartT</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'startT' property of the timespan objects.</td>
+        <td bgcolor="#f3f4f5">timespan</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('timespan/setTimespan')">setTimespan</a></td>
+        <td bgcolor="#ffffff">Setting the 'timespan' property for timespan-objects is not allowed.</td>
+        <td bgcolor="#ffffff">timespan</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 34x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Internal ===== -->
+  <h3 class="title"><a name="internal"/>Internal</h3>
+
+  <!-- =====        Striped 9x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('timespan/isprop')">isprop</a></td>
+        <td bgcolor="#f3f4f5">Tests if the given field is one of the object properties.</td>
+        <td bgcolor="#f3f4f5">ltpda_obj</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('timespan/bsubmit')">bsubmit</a></td>
+        <td bgcolor="#ffffff">Submits the given collection of objects in binary form to an LTPDA repository</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('timespan/submit')">submit</a></td>
+        <td bgcolor="#f3f4f5">Submits the given collection of objects to an LTPDA repository</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('timespan/update')">update</a></td>
+        <td bgcolor="#ffffff">Updates the given object in an LTPDA repository</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('timespan/string')">string</a></td>
+        <td bgcolor="#f3f4f5">Writes a command string that can be used to recreate the input object(s).</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('timespan/type')">type</a></td>
+        <td bgcolor="#ffffff">Converts the input objects to MATLAB functions.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('timespan/double')">double</a></td>
+        <td bgcolor="#f3f4f5">Overloads double() function for timespan objects.</td>
+        <td bgcolor="#f3f4f5">timespan</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('timespan/generateConstructorPlist')">generateConstructorPlist</a></td>
+        <td bgcolor="#ffffff">Generates a PLIST from the properties which can rebuild the object.</td>
+        <td bgcolor="#ffffff">timespan</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('timespan/plot')">plot</a></td>
+        <td bgcolor="#f3f4f5">The timespan objects on the given axes.</td>
+        <td bgcolor="#f3f4f5">timespan</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 9x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Output ===== -->
+  <h3 class="title"><a name="output"/>Output</h3>
+
+  <!-- =====        Striped 6x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('timespan/save')">save</a></td>
+        <td bgcolor="#f3f4f5">Overloads save operator for ltpda objects.</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('timespan/report')">report</a></td>
+        <td bgcolor="#ffffff">Generates an HTML report about the input objects.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('timespan/viewHistory')">viewHistory</a></td>
+        <td bgcolor="#f3f4f5">Displays the history of an object as a dot-view or a MATLAB figure.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('timespan/char')">char</a></td>
+        <td bgcolor="#ffffff">Convert a timespan object into a string.</td>
+        <td bgcolor="#ffffff">timespan</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('timespan/disp')">disp</a></td>
+        <td bgcolor="#f3f4f5">Overloads display functionality for timespan objects.</td>
+        <td bgcolor="#f3f4f5">timespan</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('timespan/table')">table</a></td>
+        <td bgcolor="#ffffff">Display the an array of timespan objects in a table.</td>
+        <td bgcolor="#ffffff">timespan</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 6x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Relational_Operator ===== -->
+  <h3 class="title"><a name="relational_operator"/>Relational Operator</h3>
+
+  <!-- =====        Striped 1x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('timespan/isequal')">isequal</a></td>
+        <td bgcolor="#f3f4f5">Overloads the isequal operator for ltpda objects.</td>
+        <td bgcolor="#f3f4f5">ltpda_obj</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 1x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ================================================== -->
+  <!--                  END CONTENT FILE                  -->
+  <!-- ================================================== -->
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="class_desc_ssm.html"><img src="b_prev.gif" border="0" align="bottom" alt="ssm Class"></a>&nbsp;</td>
+        <td align="left">ssm Class</td>
+        <td>&nbsp;</td>
+        <td align="right">Constructor Examples</td>
+        <td align="right" width="20"><a href="constructor_examples_main.html"><img src="b_next.gif" border="0" align="bottom" alt="Constructor Examples"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

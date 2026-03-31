@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>The Model Browser GUI (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="gui_specwin.html"><img src="b_prev.gif" border="0" align="bottom" alt="The Spectral Window GUI"></a>&nbsp;&nbsp;&nbsp;<a href="repo.html"><img src="b_next.gif" border="0" align="bottom" alt="Working with an LTPDA Repository"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">The Model Browser GUI</h1>
+    <hr>
+    
+    <p>
+      <p>
+  The LTPDA Toolbox supports built-in models to ease construction of standard objects such as <tt>ao</tt>, <tt>ssm</tt>,
+  <tt>plist</tt>, <tt>collection</tt> (see <a href="builtin_models.html">Models</a>). 
+  For each of these classes, the list of available models can be accessed by typing:
+<div class="fragment"><pre>
+    >> (class).getBuiltInModels
+</pre></div>
+with (class) being <tt>plist</tt>, <tt>ao</tt> etc.
+</p>
+<p>A graphical user interface
+  allows the user to easily explore this list and access the model documentation. To start the GUI:
+</p>
+<div class="fragment"><pre>
+    >> LTPDAModelBrowser
+</pre></div>
+<br>
+<p>
+  You should then be presented with the following figure:
+</p>
+<img src="images/LTPDAModelBrowser.png" width="400" alt="LTPDAModelBrowser" border="3">
+<br>
+<p>The tool allows to retrieve informations about the supported windows, and to plot them either
+in time-domain or frequency domain. A constructor line of code is also shown allowing the user to reproduce
+the window itself.</p>
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="gui_specwin.html"><img src="b_prev.gif" border="0" align="bottom" alt="The Spectral Window GUI"></a>&nbsp;</td>
+        <td align="left">The Spectral Window GUI</td>
+        <td>&nbsp;</td>
+        <td align="right">Working with an LTPDA Repository</td>
+        <td align="right" width="20"><a href="repo.html"><img src="b_next.gif" border="0" align="bottom" alt="Working with an LTPDA Repository"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

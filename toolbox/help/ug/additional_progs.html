@@ -1,0 +1,212 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Additional 3rd-party software (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="setup.html"><img src="b_prev.gif" border="0" align="bottom" alt="Setting-up MATLAB"></a>&nbsp;&nbsp;&nbsp;<a href="trouble_shooting.html"><img src="b_next.gif" border="0" align="bottom" alt="Trouble-shooting"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Additional 3rd-party software</h1>
+    <hr>
+    
+    <p>
+      <p>
+  Some features of the LTPDA Toolbox require additional 3rd-party software to be installed. These are listed below.
+</p>
+<p>
+  <hr>
+  <h2>Graphviz</h2>
+
+  <p>In order to use the commands listed below, the <a href="http://www.graphviz.org/">Graphviz</a> package must be installed.</p>
+
+  <p>
+    <table cellspacing="0" class="body" cellpadding="4" border="2">
+      <colgroup>
+        <col width="37%"/>
+        <col width="63%"/>
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th bgcolor="#B2B2B2">Method</th>
+          <th bgcolor="#B2B2B2">Description</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <!-- history/dotview -->
+        <tr valign="top">
+          <td bgcolor="#F2F2F2">
+            <p><tt>history/dotview</tt></p>
+          </td>
+          <td bgcolor="#F2F2F2">
+            <p>Convert a history object to a tree-diagram using the DOT interpreter.</p>
+          </td>
+        </tr>
+
+        <!-- ssm/dotview -->
+        <tr valign="top">
+          <td bgcolor="#F2F2F2">
+            <p><tt>ssm/dotview</tt></p>
+          </td>
+          <td bgcolor="#F2F2F2">
+            <p>Convert the statespace model object to a block-diagram using the DOT interpreter.</p>
+          </td>
+        </tr>
+
+        <!-- report -->
+        <tr valign="top">
+          <td bgcolor="#F2F2F2">
+            <p><tt>report</tt></p>
+          </td>
+          <td bgcolor="#F2F2F2">
+            <p>Generates a HTML report about the input objects which includes a DOT block-diagram of the history.</p>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </p>
+
+    <p>The following installation guidelines can be used for different platforms</p>
+    <ul>
+      <li><p><a href="#windows"/>Installation Guide for Windows</p></li>
+      <li><p><a href="#mac"/>Installation Guide for Mac OS X</p></li>
+      <li><p><a href="#linux"/>Installation Guide for Linux</p></li>
+    </ul>
+
+    <h3><a name="windows"/> Windows </h3>
+
+    <p>
+      <ol>
+        <li><p>Download the relevant package from Downloads section of <a href="http://www.graphviz.org/">www.graphviz.org</a>.</p></li>
+        <li><p>Install the package by following the relevant instructions.</p></li>
+        <li><p>Set the two relevant preferences with your LTPDA Preferences Panel</p></li>
+        <ol>
+          <li>For this start the LTPDApres<br />
+            <br />
+            <table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1">
+              <tr width="90%">
+                <td>>> LTPDAprefs
+                </td>
+              </tr>
+            </table>
+            <br />
+          </li>
+          <li style="margin-top:1ex">Select on your LTPDA Preferences Panel the category "External Programs"<br />
+            <br />
+            <img src="images/LTPDAprefs_ExtProg.png" width="70%" alt="Interpolate" border="0"></img>          <br />
+            <br />
+          </li>
+          <li style="margin-top:1ex">Set the path to the 'dot.exe' binary in the editable text field "DOT binary". If you perform the default installation, this should be something like:
+            <br>'c:\Program Files\Graphviz2.28\bin\dot.exe';</br>
+          </li>
+          <li>Define in the editable text field "DOT format" the graphics format to output. See <a href="http://www.graphviz.org/doc/info/output.html">formats</a> for available formats. To view the final graphics file you must have a suitable viewer for that graphics format installed on the system. For example, to output as PDF, choose 'pdf'.
+          </li>
+        </ol>
+      </ol>
+    </p>
+
+    <h3><a name="mac"/> Mac OS X </h3>
+    <p>
+      <ol>
+        <li>Choose from:</li>
+        <ol>
+          <li> From graphviz:</li>
+          <ul>
+            <li>Download the relevant package from Downloads section of <a href="http://www.graphviz.org/">www.graphviz.org</a>.</li>
+            <li>Install the package by following the relevant instructions.</li>
+          </ul>
+          <li> From Fink:</li>
+          <ul>
+            <li> If you use the fink package manager, in a terminal: <tt>> fink install graphviz</tt></li>
+          </ul>
+        </ol>
+        <li>Set the two relevant preferences with your LTPDA Preferences Panel.</li>
+        <ol>
+          <li>Start the LTPDA Preferences Panel. For this follow the step 3.1 or 3.2 of the installation on Windows.</li>
+          <li>Set the path to the 'dot' binary in the editable text field "DOT binary". 
+          <ul><li>If you performed the default installation from fink, this should be something like: '/sw/bin/dot'</li></ul>
+          <ul><li>If you performed the default installation from the web page, this should be something like: '/usr/local/bin/dot'</li></ul>
+          </li>
+          <li>Define in the editable text field "DOT format" the graphics format to output. See <a href="http://www.graphviz.org/doc/info/output.html">formats</a> for available formats. To view the final graphics file you must have a suitable viewer for that graphics format installed on the system. For example, to output as PDF, choose 'pdf'.
+          </li>
+        </ol>
+      </ol>
+    </p>
+
+    <h3><a name="linux"/> Linux </h3>
+
+    <p>
+      <ol>
+        <li>Choose from:</li>
+        <ol>
+          <li> From graphviz:</li>
+          <ul>
+            <li>Download the relevant package from Downloads section of <a href="http://www.graphviz.org/">www.graphviz.org</a>.</li>
+            <li>Install the package by following the relevant instructions.</li>
+          </ul>
+          <li> From terminal (Ubuntu):</li>
+          <ul>
+            <li>Please type in a terminal: <tt>>sudo apt-get install graphviz</tt></li>
+          </ul>
+          <li> From graphical package manager like <b>YaSt, Synaptic, Adept, ...</b></li>
+          <ul>
+            <li>Start your graphical package manager</li>
+            <li>Search for the <tt>>graphviz</tt> package</li>
+            <li>Select the package and all depending packes and install these packages.</li>
+          </ul>
+        </ol>
+        <li>Set the two relevant preferences with your LTPDA Preferences Panel.</li>
+        <ol>
+          <li>Start the LTPDA Preferences Panel. For this follow the step 3.1 or 3.2 of the installation on Windows.</li>
+          <li>Set the path to the 'dot' binary in the editable text field "DOT binary". If you perform the default installation from the terminal, this should be something like:
+            <br>'/usr/bin/dot';</br>
+            <br>even 'dot' without the path should work</br>
+          </li>
+          <li>Define in the editable text field "DOT format" the graphics format to output. See <a href="http://www.graphviz.org/doc/info/output.html">formats</a> for available formats. To view the final graphics file you must have a suitable viewer for that graphics format installed on the system. For example, to output as PDF, choose 'pdf'.
+          </li>
+        </ol>
+        <li>Define a programm in MATLAB which opens the file.</li>
+        <ol>
+          <li>The default programm to open a pdf file is the Acrobat Reader</li>
+          <li>Define another program under File -> Preferences -> Help -> PDF Reader</li>
+        </ol>
+      </ol>
+    </p>
+  </p>
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="setup.html"><img src="b_prev.gif" border="0" align="bottom" alt="Setting-up MATLAB"></a>&nbsp;</td>
+        <td align="left">Setting-up MATLAB</td>
+        <td>&nbsp;</td>
+        <td align="right">Trouble-shooting</td>
+        <td align="right" width="20"><a href="trouble_shooting.html"><img src="b_next.gif" border="0" align="bottom" alt="Trouble-shooting"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

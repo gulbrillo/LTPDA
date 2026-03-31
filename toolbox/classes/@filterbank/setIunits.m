@@ -1,0 +1,126 @@
+% SETIUNITS sets the 'iunits' property of each filter-object inside the filterbank-object.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% DESCRIPTION: SETIUNITS sets the 'iunits' property of each filter-object
+%              inside the filterbank-object. But only for 'parallel'
+%              filterbank-objects.
+%
+% CALL:        objs.setIunits(val);
+%              objs.setIunits(val1, val2);
+%              objs.setIunits(plist('iunits', val));
+%              objs = objs.setIunits(val);
+%
+% INPUTS:      objs: Can be a vector, matrix, list, or a mix of them.
+%              val:
+%                 1. Single string e.g. 'Hz'
+%                      Each filter-object inside the filterbank(objs) get this value.
+%                 2. Single string in a cell-array e.g. {'Hz'}
+%                      Each filter-object inside the filterbank(objs) get this value.
+%                 3. cell-array with the same number of strings as in objs
+%                    e.g. {'Hz', 'V', 's'} and 3 filterbank objects in objs
+%                      Each filter-object inside the filterbank(objs) get
+%                      its corresponding value from the cell-array
+%
+% <a href="matlab:utils.helper.displayMethodInfo('filterbank', 'setIunits')">Parameters Description</a>
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+function varargout = setIunits(varargin)
+  
+  % Check if this is a call from a class method
+  callerIsMethod = utils.helper.callerIsMethod;
+  
+  if callerIsMethod
+    fb     = varargin{1};
+    values = varargin(2:end);
+    
+  else
+    % Check if this is a call for parameters
+    if utils.helper.isinfocall(varargin{:})
+      varargout{1} = getInfo(varargin{3});
+      return
+    end
+    
+    import utils.const.*
+    utils.helper.msg(msg.PROC3, 'running %s/%s', mfilename('class'), mfilename);
+    
+    % Collect input variable names
+    in_names = cell(size(varargin));
+    try for ii = 1:nargin,in_names{ii} = inputname(ii); end; end
+    
+    % Collect all filterbank objects
+    [fb,  fb_invars, rest] = utils.helper.collect_objects(varargin(:), 'filterbank', in_names);
+    [pls, invars,    rest] = utils.helper.collect_objects(rest(:), 'plist');
+    
+    % Define property name
+    pName = 'iunits';
+    
+    % Get values for the filterbank objects
+    [fb, values] = processSetterValues(fb, pls, rest, pName);
+    
+    % Combine input plists and default PLIST
+    pls = applyDefaults(getDefaultPlist(), pls);
+    
+  end % callerIsMethod
+  
+  % Decide on a deep copy or a modify
+  fb = copy(fb, nargout);
+  
+  for j=1:numel(fb)
+    if strcmpi(fb(j).type, 'parallel')
+      fb(j).filters.setIunits(values{j});
+      if ~callerIsMethod
+        plh = pls.pset(pName, values{j});
+        fb(j).addHistory(getInfo('None'), plh, fb_invars(j), fb(j).hist);
+      end
+    else
+      warning('LTPDA:FILTERBANK:SETIUNITS', '!!! Skip filterbank %s because it is not a parallel filterbank.', fb(j).name);
+    end
+  end
+  
+  % Set output
+  nObjs = numel(fb);
+  if nargout == nObjs;
+    % List of outputs
+    for ii = 1:nObjs
+      varargout{ii} = fb(ii);
+    end
+  else
+    % Single output
+    varargout{1} = fb;
+  end
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                               Local Functions                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%--------------------------------------------------------------------------
+% Get Info Object
+%--------------------------------------------------------------------------
+function ii = getInfo(varargin)
+  
+  if nargin == 1 && strcmpi(varargin{1}, 'None')
+    sets = {};
+    pl   = [];
+  else
+    sets = {'Default'};
+    pl   = getDefaultPlist;
+  end
+  % Build info object
+  ii = minfo(mfilename, mfilename('class'), 'ltpda', utils.const.categories.helper, '', sets, pl);
+end
+
+%--------------------------------------------------------------------------
+% Get Default Plist
+%--------------------------------------------------------------------------
+function plout = getDefaultPlist()
+  persistent pl;
+  if exist('pl', 'var')==0 || isempty(pl)
+    pl = buildplist();
+  end
+  plout = pl;
+end
+
+function pl = buildplist()
+  pl = plist({'iunits', 'The unit to set.'}, paramValue.EMPTY_STRING);
+end

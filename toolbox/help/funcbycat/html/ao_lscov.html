@@ -1,0 +1,275 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!-- $Id$ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="../../ug/docstyle.css">
+    <title>LTPDA Method: ao/lscov</title>
+  </head>
+  <body>
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <p style="font-size:1px;">&nbsp;</p>
+
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../../ug/../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ao_lpsd.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ao/lpsd"></a>&nbsp;&nbsp;&nbsp;<a href="ao_ltfe.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ao/ltfe"></a></td>
+      </tr>
+    </table>
+
+    <h1 class="title">Method ao/lscov</h1>
+    <hr />
+
+<pre>  <SPAN CLASS="HELPTOPIC">LSCOV</SPAN> is a wrapper for MATLAB's <span class="helptopic">lscov</span> function.
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+  DESCRIPTION: <SPAN CLASS="HELPTOPIC">LSCOV</SPAN> is a wrapper for MATLAB's <span class="helptopic">lscov</span> function. It solves a
+  set of linear equations by performing a linear least-squares fit. It
+  solves the problem
+ 
+         Y = HX
+ 
+    where X are the parameters, Y the measurements, and H the linear
+    equations relating the two.
+ 
+  CALL:        X = <span class="helptopic">lscov</span>([C1 C2 ... CN], Y, pl)
+               X = <span class="helptopic">lscov</span>(C1,C2,C3,...,CN, Y, pl)
+ 
+  INPUTS:      C1...CN - AOs which represent the columns of H.
+               Y       - AO which represents the measurement set
+ 
+  Note: the length of the vectors in Ci and Y must be the same.
+  Note: the last input AO is taken as Y.
+ 
+               pl - parameter list (see below)
+ 
+  OUTPUTs:     X  - A pest object with fields: 
+                    y   - the N fitting coefficients to y_i 
+                    dy  - the parameters' standard deviations (<span class="helptopic">lscov</span> 'STDX' vector)
+                    cov - the parameters' covariance matrix (<span class="helptopic">lscov</span> 'COV' vector)
+                    
+  The procinfo field of the output PEST object is filled with the following key/value
+  pairs:
+      'MSE' - the mean-squared errors
+ 
+  <a href="ao_lscov.html#down">Parameters Description</a>
+ 
+  EXAMPLES:
+ 
+  % 1) Determine the coefficients of a linear combination of noises:
+ 
+  % Make some data
+   fs    = 10;
+   nsecs = 10;
+   B1 = ao(plist('tsfcn', 'randn(size(t))', 'fs', fs, 'nsecs', nsecs, 'yunits', 'T'));
+   B2 = ao(plist('tsfcn', 'randn(size(t))', 'fs', fs, 'nsecs', nsecs, 'yunits', 'T'));
+   B3 = ao(plist('tsfcn', 'randn(size(t))', 'fs', fs, 'nsecs', nsecs, 'yunits', 'T'));
+   n  = ao(plist('tsfcn', 'randn(size(t))', 'fs', fs, 'nsecs', nsecs, 'yunits', 'm'));
+   c = [ao(1,plist('yunits','m/T')) ao(2,plist('yunits','m/T')) ao(3,plist('yunits','m T^-1'))];
+   y = c(1)*B1 + c(2)*B2 + c(3)*B3 + n;
+   y.simplifyYunits;
+   % Get a fit for c
+   p_s = <span class="helptopic">lscov</span>(B1, B2, B3, y);
+   % do linear combination: using lincom
+   yfit1 = lincom(B1, B2, B3, p_s);
+   yfit1.simplifyYunits;
+   % do linear combination: using eval
+   yfit2 = p_s.eval(B1, B2, B3);
+  
+   % Plot (compare data with fit)
+   iplot(y, yfit1, yfit2, plist('Linestyles', {'-','--'}))
+ 
+  % 2) Determine the coefficients of a linear combination of noises:
+ 
+  % Make some data
+   fs    = 10;
+   nsecs = 10;
+   x1 = ao(plist('tsfcn', 'randn(size(t))', 'fs', fs, 'nsecs', nsecs, 'yunits', 'T'));
+   x2 = ao(plist('tsfcn', 'randn(size(t))', 'fs', fs, 'nsecs', nsecs, 'yunits', 'm'));
+   x3 = ao(plist('tsfcn', 'randn(size(t))', 'fs', fs, 'nsecs', nsecs, 'yunits', 'C'));
+   n  = ao(plist('tsfcn', 'randn(size(t))', 'fs', fs, 'nsecs', nsecs, 'yunits', 'm'));
+   c = [ao(1,plist('yunits','m/T')) ao(2,plist('yunits','m/m')) ao(3,plist('yunits','m C^-1'))];
+   y = c(1)*x1 + c(2)*x2 + c(3)*x3 + n;
+   y.simplifyYunits;
+   % Get a fit for c
+   p_m = <span class="helptopic">lscov</span>(x1, x2, x3, y);
+   % do linear combination: using lincom
+   yfit1 = lincom(x1, x2, x3, p_m);
+   % do linear combination: using eval
+   pl_split = plist('times', [1 5]);
+   yfit2 = p_m.eval(plist('Xdata', {split(x1, pl_split), split(x2, pl_split), split(x3, pl_split)}));
+   % Plot (compare data with fit)
+   iplot(y, yfit1, yfit2, plist('Linestyles', {'-','--'}))
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</pre>
+
+    <!-- =====        Striped 4x2 table: Begin        ==== -->
+    <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+    <div class="sectiontitle"></div>
+    <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+      <colgroup>
+        <col width="30%"/>
+        <col width="70%"/>
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th class="categorylist">Method Details</th>
+          <th class="categorylist"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Access</td>
+          <td bgcolor="#f3f4f5">public</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Defining Class</td>
+          <td bgcolor="#ffffff">ao</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Sealed</td>
+          <td bgcolor="#f3f4f5">0</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Static</td>
+          <td bgcolor="#ffffff">0</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- ===== Striped 4x2 table: End ==== -->
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <h2>Parameter Description</h2>    <a name="down" id="down"></a>
+
+    <!-- Link-Table of the sets -->
+    <table border="0" cellpadding="4" cellspacing="0" class="pagenavtable">
+      <tr><th>Sets for this method &#8230;</th></tr>
+        <tr><td><a href="#1">Default</a></td></tr>
+    </table>
+
+    <a name="1"></a>
+    <!-- Parameter List Table: Default -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>Default</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">lscov</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">WEIGHTS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">An ao containing weights for the fit.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">COV</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">An ao containing a covariance matrix for the fit.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('WEIGHTS', [[]], 'COV', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <p><!-- Table of the minfo object -->
+      <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+        <colgroup>
+          <col width="25%"/>
+          <col width="75%"/>
+        </colgroup>
+        <thead>
+          <tr valign="top">
+            <th class="categorylist" colspan="2">Some information of the method ao/lscov are listed below:</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Property: 'mclass' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Class name</td>
+            <td bgcolor="#f3f4f5">ao</td>
+          </tr>
+          <!-- Property: 'mname' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Method name</td>
+            <td bgcolor="#ffffff">lscov</td>
+          </tr>
+          <!-- Property: 'mcategory' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Category</td>
+            <td bgcolor="#f3f4f5">Signal Processing</td>
+          </tr>
+          <!-- Property: 'mpackage' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Package name</td>
+            <td bgcolor="#ffffff">ltpda</td>
+          </tr>
+          <!-- Property: 'modifier' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Can be used as modifier</td>
+            <td bgcolor="#f3f4f5">0</td>
+          </tr>
+          <!-- Property: 'supportedNumTypes' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Supported numeric types</td>
+            <td bgcolor="#ffffff">{'double'}</td>
+          </tr>
+        </tbody>
+      </table>
+    </p>
+
+
+    <br>
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ao_lpsd.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ao/lpsd"></a>&nbsp;</td>
+        <td align="left">Method: ao/lpsd</td>
+        <td>&nbsp;</td>
+        <td align="right">Method: ao/ltfe</td>
+        <td align="right" width="20"><a href="ao_ltfe.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ao/ltfe"></a></td>
+      </tr>
+    </table>
+
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+
+   </body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Simulating LPF noise (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_2_topic_2_6_2.html"><img src="b_prev.gif" border="0" align="bottom" alt="Simulating capacitive actuation noise"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_2_topic_2_7.html"><img src="b_next.gif" border="0" align="bottom" alt="Changing system parameters"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Simulating LPF noise</h1>
+    <hr>
+    
+    <p>
+        Here we will simulate the LPF system using the internal noise generator. In
+  Topic 4 you will see how to inject signals into the simulation.
+</p>
+<h2>LPF noise simulations: single noise source</h2>
+<p>
+  You can set up the simulation to simulate a single noise source for LPF by specifying a
+  single input name and a value for the variance of that noise. Let's suppose
+  we want to simulate the effect of interferometer readout noise on the <tt>X1</tt> interferometer 
+  and look how that appears in the two longitudinal interferometer outputs. Here's how to
+  do it:
+  <div class="fragment"><pre>
+      <span class="comment">% Build the default version of the LPF model</span>      
+      lpf = ssm(plist(<span class="string">'built-in'</span>, <span class="string">'LPF'</span>));
+      
+      <span class="comment">% Define the simulation plist for a 10000 sample simulation</span>      
+      simPlist = plist(...
+                  <span class="string">'CPSD Variable Names'</span>, <span class="string">'DIST_IFO_READOUT_NOISE.x1'</span>, ...
+                  <span class="string">'CPSD'</span>, 1, ...
+                  <span class="string">'Return outputs'</span>, {<span class="string">'IFO.x1'</span>, <span class="string">'IFO.x12'</span>, <span class="string">'DIST_IFO_READOUT.x1'</span>}, ...
+                  <span class="string">'Nsamples'</span>, 10000 ...
+                  );
+                  
+      <span class="comment">% Run the simulation</span>      
+      out = simulate(lpf, simPlist);</pre></div>
+  The output of the <tt>ssm/simulate</tt> method is a <tt>matrix</tt> object containing a series of
+  time-series analysis objects, one for each requested output. Please notice that we requested as output also
+  the quantity 'DIST_IFO_READOUT.x1' which is an (internal) input to the system, but can also be passed in output.
+  <br>You can plot the two time-series by doing:
+  <div class="fragment"><pre>
+      <span class="comment">% Plot on subplots </span>      
+      iplot(out, plist(<span class="string">'arrangement'</span>, <span class="string">'subplots'</span>));
+      
+      <span class="comment">% Or, unpack them and plot individually</span>      
+      [o1, o12, noise] = unpack(out);
+      iplot(o1)
+      iplot(o12)
+      iplot(noise)</pre></div>  
+  It's also interesting to look at the spectra of these two outputs. Since we do not plan to 
+  combine the spectra later on, we delegate to the spectral estimator <tt>ao/psd</tt> the calculation
+  of the square root of the spectra themselves, so to ease the plotting steps. Here's how:
+  <div class="fragment"><pre>
+      <span class="comment">% Plist for configuring the PSD estimator</span>      
+      psdPlist = plist(...
+                  <span class="string">'navs'</span>, 16, ...
+                  <span class="string">'scale'</span>, <span class="string">'ASD'</span>, ...
+                  <span class="string">'order'</span>, 1, ...
+                  <span class="string">'win'</span>, <span class="string">'BH92'</span> ...
+                  );
+      
+      <span class="comment">% Estimate the PSD of each output</span>      
+      [S_o1, S_o12, S_noise] = psd(o1, o12, noise, psdPlist);
+            
+      <span class="comment">% Plot the results</span>      
+      iplot(S_o1, S_o12, S_noise);
+      
+      <span class="comment">% Note: you can also use the <tt>matrix/psd</tt> method</span>      
+      S_out = psd(out, psdPlist);
+      
+      <span class="comment">% Unpack them and plot individually</span>      
+      [S_o1, S_o12, S_noise] = unpack(S_out);
+      iplot(S_o1, S_noise)
+      iplot(S_o12)</pre></div>  
+</p>
+<br>
+<br>
+<h2>Covariance or CPSD?</h2>
+<p>
+  The <tt>ssm/simulate</tt> method has two possible noise configuration inputs. Both
+  use the internal noise generator. The difference is simply in the scaling: <ul>
+  <li>When specifying
+  the 'CPSD', the noise is scaled according to the sample rate of the simulation so to preserve the signal 
+  energy content.</li> 
+  <li>When specifying the 'COV', the scaling is not performed.</li></ul>
+  As such, most of the time you will want to use the 'CPSD' inputs.
+</p>
+<br>
+<br>
+<h2>LPF noise simulations: two correlated noise sources</h2>
+<p>
+  Simulating with more than one noise source requires setting of the inputs and (co-)variance
+  just as in the single noise case. Suppose we want to activate the readout noise in both the <tt>X1</tt>
+  and <tt>X12</tt> IFO. And further suppose that these two readout noises should be correlated. 
+  To simulate this, we should do:
+  <div class="fragment"><pre>
+      
+      <span class="comment">% Define the simulation plist for a 100000 sample simulation</span>      
+      simPlist = plist(...
+                  <span class="string">'CPSD Variable Names'</span>, {<span class="string">'DIST_IFO_READOUT_NOISE.x1'</span>, <span class="string">'DIST_IFO_READOUT_NOISE.x12'</span>}, ...
+                  <span class="string">'CPSD'</span>, [1 0.5; 0.5 1], ...
+                  <span class="string">'Return outputs'</span>, {<span class="string">'IFO.x1'</span>, <span class="string">'IFO.x12'</span>, <span class="string">'DIST_IFO_READOUT.x1'</span>, <span class="string">'DIST_IFO_READOUT.x12'</span>}, ...
+                  <span class="string">'Nsamples'</span>, 100000 ...
+                  );
+                  
+      <span class="comment">% Run the simulation</span>      
+      out = simulate(lpf, simPlist);</pre></div>  
+  We can now extract the outputs and look at their spectra and cross-spectra, as 
+  well as the coherence between the measured <tt>X1</tt> and <tt>X12</tt> signals:
+  <div class="fragment"><pre>
+      
+      <span class="comment">% Unpack the signals from the simulation output matrix</span>      
+      [o1, o12, x1noise, x12noise] = unpack(out);
+                                    
+      <span class="comment">% Estimate PSD of the measured outputs</span>      
+      [S_o1, S_o12] = psd(o1, o12, psdPlist);
+      
+      <span class="comment">% Estimate CPSD of the measured outputs</span>      
+      S_o1o12 = cpsd(o1, o12, psdPlist);
+
+      <span class="comment">% Estimate COHERENCE of the measured outputs</span>      
+      C_o1o12 = cohere(o1, o12, psdPlist);
+      
+      <span class="comment">% Plot results</span>      
+      iplot(S_o1, S_o12, abs(sqrt(S_o1o12)));</pre></div>  
+  The warnings shown on the terminal are associated with the parameters that are peculiar only to the 
+  <tt>ao/psd</tt> method, and are not recognized by the other spectral estimators. We can ignore them, 
+  and take advantage of re-using the plist for the common parameters (window, number of averages, detrending order).
+  This should result in a plot something like the one below:
+  <br>
+  <br>
+  <IMG src="images/ltpda_training_2/Topic2/correlated_noise_sim_eg1.png" width="1000px" align="center" border="0">
+  <br>
+  <br>
+</p>
+<h2>LPF noise simulations: all noise sources on</h2>
+<p>
+  Simulating with all the noise sources on works just the same as the above examples. However, there
+  are 95 noise inputs to the LPF model and specifying each of them would be quite painful. So, we have
+  a shortcut for doing this. There is an <tt>ssm</tt> method called <tt>generateCovariance</tt> which 
+  creates a suitable covariance matrix for you as well as a list of the all the noise input port names.
+  The covariance matrix it generates is diagonal and as such all input noises are specified as uncorrelated.
+  To use this method in conjunction with <tt>ssm/simulate</tt> you can follow the example. The covariance 
+  matrix is included in a <tt>plist</tt> object, together with other informations, and as such it must 
+  be extracted from the plist to be passed as a numeric parameter.
+  <div class="fragment"><pre>
+      
+      <span class="comment">% Create a covariance matrix and port list sized for our LPF model</span>      
+      cov_matrix = lpf.generateCovariance();
+                                    
+      <span class="comment">% Define the simulation plist for a 100000 sample simulation</span>      
+      simPlist = plist(...
+                  <span class="string">'CPSD Variable Names'</span>, cov_matrix.find(<span class="string">'names'</span>), ...
+                  <span class="string">'CPSD'</span>, cov_matrix.find(<span class="string">'cov'</span>), ...
+                  <span class="string">'Return outputs'</span>, {<span class="string">'IFO.x1'</span>, <span class="string">'IFO.x12'</span>, <span class="string">'DFACS.sc_x'</span>, <span class="string">'DFACS.tm2_x'</span>}, ...
+                  <span class="string">'Nsamples'</span>, 100000 ...
+                  );
+                  
+      <span class="comment">% Run the simulation</span>      
+      out = simulate(lpf, simPlist);</pre></div>
+  In this case, we are asking to report at the output the reading of the <tt>X1</tt> IFO, as well as the 
+  forces that the DFACS controller calculates and commands to the FEEPs, so to control the spacecraft 
+  along <tt>x</tt>, and to the FEE connected to the EH of the TM2, so to control TM2 itself along <tt>x</tt>.
+  <br>
+  We can look at the time-series and spectra in the usual way:
+    <div class="fragment"><pre>
+      
+      <span class="comment">% Unpack the signals from the simulation output matrix</span>      
+      [o1, o12, F_cmd_X, F_cmd_x2] = unpack(out);
+                                    
+      <span class="comment">% Plot the IFO outputs and commanded forces along x</span>      
+      iplot(o1, o12);
+      iplot(F_cmd_X, F_cmd_x2);
+      
+      <span class="comment">% Estimate PSD of the measured outputs</span>      
+      [S_o1, S_o12, S_F_cmd_X, S_F_cmd_x2] = psd(o1, o12, F_cmd_X, F_cmd_x2, psdPlist);
+      
+      <span class="comment">% Plot results</span>      
+      iplot(S_o1, S_o12);
+      iplot(S_F_cmd_X, S_F_cmd_x2);</pre></div>  
+</p>
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_2_topic_2_6_2.html"><img src="b_prev.gif" border="0" align="bottom" alt="Simulating capacitive actuation noise"></a>&nbsp;</td>
+        <td align="left">Simulating capacitive actuation noise</td>
+        <td>&nbsp;</td>
+        <td align="right">Changing system parameters</td>
+        <td align="right" width="20"><a href="ltpda_training_2_topic_2_7.html"><img src="b_next.gif" border="0" align="bottom" alt="Changing system parameters"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

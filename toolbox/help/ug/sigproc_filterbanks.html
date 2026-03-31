@@ -1,0 +1,233 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Filter banks (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="sigproc_fir.html"><img src="b_prev.gif" border="0" align="bottom" alt="FIR Filters"></a>&nbsp;&nbsp;&nbsp;<a href="sigproc_applyfilt.html"><img src="b_next.gif" border="0" align="bottom" alt="Applying digital filters to data"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Filter banks</h1>
+    <hr>
+    
+    <p>
+      <!-- $Id$ -->
+
+<!-- ================================================== -->
+<!--                 BEGIN CONTENT FILE                 -->
+<!-- ================================================== -->
+<!-- ===== link box: Begin ===== -->
+<p>
+  <table border="1"  width="80%">
+    <tr>
+      <td>
+        <table border="0" cellpadding="5" class="categorylist" width="100%">
+          <colgroup>
+            <col width="37%"/>
+            <col width="63%"/>
+          </colgroup>
+          <tbody>
+            <tr valign="top">
+              <td>
+                <a href="#Fbankdesc">Description</a>
+              </td>
+              <td>Constructor description.</td>
+            </tr>
+            <tr valign="top">
+              <td>
+                <a href="#Fbankbuild">Create</a>
+              </td>
+              <td>Creating a filter bank in the LTPDA.</td>
+            </tr>
+            <tr valign="top">
+              <td>
+                <a href="#Fbankplist">From plist</a>
+              </td>
+              <td>Creating from a plist.</td>
+            </tr>
+            <tr valign="top">
+              <td>
+                <a href="#Fbankobjs">From filters</a>
+              </td>
+              <td>Creating from filter objects.</td>
+            </tr>
+            <tr valign="top">
+              <td>
+                <a href="#Fbankimport">Import</a>
+              </td>
+              <td>Importing an existing filterbank.</td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </table>
+</p>
+<!-- ===== link box: End ====== -->
+  
+  
+
+<!-- ===== Constructor description ===== -->
+<h2><a name="Fbankdesc">Description</a></h2>
+<p>
+  A filter bank is a container object for collections of 
+  <a href="sigproc_iir.html"> MIIR</a> and <a href="sigproc_fir.html"> MFIR</a> filters.
+  The filter bank object can be used to filter a discrete data series in parallel or in series,
+  in accordance to the schematic representations of figures 1 and 2.
+</p>
+
+<div align="center">
+  <table border="0">
+    <caption align="bottom">
+      <b> Figure 1:</b> Scheme for parallel filtering. Data is input to the 
+      different filters of the bank. Filters output are summed each other in 
+      order to obtain the complete output. The different filters of the bank 
+      must have the same input and output units.
+    </caption>
+    <tr>
+      <td>
+        <IMG src="images/sigproc_filterbank_01.png" align="center" border="0">
+      </td>
+    </tr>
+    
+  </table>
+  
+</div>
+
+<p>
+  
+</p>
+
+<div align="center">
+  <table border="0">
+    <caption align="bottom">
+      <b> Figure 2:</b> Scheme for serial filtering. The output of each filter
+      is input to the following filter till the end of the series.
+    </caption>
+    <tr>
+      <td>
+        <IMG src="images/sigproc_filterbank_02.png" align="center" border="0">
+      </td>
+    </tr>
+    
+  </table>
+  
+</div>
+
+<p>
+  
+</p>
+
+
+<!-- ===== Creating filterbanks ===== -->
+
+<h2><a name="Fbankbuild">Creating a filter bank in the LTPDA</a></h2>
+<p>
+  The LTPDA Toolbox allows the implementation of filter banks by means of the 
+  <a href="class_desc_filterbank.html"> filterbank class</a>.
+</p>
+
+<h2><a name="Fbankplist">Creating from a plist</a></h2>
+<p>
+  The following example creates a parallel filter bank of <a href="sigproc_iir.html"> MIIR</a> filters.
+</p>
+<div class="fragment"><pre>
+    
+    iirhp = miir(plist(<span class="string">'type'</span>, <span class="string">'highpass'</span>));
+    iirlp = miir(plist(<span class="string">'type'</span>, <span class="string">'lowpass'</span>));
+    pl = plist(<span class="string">'filters'</span>, [iirhp iirlp], ...
+      <span class="string">'type'</span>, <span class="string">'parallel'</span>);
+    f = filterbank(pl)
+</pre></div>
+
+<p>
+  The following example creates a serial filter bank of <a href="sigproc_iir.html"> MIIR</a> filters.
+</p>
+<div class="fragment"><pre>
+    
+    iirhp = miir(plist(<span class="string">'type'</span>, <span class="string">'highpass'</span>));
+    iirlp = miir(plist(<span class="string">'type'</span>, <span class="string">'lowpass'</span>));
+    pl = plist(<span class="string">'filters'</span>, [iirhp iirlp], ...
+      <span class="string">'type'</span>, <span class="string">'series'</span>);
+    f = filterbank(pl)
+</pre></div>
+
+<h2><a name="Fbankobjs">Creating from filter objects</a></h2>
+<p>
+  The following example creates a parallel filter bank of <a href="sigproc_iir.html"> MIIR</a> filters.
+</p>
+<div class="fragment"><pre>
+    
+    iirhp = miir(plist(<span class="string">'type'</span>, <span class="string">'highpass'</span>));
+    iirlp = miir(plist(<span class="string">'type'</span>, <span class="string">'lowpass'</span>));
+    pl = plist(<span class="string">'type'</span>, <span class="string">'parallel'</span>);
+    f = filterbank(iirhp,iirlp,pl)
+</pre></div>
+
+<p>
+  The following example creates a serial filter bank of <a href="sigproc_iir.html"> MIIR</a> filters.
+</p>
+<div class="fragment"><pre>
+    
+    iirhp = miir(plist(<span class="string">'type'</span>, <span class="string">'highpass'</span>));
+    iirlp = miir(plist(<span class="string">'type'</span>, <span class="string">'lowpass'</span>));
+    pl = plist(<span class="string">'type'</span>, <span class="string">'series'</span>);
+    f = filterbank(iirhp,iirlp,pl)
+</pre></div>
+
+<!-- ===== Importing filterbank ===== -->
+
+<h2><a name="Fbankimport">Importing an existing model</a></h2>
+<p>
+  The filterbank constructor also accepts as an input existing models in different formats:
+</p>
+<li>
+<li><p>XML files:</p>
+<div class="fragment"><pre>
+    f = filterbank(<span class="string">'foo_filterbank.xml'</span>)
+</pre></div>
+<li><p>MAT files:</p>
+  <div class="fragment"><pre>
+    f = filterbank(<span class="string">'foo_filterbank.mat'</span>)
+  </pre></div>
+</li>
+<li><p>From repository:</p>
+  <div class="fragment"><pre>
+    f = filterbank(plist(<span class="string">'hostname'</span>, <span class="string">'localhost'</span>, <span class="string">'database'</span>, <span class="string">'ltpda'</span>, <span class="string">'ID'</span>, []))
+  </pre></div>
+</li>
+</ul>
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="sigproc_fir.html"><img src="b_prev.gif" border="0" align="bottom" alt="FIR Filters"></a>&nbsp;</td>
+        <td align="left">FIR Filters</td>
+        <td>&nbsp;</td>
+        <td align="right">Applying digital filters to data</td>
+        <td align="right" width="20"><a href="sigproc_applyfilt.html"><img src="b_next.gif" border="0" align="bottom" alt="Applying digital filters to data"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

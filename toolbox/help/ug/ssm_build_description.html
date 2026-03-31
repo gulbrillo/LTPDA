@@ -1,0 +1,273 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Building from scratch (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ssm_building.html"><img src="b_prev.gif" border="0" align="bottom" alt="Building Statespace models"></a>&nbsp;&nbsp;&nbsp;<a href="ssm_build_built_in.html"><img src="b_next.gif" border="0" align="bottom" alt="Building from built-in models"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Building from scratch</h1>
+    <hr>
+    
+    <p>
+      <P>The models can be built from a plist constructor describing each
+field. It is possible to give incomplete information on the model and
+let the constructor auto-complete some fields.</P>
+<P>It is still rather lengthy to build a ssm object, and it is
+advisable to write built-in models to limit the time spent on
+modeling.</P>
+<H2>Incomplete description without parameters (params field)</H2>
+<P>The most retrained set of inputs is 
+</P>
+<DIV CLASS="fragment"><PRE STYLE="margin-bottom: 0.5cm">sys = ssm(plist(<span class="string">'amats'</span>, amats, <span class="string">'bmats'</span>, bmats, <span class="string">'cmats'</span>, cmats, <span class="string">'dmats'</span>, dmats, <span class="string">'timestep'</span>, timestep, <span class="string">'name'</span>, name, <span class="string">'statenames'</span>, statenames, <span class="string">'inputnames'</span>, inputnames, <span class="string">'outputnames'</span>, outputnames)))</PRE></DIV><P>
+<P>Example:</P>
+<DIV CLASS="fragment"><PRE>
+name = <span class="string">'sys'</span>;
+statenames = {<span class="string">'ss1'</span> <span class="string">'ss2'</span> <span class="string">'ss3'</span>};
+inputnames = {<span class="string">'input1'</span> <span class="string">'input2'</span> <span class="string">'input3'</span>};
+outputnames = {<span class="string">'output1'</span> <span class="string">'output2'</span> <span class="string">'output3'</span>};
+timestep = 0;
+amats = cell(3, 3);
+bmats = cell(3, 3);
+cmats = cell(3, 3);
+dmats = cell(3, 3);
+amats{1, 1} = -(sym(<span class="string">'OMEGA'</span>));
+amats{2, 2} = -2;
+amats{3, 3} = [0 1; -0.05 -0.01];
+amats{3, 1} = [-1; -3];
+bmats{1, 1} = 1;
+bmats{2, 2} = 2;
+bmats{3, 3} = 3*eye(2);
+cmats{1, 1} = 1;
+cmats{2, 2} = 1;
+cmats{3, 3} = eye(2);
+dmats{1, 3} = [6 6];
+dmats{2, 1} = 6;
+dmats{3, 2} = [6; 6];
+sys = ssm(plist(...
+<span class="string">'amats'</span>, amats, <span class="string">'bmats'</span>, bmats, <span class="string">'cmats'</span>, cmats, <span class="string">'dmats'</span>, dmats, <FONT COLOR="#0000ff">...</FONT>
+<span class="string">'timestep'</span>, timestep, <FONT COLOR="#0000ff">...</FONT>
+<span class="string">'name'</span>, name, <span class="string">'statenames'</span>, statenames, <span class="string">'inputnames'</span>, inputnames, <span class="string">'outputnames'</span>, outputnames))
+------ ssm/1 -------
+      amats: {  [1 x1 ]    []      []       
+                 []    [-2]   []            
+                [2 x1 ]    []     [2 x2 ]  }  [3x3]
+      bmats: { [1]   []      []           
+                 []    [2]   []           
+                 []      []     [2 x2 ]  }  [3x3]
+      cmats: { [1]   []      []           
+                 []    [1]   []           
+                 []      []     [2 x2 ]  }  [3x3]
+      dmats: { [0]   []     [1 x2 ]       
+               [6] [0]   []               
+                 []     [2 x1 ]    []    }  [3x3]
+   timestep: 0
+     inputs:  [1x3 ssmblock]
+         1 : INPUT1 | variable_1 []
+         2 : INPUT2 | variable_1 []
+         3 : INPUT3 | variable_1 [], variable_2 []
+     states:  [1x3 ssmblock]
+         1 : SS1 | variable_1 []
+         2 : SS2 | variable_1 []
+         3 : SS3 | variable_1 [], variable_2 []
+    outputs:  [1x3 ssmblock]
+         1 : OUTPUT1 | variable_1 []
+         2 : OUTPUT2 | variable_1 []
+         3 : OUTPUT3 | variable_1 [], variable_2 []
+  numparams: (empty-plist)
+     params: (empty-plist)
+    Ninputs: 3
+ inputsizes: [1 1 2]
+   Noutputs: 3
+outputsizes: [1 1 2]
+    Nstates: 3
+ statesizes: [1 1 2]
+ Nnumparams: 0
+    Nparams: 0
+isnumerical: false
+       hist: ssm.hist 
+   procinfo: []
+   plotinfo: []
+       name: sys
+description: 
+       UUID: ff67a657-e5fb-4f80-8a40-02725ee1801c
+--------------------</PRE></DIV>
+<P>
+Then the field &ldquo;params&rdquo; must be set by the user using the syntax
+&ldquo;sys.setParams(&lt;parameter plist&gt;)&rdquo;. Otherwise the
+toolbox will simply assume there are no parameters in the system and
+the matrices should be exclusively numerical in this case..</P>
+<P>The content of &ldquo;params&rdquo; is a plist with parameters
+whose:</P>
+<UL>
+	<LI><P>KEY is the name of the parameter in the matrices</P>
+	<LI><P>VALUE is a property which must be set before proceeding
+	numerical substitutions</P>
+	<LI><P>MIN, MAX, and SIGMA which are useful for an optimizer if
+	system identification is proceeded.</P>
+</UL>
+<DIV CLASS="fragment"><PRE>
+sys.setParams(plist({<span class="string">'OMEGA'</span>, <span class="string">'system frequency'</span>}, 2))
+------ ssm/1 -------
+      amats: {  [1 x1 ]    []      []       
+                 []    [-2]   []            
+                [2 x1 ]    []     [2 x2 ]  }  [3x3]
+      bmats: { [1]   []      []           
+                 []    [2]   []           
+                 []      []     [2 x2 ]  }  [3x3]
+      cmats: { [1]   []      []           
+                 []    [1]   []           
+                 []      []     [2 x2 ]  }  [3x3]
+      dmats: { [0]   []     [1 x2 ]       
+               [6] [0]   []               
+                 []     [2 x1 ]    []    }  [3x3]
+   timestep: 0
+     inputs:  [1x3 ssmblock]
+         1 : INPUT1 | variable_1 []
+         2 : INPUT2 | variable_1 []
+         3 : INPUT3 | variable_1 [], variable_2 []
+     states:  [1x3 ssmblock]
+         1 : SS1 | variable_1 []
+         2 : SS2 | variable_1 []
+         3 : SS3 | variable_1 [], variable_2 []
+    outputs:  [1x3 ssmblock]
+         1 : OUTPUT1 | variable_1 []
+         2 : OUTPUT2 | variable_1 []
+         3 : OUTPUT3 | variable_1 [], variable_2 []
+  numparams: (empty-plist)
+     params: (OMEGA=2)
+    Ninputs: 3
+ inputsizes: [1 1 2]
+   Noutputs: 3
+outputsizes: [1 1 2]
+    Nstates: 3
+ statesizes: [1 1 2]
+ Nnumparams: 0
+    Nparams: 1
+isnumerical: false
+       hist: ssm.hist 
+   procinfo: []
+   plotinfo: []
+       name: sys
+description: 
+       UUID: 15da354b-aa4f-44e8-bb73-30316359b20b
+--------------------</PRE></DIV><P>
+The method &ldquo;setParams&rdquo; should not be confused with
+&ldquo;setParameters&rdquo; which only allows to modify the property
+VALUE in the &ldquo;params&rdquo; field.</P>
+<P>Input blocks and input variables will be automatically named after
+their index number in this case, and the description field will be
+empty. 
+</P>
+<H2>Complete description</H2>
+<P>A complete description (with parameters) example is:</P>
+<DIV CLASS="fragment"><PRE>
+name = <span class="string">'sys'</span>;
+statenames = {<span class="string">'ss1'</span> <span class="string">'ss2'</span> <span class="string">'ss3'</span>};
+inputnames = {<span class="string">'input1'</span> <span class="string">'input2'</span> <span class="string">'input3'</span>};
+outputnames = {<span class="string">'output1'</span> <span class="string">'output2'</span> <span class="string">'output3'</span>};
+timestep = 0;
+amats = cell(3, 3);
+bmats = cell(3, 3);
+cmats = cell(3, 3);
+dmats = cell(3, 3);
+amats{1, 1} = -(sym(<span class="string">'OMEGA'</span>));
+amats{2, 2} = -2;
+amats{3, 3} = [0 1; -0.05 -0.01];
+amats{3, 1} = [-1; -3];
+bmats{1, 1} = 1;
+bmats{2, 2} = 2;
+bmats{3, 3} = 3*eye(2);
+cmats{1, 1} = 1;
+cmats{2, 2} = 1;
+cmats{3, 3} = eye(2);
+dmats{1, 3} = [6 6];
+dmats{2, 1} = 6;
+dmats{3, 2} = [6; 6];
+params = plist({<span class="string">'OMEGA'</span>, <span class="string">'system frequency'</span>}, 2);
+sys = ssm(plist(...
+<span class="string">'amats'</span>, amats, <span class="string">'bmats'</span>, bmats, <span class="string">'cmats'</span>, cmats, <span class="string">'dmats'</span>, dmats, <FONT COLOR="#0000ff">...</FONT>
+<span class="string">'timestep'</span>, timestep, <FONT COLOR="#0000ff">...</FONT>
+<span class="string">'name'</span>, name, <span class="string">'statenames'</span>, statenames, <span class="string">'inputnames'</span>, inputnames, <span class="string">'outputnames'</span>, outputnames, <FONT COLOR="#0000ff">...</FONT>
+<span class="string">'params'</span>, params))
+------ ssm/1 -------
+      amats: {  [1 x1 ]    []      []       
+                 []    [-2]   []            
+                [2 x1 ]    []     [2 x2 ]  }  [3x3]
+      bmats: { [1]   []      []           
+                 []    [2]   []           
+                 []      []     [2 x2 ]  }  [3x3]
+      cmats: { [1]   []      []           
+                 []    [1]   []           
+                 []      []     [2 x2 ]  }  [3x3]
+      dmats: { [0]   []     [1 x2 ]       
+               [6] [0]   []               
+                 []     [2 x1 ]    []    }  [3x3]
+   timestep: 0
+     inputs:  [1x3 ssmblock]
+         1 : INPUT1 | variable_1 []
+         2 : INPUT2 | variable_1 []
+         3 : INPUT3 | variable_1 [], variable_2 []
+     states:  [1x3 ssmblock]
+         1 : SS1 | variable_1 []
+         2 : SS2 | variable_1 []
+         3 : SS3 | variable_1 [], variable_2 []
+    outputs:  [1x3 ssmblock]
+         1 : OUTPUT1 | variable_1 []
+         2 : OUTPUT2 | variable_1 []
+         3 : OUTPUT3 | variable_1 [], variable_2 []
+  numparams: (empty-plist)
+     params: (OMEGA=2)
+    Ninputs: 3
+ inputsizes: [1 1 2]
+   Noutputs: 3
+outputsizes: [1 1 2]
+    Nstates: 3
+ statesizes: [1 1 2]
+ Nnumparams: 0
+    Nparams: 1
+isnumerical: false
+       hist: ssm.hist 
+   procinfo: []
+   plotinfo: []
+       name: sys
+description: 
+       UUID: 439fa9e2-b24c-4306-99b0-db7a1b868857
+--------------------
+</PRE></DIV>
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ssm_building.html"><img src="b_prev.gif" border="0" align="bottom" alt="Building Statespace models"></a>&nbsp;</td>
+        <td align="left">Building Statespace models</td>
+        <td>&nbsp;</td>
+        <td align="right">Building from built-in models</td>
+        <td align="right" width="20"><a href="ssm_build_built_in.html"><img src="b_next.gif" border="0" align="bottom" alt="Building from built-in models"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Version 2.5 LTPDA Toolbox Software (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="releasenotesV2_5_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="Version 2.5.1 LTPDA Toolbox Software"></a>&nbsp;&nbsp;&nbsp;<a href="releasenotesV2_4.html"><img src="b_next.gif" border="0" align="bottom" alt="Version 2.4 LTPDA Toolbox Software"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Version 2.5 LTPDA Toolbox Software</h1>
+    <hr>
+    
+    <p>
+      
+    <style type="text/css">
+      p { margin-left:30px; }
+      h4 { margin-left:15px; }
+    </style>
+
+    <!-- BEGIN: Content file -->
+
+    <a name="top_of_page"></a>
+    This table summarizes what's new in Version 2.5:
+    <table cellspacing="0" class="body" cellpadding="4" border="2" width="100%">
+      <colgroup>
+        <col width="25%">
+        <col width="25%">
+        <col width="25%">
+        <col width="25%">
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th bgcolor="#B2B2B2" valign="top">New Features and Changes</th>
+          <th bgcolor="#B2B2B2" valign="top">Version Compatibility Considerations</th>
+          <th bgcolor="#B2B2B2" valign="top">Fixed Bugs and Known Problems</th>
+          <th bgcolor="#B2B2B2" valign="top">Related Documentation at Web Site</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#F2F2F2">Yes<br>Details below</td>
+          <td bgcolor="#F2F2F2">Yes &#8212; Details labeled as <b>Removed methods</b> in descriptions of changes, below. See <a href="#removed_methods">Removed Methods</a>.</td>
+          <td bgcolor="#F2F2F2"><a href="https://ed.fbk.eu/ltpda/mantis/login_page.php" target="_top">Bug Reports</a> at Web site</td>
+          <td bgcolor="#F2F2F2">Printable Release Notes: <a href="http://www.lisa.aei-hannover.de/ltpda/downloads/version_25/files/Release_Notes_v2.5.pdf" target="_top">PDF</a></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ul>
+      <li><a href="#introduction">Introduction</a></li>
+      <li><a href="#newFeatures">New features and major changes</a></li>
+      <ul>
+        <li><a href="#toffset">Changes to time-series data handling</a></li>
+        <li><a href="#new_methods">New class methods</a></li>
+        <li><a href="#removed_methods">Methods removed</a></li>
+      </ul>
+      <li><a href="#other_changes">Other Minor Changes of Note!</a></li>
+      <li><a href="#mantis_fixes">MANTIS Issues Resolved</a></li>
+      <li><a href="http://www.lisa.aei-hannover.de/ltpda/downloads/version_25/files/Release_Notes_v2.5.pdf">Complete CVS Changes</a></li>
+    </ul>
+    
+    <!-- HEADLINE: Introduction -->
+
+    <h3 class="title" id="introduction">Introduction</h3>
+    <p>This version of LTPDA is 2.5. This document lists the changes since V2.4.</p>
+    <p><i>This version requires MATLAB 2010a or above</i></p>
+    <p>The main focus of this release has been on improvements in time-series handling, bug fixing and underlying code improvements. In addition, the LTPDA repository underlying database structure has changed in this release, and the client-side functionality has been adapted to work with both the old repositories and new repositories. There have also been some fairly major changes to the toolbox, so keep reading to find out what they are! In addition, a significant number of bugs and change requests have been addressed.</p>
+
+    <!-- HEADLINE: New features and major changes -->
+
+    <h3 class="title" id="newFeatures">New features and major changes</h3>
+    
+    <ul>
+      <li>A check is made on the plist parameters passed to methods now. If the user specifies a key which is not in the default plist described in the method documentation, a warning is issued. In addition, for parameters which have a specified set of possible values, an error will be thrown if the user tries to use a value not in the set.</li>
+      <li>The repository connection manager has had a major overhaul with new settings in the LTPDA preferences for setting password expiry times and default repositories.</li>
+      <li>A new utility function is available for creating new methods in extension modules. See help on <b>utils.modules.makeMethod</b> for details.</li>
+      <li>The <b>matrix/mcmc</b> method can now handle priors and can do annealing with a thermostat.</li>
+      <li>The <b>ao/filtfilt</b> method can now do frequency-domain filtering.</li>
+      <li>The matrix class has a number of new methods which simply call the same method on the internal objects. For example:<br/>
+        <p><b>m = matrix(ao.randn(10,10), ao.randn(10,10));<br/>
+        p = psd(m)</b><br/></p>
+        calls <b>ao/psd</b> on each of the internal AOs in the matrix.</li>
+      <li>The LTPDA user-manual now has a Functions section which lists all class methods, organised by class and category.</li>
+      <li>The <b>ao/split</b> method supports now a parameter offset whose value is an array of start/stop <b>offsets</b> to split by. Positive offsets are relative to the first sample. Negative offsets are taken from the end of the vector. For example [10 -10] removes 10 seconds from the beginning and end of the vector. An end time of 0 indicates the end of the vector.</li>
+      <li>The rules for adding and subtracting objects were updated:
+        <ul>
+          <li>for xydata objects, the x axes should match</li>
+          <li>for tsdata objects, the nsecs and fs should match (evenly sampled data)</li>
+          <li>for tsdata objects, the x axes should match modulo the toffset (unevenly sampled data)</li>
+        </ul>
+      </li>
+      <li>It is now possible to create a cdata AO using an existing AO as input. Here are some examples:
+        <p><b>a1 = ao.randn(2,2);<br/>
+        a2 = ao(plist('vals', a1)) % a2.y == a1.y<br/>
+        a3 = ao(plist('vals', a1, 'axis', 'x')) % a3.y == a1.x</b></p></li>
+      <li>The matrix and collection classes can now be nested. For example, you can do:
+        <p><b>m1 = matrix(ao.randn(10,10), ao.randn(10,10));<br/>
+        m2 = matrix(ao.randn(10,10), ao.randn(10,10));<br/>
+        m = matrix(m1, m2);</b><br/></p>
+        In previous versions of LTPDA, these calls would just copy the input matrix objects. Now these &rsquo;copy constructors&rsquo; are removed and building of nested matrix and collection objects works.</li>
+      <li>LTPDA includes a useful function for listing all the plist keys for constructors. For example:
+        <p><b>keys(&lsquo;ao&rsquo;)</b></p></li>
+      <li>For the curious user, you can generate a class diagram (assuming you have graphviz installed) by doing:
+        <p><b>utils.helper.make_class_diagram(false) % don&rsquo;t show class methods<br/>
+        utils.helper.make_class_diagram(true) % show class methods</b><br/></p></li>
+    </ul>
+    
+    <img src="images/class_diagram.png" alt="Class Diagram" width="900">
+  
+    <!-- HEADLINE: Changes to time-series data handling -->
+    
+    <h4 class="title" id="toffset">Changes to time-series data handling</h4>
+    
+    <p>In previous versions of LTPDA, time-series AOs (which contain a <b>tsdata</b> object) had two degrees-offreedom for describing the absolute position of the data in time. These were the &lsquo;t0&rsquo; property which was used to specify the absolute time of the first sample, and then value of the first x sample (for evenly sampled data, this was always 0). In this version of LTPDA the property &lsquo;t0&rsquo; has a new meaning. Now it refers to a reference time and a new property has been added to the <b>tsdata</b> class which encodes the time between this reference time and the first x sample. As such, it is now possible to have two time-series which have the same reference time (the same &lsquo;t0&rsquo;) but which have their data actually starting at different absolute times. An example is depicted in the following diagram:</p>
+    <p><img src="images/toffset_eg.png" alt="Toffset" width="400"></p>
+    <p>This <b>toffset</b> property is mostly handled automatically by the toolbox, but it is possible for the user to set this value using the <b>ao/setToffset</b> method. The following situations can occur:</p>
+    
+    <ul>
+      <li>Setting <b>toffset</b> via <b>ao/setToffset</b> means the data will be shifted in time.</li>
+      <li>Setting the reference time via <b>ao/setReferenceTime</b> means the data stays where it is, the reference time (<b>t0</b>) is changed, and the <b>toffset</b> is updated accordingly.</li>
+      <li>Changing the reference time vi <b>ao/setT0</b> means the data moves in time because <b>t0</b> is update but <b>toffset</b> retains its value.</li>
+    </ul>
+    
+    <p>To adapt to this change, the <b>ao/timeshift</b> method no longer behaves as it did. Instead, now it adjusts the <b>toffset</b> by the relative amount given. Note: This method does no fancy interpolation it just shifts the start time of the first sample by the given amount relative to t0.</p>
+    <p>For backwards compatibility, we do the following steps on saving and loading of objects:<br/>
+    - before saving, t0 = t0 + toffset<br/>
+    - after loading, t0 = t0 - toffset</p>
+    <p>This means objects created with older versions of the toolbox are handled as if the toffset is zero, and older versions of the toolbox should be able to read objects created with toolbox versions >= 2.5.</p>
+    
+    <!-- HEADLINE: New class methods -->
+    
+    <h4 class="title" id="new_methods">New class methods</h4>
+    
+     <ul>
+      <li><b>matrix/dispersion</b> computes the dispersion function of an (<b>smodel</b>) system given the matrix of input signals.</li>
+      <li><b>ao/qqplot</b> is a method to do the quantile-quantile plot with confidence intervals.</li>
+      <li><b>matrix/modelselect</b> is method to compute the Bayes factors for an array of input models (ssm or matrix models are supported).</li>
+      <li><b>ssm/getPortNamesForBlocks</b> returns a list of port names for a given block. This can be useful for preparing plists for methods like <b>ssm/simulate</b> and <b>ssm/bode</b>.</li>
+      <li><b>ssm/viewDetails</b> shows a documentation page containing details of the given state-space model. It lists the inputs, outputs, states and parameters.</li>
+      <li><b>matrix/unpack</b> can be used to conveniently extract the objects from within a matrix object. Internally this calls <b>matrix/getObjectAtIndex</b> to ensure proper history tracking.</li>
+      <li>The ao class now has some useful static constructors. You can do:<br/>
+        kb = ao.kb; G = ao.G; c = ao.c; e = ao.e;<br/>
+        e0 = ao.epsilon0; h = ao.h; mu0 = ao.mu0;</li>
+    </ul>
+   
+    <!-- HEADLINE: Changes to time-series data handling -->
+    
+    <h4 class="title" id="removed_methods">Methods removed</h4>
+    
+    <ul>
+      <li><b>ssm/getMatrixSelection</b> was deprecated since Aug 2010.</li>
+      <li><b>ssm/noiseSpectrum</b> was deprecated since Aug 2010.</li>
+      <li><b>ssm/setBlockDescriptions</b> was deprecated since Aug 2010.</li>
+      <li><b>ssm/setBlockNames</b> was deprecated since Aug 2010.</li>
+      <li><b>ssm/setBlockProperties</b> was deprecated since Aug 2010.</li>
+      <li><b>ssm/setPortUnits</b> was deprecated since Aug 2010.</li>
+      <li><b>ssm/setPortNames</b> was deprecated since Aug 2010.</li>
+      <li><b>ssm/setPortDescriptions</b> was deprecated since Aug 2010.</li>
+      <li><b>matrix/MultiChannelNoise</b> was removed and replaced by <b>matrix/mchNoisegenFilter</b>.</li>
+      <li>The matrix class constructor &lsquo;from CPSD&rsquo; was removed and replaced by <b>matrix/mchNoisegen</b>.</li>
+    </ul>
+    
+    <!-- HEADLINE: Other Minor Changes of Note -->
+
+    <h3 class="title" id="other_changes">Other Minor Changes of Note</h3>
+
+    <ul>
+      <li><b>ssm<b> methods <b>CPSD</b> and <b>PSD</b> were renamed to <b>cpsd</b> and <b>psd</b>.</li>
+      <li><b>ssm/keepParameters</b> is now deprecated and will be removed in a future release. Use <b>ssm/subsParameters</b> instead.</li>
+      <li><b>ao/filter</b> and <b>ao/filfilt</b> no longer support the additional output for returning the filter with its history filled. Instead the filter is returned in the procinfo.</li>
+      <li>The syntax utils.const.physics.c to obtain values of frequently used fundamental physical constants now returns an AO object, with units and descriptions</li>
+      <li>Spectral windows are now treated (from user’s point of view), merely via their name and length. All the other properties are calculated internally, when needed, based on the window definition.</li>
+      <li>Operations like adding and subtracting objects with different units, but equivalent to the same SI units, are now supported. For example:<br/>
+        <p><b>a1 = ao(1, plist('yunits', 'N'));<br/>
+           a2 = ao(2, plist('yunits', 'kg m s^-2'));<br/>
+           a3 = a1 + a2;<br/>
+           a4 = a2 + a1;</b></p>
+      </li>
+    </ul>
+    
+    <!-- HEADLINE: MANTIS Issues Resolved -->
+    
+    <p>
+      <h3 class="title" id="mantis_fixes">MANTIS Issues Resolved</h3>
+      <table cellspacing="0" class="body" cellpadding="4" border="2" width="100%">
+      <thead>
+        <tr valign="top">
+          <th bgcolor="#B2B2B2" valign="top">Issue</th>
+          <th bgcolor="#B2B2B2" valign="top">Type</th>
+          <th bgcolor="#B2B2B2" valign="top">Decription</th>
+        </tr>
+      </thead>
+        <tbody>
+          <tr><td>0000555</td><td>Bug Report</td><td>Robot does not generate plot for ao with data type 'fsdata'.</td></tr>
+          <tr><td>0000561</td><td>Bug Report</td><td>Plot not generated for some of the fsdata type objects</td></tr>
+          <tr><td>0000536</td><td>Change Request</td><td>matrix wrappers for common ao methods</td></tr>
+          <tr><td>0000534</td><td>Bug Report</td><td>iplot automatic ranging failing with two transfer functions</td></tr>
+          <tr><td>0000538</td><td>Bug Report</td><td>setFs does not update nsecs</td></tr>
+          <tr><td>0000552</td><td>Bug Report</td><td>Gnuplot interface uses Linux specific code to execute gnuplot, does not work on windows.</td></tr>
+          <tr><td>0000551</td><td>Bug Report</td><td>The wrong columns are plotted for data with error bars in gnuplot interface.</td></tr>
+          <tr><td>0000554</td><td>Bug Report</td><td>Missing install.php</td></tr>
+          <tr><td>0000540</td><td>Bug Report</td><td>split treats aos with and without .data.x vector differently</td></tr>
+          <tr><td>0000535</td><td>Bug Report</td><td>ao/convert doesn't retain units etc</td></tr>
+          <tr><td>0000548</td><td>Bug Report</td><td>iplotyy() mixes up left and right y-axis labels/yunits</td></tr>
+          <tr><td>0000537</td><td>Bug Report</td><td>iplotyy does not work</td></tr>
+          <tr><td>0000549</td><td>Bug Report</td><td>linewidths key for iplot not working</td></tr>
+          <tr><td>0000558</td><td>Bug Report</td><td>Erratic behaviour of split and consolidate</td></tr>
+          <tr><td>0000541</td><td>Bug Report</td><td>consolidate does not work as expected</td></tr>
+          <tr><td>0000556</td><td>Bug Report</td><td>Default value for marker size is too small</td></tr>
+          <tr><td>0000545</td><td>Change Request</td><td>ao(file,plist('type','tsdata','fs',fs,...) should automatically set xunits to s</td></tr>
+        </tbody>
+      </table>
+    </p>
+    <!-- END: Content file -->
+
+    
+    
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="releasenotesV2_5_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="Version 2.5.1 LTPDA Toolbox Software"></a>&nbsp;</td>
+        <td align="left">Version 2.5.1 LTPDA Toolbox Software</td>
+        <td>&nbsp;</td>
+        <td align="right">Version 2.4 LTPDA Toolbox Software</td>
+        <td align="right" width="20"><a href="releasenotesV2_4.html"><img src="b_next.gif" border="0" align="bottom" alt="Version 2.4 LTPDA Toolbox Software"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

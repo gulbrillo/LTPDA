@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>How to inject signals (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_2_topic_4_2.html"><img src="b_prev.gif" border="0" align="bottom" alt="Building signals"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_2_topic_4_4.html"><img src="b_next.gif" border="0" align="bottom" alt="Simulate LTP with injected signals (no noise)"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">How to inject signals</h1>
+    <hr>
+    
+    <p>
+      <p>
+  Injecting signals in to <tt>ssm</tt> models is done at the time of simulating. In Topic 2 you learned
+  how to simulate an LPF model which generated its noise internally. But you can also inject time-series
+  data into the simulation in the form of AOs.
+</p>
+<p>
+  The two key parameters for <tt>ssm/simulate</tt> are:
+  <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+    <colgroup>
+      <col width="20%"/>
+      <col width="80%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th bgcolor="#D7D7D7">Key</th>
+        <th bgcolor="#D7D7D7">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>AOS</td><td>An array of AOs to be input to the simulation. Specify one per ''AOS VARIABLE NAMES''.</td>
+      </tr>
+      <tr>
+        <td>AOS VARIABLE NAMES</td><td>An cell-array of strings which give the names of the input ports you want to inject the AOs into.</td>
+      </tr>
+    </tbody>
+  </table>
+  The input ports should be specified using the "[block].[port]" notation. For example, to inject a guidance
+  signal on the x1 control coordinate of our LPF model, you would do:
+  <div class="fragment"><pre>
+	  <span class="comment">% The following supposes you already have an LPF SSM model called 'lpf' in your MATLAB workspace.</span>
+      
+      <span class="comment">% Create some time-series analysis object to inject</span>
+      aSignal = ao(plist(<span class="string">'tsfcn'</span>, <span class="string">'1e-6*sin(2*pi*0.1*t)'</span>, <span class="string">'fs'</span>, 10, <span class="string">'nsecs'</span>, 1000));       
+      
+      <span class="comment">% Create the plist to configure simulate</span>      
+      sim_pl = plist(<span class="string">'AOS'</span>, aSignal, <span class="string">'AOS Variable Names'</span>, <span class="string">'GUIDANCE.ifo_x1'</span>, <span class="string">'return outputs'</span>, <span class="string">'DELAY_IFO.x1'</span>)
+      
+      <span class="comment">% Run the simulation</span>      
+      out = simulate(lpf, sim_pl);
+  </pre></div>
+  To inject multiple signals into different input ports, you would do something like:
+  <div class="fragment"><pre>
+      <span class="comment">% The following supposes you already have an LPF SSM model called 'lpf' in your MATLAB workspace.</span>
+      
+      <span class="comment">% Create some time-series analysis object to inject</span>
+      fs    = 1/lpf.timestep; <span class="comment">% Get the sample rate from the model's timestep</span>
+      nsecs = 1000; <span class="comment">% Create signals 1000s long</span>
+      sig1 = ao(plist(<span class="string">'tsfcn'</span>, <span class="string">'1e-6*sin(2*pi*0.1*t)'</span>, <span class="string">'fs'</span>, fs, <span class="string">'nsecs'</span>, nsecs));       
+      sig2 = ao(plist(<span class="string">'built-in'</span>, <span class="string">'signals_3045_1_1'</span>, <span class="string">'gaps'</span>, 1000));
+      
+      <span class="comment">% Create the plist to configure simulate</span>      
+      sim_pl = plist(<span class="string">'AOS'</span>, [sig1 sig2], ...      
+                     <span class="string">'AOS Variable Names'</span>, {<span class="string">'GUIDANCE.ifo_x1'</span>, <span class="string">'GUIDANCE.ifo_x12'</span>}, ...
+                     <span class="string">'return outputs'</span>, {<span class="string">'DELAY_IFO.x1'</span>, <span class="string">'DELAY_IFO.x12'</span>})
+      
+      <span class="comment">% Run the simulation</span>      
+      out = simulate(lpf, sim_pl);
+  </pre></div>  
+</p>
+<p>
+  There are a number of rules which need to be followed for this all to work:
+  <ol>
+    <li>The order of the AOs must match the order of the input port names.</li>
+    <li>The time-series AOs must all have the same sample rate and that sample rate must match the time-step of the discretized <tt>ssm</tt> model.</li>
+    <li>The length of the simulation will be governed by the shortest input AO. Specifying the number of samples with the <span class="string">'NSamples'</span> key for <tt>ssm/simulate</tt> will be 
+    ignored when input AOs are given.</li>
+  </ol>
+</p>
+<h2>How do I know which ports are available?</h2>
+<p>
+  One of the difficulties of working with very large models like the LPF model, is that it's sometimes
+  difficult to see which inputs and outputs are available to you. To aid in this process, we have
+  two tools which can be useful. The first presents details of a given model in a documentation
+  window. For example, suppose we have our LPF model in the MATLAB workspace, then you can do
+  <div class="fragment"><pre>
+      lpf.viewDetails
+  </pre></div>  
+  which will present a window like this one:
+  <div align="center">
+    <IMG width="600px" src="images/ltpda_training_2/Topic4/lpf_viewDetails_output.png"  align="center" border="0">
+  </div>
+  You can also use the <tt>ssm</tt> method <tt>getPortNamesForBlocks</tt>. This will return an 
+  cell-array of names for a given block. You can also configure what kind of blocks (inputs, outputs, or states)
+  to return results for. For example, suppose we want to get a list of all guidance input ports, we could do
+  <div class="fragment"><pre>
+      portNames = lpf.getPortNamesForBlocks(<span class="string">'GUIDANCE'</span>);
+  </pre></div>  
+  This returns only input ports because the LPF model we are using only has one block called 'GUIDANCE' and 
+  it is an input block. This need not necessarily be true, and there could be an input block with the same name
+  as an output block. In that case, you would need to specify which block types to search like this:
+  <div class="fragment"><pre>
+      lpf.getPortNamesForBlocks(plist(<span class="string">'blocks'</span>, <span class="string">'guidance'</span>, <span class="string">'type'</span>, <span class="string">'inputs'</span>))
+  </pre></div>  
+  The list returned from this method can be directly used as input to <tt>ssm/simulate</tt>.
+  
+</p>
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_2_topic_4_2.html"><img src="b_prev.gif" border="0" align="bottom" alt="Building signals"></a>&nbsp;</td>
+        <td align="left">Building signals</td>
+        <td>&nbsp;</td>
+        <td align="right">Simulate LTP with injected signals (no noise)</td>
+        <td align="right" width="20"><a href="ltpda_training_2_topic_4_4.html"><img src="b_next.gif" border="0" align="bottom" alt="Simulate LTP with injected signals (no noise)"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

@@ -1,0 +1,9 @@
+%%%%%%%%%%%%%%%%%%%%   path: classes/tests/ssm/@test_ssm_cpsdForCorrelatedInputs   %%%%%%%%%%%%%%%%%%%%
+%
+%   <a href="matlab:help classes/tests/ssm/@test_ssm_cpsdForCorrelatedInputs/test_ao_input">classes/tests/ssm/@test_ssm_cpsdForCorrelatedInputs/test_ao_input</a>                    -  tests the cpsdForCorrelatedInputs method with an input AOs.
+%   <a href="matlab:help classes/tests/ssm/@test_ssm_cpsdForCorrelatedInputs/test_covariance_input">classes/tests/ssm/@test_ssm_cpsdForCorrelatedInputs/test_covariance_input</a>            -  tests the cpsdForCorrelatedInputs method with an input covariance
+%   <a href="matlab:help classes/tests/ssm/@test_ssm_cpsdForCorrelatedInputs/test_cpsd_input">classes/tests/ssm/@test_ssm_cpsdForCorrelatedInputs/test_cpsd_input</a>                  -  tests the cpsdForCorrelatedInputs method with an input CPSD matrix.
+%   <a href="matlab:help classes/tests/ssm/@test_ssm_cpsdForCorrelatedInputs/test_getInfo">classes/tests/ssm/@test_ssm_cpsdForCorrelatedInputs/test_getInfo</a>                     -  tests getting the method info from the method.
+%   <a href="matlab:help classes/tests/ssm/@test_ssm_cpsdForCorrelatedInputs/test_preserves_plotinfo">classes/tests/ssm/@test_ssm_cpsdForCorrelatedInputs/test_preserves_plotinfo</a>          -  override because the output of cpsdForCorrelatedInputs is no longer
+%   <a href="matlab:help classes/tests/ssm/@test_ssm_cpsdForCorrelatedInputs/test_pzmodel_ao_input">classes/tests/ssm/@test_ssm_cpsdForCorrelatedInputs/test_pzmodel_ao_input</a>            -  tests the cpsdForCorrelatedInputs method with an input AOs and pzmodels.
+%   <a href="matlab:help classes/tests/ssm/@test_ssm_cpsdForCorrelatedInputs/test_ssm_cpsdForCorrelatedInputs">classes/tests/ssm/@test_ssm_cpsdForCorrelatedInputs/test_ssm_cpsdForCorrelatedInputs</a> - % Make a test object

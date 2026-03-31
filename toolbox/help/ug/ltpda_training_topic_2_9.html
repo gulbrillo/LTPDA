@@ -1,0 +1,257 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>IFO/Temperature Example - Pre-processing (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_topic_2_8.html"><img src="b_prev.gif" border="0" align="bottom" alt="Split and join AOs"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_topic_3.html"><img src="b_next.gif" border="0" align="bottom" alt="Topic 3 - Spectral Analysis"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">IFO/Temperature Example - Pre-processing</h1>
+    <hr>
+    
+    <p>
+      <p>
+  Now we return to the IFO/Temperature example that was started in Topic 1.
+</p>
+<h2>Loading and checking the calibrated data sets from topic2</h2>
+<p>
+  In the last topic you should have saved your calibrated data files as<br>
+  <tt>ifo_temp_example/ifo_disp.xml</tt> and <br>
+  <tt>ifo_temp_example/temp_kelvin.xml</tt>
+</p>
+<p>
+  Now load each file into an AO, and simplify the name of the objects by assigning them the name of the Matlab workspace variable containing them:<br>
+</p>
+<div class="fragment"><pre>
+    ifo  = ao(<span class="string">'ifo_temp_example/ifo_disp.xml'</span>);
+    temp = ao(<span class="string">'ifo_temp_example/temp_kelvin.xml'</span>);
+    ifo.setName;
+    temp.setName;
+</pre></div>
+<p>
+  Let's see what kind of pre-processing we have to apply to our data prior to further analysis.
+</p>
+<p>
+  You can have a look at the data by for example displaying the AOs on the terminal and by 
+  plotting them, of course. Since the two data series have different Y units, we should plot
+  them on subplots. To do that with <tt>iplot</tt>, pass the key 'arrangement' in a plist. For
+  example:
+</p>
+<div class="fragment"><pre>
+    pl = plist(<span class="string">'arrangement'</span>, <span class="string">'subplots'</span>);
+</pre></div>
+<p>
+  If you plot the two time-series you should see something like the following:<br>
+  <img src="images/ltpda_training_1/topic2/ifotempraw.png" alt="ifotempdata" border="1">
+  <br>
+</p>
+<p>
+  Some points to note:
+  <ol>
+    <li>The two data streams:
+    <ul>
+      <li> do not have the same sampling frequency.</li>
+      <li> are not of the same length (nsecs).</li>
+    </ul></li>   
+    <li>The interferometer data has a small transient at the start</li>
+  </ol>
+</p>
+<p>
+  To have a closer look at the samples we plot markers at each sample and only plot a zoomed-in section. You can 
+  do this by creating a parameter list with the following key/value pairs (remember the 'key' properties for <tt>plist</tt> entries is not case sensitive):
+</p>
+<p>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="50%">
+    <colgroup>
+      <col width="35%"/>
+      <col width="65%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Key</th>
+        <th class="categorylist">Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Key 'arrangement' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>ARRANGEMENT</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <span class="string">'subplots'</span>
+        </td>
+      </tr>
+      <!-- Key 'arrangement' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>LINESTYLES</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          {<span class="string">'none'</span>, <span class="string">'none'</span>}
+        </td>
+      </tr>
+      <!-- Key 'markers' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>MARKERS</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          {<span class="string">'+'</span>, <span class="string">'+'</span>}
+        </td>
+      </tr>
+      <!-- Key 'xranges' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>XRANGES</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          {<span class="string">'all'</span>, [200 210]}
+        </td>
+      </tr>
+      <!-- Key 'yranges' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>YRANGES</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          {[2e-7 3e-7], [200 350]}
+        </td>
+      </tr>
+    </tbody>
+  </table> 
+</p>
+<p>
+  <table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1">
+    <tr width="90%">
+      <td>
+        Notice the use of the keyword 'all' in the value for the 'XRANGES' parameter. Many
+        of the <tt>iplot</tt> options support this keyword, which tells <tt>iplot</tt> to use
+        the same value for all plots and subplots. For the 'YRANGES' we specify different values
+        for each subplot.
+      </td>
+    </tr>
+  </table>
+</p>
+<p>
+  <table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1">
+    <tr width="90%">
+      <td>
+        Please store the parameter lists for plot settings in 2 different variables. We can reuse them for 
+        plotting our results later.
+      </td>
+    </tr>
+  </table>
+</p>
+<p>
+  Passing such a parameter list to <tt>iplot</tt> together with the two AO time-series should yield
+  a plot something like:
+</p>
+<br>
+<img src="images/ltpda_training_1/topic2/samples.png" alt="samples" border="1">
+<br>
+<p>
+  From this plot you may be able to see that the temperature data is <bb>unevenly sampled</bb>.
+</p>
+<p>
+  To confirm this, enter the following (standard) MATLAB commands on the terminal:
+</p>
+<div class="fragment"><pre>
+    dt = diff(temp.x);
+    min(dt)
+    max(dt)
+</pre></div>
+<p>
+  <table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1">
+    <tr width="90%">
+      <td>
+        Don't forget the semicolon at the end of the <tt>diff</tt> calculation; this is a long data series 
+        and will be printed to the terminal if you do forget.
+      </td>
+    </tr>
+  </table>
+  You see that the minimum and maximum difference in the time-stamps of the data is different, showing 
+  that the data are not evenly sampled.
+</p>
+<p>
+  Before we proceed with the later analysis of this data, we need to
+  <ul>
+    <li>Fix the uneven sampling of the temperature data</li>
+    <li>Resample both data streams to the same rate</li>
+    <li>Resample both data streams on to the same timing grid</li>
+    <li>Select the segment of interferometer data that matches the temperature data</li>
+  </ul>
+</p>
+<p>
+  Each of these steps can, in principle, be done by hand. However, LTPDA provides
+  a 'data fixer' method called <tt>ao/consolidate</tt> which attempts to automate this
+  process. The call to <tt>consolidate</tt> is shown below:
+</p>
+<div class="fragment"><pre>
+    [temp_fixed ifo_fixed] = consolidate(temp, ifo, plist(<span class="string">'fs'</span>, 1));
+</pre></div>
+<p>
+  We tell <tt>consolidate</tt> that we want to have our data resampled to 1 Hz by specifying the 
+  parameter key 'fs'.
+</p>
+<p>
+  Now we can inspect the time-series of these data. The result should look something like 
+  the figure below:    
+</p>
+<br>
+<img src="images/ltpda_training_1/topic2/ifo_temp_consolidated.png" alt="consolidated" border="1">
+<br>
+<p>
+  If we also plot the zoomed-in view again, we should see something like:
+</p>
+<img src="images/ltpda_training_1/topic2/samples_conso.png" alt="consolidated samples" border="1">
+<p>
+  As you can see <tt>consolidate</tt> solved all our issues with these two data streams. 
+  They now start at the same time and are evenly sampled at the same sampling frequency.
+</p>
+<p>
+  In the next topic, we will look at the
+  spectral content and coherence of the data before and after the pre-processing. For now,
+  finish by saving the consolidated data ready for the next topic.
+</p>
+<div class="fragment"><pre>
+    save(temp_fixed, <span class="string">'ifo_temp_example/temp_fixed.xml'</span>);
+    save(ifo_fixed, <span class="string">'ifo_temp_example/ifo_fixed.xml'</span>);
+</pre></div>
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_topic_2_8.html"><img src="b_prev.gif" border="0" align="bottom" alt="Split and join AOs"></a>&nbsp;</td>
+        <td align="left">Split and join AOs</td>
+        <td>&nbsp;</td>
+        <td align="right">Topic 3 - Spectral Analysis</td>
+        <td align="right" width="20"><a href="ltpda_training_topic_3.html"><img src="b_next.gif" border="0" align="bottom" alt="Topic 3 - Spectral Analysis"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

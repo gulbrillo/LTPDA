@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>LTPDA Training Session 1 (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="constructor_examples_specwin.html"><img src="b_prev.gif" border="0" align="bottom" alt="Constructor examples of the SPECWIN class"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_topic_1.html"><img src="b_next.gif" border="0" align="bottom" alt="Topic 1 - The basics of LTPDA"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">LTPDA Training Session 1</h1>
+    <hr>
+    
+    <p>
+      <p>
+  This series of help pages consitute the first training session of LTPDA. The various data-packs used throughout
+  the tutorials are available for download on the <a href="http://www.lisa.aei-hannover.de/ltpda/training_sessions/training_session_1/training_session_1.html">LTPDA web-site</a>.
+</p>
+<ol>
+		<li><a href="ltpda_training_topic_1.html">Topic 1 - The basics of LTPDA</a></li>
+		<li><a href="ltpda_training_topic_2.html">Topic 2 - Pre-processing of data</a></li>
+		<li><a href="ltpda_training_topic_3.html">Topic 3 - Spectral Analysis</a></li>
+		<li><a href="ltpda_training_topic_4.html">Topic 4 - Transfer function models and digital filtering</a></li>
+		<li><a href="ltpda_training_topic_5.html">Topic 5 - Model fitting</a></li>
+</ol>
+<p>
+  In addition, throughout the course of this training session, we will perform a full analysis
+  of some lab data. The inputs to the analysis are two time-series data streams, 
+  the first is the recorded output of an interferometer, the second is a recording
+  of the room temperature in the vicinity of the interferometer. Both are recorded with
+  different sample rates and on different sampling grids. The temperature data is unevenly
+  sampled, and may evem have missing samples.
+</p>
+<p>
+  During each topic of the training session, the data will be manipulated using
+  the tools introduced in that topic (and previous topics). The aim of the data
+  analysis is to determine the influence of temperature on the interferometer 
+  output. In particular the steps will be:
+</p>
+<ol>
+  <li><a href="ltpda_training_topic_1.html">Topic 1</a>
+    Loading and calibrating the raw data.
+    <ol>
+      <li>Read in the raw data files and convert them to AOs</li>
+      <li>Plot the two data streams</li>
+      <li>Calibrate the interferometer output to meters (from radians)</li>
+      <li>Calibrate the temperature data to degrees Kelvin from degrees Celcius</li>
+      <li>Save the calibrated data series to XML files, ready for the input to the next topic</li>
+    </ol>
+  </li>
+  <li><a href="ltpda_training_topic_2.html">Topic 2</a>
+    Pre-processing and data conditioning.
+    <ol>
+      <li>Read in the calibrated AOs from XML files</li>
+      <li>Trim the data streams to the same time segments</li>
+      <li>Resample the temperature on to an even sampling grid with no missing samples</li>
+      <li>Resample to the two data streams to a common 1Hz sample rate</li>
+      <li>Interpolate the two data streams on to the same time grid</li>
+      <li>Save the cleaned data to AO XML files</li>
+    </ol>
+  </li>
+  <li><a href="ltpda_training_topic_3.html">Topic 3</a>
+    Spectral analysis.
+    <ol>
+      <li>Load the time-series data from Topics 1 and 2</li>
+      <li>Compare PSDs of the time-series data before and after pre-processing</li>
+      <li>Check the coherence of temperature and IFO output before and after pre-processing</li>
+      <li>Measure the transfer function from temperature to IFO output</li>
+      <li>Save the measured transfer function to disk as an AO XML file</li>
+    </ol>
+  </li>
+  <li><a href="ltpda_training_topic_4.html">Topic 4</a>
+    Simulation of the system under investigation.
+    <ol>
+      <li>Make approximate noise-shape models for the temperature and IFO displacement input spectra</li>
+      <li>Make digital IIR filters matching these noise-shape models</li>
+      <li>Filter white-noise data streams to produce simulated versions of the temperature and IFO inputs</li>
+      <li>Make a model of the temperature to IFO coupling</li>
+      <li>Construct a filter representing this coupling</li>
+      <li>Filter the simulated temperature data and add it to the simulated IFO input data</li>
+      <li>Save the simulated temperature and the simulated IFO output data to disk</li>
+      <li>Repeat the steps from Topic 3, this time using the simulated data</li>
+    </ol>
+  </li>
+  <li><a href="ltpda_training_topic_5.html">Topic 5</a>
+    Model fitting and system identification.
+    <ol>
+      <li>Load the measured transfer function from the end of Topic 3</li>
+      <li>Fit a model transfer function to this measurement</li>
+      <li>Make a digital filter representation of the fitted model</li>
+      <li>Filter the temperature data with this filter</li>
+      <li>Compare the PSD of the filtered temperature data and the IFO output</li>
+      <li>Subtract the filtered temperature data from the IFO output</li>
+      <li>Compare the IFO data with the temperature influence subtracted to the original IFO output</li>
+      <li>(Time permitting) Repeat the exercise for the simulated from Topic 4</li>
+      <li>(Still need something to do?) Repeat the steps of Topic 4 but this time fit a model to the measured
+      temperature data and use a noise generator to make a simulated temperature data stream</li>
+    </ol>
+  </li>
+</ol>
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="constructor_examples_specwin.html"><img src="b_prev.gif" border="0" align="bottom" alt="Constructor examples of the SPECWIN class"></a>&nbsp;</td>
+        <td align="left">Constructor examples of the SPECWIN class</td>
+        <td>&nbsp;</td>
+        <td align="right">Topic 1 - The basics of LTPDA</td>
+        <td align="right" width="20"><a href="ltpda_training_topic_1.html"><img src="b_next.gif" border="0" align="bottom" alt="Topic 1 - The basics of LTPDA"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

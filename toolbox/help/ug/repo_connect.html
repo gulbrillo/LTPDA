@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Connecting to an LTPDA Repository (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="repo_whatis.html"><img src="b_prev.gif" border="0" align="bottom" alt="What is an LTPDA Repository"></a>&nbsp;&nbsp;&nbsp;<a href="repo_submit.html"><img src="b_next.gif" border="0" align="bottom" alt="Submitting LTPDA objects to a repository"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Connecting to an LTPDA Repository</h1>
+    <hr>
+    
+    <p>
+      <p>
+  Connection to a LTPDA Repository is normally carried out as part of
+  other processes. For example, when submitting an object to the
+  repository using the <tt>submit</tt> command, the user is prompted
+  to login to a chosen repository.
+</p>
+<p>
+  It is also possible to connect to a LTPDA Repository through a
+  MATLAB programming API which may be used in scripts and user
+  functions. The obtained connection object can be passed to other
+  methods requiring access to a LTPDA Repository (for example
+  the <tt>submit</tt> method) thus allowing the construction of more
+  automated procedures for interacting with LTPDA Repositories. This
+  is done specifying a <tt>conn</tt> parameter in the method plist
+  instead of the connection parameters.
+</p>
+<p>
+  Connections to a LTPDA Repository can be obtained using
+  the <em>LTPDA Database Connection Manager</em> which is responsible
+  for caching connection credentilas accordingly to the user
+  preferences and for limiting the number of simultaneously open
+  connections.
+</p>
+<p>
+  A connection is obtained with the method:
+  <div class="fragment">
+    <pre>    
+      <span class="comment">% Connect to LTPDA Repository database</span>
+      LTPDADatabaseConnectionManager().connect(pl)</pre>
+  </div>
+  where <tt>pl</tt> is a plist with the parameters <tt>hostname</tt>,
+  <tt>database</tt>, <tt>username</tt>, <tt>password</tt>. All those
+  parameters are optional, if missing the database connection manager
+  will prompt the user for them. It is responsibility of the caller of
+  the <tt>connect</tt> method to close the connection, with the
+  <tt>close</tt> of the returned connection object method, once it has
+  finished to use it.
+</p>
+<p>
+  Alternatively <tt>pl</tt> may contain a <tt>conn</tt> parameter
+  specifying a connection object to use (this feature is useful to
+  chain multiple operations through a single connection). If the
+  specified parameter is not an object of the proper kind an error is
+  thrown. In this case the caller of the <tt>connect</tt> method
+  should not close the connection.
+</p>
+<p>
+  The preferred way to close the connection, accordingly to the rules
+  expressed above, is to use an <tt>onCleanup</tt> handler, in the
+  following way:
+  <div class="fragment">
+    <pre>    
+      <span class="comment">% Register onCleanup callback to close database connection</span>
+      if ~isempty(find(pl, <span class="string">'conn'</span>))
+        cleanup = onCleanup(@()conn.close());
+      end</pre>
+  </div>
+  where <tt>pl</tt> is the plist parameter of the <tt>connect</tt>
+  method and <tt>conn</tt> is the returned connection.
+</p>
+<p>
+  The connection object returned by the <em>LTPDA Database Connection
+  Manager</em> is a Java object implementing
+  the <tt>java.sql.Connection</tt> interface, and therefore it may be
+  used accordingly to the Java language
+  <a href="http://docs.oracle.com/javase/6/docs/api/java/sql/Connection.html">
+    documentation</a>.
+</p>
+<p>
+  For convenience, the utility function <tt>utils.mysql.execute</tt>
+  is provided. It may be used to issue SQL commands to the database,
+  obtaining the results in a convenient format. For data manipulation
+  SQL statements (such as <tt>INSERT</tt>, <tt>UPDATE</tt>,
+  and <tt>DELETE</tt> statements) it returns the number of affected
+  rows, for data query SQL statements (such as <tt>SELECT</tt>
+  statements) it returns a 2D cell array with the query result.
+</p>
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="repo_whatis.html"><img src="b_prev.gif" border="0" align="bottom" alt="What is an LTPDA Repository"></a>&nbsp;</td>
+        <td align="left">What is an LTPDA Repository</td>
+        <td>&nbsp;</td>
+        <td align="right">Submitting LTPDA objects to a repository</td>
+        <td align="right" width="20"><a href="repo_submit.html"><img src="b_next.gif" border="0" align="bottom" alt="Submitting LTPDA objects to a repository"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

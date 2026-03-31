@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>FIR Filters (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="sigproc_iir.html"><img src="b_prev.gif" border="0" align="bottom" alt="IIR Filters"></a>&nbsp;&nbsp;&nbsp;<a href="sigproc_filterbanks.html"><img src="b_next.gif" border="0" align="bottom" alt="Filter banks"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">FIR Filters</h1>
+    <hr>
+    
+    <p>
+      <p>
+  Finite Impulse Response filters are those filters present a non-zero finite length response 
+  when excited with a very brief (ideally an infinite peak) input signal. A linear causal 
+  FIR filter can be described by the following difference equation
+</p>
+<div align="center">
+  <IMG src="images/sigproc_8.png" width="157" height="56" align="middle" border="0">
+</div>
+<p>
+  This operation describe a nonrecursive system, i.e. a system that only depends on current 
+  and past samples of the input data stream <tt>x[n]</tt>
+</p>
+<h2><a name="FIRbuild">Creating a FIR filter in the LTPDA</a></h2>
+<p>
+  The LTPDA Toolbox allows the implementation of FIR filters by means of the 
+  <a href="class_desc_mfir.html"> mfir class</a>.
+</p>
+<h2><a name="FIRplist">Creating from a plist</a></h2>
+<p>
+  The following example creates an order 64 highpass filter with high frequency gain 2. 
+  The filter is designed for 1 Hz sampled data and has a cut-off frequency of 0.2 Hz.
+</p>
+<div class="fragment"><pre>
+    
+    pl = plist(<span class="string">'type'</span>, <span class="string">'highpass'</span>, ...
+    <span class="string">'order'</span>, 64,         ...
+    <span class="string">'gain'</span>,  2.0,       ...
+    <span class="string">'fs'</span>,    1,        ...
+    <span class="string">'fc'</span>,    0.2);
+    f = mfir(pl)
+</pre></div>
+
+<h2><a name="FIRdiff">Creating from a difference equation</a></h2>
+<p>
+  The filter can be defined in terms of two vectors specifying the coefficients of the filter
+  and the sampling frequency. The following example creates a FIR filter with sampling frequency 
+  1 Hz and the following recursive equation:
+</p>
+
+<div align="center">
+<IMG src="images/sigproc_10.png" width="202" height="28" align="middle" border="0"></div>
+</div>
+
+<p><br></p>
+
+<div class="fragment"><pre>
+    
+    b  = [-0.8 10];
+    fs = 1;
+    f  = mfir(b,fs)
+</pre></div>
+
+<h2><a name="FIRfromAO">Creating from an Analysis Object</a></h2>
+<p>
+  A FIR filter can be generated based on the magnitude of the input Analysis Object or fsdata object. 
+  In the following example a fsdata object is first generated and then passed to the mfir constructor 
+  to obtain the equivalent FIR filter.
+</p>
+
+<div class="fragment"><pre>
+    
+    fs  = 10;                      <span class="comment">% sampling frequency</span>
+    f   = linspace(0, fs/2, 1000);
+    y   = 1./(1+(0.1*2*pi*f).^2);  <span class="comment">% an arbitrary function</span>
+    fsd = fsdata(f,y,fs);          <span class="comment">% build the fsdata object</span>
+    f = mfir(ao(fsd));
+    
+</pre></div>
+<br>
+<p>
+  Available methods for this option are: 'frequency-sampling' (uses fir2), 'least-squares' (uses firls) 
+  and 'Parks-McClellan' (uses firpm)
+</p>
+<h2><a name="IIRimport">Importing an existing model</a></h2>
+<p>
+  The mfir constructor also accepts as an input existing models in different formats:
+</p>
+<li>
+<li><p>LISO files:<p>
+  <div class="fragment"><pre>
+      f = mfir(<span class="string">'foo_fir.fil'</span>)
+  </pre></div>
+</li>
+<li><p>XML files:</p>
+<div class="fragment"><pre>
+      f = mfir(<span class="string">'foo_fir.xml'</span>)
+</pre></div>
+<li><p>MAT files:</p>
+  <div class="fragment"><pre>
+      f = mfir(<span class="string">'foo_fir.mat'</span>)
+  </pre></div>
+</li>
+<li><p>From repository:</p>
+  <div class="fragment"><pre>
+      f = mfir(plist(<span class="string">'hostname'</span>, <span class="string">'localhost'</span>, <span class="string">'database'</span>, <span class="string">'ltpda'</span>, <span class="string">'ID'</span>, []))
+  </pre></div>
+</li>
+</ul>
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="sigproc_iir.html"><img src="b_prev.gif" border="0" align="bottom" alt="IIR Filters"></a>&nbsp;</td>
+        <td align="left">IIR Filters</td>
+        <td>&nbsp;</td>
+        <td align="right">Filter banks</td>
+        <td align="right" width="20"><a href="sigproc_filterbanks.html"><img src="b_next.gif" border="0" align="bottom" alt="Filter banks"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

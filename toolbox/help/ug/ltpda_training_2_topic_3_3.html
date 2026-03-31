@@ -1,0 +1,242 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Estimate equivalent acceleration from simulation data (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_2_topic_3_2.html"><img src="b_prev.gif" border="0" align="bottom" alt="Tools for estimating the equivalent acceleration in LTPDA"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_2_topic_4.html"><img src="b_next.gif" border="0" align="bottom" alt="Topic 4 - Simulating LPF with injected signals."></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Estimate equivalent acceleration from simulation data</h1>
+    <hr>
+    
+    <p>
+      
+<p>
+  This exercise starts with the generation of simulated noise data.
+
+
+  <div class="fragment"><pre>
+    
+    <span class="comment">% set output names</span>
+    outNames = {...
+      <span class="string">'DELAY_IFO.x1'</span>  ...      <span class="comment">% o1 IFO</span>
+      <span class="string">'DELAY_IFO.x12'</span> ...      <span class="comment">% o12 IFO</span>
+      <span class="string">'DFACS.sc_x'</span>, ...        <span class="comment">% Commanded force F_cmd_X</span>
+      <span class="string">'DFACS.tm2_x'</span> ...        <span class="comment">% Commanded force F_cmd_x2</span>
+      };
+
+    <span class="comment">% Define parameters and nominal values</span>
+    params = {...
+      <span class="string">'FEEPS_XX'</span>, ...         <span class="comment">% FEEPs actuation gain</span> 
+      <span class="string">'CAPACT_TM2_XX'</span>, ...    <span class="comment">% Capacitive actuation gain</span>
+      <span class="string">'IFO_X12X1'</span>, ...        <span class="comment">% The coupling of the x position of TM1 to the estimated x position of TM2</span>
+      <span class="string">'EOM_TM1_STIFF_XX'</span>, ... <span class="comment">% Total stiffness of TM1 along X</span>
+      <span class="string">'EOM_TM2_STIFF_XX'</span> ...  <span class="comment">% Total stiffness of TM2 along X</span>
+      };
+
+    <span class="comment">% set parameters values for the conversion to acceleration</span>
+    FEEPS_XX         = 1;
+    CAPACT_TM2_XX    = 1;
+    IFO_X12X1        = 1e-4;
+    EOM_TM1_STIFF_XX = 1.3e-6;
+    EOM_TM2_STIFF_XX = 2.0e-6;
+
+    <span class="comment">% actual values for the parameters</span>
+    values = [...
+      FEEPS_XX, ...
+      CAPACT_TM2_XX, ...
+      IFO_X12X1, ...
+      EOM_TM1_STIFF_XX, ...
+      EOM_TM2_STIFF_XX];
+
+    <span class="comment">% Create LPF SSM model</span>
+    pl = plist(<span class="string">'built-in'</span>, <span class="string">'LPF'</span>, ...  
+      <span class="string">'DIM'</span>, 1, ...                    <span class="comment">% We use a one dimensional model</span>
+      <span class="string">'CONTINUOUS'</span>, false, ...         <span class="comment">% The model is discrete</span>
+      <span class="string">'param names'</span>, params, ...       <span class="comment">% Parameter names</span>
+      <span class="string">'param values'</span>, values, ...      <span class="comment">% Parameter values</span>
+      <span class="string">'VERSION'</span>, <span class="string">'Best Case June 2011'</span>); <span class="comment">% Model version</span>
+
+    LPF = ssm(pl);
+
+    <span class="comment">% Create default noise covariance, assumes independent noise sources</span>
+    cov = LPF.generateCovariance;
+
+    <span class="comment">% Create a plist to configure the simulation</span>
+    plsim = plist(...
+              <span class="string">'return outputs'</span>, outNames,...
+              <span class="string">'cpsd variable names'</span>, cov.find(<span class="string">'names'</span>), ...
+              <span class="string">'cpsd'</span>, cov.find(<span class="string">'cov'</span>), ...
+              <span class="string">'Nsamples'</span>, 1e6);
+
+    <span class="comment">% Run the simulation</span>
+    out = LPF.simulate(plsim);
+
+    <span class="comment">% Unpack the signals from the simulation output matrix</span>      
+    [o1, o12, F_cmd_X, F_cmd_x2] = unpack(out);
+    
+    
+  </pre></div>
+
+</p>
+
+<p>
+  Since the method for the conversion to acceleration uses a different naming 
+  convention for the parameters, it is convenient to set the convention mapping 
+  for the parameters.
+
+
+  <div class="fragment"><pre>
+    Gdf  = FEEPS_XX;
+    Gsus = CAPACT_TM2_XX;
+    SD1  = IFO_X12X1;
+    w1   = -1*EOM_TM1_STIFF_XX;
+    w2   = -1*EOM_TM2_STIFF_XX;
+  </pre></div>
+
+</p>
+
+<p>
+  Note that in the method for the conversion to acceleration the stiffness is 
+  negative!
+</p>
+<p>
+  'ltp_ifo2acc' likes to work with SI units and in particular the force units have to 
+  be expressed in 'kg m s^(-2)'. 
+
+
+  <div class="fragment"><pre>
+    F_cmd_X.toSI;
+    F_cmd_x2.toSI;
+  </pre></div>
+
+</p>
+
+<p>
+  Now we can set the parameter list for the conversion to acceleration.
+
+
+  <div class="fragment"><pre>
+    pli2a = plist(...
+       <span class="string">'SD1'</span>, SD1,...
+       <span class="string">'Gdf'</span>, Gdf,...
+       <span class="string">'Gsus'</span>, Gsus,...
+       <span class="string">'w1'</span>, w1,...
+       <span class="string">'w2'</span>, w2,...
+       <span class="string">'OMS delay o1'</span>, 0.3, ...
+       <span class="string">'OMS delay oD'</span>, 0.3, ...
+       <span class="string">'Hdf'</span>, F_cmd_X*(-1),...
+       <span class="string">'Hsus'</span>, F_cmd_x2*(-1)...
+      );
+  </pre></div>
+
+</p>
+
+<p>
+  Note the -1 multiplying the commanded forces, this is need because of a 
+  difference of convention between 'ssm' and 'ltp_ifo2acc' on the controllers 
+  outputs.
+</p>
+<p>
+  Now the conversion to equivalent residual acceleration of the interferometer 
+  displacement signals.
+
+
+  <div class="fragment"><pre>
+    M = ltp_ifo2acc(o1, o12, pli2a); <span class="comment">% M is a matrix object containing a1 and a12</span>
+  </pre></div>
+
+</p>
+
+<p>
+  Calculate the square root of the power spetral density in order to check 
+  the resuls.
+
+
+  <div class="fragment"><pre>
+    plpsd = plist(...
+      <span class="string">'order'</span>, 1, ...
+      <span class="string">'SCALE'</span>, <span class="string">'ASD'</span> ...
+      );
+
+    Mxx  = M.lpsd(plpsd);
+  </pre></div>
+
+</p>
+
+<p>
+  Remove the first 6 samples (lowest frequencies bins) since they are corrupted 
+  by the window function.
+
+
+  <div class="fragment"><pre>
+    plsp = plist(...
+      <span class="string">'samples'</span>, [7 inf] ...
+      );
+
+    Mxxs  = Mxx.split(plsp);
+  </pre></div>
+
+</p>
+
+<p>
+  Finally, plot the result.
+
+
+  <div class="fragment"><pre>
+    plplot = plist(...
+    <span class="string">'Linecolors'</span>, {<span class="string">'k'</span>, <span class="string">'r'</span>}, ...
+    <span class="string">'LineStyles'</span>, {<span class="string">'--'</span>, <span class="string">'-'</span>}, ...
+    <span class="string">'LineWidths'</span>, {3, 3}, ...
+    <span class="string">'Legends'</span>, {<span class="string">'a_1'</span>, <span class="string">'a_{\Delta}'</span>}, ...
+    <span class="string">'XLABELS'</span>, {<span class="string">'All'</span>, <span class="string">'Frequency'</span>}, ...
+    <span class="string">'YLABELS'</span>, {<span class="string">'All'</span>, <span class="string">'PSD^{1/2}'</span>} ...
+    );
+    
+
+  iplot(Mxxs, plplot)
+  </pre></div>
+  
+  <div align="center">
+    <IMG src="images/ltpda_training_2/Topic3/topic_3_3_no1.png"  align="center" border="0" width="1000px" >
+  </div>
+
+</p>
+
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_2_topic_3_2.html"><img src="b_prev.gif" border="0" align="bottom" alt="Tools for estimating the equivalent acceleration in LTPDA"></a>&nbsp;</td>
+        <td align="left">Tools for estimating the equivalent acceleration in LTPDA</td>
+        <td>&nbsp;</td>
+        <td align="right">Topic 4 - Simulating LPF with injected signals.</td>
+        <td align="right" width="20"><a href="ltpda_training_2_topic_4.html"><img src="b_next.gif" border="0" align="bottom" alt="Topic 4 - Simulating LPF with injected signals."></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

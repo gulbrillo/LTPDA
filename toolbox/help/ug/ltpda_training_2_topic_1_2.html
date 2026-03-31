@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Saving and loading objects (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_2_topic_1_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="Introducing objects in LTPDA"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_2_topic_1_3.html"><img src="b_next.gif" border="0" align="bottom" alt="Review of spectral estimators"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Saving and loading objects</h1>
+    <hr>
+    
+    <p>
+      <p>
+  Saving and loading objects in LTPDA is straightforward. You have two formats
+  available to you: the standard MATLAB .mat binary format, or the text-based
+  XML format.
+</p>
+<h2>Saving single objects</h2>
+<p>
+  Suppose you have an AO in your MATLAB workspace, you can save it to disk like this:
+  <div class="fragment"><pre>
+      <span class="comment">% Generate a time-series of random numbers</span>      
+      a = ao.randn(10, 10);
+      <span class="comment">% Save to a file called 'a.mat'</span>      
+      save(a);</pre></div>
+  This will save the file to disk in MAT format with the filename <span class="string">'a.mat'</span>.
+  If you want to specify a filename, you can do that by doing:
+  <div class="fragment"><pre>
+      <span class="comment">% Generate a time-series of random numbers</span>      
+      a = ao.randn(10, 10);
+      <span class="comment">% Save the AO to a MAT file</span>      
+      save(a, <span class="string">'myNiceAO.mat'</span>);</pre></div>
+  You can also use a plist to configure save:
+  <div class="fragment"><pre>
+      f = miir(plist(<span class="string">'type'</span>, <span class="string">'lowpass'</span>, <span class="string">'fc'</span>, 0.1, <span class="string">'fs'</span>, 10, <span class="string">'order'</span>, 1))
+      save(f, plist(<span class="string">'filename'</span>, <span class="string">'myNiceFilter.mat'</span>));</pre></div>
+</p>
+<h2>Saving multiple objects</h2>
+<p>
+  You can save multiple objects in to one file with LTPDA:
+  <div class="fragment"><pre>
+      a1 = ao.randn(10, 10);
+      a2 = ao.randn(10, 100);
+      save(a1, a2, <span class="string">'myObjects.mat'</span>);
+      <span class="comment">% If you have a vector of objects...</span>
+      a = [a1 a2];
+      save(a, <span class="string">'myVectorOfObjects.mat'</span>);</pre></div>
+  To save a vector of objects to individual files, you can do:
+  <div class="fragment"><pre>
+      a1 = ao(plist(<span class="string">'waveform'</span>, <span class="string">'sine wave'</span>, <span class="string">'a'</span>, 1, <span class="string">'f'</span>, 1, <span class="string">'phi'</span>, pi/2, <span class="string">'fs'</span>, 50, <span class="string">'nsecs'</span>, 10, <span class="string">'name'</span>, <span class="string">'sig1'</span>))
+      a2 = ao(plist(<span class="string">'waveform'</span>, <span class="string">'sine wave'</span>, <span class="string">'a'</span>, 1, <span class="string">'f'</span>, 0.2, <span class="string">'phi'</span>, pi/4, <span class="string">'fs'</span>, 50, <span class="string">'nsecs'</span>, 10, <span class="string">'name'</span>, <span class="string">'sig2'</span>))
+      a  = [a1 a2];
+      save(a, plist(<span class="string">'individual files'</span>, true));</pre></div>
+  If you want to specify a filename, then as before, you do:
+  <div class="fragment"><pre>
+      a1 = ao(plist(<span class="string">'waveform'</span>, <span class="string">'sine wave'</span>, <span class="string">'a'</span>, 1, <span class="string">'f'</span>, 1, <span class="string">'phi'</span>, pi/2, <span class="string">'fs'</span>, 50, <span class="string">'nsecs'</span>, 10, <span class="string">'name'</span>, <span class="string">'sig1'</span>))
+      a2 = ao(plist(<span class="string">'waveform'</span>, <span class="string">'sine wave'</span>, <span class="string">'a'</span>, 1, <span class="string">'f'</span>, 0.2, <span class="string">'phi'</span>, pi/4, <span class="string">'fs'</span>, 50, <span class="string">'nsecs'</span>, 10, <span class="string">'name'</span>, <span class="string">'sig2'</span>))
+      a  = [a1 a2];
+      save(a, plist(<span class="string">'filename'</span>, <span class="string">'myAOs.xml'</span>, <span class="string">'individual files'</span>, true));</pre></div>
+</p>
+<h2>Loading objects from disk</h2>
+<p>
+  Loading objects from disk is typically done using the relevant constructor. However, this does
+  imply that you know the class of the object in the file on disk. If you don't, you need to try to load 
+  with a particular constructor (say, AO) then if that is not correct, the error message will tell you 
+  the class of the object in the file.
+</p>
+<p>
+  Let's load one of the AOs we saved above:
+  <div class="fragment"><pre>
+      a = ao(<span class="string">'myNiceAO.mat'</span>);</pre></div>
+  Above we saved a file called <span class="string">'myNiceFilter.mat'</span>. If we don't know that this is
+  an <tt>miir<tt> object, and instead try to load it as an AO, then you will see the following:
+  <div class="fragment"><pre>
+      >> a = ao('myNiceFilter.mat');
+      <span class="error">Error using ltpda_uo/fromFile (line 174)
+You tried to load objects of class [ao] from myNiceFilter.mat, but that file contains objects of class [miir]
+Error in ao (line 348)
+			obj = fromFile(obj, args{1});</span></pre></div>
+</p>
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_2_topic_1_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="Introducing objects in LTPDA"></a>&nbsp;</td>
+        <td align="left">Introducing objects in LTPDA</td>
+        <td>&nbsp;</td>
+        <td align="right">Review of spectral estimators</td>
+        <td align="right" width="20"><a href="ltpda_training_2_topic_1_3.html"><img src="b_next.gif" border="0" align="bottom" alt="Review of spectral estimators"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

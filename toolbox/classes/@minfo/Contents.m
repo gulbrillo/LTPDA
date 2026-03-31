@@ -1,0 +1,34 @@
+%%%%%%%%%%%%%%%%%%%%   class: minfo   %%%%%%%%%%%%%%%%%%%%
+%
+%   <a href="matlab:help minfo/addChildren">minfo/addChildren</a>          -  Add children to this minfo.
+%   <a href="matlab:help minfo/addSupportedNumTypes">minfo/addSupportedNumTypes</a> -  Add a value to the property 'supportedNumTypes'.
+%   <a href="matlab:help minfo/attachToDom">minfo/attachToDom</a>          - % Create empty minfo node with the attribute 'shape'
+%   <a href="matlab:help minfo/char">minfo/char</a>                 -  convert an minfo object into a string.
+%   <a href="matlab:help minfo/clearSets">minfo/clearSets</a>            -  Clear the sets and plists of the input minfo objects.
+%   <a href="matlab:help minfo/copy">minfo/copy</a>                 -  makes a (deep) copy of the input minfo objects.
+%   <a href="matlab:help minfo/disp">minfo/disp</a>                 -  display an minfo object.
+%   <a href="matlab:help minfo/fromDom">minfo/fromDom</a>              - % there exist some possibilities.
+%   <a href="matlab:help minfo/fromStruct">minfo/fromStruct</a>           -  creates from a structure a MINFO object.
+%   <a href="matlab:help minfo/getEncodedString">minfo/getEncodedString</a>     - % Make some plausibility checks
+%   <a href="matlab:help minfo/getInfoAxis">minfo/getInfoAxis</a>          - % Build info object
+%   <a href="matlab:help minfo/isequal">minfo/isequal</a>              -  overloads the isequal operator for ltpda minfo objects.
+%   <a href="matlab:help minfo/loadobj">minfo/loadobj</a>              -  is called by the load function for user objects.
+%   <a href="matlab:help minfo/minfo">minfo/minfo</a>                -  a helper class for LTPDA methods.
+%   <a href="matlab:help minfo/modelOverview">minfo/modelOverview</a>        -  prepares an html overview of a built-in model
+%   <a href="matlab:help minfo/setArgsmax">minfo/setArgsmax</a>           -  Set the property 'argsmax'.
+%   <a href="matlab:help minfo/setArgsmin">minfo/setArgsmin</a>           -  Set the property 'argsmin'.
+%   <a href="matlab:help minfo/setDescription">minfo/setDescription</a>       -  Set the property 'description'.
+%   <a href="matlab:help minfo/setFromEncodedInfo">minfo/setFromEncodedInfo</a>   - % info{1} is empty
+%   <a href="matlab:help minfo/setMclass">minfo/setMclass</a>            -  Set the property 'mclass'.
+%   <a href="matlab:help minfo/setModifier">minfo/setModifier</a>          -  Set the property 'modifier'.
+%   <a href="matlab:help minfo/setMpackage">minfo/setMpackage</a>          -  Set the property 'mpackage'.
+%   <a href="matlab:help minfo/setMversion">minfo/setMversion</a>          -  Set the property 'mversion'.
+%   <a href="matlab:help minfo/setOutmax">minfo/setOutmax</a>            -  Set the property 'outmax'.
+%   <a href="matlab:help minfo/setOutmin">minfo/setOutmin</a>            -  Set the property 'outmin'.
+%   <a href="matlab:help minfo/setPlists">minfo/setPlists</a>            -  Sets the property 'plists'.
+%   <a href="matlab:help minfo/setSets">minfo/setSets</a>              -  Sets the property 'sets'.
+%   <a href="matlab:help minfo/setSupportedNumTypes">minfo/setSupportedNumTypes</a> -  Set the property 'supportedNumTypes'.
+%   <a href="matlab:help minfo/string">minfo/string</a>               -  writes a command string that can be used to recreate the input minfo object.
+%   <a href="matlab:help minfo/tohtml">minfo/tohtml</a>               -  convert an minfo object to an html document
+%   <a href="matlab:help minfo/tohtmlTable">minfo/tohtmlTable</a>          -  convert an minfo object to a html table without <HTML>, <BODY>, ... tags
+%   <a href="matlab:help minfo/update_struct">minfo/update_struct</a>        -  update the input structure to the current ltpda version

@@ -1,0 +1,431 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>LTPDA scripting best practices (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_2_topic_1_5.html"><img src="b_prev.gif" border="0" align="bottom" alt="Review of filtering and whitening in LTPDA"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_2_topic_1_7.html"><img src="b_next.gif" border="0" align="bottom" alt="Introduction to LTPDA extension modules"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">LTPDA scripting best practices</h1>
+    <hr>
+    
+    <p>
+      <p>
+  Although LTPDA is built on top of MATLAB, there are a number of differences in the
+  way it should be used. What follows here is a set of best-practices that should help 
+  produce readable and reusable LTPDA scripts which properly capture history.
+  <ol>
+    <li><a href="ltpda_training_2_topic_1_6.html#scriptlayout">Laying out scripts</a></li>
+    <li><a href="ltpda_training_2_topic_1_6.html#scriptpipelines">Workflow and script pipelines</a></li>
+    <li><a href="ltpda_training_2_topic_1_6.html#variablenaming">Variable naming</a></li>
+    <li><a href="ltpda_training_2_topic_1_6.html#documenting">Documenting scripts</a></li>
+    <li><a href="ltpda_training_2_topic_1_6.html#copymodify">Copying and modifying objects</a></li>
+    <li><a href="ltpda_training_2_topic_1_6.html#methods">Method usage and parameter lists</a></li>
+  </ol>
+</p>
+<h2><a name="scriptlayout">Laying out scripts</a></h2>
+<p>
+  The MATLAB editor has a number of powerful features which can be leveraged to 
+  ensure the maximum readability of scripts. The following features are recommended
+  when scripting for LTPDA:
+  <ol>
+    <li>
+      The default right-hand text limit of 75 characters should be used and it is 
+      recommended to keep commands within this length where possible. Use the elipses (...) 
+      syntax to break long text lines at logical places. For example, avoid this:
+      <div class="badfragment"><pre>
+          pl = plist(<span class="string">'param1'</span>, 1, <span class="string">'param2'</span>, <span class="string">'my name'</span>, <span class="string">'param3'</span>, a, <span class="string">'param4'</span>, <span class="string">'some value'</span>, <span class="string">'param5'</span>, 2, <span class="string">'param6'</span>, <span class="string">'x'</span>);
+      </pre></div>
+      Instead do this:
+      <div class="fragment"><pre>
+          pl = plist(...
+                  <span class="string">'param1'</span>, 1, ...            <span class="comment">% My first parameter</span>
+                  <span class="string">'param2'</span>, <span class="string">'my name'</span>, ...    <span class="comment">% My second parameter</span>
+                  <span class="string">'param3'</span>, a, ...            <span class="comment">% My third parameter</span>
+                  <span class="string">'param4'</span>, <span class="string">'some value'</span>, ... <span class="comment">% My fourth parameter</span>
+                  <span class="string">'param5'</span>, 2, ...            <span class="comment">% My fifth parameter</span>
+                  <span class="string">'param6'</span>, <span class="string">'x'</span> ...           <span class="comment">% My sixth parameter</span>
+                  );</pre></div>
+      This not only is more readable, but it allows you to comment each parameter.
+    </li> 
+    <br>
+    <li>
+      Make use of MATLAB's cell structure in the editor. This not only splits your
+      script into logical blocks of code, but it also makes for power automatic
+      documentation using MATLAB's built-in publishing feature. You can even
+      have the editor configured so that the background of the currently active
+      cell is highlighted. Here's an example:
+      <div class="fragment"><pre>
+          <span class="cellcomment">%% Create some objects</span>
+          
+          <span class="comment">% build an AO with value 1</span>
+          test_ao_1 = ao(1);
+          
+          <span class="comment">% build an AO with value 2</span>
+          test_ao_2 = ao(2);
+          
+          <span class="cellcomment">%% Add the objects together</span>
+          
+          aoSum = test_ao_1 + test_ao_2;</pre></div>
+    </li>
+    <li>
+      If the length of a script exceeds a couple of hundred lines you should consider refactoring some of the code into sub-functions
+      or methods. Creating your LTPDA methods and properly namespaced functions is possible but is an advanced topic. For details look
+      at the documentation for creating extension modules (section "LTPDA Extension Modules") in the main part of the user guide. Also
+      look at the following help:
+      <div class="fragment"><pre>
+          help utils.modules.buildModule 
+          help utils.modules.makeMethod
+      </pre></div>
+    </li>
+  </ol>
+</p>
+
+<h2><a name="scriptpipelines">Workflow and script pipelines</a></h2>
+<p>
+  An investigation can typically be broken down into logical steps. For example,
+  it's likely you can break-down any investigation into the following steps:
+  <ol>
+    <li>Set up configuration parameters and general plists</li>
+    <li>Load (or download) starting data</li>
+    <li>Perform some analysis</li>
+    <li>Save (or upload) the results</li>
+  </ol>
+  By keeping the analysis short, you can break-down a full investigation into
+  a series of scripts, each performing a clear part of the overall analysis. By
+  starting and ending a script from a well-defined state (either on disk, or in a repository)
+  you can chain the scripts together. It may also be desirable to have an overall driver
+  script which simply runs all the sub-scripts in the desired order.
+</p>
+<p>
+  What follows here is a set of best-practices to help develop a modular and
+  clear scripting work-flow:
+  <ol>
+    <li>
+      Try to break-down an investigation into a sequence of short scripts.
+    </li>
+    <li>
+      Provide a driver script to which clearly explains the flow of the investigation
+      and calls the sub-scripts (or functions) in the desired order.
+    </li>
+    <li>
+      Always include a 'clear all' statement at the beginning of a script. Note: if you use functions, this is not necessary since
+      functions automatically get their own local workspace when executed.
+    </li>
+    <li>
+      A script should represent a logical set of stand-alone actions. It is recommended that a script
+      starts from and ends at a defined state. Typically scenarious would be:
+      <ul>
+        <li>Start from objects on disk; end by saving objects to disk.</li>
+        <li>Start from objects in a repository; end by submitting objects to a repository.</li>
+      </ul>
+      Sometimes a mixture of the two is desired. The use of a repository ensures that your script
+      can be run by anyone else who has access to the same repository.
+    </li>
+    <li>
+      If your work-flow involves
+      saving the state of the investigation to files on disk, try to use relative file paths, rather
+      than absolute file paths. This increases the chance that someone else can run the script(s) without
+      resetting all the file paths.
+    </li>
+  </ol>
+  If we take the focus of this training session as an example, the system identification investigation can be broken down into 
+  the following steps:
+  <ol>
+    <li>Create simulated data set</li>
+    <li>Build statespace model for fitting</li>
+    <li>Calculate expect covariance of parameter set</li>
+    <li>Perform parameter estimation</li>
+    <li>Post-process results</li>
+  </ol>
+  It would then make sense to have one script (or a function) per step. You would then create a driver
+  script to run the full analysis, something like the one below. The individual scripts (or functions) and the
+  driver script would reside in a single (sensibly named) directory on disk. This directory then represents
+  a defined pipeline which can be reused by others.
+  <div class="fragment"><pre>
+      
+      <span class="comment">% A script which simulates a full system-identification investigation of</span>
+      <span class="comment">% LISA Pathfinder using statespace models to generate the data. The parameter</span>
+      <span class="comment">% estimation is performed using different techniques and the results compared.</span>
+      <span class="comment">%</span>
+      <span class="comment">%</span>
+      <span class="comment">% The script requires the use of the 'LPF_DA_Module' extension module.</span>
+      <span class="comment">%</span>
+      <span class="comment">% M Hewitson 2024-02-30</span>
+      <span class="comment">%</span>
+      <span class="comment">% VERSION: 1.0</span>
+      <span class="comment">%</span>          
+      
+      <span class="comment">% Create the simulated data set</span>          
+      createSimulatedDataSet;
+      
+      <span class="comment">% Build the ssm model to be used for fitting</span>          
+      buildFittingModel;
+      
+      <span class="comment">% Calculate the expected covariance of the parameters given the model</span>          
+      calculateExpectedParameterCovariance;
+      
+      <span class="comment">% Perform parameter estimation using MCMC method</span>          
+      performMCMCParameterEstimation;
+      
+      <span class="comment">% Perform parameter estimation using linear fit</span>          
+      performLinearParameterEstimation;
+      
+      <span class="comment">% Compare results</span>          
+      compareResults;
+      
+      </pre></div>
+</p>
+
+<h2><a name="variablenaming">Variable naming</a></h2>
+<p>
+  As well as the formal MATLAB rules about variable names (documented here: <a href="matlab:web(fullfile(matlabroot, 'help', 'techdoc', 'matlab_prog', 'f10-60729.html'), '-helpbrowser')">Variables</a>), here
+  are some further recommendations about variable names:
+  <ol>
+    <li>
+      Variables should be given meaningful names. Do not truncate variable names to
+      meaningless symbols simply at the expense of typing characters. Avoid single
+      letter variable names, unless the meaning is clear. Avoid variable names like
+      'a1', 'a2', ..., 'foo', 'dummy', 'tmp'. Also, avoid variable names which typically
+      are used for functions/methods, for example, 'sum', 'psd', 'mean'.
+    </li>
+    <br>
+    <li>
+      Use underscores to seperate parts of a name to improve readability. Sometimes
+      camel-case names are preferred (myNiceVariable), and even a mix of the two conventions can be used. Both
+      systems are very readable.
+    </li>
+    <br>
+    <li>
+      Generally, variables should begin with a lower-case letter, except where using
+      an upper-case letter results in increased clarity. For example, a lower-case 'f' 
+      is typically used to represent frequency, whereas an upper-case 'F' might be used
+      to represent a force.
+    </li>
+    <br>
+    <li>
+      When computing spectral estimates, use prefixes together with the original variable
+      name to retain the connection to the time-series data. For example, when estimating
+      the PSD of a time-series pointed to by the variable 'x1', use the variable name 'S_x1' to 
+      point to the PSD. When measuring the transfer function between two time-series data pointed 
+      to by variables 'x1' and 'y1', use a variable name something like 'T_x1_y1' for the transfer
+      function.
+    </li>
+  </ol>
+</p>
+<p>
+  Here are some examples of bad variable names:
+  <div class="badfragment"><pre>
+    
+      <span class="comment">% A plist for using when calculating a PSD</span>
+      p = plist(<span class="string">'navs'</span>, 10);
+      
+      <span class="comment">% An ao created from a file on disk</span>
+      a = ao(<span class="string">'command_force_x2.mat'</span>);
+      
+      <span class="comment">% PSD of some data</span>
+      p = psd(a);
+      
+  </pre></div>
+  <br>
+  Here are examples of better names:
+  <div class="fragment"><pre>
+    
+      <span class="comment">% A plist for using when calculating a PSD</span>
+      psdPlist = plist(<span class="string">'navs'</span>, 10);
+      
+      <span class="comment">% An ao created from a file on disk</span>
+      F_cmd_x2 = ao(<span class="string">'command_force_x2.mat'</span>);      
+      
+      <span class="comment">% PSD of some data</span>
+      S_x2 = psd(x2);
+      
+  </pre></div>
+  <br>
+  <b>Characters are free; understanding is expensive!</b>
+</p>
+
+<h2><a name="documenting">Documenting scripts</a></h2>
+<p>
+  A script can not have too much documentation. MATLAB's documentation system 
+  is extensive and allows for automatic document publishing when used sensibly. Here
+  are some best-practices that should be followed for documenting scripts.
+  <ol>
+    <li>
+      All scripts should begin with a header that contains the following:
+      <ul>
+        <li>The overall purpose of the script</li>
+        <li>Any prerequisits needed in the form of extension modules or other scripts</li>
+        <li>The author of the script</li>
+        <li>The creation date of the script</li>
+        <li>When under version control, a suitable version number tag</li>
+      </ul>
+      Here's an example of a good script header:
+      <div class="fragment"><pre>
+          
+          <span class="comment">% A script which takes measurements of the thingemijig and estimates</span>
+          <span class="comment">% the amplitude of the thrust manipulator by extracting the coherence</span>
+          <span class="comment">% between the first and second whizzmeters.</span>
+          <span class="comment">%</span>
+          <span class="comment">% The script requires the use of the 'BigMachine' extension module and </span>
+          <span class="comment">% assumes the preprocessing of the raw data has been done with the script</span>
+          <span class="comment">% entitled 'preprocess_BigMachine_data.m'.</span>
+          <span class="comment">%</span>
+          <span class="comment">% M Hewitson 2024-02-30</span>
+          <span class="comment">%</span>          
+      </pre></div>
+    </li>
+    <br>
+    <li>
+      Use cells to structure the code into logical sections with sensible 'chapter' headings.
+    </li>
+    <br>
+    <li>
+      Each line of code in a script should come with a line of comment explaining in plain language what you are doing.
+      It should be possible to remove all the code from a script and still read what happened. This is a lofty goal, and
+      does not always improve readability. Sometimes grouping a small number of lines of code together under one comment
+      is better. In short, good judgement is required. Ask yourself, "will somebody else understand this script?" Or even, 
+      "will I understand this script if I look at it again in 1 year from now?"
+    </li>
+  </ol>
+</p>
+
+<h2><a name="copymodify">Copying and modifying objects</a></h2>
+<p>
+  Many methods in LTPDA can be used to modify an object. Generally, if you give an 
+  output variable, the original object(s) will be copied, rather than modified. Here's 
+  an example:
+  <div class="fragment"><pre>
+      
+      <span class="comment">% Create a time-series ao</span>
+      timeSeries = ao.randn(100, 10);
+      
+      <span class="comment">% take the absolute value of the data and store in another object</span>
+      absData = timeSeries.abs(); <span class="comment">% the original timeSeries object is left untouched</span>
+      
+      <span class="comment">% take the absolute value of the data</span>
+      timeSeries.abs(); <span class="comment">% the original timeSeries object is modified; the original data is discarded.</span>
+      
+  </pre></div>
+  
+  If you modify an object you should ask yourself if the variable name still makes sense after
+  the modification. For example, the following would result in confusion:
+  <div class="fragment"><pre>
+      
+      <span class="comment">% Create an ao</span>
+      minusOne = ao(-1);
+      
+      <span class="comment">% take the absolute value of the data</span>
+      minusOne.abs(); <span class="comment">% The value of the ao is no longer -1 --> confusing!</span>
+      
+      <span class="comment">% Create a time-series ao</span>
+      timeSeries = ao.randn(100, 10);
+      
+      <span class="comment">% Estimate the PSD of the data in timeSeries</span>
+      timeSeries.psd(); <span class="comment">% The data in timeSeries is no longer a time-series --> confusing!</span>
+      
+      
+  </pre></div>
+  This is discussed further in the "Working with LTPDA objects" section of the LTPDA user manual.
+</p>
+
+<h2><a name="methods">Method usage and parameter lists</a></h2>
+<p>
+  The following rules should be adhered to, whenever possible, in the use of LTPDA methods.
+  <ol>
+    <li>
+      Don't chain methods together in a single command line. Don't do this:
+      <div class="badfragment"><pre>
+          
+          <span class="comment">% Create a time-series ao, take its PSD and plot it</span>
+          iplot(psd(ao.randn(100,10)));
+          
+          <span class="comment">% An alternative to the above, but still hard to read</span>
+          ao.randn(100,10).psd.iplot;
+                    
+      </pre></div>
+      Rather do this:
+      <div class="fragment"><pre>
+          
+          <span class="comment">% Create a time-series ao</span>
+          noiseData = ao.randn(100, 10);
+          
+          <span class="comment">% Estimate PSD</span>
+          S_noiseData = psd(noiseData);
+          
+          <span class="comment">% Plot the PSD</span>
+          iplot(S_noiseData);
+          
+      </pre></div>
+    </li>
+    <br>
+    <li>
+      If a configuration plist contains multiple parameters, or if the same plist will be 
+      useful in multiple method call, consider creating the plist and holding a pointer to it
+      with its own variable name. Don't do this:
+      <div class="badfragment"><pre>
+          
+          <span class="comment">% Create a some random noise</span>
+          randomNoise1 = ao(plist(<span class="string">'waveform'</span>, <span class="string">'noise'</span>, <span class="string">'fs'</span>, 10, <span class="string">'nsecs'</span>, 100));
+          
+          <span class="comment">% Create some more random noise</span>
+          randomNoise2 = ao(plist(<span class="string">'waveform'</span>, <span class="string">'noise'</span>, <span class="string">'fs'</span>, 10, <span class="string">'nsecs'</span>, 100));
+                    
+      </pre></div>
+      Instead do:
+      <div class="fragment"><pre>
+          
+          <span class="comment">% A plist for creating random noise</span>
+          noisePlist = plist(...
+                        <span class="string">'waveform'</span>, <span class="string">'noise'</span>, ...
+                        <span class="string">'fs'</span>, 10, ...
+                        <span class="string">'nsecs'</span>, 100 ...
+                        );
+          
+          <span class="comment">% Create a some random noise</span>
+          randomNoise1 = ao(noisePlist);
+          
+          <span class="comment">% Create some more random noise</span>
+          randomNoise2 = ao(noisePlist);
+                    
+      </pre></div>
+    </li>
+  </ol>
+</p>
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_2_topic_1_5.html"><img src="b_prev.gif" border="0" align="bottom" alt="Review of filtering and whitening in LTPDA"></a>&nbsp;</td>
+        <td align="left">Review of filtering and whitening in LTPDA</td>
+        <td>&nbsp;</td>
+        <td align="right">Introduction to LTPDA extension modules</td>
+        <td align="right" width="20"><a href="ltpda_training_2_topic_1_7.html"><img src="b_next.gif" border="0" align="bottom" alt="Introduction to LTPDA extension modules"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

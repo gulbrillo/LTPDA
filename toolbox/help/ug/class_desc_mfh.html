@@ -1,0 +1,803 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>mfh Class (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="class_desc_matrix.html"><img src="b_prev.gif" border="0" align="bottom" alt="matrix Class"></a>&nbsp;&nbsp;&nbsp;<a href="class_desc_mfir.html"><img src="b_next.gif" border="0" align="bottom" alt="mfir Class"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">mfh Class</h1>
+    <hr>
+    
+    <p>
+      <!-- $Id$ -->
+
+  <!-- ================================================== -->
+  <!--                 BEGIN CONTENT FILE                 -->
+  <!-- ================================================== -->
+
+  <!-- =====           Link Table: Begin           ===== -->
+  <!-- ===== Created by docHelper.htmlAddLinkTable ===== -->
+  <p>
+    <table border="1"  width="80%">
+      <tr>
+        <td>
+          <table border="0" cellpadding="5" class="categorylist" width="100%">
+            <colgroup>
+              <col width="25%"/>
+              <col width="75%"/>
+            </colgroup>
+            <tbody>
+              <tr valign="top">
+                <td><a href="class_desc_mfh.html#top_properties">Properties</a></td>
+                <td>Properties of the class</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_mfh.html#top_methods">Methods</a></td>
+                <td>All Methods of the class ordered by category.</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="constructor_examples_mfh.html">Examples</a></td>
+                <td>Some constructor examples</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </p>
+  <!-- ===== Link Table: End ====== -->
+
+  <!-- ===== Back to Class descriptions ===== -->
+  <a href="class_desc_main.html">
+    <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Class descriptions"/>
+    Back to Class descriptions
+  </a>
+
+  <h2 class="title"><a name="top_properties"/>Properties</h2>
+  <p>
+    The LTPDA toolbox restrict access of the properties.<br></br>
+    The get access is 'public' and thus it is possible to get the values with the dot-command (similar to structures).<br></br>
+    <pre class="programlisting">For example:<br></br>val = obj.prop(2).prop;</pre>
+    The set access is 'protected' and thus it is only possible to assign a value to a property with a set-method.
+    <pre class="programlisting">
+For example:
+obj2 = obj1.setName(<span class="string">'my name'</span>) <span class="comment">% This command creates a copy of obj1 (obj1 ~= obj2)</span>
+obj.setName(<span class="string">'my name'</span>);        <span class="comment">% This command applies to obj</span>    </pre>
+  </p>
+
+  <!-- =====        Striped 17x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Properties</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh.func')">func</a></td>
+        <td bgcolor="#f3f4f5">@()(func) String of the function</td>
+        <td bgcolor="#f3f4f5">mfh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh.subfuncs')">subfuncs</a></td>
+        <td bgcolor="#ffffff">Array of mfh objects with the sub functions</td>
+        <td bgcolor="#ffffff">mfh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh.inputs')">inputs</a></td>
+        <td bgcolor="#f3f4f5">@(inputs)()</td>
+        <td bgcolor="#f3f4f5">mfh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh.inputObjects')">inputObjects</a></td>
+        <td bgcolor="#ffffff">Cell array with any type of objects</td>
+        <td bgcolor="#ffffff">mfh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh.constants')">constants</a></td>
+        <td bgcolor="#f3f4f5">Cell array with strings of the constant names</td>
+        <td bgcolor="#f3f4f5">mfh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh.constObjects')">constObjects</a></td>
+        <td bgcolor="#ffffff">Cell array with any type of objects for the constants</td>
+        <td bgcolor="#ffffff">mfh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh.funcDef')">funcDef</a></td>
+        <td bgcolor="#f3f4f5">Definition expression</td>
+        <td bgcolor="#f3f4f5">mfh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh.paramsDef')">paramsDef</a></td>
+        <td bgcolor="#ffffff">Parameter definition</td>
+        <td bgcolor="#ffffff">mfh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh.numeric')">numeric</a></td>
+        <td bgcolor="#f3f4f5">-- No description found --</td>
+        <td bgcolor="#f3f4f5">mfh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh.hist')">hist</a></td>
+        <td bgcolor="#ffffff">History of the object (history object)</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh.historyArray')">historyArray</a></td>
+        <td bgcolor="#f3f4f5">Array of history objects for saving</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh.procinfo')">procinfo</a></td>
+        <td bgcolor="#ffffff">Plist with additional information for an object.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh.plotinfo')">plotinfo</a></td>
+        <td bgcolor="#f3f4f5">Plotinfo object</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh.timespan')">timespan</a></td>
+        <td bgcolor="#ffffff">A timespan indicating the valid time-range of the object</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh.name')">name</a></td>
+        <td bgcolor="#f3f4f5">Name of the object</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh.description')">description</a></td>
+        <td bgcolor="#ffffff">Description of the object</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh.UUID')">UUID</a></td>
+        <td bgcolor="#f3f4f5">Universally Unique Identifier of 128-bit</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 17x3 table: End ==== -->
+
+  <!-- ===== Top of page ===== -->
+  <a href="#top_of_page">
+    <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top"/>
+    Back to Top
+  </a>
+
+  <h2 class="title"><a name="top_methods"/>Methods</h2>
+
+  <!-- =====           Link Table: Begin           ===== -->
+  <!-- ===== Created by docHelper.htmlAddLinkTable ===== -->
+  <p>
+    <table border="1"  width="80%">
+      <tr>
+        <td>
+          <table border="0" cellpadding="5" class="subcategorylist" width="100%">
+            <colgroup>
+              <col width="25%"/>
+              <col width="75%"/>
+            </colgroup>
+            <tbody>
+              <tr valign="top">
+                <td><a href="class_desc_mfh.html#arithmetic_operator">Arithmetic Operator</a></td>
+                <td>Arithmetic Operator</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_mfh.html#constructor">Constructor</a></td>
+                <td>Constructor of this class</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_mfh.html#helper">Helper</a></td>
+                <td>Helper methods only for internal usage</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_mfh.html#internal">Internal</a></td>
+                <td>Internal methods only for internal usage</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_mfh.html#output">Output</a></td>
+                <td>Output methods</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_mfh.html#relational_operator">Relational Operator</a></td>
+                <td>Relational operator methods</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_mfh.html#signal_processing">Signal Processing</a></td>
+                <td>Signal processing methods</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </p>
+  <!-- ===== Link Table: End ====== -->
+
+  <!-- ===== Top of page ===== -->
+  <a href="#top_of_page">
+    <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top"/>
+    Back to Top
+  </a>
+
+  <!-- ===== Methods Category: Arithmetic_Operator ===== -->
+  <h3 class="title"><a name="arithmetic_operator"/>Arithmetic Operator</h3>
+
+  <!-- =====        Striped 4x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh/minus')">minus</a></td>
+        <td bgcolor="#f3f4f5">Implements subtraction operator for mfh objects.</td>
+        <td bgcolor="#f3f4f5">mfh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh/plus')">plus</a></td>
+        <td bgcolor="#ffffff">Implements addition operator for mfh objects.</td>
+        <td bgcolor="#ffffff">mfh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh/rdivide')">rdivide</a></td>
+        <td bgcolor="#f3f4f5">Implements division operator for mfh objects.</td>
+        <td bgcolor="#f3f4f5">mfh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh/times')">times</a></td>
+        <td bgcolor="#ffffff">Implements multiplication operator for mfh objects.</td>
+        <td bgcolor="#ffffff">mfh</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 4x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Constructor ===== -->
+  <h3 class="title"><a name="constructor"/>Constructor</h3>
+
+  <!-- =====        Striped 2x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh/rebuild')">rebuild</a></td>
+        <td bgcolor="#f3f4f5">Rebuilds the input objects using the history.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh')">mfh</a></td>
+        <td bgcolor="#ffffff">Function handle class constructor.</td>
+        <td bgcolor="#ffffff">mfh</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 2x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Helper ===== -->
+  <h3 class="title"><a name="helper"/>Helper</h3>
+
+  <!-- =====        Striped 30x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh/get')">get</a></td>
+        <td bgcolor="#f3f4f5">Get a property of a object.</td>
+        <td bgcolor="#f3f4f5">ltpda_obj</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh/search')">search</a></td>
+        <td bgcolor="#ffffff">Select objects that match the given name.</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh/setDescription')">setDescription</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'description' property of a ltpda_uo object.</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh/setName')">setName</a></td>
+        <td bgcolor="#ffffff">Sets the property 'name' of an ltpda_uoh object.</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh/created')">created</a></td>
+        <td bgcolor="#f3f4f5">Returns a time object of the last modification.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh/creator')">creator</a></td>
+        <td bgcolor="#ffffff">Extract the creator(s) from the history.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh/csvexport')">csvexport</a></td>
+        <td bgcolor="#f3f4f5">Exports the data of an object to a csv file.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh/index')">index</a></td>
+        <td bgcolor="#ffffff">Index into a 'ltpda_uoh' object array or matrix. This properly captures the history.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh/plot')">plot</a></td>
+        <td bgcolor="#f3f4f5">Plots the user object on a figure.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh/requirements')">requirements</a></td>
+        <td bgcolor="#ffffff">Returns a list of LTPDA extension requirements for a given object.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh/setPlotAxes')">setPlotAxes</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'axes' property of a the object's plotinfo.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh/setPlotColor')">setPlotColor</a></td>
+        <td bgcolor="#ffffff">Sets the color of a the object's plotinfo.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh/setPlotFigure')">setPlotFigure</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'figure' property of a the object's plotinfo.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh/setPlotFillmarker')">setPlotFillmarker</a></td>
+        <td bgcolor="#ffffff">Defines if the plot function fill the marker or not.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh/setPlotLineStyle')">setPlotLineStyle</a></td>
+        <td bgcolor="#f3f4f5">Sets the linestyle of a the object's plotinfo.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh/setPlotLinewidth')">setPlotLinewidth</a></td>
+        <td bgcolor="#ffffff">Sets the linewidth of a the object's plotinfo.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh/setPlotMarker')">setPlotMarker</a></td>
+        <td bgcolor="#f3f4f5">Sets the marker of a the object's plotinfo.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh/setPlotMarkerEdgeColor')">setPlotMarkerEdgeColor</a></td>
+        <td bgcolor="#ffffff">Sets the color of a the object's marker edge.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh/setPlotMarkerFaceColor')">setPlotMarkerFaceColor</a></td>
+        <td bgcolor="#f3f4f5">Sets the color of a the object's marker face.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh/setPlotMarkersize')">setPlotMarkersize</a></td>
+        <td bgcolor="#ffffff">Sets the markersize of a the object's plotinfo.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh/setPlotinfo')">setPlotinfo</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'plotinfo' property of a ltpda_uoh object.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh/setPlottingStyle')">setPlottingStyle</a></td>
+        <td bgcolor="#ffffff">Sets the style property of a the object's plotinfo.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh/setProcinfo')">setProcinfo</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'procinfo' property of a ltpda_uoh object.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh/setShowsErrors')">setShowsErrors</a></td>
+        <td bgcolor="#ffffff">Sets the 'showErrors' property of a the object's plotinfo.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh/setTimespan')">setTimespan</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'timespan' property of a ltpda_uoh object.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh/flscov')">flscov</a></td>
+        <td bgcolor="#ffffff">M - Tool to perform a least square fit in frequency domain.</td>
+        <td bgcolor="#ffffff">mfh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh/setConstObjects')">setConstObjects</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'constObjects' property of a mfh object.</td>
+        <td bgcolor="#f3f4f5">mfh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh/setInputObjects')">setInputObjects</a></td>
+        <td bgcolor="#ffffff">Sets the 'inputObjects' property of a mfh object.</td>
+        <td bgcolor="#ffffff">mfh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh/setNumeric')">setNumeric</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'numeric' property of a mfh object.</td>
+        <td bgcolor="#f3f4f5">mfh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh/setSubfuncs')">setSubfuncs</a></td>
+        <td bgcolor="#ffffff">Sets the 'subfuncs' property of a mfh object.</td>
+        <td bgcolor="#ffffff">mfh</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 30x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Internal ===== -->
+  <h3 class="title"><a name="internal"/>Internal</h3>
+
+  <!-- =====        Striped 7x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh/isprop')">isprop</a></td>
+        <td bgcolor="#f3f4f5">Tests if the given field is one of the object properties.</td>
+        <td bgcolor="#f3f4f5">ltpda_obj</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh/bsubmit')">bsubmit</a></td>
+        <td bgcolor="#ffffff">Submits the given collection of objects in binary form to an LTPDA repository</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh/submit')">submit</a></td>
+        <td bgcolor="#f3f4f5">Submits the given collection of objects to an LTPDA repository</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh/update')">update</a></td>
+        <td bgcolor="#ffffff">Updates the given object in an LTPDA repository</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh/string')">string</a></td>
+        <td bgcolor="#f3f4f5">Writes a command string that can be used to recreate the input object(s).</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh/type')">type</a></td>
+        <td bgcolor="#ffffff">Converts the input objects to MATLAB functions.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh/generateConstructorPlist')">generateConstructorPlist</a></td>
+        <td bgcolor="#f3f4f5">Generates a PLIST from the properties which can rebuild the object.</td>
+        <td bgcolor="#f3f4f5">mfh</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 7x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Output ===== -->
+  <h3 class="title"><a name="output"/>Output</h3>
+
+  <!-- =====        Striped 5x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh/save')">save</a></td>
+        <td bgcolor="#f3f4f5">Overloads save operator for ltpda objects.</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh/report')">report</a></td>
+        <td bgcolor="#ffffff">Generates an HTML report about the input objects.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh/viewHistory')">viewHistory</a></td>
+        <td bgcolor="#f3f4f5">Displays the history of an object as a dot-view or a MATLAB figure.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh/char')">char</a></td>
+        <td bgcolor="#ffffff">Convert a mfh object into a string.</td>
+        <td bgcolor="#ffffff">mfh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh/disp')">disp</a></td>
+        <td bgcolor="#f3f4f5">Overloads display functionality for mfh objects.</td>
+        <td bgcolor="#f3f4f5">mfh</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 5x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Relational_Operator ===== -->
+  <h3 class="title"><a name="relational_operator"/>Relational Operator</h3>
+
+  <!-- =====        Striped 1x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh/isequal')">isequal</a></td>
+        <td bgcolor="#f3f4f5">Overloads the isequal operator for ltpda objects.</td>
+        <td bgcolor="#f3f4f5">ltpda_obj</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 1x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Signal_Processing ===== -->
+  <h3 class="title"><a name="signal_processing"/>Signal Processing</h3>
+
+  <!-- =====        Striped 12x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh/fisher')">fisher</a></td>
+        <td bgcolor="#f3f4f5">M Calculation of the Fisher Information Matrix/Covariance</td>
+        <td bgcolor="#f3f4f5">mfh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh/fminsearch')">fminsearch</a></td>
+        <td bgcolor="#ffffff">Uses a simplex search to minimise the given function handle.</td>
+        <td bgcolor="#ffffff">mfh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh/fminsearchbnd')">fminsearchbnd</a></td>
+        <td bgcolor="#f3f4f5">Uses a simplex search to minimise the given function handle</td>
+        <td bgcolor="#f3f4f5">mfh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh/getFitErrors')">getFitErrors</a></td>
+        <td bgcolor="#ffffff">Calculates fisher matrix approximation of fit parameters</td>
+        <td bgcolor="#ffffff">mfh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh/getHessian')">getHessian</a></td>
+        <td bgcolor="#f3f4f5">Calculate Hessian matrix for a given function.</td>
+        <td bgcolor="#f3f4f5">mfh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh/getJacobian')">getJacobian</a></td>
+        <td bgcolor="#ffffff">Calculate Jacobian matrix for a given function.</td>
+        <td bgcolor="#ffffff">mfh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh/lincom')">lincom</a></td>
+        <td bgcolor="#f3f4f5">Make a linear combination of supplied models objects</td>
+        <td bgcolor="#f3f4f5">mfh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh/loglikelihood')">loglikelihood</a></td>
+        <td bgcolor="#ffffff">Compute log-likelihood for MFH objects</td>
+        <td bgcolor="#ffffff">mfh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh/multinest')">multinest</a></td>
+        <td bgcolor="#f3f4f5">M</td>
+        <td bgcolor="#f3f4f5">mfh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh/paramCovMat')">paramCovMat</a></td>
+        <td bgcolor="#ffffff">Calculate the covariace matrix for the parameters.</td>
+        <td bgcolor="#ffffff">mfh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('mfh/setParamsToConst')">setParamsToConst</a></td>
+        <td bgcolor="#f3f4f5">Set the given parameters to be constant in the model.</td>
+        <td bgcolor="#f3f4f5">mfh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('mfh/testHessianMatrix')">testHessianMatrix</a></td>
+        <td bgcolor="#ffffff">Performs a random study of the n-dimensional error ellipsoide for a given confidence level.</td>
+        <td bgcolor="#ffffff">mfh</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 12x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ================================================== -->
+  <!--                  END CONTENT FILE                  -->
+  <!-- ================================================== -->
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="class_desc_matrix.html"><img src="b_prev.gif" border="0" align="bottom" alt="matrix Class"></a>&nbsp;</td>
+        <td align="left">matrix Class</td>
+        <td>&nbsp;</td>
+        <td align="right">mfir Class</td>
+        <td align="right" width="20"><a href="class_desc_mfir.html"><img src="b_next.gif" border="0" align="bottom" alt="mfir Class"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

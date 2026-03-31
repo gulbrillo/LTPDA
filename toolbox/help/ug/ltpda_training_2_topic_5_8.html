@@ -1,0 +1,194 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Use parameter estimates to estimate residual differential acceleration (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_2_topic_5_7.html"><img src="b_prev.gif" border="0" align="bottom" alt="Results and Comparison"></a>&nbsp;&nbsp;&nbsp;<a href="examplesindex.html"><img src="b_next.gif" border="0" align="bottom" alt="Examples"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Use parameter estimates to estimate residual differential acceleration</h1>
+    <hr>
+    
+    <p>
+      
+<p>
+    Our last step once we have recovered the correct parameters for our
+    system is to translate the interferometer displacement noise to 
+    accelerometer noise, as previously shown.
+    
+    We will need first to load the objects that we have previously created.
+    In this exercise, we will take the initial noise segment and translate into acceleration 
+    noise.
+</p>
+<div class="fragment">
+    <pre>  <br>  
+        <span class="comment">%% Load objects</span>
+        
+        noise  = matrix(<span class="string">'noise.mat'</span>);
+        mdl    = ssm(<span class="string">'fitting_model.mat'</span>);
+        Fcmd   = matrix(<span class="string">'cmdForces.mat'</span>);
+        params = pest(<span class="string">'fit_mcmc.mat'</span>);
+        
+    </pre>
+</div>
+<p>
+    Since our objects contain two experiments, we will focus on one of them, the 
+    second experiment to do this analysis.
+</p>
+
+<div class="fragment">
+    <pre>  <br>          
+        <span class="comment">%% Focus on noise for 2nd experiment</span>
+        
+        [o1_0002, o12_0002]   = unpack(noise(2));
+        [Fsc_0002, Ftm2_0002] = unpack(Fcmd(2));
+        
+    </pre>
+</div>
+<p>
+    As shown in Topic 3, the <>ltp_ifo2acc<> method requires a mapping 
+    of parameters because a change of notation.
+</p>
+
+
+<div class="fragment">
+    <pre>  <br>          
+        <span class="comment">%% Parameters mapping</span>
+        
+        <span class="comment">% Define new variables with the name of the parameters used in ltp_ifo2acc</span>
+        Gdf  = params.find(<span class="string">'FEEPS_XX'</span>);
+        Gsus = params.find(<span class="string">'CAPACT_TM2_XX'</span>);
+        SD1  = params.find(<span class="string">'IFO_X12X1'</span>);
+        w1   = -1*params.find(<span class="string">'EOM_TM1_STIFF_XX'</span>); <span class="comment">% use a different convention from ssm so the -1</span>
+        w2   = -1*params.find(<span class="string">'EOM_TM2_STIFF_XX'</span>); <span class="comment">% use a different convention from ssm so the -1</span>
+        
+        <span class="comment">%% Conversion to acceleration</span>
+        
+        <span class="comment">% set the input plist for conversion to acceleration</span>
+        pli2a = plist(...
+              <span class="string">'Gdf'</span>, Gdf, ...
+              <span class="string">'Gsus'</span>, Gsus, ...
+              <span class="string">'SD1'</span>, SD1, ...
+              <span class="string">'w1'</span>, w1, ...
+              <span class="string">'w2'</span>, w2, ...
+              <span class="string">'Hdf'</span>, Fsc_0002, ...  
+              <span class="string">'Hsus'</span>, Ftm2_0002);
+              
+    </pre>
+</div>
+<p>
+    Now this <tt>plist</tt> allows us call the method to get the acceleration noise
+</p>
+
+<div class="fragment">
+    <pre>  <br>  
+        <span class="comment">%% Convert to acceleration</span>
+                
+        <span class="comment">% ifo2acc with commanded forces</span>
+        [a1, a12] = ltp_ifo2acc(o1_0002, o12_0002, pli2a);
+      </pre>
+</div>
+
+<p>
+ We will remove some samples from the last part of the acceleration noise
+ time series to avoid a transient that appears in the x1 channel.
+</p>
+
+<div class="fragment">
+    <pre>  <br>          
+        <span class="comment">%% set paremeters for lpsd</span>
+        plpsd = plist(<span class="string">'times'</span>, [-inf -2010]);
+        
+        a1s  = split(a1, plpsd);
+        a12s = split(a12, plpsd);
+        
+        iplot(a1, a1s)
+        
+    </pre>
+</div>
+  <div align="center">
+    <IMG width="800px" src="images/ltpda_training_2/Topic5/training_5_8_accel_time.png"  align="center" border="0">
+  </div>
+<p>
+And compute the Amplitude Spectral Density (ASD) 
+for the remaining time series.
+</p>
+
+<div class="fragment">
+    <pre>  <br>          
+        <span class="comment">%% Calculate Amplitude Spectral Density</span>
+        
+        <span class="comment">% set paremeters for lpsd</span>
+        plpsd = plist(...
+              <span class="string">'order'</span>, 1, ...
+              <span class="string">'SCALE'</span>, <span class="comment">'ASD'</span>);
+        
+        a1xx  = lpsd(a1s, plpsd);
+        a12xx = lpsd(a12s, plpsd);
+        
+    </pre>
+</div>
+
+<p>
+Which leads to our final result: the perfomance of the instrument
+in acceleration noise.
+</p>
+
+<div class="fragment">
+    <pre>  <br>  
+        <span class="comment">%% Plot results</span>
+        plplot = plist(...
+                    <span class="string">'Linecolors'</span>, {<span class="string">'k'</span>, <span class="string">'r'</span>}, ...
+                    <span class="string">'LineStyles'</span>, {<span class="string">'-'</span>, <span class="string">'--'</span>}, ...
+                    <span class="string">'LineWidths'</span>, {3, 3}, ...
+                    <span class="string">'XLABELS'</span>, {<span class="string">'All'</span>, <span class="string">'Frequency'</span>}, ...
+                    <span class="string">'YLABELS'</span>, {<span class="string">'All'</span>, <span class="string">'Spectral Density'</span>});
+
+        <span class="string">% Plot results</span>
+        a1xx.setName(<span class="string">'accel(DELAY_IFO.x1)'</span>)
+        a12xx.setName(<span class="string">'accel(DELAY_IFO.x12)'</span>)
+        
+        iplot(a1xx, a12xx, plplot)
+        
+    </pre>
+</div>
+
+  <div align="center">
+    <IMG width="800px" src="images/ltpda_training_2/Topic5/training_5_8_accel_freq.png"  align="center" border="0">
+  </div>
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_2_topic_5_7.html"><img src="b_prev.gif" border="0" align="bottom" alt="Results and Comparison"></a>&nbsp;</td>
+        <td align="left">Results and Comparison</td>
+        <td>&nbsp;</td>
+        <td align="right">Examples</td>
+        <td align="right" width="20"><a href="examplesindex.html"><img src="b_next.gif" border="0" align="bottom" alt="Examples"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

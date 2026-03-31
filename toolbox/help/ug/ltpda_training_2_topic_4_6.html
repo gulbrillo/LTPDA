@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Estimate tranfser functions from simulated signals, compare with Bode estimates (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_2_topic_4_5.html"><img src="b_prev.gif" border="0" align="bottom" alt="Inject noise signals to LTP"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_2_topic_4_7.html"><img src="b_next.gif" border="0" align="bottom" alt="Simulate LPF with injected signals"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Estimate tranfser functions from simulated signals, compare with Bode estimates</h1>
+    <hr>
+    
+    <p>
+      <p>
+  We can estimate transfer functions of the system in two ways: by injecting noise and 
+  using spectral estimator methods, or by computing the Bode response based on the system matrices.
+</p>
+<h2>Measuring a transfer function</h2>
+<p>
+  Let's start by injecting a white noise time-series in to the guidance input of the y1 control coordinate:
+  <div class="fragment"><pre>  
+      <span class="comment">% Create a noise time-series analysis object to inject</span>
+      fs    = 1/ltp.timestep;
+      nsecs = 10000;
+      noise = ao.randn(nsecs, fs);
+      noise.setYunits(<span class="string">'m'</span>); <span class="comment">% We want to inject [m]. Then the estimated TF later will have the right units.</span>
+      noise.setName;
+      
+      <span class="comment">% Generate a list of outputs we want from the simulator</span>      
+      outputs = ltp.getPortNamesForBlocks(plist(<span class="string">'blocks'</span>, {<span class="string">'DELAY_IFO'</span>, <span class="string">'IS'</span>}, <span class="string">'type'</span>, <span class="string">'outputs'</span>));
+      
+      <span class="comment">% Create the plist to configure simulate</span>      
+      sim_pl = plist(<span class="string">'AOS'</span>, noise, <span class="string">'AOS Variable Names'</span>, <span class="string">'GUIDANCE.is_tm1_y'</span>, <span class="string">'return outputs'</span>, outputs)
+      
+      <span class="comment">% Run the simulation</span>      
+      out = simulate(ltp, sim_pl);
+  </pre></div>
+  You can then plot the output signals by doing the following:
+  <div class="fragment"><pre>  
+      <span class="comment">% Create a plist to configure iplot to plot with subplots</span>
+      plot_pl = plist(<span class="string">'arrangement'</span>, <span class="string">'subplots'</span>);
+      
+      <span class="comment">% First extract the internal AOs we want and then plot</span>
+      IS_tm1_y = out.getObjectAtIndex(8);
+      IS_tm2_y = out.getObjectAtIndex(14);
+      
+      <span class="comment">% Then plot the IS y signals together</span>
+      iplot(IS_tm1_y, IS_tm2_y, plot_pl);
+  </pre></div>
+  To estimate the transfer function between the injected noise and the signal recorded from the IS of TM1, we can do
+  <div class="fragment"><pre>  
+      tfe_pl = plist('navs', 16, 'order', 1, 'win', 'BH92');
+      Tn2is1y = tfe(noise, IS_tm1_y, tfe_pl);
+  </pre></div>
+  To plot the estimated transfer function, you can do:
+  <div class="fragment"><pre>  
+      iplot(Tn2is1y);
+  </pre></div>
+  <br>
+  This transfer function is the complementary sensitivity transfer function defined as:
+  <br>
+  <IMG width="150px" src="images/ltpda_training_2/Topic4/complementary_sensitivity_transfer_function.png"  align="center" border="0">
+  <br>
+  where <tt>O(s)</tt> is the open loop gain of the system. We can calculate <tt>O(s)</tt> as
+  <div class="fragment"><pre>  
+      O = Tn2is1y / (1 - Tn2is1y)
+  </pre></div>  
+  which looks like this when plotted:
+  <div class="fragment"><pre>  
+      iplot(O, plist('xranges', {'all', [1e-3 1]}));
+  </pre></div>    
+  <IMG src="images/ltpda_training_2/Topic4/open_loop_gain_plot.png"  align="center" border="0">
+</p>
+<h2>Bode response of the system</h2>
+<p>
+  We can also extract transfer functions from the system directly using the <tt>ssm/bode</tt> function. The usage
+  of the <tt>bode</tt> method is very similar to simulate. You have to specify the input and output ports, and a 
+  set of frequencies to compute the response at, and <tt>bode</tt> returns one frequency-series for each possible 
+  input to output transfer function.
+</p>
+<p>
+  Using the same LTP model we've been using all along, you can extract the same transfer function as the one
+  measured above by doing:
+  <div class="fragment"><pre>  
+      <span class="comment">% Create a plist to configure bode. Evaluate the response at the frequencies of the measured TF from above.</span>
+      bpl = plist(<span class="string">'inputs'</span>, <span class="string">'GUIDANCE.is_tm1_y'</span>, <span class="string">'outputs'</span>, <span class="string">'IS.tm1_y'</span>, <span class="string">'f'</span>, Tn2is1y.x);
+      
+      <span class="comment">% Compute the response</span>
+      out = bode(ltp, bpl);      
+  </pre></div>
+  You can plot the response, together with the one estimated above by doing:
+  <div class="fragment"><pre>  
+      Tb = out.getObjectAtIndex(1);
+      iplot(Tn2is1y, Tb);
+  </pre></div>
+  You should see a plot something like:
+  <br>
+  <IMG src="images/ltpda_training_2/Topic4/tfs_comparison.png"  align="center" border="0">
+  <br>
+  
+</p>
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_2_topic_4_5.html"><img src="b_prev.gif" border="0" align="bottom" alt="Inject noise signals to LTP"></a>&nbsp;</td>
+        <td align="left">Inject noise signals to LTP</td>
+        <td>&nbsp;</td>
+        <td align="right">Simulate LPF with injected signals</td>
+        <td align="right" width="20"><a href="ltpda_training_2_topic_4_7.html"><img src="b_next.gif" border="0" align="bottom" alt="Simulate LPF with injected signals"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

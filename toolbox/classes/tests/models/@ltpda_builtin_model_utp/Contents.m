@@ -1,0 +1,10 @@
+%%%%%%%%%%%%%%%%%%%%   path: classes/tests/models/@ltpda_builtin_model_utp   %%%%%%%%%%%%%%%%%%%%
+%
+%   <a href="matlab:help classes/tests/models/@ltpda_builtin_model_utp/ltpda_builtin_model_utp">classes/tests/models/@ltpda_builtin_model_utp/ltpda_builtin_model_utp</a>          -  is the base class for ltpda built-in model unit tests.
+%   <a href="matlab:help classes/tests/models/@ltpda_builtin_model_utp/test_builtin_model_describe">classes/tests/models/@ltpda_builtin_model_utp/test_builtin_model_describe</a>      -  that the built-in model responds to the 'describe' call
+%   <a href="matlab:help classes/tests/models/@ltpda_builtin_model_utp/test_builtin_model_doc">classes/tests/models/@ltpda_builtin_model_utp/test_builtin_model_doc</a>           -  that the built-in model responds to the 'doc' call
+%   <a href="matlab:help classes/tests/models/@ltpda_builtin_model_utp/test_builtin_model_info">classes/tests/models/@ltpda_builtin_model_utp/test_builtin_model_info</a>          -  that the built-in model responds to the 'info' call
+%   <a href="matlab:help classes/tests/models/@ltpda_builtin_model_utp/test_builtin_model_modelOverview">classes/tests/models/@ltpda_builtin_model_utp/test_builtin_model_modelOverview</a> -  that the built-in model works with minfo/modelOverview and that the
+%   <a href="matlab:help classes/tests/models/@ltpda_builtin_model_utp/test_builtin_model_plist">classes/tests/models/@ltpda_builtin_model_utp/test_builtin_model_plist</a>         -  that the built-in model responds to the 'plist' call.
+%   <a href="matlab:help classes/tests/models/@ltpda_builtin_model_utp/test_builtin_model_plist_version">classes/tests/models/@ltpda_builtin_model_utp/test_builtin_model_plist_version</a> -  that the built-in model has a default plist with a 'VERSION' key.
+%   <a href="matlab:help classes/tests/models/@ltpda_builtin_model_utp/test_builtin_model_versions">classes/tests/models/@ltpda_builtin_model_utp/test_builtin_model_versions</a>      -  that all versions of the built-in model can be built, and re-built

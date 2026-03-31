@@ -1,0 +1,367 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Example 2: Windowing data (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_topic_3_2_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="Example 1: Simply PSD"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_topic_3_2_3.html"><img src="b_next.gif" border="0" align="bottom" alt="Example 3: Log-scale PSD on MDC1 data"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Example 2: Windowing data</h1>
+    <hr>
+    
+    <p>
+        <p>
+    The idea of the second exercise is the following:
+    <ol>
+      <li>load a list of time-series with noise data from disk</li>
+      <li>evaluate the Power Spectrum of the different data sets and:
+      <ul>
+        <li>study the effect of the usage of different windows lengths</li>
+        <li>study the effect of the usage of different windows types</li>
+        <li>choose different outputs</li>
+      </ul>
+      <li>plot the results in different plot styles</li>
+    </ol>
+  </p>
+  <p>
+    In a flow diagram, the representation is as follows:
+  </p>
+  <br>
+  <img src="images/ltpda_training_1/topic3/PSD_2_flowchart.png" alt="Dataflow for the 2nd example of ao/psd" width="600px" border="1">
+  <br>
+  <br>
+  <h2>Loading experimental data time-series from data files</h2>
+  <p>
+    The step of building <tt>ao</tt>s by loading data from files was touched upon in <a href="ltpda_training_topic_1_6.html">previous steps</a> and in
+    the <a href="ao_create.html#text" >user manual</a>. Here we go ahead by calling the <tt>ao</tt> constructor
+    method, that we want to specify by means of a plist, with parameters:
+    
+    <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+      <colgroup>
+        <col width="15%"/>
+        <col width="35%"/>
+        <col width="50%"/>
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th class="categorylist">Key</th>
+          <th class="categorylist">Value</th>
+          <th class="categorylist">Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Key 'filename' -->
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">
+            <p><tt>FILENAME</tt></p>
+          </td>
+          <td bgcolor="#f3f4f5">
+            <p><span class="string">'topic3/EGSE_FEE_x1.dat'</span></p>
+          </td>
+          <td bgcolor="#f3f4f5">
+            <p>The name of the file to read the data from.</p>
+          </td>
+        </tr>
+        <!-- Key 'type' -->
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">
+            <p><tt>TYPE</tt></p>
+          </td>
+          <td bgcolor="#f3f4f5">
+            <p><span class="string">'tsdata'</span></p>
+          </td>
+          <td bgcolor="#f3f4f5">
+            <p>Interpret the data in the file as time-series data.</p>
+          </td>
+        </tr>
+        <!-- Key 'columns' -->
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">
+            <p><tt>COLUMNS</tt></p>
+          </td>
+          <td bgcolor="#f3f4f5">
+            <p>[1 2]</p>
+          </td>
+          <td bgcolor="#f3f4f5">
+            <p>Load the data x-y pairs from columns 1 (as x) and 2 (as y).</p>
+          </td>
+        </tr>
+        <!-- Key 'xunits' -->
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">
+            <p><tt>XUNITS</tt></p>
+          </td>
+          <td bgcolor="#f3f4f5">
+            <p><span class="string">'s'</span></p>
+          </td>
+          <td bgcolor="#f3f4f5">
+            <p>Set the units of the x-data to seconds (s).</p>
+          </td>
+        </tr>
+        <!-- Key 'yunits' -->
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">
+            <p><tt>YUNITS</tt></p>
+          </td>
+          <td bgcolor="#f3f4f5">
+            <p><span class="string">'F'</span></p>
+          </td>
+          <td bgcolor="#f3f4f5">
+            <p>Set the units of the y-data to farad (F).</p>
+          </td>
+        </tr>
+        <!-- Key 'Comment-char' -->
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">
+            <p><tt>COMMENT_CHAR</tt></p>
+          </td>
+          <td bgcolor="#f3f4f5">
+            <p><span class="string">'%'</span></p>
+          </td>
+          <td bgcolor="#f3f4f5">
+            <p>Indicateds which header lines to skip in the ASCII data file.</p>
+          </td>
+        </tr>
+        <!-- Key 'Use-fs' -->
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">
+            <p><tt>FS</tt></p>
+          </td>
+          <td bgcolor="#f3f4f5">
+            <p><span class="string">[]</span></p>
+          </td>
+          <td bgcolor="#f3f4f5">
+            <p>Indicates to load time series from the first data column.</p>
+          </td>
+        </tr>
+        <!-- Key 'robust' -->
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">
+            <p><tt>ROBUST</tt></p>
+          </td>
+          <td bgcolor="#f3f4f5">
+            <p><span class="string">'yes'</span></p>
+          </td>
+          <td bgcolor="#f3f4f5">
+            <p>Use robust data reading for this file format.</p>
+          </td>
+        </tr>
+        <!-- Key 'description' -->
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">
+            <p><tt>DESCRIPTION</tt></p>
+          </td>
+          <td bgcolor="#f3f4f5">
+            <p><span class="string">'EGSE FEE x1 data'</span></p>
+          </td>
+          <td bgcolor="#f3f4f5">
+            <p>Set some text to the 'description' field of the AO.</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </p>
+
+
+  <p>
+    This procedure can be repeated for all 4 channels we want to analyze, just by calling the <tt>ao</tt> method and the <tt>plist/pset</tt> method:
+  <div class="fragment"><pre>
+    FEE_x1 = ao(pl_data);
+    FEE_x2 = ao(pl_data.pset(<span class="string">'FILENAME'</span>, <span class="string">'topic3/EGSE_FEE_x2.dat'</span>));
+    FEE_y1 = ao(pl_data.pset(<span class="string">'FILENAME'</span>, <span class="string">'topic3/EGSE_FEE_y1.dat'</span>));
+    FEE_y2 = ao(pl_data.pset(<span class="string">'FILENAME'</span>, <span class="string">'topic3/EGSE_FEE_y2.dat'</span>));</pre></div>
+  </p>
+  <br>
+<h2>Evaluate the Power Spectrum of the different data sets</h2>
+<p>
+  Now let's proceed by adding the <tt>psd</tt> step to the diagram, as we did previously. 
+  Here we want to call the method only once, without the need of calling the function 4
+  times; we also want to be sure to apply the same parameters to all the input objects.
+  There are different ways to achieve this; one possibility is to take advantage of the multiple
+  input handling allowed by the <tt>ao/psd</tt> method. So we go ahead and add pass all the inputs to the <tt>psd</tt> method:
+<div class="fragment"><pre>
+[S_x1, S_x2, S_y1, S_y2] = psd(FEE_x1, FEE_x2, FEE_y1, FEE_y2);</pre></div>
+</p>
+
+<h3>Choosing the spectral window</h3>
+
+<p>
+  The spectral leakage is different with different <a href="specwin.html" >windows</a>. In order to choose
+  the proper one for our needs, we can use the <a href="gui_specwin.html" >specwin helper</a>, to visualize
+  the window object both in time-domain and frequency domain.
+</p>
+ <p>
+   <img src="images/ltpda_training_1/topic3/PSD_2_win_helper.png" alt="Selecting the window from the Specwin Viewer" width="800px" border="1">
+ </p>
+ <p>
+    Once we are happy with the choice, we can go apply it to the data, by specifying the value for the Key
+     <tt>Win</tt> via a parameter list for the <tt>psd</tt>. One parameter is alreay selected, based on the user preferences.
+    Here I choose to use the Blackman-Harris window, called 'BH92'.
+    <div class="fragment"><pre>
+pl_psd = plist(<span class="string">'win'</span>, <span class="string">'BH92'</span>);</pre></div>
+  </p>
+<p>
+  <table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1">
+    <tr width="90%">
+      <td>
+       <p>The length of the specwin object is irrelevant, because it will be ignored by the <tt>psd</tt> method, that will rebuild the window only based on the definition (the name).</p>
+	<p>The effective window length is decided by setting the "Nfft" parameter!</p>
+      </td>
+    </tr>
+  </table>
+</p>
+
+  <h3>Choosing the window length</h3>
+
+  <p>
+    In order to reduce the variance in the estimated PSD, the user may decide to split the input data
+    objects into shorter segments, estimate the fft of the individual segments and then average them.
+    This is set by the "Nfft" parameter. A value of -1 will mean one single window.
+  </p>
+  <p>
+    Let's choose a window length of 20000 points (2000 seconds at 10 Hz):
+   <div class="fragment"><pre>
+pl_psd.pset(<span class="string">'nfft'</span>, 2e4);</pre></div>
+  </p>
+
+  <h3>Choosing the window overlap</h3>
+
+  <p>
+    In principle, we can decide the amount of overlap among consecutive windows, by entering a percentage value.
+    Let's do nothing here (meaning we leave the default values of -1) and let the <tt>psd</tt> use the reccomended value which is stored
+    inside the window object and shown as "Rov".
+  </p>
+
+  <h3>Choosing the scale</h3>
+
+  <p>
+    We can decide to give as an output directly the 'ASD' (Amplitude Spectral Density), rather than the
+    'PSD' (Power Spectral Density). We can also have 'AS' (Amplitude Spectrum) or 'PS' (Power Spectrum).
+    Here I choose to use ASD, so I set the value corresponding to the "Scale" entry
+    to be the 'ASD'.
+   <div class="fragment"><pre>
+pl_psd.pset(<span class="string">'scale'</span>, <span class="string">'ASD'</span>);</pre></div>
+  </p>
+  <h3>Choosing the detrending</h3>
+  <p>
+    Detrending here refers to an additional detrending performed for each individual segment, prior to
+    applying the window. In this case we want to subtract a linear drift, so let's just enter 1 for the value of the key "Order".
+    <div class="fragment"><pre>
+pl_psd.pset(<span class="string">'order'</span>, 1);</pre></div>
+  </p>
+  <p>
+  We can now go ahead and call the method. In this case, since we pass multiple inputs, we can decide what to do with 
+  the outputs (we will get one output AO per input AO). Let's keep all of them into a single array:
+  <div class="fragment"><pre>
+S = psd(FEE_x1, FEE_x2, FEE_y1, FEE_y2, pl_psd);</pre></div>
+</p>
+  <br>  
+  <br>
+  <h2>Plotting the spectra</h2>
+
+  <p>
+    As per our choice, <tt>psd</tt> would give as an output an array of <tt>ao</tt>s corresponding to each input.
+    So in our case, we'd have an array with 4 <tt>ao</tt>s. We can also make them individuals, by indexing the array:
+    <div class="fragment"><pre>
+S_x1 = S(1);</pre></div>
+  </p>
+  <p>
+  We can now go ahead and plot the individual <tt>ao</tt>s in many plots, just by calling <tt>iplot</tt>.
+  We can also define parameters for each plot, such as colors an so on. Just to exercise let's set
+  the colors to:
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="50%">
+    <colgroup>
+      <col width="50%"/>
+      <col width="50%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Object</th>
+        <th class="categorylist">Color</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- x1 -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>x1 data PSD</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">{[1 0 0]}</span></p>
+        </td>
+      </tr>
+      <!-- x2 -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>x2 data PSD</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">{[0 1 0]}</span></p>
+        </td>
+      </tr>
+      <!-- y1 -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>y1 data PSD</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">{[0 0 1]}</span></p>
+        </td>
+      </tr>
+      <!-- y2 -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>y2 data PSD</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">{[1 1 1]}</span></p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+<p>
+  At the end we can look at the output plots and check the results, the units, the frequency range.
+</p>
+<br>
+<br>
+<h2>Saving the spectra</h2>
+<p>
+  Once we obtained the objects we are interested on, we can go ahead and save at least the <i>x1</i> data
+  as described <a href="ltpda_training_topic_1_5.html" >here</a> and <a href="ao_save.html" >here</a>.
+</p>
+<br>
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_topic_3_2_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="Example 1: Simply PSD"></a>&nbsp;</td>
+        <td align="left">Example 1: Simply PSD</td>
+        <td>&nbsp;</td>
+        <td align="right">Example 3: Log-scale PSD on MDC1 data</td>
+        <td align="right" width="20"><a href="ltpda_training_topic_3_2_3.html"><img src="b_next.gif" border="0" align="bottom" alt="Example 3: Log-scale PSD on MDC1 data"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

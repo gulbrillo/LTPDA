@@ -1,0 +1,253 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Tools for estimating the equivalent acceleration in LTPDA (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_2_topic_3_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="Principles and theory"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_2_topic_3_3.html"><img src="b_next.gif" border="0" align="bottom" alt="Estimate equivalent acceleration from simulation data"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Tools for estimating the equivalent acceleration in LTPDA</h1>
+    <hr>
+    
+    <p>
+      <p>
+  In previous page we have discovered as the equivalent acceleration can be 
+  in principle estimated from the interferometer displacement signal. LTPDA 
+  provides a dedicated tool for the purpose. The tool name is 'ltp_ifo2acc', 
+  it is a method of the class 'ao' and it is provided with the external module 
+  'LPF_DA_Module'. If the module is correctly installed 'ltp_ifo2acc' help can be 
+  obtained with the command
+</p>
+
+<p>
+  <div class="fragment"><pre>
+
+    help ao/ltp_ifo2acc
+  </pre></div>
+
+  <div class="fragment"><pre>
+
+  ltp_ifo2acc convert ifo data to acceleration
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+  DESCRIPTION: ltp_ifo2acc converts interferometer data to acceleration
+ 
+ 
+  CALL:                 bs = ltp_ifo2acc(o1,od,pl);
+                        [a1,ad] = ltp_ifo2acc(o1,od,pl);
+  
+ 
+  INPUTS:      
+        - o1, channel 1 interferometer output
+        - od, differential channel interferometer output
+        - pl, plist containing parameters
+               
+  OUTPUTS:     
+        - a1, Force per unit of mass on TM1 in the spacecraft reference
+        frame
+        - ad, Differential force per unit of mass between TMs
+  
+  Parameters Description
+ 
+  REFERENCES:
+ 
+  
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  </pre></div>
+</p>
+
+<p>
+  With a click on the 'Parameters Description' link, we obtain a list of method's
+  parameters together with a description.
+</p>
+
+<p>
+  In this training session we will concentrate only on 7 parameters of the 
+  full list:
+</p>
+
+<p>
+  <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+    <colgroup>
+      <col width="15%"/>
+      <col width="20%"/>
+      <col width="20%"/>
+      <col width="45%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th bgcolor="#B9C6DD" colspan="4"><h3>LSS v4.9.2</h3></th>
+      </tr>
+      <tr valign="top">
+        <th bgcolor="#D7D7D7">Key</th>
+        <th bgcolor="#D7D7D7">Default Value</th>
+        <th bgcolor="#D7D7D7">Options</th>
+        <th bgcolor="#D7D7D7">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#F2F2F2">GDF</td>
+        <td bgcolor="#F2F2F2">1</td>
+        <td bgcolor="#F2F2F2"><i>none</i></td>
+        <td bgcolor="#F2F2F2">thrusters actuation gain <br></br></td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#F2F2F2">GSUS</td>
+        <td bgcolor="#F2F2F2">1</td>
+        <td bgcolor="#F2F2F2"><i>none</i></td>
+        <td bgcolor="#F2F2F2">suspension actuation gain <br></br></td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#F2F2F2">W1</td>
+        <td bgcolor="#F2F2F2">-1.3e-06</td>
+        <td bgcolor="#F2F2F2"><i>none</i></td>
+        <td bgcolor="#F2F2F2">The parasitic stiffness per unit of mass on TM1 (s^-2) <br></br></td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#F2F2F2">W2</td>
+        <td bgcolor="#F2F2F2">-1.9999999999999999e-06</td>
+        <td bgcolor="#F2F2F2"><i>none</i></td>
+        <td bgcolor="#F2F2F2">The parasitic stiffness per unit of mass on TM2 (s^-2) <br></br></td>
+      </tr>  
+      <tr valign="top">
+        <td bgcolor="#F2F2F2">SD1</td>
+        <td bgcolor="#F2F2F2">0.0001</td>
+        <td bgcolor="#F2F2F2"><i>none</i></td>
+        <td bgcolor="#F2F2F2">Cross-talk channel 1 to diff channel <br></br></td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#F2F2F2">OMS DELAY O1</td>
+        <td bgcolor="#F2F2F2">0.40000000000000002</td>
+        <td bgcolor="#F2F2F2"><i>none</i></td>
+        <td bgcolor="#F2F2F2">OMS processing delay on channel 1 [s] <br></br></td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#F2F2F2">OMS DELAY OD</td>
+        <td bgcolor="#F2F2F2">0.40000000000000002</td>
+        <td bgcolor="#F2F2F2"><i>none</i></td>
+        <td bgcolor="#F2F2F2">OMS processing delay on differential channel [s] <br></br></td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#F2F2F2">HDF</td>
+        <td bgcolor="#F2F2F2">-1</td>
+        <td bgcolor="#F2F2F2"><i>none</i></td>
+        <td bgcolor="#F2F2F2">Drag-free controller model. <br>You can choose between 3 options:<ul><li> -1, Uses the default builtin model (). <br><li> 0, calculation with Hdf will be skipped, acom1 = 0. <br><li> Input model, input your own model.It can be a miir, mfir, pzmodel, smodel or an ao with the commanded force</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#F2F2F2">HSUS</td>
+        <td bgcolor="#F2F2F2">-1</td>
+        <td bgcolor="#F2F2F2"><i>none</i></td>
+        <td bgcolor="#F2F2F2">Electrostatic suspension controller model. <br>You can choose between 3 options:<ul><li> -1, Uses the default builtin model (). <br><li> 0, calculation with Hsus will be skipped, acomD = 0. <br><li> Input model, input your own model.It can be a miir, mfir, pzmodel, smodel or an ao with the commanded force</td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+
+<p>
+  In particular, parameters 'HDF' and 'HSUS' can be used to input the commanded forces
+  to the method. The method can also calculate automatically the expected 
+  commanded forces on the basis of a built-in model for the controllers.
+  Unfortunately, since such a model has a pole at zero, the resulting output
+  is affected by huge transients and is not completely representative of 
+  the 'true' commanded forces provided by the control system (one should know 
+  the initial state of the DFACS to perform the correct calculation).
+  For this reason it is always advisable to make use of the true commanded 
+  forces if available.
+  OMS DELAY O1 and OMS DELAY OD should instead be set at 0.3 s in order to 
+  match current 'ssm' default values.
+</p>
+
+<p>
+  Here is a table matching current parameters names with method parameters names
+  <table cellspacing="0" class="body" cellpadding="4" summary="" width="50%" border="2">
+    <colgroup>
+      <col width="25%"/>
+      <col width="25%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th bgcolor="#D7D7D7">Current name</th>
+        <th bgcolor="#D7D7D7">Method name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          FEEPS_XX
+        </td>
+        <td> 
+          GDF
+        </td>
+      </tr>
+      <tr>
+        <td>
+          CAPACT_TM2_XX
+        </td>
+        <td> 
+          GSUS
+        </td>
+      </tr>
+      <tr>
+        <td>
+          IFO_X12X1
+        </td>
+        <td> 
+          SD1
+        </td>
+      </tr>
+      <tr>
+        <td>
+          -1 * EOM_TM1_STIFF_XX
+        </td>
+        <td> 
+          W1
+        </td>
+      </tr>
+      <tr>
+        <td>
+          -1 * EOM_TM2_STIFF_XX
+        </td>
+        <td> 
+          W2
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_2_topic_3_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="Principles and theory"></a>&nbsp;</td>
+        <td align="left">Principles and theory</td>
+        <td>&nbsp;</td>
+        <td align="right">Estimate equivalent acceleration from simulation data</td>
+        <td align="right" width="20"><a href="ltpda_training_2_topic_3_3.html"><img src="b_next.gif" border="0" align="bottom" alt="Estimate equivalent acceleration from simulation data"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

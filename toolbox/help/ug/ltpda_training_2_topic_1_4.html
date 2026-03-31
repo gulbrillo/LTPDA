@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Preparing data segments (splitting) (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_2_topic_1_3.html"><img src="b_prev.gif" border="0" align="bottom" alt="Review of spectral estimators"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_2_topic_1_5.html"><img src="b_next.gif" border="0" align="bottom" alt="Review of filtering and whitening in LTPDA"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Preparing data segments (splitting)</h1>
+    <hr>
+    
+    <p>
+      <p>
+  One of the most common tasks in data analysis is the preparing of the data
+  segments to analyse. LTPDA offers various tools for preprocessing data. Here 
+  we will review the splitting of data segments using the <tt>ao/split</tt> method.
+</p>
+<p>
+  Suppose you have a segment of data and you want to split that up. Here are
+  various examples showing how you might do that.
+</p>
+<h2>Split in to parts</h2>
+<p>
+  To split the data in to <tt>N</tt> parts you can do:
+  <div class="fragment"><pre>
+      <span class="comment">% Generate a time-series</span>      
+      waveformPlist = plist(...
+                  <span class="string">'waveform'</span>, <span class="string">'square wave'</span>, ...   <span class="comment">% Generate a square wave</span>
+                  <span class="string">'f'</span>, 0.1, ...                    <span class="comment">% with 0.1Hz frequency</span>
+                  <span class="string">'fs'</span>, 10, ...                    <span class="comment">% sampled at 10Hz</span>
+                  <span class="string">'nsecs'</span>, 100, ...                <span class="comment">% lasting for 100s</span>
+                  <span class="string">'t0'</span>, <span class="string">'2012-03-10 12:00:00'</span>, ... <span class="comment">% with the specified reference time</span>
+                  <span class="string">'toffset'</span>, 10 ...                <span class="comment">% and the first sample starts 10s after the reference time</span>
+                  );
+      a   = ao(waveformPlist);
+      
+      <span class="comment">% Split into 5 parts</span>      
+      splitPlist1 = plist(<span class="string">'N'</span>, 5);
+      
+      <span class="comment">% Split the time-series</span>      
+      parts = split(a, splitPlist1);
+      
+      <span class="comment">% Plot the result</span>      
+      iplot(parts)</pre></div>
+</p>
+<h2>Split by time relative to t0</h2>
+<p>
+  To split the data by elapsed time since the reference time t0 you can do
+  <div class="fragment"><pre>
+      
+      <span class="comment">% Split a segment starting a t=20 and finishing at t=75</span>      
+      splitPlist2 = plist(<span class="string">'times'</span>, [20 75]);
+      
+      <span class="comment">% Split the time-series</span>      
+      timeSegment = split(a, splitPlist2);
+      
+      <span class="comment">% Plot the result</span>      
+      iplot(timeSegment)</pre></div>
+</p>
+<h2>Split by offsets</h2>
+<p>
+  To split the data by an offset in seconds relative to the first and last samples, you do
+  <div class="fragment"><pre>
+      
+      <span class="comment">% Split a segment starting 10s from the start to 40s from the start</span>      
+      splitPlist3 = plist(<span class="string">'offsets'</span>, [10 40]);
+      
+      <span class="comment">% Split the time-series</span>      
+      offsetSegment = split(a, splitPlist3);
+      
+      <span class="comment">% Plot the result</span>      
+      iplot(offsetSegment)</pre></div>
+  You can also split relative to the end of the data by doing the following:
+  <div class="fragment"><pre>
+      
+      <span class="comment">% Make a segment which drops 10s from the beginning and end of the original</span>      
+      splitPlist4 = plist(<span class="string">'offsets'</span>, [10 -10]);
+      
+      <span class="comment">% Split the time-series</span>      
+      dropSegment = split(a, splitPlist4);
+      
+      <span class="comment">% Plot the result</span>      
+      iplot(dropSegment)</pre></div>
+</p>
+<h2>Split by absolute time</h2>
+<p>
+  To split the data by absolute times, you do
+  <div class="fragment"><pre>
+      
+      <span class="comment">% Split a segment starting and ending at particular times</span>      
+      splitPlist4 = plist(<span class="string">'start_time'</span>, <span class="string">'2012-03-10 12:00:15'</span>, 'end_time', <span class="string">'2012-03-10 12:00:36'</span>);
+      
+      <span class="comment">% Split the time-series</span>      
+      absTimeSegment = split(a, splitPlist4);
+      
+      <span class="comment">% Plot the result</span>      
+      iplot(absTimeSegment)</pre></div>
+</p>
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_2_topic_1_3.html"><img src="b_prev.gif" border="0" align="bottom" alt="Review of spectral estimators"></a>&nbsp;</td>
+        <td align="left">Review of spectral estimators</td>
+        <td>&nbsp;</td>
+        <td align="right">Review of filtering and whitening in LTPDA</td>
+        <td align="right" width="20"><a href="ltpda_training_2_topic_1_5.html"><img src="b_next.gif" border="0" align="bottom" alt="Review of filtering and whitening in LTPDA"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

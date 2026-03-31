@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Collection objects (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ao_plot.html"><img src="b_prev.gif" border="0" align="bottom" alt="Plotting Analysis Objects"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_units.html"><img src="b_next.gif" border="0" align="bottom" alt="Units in LTPDA"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Collection objects</h1>
+    <hr>
+    
+    <p>
+      <p>
+  Collection objects serve as merely a wrapper for a cell-array of LTPDA User Objects. The point of this is to provide 
+  a way to put together user objects of different classes in to a collection which can be saved/loaded/submitted/retrieved, etc.
+</p>
+
+    <hr>
+    <h3><a name="Create"></a>Creating collections</h3>
+<p>
+  You can create a <tt>collection</tt> object like:
+  <div class="fragment"><pre>
+      >> c = collection
+      ---- collection 1 ----
+       name: 
+   num objs: 0
+description: 
+       UUID: 158008c6-5759-415f-b5ae-35a0da984e9f
+----------------------
+      
+  </pre></div>
+  You can then add objects to the collection by doing:
+  <div class="fragment"><pre>
+      >> c.addObjects(ao(1))
+---- collection 1 ----
+       name: 
+   num objs: 1
+         [01] obj1: ao | /cdata Ndata=[1x1], yunits=
+description: 
+       UUID: fc0fb4af-594c-4729-95e7-8bc95eff894f
+----------------------      
+  </pre></div>
+  or
+  <div class="fragment"><pre>
+      >> c.addObjects(pzmodel(1, 10, 100), mfir())
+---- collection 1 ----
+       name: 
+   num objs: 3
+         [01] obj1: ao | /cdata Ndata=[1x1], yunits=
+         [02] obj1_1: pzmodel | pzmodel(g:0.1 p:-62.8319 z:-628.3185)
+         [03] obj2: mfir | (fs=, ntaps=0.00, a=[])
+description: 
+       UUID: b47b05f5-7b64-4908-9a96-f5ac25276937
+----------------------
+  </pre></div>
+</p>
+
+    <hr>
+    <h3><a name="Name"></a>Naming collections</h3>
+
+<p>The elements of a collection can be named, for instance when building it:
+<div class="fragment"><pre>
+names = {<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>};
+objs  = {a, b, c};
+c2 = collection(plist(<span class="string">'objs'</span>, objs, <span class="string">'names'</span>, names))
+</pre></div>
+</p>
+
+<p>Or, in an equivalent fashion:
+<div class="fragment"><pre>
+c3 = collection(a, <span class="string">'a'</span>, b, <span class="string">'b'</span>);
+c4 = collection(a, b, plist('names', {<span class="string">'a'</span>, <span class="string">'b'</span>}));
+</pre></div>
+</p>
+
+    <hr>
+    <h3><a name="Extract"></a>Extracting collections</h3>
+
+<p>
+  You can then extract objects from the collection by:
+  <ul><li>using <tt>getObjectAtIndex</tt> to get one or more objects given their position in the list</li>
+  <li>using <tt>getObjectsOfClass</tt> to get an array of all objects of a particular class</li>
+  <li>using <tt>unpack</tt> to get all objects of a particular class</li>
+  <li>accessing the objects by their name</li>
+  </ul>
+  Objects can be removed from the collection using <tt>removeObjectAtIndex</tt>.
+</p>
+
+    <hr>
+    <h3><a name="History"></a>Tracking history</h3>
+
+<p>
+  Since a <tt>collection</tt> object is an LTPDA User Object, it has history tracking capabilities. That means that everytime you
+  add or remove an object to/from the collection, a history step is added. For example, the history of our collection above looks like:
+  <img src="images/collection_history.png" alt="Collection history" border="3">
+</p>
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ao_plot.html"><img src="b_prev.gif" border="0" align="bottom" alt="Plotting Analysis Objects"></a>&nbsp;</td>
+        <td align="left">Plotting Analysis Objects</td>
+        <td>&nbsp;</td>
+        <td align="right">Units in LTPDA</td>
+        <td align="right" width="20"><a href="ltpda_units.html"><img src="b_next.gif" border="0" align="bottom" alt="Units in LTPDA"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

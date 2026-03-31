@@ -1,0 +1,482 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Constructor examples of the RATIONAL class (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="constructor_examples_parfrac.html"><img src="b_prev.gif" border="0" align="bottom" alt="Constructor examples of the PARFRAC class"></a>&nbsp;&nbsp;&nbsp;<a href="constructor_examples_timespan.html"><img src="b_next.gif" border="0" align="bottom" alt="Constructor examples of the TIMESPAN class"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Constructor examples of the RATIONAL class</h1>
+    <hr>
+    
+    <p>
+      <!-- $Id$ -->
+
+<!-- -------------------------------------------------- -->
+<!-- --------------- BEGIN CONTENT FILE --------------- -->
+<!-- -------------------------------------------------- -->
+
+
+<!-- --------------- Link box: begin --------------- -->
+<table border="0" summary="Simple list" class="simplelist_nottable_last">
+  <tr>
+    <td>
+      <a href="constructor_examples_rational.html#copy">Copy an rational object</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="constructor_examples_rational.html#xml_file">Construct an rational object by loading the object from a file</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="constructor_examples_rational.html#rational">Construct an rational object from an parfrac object</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="constructor_examples_rational.html#pzmodel">Construct an rational object from a pole/zero model</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="constructor_examples_rational.html#coeffs">Construct an rational object from numerator and denominator coefficients</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="constructor_examples_rational.html#plist">Construct an rational object from a parameter list object (PLIST)</a>
+    </td>
+  </tr>
+</table>
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a name="copy"></a>Copy an rational object</h2>
+<p>The following example creates a copy of an rational object (blue command).</p>
+<div class="fragment"><pre class="programlisting">
+>> ra1 = rational([1 2 3], [4 5 6 7], <span class="string">'my rational'</span>);
+<span class="blue">>> ra2 = rational(ra1)</span>
+---- rational 1 ----
+model:    my rational
+num:      [1 2 3]
+den:      [4 5 6 7]
+iunits:   []
+ounits:   []
+--------------------
+</pre></div>
+<br></br>
+<p>REMARK: The following command copies only the handle of an object and doesn't create a copy of the object (as above). This means that everything that happens to the copy or original happens to the other object.</p>
+<div class="fragment"><pre class="programlisting">
+>> ra1 = rational()
+---- rational 1 ----
+model:    none
+num:      []
+den:      []
+iunits:   []
+ounits:   []
+--------------------
+>> ra2 = ra1;
+>> ra2.setName(<span class="string">'my new name'</span>)
+---- rational 1 ----
+model:    <span class="string">my new name</span>
+num:      [1 2 3]
+den:      [4 5 6 7]
+iunits:   []
+ounits:   []
+--------------------
+</pre></div>
+<br></br>
+<p>If we display ra1 again then we see that the property 'name' was changed although we only have changed ra2.</p>
+<div class="fragment"><pre class="programlisting">
+>> ra1
+---- rational 1 ----
+model:    <span class="string">my new name</span>
+num:      [1 2 3]
+den:      [4 5 6 7]
+iunits:   []
+ounits:   []
+--------------------
+</pre></div>
+
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a name="xml_file"></a>Construct an rational object by loading the object from a file</h2>
+<p>The following example creates a new rational object by loading the object from disk.</p>
+<div class="fragment"><pre class="programlisting">
+ra = rational(<span class="string">'rational_object.mat'</span>)
+ra = rational(<span class="string">'rational_object.xml'</span>)
+</pre></div>
+<p>or in a <tt>PLIST</tt></p>
+<div class="fragment"><pre class="programlisting">
+pl = plist(<span class="string">'filename'</span>, <span class="string">'rational_object.xml'</span>);
+ra = rational(pl)
+</pre></div>
+
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a name="rational"></a>Construct an rational object from an parfrac object</h2>
+<p>The following example creates a new rational object from an parfrac object.</p>
+<div class="fragment"><pre class="programlisting">
+>> pf = parfrac([1 2+1i 2-1i], [6 1+3i 1-3i], 3, <span class="string">'my parfrac'</span>)
+---- parfrac 1 ----
+model:    my parfrac
+res:      [1;2+i*1;2-i*1]
+poles:    [6;1+i*3;1-i*3]
+dir:      3
+pmul:     [1;1;1]
+iunits:   []
+ounits:   []
+-------------------
+>> ra = rational(pf)
+---- rational 1 ----
+model:    rational(my parfrac)
+num:      [3 -19 30 -110]
+den:      [1 -8 22 -60]
+iunits:   []
+ounits:   []
+--------------------
+</pre></div>
+<p>or in a plist</p>
+<div class="fragment"><pre class="programlisting">
+>> pf = parfrac([1 2+1i 2-1i], [6 1+3i 1-3i], 3, <span class="string">'my parfrac'</span>);
+>> pl = plist(<span class="string">'rational'</span>, rat)
+>> ra = rational(pl)
+</pre></div>
+
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a name="pzmodel"></a>Construct an rational object from a pole/zero model</h2>
+<p>The following example creates a new rational object from a pole/zero model.</p>
+<div class="fragment"><pre class="programlisting">
+>> pzm = pzmodel(1, {1 2 3}, {4 5}, <span class="string">'my pzmodel'</span>)
+---- pzmodel 1 ----
+    name: my pzmodel
+    gain: 1
+   delay: 0
+  iunits: []
+  ounits: []
+pole 001: (f=1 Hz,Q=NaN)
+pole 002: (f=2 Hz,Q=NaN)
+pole 003: (f=3 Hz,Q=NaN)
+zero 001: (f=4 Hz,Q=NaN)
+zero 002: (f=5 Hz,Q=NaN)
+-------------------
+>> ra = rational(pzm)
+---- rational 1 ----
+model:    rational(None)
+num:      [0.0012  0.0716  1]
+den:      [0.0001  0.0036  0.0401  0.2122  1]
+iunits:   []
+ounits:   []
+--------------------
+</pre></div>
+<p>or in a plist</p>
+<div class="fragment"><pre class="programlisting">
+>> pzm = pzmodel(1, {1 2 3}, {4 5}, <span class="string">'my pzmodel'</span>)
+>> pl  = plist(<span class="string">'pzmodel'</span>, pzm)
+>> ra  = rational(pl)
+</pre></div>
+
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a name="coeffs"></a>Construct an rational object from numerator and denominator coefficients</h2>
+<p>The following example creates a new rational direct from the numerator and denominator coefficients.</p>
+<div class="fragment"><pre class="programlisting">
+>> num    = [1 2 3];
+>> den    = [4 5 6];
+>> name   = <span class="string">'my rational'</span>;
+>> iunits = <span class="string">'Hz'</span>;
+>> ounits = <span class="string">'V'</span>;
+
+>> ra = rational(num, den)
+>> ra = rational(num, den, name)
+>> ra = rational(num, den, name, iunits, ounits)
+---- rational 1 ----
+model:    my rational
+num:      [1 2 3]
+den:      [4 5 6]
+iunits:   [Hz]
+ounits:   [V]
+--------------------
+</pre></div>
+
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a name="plist"></a>Construct an rational object from a parameter list  (<tt>plist</tt>)</h2>
+<p>Constructs an rational object from the description given in the parameter list.</p>
+
+<!-- --------------- Link box: begin --------------- -->
+<table border="0" summary="Simple list" class="simplelist_nottable_last">
+  <tr>
+    <td>
+      <a href="constructor_examples_rational.html#hostname">Use the key word 'hostname'</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="constructor_examples_rational.html#pl_coeffs">Use the key word 'num' or 'den'</a>
+    </td>
+  </tr>
+</table>
+<!-- --------------- Link box: end --------------- -->
+
+
+<!-- --------------- 'hostname' --------------- -->
+
+<hr>
+<h3 class="title"><a name="hostname"></a>Use the key word 'hostname'</h3>
+<p>Construct an rational object by retrieving it from a LTPDA repository.</p>
+<p>The relevant parameters are:</p>
+<p>
+  <table cellspacing="0" border="0" cellpadding="2" class="simplelist_nottable_last" width="80%">
+    <colgroup>
+      <col width="25%"/>
+      <col width="75%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="subcategorylist">Key</th>
+        <th class="subcategorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td>
+          <p>'hostname'</p>
+        </td>
+        <td>
+          <p>the repository hostname. [default: 'localhost']</p>
+        </td>
+      </tr>
+      <tr valign="top">
+        <td>
+          <p>'database'</p>
+        </td>
+        <td>
+          <p>The database name [default: 'ltpda']</p>
+        </td>
+      </tr>
+      <tr valign="top">
+        <td>
+          <p>'id'</p>
+        </td>
+        <td>
+          <p>A vector of object IDs. [default: []]</p>
+        </td>
+      </tr>
+      <tr valign="top">
+        <td>
+          <p>'cid'</p>
+        </td>
+        <td>
+          <p>Retrieve all rational objects from a particular collection</p>
+        </td>
+      </tr>
+      <tr valign="top">
+        <td>
+          <p>'binary'</p>
+        </td>
+        <td>
+          <p>Set to true to retrieve from stored binary representation (not always available). [default: true]</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+<div class="fragment"><pre class="programlisting">
+pl = plist(<span class="string">'hostname'</span>, <span class="string">'130.75.117.67'</span>, <span class="string">'database'</span>, <span class="string">'ltpda_test'</span>, <span class="string">'id'</span>, 1)
+a1 = rational(pl)
+</pre></div>
+
+
+<!-- --------------- 'direct_terms' --------------- -->
+
+<hr>
+<h3 class="title"><a name="direct_terms"></a>Use the key word 'num' or 'den'</h3>
+<p>Construct an rational object direct from the coefficients.<br></br>
+The relevant parameters are:</p>
+<p>
+  <table cellspacing="0" border="0" cellpadding="2" class="simplelist_nottable_last" width="80%">
+    <colgroup>
+      <col width="25%"/>
+      <col width="75%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="subcategorylist">Key</th>
+        <th class="subcategorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td>
+          <p>'num'</p>
+        </td>
+        <td>
+          <p>numerator coefficients [default: []]</p>
+        </td>
+      </tr>
+      <tr valign="top">
+        <td>
+          <p>'den'</p>
+        </td>
+        <td>
+          <p>denominator coefficients [default: []]</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+<p>You can also specify optional parameters:</p>
+<p>
+  <table cellspacing="0" border="0" cellpadding="2" class="simplelist_nottable_last" width="80%">
+    <colgroup>
+      <col width="25%"/>
+      <col width="75%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="subcategorylist">Key</th>
+        <th class="subcategorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td>
+          <p>'name'</p>
+        </td>
+        <td>
+          <p>name of the rational object [default: 'none']</p>
+        </td>
+      </tr>
+      <tr valign="top">
+        <td>
+          <p>'xunits'</p>
+        </td>
+        <td>
+          <p>unit of the x-axis</p>
+        </td>
+      </tr>
+      <tr valign="top">
+        <td>
+          <p>'yunits'</p>
+        </td>
+        <td>
+          <p>unit of the y-axis</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+<div class="fragment"><pre class="programlisting">
+num    = [1 2 3];
+den    = [4 5 6];
+name   = <span class="string">'my rational'</span>;
+iunits = <span class="string">'Hz'</span>;
+ounits = <span class="string">'V'</span>;
+
+pl = plist(<span class="string">'num'</span>, num, <span class="string">'den'</span>, den);
+ra = rational(pl)
+---- rational 1 ----
+model:    None
+num:      [1 2 3]
+den:      [4 5 6]
+iunits:   []
+ounits:   []
+--------------------
+
+pl = plist(<span class="string">'num'</span>, num, <span class="string">'den'</span>, den, <span class="string">'name'</span>, name, <span class="string">'iunits'</span>, iunits, <span class="string">'ounits'</span>, ounits);
+pf = rational(pl)
+---- rational 1 ----
+model:    my rational
+num:      [1 2 3]
+den:      [4 5 6]
+iunits:   [Hz]
+ounits:   [V]
+--------------------
+</pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="constructor_examples_parfrac.html"><img src="b_prev.gif" border="0" align="bottom" alt="Constructor examples of the PARFRAC class"></a>&nbsp;</td>
+        <td align="left">Constructor examples of the PARFRAC class</td>
+        <td>&nbsp;</td>
+        <td align="right">Constructor examples of the TIMESPAN class</td>
+        <td align="right" width="20"><a href="constructor_examples_timespan.html"><img src="b_next.gif" border="0" align="bottom" alt="Constructor examples of the TIMESPAN class"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

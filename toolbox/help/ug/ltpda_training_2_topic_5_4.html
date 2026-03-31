@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Build state-space LTP models for system identification (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_2_topic_5_3.html"><img src="b_prev.gif" border="0" align="bottom" alt="Create simulated experiment data sets"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_2_topic_5_5.html"><img src="b_next.gif" border="0" align="bottom" alt="Calculate expected covariance of the parameters (FIM)"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Build state-space LTP models for system identification</h1>
+    <hr>
+    
+    <p>
+      
+ <p> 
+   The model to use for the estimation of the parameters can be constructed in a similar way 
+   as we did before when we simulated the signals. The difference is that the parameters
+   to be estimated must remain symbolic. This is achieved with the <tt>'SYMBOLIC PARAMS'</tt>
+   key of the plist. The model must be continuous.
+   
+ </p> 
+<div class="fragment"><pre> 
+<span class="comment">% cell array contains the names of the parameters. </span>
+params = {<span class="string">'FEEPS_XX'</span>, <span class="string">'CAPACT_TM2_XX'</span>, <span class="string">'IFO_X12X1'</span>, <span class="string">'EOM_TM1_STIFF_XX'</span>, <span class="string">'EOM_TM2_STIFF_XX'</span>};
+      
+<span class="comment">%% built ssm model</span>                        
+model = ssm(plist(<span class="string">'built-in'</span>, <span class="string">'LTP'</span>, ...
+  <span class="string">'DIM'</span>, 1, ...                     <span class="comment">% dimensions of LPF model </span>
+  <span class="string">'CONTINUOUS'</span>, 1, ...              <span class="comment">% Continuous or descrete </span>
+  <span class="string">'SYMBOLIC PARAMS'</span>, params, ...    <span class="comment">% symbolic parameters to estimate </span>
+  <span class="string">'VERSION'</span>, <span class="string">'Standard'</span>));        <span class="comment">% Version of the LPF </span>
+
+<span class="comment">%% save fitting model</span>
+save(model, <span class="string">'fitting_model.mat'</span>);
+ </pre></div> 
+ 
+ <p>
+  We can view all available information about the model if we type <tt>model.viewDetails</tt>
+  in the command window. First of all, the structure of the SSM LTP model is 
+  presented and then the available inputs and outputs of the system. 
+ </p>
+ 
+ <div class="fragment"><pre>
+>> model.viewDetails  
+ </pre></div> 
+ 
+ <div align="center"><IMG src="images/ltpda_training_2/Topic5/LTP_viewDetails.png" align="center" border="0" height="400" width="270"></div>
+ 
+</p>
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_2_topic_5_3.html"><img src="b_prev.gif" border="0" align="bottom" alt="Create simulated experiment data sets"></a>&nbsp;</td>
+        <td align="left">Create simulated experiment data sets</td>
+        <td>&nbsp;</td>
+        <td align="right">Calculate expected covariance of the parameters (FIM)</td>
+        <td align="right" width="20"><a href="ltpda_training_2_topic_5_5.html"><img src="b_next.gif" border="0" align="bottom" alt="Calculate expected covariance of the parameters (FIM)"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

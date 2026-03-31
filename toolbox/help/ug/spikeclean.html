@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Spikes reduction in data (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="interp.html"><img src="b_prev.gif" border="0" align="bottom" alt="Interpolating data"></a>&nbsp;&nbsp;&nbsp;<a href="gapfill.html"><img src="b_next.gif" border="0" align="bottom" alt="Data gap filling"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Spikes reduction in data</h1>
+    <hr>
+    
+    <p>
+      <h2>Description</h2>
+<p>
+  Spikes in data due to different nature can be removed, if desired, from the original data. LTPDA <a href="matlab:doc('ao/spikecleaning')"><tt>spikecleaning</tt></a> detects and replaces
+  spikes of the input AOs. A spike in data is defined as a single sample exceeding a certain value (usually, the
+  floor noise of the data) defined by the user:
+</p>
+<br>
+<p>
+  <div align="center">
+    <IMG src="images/spike10x.png" width="147" height="15" border="0" />
+  </div>
+</p>
+<br>
+<p>
+  where <IMG src="images/spike41x.png" width="50" height="14" border="0" /> is the input data high-pass filtered, <IMG src="images/spike42x.png" width="34" height="13" border="0"/> is a value defined by the user (by default is 3.3) and <IMG src="images/spike43x.png" width="35" height="8" border="0"/> is the standard deviation of <IMG src="images/spike41x.png" width="50" height="14" border="0" /> . In consequence, a spike is defined as the value that exceeds the floor noise of the data by a factor <IMG src="images/spike42x.png" width="34" height="13" border="0"/>, the higher of this parameter the more difficult to "detect" a spike.
+  <br>
+  <br>
+  <h2>Syntax</h2>
+</p>
+<div class="fragment"><pre>
+    <br>
+    b = spikecleaning(a, pl)
+  </pre>
+</div>
+<h2>Parameters</h2>
+<p>
+  The following parameters can be set in this method:
+  <ul>
+    <li> <tt>'kspike'</tt> - set the <IMG src="images/spike42x.png" width="34" height="13" border="0"/> value (default is 3.3) </li>
+    <li> <tt>'method'</tt> - method used to replace the "spiky" sample. Three methods are available ---see below for details---:</li>
+    <ul>
+      <li> <tt>'random'</tt> </li>
+      <li> <tt>'mean'</tt> </li>
+      <li> <tt>'previous'</tt> </li>
+    </ul>
+    <li> <tt>'fc'</tt> - frequency cut-off of the high-pass IIR filter (default is 0.025) </li>
+    <li> <tt>'order'</tt> - specifies the order of the IIR filter (default is 2) </li>
+    <li> <tt>'ripple'</tt> - specifies pass/stop-band ripple for bandpass and bandreject filters (default is 0.5) </li>
+  </ul>
+</p>
+<p>
+  <h2>Algorithm</h2>
+</p>
+<p>
+  <b>Random: </b> this method substitutes the spiky sample by:
+</p>
+<p>
+  <br>
+  <div align="center">
+    <IMG src="images/spike20x.png" width="197" height="15" align="center" border="0"/>
+  </div>
+  <br>
+</p>
+<p>
+  where <IMG src="images/spike44x.png" width="42" height="14" border="0"/> is a random number of mean zero and standard deviation 1.
+</p>
+<p>
+  <b>Mean: </b>this method uses the following equation to replace the spike detected in data.
+</p>
+<br>
+<p>
+  <div align="center">
+    <IMG src="images/spike30x.png" width="158" height="29" align="center" border="0"/>
+  </div>  
+</p>
+<br>
+<p>
+  <b>Previous: </b>the spike is substitued by the previous sample, i.e.:
+</p>
+<br>
+<p>
+  <div align="center">
+    <IMG src="images/spike40x.png" width="90" height="14" align="center" border="0"/>
+  </div>
+</p>
+<br>
+<p>
+  <h2>Examples</h2>
+</p>
+<p>
+  1. Spike cleaning of a sequence of random data with <tt>kspike = 2</tt>.
+</p>
+<p>
+  <div class="fragment"><pre>
+      <br>
+      x = ao(plist( <span class="string">'waveform'</span>, <span class="string">'noise'</span>, <span class="string">'nsecs'</span>,1e4, <span class="string">'fs'</span>,10)); <span class="comment">% create an AO of random data sampled at 1 Hz.</span>
+      pl = plist( <span class="string">'kspike'</span>, 2);                         <span class="comment">% kspike = 2</span>
+      y = spikecleaning(x, pl);                         <span class="comment">% spike cleaning function applied to the input AO, x</span>
+      iplot(x, y)                                       <span class="comment">% plot original and "cleaned" data</span>
+    </pre>
+  </div>
+</p>
+<p>
+  <div align="center">
+    <img src="images/spike1.png" border="1" >
+  </div>
+</p>
+<!--  <p>
+  2. Example of real data: the first image shows data from the real world prior to
+	   the application of the spike cleaning tool. It is clear that some spikes are
+	   present in data and might be convenient to remove them. The second image shows
+	   the same data after the spike samples supression.
+  </p>
+  <p>
+    	<img src="images/stat1x.png" border="1" width="400px">
+  </p>
+    <p>
+    	<img src="images/stat2x.png" border="1" width="400px">
+  </p>
+ -->
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="interp.html"><img src="b_prev.gif" border="0" align="bottom" alt="Interpolating data"></a>&nbsp;</td>
+        <td align="left">Interpolating data</td>
+        <td>&nbsp;</td>
+        <td align="right">Data gap filling</td>
+        <td align="right" width="20"><a href="gapfill.html"><img src="b_next.gif" border="0" align="bottom" alt="Data gap filling"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

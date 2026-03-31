@@ -1,0 +1,281 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Markov Chain Monte Carlo - Simple experiment (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="sigproc_fit_mcmc.html"><img src="b_prev.gif" border="0" align="bottom" alt="Markov Chain Monte Carlo"></a>&nbsp;&nbsp;&nbsp;<a href="sigproc_linear_param_estimation_svd.html"><img src="b_next.gif" border="0" align="bottom" alt="Linear Parameter Estimation with Singular Value Decomposition"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Markov Chain Monte Carlo - Simple experiment</h1>
+    <hr>
+    
+    <p>
+      <p>In this simple experiment we use a harmonic oscillator ssm model to simulate date from an input and then we use MCMC to recover the parameters of the model.</p>
+
+<h2>Contents</h2>
+<div>
+  <ul><li><a href="#1">Create data</a></li>
+    <li><a href="#2">Simulate the data</a></li>
+    <li><a href="#3">Declare our model</a></li>
+    <li><a href="#4">Calculate covariance matrix</a></li>
+  <li><a href="#5">Do fit with MCMC</a></li></ul>
+</div>
+
+<h2>Create data<a name="1"></a></h2>
+
+<div class="fragment"><pre>
+    
+    fs    = 10;
+    nsecs = 300;
+    fin = 0.2
+    
+    <span class="comment">% Create a sinusoidal input and arrange it to matrix object</span>
+    in = ao(plist(<span class="string">'waveform'</span>, <span class="string">'sine wave'</span>, <span class="string">'fs'</span>, fs, <span class="string">'nsecs'</span>, nsecs, <span class="string">'f'</span>, fin);
+    min = matrix(in,plist(<span class="string">'shape'</span>,[1 1]));
+    <span class="comment">% we do the same for the noise.</span>
+    ns = ao(plist(<span class="string">'waveform'</span>, <span class="string">'noise'</span>, <span class="string">'sigma'</span>, 0.1, <span class="string">'nsecs'</span>, nsecs, <span class="string">'fs'</span>, fs));
+    mnoise = matrix(ns,plist(<span class="string">'shape'</span>,[1 1]))
+    
+</pre></div>
+
+<h2>Simulate the data<a name="2"></a></h2>
+
+<div class="fragment"><pre>
+    
+    <span class="comment">% declare some variables here</span>
+    damp = 0.1;
+    k = 0.1;
+    values = [k , damp];
+    
+    <span class="comment">% define inNames  and outNames for ssm model. Also declare parameters to be fitted.</span>
+    inNames = {<span class="string">'COMMAND.force'</span>};
+    outNames = {<span class="string">'HARMONIC_OSC_1D.position'</span>};
+    params = {<span class="string">'DAMP'</span>,<span class="string">'K'</span>};
+    
+    <span class="comment">% The model to simulate the inputs specified above.</span>
+    mod = ssm(plist(<span class="string">'built-in'</span>,<span class="string">'HARMONIC_OSC_1D'</span>,...
+    <span class="string">'Version'</span>,<span class="string">'Fitting'</span>,...
+    <span class="string">'Continuous'</span>,1,...
+    <span class="string">'SYMBOLIC PARAMS'</span>,params));
+    
+    <span class="comment">% Set the parameters k and damp to the ssm model.</span>
+    mod.setParameters(plist(<span class="string">'names'</span>,params,<span class="string">'values'</span>,values));
+    
+    <span class="comment">% Modify time step and make the model numerical.</span>
+    mod.modifyTimeStep(<span class="string">'newtimestep'</span>, 0.1);
+    
+    <span class="comment">% Generate covariance</span>
+    mod.generateCovariance;
+    
+    <span class="comment">% Simulate the output after defining the plist.</span>
+    pl = plist(<span class="string">'Nsamples'</span>, fs*nsecs, ...
+    <span class="string">'aos variable names'</span>,{<span class="string">'COMMAND.force'</span> <span class="string">'NOISE.readout'</span>},...
+    <span class="string">'aos'</span>, [in ns],...
+    <span class="string">'return outputs'</span>, outNames,...
+    <span class="string">'cpsd variable names'</span>, cov.find(<span class="string">'names'</span>), ...
+    <span class="string">'cpsd'</span>, cov.find(<span class="string">'cov'</span>), ...
+    <span class="string">'displayTime'</span>, true);
+    
+    out = mod.simulate(pl);
+    
+    
+</pre></div>
+
+<h2>Declare our model<a name="3"></a></h2>
+<div class="fragment"><pre>
+    
+    model = ssm(plist(<span class="string">'built-in'</span>,<span class="string">'HARMONIC_OSC_1D'</span>,...
+    <span class="string">'Version'</span>,<span class="string">'Fitting'</span>,...
+    <span class="string">'Continuous'</span>,1,...
+    <span class="string">'SYMBOLIC PARAMS'</span>,params));
+    
+</pre></div>
+
+<div class="fragment"><pre>
+    <span class="comment">% if we type model in the terminal we will see
+    % all the information available for the model we just created</span>
+    
+    M:   running display
+    ------ ssm/1 -------
+    amats: {  [2 x2 ]  }  [1x1]
+    bmats: {  [2 x1 ]    []    }  [1x2]
+    cmats: {  [1 x2 ]  }  [1x1]
+    dmats: { [0] [1] }  [1x2]
+    timestep: 0
+    inputs:  [1x2 ssmblock]
+    1 : COMMAND | force [kg m s^(-2)]
+    2 : NOISE | readout [m]
+    states:  [1x1 ssmblock]
+    1 : HARMONIC_OSC_1D | x [m], xdot [m s^(-1)]
+    outputs:  [1x1 ssmblock]
+    1 : HARMONIC_OSC_1D | position [m]
+    numparams: (M=1)
+    params: (K=1, DAMP=1)
+    Ninputs: 2
+    inputsizes: [1 1]
+    Noutputs: 1
+    outputsizes: 1
+    Nstates: 1
+    statesizes: 2
+    Nnumparams: 1
+    Nparams: 2
+    isnumerical: false
+    hist: ssm.hist
+    procinfo: []
+    plotinfo: []
+    name: HARMONIC_OSC_1D
+    description: Harmonic oscillator
+    mdlfile:
+    UUID: b94172bc-9851-42cd-b56a-ca05503165ad
+    --------------------
+</pre></div>
+
+<h2>Calculate covariance<a name="4"></a></h2>
+
+<div class="fragment"><pre>
+    
+    ranges = [1e-8 1e-8 ;
+    0.5  0.5];
+    
+    pl = plist(<span class="string">'FitParams'</span>,params,...
+    <span class="string">'paramsValues'</span>,values,...
+    <span class="string">'inNames'</span>,inNames,...
+    <span class="string">'ngrid'</span>,20,...
+    <span class="string">'stepRanges'</span>,ranges,...
+    <span class="string">'outNames'</span>,outNames,...
+    <span class="string">'noise'</span>,mnoise,...
+    <span class="string">'f1'</span>,1e-4,...
+    <span class="string">'f2'</span>,1,...
+    <span class="string">'model'</span>,mod,...
+    <span class="string">'Navs'</span>,5,...
+    <span class="string">'pinv'</span>,false);
+    
+    mcrb = crb(min,pl);
+    
+</pre></div>
+
+<h2>Fit with MCMC<a name="5"></a></h2>
+
+<div class="fragment"><pre>
+    
+    <span class="comment">% First define some variables.</span>
+    c = 1;
+    ranges = {[-3 3] [-3 3]};
+    h = 3;
+    Tc = [20 80];
+    numsampl = 200;
+    
+    <span class="comment">% Then we create the plist for the mcmc.</span>
+    pl = plist(<span class="string">'N'</span>,numsampl,...
+    <span class="string">'J'</span>,1,...
+    <span class="string">'cov'</span>,c*mcrb.y,...
+    <span class="string">'range'</span>,ranges,...
+    <span class="string">'Fitparams'</span>,params,...
+    <span class="string">'input'</span>,min,...
+    <span class="string">'noise'</span>,mnoise,...
+    <span class="string">'model'</span>,model,...
+    <span class="string">'inNames'</span>,inNames,...
+    <span class="string">'outNames'</span>,outNames,...
+    <span class="string">'frequencies'</span>,[1e-4 0.5],...
+    <span class="string">'fsout'</span>,0.2,...
+    <span class="string">'Navs'</span>,5,...
+    <span class="string">'search'</span>,true,...
+    <span class="string">'Tc'</span>,Tc,'heat',h,...
+    <span class="string">'jumps'</span>,[2e0 1e1 5e2 1e3],...
+    <span class="string">'x0'</span>,values,...
+    <span class="string">'simplex'</span>,false);
+    
+    [b smplr]= mcmc(out,pl);
+    
+</pre></div>
+
+
+<p>There is also the possibility to use a desired proposal distribution. The user may 
+choose to draw samples from a distribution that is well fitted to the current investigation. 
+An example is shown below:</p>
+
+<div class="fragment"><pre>
+    
+<span class="comment">% Suppose that we want to investigate the same problem as above.</span>
+<span class="comment">% The plist now should include some extra parameters:</span>
+
+<span class="comment">% First of all the function that draws the samples from the </span>
+<span class="comment">% desired distribution. It must be based on the covariance matrix and </span>
+<span class="comment">% the current position of the chain mu. For example:</span>
+propsamp = @(mu,cov) drawSamplesFromMySampler(arg1,arg2,...,mu,cov);
+
+<span class="comment">% Secondly, if the proposal PDF is not symmetric, we should add a function
+<span class="comment">% that calculates the probability density on the new point x.  
+<span class="comment">% If left empty, then symmetricity is assumed </span>
+propdpf = @(x,mu,cov) calcDensityFromMyPDF(x,mu,cov,arg1,arg2,...,argN);
+    
+    pl = plist(<span class="string">'N'</span>,numsampl,...
+    <span class="string">'J'</span>,1,...
+    <span class="string">'cov'</span>,c*mcrb.y,...
+    <span class="string">'range'</span>,ranges,...
+    <span class="string">'Fitparams'</span>,params,...
+    <span class="string">'input'</span>,min,...
+    <span class="string">'noise'</span>,mnoise,...
+    <span class="string">'model'</span>,model,...
+    <span class="string">'inNames'</span>,inNames,...
+    <span class="string">'outNames'</span>,outNames,...
+    <span class="string">'proposal sampler'</span>,propsamp,...
+    <span class="string">'proposal pdf'</span>,propdpf,...
+    <span class="string">'frequencies'</span>,[1e-4 0.5],...
+    <span class="string">'fsout'</span>,0.2,...
+    <span class="string">'Navs'</span>,5,...
+    <span class="string">'search'</span>,true,...
+    <span class="string">'Tc'</span>,Tc,'heat',h,...
+    <span class="string">'jumps'</span>,[2e0 1e1 5e2 1e3],...
+    <span class="string">'x0'</span>,values,...
+    <span class="string">'simplex'</span>,false);
+    
+</pre></div>
+
+
+
+
+  <div align="center">
+    <IMG src="images/damp.png" align="center" border="0" height="50%" width="30%">
+    <IMG src="images/k.png" align="center" border="0" height="50%" width="30%"></div>
+
+
+  <div align="center">
+  <IMG src="images/plotmatrixHarm.png" align="center" border="0" height="50%" width="50%"></div>
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="sigproc_fit_mcmc.html"><img src="b_prev.gif" border="0" align="bottom" alt="Markov Chain Monte Carlo"></a>&nbsp;</td>
+        <td align="left">Markov Chain Monte Carlo</td>
+        <td>&nbsp;</td>
+        <td align="right">Linear Parameter Estimation with Singular Value Decomposition</td>
+        <td align="right" width="20"><a href="sigproc_linear_param_estimation_svd.html"><img src="b_next.gif" border="0" align="bottom" alt="Linear Parameter Estimation with Singular Value Decomposition"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

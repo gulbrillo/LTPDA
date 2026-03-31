@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Whitening noise (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_topic_2_5.html"><img src="b_prev.gif" border="0" align="bottom" alt="Remove trends from a time-series AO"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_topic_2_7.html"><img src="b_next.gif" border="0" align="bottom" alt="Select and find data from an AO"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Whitening noise</h1>
+    <hr>
+    
+    <p>
+      <p>
+  The LTPDA toolbox offers various ways in which you could whiten data. Perhaps you know the whitening
+  filter you want to use, in which case you can build the filter and filter the data using the method <tt>ao/filter</tt>. 
+  Alternatively, you
+  may have a model for the spectral content of the data, in which case you can use the method <tt>ao/whiten1D</tt>
+  if you are dealing with single, uncorrelated data streams, or <tt>ao/whiten2D</tt> if you have a pair of
+  correlated data streams. You can also use <tt>ao/whiten1D</tt> in the case where you don't have a model for
+  the spectral content of the data. In this case, the method
+  calculates the spectrum of the data, re-bins the spectrum so to
+  reduce the individual points fluctuations, and fits a model
+  of the spectrum as a series of partial fractions z-domain filters.
+</p>
+<p>
+  The whitening algorithms are highly configurable and accept a large number of <a href="../funcbycat/html/ao_whiten1D.html#1">parameters</a>. 
+  The main ones that we will change from the defaults in the following examples are
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="25%"/>
+      <col width="75%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Key</th>
+        <th class="categorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Key 'Plot' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>PLOT</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Plot the result of the fitting as it proceeds.</p>
+        </td>
+      </tr>
+      <!-- Key 'MAXORDER' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>MAXORDER</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Specify the maximum allowed model order that can be fit.</p>
+        </td>
+      </tr>
+      <!-- Key 'weights' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>WEIGHTS</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Choose the way the data is weighted in the fitting procedure.</p>
+        </td>
+      </tr>
+      <!-- Key 'RMSVAR' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>RMSVAR</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Check if the variation of the RMS error is smaller than 10^(-b),
+             where b is the value given in the plist.</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+<p>
+  We will start by whitening some data using this last method, i.e., allowing <tt>whiten1D</tt> to determine
+  the whitening filter from the data itself.
+</p>
+<p>
+  The data we will whiten can be found in your data packet in the 'topic2' sub-directory.
+</p>
+<p>
+  We start by loading the mat file:
+</p>
+<div class="fragment"><pre>
+    a = ao(<span class="string">'topic2/whiten.mat'</span>);
+  </pre>
+</div>
+<p>
+  The AO stored in the variable <tt>a</tt> is a coloured noise time-series.
+  Let's have a look at this times series using <tt>iplot</tt>.
+</p>
+<div class="fragment"><pre>
+    >> iplot(a);
+</pre></div>
+<p>The result should be similar to: </p>
+<img src="images/ltpda_training_1/topic2/coloured.png" alt="coloured" border="1">
+<p>
+  Before we can whiten the data, we have to define the parameter list for the whitening tool:
+</p>
+<div class="fragment"><pre>
+    pl = plist(...
+              <span class="string">'Plot'</span>, true, ...
+              <span class="string">'MaxOrder'</span>, 9, ...
+              <span class="string">'Weights'</span>, 2);</pre>
+</div>
+<p>
+  Now we can call the whitening function <tt>whiten1D</tt> with our input AO, <tt>a</tt> and the
+  parameter list <tt>pl</tt>:
+</p>
+<div class="fragment"><pre> >> aw = whiten1D(a, pl); </pre></div>
+<p>
+  To compare the whitened data with the coloured noise we compute the power spectrum (for details see <a
+    href="ltpda_training_topic_3_2.html"><tt>Power spectral density estimation</tt></a>):
+</p>
+<div class="fragment"><pre>
+    awxx = aw.lpsd;
+    axx  = a.lpsd;
+</pre></div>
+<p>
+  and finally plot our result in the frequency domain; in particular we plot the whitened data (<tt>awxx</tt>) compared to the coloured noise that was our input (<tt>axx</tt>).
+  Please notice the choice of showing the whitened and colored data in two independent subplots, so to exploit their different range of values.
+  Additionally, the units of the whitened data are reset to empty by the method, since the 'application' of the units is
+  delegated to the whitening filter which is calculated as an intermediate step of the process.
+</p>
+</pre> </div>
+<div class="fragment"><pre>
+    iplot(axx, awxx, plist(<span class="string">'arrangement'</span>, <span class="string">'subplots'</span>));
+  </pre></div>
+<img src="images/ltpda_training_1/topic2/whiten.png" alt="white" border="1">
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_topic_2_5.html"><img src="b_prev.gif" border="0" align="bottom" alt="Remove trends from a time-series AO"></a>&nbsp;</td>
+        <td align="left">Remove trends from a time-series AO</td>
+        <td>&nbsp;</td>
+        <td align="right">Select and find data from an AO</td>
+        <td align="right" width="20"><a href="ltpda_training_topic_2_7.html"><img src="b_next.gif" border="0" align="bottom" alt="Select and find data from an AO"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

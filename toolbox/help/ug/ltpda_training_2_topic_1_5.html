@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Review of filtering and whitening in LTPDA (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_2_topic_1_4.html"><img src="b_prev.gif" border="0" align="bottom" alt="Preparing data segments (splitting)"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_2_topic_1_6.html"><img src="b_next.gif" border="0" align="bottom" alt="LTPDA scripting best practices"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Review of filtering and whitening in LTPDA</h1>
+    <hr>
+    
+    <p>
+      <h2>Digital Filtering in LTPDA</h2>
+<p>
+  LTPDA supports two types of digital filters: Infinite Impulse Response filters (IIR)
+  and Finite Impulse Response filters (FIR). These two filter types are represented
+  by the classes <tt>miir</tt> and <tt>mfir</tt>.
+</p>
+<p>
+  To create a simple lowpass filter, you can do:
+  <div class="fragment"><pre>      
+      <span class="comment">% Configure a 2nd order lowpass at 1Hz for 100Hz data</span>      
+      filterPlist = plist(...
+              <span class="string">'type'</span>, <span class="string">'lowpass'</span>, ...
+              <span class="string">'fc'</span>, 1, ...
+              <span class="string">'order'</span>, 2, ...
+              <span class="string">'fs'</span>, 100 ...
+              );
+      
+      <span class="comment">% Configure a 2nd order lowpass at 1Hz for 100Hz data</span>      
+      myFilter = miir(filterPlist);</pre></div>
+  <br>
+  Once you have your filter object, you can check its response by doing the following:
+  <div class="fragment"><pre>      
+      <span class="comment">% Plist for log-spaced frequencies from 0.1Hz to 10Hz</span>      
+      respPlist = plist(<span class="string">'f'</span>, logspace(-1, 1, 1000));
+      
+      <span class="comment">% Compute filter response</span>      
+      filterResponse = resp(myFilter, respPlist);
+      
+      <span class="comment">% Plot the response</span>      
+      iplot(filterResponse)</pre></div>
+  <br>
+  You can now use the filter to filter some time-series data by doing the 
+  following:
+  <div class="fragment"><pre>      
+      <span class="comment">% Generate a time-series of random numbers</span>      
+      input = ao.randn(100, 100);
+      
+      <span class="comment">% Filter the data</span>      
+      output = filter(input, myFilter);
+      
+      <span class="comment">% Plot the input and output</span>      
+      iplot(input, output)</pre></div>
+</p>
+
+<h2>Whitening Data in LTPDA</h2>
+<p>
+  Often it is useful to be able to whiten a data segment. There are a number of ways
+  you can go about doing this, but in LTPDA a simple way is to use the methods <tt>ao/buildWhitener1D</tt>
+  and <tt>ao/whiten1D</tt>. The first method actually builds the whitening filter by fitting to 
+  a spectral estimate of the data. The second method uses <tt>buildWhitener1D</tt> to generate the whitening filter
+  and then applies it to the data.
+</p>
+<p>
+  Here's an example of using <tt>whiten1D</tt> to whiten the data we filtered above.
+  <div class="fragment"><pre>
+      <span class="comment">% Whiten the data</span>      
+      outputWhite = whiten1D(output);
+      
+      <span class="comment">% Plot the filtered and whitened data</span>      
+      iplot(outputWhite, output)
+      
+      <span class="comment">% Create a plist to configure ao/psd</span>      
+      psdPlist = plist(<span class="string">'navs'</span>, 10, <span class="string">'scale'</span>, <span class="string">'asd'</span>);
+      
+      <span class="comment">% Compute the PSD of the filtered and whitened data</span>      
+      [output_xx, outputWhite_xx] = psd(output, outputWhite, psdPlist);      
+      
+      <span class="comment">% Plot the spectra filtered and whitened data</span>      
+      iplot(outputWhite_xx, output_xx)</pre></div>  
+  <br>
+  There are many parameters for configuring <tt>whiten1D</tt> which can be tuned to improve the results. 
+  Consult the method documentation to see the parameters.
+</p>
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_2_topic_1_4.html"><img src="b_prev.gif" border="0" align="bottom" alt="Preparing data segments (splitting)"></a>&nbsp;</td>
+        <td align="left">Preparing data segments (splitting)</td>
+        <td>&nbsp;</td>
+        <td align="right">LTPDA scripting best practices</td>
+        <td align="right" width="20"><a href="ltpda_training_2_topic_1_6.html"><img src="b_next.gif" border="0" align="bottom" alt="LTPDA scripting best practices"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

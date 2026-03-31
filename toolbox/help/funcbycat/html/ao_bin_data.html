@@ -1,0 +1,245 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!-- $Id$ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="../../ug/docstyle.css">
+    <title>LTPDA Method: ao/bin_data</title>
+  </head>
+  <body>
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <p style="font-size:1px;">&nbsp;</p>
+
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../../ug/../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ao_bicohere.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ao/bicohere"></a>&nbsp;&nbsp;&nbsp;<a href="ao_blrms.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ao/blrms"></a></td>
+      </tr>
+    </table>
+
+    <h1 class="title">Method ao/bin_data</h1>
+    <hr />
+
+<pre>  <SPAN CLASS="HELPTOPIC">BIN_DATA</SPAN> rebins aos data, on logarithmic scale, linear scale, or arbitrarly chosen.
+  The rebinning is done taking the mean of the bins included in the range
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+  DESCRIPTION: <SPAN CLASS="HELPTOPIC">BIN_DATA</SPAN> rebins aos data, on logarithmic scale, linear scale, or arbitrarly chosen.
+  The rebinning is done taking the mean of the bins included in the range
+ 
+  CALL:        bs = <span class="helptopic">bin_data</span>(a1,a2,a3,...,pl)
+               bs = <span class="helptopic">bin_data</span>(as,pl)
+               bs = as.<span class="helptopic">bin_data</span>(pl)
+ 
+  INPUTS:      aN   - input analysis objects
+               as   - input analysis objects array
+               pl   - input parameter list
+ 
+  OUTPUTS:     bs   - array of analysis objects, one for each input
+ 
+  <a href="ao_bin_data.html#down">Parameters Description</a>
+ 
+  The code is inherited from D Nicolodi, UniTN
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</pre>
+
+    <!-- =====        Striped 4x2 table: Begin        ==== -->
+    <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+    <div class="sectiontitle"></div>
+    <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+      <colgroup>
+        <col width="30%"/>
+        <col width="70%"/>
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th class="categorylist">Method Details</th>
+          <th class="categorylist"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Access</td>
+          <td bgcolor="#f3f4f5">public</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Defining Class</td>
+          <td bgcolor="#ffffff">ao</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Sealed</td>
+          <td bgcolor="#f3f4f5">0</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Static</td>
+          <td bgcolor="#ffffff">0</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- ===== Striped 4x2 table: End ==== -->
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <h2>Parameter Description</h2>    <a name="down" id="down"></a>
+
+    <!-- Link-Table of the sets -->
+    <table border="0" cellpadding="4" cellspacing="0" class="pagenavtable">
+      <tr><th>Sets for this method &#8230;</th></tr>
+        <tr><td><a href="#1">Default</a></td></tr>
+    </table>
+
+    <a name="1"></a>
+    <!-- Parameter List Table: Default -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>Default</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">bin_data</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">METHOD</td>
+            <td bgcolor="#F2F2F2">'MEAN'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'MEAN'</font></li><li><font color="#1111FF">'MEDIAN'</font></li><li><font color="#1111FF">'MAX'</font></li><li><font color="#1111FF">'MIN'</font></li><li><font color="#1111FF">'RMS'</font></li><li><font color="#1111FF">'WMEAN'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">method for binning. Choose from:<ul><li>mean</li><li>median</li><li>max</li><li>min</li><li>rms</li><li>weighted mean (weights can be input or are taken from data dy)</li></ul></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XSCALE</td>
+            <td bgcolor="#F2F2F2">'LOG'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'LOG'</font></li><li><font color="#1111FF">'LIN'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">scaling of binning. Choose from:<ul><li>log - logaritmic</li><li>lin - linear</li></ul></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RESOLUTION</td>
+            <td bgcolor="#F2F2F2">10</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">When setting logaritmic x scale, it sets the number of points per decade.<br>When setting linear x scale, it sets the number of points.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">XVALS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">List of x values to evaluate the binning between.<br>It may be a vector or an ao, in which case it will take the x field</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">WEIGHTS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">List of weights for the case of weighted mean.<br>If empty, weights will be taken from object(s) dy field as w = 1/dy^2</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RANGE</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Range of x where to operate.<br>If empty, the whole data set will be used</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">INHERIT_DY</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Choose what to do in the case of mean, and bins with only one point. Choose from:<ul><li>'true'  - take the uncertainty from the original data, if defined</li><li>'false'   - set it to Inf so it weighs 0 in averaged means</li></ul></td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('METHOD', 'MEAN', 'XSCALE', 'LOG', 'RESOLUTION', [10], 'XVALS', [[]], 'WEIGHTS', [[]], 'RANGE', [[]], 'INHERIT_DY', [true])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <p><!-- Table of the minfo object -->
+      <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+        <colgroup>
+          <col width="25%"/>
+          <col width="75%"/>
+        </colgroup>
+        <thead>
+          <tr valign="top">
+            <th class="categorylist" colspan="2">Some information of the method ao/bin_data are listed below:</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Property: 'mclass' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Class name</td>
+            <td bgcolor="#f3f4f5">ao</td>
+          </tr>
+          <!-- Property: 'mname' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Method name</td>
+            <td bgcolor="#ffffff">bin_data</td>
+          </tr>
+          <!-- Property: 'mcategory' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Category</td>
+            <td bgcolor="#f3f4f5">Signal Processing</td>
+          </tr>
+          <!-- Property: 'mpackage' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Package name</td>
+            <td bgcolor="#ffffff">ltpda</td>
+          </tr>
+          <!-- Property: 'modifier' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Can be used as modifier</td>
+            <td bgcolor="#f3f4f5">1</td>
+          </tr>
+          <!-- Property: 'supportedNumTypes' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Supported numeric types</td>
+            <td bgcolor="#ffffff">{'double'}</td>
+          </tr>
+        </tbody>
+      </table>
+    </p>
+
+
+    <br>
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ao_bicohere.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ao/bicohere"></a>&nbsp;</td>
+        <td align="left">Method: ao/bicohere</td>
+        <td>&nbsp;</td>
+        <td align="right">Method: ao/blrms</td>
+        <td align="right" width="20"><a href="ao_blrms.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ao/blrms"></a></td>
+      </tr>
+    </table>
+
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+
+   </body>
+</html>

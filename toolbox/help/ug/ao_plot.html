@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Plotting Analysis Objects (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ao_save.html"><img src="b_prev.gif" border="0" align="bottom" alt="Saving Analysis Objects"></a>&nbsp;&nbsp;&nbsp;<a href="collection_objects.html"><img src="b_next.gif" border="0" align="bottom" alt="Collection objects"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Plotting Analysis Objects</h1>
+    <hr>
+    
+    <p>
+      <!-- $Id$ -->
+<p> 
+  The data in an AO can be plotted using the <tt>iplot</tt> method.
+</p>
+<p>
+  The <tt>iplot</tt> method provides an advanced plotting interface for AOs which tries to make good use of all the information
+  contained within the input AOs. For example, if the <tt>xunits</tt> and <tt>yunits</tt> fields of the input AOs are set, these labels
+  are used on the plot labels.
+</p>
+
+<p>
+  In addition, <tt>iplot</tt> can be configured using a input <tt>plist</tt>. The following examples show some of the
+  possible ways to use <tt>iplot</tt>
+</p>
+
+<div class="fragment"><pre>
+    >> a1 = ao(plist(<span class="string">'tsfcn'</span>, <span class="string">'sin(2*pi*0.3*t) + randn(size(t))'</span>, <span class="string">'fs'</span>, 10, <span class="string">'nsecs'</span>, 20))
+    ----------- ao 01: a1 -----------
+ 
+       name: ''
+       data: (0,0.879837752535385) (0.1,2.69334087256333) (0.2,0.840912545780978) (0.3,-0.632154874569397) (0.4,3.00319540765713) ...
+             -------- tsdata [x, y] --------
+              
+                  x:  [200 1], double
+                  y:  [200 1], double
+                 dx:  [0 0], double
+                 dy:  [0 0], double
+             xunits:  [s]
+             yunits:  
+                  fs:  10
+               nsecs:  20
+                  t0:  1970-01-01 00:00:00.000 UTC
+             -------------------------------
+              
+       hist: ao / ao / 11c33bf1421898d27b94853f646e22673ebc750d
+description: 
+       UUID: c77f4210-e51d-4240-9a51-276e3f65cc46
+---------------------------------
+</pre></div>
+<p> Creates a time-series AO. If we look at the data object contained in this AO, we see that the <tt>xunits</tt>
+are set to the defaults of seconds [s].</p>
+<p>If we plot this object with <tt>iplot</tt> we see these units reflected in the x and y axis labels.</p>
+<div class="fragment"><pre>
+    >> iplot(a1)
+</pre></div>
+
+<img src="images/ao_iplot_eg1.png" alt="AO iplot eg1" border="3" width="800px">
+
+<p>We also see that the time-origin of the data (<tt>t0</tt> field of the <tt>tsdata</tt> class) is displayed as the plot title.</p>
+
+
+
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ao_save.html"><img src="b_prev.gif" border="0" align="bottom" alt="Saving Analysis Objects"></a>&nbsp;</td>
+        <td align="left">Saving Analysis Objects</td>
+        <td>&nbsp;</td>
+        <td align="right">Collection objects</td>
+        <td align="right" width="20"><a href="collection_objects.html"><img src="b_next.gif" border="0" align="bottom" alt="Collection objects"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

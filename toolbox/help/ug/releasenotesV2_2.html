@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Version 2.2 LTPDA Toolbox Software (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="releasenotesV2_3.html"><img src="b_prev.gif" border="0" align="bottom" alt="Version 2.3 LTPDA Toolbox Software"></a>&nbsp;&nbsp;&nbsp;<a href="releasenotesV2_1.html"><img src="b_next.gif" border="0" align="bottom" alt="Version 2.1 LTPDA Toolbox Software"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Version 2.2 LTPDA Toolbox Software</h1>
+    <hr>
+    
+    <p>
+      
+    <style type="text/css">
+      p { margin-left:30px; }
+      h4 { margin-left:15px; }
+    </style>
+
+    <!-- BEGIN: Content file -->
+
+    <a name="top_of_page"></a>
+    This table summarizes what's new in Version 2.2:
+    <table cellspacing="0" class="body" cellpadding="4" border="2" width="100%">
+      <colgroup>
+        <col width="25%">
+        <col width="25%">
+        <col width="25%">
+        <col width="25%">
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th bgcolor="#B2B2B2" valign="top">New Features and Changes</th>
+          <th bgcolor="#B2B2B2" valign="top">Version Compatibility Considerations</th>
+          <th bgcolor="#B2B2B2" valign="top">Fixed Bugs and Known Problems</th>
+          <th bgcolor="#B2B2B2" valign="top">Related Documentation at Web Site</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#F2F2F2">Yes<br>Details below</td>
+          <td bgcolor="#F2F2F2">Yes &#8212; Details labeled as <b>New repository manager</b> in descriptions of changes, below. See also <a href="#rm">Summary</a>.</td>
+          <td bgcolor="#F2F2F2"><a href="https://ed.fbk.eu/ltpda/mantis/login_page.php" target="_top">Bug Reports</a> at Web site</td>
+          <td bgcolor="#F2F2F2">Printable Release Notes: <a href="http://www.lisa.aei-hannover.de/ltpda/downloads/version_2.2/files/Release_Notes_v2.2.pdf" target="_top">PDF</a></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ul>
+      <li><a href="#introduction">Introduction</a></li>
+      <li><a href="#newFeatures">New toolbox features</a></li>
+      <li><a href="#newFitting">New linear fitting tools in LTPDA</a></li>
+      <li><a href="#rm">New repository manager</a></li>
+    </ul>
+
+    <!-- HEADLINE: Introduction -->
+
+    <h3 class="title" id="introduction">Introduction</h3>
+    <p>This version of LTPDA is 2.2. This document lists the changes since V2.1.</p>
+
+    <!-- HEADLINE: New toolbox features -->
+
+    <h3 class="title" id="newFeatures">New toolbox features</h3>
+    <p>Version 2.2 of LTPDA has various new features.</p>
+    <ul>
+      <li>A reworking of the way connections to LTPDA repositories are handled. Now all connections are managed by the new "LTPDA Repository Manager" object which is created when <b>ltpda_startup</b> is executed. <i>All users should review their use of repository connection code in any scripts and make the appropriate changes to work with the repository manager</i> (<a href="#rm">see below</a>).</li>
+      <li>A significant amount of work has been done on fitting tools (<a href="#newFitting">see below</a>).</li>
+      <li>A new class called pest (parameter estimation) has been included which aims to capture details of the various fitting procedures in LTPDA. <i>Objects of this class are now output from all LTPDA fitting function, so some changes to existing analysis scripts and pipelines may be necessary</i>.</li>
+    </ul>
+
+    <!-- HEADLINE: New linear fitting tools in LTPDA -->
+
+    <h3 class="title" id="newFitting">New linear fitting tools in LTPDA</h3>
+    <p>The linear fitting tools are specialised <b>ao</b> methods, built around MATLAB's <b>lscov</b>. All of them return a <b>pest</b> (parameters estimate) object where the fields are containing:</p>
+    <ol>
+      <li>Fit parameters</li>
+      <li>Uncertainties on the fit parameters (given as standard deviations)</li>
+      <li>The reduced CHI2 of the fit</li>
+      <li>The covariance matrix</li>
+      <li>The degrees of freedom of the fit.</li>
+    </ol>
+    <p>The following methods are implemented:</p>
+    <ul>
+      <li><b>ao/linfit</b> solves an equation in the form <b>Y = P(1) + X * P(2)</b> for the fit parameters <b>P</b>.</li>
+      <li><b>ao/bilinfit</b> solves an equation in the form <b>Y = X(1) * P(1) + X(2) * P(2) + ... + P(N+1)</b> for the fit parameters <b>P</b>.</li>
+      <li><b>ao/polyfit</b> overloads <b>polyfit()</b> function of MATLAB for Analysis Objects. It finds the coefficients of a polynomial P(X) of degree N that fits the data Y best in a least-squares sense: <b>P(1)*X^N + P(2)*X^(N-1) +...+ P(N)*X + P(N+1)</b></li>
+      <li><b>ao/polynomfit</b> solves an equation in the form <b>Y = P(1) * X^N(1) + P(2) * X^N(2) + ...</b> for the fit parameters <b>P</b>. It handles arbitrary powers of the input vector and uncertainties on the dependent vector Y and input vectors X.</li>
+      <li><b>ao/lscov</b> is a wrapper for MATLAB's <b>lscov</b> function. It solves a set of linear equations by performing a linear least-squares fit. It solves the problem <b>Y = HX</b> where X are the parameters, Y the measurements, and H the linear equations relating the two.</li>
+    </ul>
+
+    <!-- HEADLINE: New repository manager -->
+
+    <h3 class="title" id="rm">New repository manager</h3>
+    <p>Until the main documentation is updated, the following a some quick tips to using
+       the new repository manager.</p>
+    <p>Only a single instance of the repository manager exists. It is created when you
+       run <b>ltpda_startup</b>. To access the repository manager, you can do:</p>
+    <div class="fragment"><pre>
+>> rm = LTPDARepositoryManager
+---- Repository Manager -----
+connections: 0
+connected: 0
+------------------------------</pre></div>
+    <p>The Repository Manager has both a scripting interface and a graphical user interface. To launch the GUI:</p>
+    <div class="fragment"><pre>
+>> rm.showGui</pre></div>
+    <img src="images/RepositoryManager.png" alt="Repository Manager" border="3" width="588px" height="267px" vspace="10px">
+    <p>Using the scripting interface, you can create new connections and search for existing connects:</p>
+    <div class="fragment"><pre>
+>> rm.newConnection('localhost', 'ltpda_test', 'hewitson')</pre></div>
+    <p>specifying the hostname, the database and the username. You can also give the password
+       in plain text to the newConnection command, but that's clearly not advisable.</p>
+    <p>Making new connections like this allows you to set up your typical connections in
+       your <b>startup.m</b> file (after executing <b>ltpda_startup</b>).</p>
+    <p>A couple of words about time-outs. The repository manager uses two timers to maintain two
+       aspects of each connection.</p>
+    <p>The first timer handles whether or not the connection is actually connected to the server. This
+       timer is not user configurable and is set to fire every few seconds so that connections are
+       typically in the disconnected state (you can see this state in the 'age' column of the
+       repository manager gui). Whenever the user tries to use a valid existing connection, the
+       connection is opened and then locked until it is not needed anymore. This is transparent for
+       the user and is handled automatically in methods like <b>submit</b>, <b>retrieve</b> and <b>update</b>.</p>
+    <p>The second timer is user configurable via the LTPDA preferences. This timer defines when the
+       password for each connection expires. This creates a level of safety so that connections from
+       one user can not easily be abused by other uses. When this password fires, it checks how
+       long each connection has been idle, and clears the password if it is older than the setting in
+       the preferences. Connections with their password cleared are red on the repository manager
+       gui. The next time the user attempts to use a connection whose password has been cleared,
+       they will be prompted to re-enter the password.</p>
+
+    <!-- END: Content file -->
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="releasenotesV2_3.html"><img src="b_prev.gif" border="0" align="bottom" alt="Version 2.3 LTPDA Toolbox Software"></a>&nbsp;</td>
+        <td align="left">Version 2.3 LTPDA Toolbox Software</td>
+        <td>&nbsp;</td>
+        <td align="right">Version 2.1 LTPDA Toolbox Software</td>
+        <td align="right" width="20"><a href="releasenotesV2_1.html"><img src="b_next.gif" border="0" align="bottom" alt="Version 2.1 LTPDA Toolbox Software"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

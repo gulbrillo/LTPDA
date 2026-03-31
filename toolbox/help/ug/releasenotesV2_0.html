@@ -1,0 +1,171 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Version 2.0 LTPDA Toolbox Software (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="releasenotesV2_0_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="Version 2.0.1 LTPDA Toolbox Software"></a>&nbsp;&nbsp;&nbsp;<a href="gettingstarted.html"><img src="b_next.gif" border="0" align="bottom" alt="Getting Started with the LTPDA Toolbox"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Version 2.0 LTPDA Toolbox Software</h1>
+    <hr>
+    
+    <p>
+      
+    <style type="text/css">
+      p { margin-left:30px; }
+      h4 { margin-left:15px; }
+    </style>
+
+    <!-- BEGIN: Content file -->
+
+    <a name="top_of_page"></a>
+    This table summarizes what's new in Version 2.0:
+    <table cellspacing="0" class="body" cellpadding="4" border="2" width="100%">
+      <colgroup>
+        <col width="25%">
+        <col width="25%">
+        <col width="25%">
+        <col width="25%">
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th bgcolor="#B2B2B2" valign="top">New Features and Changes</th>
+          <th bgcolor="#B2B2B2" valign="top">Version Compatibility Considerations</th>
+          <th bgcolor="#B2B2B2" valign="top">Fixed Bugs and Known Problems</th>
+          <th bgcolor="#B2B2B2" valign="top">Related Documentation at Web Site</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#F2F2F2">Yes<br>Details below</td>
+          <td bgcolor="#F2F2F2">No</td>
+          <td bgcolor="#F2F2F2"><a href="https://ed.fbk.eu/ltpda/mantis/login_page.php" target="_top">Bug Reports</a> at Web site</td>
+          <td bgcolor="#F2F2F2">Printable Release Notes: <a href="http://www.lisa.aei-hannover.de/ltpda/downloads/version_2_0/files/change_log_v2.0.pdf" target="_top">PDF</a></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ul>
+      <li><a href="#introduction">Introduction</a></li>
+      <li><a href="#newFeatures">New toolbox features and changes</a></li>
+    </ul>
+
+    <!-- HEADLINE: Introduction -->
+
+    <h3 class="title" id="introduction">Introduction</h3>
+    <p>There has been a significant amount of work done since V1.9.3.</p>
+
+    <!-- HEADLINE: New toolbox features and changes-->
+
+    <h3 class="title" id="newFeatures">New toolbox features and changes</h3>
+    <p>The highlights are:</p>
+    <ul>
+      <li>A new Graphical Programming interface for the construction of
+          signal processing pipelines (LTPDAworkbench)</li>
+      <li>New data whitening methods are included, <b>ao/whiten1D</b> and
+          <b>ao/whiten2D</b>.</li>
+      <li>
+        Most methods of the AO class should now support multiple outputs,
+          in addition to the vector output. For example, the following are supported:
+        <ul>
+          <li><b>a = lpsd(b1,b2,b3)</b></li>
+          <li><b>[a1,a2,a3] = lpsd(b1,b2,b3)</b></li>
+        </ul>
+      </li>
+      <li>
+        Model fitting tools:
+        <ul>
+          <li><b>curvefit</b> for doing non-linear least-squares,
+              now including weights</li>
+          <li><b>lscov</b> for doing linear least-squares fitting</li>
+          <li><b>straightLineFit</b> is a wrapper of <b>lscov</b> for
+              fitting data with a straight-line</li>
+        </ul>
+      </li>
+      <li>Operators, +-.*./*/, all conform to more standard MATLAB type 
+          behaviour. For example, adding a single AO to a vector of AOs results
+          in a vector of AOs where the single AO is added to each element of the vector.</li>
+      <li>Digital filtering with IIR filters now has two possible ways of
+          applying a bank of filters. By specifying the &lsquo;<b>bank</b>&rsquo;
+          parameter, the filters will be applied as a &lsquo;<b>serial</b>&rsquo;
+          bank or a &lsquo;<b>parallel</b>&rsquo; bank.</li>
+      <li>Two new noise-generators are included, <b>noisegen1D</b> and
+          <b>noisegen2D</b> (which can produce correlated data streams).</li>
+      <li>AOs can now be built from a set of built-in models. Users can also
+          write their own models and point LTPDA to a directory (or more than one)
+          containing those model files.</li>
+      <li>The user preferences of LTPDA are now controlled via a graphical
+          user interface. To adjust the user preferences, run <b>LTPDAprefs</b>.</li>
+      <li>Two new transfer function representations are present as user classes
+          of this version of the toolbox. The class <b>parfrac</b> allows the
+          user to build transfer function models that are a series of partial
+          fractions; the class <b>rational</b> allows the user to build a
+          transfer function as a rational polynomial in s. Some converters also
+          exist to go between these and the existing transfer function models,
+          <b>pzmodel</b> (pole/zero models), <b>miir</b> (IIR filters) and
+          <b>ssm</b> (state-space models).</li>
+      <li>A new method, <b>ao/heterodyne</b>, to heterodyne data at a given
+          frequency.</li>
+      <li>All transfer function representations and digital filters now can 
+          be assigned input and output units. This means that units are now
+          propagated through fully through any analysis.</li>
+      <li>A new <b>rebuild</b> method to rebuild objects from their
+          self-contained history trees.</li>
+      <li>
+        New graphical user interfaces
+        <ul>
+          <li>modelViewer - a viewer for the built-in ao and ssm models</li>
+          <li>constructor - a helper for writing object constructors (rewritten)</li>
+        </ul>
+      </li>
+      <li>New convenient AO methods to apply gain and to add an offset to
+
+          data (<b>scale, offset</b>).</li>
+      <li>Transfer function estimators now return error terms in the
+          <b>procinfo</b> field of the result <b>ao</b>.</li>
+      <li>Units are not automatically simplified. Instead the user can now 
+          do that on demand with the <b>simplifyYunits</b> method. There are
+          also methods to convert between Hz and s: <b>HzToS</b> and <b>sToHz</b>.</li>
+      <li>Digital IIR filters are now initialised to a state based on the
+          input data. This should reduce start-up transients.</li>
+      <li>Data in AOs can be converted from one type to another using the
+          new <b>ao/convert</b> method.</li>
+      <li>Pole/zero models (<b>pzmodel</b>) now support a delay parameter.</li>
+    </ul>
+
+    <!-- END: Content file -->
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="releasenotesV2_0_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="Version 2.0.1 LTPDA Toolbox Software"></a>&nbsp;</td>
+        <td align="left">Version 2.0.1 LTPDA Toolbox Software</td>
+        <td>&nbsp;</td>
+        <td align="right">Getting Started with the LTPDA Toolbox</td>
+        <td align="right" width="20"><a href="gettingstarted.html"><img src="b_next.gif" border="0" align="bottom" alt="Getting Started with the LTPDA Toolbox"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Applying digital filters to data (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="sigproc_filterbanks.html"><img src="b_prev.gif" border="0" align="bottom" alt="Filter banks"></a>&nbsp;&nbsp;&nbsp;<a href="sigproc_diff.html"><img src="b_next.gif" border="0" align="bottom" alt="Discrete Derivative"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Applying digital filters to data</h1>
+    <hr>
+    
+    <p>
+      <!-- $Id$ -->
+
+<!-- ================================================== -->
+<!--                 BEGIN CONTENT FILE                 -->
+<!-- ================================================== -->
+<!-- ===== link box: Begin ===== -->
+<p>
+  <table border="1"  width="80%">
+    <tr>
+      <td>
+        <table border="0" cellpadding="5" class="categorylist" width="100%">
+          <colgroup>
+            <col width="37%"/>
+            <col width="63%"/>
+          </colgroup>
+          <tbody>
+            <tr valign="top">
+              <td>
+                <a href="#Applyfiltdesc">Description</a>
+              </td>
+              <td>Digital filtering with LTPDA filters objects.</td>
+            </tr>
+            <tr valign="top">
+              <td>
+                <a href="#Applyfiltexample">Examples</a>
+              </td>
+              <td>How to filter a data series in LTPDA.</td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </table>
+</p>
+<!-- ===== link box: End ====== -->
+  
+  
+
+<!-- ===== filtering in LTPDA description ===== -->
+<h2><a name="Applyfiltdesc">Description</a></h2>
+<p>
+  Digital filtering in LTPDA can be performed by a call to the <tt>ao/filter</tt> method.
+  <tt>ao/filter</tt> method is a wrapper of the standard MATLAB filter method.
+  Details of the core algorithm can be found in the proper 
+  <a href="matlab:doc('filter')">documentation page</a>.
+</p>
+
+
+<!-- ===== Examples ===== -->
+
+<h2><a name="Applyfiltexample">Examples</a></h2>
+<p>
+  Given an input analysis object (can be a time series or a frequency series object)
+  <tt>a_in</tt>, digital filtering operation can be easily performed:
+</p>
+
+<div class="fragment"><pre>
+    
+    a_out = filter(a_in,fobj)
+    
+</pre></div>
+
+<p>
+  Where <tt>fobj</tt> is a filter. It can be a <a href="sigproc_iir.html">MIIR</a>, 
+  a <a href="sigproc_fir.html">MFIR</a> 
+  or a <a href="sigproc_filterbanks.html">FILTERBANK</a> object.
+</p>
+<p>
+  The filter object <tt>fobj</tt> can be also embedded in a plist
+</p>
+
+<div class="fragment"><pre>
+    
+    pl = plist(<span class="string">'filter'</span>, fobj);
+    a_out = filter(a_in,pl)
+    
+</pre></div>
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="sigproc_filterbanks.html"><img src="b_prev.gif" border="0" align="bottom" alt="Filter banks"></a>&nbsp;</td>
+        <td align="left">Filter banks</td>
+        <td>&nbsp;</td>
+        <td align="right">Discrete Derivative</td>
+        <td align="right" width="20"><a href="sigproc_diff.html"><img src="b_next.gif" border="0" align="bottom" alt="Discrete Derivative"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

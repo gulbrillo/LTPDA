@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Split and join AOs (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_topic_2_7.html"><img src="b_prev.gif" border="0" align="bottom" alt="Select and find data from an AO"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_topic_2_9.html"><img src="b_next.gif" border="0" align="bottom" alt="IFO/Temperature Example - Pre-processing"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Split and join AOs</h1>
+    <hr>
+    
+    <p>
+      <p>
+  You can split the data inside an AO to produce one or more output AOs. The <tt>ao/split</tt> method
+  splits an AO by samples, times (if the AO contains time series data), frequencies (if the AO contains
+  frequency data), intervals, or a number of pieces. We can control this as usual by defining our parameters. 
+  This is a very flexible method, so take your time and check all its <a href="../funcbycat/html/ao_split.html#down">possibilities</a>.
+</p>
+<h2>Split by times</h2>
+<p>
+  Let us create a new time series AO for these examples.
+</p>
+<div class="fragment"><pre>
+    pl = plist(<span class="string">'name'</span>, <span class="string">'None'</span>, <span class="string">'nsecs'</span>, 10, <span class="string">'fs'</span>, 1000, <span class="string">'tsfcn'</span>, <span class="string">'sin(2*pi*7.433*t) + randn(size(t))'</span>, <span class="string">'yunits'</span>, <span class="string">'V'</span>);
+    a = ao(pl);
+</pre></div>
+<p>
+  For splitting in time we need to define a time vector for the parameter list and pass it to <tt>ao/split</tt>:
+</p>
+<div class="fragment"><pre>
+    pl_time = plist(<span class="string">'times'</span>, [2 3]);
+    a_time  = split(a, pl_time);
+    iplot(a, a_time)
+</pre></div>
+<img src="images/ltpda_training_1/topic2/split_times.png" alt="split" border="1">
+
+<h2>Split by frequencies</h2>
+<p>
+  For this we need a frequency data AO. One easy way to get this is by computing the power spectrum using <tt>ao/psd</tt>.
+</p>
+<div class="fragment"><pre>
+    axx = a.psd;
+</pre></div>
+<p>
+  Again we need a vector for the parameter list and pass it to <tt>ao/split</tt>:
+</p>
+
+<div class="fragment"><pre>
+    pl_freq  = plist(<span class="string">'frequencies'</span>, [10 100]);
+    axx_freq = split(axx, pl_freq);
+    iplot(axx, axx_freq)
+</pre></div>
+<img src="images/ltpda_training_1/topic2/split_freq.png" alt="split" border="1">
+
+<h2>Split by intervals</h2>
+<p>
+  We can also split the AO by passing a time interval to the <tt>ao/split</tt> method:
+</p>
+
+<div class="fragment"><pre>
+    pl_interv = plist(<span class="string">'start_time'</span>, 4, <span class="string">'end_time'</span>, 6);
+    a_interv = split(a, pl_interv);
+    iplot(a, a_interv)
+</pre></div>
+<img src="images/ltpda_training_1/topic2/split_interv.png" alt="split_interv" border="1">
+
+<h2>Split by samples</h2>
+<p>
+  This type of splitting method we can use on any type of data. Let us use the frequency type, <tt>axx</tt>.
+</p>
+<p>
+  Again we need a vector for the parameter list and pass it to <tt>ao/split</tt>,
+  only that this time we will split our AO in to two parts.
+</p>
+
+<div class="fragment"><pre>
+    pl_samp = plist(<span class="string">'samples'</span>, [50 100 101 300]);
+    [axx_samp1 axx_samp2] = split(axx, pl_samp)
+    iplot(axx, axx_samp1, axx_samp2)
+</pre></div>
+<img src="images/ltpda_training_1/topic2/split_samp.png" alt="split_samp" border="1">
+<p>
+  Although in this example the two resulting AOs are contiguous, they need not to be.
+</p>
+<h2>Join AOs</h2>
+<p>
+  We can join our two AOs back together using <tt>ao/join</tt>:
+</p>
+<div class="fragment"><pre>
+    axx_join = join(axx_samp1, axx_samp2);
+    iplot(axx, axx_join)
+</pre></div>
+<img src="images/ltpda_training_1/topic2/split_join.png" alt="split_join" border="1">
+<p>
+  If we look at the history for <tt>axx_join</tt> (by entering <tt>axx_join.viewHistory</tt>), we will see the following:
+</p>
+<img src="images/ltpda_training_1/topic2/split_join_hist.png" alt="Split/join history" width="800px" border="1">
+<p>
+  Since the two AOs that are output from the 'split by samples' stage are independent, the history
+  tree reflects this, showing two independent branches leading to the <tt>join</tt> step.
+</p>
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_topic_2_7.html"><img src="b_prev.gif" border="0" align="bottom" alt="Select and find data from an AO"></a>&nbsp;</td>
+        <td align="left">Select and find data from an AO</td>
+        <td>&nbsp;</td>
+        <td align="right">IFO/Temperature Example - Pre-processing</td>
+        <td align="right" width="20"><a href="ltpda_training_topic_2_9.html"><img src="b_next.gif" border="0" align="bottom" alt="IFO/Temperature Example - Pre-processing"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

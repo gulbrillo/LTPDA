@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Data gap filling (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="spikeclean.html"><img src="b_prev.gif" border="0" align="bottom" alt="Spikes reduction in data"></a>&nbsp;&nbsp;&nbsp;<a href="whitening.html"><img src="b_next.gif" border="0" align="bottom" alt="Noise whitening"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Data gap filling</h1>
+    <hr>
+    
+    <p>
+      <h2>Description</h2>
+<p>
+  Gaps in data can be filled with <i>interpolated</i> data if desired. LTPDA <a href="matlab:doc('ao/gapfilling')"><tt>gapfilling</tt></a> joins two AOs
+  by means of a segment of <i>synthetic</i> data. This segment is calculated from the two input AOs. Two different
+  methods are possible to fill the gap in the data: <tt>linear</tt> and <tt>spline</tt>. The former fills the data
+  by means of a linear interpolation whereas the latter uses a smoother curve ---see examples below.
+  <br>
+  <br>
+  <h2>Syntax</h2>
+</p>
+<div class="fragment"><pre>
+    <br>
+    b = gapfilling(a1, a2, pl)
+  </pre>
+</div>
+<p>
+  where <tt>a1</tt> and <tt>a2</tt> are the two segments to join.
+  </p>
+  <h2>Parameters</h2>
+  The following parameters apply for this method:
+  <ul>
+    <li><tt>'method'</tt> - method used to interpolate missing data (see below for details)
+    <ul>
+      <li> <tt>'linear'</tt> (default option) </li> 
+      <li> <tt>'spline'</tt> </li>
+    </ul>
+    <li><tt>'addnoise'</tt> - with this option <i>noise</i> can be
+      added to the interpolated data.
+      This noise is defined as a <br>
+      random variable with
+      zero mean and variance equal to the high-frequency
+    noise of the input AO. </li>
+    
+  </ul>
+</p>
+<p>
+  <h2>Algorithm</h2>
+</p>
+<p>
+  <b>Linear :</b> The gap is filled using a linear approximation.
+</p>
+<p>
+  <div align="center">
+    <IMG src="images/spike50x.png" width="205" height="27"  border="0">
+  </div>
+</p>
+<br>
+the notation used in the previous expression is schematically explained in the figure below
+<br>
+<p>
+  <div align="center">
+    <img src="images/interplinear1.png" border="1" width="400px">
+  </div>
+</p>
+<br>
+<br>
+<br>
+<p>
+  <b>Spline :</b> a third order interpolation is used in this case
+</p>
+<p>
+  <br>
+  <div align="center">
+    <IMG src="images/spike51x.png" width="237" height="16" border="0">
+  </div>
+  <br>
+</p>
+<p>
+  The parameters <tt>a</tt>, <tt>b</tt>, <tt>c</tt> and <tt>d</tt> are calculated
+  by solving next system of equations:
+</p>
+<p>
+  <div align="center">
+    <IMG src="images/spike52x.png" width="205" height="117" border="0">
+  </div>
+</p>
+<br>
+The result is schematically shown in the figure below
+<br>
+<p>
+  <div align="center">
+    <img src="images/interpspline.png" border="0" width="400px">
+  </div>
+</p>
+<br>
+<p>
+  <h2>Examples</h2>
+</p>
+<p>
+  1. Missing data between two vectors of random data interpolated with the <tt>linear</tt> method.
+</p>
+<p>
+  <div class="fragment"><pre>
+      <br>
+  x1 = ao(plist(<span class="string">'waveform'</span>,<span class="string">'noise'</span>,<span class="string">'nsecs'</span>,1e3,<span class="string">'fs'</span>,10,<span class="string">'name'</span>,<span class="string">'noise'</span>)); <span class="comment">% create an AO of random data</span>
+  xs = split(x1,plist(<span class="string">'chunks'</span>,3));                              <span class="comment">% split in three segments</span>
+  pl = plist( <span class="string">'method'</span>, <span class="string"> 'linear'</span>, <span class="string">'addnoise'</span>, <span class="string">'no'</span>);            <span class="comment">% linear gapfilling</span>
+  y = gapfilling(xs(1),xs(3), pl);                               <span class="comment">% fill between 2nd and 3rd segment</span>
+  iplot(x1,y) 
+    </pre>
+  </div>
+</p>
+<p>
+  <div align="center">
+    <img src="images/gapexample1.png" border="1" >
+  </div>
+</p>
+<br>
+<br>
+<p>
+  2. Missing data between two data vectors interpolated with the <tt>spline</tt> method.
+</p>
+<p>
+  <div class="fragment"><pre>
+      <br>
+  x1 = ao(plist(<span class="string">'tsfcn'</span>,<span class="string">'t.^1.8 + 1e6*rand(size(t))'</span>,<span class="string">'nsecs'</span>,5e3,<span class="string">'fs'</span>,10,<span class="string">'name'</span>,<span class="string">'noise'</span>)); <span class="comment">% create an AO</span>
+  xs = split(x1,plist(<span class="string">'chunks'</span>,3));                               <span class="comment">% split in three segments</span>
+  pl = plist( <span class="string">'method'</span>, <span class="string"> 'spline'</span>, <span class="string">'addnoise'</span>, <span class="string">'no'</span>);             <span class="comment">% cubic gapfilling</span>
+  y = gapfilling(xs(1),xs(3), pl);                                <span class="comment">% fill between 2nd and 3rd segment</span>
+  iplot(x1,y) 
+    </pre>
+  </div>
+</p>
+<p>
+  <div align="center">
+    <img src="images/gapexample2.png" border="1">
+  </div>
+</p>
+
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="spikeclean.html"><img src="b_prev.gif" border="0" align="bottom" alt="Spikes reduction in data"></a>&nbsp;</td>
+        <td align="left">Spikes reduction in data</td>
+        <td>&nbsp;</td>
+        <td align="right">Noise whitening</td>
+        <td align="right" width="20"><a href="whitening.html"><img src="b_next.gif" border="0" align="bottom" alt="Noise whitening"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

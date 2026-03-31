@@ -1,0 +1,317 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>General constructor examples (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="constructor_examples_main.html"><img src="b_prev.gif" border="0" align="bottom" alt="Constructor Examples"></a>&nbsp;&nbsp;&nbsp;<a href="constructor_examples_ao.html"><img src="b_next.gif" border="0" align="bottom" alt="Constructor examples of the AO class"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">General constructor examples</h1>
+    <hr>
+    
+    <p>
+      <!-- $Id$ -->
+
+<!-- -------------------------------------------------- -->
+<!-- --------------- BEGIN CONTENT FILE --------------- -->
+<!-- -------------------------------------------------- -->
+
+
+<!-- --------------- Link box: begin --------------- -->
+<table border="0" summary="Simple list" class="simplelist_nottable_last">
+  <tr>
+    <td>
+      <a href="#copy">Copy a LTPDA object</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="#empty">Construct an empty LTPDA object</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="#zero">Construct an empty LTPDA object with the size zero</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="#file">Construct a LTPDA object by loading the object from a file</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="#plist">Construct an LTPDA object from a parameter list object (PLIST)</a>
+    </td>
+  </tr>
+</table>
+<p>All here described constructors works for all LTPDAobjects.</p>
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a name="copy"></a>Copy a LTPDA object</h2>
+<p>The following example creates a copy of a LTPDA object (blue command) by an example of the PARFRAC object. 
+The copy constructor should work for all classes.</p>
+<div class="fragment"><pre class="programlisting">
+    >> pf1 = parfrac([1 2+1i 2-1i], [6 1+3i 1-3i], 3)
+    ---- parfrac 1 ----
+    model:       None
+    res:         [1;2+i*1;2-i*1]
+    poles:       [6;1+i*3;1-i*3]
+    dir:         3
+    pmul:        [1;1;1]
+    iunits:      []
+    ounits:      []
+    description: 
+    UUID:        7c57ab84-3f49-486b-be49-6ed9926fbd66
+    -------------------
+    <span class="blue">>> pf2 = parfrac(pf1)</span>
+    ---- parfrac 1 ----
+    model:       None
+    res:         [1;2+i*1;2-i*1]
+    poles:       [6;1+i*3;1-i*3]
+    dir:         3
+    pmul:        [1;1;1]
+    iunits:      []
+    ounits:      []
+    description: 
+    UUID:        c892f70e-d113-407c-accc-67f988b31e7e
+    -------------------
+</pre></div>
+<br></br>
+<p>REMARK: The following command copies only the handle of an object and doesn't create a copy of the object (as above). This means that everything that happens to the copy or original happens to the other object.</p>
+<div class="fragment"><pre class="programlisting">
+    >> pf1 = parfrac()
+    ---- parfrac 1 ----
+    model:       none
+    res:         []
+    poles:       []
+    dir:         0
+    pmul:        []
+    iunits:      []
+    ounits:      []
+    description: 
+    UUID:        bd7c9c71-e633-402b-964b-0a270f80764a
+    -------------------
+    >> pf2 = pf1;
+    >> pf2.setName(<span class="string">'my new name'</span>)
+    ---- parfrac 1 ----
+    model:       <span class="string">my new name</span>
+    res:         []
+    poles:       []
+    dir:         0
+    pmul:        []
+    iunits:      []
+    ounits:      []
+    description: 
+    UUID:        47a5e458-84fd-4d6b-beb2-11ff574ae661
+    -------------------
+</pre></div>
+<br></br>
+<p>If we display pf1 again then we see that the property 'name' was changed although we only have changed pf2.</p>
+<div class="fragment"><pre class="programlisting">
+    >> pf1
+    ---- parfrac 1 ----
+    model:       <span class="string">my new name</span>
+    res:         []
+    poles:       []
+    dir:         0
+    pmul:        []
+    iunits:      []
+    ounits:      []
+    description: 
+    UUID:        47a5e458-84fd-4d6b-beb2-11ff574ae661
+    -------------------
+</pre></div>
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a name="empty"></a>Construct an empty LTPDA object</h2>
+<p>The following example creates an empty LTPDA object by an example of a rational object.</p>
+<div class="fragment"><pre class="programlisting">
+    >> rat = rational()
+    ---- rational 1 ----
+    model:       none
+    num:         []
+    den:         []
+    iunits:      []
+    ounits:      []
+    description: 
+    UUID:        eb240e62-ff2f-4c31-a683-0f395b9a5242
+    --------------------
+</pre></div>
+<p></p>
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a name="zero"></a>Construct an empty LTPDA object with the size zero.</h2>
+<p>Sometimes it is necessary to create LTPDA objects which have at least one dimension of zero. 
+This mean that the MATLAB method "isempty" is true for these objects. This constructor is shown by an example of a matrix object.</p>
+<div class="fragment"><pre class="programlisting">
+    >> m = matrix.initObjectWithSize(1,0)
+    ------ matrix -------
+    empty-object [1,0]
+    ---------------------
+</pre></div>
+<p>It is also possible with this constructor to create a matrix of objects with a different input as zero.</p>
+<div class="fragment"><pre class="programlisting">
+    >> m = matrix.initObjectWithSize(2,1);
+    ---- matrix 1 ----
+    name: none
+    size: 0x0
+    description: 
+    UUID: ed13da80-92a7-4d1f-8d78-a88f7d77cec3
+    ------------------
+    ---- matrix 2 ----
+    name: none
+    size: 0x0
+    description: 
+    UUID: ed13da80-92a7-4d1f-8d78-a88f7d77cec3
+    ------------------
+</pre></div>   
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a name="file"></a>Construct a LTPDA object by loading the object from a file</h2>
+<p>The following example creates a new parfrac object by loading the object from disk.</p>
+<div class="fragment"><pre class="programlisting">
+    pf = ao<span class="string">'parfrac_object.mat'</span>)
+    pf = ao<span class="string">'parfrac_object.xml'</span>)
+</pre></div>
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a name="plist"></a>Construct an LTPDA object from a parameter list object (PLIST)</h2>
+<p>Each constructor have different sets of PLISTS which create the object in a different way.</p>
+<table border="1"  width="80%">
+  <tr>
+    <td>
+      <table border="0" cellpadding="5" class="categorylist" width="100%">
+        <colgroup>
+          <col width="37%"/>
+          <col width="63%"/>
+        </colgroup>
+        <tbody>
+          <tr valign="top">
+            <td>AO class</td>
+            <td>
+              <a href="matlab:web(ao.getInfo('ao').tohtml, '-helpbrowser')">Parameter Sets</a>
+            </td>
+          </tr>
+          <tr valign="top">
+            <td>SSM class</td>
+            <td>
+              <a href="matlab:web(ssm.getInfo('ssm').tohtml, '-helpbrowser')">Parameter Sets</a>
+            </td>
+          </tr>
+          <tr valign="top">
+            <td>SMODEL class</td>
+            <td>
+              <a href="matlab:web(smodel.getInfo('smodel').tohtml, '-helpbrowser')">Parameter Sets</a>
+            </td>
+          </tr>
+          <tr valign="top">
+            <td>TIMESPAN class</td>
+            <td>
+              <a href="matlab:web(timespan.getInfo('timespan').tohtml, '-helpbrowser')">Parameter Sets</a>
+            </td>
+          </tr>
+          <tr valign="top">
+            <td>MATRIX class</td>
+            <td>
+              <a href="matlab:web(matrix.getInfo('matrix').tohtml, '-helpbrowser')">Parameter Sets</a>
+            </td>
+          </tr>
+          <tr valign="top">
+            <td>COLLECTION class</td>
+            <td>
+              <a href="matlab:web(collection.getInfo('collection').tohtml, '-helpbrowser')">Parameter Sets</a>
+            </td>
+          </tr>
+          <tr valign="top">
+            <td>PZMODEL class</td>
+            <td>
+              <a href="matlab:web(pzmodel.getInfo('pzmodel').tohtml, '-helpbrowser')">Parameter Sets</a>
+            </td>
+          </tr>
+          <tr valign="top">
+            <td>PARFRAC class</td>
+            <td>
+              <a href="matlab:web(parfrac.getInfo('parfrac').tohtml, '-helpbrowser')">Parameter Sets</a>
+            </td>
+          </tr>
+          <tr valign="top">
+            <td>RATIONAL class</td>
+            <td>
+              <a href="matlab:web(rational.getInfo('rational').tohtml, '-helpbrowser')">Parameter Sets</a>
+            </td>
+          </tr>
+          <tr valign="top">
+            <td>FILTERBANK class</td>
+            <td>
+              <a href="matlab:web(filterbank.getInfo('filterbank').tohtml, '-helpbrowser')">Parameter Sets</a>
+            </td>
+          </tr>
+          <tr valign="top">
+            <td>MIIR class</td>
+            <td>
+              <a href="matlab:web(miir.getInfo('miir').tohtml, '-helpbrowser')">Parameter Sets</a>
+            </td>
+          </tr>
+          <tr valign="top">
+            <td>MFIR class</td>
+            <td>
+              <a href="matlab:web(mfir.getInfo('mfir').tohtml, '-helpbrowser')">Parameter Sets</a>
+            </td>
+          </tr>
+          <tr valign="top">
+            <td>PLIST class</td>
+            <td>
+              <a href="matlab:web(plist.getInfo('plist').tohtml, '-helpbrowser')">Parameter Sets</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </td>
+  </tr>
+</table>
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="constructor_examples_main.html"><img src="b_prev.gif" border="0" align="bottom" alt="Constructor Examples"></a>&nbsp;</td>
+        <td align="left">Constructor Examples</td>
+        <td>&nbsp;</td>
+        <td align="right">Constructor examples of the AO class</td>
+        <td align="right" width="20"><a href="constructor_examples_ao.html"><img src="b_next.gif" border="0" align="bottom" alt="Constructor examples of the AO class"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Linear Parameter Estimation (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_2_topic_5_6_2_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="Building whitening filters"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_2_topic_5_7.html"><img src="b_next.gif" border="0" align="bottom" alt="Results and Comparison"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Linear Parameter Estimation</h1>
+    <hr>
+    
+    <p>
+      <p>
+  At this point we have all the data we need to perform a linear fir to
+  the IFO output data.
+  We start by loading the data we need that we have produced in the previous 
+  sections. In particulr:
+  <ol>
+    <li>IFO signals</li>
+    <li>Inputs for the experiments</li>
+    <li>Whitening filters</li>
+    <li>Fit model</li>
+  </ol>
+  
+  <div class="fragment"><pre>
+    
+    odat = matrix(<span class="string">'output.mat'</span>);
+    idat = matrix(<span class="string">'input.mat'</span>);
+    wf   = matrix(<span class="string">'whitening_filter.mat'</span>);
+    H    = ssm(<span class="string">'fitting_model.mat'</span>);
+
+  </pre></div>
+  
+</p>
+
+<p>
+  Then we define input ports, output ports and parameters names.
+  
+  <div class="fragment"><pre>
+    
+    <span class="comment">% define input port-names for the different experiments</span>
+    InputNames = {{<span class="string">'GUIDANCE.ifo_x1'</span>}, {<span class="string">'GUIDANCE.ifo_x12'</span>}};
+
+    <span class="comment">% define output port-names for the different experiments</span>
+    OutputNames = {{<span class="string">'DELAY_IFO.x1'</span>, <span class="string">'DELAY_IFO.x12'</span>}, {<span class="string">'DELAY_IFO.x1'</span>,<span class="string">'DELAY_IFO.x12'</span>}};
+
+    <span class="comment">% parameters names</span>
+    params = {<span class="string">'FEEPS_XX'</span>, <span class="string">'CAPACT_TM2_XX'</span>, <span class="string">'IFO_X12X1'</span>, <span class="string">'EOM_TM1_STIFF_XX'</span>, <span class="string">'EOM_TM2_STIFF_XX'</span>};
+
+  </pre></div>
+  
+  Then we can define the input 'aos' for the different experiments and the
+  step that will be used for numerical differentiation. Such step is chosen
+  as the 1% of the nominal parameters values.
+  
+  <div class="fragment"><pre>
+    
+    <span class="comment">% Input signals</span>
+    is1ao = idat(1).getObjectAtIndex(1); <span class="comment">% extract the AOs</span>
+    is2ao = idat(2).getObjectAtIndex(2);
+    iS    = collection(is1ao, is2ao); <span class="comment">% put inputs inside a collection</span>
+
+    <span class="comment">% set numerical derivative step as 1% of the nominal values</span>
+    diffStep = [1, 1, 1e-4, 1.935e-06, 2.0e-6] .* 0.01;
+
+  </pre></div>
+  
+</p>
+
+<p>
+  We have all the data we need for starting the fit. We start defining a 
+  'plist' with all the parameters we need for the current fit session.
+  
+  <div class="fragment"><pre>
+    
+    plfit = plist(...
+            <span class="string">'FitParams'</span>, params ,...
+            <span class="string">'diffStep'</span>, diffStep, ...
+            <span class="string">'Model'</span>, H, ...
+            <span class="string">'Input'</span>, iS, ...
+            <span class="string">'INNAMES'</span>, InputNames, ...
+            <span class="string">'OUTNAMES'</span>, OutputNames, ...
+            <span class="string">'WhiteningFilter'</span>, wf, ...
+            <span class="string">'tol'</span>, 1, ...
+            <span class="string">'Nloops'</span>, 10, ...
+            <span class="string">'Ncut'</span>, 1e3);
+
+  </pre></div>
+  
+  Ready to fit now!
+  
+  <div class="fragment"><pre>
+    
+    fpars = linfitsvd(odat, plfit);
+
+  </pre></div>
+  
+</p>
+
+<p>
+  If you want more information about 'linfitsvd' you have to type in MATLAB command line:
+  
+  <div class="fragment"><pre>
+    
+    help matrix/linfisvd
+
+  </pre></div>
+  
+  With a click on the link you get the full list of parameters and a brief
+  explanation. In particular, for the parameters we are currently interested 
+  the list read:
+  
+  <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+    <colgroup>
+      <col width="15%"/>
+      <col width="20%"/>
+      <col width="20%"/>
+      <col width="45%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th bgcolor="#B9C6DD" colspan="4"><h3>Default</h3></th>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      </tr>
+      <tr valign="top">
+        <th bgcolor="#D7D7D7">Key</th>
+        <th bgcolor="#D7D7D7">Default Value</th>
+        <th bgcolor="#D7D7D7">Options</th>
+        <th bgcolor="#D7D7D7">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#F2F2F2">MODEL</td>
+        <td bgcolor="#F2F2F2">[]</td>
+        <td bgcolor="#F2F2F2"><i>none</i></td>
+        <td bgcolor="#F2F2F2">System model. It have to be parametric. A matrix of smodel objects or a ssm object</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#F2F2F2">INNAMES</td>
+        <td bgcolor="#F2F2F2">{} [0x0]</td>
+        <td bgcolor="#F2F2F2"><i>none</i></td>
+        <td bgcolor="#F2F2F2">A cell array containing cell arrays of the input ports names for each experiment. Used only with ssm models.</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#F2F2F2">OUTNAMES</td>
+        <td bgcolor="#F2F2F2">{} [0x0]</td>
+        <td bgcolor="#F2F2F2"><i>none</i></td>
+        <td bgcolor="#F2F2F2">A cell array containing cell arrays of the output ports names for each experiment. Used only with ssm models.</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#F2F2F2">FITPARAMS</td>
+        <td bgcolor="#F2F2F2">{} [0x0]</td>
+        <td bgcolor="#F2F2F2"><i>none</i></td>
+        <td bgcolor="#F2F2F2">A cell array with the names of the fit parameters</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#F2F2F2">INPUT</td>
+        <td bgcolor="#F2F2F2">[]</td>
+        <td bgcolor="#F2F2F2"><i>none</i></td>
+        <td bgcolor="#F2F2F2">Collection of input signals</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#F2F2F2">WHITENINGFILTER</td>
+        <td bgcolor="#F2F2F2">[]</td>
+        <td bgcolor="#F2F2F2"><i>none</i></td>
+        <td bgcolor="#F2F2F2">The multichannel whitening filter. A matrix object of filters</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#F2F2F2">NLOOPS</td>
+        <td bgcolor="#F2F2F2">1</td>
+        <td bgcolor="#F2F2F2"><i>none</i></td>
+        <td bgcolor="#F2F2F2">Number of desired iteration loops.</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#F2F2F2">NCUT</td>
+        <td bgcolor="#F2F2F2">100</td>
+        <td bgcolor="#F2F2F2"><i>none</i></td>
+        <td bgcolor="#F2F2F2">Number of bins to be discharged in order to cut whitening filter transients</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#F2F2F2">TOL</td>
+        <td bgcolor="#F2F2F2">1</td>
+        <td bgcolor="#F2F2F2"><i>none</i></td>
+        <td bgcolor="#F2F2F2">Convergence threshold for fit parameters</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#F2F2F2">DIFFSTEP</td>
+        <td bgcolor="#F2F2F2">[]</td>
+        <td bgcolor="#F2F2F2"><i>none</i></td>
+        <td bgcolor="#F2F2F2">Numerical differentiation step for ssm models</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  In particular the parameter 'TOL' is the variable controlling fit convergence.
+  'TOL' define the ratio between the square of the parameters increment and 
+  corresponding parameters variance. Where parameter increment is the difference 
+  between a parameter value after and before the fit.
+  If all ratios are lower than 'TOL' then fit convergence is declared and loop
+  is stopped. 'linfitsvd' provides at the output the parameter set that is 
+  minimizing Mean Squared Error over the current loop. Output is packed
+  in a 'pest' object.
+  
+</p>
+
+<p>
+  We are now ready to save our fit results.
+  
+  <div class="fragment"><pre>
+    
+    fpars.save('fit_linear.mat');
+
+  </pre></div>
+  
+</p>
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_2_topic_5_6_2_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="Building whitening filters"></a>&nbsp;</td>
+        <td align="left">Building whitening filters</td>
+        <td>&nbsp;</td>
+        <td align="right">Results and Comparison</td>
+        <td align="right" width="20"><a href="ltpda_training_2_topic_5_7.html"><img src="b_next.gif" border="0" align="bottom" alt="Results and Comparison"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

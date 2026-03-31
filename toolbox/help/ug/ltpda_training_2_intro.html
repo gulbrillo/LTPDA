@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>LTPDA Training Session 2 (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_topic_5_5.html"><img src="b_prev.gif" border="0" align="bottom" alt="IFO/Temperature Example - signal subtraction"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_2_topic_1.html"><img src="b_next.gif" border="0" align="bottom" alt="Topic 1 - LTPDA Review."></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">LTPDA Training Session 2</h1>
+    <hr>
+    
+    <p>
+      <p>
+  This series of help pages consitute the second training session of LTPDA. The various data-packs used throughout
+  the tutorials are available for download on the <a href="http://www.lisa.aei-hannover.de/ltpda/training_sessions/training_session_2/training_session_2.html">LTPDA web-site</a>.
+  This tutorial focusses primarily on data analysis activities associated with the LISA Pathfinder mission. It requires
+  access to the LPF extension module for LTPDA (LPF_DA_Module). As such this tutorial is not intended for the 
+  general public.
+</p>
+<ol>
+		<li><a href="ltpda_training_2_topic_1.html">Topic 1 - LTPDA Review</a></li>
+		<li><a href="ltpda_training_2_topic_2.html">Topic 2 - Simulating LPF noise</a></li>
+		<li><a href="ltpda_training_2_topic_3.html">Topic 3 - Estimating residual acceleration</a></li>
+		<li><a href="ltpda_training_2_topic_4.html">Topic 4 - Simulating LPF with injected signals</a></li>
+		<li><a href="ltpda_training_2_topic_5.html">Topic 5 - Introduction to LPF System Identification</a></li>
+</ol>
+<p>
+  Throughout the course of this training session, we will perform a full analysis
+  of some LPF data. The data will be generated using our LPF simulator which is 
+  built in to the LTPDA toolbox and associated extension module.
+</p>
+<p>
+  During each topic of the training session, the data will be manipulated using
+  the tools introduced in that topic (and previous topics). The aim of the data
+  analysis is to estimate some parameters of the LPF system and use those to estimate
+  the residual differential acceleration of the two test-masses. In particular the steps will be:
+</p>
+<ol>
+  <li><a href="ltpda_training_2_topic_1.html">Topic 1</a>
+    LTPDA Review.
+    <ol>
+      <li>Introducing objects in LTPDA</li>
+      <li>Saving and loading objects</li>
+      <li>Review of spectral estimators</li>
+      <li>Preparing data segments (splitting)</li>
+      <li>Review of filtering and whitening in LTPDA</li>
+      <li>LTPDA scripting best practices</li>
+      <li>Introduction to LTPDA extension modules</li>
+    </ol>
+  </li>
+  <li><a href="ltpda_training_2_topic_2.html">Topic 2</a>
+    Simulating LPF noise in LTPDA.
+    <ol>
+      <li>Introduction to state-space models in LTPDA</li>
+      <li>Introduction to the LPF state-space models in LTPDA</li>
+      <li>Building an LTP model</li>
+      <li>Introduction to the various LPF noise models</li>
+      <li>Building an LPF model</li>
+      <li>Simulating LPF noise</li>
+      <li>Changing system parameters</li>
+      <li>Simulate LPF with matched stiffness</li>
+    </ol>
+  </li>
+  <li><a href="ltpda_training_2_topic_3.html">Topic 3</a>
+    Estimation of residual differential acceleration.
+    <ol>
+      <li>Principles and theory</li>
+      <li>Tools for estimating the residual differential acceleration in LTPDA</li>
+      <li>Estimate equivalent accelerations from simulation data</li>
+    </ol>
+  </li>
+  <li><a href="ltpda_training_2_topic_4.html">Topic 4</a>
+    Simulating LPF with injected signals.
+    <ol>
+      <li>LPF model inputs</li>
+      <li>Building signals</li>
+      <li>How to inject signals</li>
+      <li>Simulate LTP with injected signals (no noise)</li>
+      <li>Inject noise signals to LTP</li>
+      <li>Estimate tranfser functions from simulated signals, compare with Bode estimates</li>
+      <li>Simulate LPF with injected signals</li>
+    </ol>
+  </li>
+  <li><a href="ltpda_training_2_topic_5.html">Topic 5</a>
+    Introduction to system identification of LPF.
+    <ol>
+      <li>Introduction to LTPDA's fitting tools (theory, implementation, usage)</li>
+      <li>A simplified LPF system identification experiment</li>
+      <li>Create simulated experiment data sets</li>
+      <li>Build state-space models for system identification</li>
+      <li>Calculate expected covariance of the parameters (FIM)</li>
+      <li>Perform system identification to estimate desired parameters</li>
+      <li>Results and Comparison</li>
+      <li>Use parameter estimates to estimate residual differential acceleration</li>
+    </ol>
+  </li>
+</ol>
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_topic_5_5.html"><img src="b_prev.gif" border="0" align="bottom" alt="IFO/Temperature Example - signal subtraction"></a>&nbsp;</td>
+        <td align="left">IFO/Temperature Example - signal subtraction</td>
+        <td>&nbsp;</td>
+        <td align="right">Topic 1 - LTPDA Review.</td>
+        <td align="right" width="20"><a href="ltpda_training_2_topic_1.html"><img src="b_next.gif" border="0" align="bottom" alt="Topic 1 - LTPDA Review."></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

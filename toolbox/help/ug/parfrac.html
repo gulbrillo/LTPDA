@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Sum of partial fractions representation (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="pzmodel_gui.html"><img src="b_prev.gif" border="0" align="bottom" alt="Model helper GUI"></a>&nbsp;&nbsp;&nbsp;<a href="rational.html"><img src="b_next.gif" border="0" align="bottom" alt="Rational representation"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Sum of partial fractions representation</h1>
+    <hr>
+    
+    <p>
+      <p>
+  Transfer functions can be expressed as a quocient of polynomials
+</p>
+<br>
+<div align="center">
+  <img src="images/parfrac_tf_eqn.png" alt="Pole/zero model TF" border="3">
+</div>
+<br>
+<p>
+  The constructor can be used in different ways
+</p>
+<h2>From poles and residues</a></h2>
+<p>
+  The standard way is to input the coefficients of your filter. The constructor
+  accepts as a optional properties the name
+</p>
+<br>
+<div class="fragment"><pre>
+    >> par = parfrac([1 2+1i 2-1i], [6 1+3i 1-3i], [])
+    ---- parfrac 1 ----
+    model:    None
+    res:      [1;2+i*1;2-i*1]
+    poles:    [6;1+i*3;1-i*3]
+    dir:      0
+    pmul:     [1;1;1]
+    iunits:   []
+    ounits:   []
+    -------------------
+</pre></div>
+<br>
+<h2>From partial XML file</a></h2>
+You can input a XML file containing a transfer function model into the constructor
+<br>
+<div class="fragment"><pre>
+    >> par   = parfrac('datafile.xml')
+</pre></div>
+<br>
+<h2>From mat file</a></h2>
+You can input a mat file containing a transfer function model into the constructor
+<br>
+<div class="fragment"><pre>
+    >> rat   = parfrac('datafile.mat')
+</pre></div>
+<br>
+<h2>From plist</a></h2>
+All the properties of the filter can be specified in a plist and then passed to the constructor:
+<br>
+<div class="fragment"><pre>
+    >> pl = plist('iunits','m','ounits','V','res',[1 2+1i 2-1i],'poles',[6 1+3i 1-3i],...
+    'name','filter_mame');
+    >> par = parfrac(pl)
+    ---- parfrac 1 ----
+    model:    filter_mame
+    res:      [1;2+i*1;2-i*1]
+    poles:    [6;1+i*3;1-i*3]
+    dir:      0
+    pmul:     [1;1;1]
+    iunits:   [m]
+    ounits:   [V]
+    -------------------
+</pre></div>
+<br>
+<h2>From repository</a></h2>
+Rational transfer function can be obtained from the <a href="repo.html"> repository </a> with the following syntax.
+<br>
+<div class="fragment"><pre>
+    >> rat   = rational('Hostname','localhost','Database','ltpda',...
+    'ID',[],'CID',[],'Binary',yes)
+</pre></div>
+<br>
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="pzmodel_gui.html"><img src="b_prev.gif" border="0" align="bottom" alt="Model helper GUI"></a>&nbsp;</td>
+        <td align="left">Model helper GUI</td>
+        <td>&nbsp;</td>
+        <td align="right">Rational representation</td>
+        <td align="right" width="20"><a href="rational.html"><img src="b_next.gif" border="0" align="bottom" alt="Rational representation"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

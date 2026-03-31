@@ -1,0 +1,467 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Example 3: Log-scale PSD on MDC1 data (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_topic_3_2_2.html"><img src="b_prev.gif" border="0" align="bottom" alt="Example 2: Windowing data"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_topic_3_5.html"><img src="b_next.gif" border="0" align="bottom" alt="Empirical Transfer Function estimation"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Example 3: Log-scale PSD on MDC1 data</h1>
+    <hr>
+    
+    <p>
+      <p>The idea of the third exercise is the following:
+  <ol>
+    <li>load a time-series of IFO noise data simulated for the first LTPDA
+    Mock Data Challenge (MDC1)</li>
+    <li>set data units</li>
+    <li>evaluate the Log-Scale Power Spectrum of the 2 IFO channels data</li>
+    <li>set the plot properties</li>
+    <li>plot the results</li>
+  </ol>
+  In a flow diagram, the representation is as follows:
+</p>
+<img src="images/ltpda_training_1/topic3/PSD_3_flowchart.png"
+     alt="Dataflow for the 3rd example of ao/psd" width="600px" border="1">
+<br>
+<br>
+<h2>
+  Load a time-series of IFO noise data simulated for the first LTPDA
+  Mock Data Challenge (MDC1)
+</h2>
+<p>
+    The step of building <tt>ao</tt>s by loading data from files was touched upon in <a href="ltpda_training_topic_1_6.html">previous steps</a> and in
+    the <a href="ao_create.html#text" >user manual</a>. Here we go ahead by calling the <tt>ao</tt> constructor
+    method, that we want to specify by means of a plist, with parameters:
+</p>
+<p>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="15%"/>
+      <col width="35%"/>
+      <col width="50%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Key</th>
+        <th class="categorylist">Value</th>
+        <th class="categorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Key 'filename' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>FILENAME</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">'topic3/mockdata_16_48_17_11_2007_1.dat'</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>The name of the file to read the data from.</p>
+        </td>
+      </tr>
+      <!-- Key 'type' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>TYPE</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">'tsdata'</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Interpret the data in the file as time-series data.</p>
+        </td>
+      </tr>
+      <!-- Key 'columns' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>COLUMNS</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>[1 2 1 3]</p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Load the data x-y pairs from columns 1 (as x) and 2 (as
+            y), in the first <tt>ao</tt>, and from columns 1 (as x) and 3 (as
+          y), in the second <tt>ao</tt>.</p>
+        </td>
+      </tr>
+      <!-- Key 'xunits' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>XUNITS</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">'s'</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Set the units of the x-data to seconds (s).</p>
+        </td>
+      </tr>
+      <!-- Key 'yunits' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>YUNITS</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">''</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>We leave this empty for now.</p>
+        </td>
+      </tr>
+      <!-- Key 'Comment-char' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>COMMENT_CHAR</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">'%'</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Indicateds which header lines to skip in the ASCII data file.</p>
+        </td>
+      </tr>
+      <!-- Key 'Use-fs' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>FS</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>[]</p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Indicates to load time series from the first data column.</p>
+        </td>
+      </tr>
+      <!-- Key 'robust' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>ROBUST</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">'no'</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>We don't need robust data reading for these simulated data.</p>
+        </td>
+      </tr>
+      <!-- Key 'name' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>NAME</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>{<span class="string">'IFO x1'</span>, <span class="string">'IFO x12'</span>}</p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Specify the names of the objects.</p>
+        </td>
+      </tr>
+      <!-- Key 'description' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>DESCRIPTION</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">'MDC1 set #1, 17/11/2007'</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Set some text to the 'description' field of the AO.</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+<p>
+<div class="fragment"><pre>
+x = ao(pl_load);</pre></div>
+
+  The output will be a vector of <tt>ao</tt>s, containing:
+  <ul>
+    <li>the <i>x1</i> IFO measurement (SC to TM1 <i>x</i> position)</li>
+    <li>the <i>x12</i> IFO measurement (TM2 to TM1 relative <i>x</i> position)</li>
+  </ul>
+</p>
+<p>
+  We can then run all the analyses, and be sure to be applying the same
+  parameters, by passing the vector of <tt>ao</tt>s to the various methods.
+</p>
+<br>
+<br>
+<h2>Set data units</h2>
+<p>
+  We forgot to set the units ... luckily both displacements are
+  expressed in meters, so let's call the method
+  <table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1">
+    <tr width="90%">
+      <td>
+        <tt>ao/setYunits</tt>
+      </td>
+    </tr>
+  </table>
+  The relevant parameters to set are:
+</p>
+<p>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="15%"/>
+      <col width="35%"/>
+      <col width="50%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Key</th>
+        <th class="categorylist">Value</th>
+        <th class="categorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Key 'YUNITS' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>YUNITS</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">'m'</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>The unit object to set as y-units</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+<br>
+<br>
+<h2>Evaluate the Log-Scale Power Spectrum of the 2 IFO channels data</h2>
+<p>
+  Now let's go ahead and use the <tt>lpsd</tt> method on the <tt>ao</tt> class. It needs to 
+  be specified by setting its parameters. Many of these parameters are the same as we already discussed for
+  <tt>ao/psd</tt>:
+  <ul>
+    <li><tt>Win</tt> Allows to choose the type of spectral window to be employed to reduce the edge effects at beginning/end of the data sections.</li>
+    <li><tt>Olap</tt> Allows to choose the percentual overlap between subsequent segments</li>
+    <li><tt>Order</tt> Allows to choose the degree of detrending applied
+    to each segment prior to windowing</li>
+    <li><tt>Scale</tt> Allows to choose the quantity to be sent in output (ASD, PSD, AS, PS)</li>
+    <li><tt>Times</tt> Allows to choose a reduced set of the inputs by asking the are within a given time range</li>
+  </ul>
+</p>
+<p>
+  In this case, we will use the following parameters:
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="15%"/>
+      <col width="20%"/>
+      <col width="65%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Key</th>
+        <th class="categorylist">Value</th>
+        <th class="categorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Key 'WIN' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>WIN</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">'BH92'</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Or a different one, if you want.</p>
+        </td>
+      </tr>
+      <!-- Key 'OLAP' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>OLAP</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>-1</p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Overlap will be chosen based on the window properties</p>
+        </td>
+      </tr>
+      <!-- Key 'ORDER' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>ORDER</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>2</p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Segment-wise detrending up to order 2</p>
+        </td>
+      </tr>
+      <!-- Key 'SCALE' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>SCALE</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">'ASD'</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Evaluate the Amplitude Spectral Density so that [output units] will be [input units] / sqrt(Hz)</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+<p>
+  We also need to set other 2
+  parameters that are typical of this method, discussed in the devoted
+  user manual <a href="l_psd.html" >section</a>.
+  <ul>
+    <li> <tt>'Jdes'</tt> - the number of spectral frequencies to compute </li>
+    <li> <tt>'Kdes'</tt> - the desired number of averages </li>
+    <li> <tt>'Lmin'</tt> - the minimum segment length [default: 0] </li>
+  </ul>
+</p>
+<p>
+  We will act on the first one, so to decide how many ASD bins to
+  estimate, leaving to the algorithm the choice of their location and
+  the length of the windows on each bin.
+</p>
+<p>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="15%"/>
+      <col width="20%"/>
+      <col width="65%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Key</th>
+        <th class="categorylist">Value</th>
+        <th class="categorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Key 'JDES' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>JDES</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>2000</p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Compromising execution time and resolution</p>
+        </td>
+      </tr>
+      <!-- Key 'KDES' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>KDES</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>10</p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Slightly less than the default value</p>
+        </td>
+      </tr>
+      <!-- Key 'LMIN' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>LMIN</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>0</p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>The default value</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+<br>
+<br>
+<h2>Plot the results</h2>
+<p>
+  As we did in previous topics, let's add one <tt>ao/iplot</tt> step after the call
+to the <tt>ao/lpsd</tt> method. We make a little additional exercise: let's specify 
+the color via a plist with parameters:
+</p>
+<p>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="15%"/>
+      <col width="35%"/>
+      <col width="50%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Key</th>
+        <th class="categorylist">Value</th>
+        <th class="categorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Key 'COLORS' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>COLORS</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">{[0 0 1],[1 0 0]}</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Setting <i>x1</i> to blue and <i>x12</i> to red</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+<p>
+  The execution may take some while ... and here are the results:
+</p>
+<p>
+  <div align="center">
+    <IMG src="images/ltpda_training_1/topic3/PSD_3_x1x12.png" alt="LPSD of IFO channels" border="1">
+  </div>
+</p>
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_topic_3_2_2.html"><img src="b_prev.gif" border="0" align="bottom" alt="Example 2: Windowing data"></a>&nbsp;</td>
+        <td align="left">Example 2: Windowing data</td>
+        <td>&nbsp;</td>
+        <td align="right">Empirical Transfer Function estimation</td>
+        <td align="right" width="20"><a href="ltpda_training_topic_3_5.html"><img src="b_next.gif" border="0" align="bottom" alt="Empirical Transfer Function estimation"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

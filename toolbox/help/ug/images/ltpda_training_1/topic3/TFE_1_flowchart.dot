@@ -1,0 +1,16 @@
+digraph G {
+  rankdir=LR
+  node00 [shape=box, label="input noise ao"]
+  node02 [shape=box, label="filter object"]
+  node03 [shape=box, label="apply filter"]
+  node04 [shape=box, label="output noise ao"]
+  node05 [shape=circle, label="+"]
+  node06 [shape=box, label="transfer function estimate"]
+  
+  node00 -> node03
+  node02 -> node03
+  node04 -> node05
+  node03 -> node05  
+  node05 -> node06
+  node00 -> node06  
+}

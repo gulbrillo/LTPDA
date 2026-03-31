@@ -1,0 +1,710 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!-- $Id$ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="../../ug/docstyle.css">
+    <title>LTPDA Method: timespan/timespan</title>
+  </head>
+  <body>
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <p style="font-size:1px;">&nbsp;</p>
+
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../../ug/../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="timespan_rebuild.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: timespan/rebuild"></a>&nbsp;&nbsp;&nbsp;<a href="timespan_created.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: timespan/created"></a></td>
+      </tr>
+    </table>
+
+    <h1 class="title">Method timespan/timespan</h1>
+    <hr />
+
+<pre>  check if the caller was a user of another method</pre>
+
+    <!-- =====        Striped 4x2 table: Begin        ==== -->
+    <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+    <div class="sectiontitle"></div>
+    <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+      <colgroup>
+        <col width="30%"/>
+        <col width="70%"/>
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th class="categorylist">Method Details</th>
+          <th class="categorylist"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Access</td>
+          <td bgcolor="#f3f4f5">public</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Defining Class</td>
+          <td bgcolor="#ffffff">timespan</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Sealed</td>
+          <td bgcolor="#f3f4f5">0</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Static</td>
+          <td bgcolor="#ffffff">0</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- ===== Striped 4x2 table: End ==== -->
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <h2>Parameter Description</h2>    <a name="down" id="down"></a>
+
+    <!-- Link-Table of the sets -->
+    <table border="0" cellpadding="4" cellspacing="0" class="pagenavtable">
+      <tr><th>Sets for this method &#8230;</th></tr>
+        <tr><td><a href="#1">Default</a></td></tr>
+        <tr><td><a href="#2">From MAT File</a></td></tr>
+        <tr><td><a href="#3">From XML File</a></td></tr>
+        <tr><td><a href="#4">From Repository</a></td></tr>
+        <tr><td><a href="#5">From Built-in Model</a></td></tr>
+        <tr><td><a href="#6">From Timespan Definition</a></td></tr>
+        <tr><td><a href="#7">From AOs</a></td></tr>
+    </table>
+
+    <a name="1"></a>
+    <!-- Parameter List Table: Default -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>Default</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('NAME', '', 'DESCRIPTION', '', 'CALLERISMETHOD', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="2"></a>
+    <!-- Parameter List Table: From MAT File -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From MAT File</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uo.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FILENAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">MAT filename.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('NAME', '', 'DESCRIPTION', '', 'CALLERISMETHOD', [[]], 'FILENAME', '')</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="3"></a>
+    <!-- Parameter List Table: From XML File -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From XML File</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uo.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FILENAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">XML filename.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('NAME', '', 'DESCRIPTION', '', 'CALLERISMETHOD', [[]], 'FILENAME', '')</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="4"></a>
+    <!-- Parameter List Table: From Repository -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From Repository</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uo.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">HOSTNAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Database server hostname.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DATABASE</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Database name.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">USERNAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">User name to use when connecting to the database. Leave blank to be prompted.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PASSWORD</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Password to use when connecting to the database. Leave blank to be prompted.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CONN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Java mysql object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ID, IDS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A vector of object IDs.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CID</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A vector of collection IDs.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">UUID, UUIDS</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell array of UUIDs.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">BINARY</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Use binary representation (not always available).</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('NAME', '', 'DESCRIPTION', '', 'CALLERISMETHOD', [[]], 'HOSTNAME', '', 'DATABASE', '', 'USERNAME', '', 'PASSWORD', cell(0,0), 'CONN', [[]], 'ID', [[]], 'CID', [[]], 'UUID', cell(0,0), 'BINARY', [true])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="5"></a>
+    <!-- Parameter List Table: From Built-in Model -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From Built-in Model</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uo.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">BUILT-IN</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Choose one of the built-in models. (use <i>class</i>.getBuiltInModels to get a list for a particular user class)</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">VERSION</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Version of the built in model. The default version is used for the case that no 'Version' is defined.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('NAME', '', 'DESCRIPTION', '', 'CALLERISMETHOD', [[]], 'BUILT-IN', '', 'VERSION', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="6"></a>
+    <!-- Parameter List Table: From Timespan Definition -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From Timespan Definition</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">timespan.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">START, STARTT</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The starting time.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">STOP, ENDT, END</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The ending time.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMEZONE</td>
+            <td bgcolor="#F2F2F2">'UTC'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'UTC'</font></li><li><font color="#1111FF">'CET'</font></li><li><font color="#1111FF">'PST'</font></li><li><font color="#1111FF">'CST'</font></li><li><font color="#1111FF">'EST'</font></li><li><font color="#1111FF">'JST'</font></li><li><font color="#1111FF">'GMT-12'</font></li><li><font color="#1111FF">'GMT-11'</font></li><li><font color="#1111FF">'GMT-10'</font></li><li><font color="#1111FF">'GMT-09'</font></li><li><font color="#1111FF">'GMT-08'</font></li><li><font color="#1111FF">'GMT-07'</font></li><li><font color="#1111FF">'GMT-06'</font></li><li><font color="#1111FF">'GMT-05'</font></li><li><font color="#1111FF">'GMT-04'</font></li><li><font color="#1111FF">'GMT-03'</font></li><li><font color="#1111FF">'GMT-02'</font></li><li><font color="#1111FF">'GMT-01'</font></li><li><font color="#1111FF">'GMT'</font></li><li><font color="#1111FF">'GMT+01'</font></li><li><font color="#1111FF">'GMT+02'</font></li><li><font color="#1111FF">'GMT+03'</font></li><li><font color="#1111FF">'GMT+04'</font></li><li><font color="#1111FF">'GMT+05'</font></li><li><font color="#1111FF">'GMT+06'</font></li><li><font color="#1111FF">'GMT+07'</font></li><li><font color="#1111FF">'GMT+08'</font></li><li><font color="#1111FF">'GMT+09'</font></li><li><font color="#1111FF">'GMT+10'</font></li><li><font color="#1111FF">'GMT+11'</font></li><li><font color="#1111FF">'GMT+12'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Timezone.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMEFORMAT</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Time format.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('NAME', '', 'DESCRIPTION', '', 'CALLERISMETHOD', [[]], 'START', '', 'STOP', '', 'TIMEZONE', 'UTC', 'TIMEFORMAT', '')</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="7"></a>
+    <!-- Parameter List Table: From AOs -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From AOs</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">timespan.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">AOS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The starting time.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('NAME', '', 'DESCRIPTION', '', 'CALLERISMETHOD', [[]], 'AOS', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <p><!-- Table of the minfo object -->
+      <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+        <colgroup>
+          <col width="25%"/>
+          <col width="75%"/>
+        </colgroup>
+        <thead>
+          <tr valign="top">
+            <th class="categorylist" colspan="2">Some information of the method timespan/timespan are listed below:</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Property: 'mclass' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Class name</td>
+            <td bgcolor="#f3f4f5">timespan</td>
+          </tr>
+          <!-- Property: 'mname' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Method name</td>
+            <td bgcolor="#ffffff">timespan</td>
+          </tr>
+          <!-- Property: 'mcategory' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Category</td>
+            <td bgcolor="#f3f4f5">Constructor</td>
+          </tr>
+          <!-- Property: 'mpackage' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Package name</td>
+            <td bgcolor="#ffffff">ltpda</td>
+          </tr>
+          <!-- Property: 'modifier' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Can be used as modifier</td>
+            <td bgcolor="#f3f4f5">0</td>
+          </tr>
+          <!-- Property: 'supportedNumTypes' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Supported numeric types</td>
+            <td bgcolor="#ffffff">{'double'}</td>
+          </tr>
+        </tbody>
+      </table>
+    </p>
+
+
+    <br>
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="timespan_rebuild.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: timespan/rebuild"></a>&nbsp;</td>
+        <td align="left">Method: timespan/rebuild</td>
+        <td>&nbsp;</td>
+        <td align="right">Method: timespan/created</td>
+        <td align="right" width="20"><a href="timespan_created.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: timespan/created"></a></td>
+      </tr>
+    </table>
+
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+
+   </body>
+</html>

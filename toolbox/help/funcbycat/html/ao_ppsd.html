@@ -1,0 +1,232 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!-- $Id$ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="../../ug/docstyle.css">
+    <title>LTPDA Method: ao/ppsd</title>
+  </head>
+  <body>
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <p style="font-size:1px;">&nbsp;</p>
+
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../../ug/../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ao_powerFit.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ao/powerFit"></a>&nbsp;&nbsp;&nbsp;<a href="ao_preprocessDataForMCMC.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ao/preprocessDataForMCMC"></a></td>
+      </tr>
+    </table>
+
+    <h1 class="title">Method ao/ppsd</h1>
+    <hr />
+
+<pre>  <SPAN CLASS="HELPTOPIC">PPSD</SPAN> makes power spectral density estimates of the time-series objects in the input analysis objects by estimating ARMA models coefficients.
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+  DESCRIPTION: <SPAN CLASS="HELPTOPIC">PPSD</SPAN> makes power spectral density estimates of the
+               time-series objects in the input analysis objects
+               by estimating ARMA models coefficients. The coefficients
+               are stored in the procinfo plist of the output objects.
+ 
+  CALL:        bs = <span class="helptopic">ppsd</span>(a1,a2,a3,...,pl)
+               bs = <span class="helptopic">ppsd</span>(as,pl)
+               bs = as.<span class="helptopic">ppsd</span>(pl)
+ 
+  INPUTS:      aN   - input analysis objects
+               as   - input analysis objects array
+               pl   - input parameter list
+ 
+  OUTPUTS:     bs   - array of analysis objects, one for each input
+ 
+ <a href="ao_ppsd.html#down">Parameters Description</a>
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</pre>
+
+    <!-- =====        Striped 4x2 table: Begin        ==== -->
+    <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+    <div class="sectiontitle"></div>
+    <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+      <colgroup>
+        <col width="30%"/>
+        <col width="70%"/>
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th class="categorylist">Method Details</th>
+          <th class="categorylist"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Access</td>
+          <td bgcolor="#f3f4f5">public</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Defining Class</td>
+          <td bgcolor="#ffffff">ao</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Sealed</td>
+          <td bgcolor="#f3f4f5">0</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Static</td>
+          <td bgcolor="#ffffff">0</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- ===== Striped 4x2 table: End ==== -->
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <h2>Parameter Description</h2>    <a name="down" id="down"></a>
+
+    <!-- Link-Table of the sets -->
+    <table border="0" cellpadding="4" cellspacing="0" class="pagenavtable">
+      <tr><th>Sets for this method &#8230;</th></tr>
+        <tr><td><a href="#1">Default</a></td></tr>
+    </table>
+
+    <a name="1"></a>
+    <!-- Parameter List Table: Default -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>Default</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ppsd</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">METHOD</td>
+            <td bgcolor="#F2F2F2">'AR'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'AR'</font></li><li><font color="#1111FF">'MA'</font></li><li><font color="#1111FF">'ARMA'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Model type to use and estimate its coefficients.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ORDER</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Order of the applied filter. If the method chosen is 'ARMA', then a vector of 1x2 size must be provided containing the orders AR and MA models. (example: [ p q ]). <ul><li>If no order is specified, then p = q = length(X) - 1;</li></ul></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMES</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The time range to analyze. If not empty, sets the time interval to operate on.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SPLIT</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The time range to analyze. If not empty, sets the timeinterval to operate on.<br>As in ao/split, the interval can be specifiedby:<ul><li>a vector of doubles</li><li>a timespan object</li><li>a cellarray of time strings</li><li>a vector of time objects</li></ul></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SCALE</td>
+            <td bgcolor="#F2F2F2">'PSD'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'PSD'</font></li><li><font color="#1111FF">'ASD'</font></li><li><font color="#1111FF">'PS'</font></li><li><font color="#1111FF">'AS'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">The scaling of output. Choose from:<ul><li>PSD - Power Spectral Density</li><li>ASD - Amplitude (linear) Spectral Density</li><li>PS  - Power Spectrum</li><li>AS  - Amplitude (linear) Spectrum</li></ul></td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('METHOD', 'AR', 'ORDER', [[]], 'TIMES', [[]], 'SPLIT', [[]], 'SCALE', 'PSD')</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <p><!-- Table of the minfo object -->
+      <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+        <colgroup>
+          <col width="25%"/>
+          <col width="75%"/>
+        </colgroup>
+        <thead>
+          <tr valign="top">
+            <th class="categorylist" colspan="2">Some information of the method ao/ppsd are listed below:</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Property: 'mclass' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Class name</td>
+            <td bgcolor="#f3f4f5">ao</td>
+          </tr>
+          <!-- Property: 'mname' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Method name</td>
+            <td bgcolor="#ffffff">ppsd</td>
+          </tr>
+          <!-- Property: 'mcategory' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Category</td>
+            <td bgcolor="#f3f4f5">Signal Processing</td>
+          </tr>
+          <!-- Property: 'mpackage' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Package name</td>
+            <td bgcolor="#ffffff">ltpda</td>
+          </tr>
+          <!-- Property: 'modifier' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Can be used as modifier</td>
+            <td bgcolor="#f3f4f5">1</td>
+          </tr>
+          <!-- Property: 'supportedNumTypes' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Supported numeric types</td>
+            <td bgcolor="#ffffff">{'double'}</td>
+          </tr>
+        </tbody>
+      </table>
+    </p>
+
+
+    <br>
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ao_powerFit.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ao/powerFit"></a>&nbsp;</td>
+        <td align="left">Method: ao/powerFit</td>
+        <td>&nbsp;</td>
+        <td align="right">Method: ao/preprocessDataForMCMC</td>
+        <td align="right" width="20"><a href="ao_preprocessDataForMCMC.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ao/preprocessDataForMCMC"></a></td>
+      </tr>
+    </table>
+
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+
+   </body>
+</html>

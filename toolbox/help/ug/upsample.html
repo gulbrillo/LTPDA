@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Upsampling data (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="downsample.html"><img src="b_prev.gif" border="0" align="bottom" alt="Downsampling data"></a>&nbsp;&nbsp;&nbsp;<a href="resample.html"><img src="b_next.gif" border="0" align="bottom" alt="Resampling data"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Upsampling data</h1>
+    <hr>
+    
+    <p>
+      <h2>Description</h2>
+<p>
+  Upsampling is the process of increasing the sampling rate of a signal. <a href="matlab:doc('ao/upsample')"><tt>Upsample</tt></a> increases the sampling rate of the input AOs by an integer factor. LTPDA <a href="matlab:doc('ao/upsample')"><tt>upsample</tt></a> overloads <tt>upsample</tt> function from Matlab Signal Processing Toolbox. This function increases the sampling rate of a signal by inserting (n-1) zeros between samples. The upsampled output has (n*input) samples. In addition, an initial phase can be specified and, thus, a delayed output of the input can be obtained by using this option.
+  <br>
+  <br>
+  <h2>Syntax</h2>
+</p>
+<div class="fragment"><pre>
+  <br>
+    b = upsample(a, pl)
+  </pre>
+</div>
+<h2>Parameters</h2>
+<p>
+  The following parameters can be set in this method:
+  <ul>
+    <li> <tt>N</tt> - specify the desired upsample rate </li>
+    <li> <tt>phase</tt> - specify an initial phase range [0, N-1]</li>
+  </ul>
+</p>
+<p>
+  <h2>Examples</h2>
+</p>
+<p>
+  1. Upsampling a sequence of random data at original sampling rate of 1 Hz by a factor of 10 with no initial phase.
+</p>
+<div class="fragment"><pre>
+  <br>
+    pl    = plist(<span class="string">'tsfcn'</span>, <span class="string">'randn(size(t))'</span>,<span class="string">'fs'</span>,1,<span class="string">'yunits'</span>,<span class="string">'m'</span>,<span class="string">'nsecs'</span>,100);
+    x     = ao(pl);
+    pl_up = plist(<span class="string">'N'</span>, 10);     <span class="comment">% increase the sampling frequency by a factor of 10</span>
+    y     = upsample(x, pl_up); <span class="comment">% resample the input AO (x) to obtain the upsampled AO (y)</span>
+    iplot(x, y)
+  </pre>
+</div>
+</p>
+<br>
+<img src="images/upsample1.png" alt="Upsample" border="3">
+<br>
+<p>
+  2. Upsampling a sequence of random data at original sampling rate of 1 Hz by a factor of 21 with a phase of 20 samples.
+</p>
+<div class="fragment"><pre>
+  <br>
+    pl         = plist(<span class="string">'tsfcn'</span>, <span class="string">'randn(size(t))'</span>,<span class="string">'fs'</span>,1,<span class="string">'yunits'</span>,<span class="string">'m'</span>,<span class="string">'nsecs'</span>,100);
+    x          = ao(pl);
+    pl_upphase = plist(<span class="string">'N'</span>, 21,<span class=string>'phase'</span>, 20); <span class="comment">% increase the sampling frequency and add phase of 20 samples to upsampled data</span>
+    y          = upsample(x, pl_upphase);    <span class="comment">% resample the input AO (x) to obtain the upsampled and delayed AO (y)</span>
+    iplot(x, y) 
+  </pre>
+</div>
+</p>
+<br>
+<img src="images/upsample2.png" alt="Upsample" border="3">
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="downsample.html"><img src="b_prev.gif" border="0" align="bottom" alt="Downsampling data"></a>&nbsp;</td>
+        <td align="left">Downsampling data</td>
+        <td>&nbsp;</td>
+        <td align="right">Resampling data</td>
+        <td align="right" width="20"><a href="resample.html"><img src="b_next.gif" border="0" align="bottom" alt="Resampling data"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

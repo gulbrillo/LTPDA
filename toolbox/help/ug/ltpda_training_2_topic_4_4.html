@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Simulate LTP with injected signals (no noise) (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_2_topic_4_3.html"><img src="b_prev.gif" border="0" align="bottom" alt="How to inject signals"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_2_topic_4_5.html"><img src="b_next.gif" border="0" align="bottom" alt="Inject noise signals to LTP"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Simulate LTP with injected signals (no noise)</h1>
+    <hr>
+    
+    <p>
+      <p>
+  In Topic 2 you learned how to create an LTP model. Recall, the LTP model is the same
+  as the LPF model but without all the noise-shape filters assembled. As a reminder, you
+  can build this model like this:
+  <div class="fragment"><pre>
+      ltp = ssm(plist(<span class="string">'built-in'</span>, <span class="string">'LTP'</span>, <span class="string">'Version'</span>, <span class="string">'Standard'</span>))
+  </pre></div>
+</p>
+<h2>Inject a signal into guidance of the LTP model</h2>
+<p>
+  In the previous section we saw how to inject signals in to an <tt>ssm</tt> model. Here we will
+  inject a signal into the LTP model. In particular, we'll modulate the set-point of the drag-free loop
+  along x by injecting a sine-wave in the guidance input for that control coordinate. We'll ask the simulator
+  for the two main IFO outputs: the position of SC relative to TM1 and the position of TM2 relative to TM1.
+  <div class="fragment"><pre>  
+      <span class="comment">% Create some time-series analysis object to inject</span>
+      aSignal = ao(plist(<span class="string">'tsfcn'</span>, <span class="string">'1e-6*sin(2*pi*0.01*t)'</span>, <span class="string">'fs'</span>, 10, <span class="string">'nsecs'</span>, 1000));       
+
+      <span class="comment">% Create the plist to configure simulate</span>      
+      sim_pl = plist(<span class="string">'AOS'</span>, aSignal, <span class="string">'AOS Variable Names'</span>, <span class="string">'GUIDANCE.ifo_x1'</span>, ... 
+                     <span class="string">'return outputs'</span>, {<span class="string">'DELAY_IFO.x1'</span>, <span class="string">'DELAY_IFO.x12'</span>})
+                     
+      <span class="comment">% Run the simulation</span>      
+      out = simulate(ltp, sim_pl);
+  </pre></div>
+  You can then plot the output signals by doing either of the following:
+  <div class="fragment"><pre>  
+      <span class="comment">% Create a plist to configure iplot to plot with subplots</span>
+      plot_pl = plist(<span class="string">'arrangement'</span>, <span class="string">'subplots'</span>);
+      
+      <span class="comment">% Use matrix/iplot to plot the internal objects</span>
+      iplot(out, plot_pl)
+      
+      <span class="comment">% First extract the internal AOs and then plot</span>
+      [o1, o12] = unpack(out);
+      iplot(o1, o12, plot_pl);
+  </pre></div>
+  You should then see a plot something like:
+  <div align="center">
+    <IMG  src="images/ltpda_training_2/Topic4/ltp_signal_inj_output_1.png"  align="center" border="0">
+  </div>
+</p>
+<h2>Command a force on TM1 of the LTP model</h2>
+<p>
+  This time we'll apply a modulated force on TM1. We'll ask the simulator
+  for the all IFO outputs and all IS output. These force inputs are called 'TESTSIGNAL' in the current
+  models. We'll create a sine-wave signal of 0.1nN at 10 mHz and apply it to TM1 along x:
+  <div class="fragment"><pre>  
+      <span class="comment">% Create some time-series analysis object to inject</span>
+      aSignal = ao(plist(<span class="string">'tsfcn'</span>, <span class="string">'1e-10*sin(2*pi*0.1*t)'</span>, <span class="string">'yunits'</span>, <span class="string">'N'</span>, <span class="string">'fs'</span>, 10, <span class="string">'nsecs'</span>, 1000));       
+      
+      <span class="comment">% Generate a list of outputs we want from the simulator</span>      
+      outputs = ltp.getPortNamesForBlocks(plist(<span class="string">'blocks'</span>, {<span class="string">'DELAY_IFO'</span>, <span class="string">'IS'</span>}, <span class="string">'type'</span>, <span class="string">'outputs'</span>));
+      
+      <span class="comment">% Create the plist to configure simulate</span>      
+      sim_pl = plist(<span class="string">'AOS'</span>, aSignal, <span class="string">'AOS Variable Names'</span>, <span class="string">'TESTSIGNAL.tm1_x'</span>, <span class="string">'return outputs'</span>, outputs)
+      
+      <span class="comment">% Run the simulation</span>      
+      out = simulate(ltp, sim_pl);
+  </pre></div>
+  <table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1">
+    <tr width="90%">
+      <td>
+        Note: although the input (and output) ports of the <tt>ssm</tt> models have assigned units, and your injected signals may have units, these are not currently checked to be consistent. This will likely change in a future release.
+      </td>
+    </tr>
+  </table>
+  <br>
+  You can then plot the output signals by doing the following:
+  <div class="fragment"><pre>  
+      <span class="comment">% Create a plist to configure iplot to plot with subplots</span>
+      plot_pl = plist(<span class="string">'arrangement'</span>, <span class="string">'subplots'</span>);
+      
+      <span class="comment">% First extract the internal AOs we want and then plot</span>
+      o1  = out.getObjectAtIndex(1);
+      o12 = out.getObjectAtIndex(4);
+      IS_tm1_x = out.getObjectAtIndex(7);
+      IS_tm2_x = out.getObjectAtIndex(13);
+      
+      <span class="comment">% Then plot the IFO and IS signals together</span>
+      iplot(o1, o12, plot_pl);
+      iplot(IS_tm1_x, IS_tm2_x, plot_pl);
+  </pre></div>
+  <br>
+  You should then see plots like:
+  <div align="center">
+    <IMG  src="images/ltpda_training_2/Topic4/ltp_signal_inj_output_2.png"  align="center" border="0">
+    <IMG  src="images/ltpda_training_2/Topic4/ltp_signal_inj_output_3.png"  align="center" border="0">
+  </div>
+</p>
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_2_topic_4_3.html"><img src="b_prev.gif" border="0" align="bottom" alt="How to inject signals"></a>&nbsp;</td>
+        <td align="left">How to inject signals</td>
+        <td>&nbsp;</td>
+        <td align="right">Inject noise signals to LTP</td>
+        <td align="right" width="20"><a href="ltpda_training_2_topic_4_5.html"><img src="b_next.gif" border="0" align="bottom" alt="Inject noise signals to LTP"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

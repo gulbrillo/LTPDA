@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Converting models to digital filters (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="convert_models.html"><img src="b_prev.gif" border="0" align="bottom" alt="Converting models between different representations"></a>&nbsp;&nbsp;&nbsp;<a href="preproc.html"><img src="b_next.gif" border="0" align="bottom" alt="Signal Pre-processing in LTPDA"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Converting models to digital filters</h1>
+    <hr>
+    
+    <p>
+      
+<p>
+  Transfer functions models can be converted to IIR/FIR filters using the bilinear transform. The result of 
+  the conversion is an <tt>miir/mfit</tt> object. To convert a model, you need simply to input your model 
+  into the <tt>miir/mfir</tt> constructor. In the current LTPDA version, only the following discretization from 
+  transfer function models are allowed:
+</p>
+
+<div align="center">
+  <img src="images/DigitalTable.png" alt="Pole/zero model TF" border="3">
+</div>
+
+<h2>From pzmodel</a></h2>
+
+To get an IIR filter from a given <tt>pzmodel</tt> we need to write down
+<div class="fragment"><pre>
+    >> filt = miir(pzmodel)
+</pre></div>
+<p>
+  If no sample rate is specified, then the conversion is done for a sample rate equal to 8 times the
+  highest pole or zero frequency. You can set the sample rate by specifying it in the parameter list:
+</p>	
+<div class="fragment"><pre>
+    >> filt = miir(pzmodel,plist(<span class="string">'fs'</span>, 1000))
+</pre></div>
+<p>
+  For more information of IIR filters in LTPDA, see <a href="sigproc_iir.html">IIR Filters</a>.
+</p>	
+
+<h2>From partial fraction</a></h2>
+
+Analogously, the same rules apply to a partial fraction model <tt>parfrac</tt> constructor
+
+<div class="fragment"><pre>
+    >> filt = miir(parfrac)
+</pre></div>
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="convert_models.html"><img src="b_prev.gif" border="0" align="bottom" alt="Converting models between different representations"></a>&nbsp;</td>
+        <td align="left">Converting models between different representations</td>
+        <td>&nbsp;</td>
+        <td align="right">Signal Pre-processing in LTPDA</td>
+        <td align="right" width="20"><a href="preproc.html"><img src="b_next.gif" border="0" align="bottom" alt="Signal Pre-processing in LTPDA"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

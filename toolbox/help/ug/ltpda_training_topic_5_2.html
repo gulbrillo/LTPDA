@@ -1,0 +1,246 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Generation of noise with given PSD (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_topic_5_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="System identification in z-domain"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_topic_5_3.html"><img src="b_next.gif" border="0" align="bottom" alt="Fitting time series with polynomials"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Generation of noise with given PSD</h1>
+    <hr>
+    
+    <p>
+      
+<p>
+  Generation of model noise is performed with the function <tt>ao/noisegen1D</tt>.
+  Details on the algorithm can be found in <a href="ng1D.html">noisegen1D help page</a>.
+</p>
+
+<h2> Generation of noise with given PSD</h2>
+
+<p>
+  During this exercise we will:
+  <ol>
+    <li> Load from file an fsdata object with the model (obtained with a fit to the the PSD of test data with zDomainFit)
+    <li> Genarate noise from this model
+    <li> Compare PSD of the generated noise with original PSD
+  </ol>
+</p>
+
+<p>
+  Let's open a new editor window and load the test data.
+</p>
+
+<div class="fragment"><pre>
+    tn = ao(plist(<span class="string">'filename'</span>, <span class="string">'topic5/T5_Ex03_TestNoise.xml'</span>));
+    tn.setName();
+</pre></div>
+
+<p>
+  This command will load an Analysis Object containing a test time series
+  10000 seconds long, sampled at 1 Hz. The command <tt>setName</tt> sets the name
+  of the AO to be the same as the variable name, in this case <tt>tn</tt>.
+</p>
+<p>
+  Now let's calculate the PSD of our data. We apply some averaging, in order to decrease the
+  fluctuations in the data.
+</p>
+
+<div class="fragment"><pre>
+    tnxx = tn.psd(plist(<span class="string">'Nfft'</span>, 2000));
+</pre></div>
+
+<p>
+  Additionally, we load a smooth model that represents well our data. It was obtained,
+  as described <a href="ltpda_training_topic_5_2.html#brbme84">here</a>,
+  by fitting the target PSD with z-domain fitting.
+  We load the data from disk, and plot them against the target PSD. Please note that
+  the colouring filters (whose response represents our model) have no units, so we force them to
+  be the same as the PSD we compare with:
+  <div class="fragment"><pre>
+    fmod = ao(plist(<span class="string">'filename'</span>, <span class="string">'topic5/T5_Ex03_ModelNoise.xml'</span>));
+    iplot(tnxx, fmod.setYunits(tnxx.yunits))
+</pre></div>
+</p>
+
+  <p>
+  The comparison beyween the target PSD and the model should look like:
+  <div align="center">
+    <IMG src="images/ltpda_training_1/topic5/ltpda_training_5_2_4.png" align="center" border="0">
+  </div>
+</p>
+
+  We can now start the noise generation process. The first step is to
+  generate a white time series Analysis Object, with the desired duration and units:
+</p>
+<div class="fragment"><pre>
+    a = ao(plist(<span class="string">'tsfcn'</span>, <span class="string">'randn(size(t))'</span>, <span class="string">'fs'</span>, 1, <span class="string">'nsecs'</span>, 10000, <span class="string">'yunits'</span>, <span class="string">'m'</span>));
+</pre></div>
+<p>
+  Then we run the noise coloring process calling <tt>noisegen1D</tt>
+</p>
+
+<div class="fragment"><pre>
+    plng = plist(...
+          <span class="string">'model'</span>, fmod, ...      <span class="comment">% model for colored noise psd</span>
+          <span class="string">'MaxIter'</span>, 50, ...      <span class="comment">% maximum number of fit iteration per model order</span>
+          <span class="string">'PoleType'</span>, 2, ...      <span class="comment">% generates complex poles distributed in the unitary circle</span>
+          <span class="string">'MinOrder'</span>, 20, ...     <span class="comment">% minimum model order</span>
+          <span class="string">'MaxOrder'</span>, 50, ...     <span class="comment">% maximum model order</span>
+          <span class="string">'Weights'</span>, 2, ...       <span class="comment">% weight with 1/abs(model)</span>
+          <span class="string">'Plot'</span>, false, ...      <span class="comment">% on to show the plot</span>
+          <span class="string">'Disp'</span>, false);         <span class="comment">% on to display fit progress on the command window</span>
+
+    ac = noisegen1D(a, plng);
+</pre></div>
+
+<p>
+  Let's check the result. We calculate the PSD of the generated noise and compare it
+  with the PSD of the target data.
+</p>
+
+<div class="fragment"><pre>
+    acxx = ac.psd(plist(<span class="string">'Nfft'</span>, 2000));
+    iplot(tnxx, acxx)
+</pre></div>
+
+<p>
+  As can be seen, the result is in quite satisfactory agreement with the original data
+  <div align="center">
+    <IMG src="images/ltpda_training_1/topic5/ltpda_training_5_2_3.png" align="center" border="0">
+  </div>
+</p>
+
+<a name="brbme84"></a><h3 class="title" id="brbme84">Appendix: evaluation of the model for the noise PSD</h3>
+<p>
+The smooth model for the data, that we used to reproduce the synthesized noise, was actually obtained
+by applying the procedure of z-domain fitting that we discussed in <a href="ltpda_training_topic_5_1.html">the previous section</a>.
+If you want to practise more with this fitting technique, we repost here the steps.
+</p>
+<p>
+  In order to extract a reliable model from PSD data we need to discard the first frequency bins;
+  we do that by means of the <tt>split</tt> method.
+</p>
+
+<div class="fragment"><pre>
+    tnxxr = split(tnxx, plist(<span class="string">'frequencies'</span>, [2e-3 +inf]));
+    iplot(tnxx, tnxxr)
+</pre></div>
+
+<p>
+  The result should look like:
+  <div align="center">
+    <IMG src="images/ltpda_training_1/topic5/ltpda_training_5_2_1.png"align="center" border="0">
+  </div>
+</p>
+<p>
+  Now it's the moment to fit our PSD to extract a smooth model to pass to the noise generator.
+
+  First of all we should define a set of proper weights for our fit process.
+  We smooth our PSD data and then define the weights as the inverse of the absolute value
+  of the smoothed PSD. This should help the fit function to do a good job with noisy data.
+  It is worth noting here that weights are not univocally defined and there could be better
+  ways to define them.
+</p>
+<div class="fragment"><pre>
+    stnxx = smoother(tnxxr);
+    iplot(tnxxr, stnxx)
+    wgh = 1./abs(stnxx);
+</pre></div>
+<p>
+  The result of the <tt>smoother</tt> method is shown in the plot below:
+</p>
+  <div align="center">
+    <IMG src="images/ltpda_training_1/topic5/ltpda_training_5_2_smoother.png" align="center" border="0">
+  </div>
+  <p>
+  Now let's run an automatic search for the proper model and pass the set
+  of externally defined weights. The first output of <tt>zDomainFit</tt> is a <tt>miir</tt> filter model;
+  the second output is the model response. Note that we are setting
+  <span class="string">'ResFlat'</span> parameter to define the exit condition.
+  <span class="string">'ResFlat'</span> check the spectral flatness of the
+  absolute value of the fit residuals.
+</p>
+<div class="fragment"><pre>
+    plfit = plist(<span class="string">'AutoSearch'</span>, <span class="string">'on'</span>, ...
+                  <span class="string">'StartPolesOpt'</span>,<span class="string">'clog'</span>, ...
+                  <span class="string">'maxiter'</span>, 50, ...
+                  <span class="string">'minorder'</span>, 30, ...
+                  <span class="string">'maxorder'</span>, 45, ...
+                  <span class="string">'weights'</span>, wgh ,... <span class="comment">% assign externally calculated weights</span>
+                  <span class="string">'condtype'</span>, <span class="string">'MSE'</span>, ...
+                  <span class="string">'msevartol'</span>, 0.1, ...
+                  <span class="string">'fittol'</span>, 0.01, ...
+                  <span class="string">'Plot'</span>, <span class="string">'on'</span>, ...
+                  <span class="string">'ForceStability'</span>, <span class="string">'off'</span>, ...
+                  <span class="string">'CheckProgress'</span>, <span class="string">'off'</span>);
+
+    <span class="comment">% Do the fit</span>
+    fit_results = zDomainFit(tnxxr, plfit);
+</pre></div>
+
+<p>
+  Fit result should look like:
+  <div align="center">
+    <IMG src="images/ltpda_training_1/topic5/ltpda_training_5_2_2.png" align="center" border="0">
+  </div>
+</p>
+
+<p>
+  The fit results consist in a <tt>filterbank</tt> object; we can evaluate the absolute values of
+  the response of these filters at the frequencies defined by the <tt>x</tt> field of the PSD we want to match.
+
+<div class="fragment"><pre>
+<span class="comment">% Evaluate the absolute value of the response of the colouring filter</span>
+b = resp(fit_results, plist(<span class="string">'f'</span>, tnxxr.x));
+b.abs;
+
+<span class="comment">% Save the model on disk</span>
+b.save(plist(<span class="string">'filename'</span>, <span class="string">'topic5/T5_Ex03_ModelNoise.xml'</span>));
+</pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_topic_5_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="System identification in z-domain"></a>&nbsp;</td>
+        <td align="left">System identification in z-domain</td>
+        <td>&nbsp;</td>
+        <td align="right">Fitting time series with polynomials</td>
+        <td align="right" width="20"><a href="ltpda_training_topic_5_3.html"><img src="b_next.gif" border="0" align="bottom" alt="Fitting time series with polynomials"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

@@ -1,0 +1,579 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!-- $Id$ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="../../ug/docstyle.css">
+    <title>LTPDA Method: ao/qqplot</title>
+  </head>
+  <body>
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <p style="font-size:1px;">&nbsp;</p>
+
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../../ug/../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ao_psdvfit.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ao/psdvfit"></a>&nbsp;&nbsp;&nbsp;<a href="ao_removeVal.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ao/removeVal"></a></td>
+      </tr>
+    </table>
+
+    <h1 class="title">Method ao/qqplot</h1>
+    <hr />
+
+<pre>  <SPAN CLASS="HELPTOPIC">QQPLOT</SPAN> makes quantile-quantile plot
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+  DESCRIPTION: Make quantile-quantile plot and calculate confidence
+  intervals on the basis of the Kolmogorov-Smirnov test.
+ 
+  CALL:         <span class="helptopic">qqplot</span>(a, pl)
+  
+  INPUT:        a: are real valued AO
+ 
+ 
+  <a href="matlab:utils.helper.displayMethodInfo('ao', 'kstest')">Parameters Description</a>
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</pre>
+
+    <!-- =====        Striped 4x2 table: Begin        ==== -->
+    <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+    <div class="sectiontitle"></div>
+    <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+      <colgroup>
+        <col width="30%"/>
+        <col width="70%"/>
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th class="categorylist">Method Details</th>
+          <th class="categorylist"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Access</td>
+          <td bgcolor="#f3f4f5">public</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Defining Class</td>
+          <td bgcolor="#ffffff">ao</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Sealed</td>
+          <td bgcolor="#f3f4f5">0</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Static</td>
+          <td bgcolor="#ffffff">0</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- ===== Striped 4x2 table: End ==== -->
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <h2>Parameter Description</h2>    <a name="down" id="down"></a>
+
+    <!-- Link-Table of the sets -->
+    <table border="0" cellpadding="4" cellspacing="0" class="pagenavtable">
+      <tr><th>Sets for this method &#8230;</th></tr>
+        <tr><td><a href="#1">empirical</a></td></tr>
+        <tr><td><a href="#2">normal</a></td></tr>
+        <tr><td><a href="#3">chi2</a></td></tr>
+        <tr><td><a href="#4">f</a></td></tr>
+        <tr><td><a href="#5">gamma</a></td></tr>
+    </table>
+
+    <a name="1"></a>
+    <!-- Parameter List Table: empirical -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>empirical</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">qqplot</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TESTDISTRIBUTION</td>
+            <td bgcolor="#F2F2F2">'EMPIRICAL'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'EMPIRICAL'</font></li><li><font color="#1111FF">'NORMAL'</font></li><li><font color="#1111FF">'CHI2'</font></li><li><font color="#1111FF">'F'</font></li><li><font color="#1111FF">'GAMMA'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">test data are compared with the giventest distribution. Available choices are:<ol><li>EMPIRICAL test the all the input object (starting from the second) against the first object.</li><li>NORMAL test all the input objects against the Normal distribution</li><li>CHI2 test all the input objects against the Chi square distribution</li><li>F test all the input objects against the F distribution</li><li>GAMMA test all the input objects against the Gamma distribution</li></ol></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CONFLEVEL</td>
+            <td bgcolor="#F2F2F2">0.94999999999999996</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Confidence level for confidence interval calculations.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SHAPEPARAM</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">In the case of comparison of a data series with atheoretical distribution and the data series is composed of correlatedelements. K can be adjusted with a shape parameter in order to recovertest fairness [3]. In such a case the test is performed for K* = Phi * K.Phi is the corresponding Shape parameter. The shape parameter depends onthe correlations and on the significance value. It does not depend ondata length.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FONTSIZE</td>
+            <td bgcolor="#F2F2F2">22</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Font size for axis</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LINEWIDTH</td>
+            <td bgcolor="#F2F2F2">2</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Line Width</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('TESTDISTRIBUTION', 'EMPIRICAL', 'CONFLEVEL', [0.94999999999999996], 'SHAPEPARAM', [1], 'FONTSIZE', [22], 'LINEWIDTH', [2])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="2"></a>
+    <!-- Parameter List Table: normal -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>normal</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">qqplot</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TESTDISTRIBUTION</td>
+            <td bgcolor="#F2F2F2">'EMPIRICAL'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'EMPIRICAL'</font></li><li><font color="#1111FF">'NORMAL'</font></li><li><font color="#1111FF">'CHI2'</font></li><li><font color="#1111FF">'F'</font></li><li><font color="#1111FF">'GAMMA'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">test data are compared with the giventest distribution. Available choices are:<ol><li>EMPIRICAL test the all the input object (starting from the second) against the first object.</li><li>NORMAL test all the input objects against the Normal distribution</li><li>CHI2 test all the input objects against the Chi square distribution</li><li>F test all the input objects against the F distribution</li><li>GAMMA test all the input objects against the Gamma distribution</li></ol></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CONFLEVEL</td>
+            <td bgcolor="#F2F2F2">0.94999999999999996</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Confidence level for confidence interval calculations.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SHAPEPARAM</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">In the case of comparison of a data series with atheoretical distribution and the data series is composed of correlatedelements. K can be adjusted with a shape parameter in order to recovertest fairness [3]. In such a case the test is performed for K* = Phi * K.Phi is the corresponding Shape parameter. The shape parameter depends onthe correlations and on the significance value. It does not depend ondata length.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FONTSIZE</td>
+            <td bgcolor="#F2F2F2">22</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Font size for axis</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LINEWIDTH</td>
+            <td bgcolor="#F2F2F2">2</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Line Width</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">MEAN</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The mean of the normal distribution</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">STD</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The standard deviation of the normal distribution</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('TESTDISTRIBUTION', 'EMPIRICAL', 'CONFLEVEL', [0.94999999999999996], 'SHAPEPARAM', [1], 'FONTSIZE', [22], 'LINEWIDTH', [2], 'MEAN', [0], 'STD', [1])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="3"></a>
+    <!-- Parameter List Table: chi2 -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>chi2</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">qqplot</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TESTDISTRIBUTION</td>
+            <td bgcolor="#F2F2F2">'EMPIRICAL'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'EMPIRICAL'</font></li><li><font color="#1111FF">'NORMAL'</font></li><li><font color="#1111FF">'CHI2'</font></li><li><font color="#1111FF">'F'</font></li><li><font color="#1111FF">'GAMMA'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">test data are compared with the giventest distribution. Available choices are:<ol><li>EMPIRICAL test the all the input object (starting from the second) against the first object.</li><li>NORMAL test all the input objects against the Normal distribution</li><li>CHI2 test all the input objects against the Chi square distribution</li><li>F test all the input objects against the F distribution</li><li>GAMMA test all the input objects against the Gamma distribution</li></ol></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CONFLEVEL</td>
+            <td bgcolor="#F2F2F2">0.94999999999999996</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Confidence level for confidence interval calculations.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SHAPEPARAM</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">In the case of comparison of a data series with atheoretical distribution and the data series is composed of correlatedelements. K can be adjusted with a shape parameter in order to recovertest fairness [3]. In such a case the test is performed for K* = Phi * K.Phi is the corresponding Shape parameter. The shape parameter depends onthe correlations and on the significance value. It does not depend ondata length.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FONTSIZE</td>
+            <td bgcolor="#F2F2F2">22</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Font size for axis</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LINEWIDTH</td>
+            <td bgcolor="#F2F2F2">2</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Line Width</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DOF</td>
+            <td bgcolor="#F2F2F2">2</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Degrees of freedom of the chi square distribution</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('TESTDISTRIBUTION', 'EMPIRICAL', 'CONFLEVEL', [0.94999999999999996], 'SHAPEPARAM', [1], 'FONTSIZE', [22], 'LINEWIDTH', [2], 'DOF', [2])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="4"></a>
+    <!-- Parameter List Table: f -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>f</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">qqplot</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TESTDISTRIBUTION</td>
+            <td bgcolor="#F2F2F2">'EMPIRICAL'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'EMPIRICAL'</font></li><li><font color="#1111FF">'NORMAL'</font></li><li><font color="#1111FF">'CHI2'</font></li><li><font color="#1111FF">'F'</font></li><li><font color="#1111FF">'GAMMA'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">test data are compared with the giventest distribution. Available choices are:<ol><li>EMPIRICAL test the all the input object (starting from the second) against the first object.</li><li>NORMAL test all the input objects against the Normal distribution</li><li>CHI2 test all the input objects against the Chi square distribution</li><li>F test all the input objects against the F distribution</li><li>GAMMA test all the input objects against the Gamma distribution</li></ol></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CONFLEVEL</td>
+            <td bgcolor="#F2F2F2">0.94999999999999996</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Confidence level for confidence interval calculations.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SHAPEPARAM</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">In the case of comparison of a data series with atheoretical distribution and the data series is composed of correlatedelements. K can be adjusted with a shape parameter in order to recovertest fairness [3]. In such a case the test is performed for K* = Phi * K.Phi is the corresponding Shape parameter. The shape parameter depends onthe correlations and on the significance value. It does not depend ondata length.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FONTSIZE</td>
+            <td bgcolor="#F2F2F2">22</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Font size for axis</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LINEWIDTH</td>
+            <td bgcolor="#F2F2F2">2</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Line Width</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DOF1</td>
+            <td bgcolor="#F2F2F2">2</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">First degree of freedom of the F distribution</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DOF2</td>
+            <td bgcolor="#F2F2F2">2</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Second degree of freedom of the F distribution</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('TESTDISTRIBUTION', 'EMPIRICAL', 'CONFLEVEL', [0.94999999999999996], 'SHAPEPARAM', [1], 'FONTSIZE', [22], 'LINEWIDTH', [2], 'DOF1', [2], 'DOF2', [2])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="5"></a>
+    <!-- Parameter List Table: gamma -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>gamma</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">qqplot</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TESTDISTRIBUTION</td>
+            <td bgcolor="#F2F2F2">'EMPIRICAL'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'EMPIRICAL'</font></li><li><font color="#1111FF">'NORMAL'</font></li><li><font color="#1111FF">'CHI2'</font></li><li><font color="#1111FF">'F'</font></li><li><font color="#1111FF">'GAMMA'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">test data are compared with the giventest distribution. Available choices are:<ol><li>EMPIRICAL test the all the input object (starting from the second) against the first object.</li><li>NORMAL test all the input objects against the Normal distribution</li><li>CHI2 test all the input objects against the Chi square distribution</li><li>F test all the input objects against the F distribution</li><li>GAMMA test all the input objects against the Gamma distribution</li></ol></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CONFLEVEL</td>
+            <td bgcolor="#F2F2F2">0.94999999999999996</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Confidence level for confidence interval calculations.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SHAPEPARAM</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">In the case of comparison of a data series with atheoretical distribution and the data series is composed of correlatedelements. K can be adjusted with a shape parameter in order to recovertest fairness [3]. In such a case the test is performed for K* = Phi * K.Phi is the corresponding Shape parameter. The shape parameter depends onthe correlations and on the significance value. It does not depend ondata length.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FONTSIZE</td>
+            <td bgcolor="#F2F2F2">22</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Font size for axis</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LINEWIDTH</td>
+            <td bgcolor="#F2F2F2">2</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Line Width</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SHAPE</td>
+            <td bgcolor="#F2F2F2">2</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Shape parameter (k) of the Gamma distribution</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SCALE</td>
+            <td bgcolor="#F2F2F2">2</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Scale parameter (theta) of the Gamma distribution</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('TESTDISTRIBUTION', 'EMPIRICAL', 'CONFLEVEL', [0.94999999999999996], 'SHAPEPARAM', [1], 'FONTSIZE', [22], 'LINEWIDTH', [2], 'SHAPE', [2], 'SCALE', [2])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <p><!-- Table of the minfo object -->
+      <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+        <colgroup>
+          <col width="25%"/>
+          <col width="75%"/>
+        </colgroup>
+        <thead>
+          <tr valign="top">
+            <th class="categorylist" colspan="2">Some information of the method ao/qqplot are listed below:</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Property: 'mclass' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Class name</td>
+            <td bgcolor="#f3f4f5">ao</td>
+          </tr>
+          <!-- Property: 'mname' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Method name</td>
+            <td bgcolor="#ffffff">qqplot</td>
+          </tr>
+          <!-- Property: 'mcategory' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Category</td>
+            <td bgcolor="#f3f4f5">Signal Processing</td>
+          </tr>
+          <!-- Property: 'mpackage' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Package name</td>
+            <td bgcolor="#ffffff">ltpda</td>
+          </tr>
+          <!-- Property: 'modifier' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Can be used as modifier</td>
+            <td bgcolor="#f3f4f5">1</td>
+          </tr>
+          <!-- Property: 'supportedNumTypes' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Supported numeric types</td>
+            <td bgcolor="#ffffff">{'double'}</td>
+          </tr>
+        </tbody>
+      </table>
+    </p>
+
+
+    <br>
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ao_psdvfit.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ao/psdvfit"></a>&nbsp;</td>
+        <td align="left">Method: ao/psdvfit</td>
+        <td>&nbsp;</td>
+        <td align="right">Method: ao/removeVal</td>
+        <td align="right" width="20"><a href="ao_removeVal.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ao/removeVal"></a></td>
+      </tr>
+    </table>
+
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+
+   </body>
+</html>

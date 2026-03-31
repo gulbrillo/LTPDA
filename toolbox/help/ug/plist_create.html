@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Creating lists of Parameters (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="plist_intro.html"><img src="b_prev.gif" border="0" align="bottom" alt="Parameter Lists"></a>&nbsp;&nbsp;&nbsp;<a href="sim_model.html"><img src="b_next.gif" border="0" align="bottom" alt="Simulation/modelling"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Creating lists of Parameters</h1>
+    <hr>
+    
+    <p>
+      <p>
+  Parameters can be grouped together into parameter lists (<tt>plist</tt>).
+</p>	
+
+<ul>
+  <li><a href="plist_create.html#direct">Creating parameter lists directly</a></li>
+  <li><a href="plist_create.html#append">Appending parameters to a parameter list</a></li>
+  <li><a href="plist_create.html#find">Finding parameters in a parameter list</a></li>
+  <li><a href="plist_create.html#remove">Removing parameters from a parameter list</a></li>
+  <li><a href="plist_create.html#set">Setting parameters in a parameter list</a></li>
+  <li><a href="plist_create.html#combine">Combining multiple parameter lists</a></li>
+</ul>
+
+
+<!-- From parameters -->
+<hr>
+<h3><a name="params"></a>Creating parameter lists from parameters.</h3>
+
+
+<!-- Direct -->
+<hr>
+<h3><a name="direct"></a>Creating parameter lists directly.</h3>
+<p> 
+You can also create parameter lists directly using the following constructor format:</p>
+<div class="fragment"><pre>
+  pl = plist(<span class="string">'a'</span>, 1, <span class="string">'b'</span>, <span class="string">'hello'</span>)
+</pre></div>
+will result in the following output
+<div class="fragment"><pre>
+----------- plist 01 -----------
+n params: 2
+---- param 1 ----
+key:   A
+val:   1
+-----------------
+---- param 2 ----
+key:   B
+val:   'hello'
+-----------------
+description: 
+--------------------------------
+</pre></div>
+
+<!-- Append -->
+<hr>
+<h3><a name="append"></a>Appending parameters to a parameter list.</h3>
+<p>
+Additional parameters can be appended to an existing parameter list using the <tt>append</tt> 
+method:</p>
+<div class="fragment"><pre>
+  pl  = append(pl, <span class="string">'c'</span>, 3)  <span class="comment">% append a third parameter</span>
+</pre></div>
+will result in the following output
+<div class="fragment"><pre>
+----------- plist 01 -----------
+n params: 3
+---- param 1 ----
+key:   A
+val:   1
+-----------------
+---- param 2 ----
+key:   B
+val:   'hello'
+-----------------
+---- param 3 ----
+key:   C
+val:   3
+-----------------
+description: 
+--------------------------------
+</pre></div>
+
+
+<!-- Access -->
+<hr>
+<h3><a name="find"></a>Finding parameters in a parameter list.</h3>
+<p>
+  Accessing the contents of a <tt>plist</tt> can be achieved in two ways:
+</p>
+<div class="fragment"><pre>
+  p1  = pl.params(1);   <span class="comment">% get the first parameter</span>
+  val = find(pl, <span class="string">'b'</span>);  <span class="comment">% get the value for the second parameter</span>
+</pre></div>
+<p>
+  If the parameter name ('key') is known, then you can use the <tt>find</tt> method to 
+  directly retrieve the value of that parameter.
+</p>
+
+<!-- Remove -->
+<hr>
+<h3><a name="remove"></a>Removing parameters from a parameter list.</h3>
+<p>
+  You can also remove parameters from a parameter list:
+  <div class="fragment"><pre>
+    pl = remove(pl, 2) <span class="comment">% Remove the 2nd parameter in the list</span>
+    pl = remove(pl, <span class="string">'a'</span>) <span class="comment">% Remove the parameter with the key 'a'</span>
+  </pre></div>
+</p>
+
+<!-- Set -->
+<hr>
+<h3><a name="set"></a>Setting parameters in a parameter list.</h3>
+<p>
+  You can also set parameters contained in a parameter list:
+  <div class="fragment"><pre>
+    pl1 = plist(<span class="string">'a'</span>, 1, <span class="string">'b'</span>, <span class="string">'hello'</span>);
+    pl2 = pset(pl, <span class="string">'a'</span>, 5, <span class="string">'b'</span>, <span class="string">'ola'</span>)  <span class="comment">% Change the values of the parameter with the keys 'a' and 'b'</span>
+  </pre></div>
+</p>
+
+
+<!-- Combine -->
+<hr>
+<h3><a name="combine"></a>Combining multiple parameter lists.</h3>
+
+<p>
+  Parameter lists can be combined:
+  <div class="fragment"><pre>
+    pl = combine(pl1, pl2)
+  </pre></div>
+  If <tt>pl1</tt> and <tt>pl2</tt> contain a parameter with the same key name, the output <tt>plist</tt> contains a parameter with that name but with the value from the first parameter list input.
+</p>
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="plist_intro.html"><img src="b_prev.gif" border="0" align="bottom" alt="Parameter Lists"></a>&nbsp;</td>
+        <td align="left">Parameter Lists</td>
+        <td>&nbsp;</td>
+        <td align="right">Simulation/modelling</td>
+        <td align="right" width="20"><a href="sim_model.html"><img src="b_next.gif" border="0" align="bottom" alt="Simulation/modelling"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

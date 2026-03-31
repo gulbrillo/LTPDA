@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>LPF model inputs (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_2_topic_4.html"><img src="b_prev.gif" border="0" align="bottom" alt="Topic 4 - Simulating LPF with injected signals."></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_2_topic_4_2.html"><img src="b_next.gif" border="0" align="bottom" alt="Building signals"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">LPF model inputs</h1>
+    <hr>
+    
+    <p>
+      <p>
+  The state-space model of LPF in LTPDA is extensive and has a total of 294 input ports
+  spread over 32 input blocks. The majority of these inputs are intended as noise inputs, but
+  some are inputs to the control loops of the system. 
+</p>
+<h2>Guidance inputs</h2>
+<p>
+  If you inspect the model
+  using <tt>viewDetails</tt> you will see an input block called <tt>GUIDANCE</tt> which has
+  21 input ports, one for each possible sensor input. These inputs act as set points for the 
+  different control loops. For example, injecting a 1nm, 1mHz sine-wave signal on <tt>GUIDANCE.ifo_x1</tt> whilst
+  in science mode 1 will cause the SC to oscillate around TM1 by 1nm (or very close to). This is because
+  at these frequencies the loop which controls the relative x postion of TM1 and the SC has very high gain.
+</p>
+<p>
+  The following figure shows schematically the guidance input for the LPF closed-loop system:
+  <br>
+  <br>
+    <IMG src="images/ltpda_training_2/Topic4/system_inputs.png"  align="center" border="0">
+  <br>
+  <br>
+  <table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1">
+    <tr width="90%">
+      <td>
+        Note: In the current version of the LPF models, the guidance signals are added before the sensor 
+        mapping matrix. For all practical purposes, this makes little difference, but this will be 
+        corrected in a future version.
+      </td>
+    </tr>
+  </table>
+</p>
+<h2>Actuation inputs</h2>
+<p>
+  The LTP (or LPF) model also has a set of inputs which we term 'Actuation' inputs. These are commanded
+  forces and torques per unit mass or inertia, and are added to those commands coming from DFACS before
+  the decoupling matrix is applied.
+</p>
+<p>
+  The figure above also shows the actuation inputs in relation to the other inputs discussed here.
+</p>
+
+<h2>Force/Torque inputs</h2>
+<p>
+  After the decoupling matrix, there is another input where we can inject forces and torques per
+  degree-of-freedom on the different actuators. These force/torque inputs are also shown on the figure above.
+</p>
+
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_2_topic_4.html"><img src="b_prev.gif" border="0" align="bottom" alt="Topic 4 - Simulating LPF with injected signals."></a>&nbsp;</td>
+        <td align="left">Topic 4 - Simulating LPF with injected signals.</td>
+        <td>&nbsp;</td>
+        <td align="right">Building signals</td>
+        <td align="right" width="20"><a href="ltpda_training_2_topic_4_2.html"><img src="b_next.gif" border="0" align="bottom" alt="Building signals"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

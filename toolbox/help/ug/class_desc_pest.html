@@ -1,0 +1,904 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>pest Class (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="class_desc_parfrac.html"><img src="b_prev.gif" border="0" align="bottom" alt="parfrac Class"></a>&nbsp;&nbsp;&nbsp;<a href="class_desc_plist.html"><img src="b_next.gif" border="0" align="bottom" alt="plist Class"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">pest Class</h1>
+    <hr>
+    
+    <p>
+      <!-- $Id$ -->
+
+  <!-- ================================================== -->
+  <!--                 BEGIN CONTENT FILE                 -->
+  <!-- ================================================== -->
+
+  <!-- =====           Link Table: Begin           ===== -->
+  <!-- ===== Created by docHelper.htmlAddLinkTable ===== -->
+  <p>
+    <table border="1"  width="80%">
+      <tr>
+        <td>
+          <table border="0" cellpadding="5" class="categorylist" width="100%">
+            <colgroup>
+              <col width="25%"/>
+              <col width="75%"/>
+            </colgroup>
+            <tbody>
+              <tr valign="top">
+                <td><a href="class_desc_pest.html#top_properties">Properties</a></td>
+                <td>Properties of the class</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_pest.html#top_methods">Methods</a></td>
+                <td>All Methods of the class ordered by category.</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="constructor_examples_pest.html">Examples</a></td>
+                <td>Some constructor examples</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </p>
+  <!-- ===== Link Table: End ====== -->
+
+  <!-- ===== Back to Class descriptions ===== -->
+  <a href="class_desc_main.html">
+    <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Class descriptions"/>
+    Back to Class descriptions
+  </a>
+
+  <h2 class="title"><a name="top_properties"/>Properties</h2>
+  <p>
+    The LTPDA toolbox restrict access of the properties.<br></br>
+    The get access is 'public' and thus it is possible to get the values with the dot-command (similar to structures).<br></br>
+    <pre class="programlisting">For example:<br></br>val = obj.prop(2).prop;</pre>
+    The set access is 'protected' and thus it is only possible to assign a value to a property with a set-method.
+    <pre class="programlisting">
+For example:
+obj2 = obj1.setName(<span class="string">'my name'</span>) <span class="comment">% This command creates a copy of obj1 (obj1 ~= obj2)</span>
+obj.setName(<span class="string">'my name'</span>);        <span class="comment">% This command applies to obj</span>    </pre>
+  </p>
+
+  <!-- =====        Striped 19x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Properties</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest.dy')">dy</a></td>
+        <td bgcolor="#f3f4f5">Standard errors of the parameters.</td>
+        <td bgcolor="#f3f4f5">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest.y')">y</a></td>
+        <td bgcolor="#ffffff">Best fit parameters</td>
+        <td bgcolor="#ffffff">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest.names')">names</a></td>
+        <td bgcolor="#f3f4f5">Names of the parameters, if any</td>
+        <td bgcolor="#f3f4f5">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest.yunits')">yunits</a></td>
+        <td bgcolor="#ffffff">The units of each parameter</td>
+        <td bgcolor="#ffffff">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest.pdf')">pdf</a></td>
+        <td bgcolor="#f3f4f5">Posterior probability distribution of the parameters</td>
+        <td bgcolor="#f3f4f5">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest.cov')">cov</a></td>
+        <td bgcolor="#ffffff">Covariance matrix of the parameters</td>
+        <td bgcolor="#ffffff">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest.corr')">corr</a></td>
+        <td bgcolor="#f3f4f5">Correlation matrix of the parameters</td>
+        <td bgcolor="#f3f4f5">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest.chi2')">chi2</a></td>
+        <td bgcolor="#ffffff">Reduced chi^2 of the final fit</td>
+        <td bgcolor="#ffffff">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest.dof')">dof</a></td>
+        <td bgcolor="#f3f4f5">Degrees of freedom</td>
+        <td bgcolor="#f3f4f5">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest.chain')">chain</a></td>
+        <td bgcolor="#ffffff">Monte carlo markov chain</td>
+        <td bgcolor="#ffffff">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest.models')">models</a></td>
+        <td bgcolor="#f3f4f5">Models that were fit</td>
+        <td bgcolor="#f3f4f5">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest.hist')">hist</a></td>
+        <td bgcolor="#ffffff">History of the object (history object)</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest.historyArray')">historyArray</a></td>
+        <td bgcolor="#f3f4f5">Array of history objects for saving</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest.procinfo')">procinfo</a></td>
+        <td bgcolor="#ffffff">Plist with additional information for an object.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest.plotinfo')">plotinfo</a></td>
+        <td bgcolor="#f3f4f5">Plotinfo object</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest.timespan')">timespan</a></td>
+        <td bgcolor="#ffffff">A timespan indicating the valid time-range of the object</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest.name')">name</a></td>
+        <td bgcolor="#f3f4f5">Name of the object</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest.description')">description</a></td>
+        <td bgcolor="#ffffff">Description of the object</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest.UUID')">UUID</a></td>
+        <td bgcolor="#f3f4f5">Universally Unique Identifier of 128-bit</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 19x3 table: End ==== -->
+
+  <!-- ===== Top of page ===== -->
+  <a href="#top_of_page">
+    <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top"/>
+    Back to Top
+  </a>
+
+  <h2 class="title"><a name="top_methods"/>Methods</h2>
+
+  <!-- =====           Link Table: Begin           ===== -->
+  <!-- ===== Created by docHelper.htmlAddLinkTable ===== -->
+  <p>
+    <table border="1"  width="80%">
+      <tr>
+        <td>
+          <table border="0" cellpadding="5" class="subcategorylist" width="100%">
+            <colgroup>
+              <col width="25%"/>
+              <col width="75%"/>
+            </colgroup>
+            <tbody>
+              <tr valign="top">
+                <td><a href="class_desc_pest.html#constructor">Constructor</a></td>
+                <td>Constructor of this class</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_pest.html#converter">Converter</a></td>
+                <td>Convertor methods</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_pest.html#helper">Helper</a></td>
+                <td>Helper methods only for internal usage</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_pest.html#internal">Internal</a></td>
+                <td>Internal methods only for internal usage</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_pest.html#operator">Operator</a></td>
+                <td>Operator methods</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_pest.html#output">Output</a></td>
+                <td>Output methods</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_pest.html#relational_operator">Relational Operator</a></td>
+                <td>Relational operator methods</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_pest.html#signal_processing">Signal Processing</a></td>
+                <td>Signal processing methods</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </p>
+  <!-- ===== Link Table: End ====== -->
+
+  <!-- ===== Top of page ===== -->
+  <a href="#top_of_page">
+    <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top"/>
+    Back to Top
+  </a>
+
+  <!-- ===== Methods Category: Constructor ===== -->
+  <h3 class="title"><a name="constructor"/>Constructor</h3>
+
+  <!-- =====        Striped 2x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/rebuild')">rebuild</a></td>
+        <td bgcolor="#f3f4f5">Rebuilds the input objects using the history.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest')">pest</a></td>
+        <td bgcolor="#ffffff">Constructor for parameter estimates (pest) class.</td>
+        <td bgcolor="#ffffff">pest</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 2x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Converter ===== -->
+  <h3 class="title"><a name="converter"/>Converter</h3>
+
+  <!-- =====        Striped 4x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/combine')">combine</a></td>
+        <td bgcolor="#f3f4f5">Combines multiple pest objects.</td>
+        <td bgcolor="#f3f4f5">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest/double')">double</a></td>
+        <td bgcolor="#ffffff">Overloads double() function for pest objects.</td>
+        <td bgcolor="#ffffff">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/getY')">getY</a></td>
+        <td bgcolor="#f3f4f5">Get the data property 'y'.</td>
+        <td bgcolor="#f3f4f5">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest/removeParameters')">removeParameters</a></td>
+        <td bgcolor="#ffffff">Removes the named parameters from the pests.</td>
+        <td bgcolor="#ffffff">pest</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 4x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Helper ===== -->
+  <h3 class="title"><a name="helper"/>Helper</h3>
+
+  <!-- =====        Striped 47x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/get')">get</a></td>
+        <td bgcolor="#f3f4f5">Get a property of a object.</td>
+        <td bgcolor="#f3f4f5">ltpda_obj</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest/search')">search</a></td>
+        <td bgcolor="#ffffff">Select objects that match the given name.</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/setDescription')">setDescription</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'description' property of a ltpda_uo object.</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest/setName')">setName</a></td>
+        <td bgcolor="#ffffff">Sets the property 'name' of an ltpda_uoh object.</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/created')">created</a></td>
+        <td bgcolor="#f3f4f5">Returns a time object of the last modification.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest/creator')">creator</a></td>
+        <td bgcolor="#ffffff">Extract the creator(s) from the history.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/csvexport')">csvexport</a></td>
+        <td bgcolor="#f3f4f5">Exports the data of an object to a csv file.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest/index')">index</a></td>
+        <td bgcolor="#ffffff">Index into a 'ltpda_uoh' object array or matrix. This properly captures the history.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/requirements')">requirements</a></td>
+        <td bgcolor="#f3f4f5">Returns a list of LTPDA extension requirements for a given object.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest/setPlotAxes')">setPlotAxes</a></td>
+        <td bgcolor="#ffffff">Sets the 'axes' property of a the object's plotinfo.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/setPlotColor')">setPlotColor</a></td>
+        <td bgcolor="#f3f4f5">Sets the color of a the object's plotinfo.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest/setPlotFigure')">setPlotFigure</a></td>
+        <td bgcolor="#ffffff">Sets the 'figure' property of a the object's plotinfo.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/setPlotFillmarker')">setPlotFillmarker</a></td>
+        <td bgcolor="#f3f4f5">Defines if the plot function fill the marker or not.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest/setPlotLineStyle')">setPlotLineStyle</a></td>
+        <td bgcolor="#ffffff">Sets the linestyle of a the object's plotinfo.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/setPlotLinewidth')">setPlotLinewidth</a></td>
+        <td bgcolor="#f3f4f5">Sets the linewidth of a the object's plotinfo.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest/setPlotMarker')">setPlotMarker</a></td>
+        <td bgcolor="#ffffff">Sets the marker of a the object's plotinfo.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/setPlotMarkerEdgeColor')">setPlotMarkerEdgeColor</a></td>
+        <td bgcolor="#f3f4f5">Sets the color of a the object's marker edge.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest/setPlotMarkerFaceColor')">setPlotMarkerFaceColor</a></td>
+        <td bgcolor="#ffffff">Sets the color of a the object's marker face.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/setPlotMarkersize')">setPlotMarkersize</a></td>
+        <td bgcolor="#f3f4f5">Sets the markersize of a the object's plotinfo.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest/setPlotinfo')">setPlotinfo</a></td>
+        <td bgcolor="#ffffff">Sets the 'plotinfo' property of a ltpda_uoh object.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/setPlottingStyle')">setPlottingStyle</a></td>
+        <td bgcolor="#f3f4f5">Sets the style property of a the object's plotinfo.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest/setProcinfo')">setProcinfo</a></td>
+        <td bgcolor="#ffffff">Sets the 'procinfo' property of a ltpda_uoh object.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/setShowsErrors')">setShowsErrors</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'showErrors' property of a the object's plotinfo.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest/setTimespan')">setTimespan</a></td>
+        <td bgcolor="#ffffff">Sets the 'timespan' property of a ltpda_uoh object.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/combineExps')">combineExps</a></td>
+        <td bgcolor="#f3f4f5">Combine the results of different parameter estimation</td>
+        <td bgcolor="#f3f4f5">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest/computePdf')">computePdf</a></td>
+        <td bgcolor="#ffffff">Computes Probability Density Function from a pest object</td>
+        <td bgcolor="#ffffff">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/find')">find</a></td>
+        <td bgcolor="#f3f4f5">Creates analysis objects from the selected parameter(s).</td>
+        <td bgcolor="#f3f4f5">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest/mcmcPlot')">mcmcPlot</a></td>
+        <td bgcolor="#ffffff">M - Tool to visualise results of a MCMC sampling.</td>
+        <td bgcolor="#ffffff">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/setChain')">setChain</a></td>
+        <td bgcolor="#f3f4f5">SETCHI2 Set the property 'chain'</td>
+        <td bgcolor="#f3f4f5">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest/setChi2')">setChi2</a></td>
+        <td bgcolor="#ffffff">Set the property 'chi2'</td>
+        <td bgcolor="#ffffff">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/setCorr')">setCorr</a></td>
+        <td bgcolor="#f3f4f5">Set the property 'corr'</td>
+        <td bgcolor="#f3f4f5">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest/setCov')">setCov</a></td>
+        <td bgcolor="#ffffff">Set the property 'cov'</td>
+        <td bgcolor="#ffffff">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/setDof')">setDof</a></td>
+        <td bgcolor="#f3f4f5">Set the property 'dof'</td>
+        <td bgcolor="#f3f4f5">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest/setDy')">setDy</a></td>
+        <td bgcolor="#ffffff">Set the property 'dy'</td>
+        <td bgcolor="#ffffff">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/setDyForParameter')">setDyForParameter</a></td>
+        <td bgcolor="#f3f4f5">Sets the according dy-error for the specified parameter.</td>
+        <td bgcolor="#f3f4f5">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest/setModels')">setModels</a></td>
+        <td bgcolor="#ffffff">Set the property 'models'</td>
+        <td bgcolor="#ffffff">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/setNames')">setNames</a></td>
+        <td bgcolor="#f3f4f5">Set the property 'names'</td>
+        <td bgcolor="#f3f4f5">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest/setPdf')">setPdf</a></td>
+        <td bgcolor="#ffffff">Set the property 'pdf'</td>
+        <td bgcolor="#ffffff">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/setXvals')">setXvals</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'xvals' property of the underlying smodel object.</td>
+        <td bgcolor="#f3f4f5">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest/setY')">setY</a></td>
+        <td bgcolor="#ffffff">Set the property 'y'</td>
+        <td bgcolor="#ffffff">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/setYforParameter')">setYforParameter</a></td>
+        <td bgcolor="#f3f4f5">Sets the according y-value for the specified parameter.</td>
+        <td bgcolor="#f3f4f5">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest/setYunits')">setYunits</a></td>
+        <td bgcolor="#ffffff">Set the property 'yunits'</td>
+        <td bgcolor="#ffffff">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/setYunitsForParameter')">setYunitsForParameter</a></td>
+        <td bgcolor="#f3f4f5">Sets the according y-unit for the specified parameter.</td>
+        <td bgcolor="#f3f4f5">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest/simplifyYunits')">simplifyYunits</a></td>
+        <td bgcolor="#ffffff">Simplifies the units of parameters in a pest</td>
+        <td bgcolor="#ffffff">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/subset')">subset</a></td>
+        <td bgcolor="#f3f4f5">Extract a subset of parameters from a pest.</td>
+        <td bgcolor="#f3f4f5">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest/tdChi2')">tdChi2</a></td>
+        <td bgcolor="#ffffff">Computes the chi-square for a parameter estimate.</td>
+        <td bgcolor="#ffffff">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/viewResults')">viewResults</a></td>
+        <td bgcolor="#f3f4f5">Displays the content of the pest object as an html report.</td>
+        <td bgcolor="#f3f4f5">pest</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 47x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Internal ===== -->
+  <h3 class="title"><a name="internal"/>Internal</h3>
+
+  <!-- =====        Striped 8x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/isprop')">isprop</a></td>
+        <td bgcolor="#f3f4f5">Tests if the given field is one of the object properties.</td>
+        <td bgcolor="#f3f4f5">ltpda_obj</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest/bsubmit')">bsubmit</a></td>
+        <td bgcolor="#ffffff">Submits the given collection of objects in binary form to an LTPDA repository</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/submit')">submit</a></td>
+        <td bgcolor="#f3f4f5">Submits the given collection of objects to an LTPDA repository</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest/update')">update</a></td>
+        <td bgcolor="#ffffff">Updates the given object in an LTPDA repository</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/string')">string</a></td>
+        <td bgcolor="#f3f4f5">Writes a command string that can be used to recreate the input object(s).</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest/type')">type</a></td>
+        <td bgcolor="#ffffff">Converts the input objects to MATLAB functions.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/generateConstructorPlist')">generateConstructorPlist</a></td>
+        <td bgcolor="#f3f4f5">Generates a PLIST from the properties which can rebuild the object.</td>
+        <td bgcolor="#f3f4f5">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest/plot')">plot</a></td>
+        <td bgcolor="#ffffff">The pest objects on the given axes.</td>
+        <td bgcolor="#ffffff">pest</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 8x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Operator ===== -->
+  <h3 class="title"><a name="operator"/>Operator</h3>
+
+  <!-- =====        Striped 1x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/mve')">mve</a></td>
+        <td bgcolor="#f3f4f5">Minimum Volume Ellipsoid estimator</td>
+        <td bgcolor="#f3f4f5">pest</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 1x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Output ===== -->
+  <h3 class="title"><a name="output"/>Output</h3>
+
+  <!-- =====        Striped 8x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/save')">save</a></td>
+        <td bgcolor="#f3f4f5">Overloads save operator for ltpda objects.</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest/report')">report</a></td>
+        <td bgcolor="#ffffff">Generates an HTML report about the input objects.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/viewHistory')">viewHistory</a></td>
+        <td bgcolor="#f3f4f5">Displays the history of an object as a dot-view or a MATLAB figure.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest/char')">char</a></td>
+        <td bgcolor="#ffffff">Convert a pest object into a string.</td>
+        <td bgcolor="#ffffff">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/disp')">disp</a></td>
+        <td bgcolor="#f3f4f5">Overloads display functionality for pest objects.</td>
+        <td bgcolor="#f3f4f5">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest/jtable')">jtable</a></td>
+        <td bgcolor="#ffffff">Display the parameters from PEST objects in a java table.</td>
+        <td bgcolor="#ffffff">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/table')">table</a></td>
+        <td bgcolor="#f3f4f5">Display the parameters from PEST objects in a java table.</td>
+        <td bgcolor="#f3f4f5">pest</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pest/toLaTeX')">toLaTeX</a></td>
+        <td bgcolor="#ffffff">Display the parameters from PEST objects in a LaTeX table.</td>
+        <td bgcolor="#ffffff">pest</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 8x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Relational_Operator ===== -->
+  <h3 class="title"><a name="relational_operator"/>Relational Operator</h3>
+
+  <!-- =====        Striped 1x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/isequal')">isequal</a></td>
+        <td bgcolor="#f3f4f5">Overloads the isequal operator for ltpda objects.</td>
+        <td bgcolor="#f3f4f5">ltpda_obj</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 1x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Signal_Processing ===== -->
+  <h3 class="title"><a name="signal_processing"/>Signal Processing</h3>
+
+  <!-- =====        Striped 1x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pest/eval')">eval</a></td>
+        <td bgcolor="#f3f4f5">Evaluate a pest object</td>
+        <td bgcolor="#f3f4f5">pest</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 1x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ================================================== -->
+  <!--                  END CONTENT FILE                  -->
+  <!-- ================================================== -->
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="class_desc_parfrac.html"><img src="b_prev.gif" border="0" align="bottom" alt="parfrac Class"></a>&nbsp;</td>
+        <td align="left">parfrac Class</td>
+        <td>&nbsp;</td>
+        <td align="right">plist Class</td>
+        <td align="right" width="20"><a href="class_desc_plist.html"><img src="b_next.gif" border="0" align="bottom" alt="plist Class"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

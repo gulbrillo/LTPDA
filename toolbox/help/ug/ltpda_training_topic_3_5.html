@@ -1,0 +1,217 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Empirical Transfer Function estimation (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_topic_3_2_3.html"><img src="b_prev.gif" border="0" align="bottom" alt="Example 3: Log-scale PSD on MDC1 data"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_topic_3_6.html"><img src="b_next.gif" border="0" align="bottom" alt="IFO/Temperature Example -  Spectral Analysis"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Empirical Transfer Function estimation</h1>
+    <hr>
+    
+    <p>
+      <p>
+Let's run this exercise on empirical estimation of Transfer
+Functions.</p>
+
+<p>The idea of the exercise is the following:
+<ol>
+<li>simulate some white noise <em>x(t)</em></li>
+<li>build a band-pass filter <em>F</em></li>
+<li>pass the input noise <em>x(t)</em> through the filter and add some more noise
+ <em>yn(t)</em> at the output so to have <em>y = F*x(t) + yn(t)</em></li>
+<li>evaluate and plot the transfer function <em>x -> y</em> </li>
+</ol>
+In a flow diagram, the representation is as follows:
+</p>
+<img src="images/ltpda_training_1/topic3/TFE_1_flowchart.png"
+alt="Dataflow for the 1St example of ao/tfe" width="600px" border="1">
+
+<p>The command-line sequence is the following:
+<div class="fragment"><pre>
+<span class="comment">%% General definitions</span>
+nsecs = 10000;
+fs = 1;
+<span class="comment">%% Input noise</span>
+x = ao(plist(<span class="string">'waveform'</span>, <span class="string">'noise'</span>, <span class="string">'sigma'</span>, 3, <span class="string">'fs'</span>, fs, <span class="string">'nsecs'</span>, nsecs, <span class="string">'yunits'</span>, <span class="string">'V'</span>))
+
+<span class="comment">%% Filter</span> 
+bp_filter = miir(plist(<span class="string">'type'</span>, <span class="string">'bandpass'</span>, <span class="string">'fc'</span>, [0.01 0.1], <span class="string">'fs'</span>, 1, <span class="string">'order'</span>, 3, <span class="string">'iunits'</span>, <span class="string">'V'</span>, <span class="string">'ounits'</span>, <span class="string">'A'</span>))
+xf = simplifyYunits(filter(x, bp_filter))
+
+<span class="comment">%% Output noise</span>
+yn = ao(plist(<span class="string">'waveform'</span>, <span class="string">'noise'</span>, <span class="string">'sigma'</span>, 1, <span class="string">'fs'</span>, fs, <span class="string">'nsecs'</span>, xf.nsecs, <span class="string">'yunits'</span>, <span class="string">'A'</span>))
+y = xf + yn
+
+<span class="comment">%% Plotting input and output noise</span>
+xx = psd(x, plist(<span class="string">'scale'</span>, ...
+                  <span class="string">'ASD'</span>, ...
+                  <span class="string">'nfft'</span>, 1000))
+yy = psd(y, plist(<span class="string">'scale'</span>, <span class="string">'ASD'</span>, ...
+                  <span class="string">'nfft'</span>, 1000))
+iplot(xx, yy, plist(<span class="string">'Arrangement'</span>, <span class="string">'subplots'</span>, <span class="string">'YRanges'</span>, {[1e-1 1e1], [1e-2 1e2]}));</pre></div>
+<img src="images/ltpda_training_1/topic3/TFE_in_out.png" alt="Ohmic admittance between y and x" border="1">
+<br>
+<p>Now we can proceed with the call to the <tt>ao/tfe</tt> method. The
+parameter list is very similar to the one employed for the other spectral
+estimators:</p>
+
+<table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="15%"/>
+      <col width="20%"/>
+      <col width="65%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Key</th>
+        <th class="categorylist">Value</th>
+        <th class="categorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Key 'NFFT' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>NFFT</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">1000</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>The number of samples defining the length of the window to apply</p>
+        </td>
+      </tr>
+       <!-- Key 'WIN' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>WIN</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">'BH92'</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Or a different one, if you want.</p>
+        </td>
+      </tr>
+       <!-- Key 'OLAP' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>OLAP</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">-1</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Overlap will be chosen based on the window properties</p>
+        </td>
+      </tr>
+      <!-- Key 'ORDER' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>ORDER</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">0</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Segment-wise detrending up to order 0</p>
+        </td>
+      </tr>      
+    </tbody>
+  </table>
+</p>
+<p>The command line is the following:</p>
+<div class="fragment"><pre>
+<span class="comment">%% Estimate the x->y transfer function</span>
+tfxy = tfe(x, y, plist(<span class="string">'nfft'</span>, 1000, <span class="string">'win'</span>, <span class="string">'BH92'</span>, <span class="string">'olap'</span>, -1, <span class="string">'order'</span>, 0));</pre></div>
+<p>We also would like to evaluate the expected transfer function x->y, which is obviously the filter transfer function, or response. This can be calculated by means of the
+  <table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1">
+    <tr width="90%">
+      <td>
+       <tt>miir/resp</tt>
+      </td>
+    </tr>
+  </table> method. A detailed description of digital filtering is available in the User Manual dedicated <a href="sigproc_dfilt.html" >section</a> and will be touched upon in <a href="ltpda_training_topic_4_4_2.html" >this</a> topic; here let's just use the simplest form, where the needed parameter is a list of the frequency to evaluate the response at:</p>
+ <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="15%"/>
+      <col width="35%"/>
+      <col width="50%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Key</th>
+        <th class="categorylist">Value</th>
+        <th class="categorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Key 'f' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>F</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">tfxy.x</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>a vector of frequency values or an <tt>ao</tt> whereby the x-axis is taken for the frequency values</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    So we can just pass the x field of the fsdata <tt>ao</tt> containing the transfer function estimate. However,
+    we can also just pass the AO itself. In which case, the <tt>resp</tt> function will take the X values from 
+    the AO.
+  </p>
+  <p>
+  The command line is the following:</p>
+  <div class="fragment"><pre>
+<span class="comment">%% Evaluate the expected x->y transfer function</span>
+rf = resp(bp_filter, plist(<span class="string">'f'</span>, tfxy))</pre></div>
+  
+  <p>Eventually let's look at the results:
+  <div class="fragment"><pre>
+<span class="comment">%% Plotting estimated and expected transfer functions</span>
+iplot(tfxy, rf, plist(<span class="string">'colors'</span>, {[1 0 0], [0 0 0]}, <span class="string">'YRanges'</span>, {[1e-2 1e2], [-200 200], [1e-2 1e2], [-200 200]}))</pre></div>
+  </p>
+<img src="images/ltpda_training_1/topic3/TFE_result_1.png" alt="TFE of x into y" border="1">
+<br>
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_topic_3_2_3.html"><img src="b_prev.gif" border="0" align="bottom" alt="Example 3: Log-scale PSD on MDC1 data"></a>&nbsp;</td>
+        <td align="left">Example 3: Log-scale PSD on MDC1 data</td>
+        <td>&nbsp;</td>
+        <td align="right">IFO/Temperature Example -  Spectral Analysis</td>
+        <td align="right" width="20"><a href="ltpda_training_topic_3_6.html"><img src="b_next.gif" border="0" align="bottom" alt="IFO/Temperature Example -  Spectral Analysis"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

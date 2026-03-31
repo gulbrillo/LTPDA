@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Rational representation (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="parfrac.html"><img src="b_prev.gif" border="0" align="bottom" alt="Sum of partial fractions representation"></a>&nbsp;&nbsp;&nbsp;<a href="convert_models.html"><img src="b_next.gif" border="0" align="bottom" alt="Converting models between different representations"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Rational representation</h1>
+    <hr>
+    
+    <p>
+      
+<p>
+  Transfer functions can be expressed as a quocient of polynomials as in the following expression
+</p>
+<br>
+<div align="center">
+  <img src="images/rational_tf_eqn.png" alt="Pole/zero model TF" border="3">
+</div>
+<br>
+<p>
+  The constructor can be used in different ways
+</p>
+<h2>From coefficients</a></h2>
+<p>
+  The standard way is to input the coefficients of your filter. The constructor
+  accepts as a optional properties the name
+</p>
+<br>
+<div class="fragment"><pre>
+    >> rat   = rational([1 3 5 7],[5 10 0.01],'filter_name')
+    ---- rational 1 ----
+    model:    filter_name
+    num:      [1 3 5 7]
+    den:      [5 10 0.01]
+    iunits:   []
+    ounits:   []
+    --------------------
+</pre></div>
+<br>
+<h2>From partial XML file</a></h2>
+You can input a XML file containing a transfer function model into the constructor
+<br>
+<div class="fragment"><pre>
+    >> rat   = rational('datafile.xml')
+</pre></div>
+<br>
+<h2>From mat file</a></h2>
+You can input a mat file containing a transfer function model into the constructor
+<br>
+<div class="fragment"><pre>
+    >> rat   = rational('datafile.mat')
+</pre></div>
+<br>
+<h2>From plist</a></h2>
+All the properties of the filter can be specified in a plist and then passed to the constructor:
+<br>
+<div class="fragment"><pre>
+    >> pl = plist('iunits','m','ounits','V','num',[1 3 10],'den',[4 6],...
+    'name','filter_mame');
+    >> par   = parfrac(pl)
+    ---- rational 1 ----
+    model:    filter_mame
+    num:      [1 3 10]
+    den:      [4 6]
+    iunits:   [m]
+    ounits:   [V]
+    --------------------
+</pre></div>
+<br>
+<h2>From repository</a></h2>
+Rational transfer function can be obtained from the <a href="repo.html"> repository </a> with the following syntax.
+<br>
+<div class="fragment"><pre>
+    >> rat   = rational('Hostname','localhost','Database','ltpda',...
+    'ID',[],'CID',[],'Binary',yes)
+</pre></div>
+<br>
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="parfrac.html"><img src="b_prev.gif" border="0" align="bottom" alt="Sum of partial fractions representation"></a>&nbsp;</td>
+        <td align="left">Sum of partial fractions representation</td>
+        <td>&nbsp;</td>
+        <td align="right">Converting models between different representations</td>
+        <td align="right" width="20"><a href="convert_models.html"><img src="b_next.gif" border="0" align="bottom" alt="Converting models between different representations"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

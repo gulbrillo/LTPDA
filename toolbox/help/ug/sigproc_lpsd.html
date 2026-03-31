@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Log-scale power spectral density estimates (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="sigproc_tfe.html"><img src="b_prev.gif" border="0" align="bottom" alt="Transfer function estimates"></a>&nbsp;&nbsp;&nbsp;<a href="sigproc_lcpsd.html"><img src="b_next.gif" border="0" align="bottom" alt="Log-scale cross-spectral density estimates"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Log-scale power spectral density estimates</h1>
+    <hr>
+    
+    <p>
+      <h2>Description</h2>
+<p>
+  The LTPDA method <a href="matlab:doc('ao/lpsd')">ao/lpsd</a> estimates the power spectral density of time-series
+  signals, included in the input <tt>ao</tt>s following the LPSD algorithm <a href="#references">[1]</a>. Spectral density estimates are not 
+  evaluated at frequencies which are linear multiples of the minimum frequency resolution <tt>1/T</tt>, where <tt>T</tt> 
+  is the window lenght, but on a logarithmic scale. The algorithm takes care of calculating the frequencies at which to evaluate
+  the spectral estimate, aiming at minimizing the uncertainty in the estimate itself, and to recalculate a suitable
+  window length for each frequency bin.
+  </p>
+  <p> 
+  Data are windowed prior to the estimation of the spectrum, by multiplying
+  it with a <a href="specwin.html">spectral window object</a>, and can be detrended by polinomial of time in order to reduce the impact
+  of the border discontinuities. Detrending is performed on each individual window.
+  The user can choose the quantity being given in output among ASD (amplitude spectral density),
+  PSD (power spectral density), AS (amplitude spectrum), and PS (power spectrum).
+  </p>
+  <br>
+  <h2>Syntax</h2>
+</p>
+<div class="fragment"><pre>
+    <br>    bs = lpsd(a1,a2,a3,...,pl)
+    bs = lpsd(as,pl)
+    bs = as.lpsd(pl)
+  </pre>
+</div>
+<p>
+  <tt>a1</tt> and <tt>a2</tt> are the 2 <tt>ao</tt>s containing the input time series to be evaluated, <tt>b</tt> is the output object and <tt>pl</tt> is an optional parameter list.
+ 
+  <h2>Parameters</h2>
+  <p>The parameter list <tt>pl</tt> includes the following parameters:</p> 
+  <ul>
+  <li> <tt>'Kdes'</tt> - desired number of averages   [default: 100]</li>
+  <li> <tt>'Jdes'</tt> - number of spectral frequencies to compute [default: 1000]</li>
+  <li> <tt>'Lmin'</tt> - minimum segment length [default: 0]</li>
+ <li> <tt>'Win'</tt> - the window to be applied to the data to remove the 
+    discontinuities at edges of segments. [default: taken from user prefs].<br>
+    The window is described by a string with its name and, only in the case of Kaiser window,
+  the additional parameter <tt>'psll'</tt>. <br>For instance: plist('Win', 'Kaiser', 'psll', 200).
+  </li>
+  <li> <tt>'Olap'</tt> - segment percent overlap [default: -1, (taken from window function)] </li>
+  <li> <tt>'Scale'</tt> - scaling of output. Choose from: <ul>
+      <li>  'ASD' - amplitude spectral density </li>
+      <li>  'PSD' - power spectral density [default] </li>
+      <li>  'AS'  - amplitude spectrum </li>
+  <li>  'PS'  - power spectrum </li> </ul> </li>
+  <li> <tt>'Order'</tt> - order of segment detrending <ul>
+      <li>      -1 - no detrending  </li>
+      <li>       0 - subtract mean [default] </li>
+      <li>       1 - subtract linear fit </li>
+  <li>       N - subtract fit of polynomial, order N  </li> </ul> </li>
+</ul>
+The length of the window is set by the value of the parameter <tt>'Nfft'</tt>, so that the window
+is actually rebuilt using only the key features of the window, i.e. the name and, for Kaiser windows, the PSLL.
+</p>
+
+<p>
+  <table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1">
+    <tr width="90%">
+      <td>
+        If the user doesn't specify the value of a given parameter, the default value is used.
+      </td>
+    </tr>
+  </table>
+</p>
+<h2>Algorithm</h2>
+<p>
+  The algorithm is implemented according to <a href="#references">[1]</a>. In order to 
+  compute the standard deviation of the mean for each frequency bin, the averaging of the different segments is performed using Welford's 
+  algorithm <a href="#references">[2]</a> which allows to compute mean and variance in one loop. <br>
+  In the LPSD algorithm, the first frequencies bins are usually computed using a single segment containing all the data. 
+  For these bins, the sample variance is set to <tt>Inf</tt>.
+</p>
+<h2>Examples</h2>
+<p>
+  1. Evaluation of the ASD of a time-series represented by a low frequency sinewave signal, superimposed to
+  white noise. Comparison of the effect of using standard Pwelch and LPSD on the estimate
+  of the white noise level and on resolving the signal.
+</p>
+<div class="fragment"><pre>
+    <br>    <span class="comment">% Create input AO</span> 
+    x1 = ao(plist(<span class="string">'waveform'</span>,<span class="string">'sine wave'</span>,<span class="string">'f'</span>,0.1,<span class="string">'A'</span>,1,<span class="string">'nsecs'</span>,1000,<span class="string">'fs'</span>,10,<span class="string">'yunits'</span>,<span class="string">'rad'</span>));
+    x2 = ao(plist(<span class="string">'waveform'</span>,<span class="string">'noise'</span>,<span class="string">'type'</span>,<span class="string">'normal'</span>,<span class="string">'nsecs'</span>,1000,<span class="string">'fs'</span>,10,<span class="string">'yunits'</span>,<span class="string">'rad'</span>));
+    x  = x1 + x2;
+    
+     <span class="comment">% Compute psd and lpsd </span> 
+    pl = plist(<span class="string">'scale'</span>,<span class="string">'ASD'</span>,<span class="string">'order'</span>,-1,<span class="string">'win'</span>,<span class="string">'Kaiser'</span>,<span class="string">'psll'</span>,200);
+    y1 = psd(x, pl);
+    y2 = lpsd(x, pl);
+    
+     <span class="comment">% Compare</span> 
+    iplot(y1, y2)
+  </pre>
+</div>
+
+<img src="images/l_psd_1.png"  border="3">
+
+
+<h2><a name="references">References</a></h2>
+
+<ol>
+  <li> M. Troebs, G. Heinzel, Improved spectrum estimation from digitized time series
+on a logarithmic frequency axis, <a href="http://dx.doi.org/10.1016/j.measurement.2005.10.010" ><i>Measurement</i>, Vol. 39 (2006), pp. 120 - 129</a>. See also the <a href="http://dx.doi.org/10.1016/j.measurement.2008.04.004" >Corrigendum</a>.</li> 
+<li> B. P. Weldford, Note on a Method for Calculating Corrected Sums of Squares and Products,
+  <i>Technometrics<i>, Vol. 4, No. 3 (1962), pp 419 - 420.</li>
+</ol>
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="sigproc_tfe.html"><img src="b_prev.gif" border="0" align="bottom" alt="Transfer function estimates"></a>&nbsp;</td>
+        <td align="left">Transfer function estimates</td>
+        <td>&nbsp;</td>
+        <td align="right">Log-scale cross-spectral density estimates</td>
+        <td align="right" width="20"><a href="sigproc_lcpsd.html"><img src="b_next.gif" border="0" align="bottom" alt="Log-scale cross-spectral density estimates"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

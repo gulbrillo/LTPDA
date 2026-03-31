@@ -1,0 +1,22 @@
+<productinfo
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="http://www.mathworks.com/namespace/info/v1/info.xsd">
+<?xml-stylesheet type="text/xsl" href="http://www.mathworks.com/namespace/info/v1/info.xsl"?>
+
+  <matlabrelease>8.4 (R2014b)</matlabrelease>
+  <name>LTPDA</name>
+  <type>toolbox</type>
+  <icon>help/ug/images/LisaPFicon.gif</icon>
+  <help_location>help</help_location>
+
+  <list>
+
+    <listitem>
+      <label>LTPDA Web Site</label>
+      <callback>web http://www.lisa.uni-hannover.de/ltpda/ -browser;</callback>
+      <icon>$toolbox/matlab/icons/webicon.gif</icon>
+    </listitem>
+
+  </list>
+
+</productinfo>

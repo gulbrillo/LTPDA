@@ -1,0 +1,569 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>IFO/Temperature Example - Simulation (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_topic_4_4_2.html"><img src="b_prev.gif" border="0" align="bottom" alt="By defining filter properties"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_topic_5.html"><img src="b_next.gif" border="0" align="bottom" alt="Topic 5 - Model fitting"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">IFO/Temperature Example - Simulation</h1>
+    <hr>
+    
+    <p>
+      <p>
+  We now come back to the IFO/Temperature working example. Our interest here is not
+  to add more tools to the data analysis chain that you've been developing but
+  to create a simple toy model that allows you to reproduce the steps done up
+  to now but with synthetic data.
+</p>
+<p>
+  The problem is shown schematically in the figure below. We will generate temperature and interferometer
+  noisy data by applying a filter (<b>TMP</b> and <b>IFO</b>) to white noise data
+  (<b>WN1</b> and <b>WN2</b>). We will then add a temperature coupling (<b>K2RAD</b>) to the
+  interferometer and from the measured interferometer and temperature data we will then estimate
+  the temperature to interferometer coupling.
+</p>
+
+<p  align="center">
+  <img src="images/ltpda_training_1/topic4/IFO2TSimulation.png" alt="temperature substraction scheme" border="1" >
+</p>
+<p>
+  Since we've been through the same steps that you need to apply here in the previous
+  section we will give here the step by step description of the task and let you
+  play with the models.
+</p>
+<br>
+<br>
+<h2> Build the models<h2>
+<p>
+  We need three models: one to generate temperature-like data, another modelling the
+  interferometer and a third one acting as the K-to-rad transfer function.
+</p>
+
+<h3> STEP 1: Build a temperature noise PZMODEL with the following properties<h4>
+<table cellspacing="0" class="body" cellpadding="2" border="0" width="50%">
+  <colgroup>
+    <col width="15%"/>
+    <col width="35%"/>
+  </colgroup>
+  <thead>
+    <tr valign="top">
+      <th class="categorylist">Key</th>
+      <th class="categorylist">Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Key 'filename' -->
+    <tr valign="top">
+      <td bgcolor="#f3f4f5">
+        <p><tt><span class="string">'name'</span></tt></p>
+      </td>
+      <td bgcolor="#f3f4f5">
+        <span class="string">'TMP'</span>
+      </td>
+    </tr>
+    <!-- Key 'filename' -->
+    <tr valign="top">
+      <td bgcolor="#f3f4f5">
+        <p><tt><span class="string">'ounits'</span></tt></p>
+      </td>
+      <td bgcolor="#f3f4f5">
+        <span class="string">'K'</span>
+      </td>
+    </tr>
+    <!-- Key 'filename' -->
+    <tr valign="top">
+      <td bgcolor="#f3f4f5">
+        <p><tt>GAIN</tt></p>
+      </td>
+      <td bgcolor="#f3f4f5">
+        10
+      </td>
+    </tr>
+    <!-- Key 'filename' -->
+    <tr valign="top">
+    <td bgcolor="#f3f4f5">
+      <p><tt>POLE 1</tt></p>
+    </td>
+    <td bgcolor="#f3f4f5">
+      1e-5
+    </td>
+  </tbody>
+</table>
+<p>
+  For example, this few lines would do the job
+</p>
+<div class="fragment"><pre>
+    TMP_mod = pzmodel(10, 1e-5, []);
+    TMP_mod.setOunits(<span class="string">'K'</span>)
+    TMP_mod.setName(<span class="string">'TMP'</span>)
+</pre></div>
+
+<h3> STEP 2: Build a interferometer noise PZMODEL with the following properties<h4>
+<table cellspacing="0" class="body" cellpadding="2" border="0" width="50%">
+  <colgroup>
+    <col width="15%"/>
+    <col width="35%"/>
+  </colgroup>
+  <thead>
+    <tr valign="top">
+      <th class="categorylist">Key</th>
+      <th class="categorylist">Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Key 'filename' -->
+    <tr valign="top">
+      <td bgcolor="#f3f4f5">
+        <p><tt><span class="string">'name'</span></tt></p>
+      </td>
+      <td bgcolor="#f3f4f5">
+        <span class="string">'IFO'</span>
+      </td>
+    </tr>
+    <!-- Key 'filename' -->
+    <tr valign="top">
+      <td bgcolor="#f3f4f5">
+        <p><tt><span class="string">'ounits'</span></tt></p>
+      </td>
+      <td bgcolor="#f3f4f5">
+        <span class="string">'rad'</span>
+      </td>
+    </tr>
+    <!-- Key 'filename' -->
+    <tr valign="top">
+      <td bgcolor="#f3f4f5">
+        <p><tt>GAIN</tt></p>
+      </td>
+      <td bgcolor="#f3f4f5">
+        1e-3
+      </td>
+    </tr>
+    <!-- Key 'filename' -->
+    <tr valign="top">
+      <td bgcolor="#f3f4f5">
+        <p><tt>POLE 1</tt></p>
+      </td>
+      <td bgcolor="#f3f4f5">
+        0.4
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h3> STEP 3: Build temperature to interferometer coupling PZMODEL with the following properties<h4>
+<table cellspacing="0" class="body" cellpadding="2" border="0" width="50%">
+  <colgroup>
+    <col width="15%"/>
+    <col width="35%"/>
+  </colgroup>
+  <thead>
+    <tr valign="top">
+      <th class="categorylist">Key</th>
+      <th class="categorylist">Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Key 'filename' -->
+    <tr valign="top">
+      <td bgcolor="#f3f4f5">
+        <p><tt><span class="string">'name'</span></tt></p>
+      </td>
+      <td bgcolor="#f3f4f5">
+        <span class="string">'K2RAD'</span>
+      </td>
+    </tr>
+    <!-- Key 'filename' -->
+    <tr valign="top">
+      <td bgcolor="#f3f4f5">
+        <p><tt><span class="string">'iunits'</span></tt></p>
+      </td>
+      <td bgcolor="#f3f4f5">
+        <span class="string">'K'</span>
+      </td>
+    </tr>
+    <!-- Key 'filename' -->
+    <tr valign="top">
+      <td bgcolor="#f3f4f5">
+        <p><tt><span class="string">'ounits'</span></tt></p>
+      </td>
+      <td bgcolor="#f3f4f5">
+        <span class="string">'rad'</span>
+      </td>
+    </tr>
+    <!-- Key 'filename' -->
+    <tr valign="top">
+      <td bgcolor="#f3f4f5">
+        <p><tt>GAIN</tt></p>
+      </td>
+      <td bgcolor="#f3f4f5">
+        1e-1
+      </td>
+    </tr>
+    <!-- Key 'filename' -->
+    <tr valign="top">
+      <td bgcolor="#f3f4f5">
+        <p><tt>POLE 1</tt></p>
+      </td>
+      <td bgcolor="#f3f4f5">
+        5e-4
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p>
+  You can take a look at your models. Since we are interested in the projection of temperature
+  into interferometric data, we can plot the response of TMP*K2RAD against the IFO
+</p>
+<div class="fragment"><pre>
+    pl = plist(<span class="string">'f1'</span>, 1e-5, <span class="string">'f2'</span>, 0.01);
+    resp(K2RAD_mod * TMP_mod, IFO_mod, pl)
+</pre></div>
+<p>
+  <img src="images/ltpda_training_1/topic4/Ifo2TempEx_T4_1.png" alt="interferometer data" border="1" >
+</p>
+<br>
+<br>
+<h2>Discretize the models<h2>
+<p>
+  Now discretize the models at fs = 1Hz using the <tt>miir</tt> constructor.
+  After that you will obtain three digital filters.
+</p>
+
+<h3> STEP 4: Discretize the three transfer functions (<b>TMP_mod</b>, <b>IFO_mod</b>, <b>K2RAD_mod</b>) with the
+<tt>miir</tt> constructor<h3>
+<p>
+  For example, the model related to temperature noise would be discretized like this:
+</p>
+<div class="fragment"><pre>
+    TMPd = miir(TMP_mod, plist(<span class="string">'fs'</span>, 1));
+</pre></div>
+<br>
+<br>
+<h2> Generate white noise data<h2>
+<p>
+  We will need two initial white noise time series, <b>WN1</b> and <b>WN2</b>, that we will use as a seed
+  to apply our filters and get noise shaped time series.
+</p>
+
+<h3> STEP 5: Generate white noise with the AO constructor<h3>
+<p>
+  You will need the ao constructor for that. You could for instance use the following settings
+</p>
+<table cellspacing="0" class="body" cellpadding="2" border="0" width="50%">
+  <colgroup>
+    <col width="15%"/>
+    <col width="35%"/>
+  </colgroup>
+  <thead>
+    <tr valign="top">
+      <th class="categorylist">Key</th>
+      <th class="categorylist">Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Key 'filename' -->
+    <tr valign="top">
+      <td bgcolor="#f3f4f5">
+        <p><tt><span class="string">'name'</span></tt></p>
+      </td>
+      <td bgcolor="#f3f4f5">
+        <span class="string">'WN1'</span>
+      </td>
+    </tr>
+    <!-- Key 'filename' -->
+    <tr valign="top">
+      <td bgcolor="#f3f4f5">
+        <p><tt><span class="string">'tsfcn'</span></tt></p>
+      </td>
+      <td bgcolor="#f3f4f5">
+        <span class="string">'randn(size(t))'</span>
+      </td>
+    </tr>
+    <!-- Key 'filename' -->
+    <tr valign="top">
+      <td bgcolor="#f3f4f5">
+        <p><tt><span class="string">'fs'</span></tt></p>
+      </td>
+      <td bgcolor="#f3f4f5">
+        1
+      </td>
+    </tr>
+    <!-- Key 'filename' -->
+    <tr valign="top">
+      <td bgcolor="#f3f4f5">
+        <p><tt><span class="string">'nsecs'</span></tt></p>
+      </td>
+      <td bgcolor="#f3f4f5">
+        250000
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table cellspacing="0" class="body" cellpadding="2" border="0" width="50%">
+  <colgroup>
+    <col width="15%"/>
+    <col width="35%"/>
+  </colgroup>
+  <thead>
+    <tr valign="top">
+      <th class="categorylist">Key</th>
+      <th class="categorylist">Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Key 'filename' -->
+    <tr valign="top">
+      <td bgcolor="#f3f4f5">
+        <p><tt><span class="string">'name'</span></tt></p>
+      </td>
+      <td bgcolor="#f3f4f5">
+        <span class="string">'WN2'</span>
+      </td>
+    </tr>
+    <!-- Key 'filename' -->
+    <tr valign="top">
+      <td bgcolor="#f3f4f5">
+        <p><tt><span class="string">'tsfcn'</span></tt></p>
+      </td>
+      <td bgcolor="#f3f4f5">
+        <span class="string">'randn(size(t))'</span>
+      </td>
+    </tr>
+    <!-- Key 'filename' -->
+    <tr valign="top">
+      <td bgcolor="#f3f4f5">
+        <p><tt><span class="string">'fs'</span></tt></p>
+      </td>
+      <td bgcolor="#f3f4f5">
+        1
+      </td>
+    </tr>
+    <!-- Key 'filename' -->
+    <tr valign="top">
+      <td bgcolor="#f3f4f5">
+        <p><tt><span class="string">'nsecs'</span></tt></p>
+      </td>
+      <td bgcolor="#f3f4f5">
+        250000
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<br>
+<h2>Generate the noise data streams<h2>
+<p>
+  For each noise source you will need to apply the filter that you have designed to
+  the white noise data:
+</p>
+
+<h3> STEP 6: Filter white noise WN1 with the TMPd filter </h3>
+<p>
+  For example, following our notation:
+</p>
+<div class="fragment"><pre>
+    T = filter(WN1, TMPd);
+</pre></div>
+
+<h3> STEP 7: Filter white noise WN2 with the IFOd filter</h3>
+<p>
+  Temperature and interferometric noise are uncorrelated, so we need to use here the
+  second noise time series <b>WN2</b>.
+</p>
+<p>
+  For example, following our notation:
+</p>
+<div class="fragment"><pre>
+    IFO = filter(WN2, IFOd);
+</pre></div>
+
+<h3> STEP 8: Filter white noise WN1 with the TMPd and the K2RADd filter</h3>
+<p>
+  In this case you need to apply both filters in serial, you can do this in one command
+  by using the 'bank' property of the <tt>filter</tt> method.
+</p>
+<p>
+  <table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1">
+    <tr width="90%">
+      <td>
+        Hint: you can input a vector of filters into the <tt>filter</tt> method and
+        ask it to filter the data in 'parallel' or in 'serial' (the one we are interested
+        here) by doing the following
+        <div class="fragment"><pre>
+            K2RAD = filter(<b>WN1</b>, [<b>TMPd</b> <b>K2RADd</b>], plist(<span class="string">'bank'</span>, <span class="string">'serial'</span>));
+        </pre></div>
+
+      </td>
+    </tr>
+  </table>
+</p>
+
+<h3> STEP 9: Add the IFO noise to the K2RAD noise</h3>
+<p>
+  At this point the IFO represents the purely interferometric noise and the K2RAD the
+  contribution to interferometric noise coming from temperature. You need to add both to
+  get the final interferometric data. This only requires to add both AOs.
+</p>
+<br>
+<br>
+<h2>Perform the noise projection<h3>
+<p>
+  Here we will reproduce the main steps performed in topic 3 analysis: power spectral and
+  transfer function estimation.
+</p>
+
+<h3> STEP 10: Split the data streams  </h3>
+<p>
+  We will do the analysis with data in the region going from 1e5 to 2e5 seconds to avoid
+  initial transients. You must then split your two data streams introducing the following
+  parameters in the <tt>split</tt> method.
+</p>
+
+<table cellspacing="0" class="body" cellpadding="2" border="0" width="50%">
+  <colgroup>
+    <col width="15%"/>
+    <col width="35%"/>
+  </colgroup>
+  <thead>
+    <tr valign="top">
+      <th class="categorylist">Key</th>
+      <th class="categorylist">Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Key 'filename' -->
+    <tr valign="top">
+      <td bgcolor="#f3f4f5">
+        <p><tt><span class="string">'times'</span></tt></p>
+      </td>
+      <td bgcolor="#f3f4f5">
+        [1e5 2e5]
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>
+After the splitting you must have two data streams that plot together should look like the
+ones below. The code should be similar to one in the following lines:
+
+<div class="fragment"><pre>
+    Ts = split(T, plist(<span class="string">'times'</span>, [1e5 2e5]));
+    Ts.setName(<span class="string">'Temperature'</span>);
+    IFOs = split(IFO_all, plist(<span class="string">'times'</span>, [1e5 2e5]));
+    IFOs.setName(<span class="string">'Interferometer'</span>);
+    <span class="comment">% Plot in different panels with 'subplots' options</span>
+    iplot(Ts, IFOs, plist(<span class="string">'arrangement'</span>, <span class="string">'subplots'</span>))
+</pre></div>
+
+<p>
+  <img src="images/ltpda_training_1/topic4/Ifo2TempEx_T4_3.png" alt="inteferometer data" border="1" >
+</p>
+
+<h3> STEP 11: Compute power spectral estimates for the temperature and interferometric data </h3>
+<p>
+  Here you need to apply <tt>lpsd</tt> or <tt>psd</tt> methods. For example:
+</p>
+<div class="fragment"><pre>
+    pl_psd = plist(<span class="string">'order'</span>, 1, <span class="string">'scale'</span>, <span class="string">'ASD'</span>);
+    [psd_T, psd_IFO] = lpsd(Ts, IFOs, pl_psd);
+    iplot(psd_T, psd_IFO, plist(<span class="string">'arrangement'</span>, <span class="string">'subplots'</span>))
+</pre></div>
+<p>
+  The resulting spectrum should look like this
+</p>
+<p>
+  <img src="images/ltpda_training_1/topic4/Ifo2TempEx_T4_4.png" alt="inteferometer data" border="1" >
+</p>
+
+<h3> STEP 12: Compute transfer function estimate for the temperature and interferometric data </h3>
+<p>
+  Here you need to apply <tt>ltfe</tt> or <tt>tfe</tt> methods. For example:
+</p>
+<div class="fragment"><pre>
+    T2IFO = ltfe(Ts, IFOs);
+    T2IFO.setName(<span class="string">'Transfer function'</span>)
+</pre></div>
+<p>
+  You can now compare the transfer function model with the estimation obtained from the data:
+</p>
+<div class="fragment"><pre>
+    pl_resp = plist(<span class="string">'f1'</span>, 1e-5, <span class="string">'f2'</span>, 1);
+    iplot(T2IFO, resp(K2RADd, pl_resp))
+</pre></div>
+<p>
+  <img src="images/ltpda_training_1/topic4/Ifo2TempEx_T4_5.png" alt="inteferometer data" border="1" >
+</p>
+
+<h3> STEP 13: Project the temperature noise </h3>
+<p>
+  Reproducing the analysis performed in topic 3 you will be able to project the temperature noise contribution
+  into interferometric noise. The result obtained should be the one in the figure below and the code you will need
+  for that should be similar to this:
+</p>
+
+<div class="fragment"><pre>
+    <span class="comment">% Compute projection</span>
+    Projection = abs(T2IFO) .* psd_T;
+    Projection.simplifyYunits;
+    Projection.setName();
+    <span class="comment">% Plot against interferometer noise</span>
+    iplot(psd_IFO, Projection)
+</pre></div>
+
+<p>
+  <img src="images/ltpda_training_1/topic4/Ifo2TempEx_T4_6.png" alt="inteferometer data" border="1" >
+</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_topic_4_4_2.html"><img src="b_prev.gif" border="0" align="bottom" alt="By defining filter properties"></a>&nbsp;</td>
+        <td align="left">By defining filter properties</td>
+        <td>&nbsp;</td>
+        <td align="right">Topic 5 - Model fitting</td>
+        <td align="right" width="20"><a href="ltpda_training_topic_5.html"><img src="b_next.gif" border="0" align="bottom" alt="Topic 5 - Model fitting"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

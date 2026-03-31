@@ -1,0 +1,322 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Making AOs (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_topic_1_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="Introducing Analysis Objects"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_topic_1_3.html"><img src="b_next.gif" border="0" align="bottom" alt="Making a time-series AO"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Making AOs</h1>
+    <hr>
+    
+    <p>
+      
+<h2>Exercise 1 - Your first Analysis Object</h2>
+
+<p>
+  AOs can be constructed in many different ways. Each of the different ways is
+  called a constructor. For example, there is a constructor to make an AO from
+  a set of numeric values, there is also a constructor to make an AO from a data file.
+  Each time you construct an AO, you make an instance of the class, <tt>ao</tt>. The variable
+  you have in MATLAB is then just a reference to the object you constructed.
+</p>
+<p>
+  This may all sound confusing to start with, but will become clearer as we go
+  through the examples below.
+</p>
+<p>
+  Let's make an AO. On the MATLAB terminal, type the following: <tt>a = ao</tt> and hit return.
+  You should see an output like the following:
+</p>
+<div class="fragment"><pre>
+>> a = ao()
+M:         running ao/ao
+M:         running ao/display
+----------- ao 01: a -----------
+
+       name: ''
+       data: None
+       hist: ao / ao / b078ca046a8f6c078b4bc5895a6ed5492ec3b7bd
+description: 
+       UUID: eeed5558-00bc-4c44-beb4-f17c2835f780
+--------------------------------
+</pre></div>
+<p>
+Note that the number of lines beginning with the "M:" syntax may vary depending on the level of "verbosity"
+  that can be set via the <a href="setup.html#prefs_display">LTPDA Preferences</a>
+  You have just made your first AO. It's not a very exciting AO since it
+  contains no data, but it is an AO nontheless. So now let's make an AO
+  with some data in it. Type the following in to the MATLAB terminal:
+  <tt>a = ao(1)</tt> and hit return. You should see
+</p>
+  <div class="fragment"><pre>
+>> a = ao(1)
+----------- ao 01: a -----------
+ 
+       name: ''
+       data: 1
+             -------- cdata [vals] ------------
+                  y:  [1x1], double
+                 dy:  [0x0], double
+             yunits:  
+             ----------------------------------
+              
+       hist: ao / ao / b078ca046a8f6c078b4bc5895a6ed5492ec3b7bd
+description: 
+       UUID: f6de0f9b-1067-48c2-bf2b-4dd04e1d358f
+--------------------------------
+</pre></div>
+<p>
+  Now you can see that your AO has some data. The data is of type <tt>cdata</tt>
+  (more on that later), it has no Y units, and it contains a single value, 1.
+</p>
+<p>
+  Note also that the information shown in the "hist" field may vary depending on the version of the LTPDA Toolbox you installed.
+  The string reported there is a hash of the git repository hosting the source code of LTPDA.
+</p>
+
+<br>
+<!-- Setting properties -->
+<h2>Exercise 2 - Setting properties of AOs</h2>
+
+<p>
+  We can now go on and manipulate this AO. For example, suppose we want to
+  set its name. Type the following in to the MATLAB terminal: <tt>a.setName('Bob')</tt>
+  and hit enter. You should see:
+</p>
+  <div class="fragment"><pre>
+>> a.setName('Bob')
+----------- ao 01: Bob -----------
+ 
+       name: Bob
+       data: 1
+             -------- cdata [vals] ------------
+                  y:  [1x1], double
+                 dy:  [0x0], double
+             yunits:  
+             ----------------------------------
+              
+       hist: ltpda_uo / setName / b078ca046a8f6c078b4bc5895a6ed5492ec3b7bd
+description: 
+       UUID: aed61cbd-13ae-45c3-a63b-8d38b98813e1
+----------------------------------
+</pre></div>
+<p>
+  The ao has a new name. The function (or more strictly, the method) <tt>setName</tt> has acted on the AO, <tt>a</tt>.
+  An equivalent statement would be: <tt>setName(a, 'Bob')</tt>.
+</p>
+<p>
+  By doing this, you have modified <tt>a</tt>. If instead you do
+</p>
+<div class="fragment"><pre>
+    b = setName(a, <span class="string">'Bob'</span>)
+</pre></div>
+<p>
+  or
+</p>
+<div class="fragment"><pre>
+    b = a.setName(<span class="string">'Bob'</span>)
+</pre></div>
+<p>
+  then you get a new variable, <tt>b</tt>, which is a distinct (deep) copy of <tt>a</tt>.
+  The original AO, <tt>a</tt>, has not been modified. Try this out.
+</p>
+
+<br>
+<!-- Viewing history -->
+<h2>Exercise 3 - Viewing the history</h2>
+<p>
+  Keeping trace of the analysis step applied to the data contained in one or more objects is one of the
+  key features supported in LTPDA. Analysis Objects, and more complicated data objects that we will cover in following 
+  sections, can be modified by LTPDA functions (simple mathematical operators, property settings, complicated algorithms).
+  The basic components acting on LTPDA Objects are called methods. Each method adds one step in the history of the object, so
+  that the flow of the actions happened on the data can be tracked, inspected, and re-run. 
+  This might become very useful in particular when dealing with many steps of analysis, but also in simple cases.
+LTPDA supports viewing the history in two ways. The more elegant one, especially in the case of complicated analysis flows, for instance involving 
+many objects, is
+  using <a href="additional_progs.html">Graphviz</a>. If your machine has
+  graphviz already installed, and you've set this up in the <a href="setup.html#prefs_external">LTPDA Preferences</a>,
+  then you can immediately do:
+</p>
+<div class="fragment"><pre>
+dotview(a.hist, plist(<span class="string">'filename'</span>, <span class="string">'tmp.pdf'</span>))
+<span class="comment">% or</span>
+a.viewHistory();
+</pre></div>
+<p>
+  and you should get a figure something like that below in your system pdf
+  viewer. You can see the only things we have done are to construct the
+  object and set its name.
+</p>
+<img src="images/ltpda_training_1/topic1/dot_history.png" alt="Dot History Plot" width="300px" border="1">
+<p>
+  Don't worry about all this <tt>plist</tt> business, we'll get to that soon
+  enough. For now it's enough to know that the conversion to pdf is done by
+  the graphviz engine, and this needs to write the pdf to a file.
+  That's the 'filename' specified in that last command.
+</p>
+<p>
+  Installation of graphviz is covered in the LTPDA user manual under the
+  section <a href="sysreqts.html">System Requirements</a>.
+</p>
+<p>
+For short history trees, and in case the call to <tt>viewHistory</tt> fails because graphviz is not installed, 
+the history can also be viewed using the method <tt>type()</tt>. In the MATLAB terminal,
+  type <tt>a.type</tt> and hit return. You should get a MATLAB list of lines looking something
+  like:
+</p>
+  <div class="fragment"><pre>
+>> a.type
+--------------------------------------------------
+------------------------Bob------------------------
+--------------------------------------------------
+ 
+a8692974 = ao([plist('VALS', [1], 'DY', [], 'AXIS', 'y', 'N', [1], 'YUNITS', '', 'NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [])]); % ao
+a8693125 = setName(a8692974, [plist('NAME', 'Bob')]); % ltpda_uo
+a_out = a8693125;
+ 
+--------------------------------------------------
+------------------------Bob------------------------
+--------------------------------------------------
+ 
+</pre></div>
+<p>
+  We said earlier that the AO we created has no Y units set. If you look at
+  the output on the MATLAB terminal you will see that the Y units is actually
+  a property of the data, not of the AO. This is because the data inside the AO
+  is actually an object in its own right. There exist 5 data types in LTPDA:
+</p>
+<table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+  <colgroup>
+    <col width="25%"/>
+    <col width="75%"/>
+  </colgroup>
+  <thead>
+    <tr valign="top">
+      <th class="categorylist">Data class</th>
+      <th class="categorylist">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- cdata -->
+    <tr valign="top">
+      <td bgcolor="#f3f4f5">
+        <p><tt>cdata</tt></p>
+      </td>
+      <td bgcolor="#f3f4f5">
+        <p>Intended for storing an arbitrary matrix of values. This class has
+          two main fields: the data itself is stored in the field <tt>y</tt>, and the
+        units of the data in <tt>yunits</tt>.</p>
+      </td>
+    </tr>
+
+    <!-- tsdata -->
+    <tr valign="top">
+      <td bgcolor="#f3f4f5">
+        <p><tt>tsdata</tt></p>
+      </td>
+      <td bgcolor="#f3f4f5">
+        <p>Intended for storing time-series data. More details on this one later.</p>
+      </td>
+    </tr>
+
+    <!-- fsdata -->
+    <tr valign="top">
+      <td bgcolor="#f3f4f5">
+        <p><tt>fsdata</tt></p>
+      </td>
+      <td bgcolor="#f3f4f5">
+        <p>For storing frequency-series data.</p>
+      </td>
+    </tr>
+
+    <!-- xydata -->
+    <tr valign="top">
+      <td bgcolor="#f3f4f5">
+        <p><tt>xydata</tt></p>
+      </td>
+      <td bgcolor="#f3f4f5">
+        <p>For storing an arbitrary set of x-y data pairs.</p>
+      </td>
+    </tr>
+
+    <!-- xyzdata -->
+    <tr valign="top">
+      <td bgcolor="#f3f4f5">
+        <p><tt>xyzdata</tt></p>
+      </td>
+      <td bgcolor="#f3f4f5">
+        <p>For storing an arbitrary set of x-y-z data sets, for example for time-frequency maps.</p>
+      </td>
+    </tr>
+
+  </tbody>
+</table>
+
+<p>
+  Getting back to our Y units. To set the value of the Y units, the AO class
+  has a method called (not surprisingly) <tt>setYunits</tt>. To set the Y units
+  of this AO, type the following in to the MATLAB terminal: <tt>a.setYunits('km')</tt>
+  and hit return. You should see the following output:
+</p>
+<div class="fragment"><pre>
+>> a.setYunits('km')
+----------- ao 01: Bob -----------
+ 
+       name: Bob
+       data: 1
+             -------- cdata [vals] ------------
+                  y:  [1x1], double
+                 dy:  [0x0], double
+             yunits:  [km]
+             ----------------------------------
+              
+       hist: ao / setYunits / b078ca046a8f6c078b4bc5895a6ed5492ec3b7bd
+description: 
+       UUID: a90feb2e-a9dd-4690-9455-65ae48ca7176
+----------------------------------
+</pre></div>
+<p>
+  Now you see that the AO has Y units of 'km'.  (To get a list of supported
+  units in LTPDA, type the following command in to the MATLAB terminal:
+  <tt>unit.supportedUnits</tt>. To get a list of supported prefixes,
+  type <tt>unit.supportedPrefixes</tt>.)
+</p>
+<p>Additional, user-defined units can be added to LTPDA via the <a href="setup.html#prefs_misc">LTPDA Preferences</a>.</p>
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_topic_1_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="Introducing Analysis Objects"></a>&nbsp;</td>
+        <td align="left">Introducing Analysis Objects</td>
+        <td>&nbsp;</td>
+        <td align="right">Making a time-series AO</td>
+        <td align="right" width="20"><a href="ltpda_training_topic_1_3.html"><img src="b_next.gif" border="0" align="bottom" alt="Making a time-series AO"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

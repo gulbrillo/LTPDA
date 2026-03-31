@@ -1,0 +1,250 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>S-Domain Fit (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="zdomainfit.html"><img src="b_prev.gif" border="0" align="bottom" alt="Z-Domain Fit"></a>&nbsp;&nbsp;&nbsp;<a href="gui.html"><img src="b_next.gif" border="0" align="bottom" alt="Graphical User Interfaces in LTPDA"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">S-Domain Fit</h1>
+    <hr>
+    
+    <p>
+      <!-- $Id$ -->
+
+<!-- ================================================== -->
+<!--                 BEGIN CONTENT FILE                 -->
+<!-- ================================================== -->
+<!-- ===== link box: Begin ===== -->
+<p>
+  <table border="1"  width="80%">
+    <tr>
+      <td>
+        <table border="0" cellpadding="5" class="categorylist" width="100%">
+          <colgroup>
+            <col width="37%"/>
+            <col width="63%"/>
+          </colgroup>
+          <tbody>
+            <tr valign="top">
+              <td>
+                <a href="#description">Description</a>
+              </td>
+              <td>S-domain system identification in LTPDA.</td>
+            </tr>
+            <tr valign="top">
+              <td>
+                <a href="#algorithm">Algorithm</a>
+              </td>
+              <td>Fit Algorithm.</td>
+            </tr>
+            <tr valign="top">
+              <td>
+                <a href="#examples">Examples</a>
+              </td>
+              <td>Usage example of s-domain system identification tool.</td>
+            </tr>
+            <tr valign="top">
+              <td>
+                <a href="#references">References</a>
+              </td>
+              <td>Bibliographic references.</td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </table>
+</p>
+<!-- ===== link box: End ====== -->
+
+<h2><a name="description">S-domain system identification in LTPDA</a></h2>
+<p>
+  System identification in s-domain is performed with the function 
+  <a href="matlab:doc('ao/sDomainFit')">sDomainFit</a>. 
+  It is based on a modeified version of the vector fitting algorithm. 
+  Details on the core agorithm can be found in [1 - 2].
+</p>
+
+
+
+<h2><a name="algorithm">Fit Algorithm</a></h2>
+
+<p>
+  The function performs a fitting loop to automatically identify model 
+  order and parameters in s-domain. Output is a s-domain model expanded 
+  in partial fractions:
+</p>
+<div class="fragment"><pre>
+              r1              rN
+    f(s) = ------- + ... + ------- + d
+            s - p1          s - pN
+</pre></div>
+<p>
+  Since the function can fit more than one input analysis object at a time
+  with a common set of poles, output 
+  <a href="parfrac.html">parfrac</a> are embedded in a 
+  <a href="class_desc_matrix.html">matrix</a> (note that this characteristic
+  will be probably changed becausse of the introduction of the
+  <a href="class_desc_collection.html">collection</a> class).
+</p>
+<p>
+  Identification loop stops when the stop condition is reached. 
+  Stop criterion is based on three different approachs:
+  <ol>
+    <li> Mean Squared Error and variation <br>
+      Check if the normalized mean squared error is lower than the value specified in
+      <tt>FITTOL</tt> and if the relative variation of the mean squared error is lower
+      than the value specified in <tt>MSEVARTOL</tt>.
+      E.g. <tt>FITTOL = 1e-3</tt>, <tt>MSEVARTOL = 1e-2</tt> search for a fit with
+      normalized meam square error lower than <tt>1e-3</tt> and <tt>MSE</tt> relative
+      variation lower than <tt>1e-2</tt>. 
+    </li>
+    <li> Log residuals difference and root mean squared error
+      <ul>
+        <li> Log Residuals difference </br>
+        Check if the minimum of the logarithmic difference between data and 
+        residuals is larger than a specified value. ie. if the conditioning 
+        value is <tt>2</tt>, the function ensures that the difference between data and 
+        residuals is at lest two order of magnitude lower than data itsleves. 
+        <li> Root Mean Squared Error </br>
+        Check that the variation of the root mean squared error is lower than 
+        <tt>10^(-1*value)</tt>.
+      </ul>
+    </li>
+    <li> Residuals spectral flatness and root mean squared error
+      <ul>
+        <li> Residuals Spectral Flatness </br>
+        In case of a fit on noisy data, the residuals from a good fit are
+        expected to be as much as possible similar to a white noise. This
+        property can be used to test the accuracy of a fit procedure. In
+        particular it can be tested that the spectral flatness coefficient of
+        the residuals is larger than a certain qiantity sf such that <tt>0 < sf < 1</tt>.
+        <li> Root Mean Squared Error </br>
+        Check that the variation of the root mean squared error is lower than 
+        <tt>10^(-1*value)</tt>.
+      </ul>
+    </li>
+  </ol>
+  
+</p>
+<p>
+  The function can also perform a single loop without taking care of
+  the stop conditions. This happens when <span class="string">'AutoSearch'</span> parameter is
+  set to <span class="string">'off'</span>.
+</p>
+
+
+<h2><a name="examples">Usage example of s-domain system identification tool</a></h2>
+<p>
+  In this example we fit a given frequency response to get a partial fraction model.
+  For the meaning of any parameter please refer to
+  <a href="matlab:doc('ao')">ao</a> and
+  <a href="matlab:doc('ao/sDomainFit')">sDomainFit</a>
+  documentation pages.
+</p>
+
+<div class="fragment"><pre>
+    pl = plist(...
+      <span class="string">'fsfcn'</span>, <span class="string">'(1e-3./(f).^2 + 1e3./(0.001+f) + 1e5.*f.^2).*1e-10'</span>,...
+      <span class="string">'f1'</span>, 1e-6,...
+      <span class="string">'f2'</span>, 5,...
+      <span class="string">'nf'</span>, 100);
+    
+    a = ao(pl);
+    a.setName;
+
+    <span class="comment">% Fit parameter list</span>
+    pl_fit = plist(...
+      <span class="string">'AutoSearch'</span>,<span class="string">'on'</span>,...
+      <span class="string">'StartPolesOpt'</span>,<span class="string">'clog'</span>,...
+      <span class="string">'maxiter'</span>,50,...
+      <span class="string">'minorder'</span>,7,...
+      <span class="string">'maxorder'</span>,15,...
+      <span class="string">'weightparam'</span>,<span class="string">'abs'</span>,...
+      <span class="string">'CONDTYPE'</span>,<span class="string">'MSE'</span>,...
+      <span class="string">'FITTOL'</span>,1e-3,...
+      <span class="string">'MSEVARTOL'</span>,1e-2,...
+      <span class="string">'Plot'</span>,<span class="string">'on'</span>,...
+      <span class="string">'ForceStability'</span>,<span class="string">'off'</span>);
+
+    <span class="comment">% Do fit</span>
+    mod = sDomainFit(a, pl_fit);
+</pre></div>
+
+<p>
+  <tt>mod</tt> is a <tt>matrix</tt> object containing a <tt>parfrac</tt> object.
+</p>
+
+<div class="fragment"><pre>
+    >> mod
+    ---- matrix 1 ----
+           name: fit(a)
+           size: 1x1
+             01: parfrac | parfrac(fit(a))
+    description: 
+           UUID: 2dc1ac28-4199-42d2-9b1a-b420252b3f8c
+    ------------------
+</pre></div> 
+    
+<div class="fragment"><pre>
+    >> mod.objs
+    ---- parfrac 1 ----
+    model:       fit(a)
+    res:         [1.69531090137847e-006;-1.69531095674486e-006;1.39082537801437e-007;-1.39094453401266e-007;3.9451875151135e-007;-3.94524993613367e-007;4.53671387948961e-007;-4.53664974359603e-007;1124.81020427899;0.000140057852149302-i*0.201412268649905;0.000140057852149302+i*0.201412268649905]
+    poles:       [-1.18514026248382e-006;1.18514354570495e-006;-0.00457311582050939;0.0045734088943545;-0.0316764149343339;0.0316791653277322;-0.276256442292693;0.27627799022013;330754.550617933;-0.0199840558095427+i*118.439896186467;-0.0199840558095427-i*118.439896186467]
+    dir:         0
+    pmul:        [1;1;1;1;1;1;1;1;1;1;1]
+    iunits:      []
+    ounits:      []
+    description: 
+    UUID:        2afc4c82-7c2a-4fe3-8910-d8590884d58c
+    -------------------
+</pre></div>
+
+
+<h2><a name="references">References</a></h2>
+<p>
+  <ol>
+    <li> B. Gustavsen and A. Semlyen, "Rational approximation of frequency
+    domain responses by Vector Fitting", IEEE Trans. Power Delivery
+    vol. 14, no. 3, pp. 1052-1061, July 1999.
+    <li> B. Gustavsen, "Improving the Pole Relocating Properties of Vector
+    Fitting", IEEE Trans. Power Delivery vol. 21, no. 3, pp.
+    1587-1592, July 2006.
+  </ol>
+</p>
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="zdomainfit.html"><img src="b_prev.gif" border="0" align="bottom" alt="Z-Domain Fit"></a>&nbsp;</td>
+        <td align="left">Z-Domain Fit</td>
+        <td>&nbsp;</td>
+        <td align="right">Graphical User Interfaces in LTPDA</td>
+        <td align="right" width="20"><a href="gui.html"><img src="b_next.gif" border="0" align="bottom" alt="Graphical User Interfaces in LTPDA"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Resampling data (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="upsample.html"><img src="b_prev.gif" border="0" align="bottom" alt="Upsampling data"></a>&nbsp;&nbsp;&nbsp;<a href="interp.html"><img src="b_next.gif" border="0" align="bottom" alt="Interpolating data"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Resampling data</h1>
+    <hr>
+    
+    <p>
+      <h2>Description</h2>
+<p>
+  Resampling is the process of changing the sampling rate of data. <a href="matlab:doc('ao/resample')"><tt>Resample</tt></a>
+  changes the sampling rate of the input AOs to the desired output sampling frequency. LTPDA <a href="matlab:doc('ao/resample')"><tt>resample</tt></a> overloads <tt>resample</tt> function of Matlab Signal Processing Toolbox for AOs.
+</p>
+<h2>Syntax</h2>
+<div class="fragment"><pre>
+    <br>
+    b = resample(a, pl)
+  </pre>
+</div>
+<h2>Parameters</h2>
+<p>  The following parameters can be set:
+  <ul>
+    <li> <tt>fsout</tt> - specify the desired output frequency (must be positive and integer)</li>
+    <li> <tt>filter</tt> - specified filter applied to the input, <tt>a</tt>, in the resampling process</li>
+  </ul>
+</p>
+<p>
+  <h2>Examples</h2>
+</p>
+<p>
+  2. Resampling a sequence of random data at original sampling rate of 1 Hz at an output sampling of 50 Hz.
+</p>
+<div class="fragment"><pre>
+  <br>
+    <span class="comment">% create an AO of random data with fs = 10 Hz</span>
+    pl    = plist(<span class="string">'tsfcn'</span>, <span class="string">'randn(size(t))'</span>,<span class="string">'fs'</span>,1,<span class="string">'nsecs'</span>,100,<span class="string">'yunits'</span>,<span class="string">'m'</span>);
+    x     = ao(pl);
+    y     = resample(x, plist(<span class="string">'fsout'</span>, 50)); <span class="comment">% resample the input AO (x) to obtain the resampled output AO (y)</span>
+    iplot(x, y)                              <span class="comment">% plot original and resampled data</span>
+  </pre>
+</div>
+<br>
+<br>
+<img src="images/resample1.png" alt="Resample">
+<br>
+<br>
+<br>
+<p>
+  1. Resampling a sequence of random data at original sampling rate of 10 Hz at an output sampling of 1 Hz with
+  a filter defined by the user.
+</p>
+<div class="fragment"><pre>
+  <br>
+    <span class="comment">% create an AO of random data with fs = 10 Hz</span>
+    pl = plist(<span class="string">'tsfcn'</span>, <span class="string">'randn(size(t))'</span>,<span class="string">'fs'</span>,10,<span class="string">'nsecs'</span>,10,<span class="string">'yunits'</span>,<span class="string">'m'</span>);
+    x  = ao(pl)	
+    
+    <span class="comment">% filter definition</span>
+    plfilter = plist(<span class="string">'type'</span>,<span class="string">'lowpass'</span>,<span class="string">'Win'</span>,specwin(<span class="string">'Kaiser'</span>, 10, 150),<span class="string">'order'</span>,32,<span class="string">'fs'</span>,10,<span class="string">'fc'</span>,1);
+    f        = mfir(plfilter)
+    
+    <span class="comment">% resampling</span>
+    pl = plist(<span class="string">'fsout'</span>, 1, <span class="string">'filter'</span>,f); <span class="comment">% define parameters list with fsout = 1 Hz and the defined filter</span>
+    y  = resample(x, pl);  <span class="comment">% resample the input AO (x) to obtain the resampled output AO (y)</span>
+    iplot(x, y)            <span class="comment">% plot original and resampled data</span>
+  </pre>
+</div>
+<br>
+<br>
+<img src="images/resample2.png" alt="Resample" border="0">
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="upsample.html"><img src="b_prev.gif" border="0" align="bottom" alt="Upsampling data"></a>&nbsp;</td>
+        <td align="left">Upsampling data</td>
+        <td>&nbsp;</td>
+        <td align="right">Interpolating data</td>
+        <td align="right" width="20"><a href="interp.html"><img src="b_next.gif" border="0" align="bottom" alt="Interpolating data"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

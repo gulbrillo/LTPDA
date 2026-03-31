@@ -1,0 +1,171 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Building a model (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="pzmodel.html"><img src="b_prev.gif" border="0" align="bottom" alt="Pole/Zero representation"></a>&nbsp;&nbsp;&nbsp;<a href="pzmodel_gui.html"><img src="b_next.gif" border="0" align="bottom" alt="Model helper GUI"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Building a model</h1>
+    <hr>
+    
+    <p>
+      
+  <p>
+  	Poles and zeros can be combined together to create a pole/zero model. In addition to a list of poles
+    and zeros, a gain factor and a delay can be specified such that the resulting model is of the form:
+  </p>
+  <br>
+  <div align="center">
+  <img src="images/pzmodel_tf_eqn.png" alt="Pole/zero model TF"  border="3">
+  </div>
+  <br>
+  <p>
+	The following sections introduce how to produce and use pole/zero models in the LTPDA environment.
+	<ul>
+		<li><a href="#direct">Direct form</a></li>
+		<li><a href="#plist">Creating from a <tt>plist</tt></a></li>
+		<li><a href="#resp">Computing the response of the model</a></li>
+	</ul>
+  </p>
+
+
+  <h2><a name="direct">Direct form</a></h2>
+
+  The following code fragment creates a pole/zero model consisting of 2 poles and 2 zeros with a gain
+  factor of 10 and a 10ms delay:
+  <div class="fragment"><pre>
+	>> pzm   = pzmodel(10, {[1 2], 3}, {5, 10}, 0.01)
+---- pzmodel 1 ----
+    name: None
+    gain: 10
+   delay: 0.01
+  iunits: []
+  ounits: []
+pole 001: (f=1 Hz,Q=2)
+pole 002: (f=3 Hz,Q=NaN)
+zero 001: (f=5 Hz,Q=NaN)
+zero 002: (f=10 Hz,Q=NaN)
+-------------------
+  </pre></div>
+  <p>
+    Notice, you can also pass arrays of <tt>pz</tt> objects to the <tt>pzmodel</tt> constructor, but this 
+    should rarely be necessary.
+  </p>
+
+  <h2><a name="plist">Creating from a <tt>plist</tt></a></h2>
+
+  <p>
+	You can also create a <tt>pzmodel</tt> by passing a parameter list. The following example shows
+	this
+  </p>
+
+  <div class="fragment"><pre>
+	>> pl  = plist(<span class="string">'name'</span>, <span class="string">'test model'</span>, ...
+	               <span class="string">'gain'</span>, 10, ...
+                   <span class="string">'poles'</span>, {[1 2], 3}, ...
+                   <span class="string">'zeros'</span>, {5, 10}, ...
+                   <span class="string">'delay'</span>, 0.01, ...
+                   <span class="string">'iunits'</span>, 'm', ...
+                   <span class="string">'ounits'</span>, 'V^2');
+	>> pzm = pzmodel(pl)
+	---- pzmodel 1 ----
+    name: test model
+    gain: 10
+   delay: 0.01
+  iunits: [m]
+  ounits: [V^2]
+pole 001: (f=1 Hz,Q=2)
+pole 002: (f=3 Hz,Q=NaN)
+zero 001: (f=5 Hz,Q=NaN)
+zero 002: (f=10 Hz,Q=NaN)
+-------------------
+  </pre></div>
+  <p>
+    Here we also specified the input units of the transfer function ('iunits') and the
+    output units, ('ounits'). In  this case, the model represents a transfer function 
+    from metres to Volts squared.
+  </p>
+
+  <h2><a name="resp">Computing the response of the model</a></h2>
+
+  <p>
+	The frequency response of the model can generated using the <tt>resp</tt> method of the
+	<tt>pzmodel</tt> class. To compute the response of the model created above:
+  </p>
+  <div class="fragment"><pre>
+	>> resp(pzm)
+  </pre></div>
+  <p>
+  Since no output was specified, this command produces the following plot:
+  <img src="images/pzmodel_resp.png" alt="Pole/zero model resp" border="3" width="600">
+  </p>
+  <p>
+	You can also specify the frequency band over which to compute the response by passing a <tt>plist</tt>
+	to the <tt>resp</tt> method, as follows:
+  </p>
+  <div class="fragment"><pre>
+	>> rpl = plist(<span class="string">'f1'</span>, 0.1, ...
+                   <span class="string">'f2'</span>, 1000, ...
+                   <span class="string">'nf'</span>, 10000);
+	>> a   = resp(pzm, rpl)
+	----------- ao 01: resp(test model) -----------
+ 
+       name:  resp(test model)
+description:  
+       data: (0.1,10.0668830776529-i*0.605439551995965) (0.100092155051679,10.067006787497-i*0.606014805088671) (0.100184395028894,10.0671307268392-i*0.606590636924472) (0.100276720009908,10.0672548961078-i*0.607167048174596) (0.100369130073055,10.0673792957318-i*0.607744039511284) ...
+             ----------- fsdata 01 -----------
+              
+                 fs:  NaN
+                  x:  [1 10000], double
+                  y:  [1 10000], double
+             xunits:  [Hz]
+             yunits:  [V^(2)][m^(-1)]
+                 t0:  1970-01-01 00:00:00.000
+               navs:  NaN
+             ---------------------------------
+              
+       hist:  pzmodel / resp / $Id$
+  mfilename:  
+mdlfilename:  
+-----------------------------------------------
+  </pre></div>
+  <p>
+  	In this case, the response is returned as an Analysis Object containing <tt>fsdata</tt>. You can now
+	plot the AO using the <tt>iplot</tt> function.
+  </p>
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="pzmodel.html"><img src="b_prev.gif" border="0" align="bottom" alt="Pole/Zero representation"></a>&nbsp;</td>
+        <td align="left">Pole/Zero representation</td>
+        <td>&nbsp;</td>
+        <td align="right">Model helper GUI</td>
+        <td align="right" width="20"><a href="pzmodel_gui.html"><img src="b_next.gif" border="0" align="bottom" alt="Model helper GUI"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

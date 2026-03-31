@@ -1,0 +1,219 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Trouble-shooting (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="additional_progs.html"><img src="b_prev.gif" border="0" align="bottom" alt="Additional 3rd-party software"></a>&nbsp;&nbsp;&nbsp;<a href="objects_intro.html"><img src="b_next.gif" border="0" align="bottom" alt="Introducing LTPDA Objects"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Trouble-shooting</h1>
+    <hr>
+    
+    <p>
+      
+A collection of trouble-shooting steps.
+
+  <ul>
+    <li><p><a href="trouble_shooting.html#java">Java Heap Problem</a></p></li>
+    <li><p><a href="trouble_shooting.html#directory">LTPDA Directory Name</a></p></li>
+    <li><p><a href="trouble_shooting.html#mex_files">Problems to execute MEX files</a></p></li>
+    <li><p><a href="trouble_shooting.html#external_links">Problems to use external links in LTPDA help</a></p></li>
+    <li><p><a href="trouble_shooting.html#macOS">MATLAB unresponsive when using doc or web on some Macintosh systems</a></p></li>
+    <li><p><a href="trouble_shooting.html#UnknownHostException">Java 7 UnknownHostException</a></p></li>
+  </ul>
+
+
+  <!-- Java Heap Problem -->
+  <h2 class="title" id= "java">Java Heap Problem</h2>
+    <p>
+      When loading or saving large XML files, MATLAB sometimes reports problems due to insufficient heap memory for the Java Virtual Machine.<br />
+      <br />
+      Since MATLAB version <b>2010a</b> can you increase the the heap space for the Java VM in the preferences.<br />
+      You can change the java heap size by using the General Preferences dialog.
+      <ul>
+        <li>
+          <p>
+            Since MATLAB version <b>R2012b</b> can you access this dialog on the Home tab, in the Environment section, by clicking Preferences.<br />
+            Select MATLAB > General > Java Heap Memory.
+          </p>
+        </li>
+        <li>
+          <p>
+            In MATLAB versions earlier than <b>R2012b</b> can you access the dialog with: File > Preferences > General > Java Heap Memory
+          </p>
+        </li>
+        <li>
+          <p>
+            For older MATLAB versions (<b>2009b</b>) please use the following.<br />
+            You can increase the heap space for the Java VM in MATLAB 6.0 and higher by creating a <tt>java.opts</tt>
+            file in the <tt>$MATLAB/bin/$ARCH</tt> (or in the current directory when you start MATLAB) containing the
+            following command:
+          
+            <tt>-Xmx$MEMSIZE</tt><br /><br />
+          
+            Recommended:<br /><br />
+          
+            <tt>-Xmx536870912</tt><br /><br />
+          
+            which is 512Mb of heap memory.
+          </p>
+          <p>
+            An additional workaround reported in case the above doesn't work: It sometimes happens with MATLAB R2007b on WinXP that after you create the <tt>java.opts</tt> file, MATLAB won't start (it crashes after the splash-screen).<br />
+            The workaround is to set an environment variable <tt>MATLAB_RESERVE_LO=0</tt>.<br /><br />
+            
+            This can be set by performing the following steps:
+            <ol>
+              <li>Select <tt>Start->Settings->Control Panel->System</tt></li>
+              <li>Select the "Advanced" tab</li>
+              <li>On the bottom, center, click on "Environment variables"</li>
+              <li>Click "New" (choose the one under "User variables for Current User")</li>
+              <li> Enter<br />
+                Variable Name: MATLAB_RESERVE_LO<br />
+              Variable Value:  0</li>
+              <li>Click OK as many times as needed to close the window</li>
+            </ol>
+            Then edit/create the <tt>java.opts</tt> file as described above. You can also specify the units (for instance -Xmx512m or -Xmx524288k or -Xmx536870912 will all give you 512 Mb).
+          </p>
+        </li>
+      </ul>
+    </p>
+  
+  <!-- LTPDA Directory Name Problem -->
+  <h2 class="title" id= "directory">LTPDA Directory Name</h2>
+    <p>
+      Problems have been seen on Windows machines if the LTPDA toolbox directory name contains '.'.
+      In this case, just rename the base LTPDA directory before adding it to the MATLAB path.
+    </p>
+  
+  <!-- MAX File Problem -->
+  <h2 class="title" id= "mex_files">Problems to execute MEX files</h2>
+    <p>
+      User with the operating system "Windows XP" will get trouble if you want to execute MEX files. This happens if you are useing for example the methods 'detrend', 'smoother', 'lpsd', ...<br />
+      You will get the following error:<br />
+      <dl>
+        <dd class="red">??? Invalid MEX-file 'C:\ltpda_toolbox\ltpda\src\ltpda_dft\ltpda_dft.mexw32': <br />
+          This application has failed to start because the application configuration is incorrect.<br />
+          Reinstalling the application may fix this problem.</dd>
+      </dl>
+      You can solve this problem by installing the Microsoft Visual C++ 2008 Redistributable Package. This is necessary because all the MEX files are compiled with Microsoft Visual C++ 2008. You can install this package from the LTPDA toolbox or from the official Microsoft web page.<br /><br />
+      <p>
+        <ul>
+          <li>LTPDA toolbox
+            <ul>
+              <li><a href="matlab:web(['file:///' which('vcredist_x86.exe')])">Windows 32 bit</a></li>
+              <li><a href="matlab:web(['file:///' which('vcredist_x64.exe')])">Windows 64 bit</a></li>
+              You will find the files in the directory: $LTPDA_TOOLBOX_DIR/ltpda/src<br /><br />
+            </ul>
+          </li>
+          <li>Official Microsoft web page
+            <ul>
+              <li><a href="http://www.microsoft.com/downloads/details.aspx?FamilyID=9b2da534-3e03-4391-8a4d-074b9f2bc1bf&displaylang=en">Windows 32 bit</a></li>
+              <li><a href="http://www.microsoft.com/downloads/details.aspx?familyid=90548130-4468-4BBC-9673-D6ACABD5D13B&displaylang=en">Windows 64 bit</a></li>
+            </ul>
+          </li>
+        </ul>
+      </p>
+    </p>
+  
+  <!-- Firefox Ubuntu 12.04 LTS -->
+  <h2 class="title" id= "external_links">Problems to use external links in LTPDA help</h2>
+    <p>
+      User with a Ubuntu 12.04 LTS OS may have problems to open external links because Firefox needs a much newer libstdc++ library as MATLAB delivers.
+      You can check if this workaround apply to you by typing "<b>!firefox &</b>" in the command window. The should you get the following error massage:
+      <div class="fragment"><pre class="programlisting">
+>> !firefox &
+XPCOMGlueLoad error for file /usr/lib/firefox/libxpcom.so:
+libxul.so: cannot open shared object file: No such file or directory
+Couldn't load XPCOM.
+firefox: Signal 127</pre></div>
+      If so then should you use the system libstdc++ library instead of MATLAB's libstdc++ library.<br/><br/>
+      This can be done by performing the following steps:
+      <ol>
+        <li>Identify the location of MATLAB's libstdc++ library path.<br/>
+          You can do this with the linux command "<b>locate -i libstdc++.so.6</b>". MATLAB 2012a habe two libstdc++ libraries (older MATLAB versions have only one libstdc++ library) and the path are:<br/>
+          $MATLABROOT/sys/os/$ARCH<br/>
+          $MATLABROOT/bin/$ARCH<br/>
+          where $MATLABROOT is the installation path of your MATLAB (e.g. /usr/local/MATLAB/R2012a) and $ARCH is the architecture corresponds to yours OS (e.g. glnxa64 ).
+        </li>
+        <li>
+          Move MATLAB's libstdc++ library to a backup folder.<br/>
+          Use the following command in a ubuntu terminal.
+          <div class="fragment"><pre class="programlisting">
+cd $MATLABROOT/sys/os/$ARCH
+sudo mkdir old
+sudo mv libstdc++* old/</pre></div>
+          You should do the steps above for all libstdc++ libraries you find on MATLAB installation path.
+        </li>
+      </ol>
+    </p>
+  
+  
+  <!-- MATLAB unrensponsive when using doc or web on some Mac -->
+  <h2 class="title" id= "macOS">MATLAB unresponsive when using doc or web on some Macintosh systems</h2>
+    <p>
+      On some MacOS systems, the call to MATLAB's <tt>doc</tt> or <tt>web</tt> (that happen after clicking
+      on the 'Parameters description' link in the help of methods or in call to the methods called <tt>toHtml</tt>) may 
+      lead to MATLAB being stuck. This issue is associated to the "Enable Access for Assistive Devices" setting.
+      Details and proposed solutions are described here:
+    </p> 
+
+    <a href="http://www.mathworks.com/support/bugreports/870843">Mathworks support</a>
+    
+  <!-- MATLAB unrensponsive when using doc or web on some Mac -->
+  <h2 class="title" id= "UnknownHostException">Java 7 UnknownHostException</h2>
+    <p>
+      Java 7 throws an error to get the local host information. The error occures with the following command:
+      <dl>
+        <dd>>> a = ao(1)</dd>
+        <dd class="red">Error using provenance (line 51)<br/>
+          Java exception occurred:<br/>
+          java.net.UnknownHostException: <b>your-machine-name: your-machine-name</b>: nodename nor servname provided, or not known<br/>
+          at java.net.InetAddress.getLocalHost(InetAddress.java:1438)<br/>
+          Caused by: java.net.UnknownHostException: <b>your-machine-name</b>: nodename nor servname provided, or not known<br/>
+          at java.net.Inet6AddressImpl.lookupAllHostAddr(Native Method)<br/>
+          at java.net.InetAddress$1.lookupAllHostAddr(InetAddress.java:866)<br/>
+          at java.net.InetAddress.getAddressesFromNameService(InetAddress.java:1258)<br/>
+          at java.net.InetAddress.getLocalHost(InetAddress.java:1434)</dd>
+      </dl>
+      The workaround is to add the name of the machine to your &lsquo;/etc/hosts&rsquo; file. For example add the following line
+      <div class="fragment"><pre class="programlisting">127.0.0.1    your-machine-name</pre></div>
+    </p>
+  
+  
+    
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="additional_progs.html"><img src="b_prev.gif" border="0" align="bottom" alt="Additional 3rd-party software"></a>&nbsp;</td>
+        <td align="left">Additional 3rd-party software</td>
+        <td>&nbsp;</td>
+        <td align="right">Introducing LTPDA Objects</td>
+        <td align="right" width="20"><a href="objects_intro.html"><img src="b_next.gif" border="0" align="bottom" alt="Introducing LTPDA Objects"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

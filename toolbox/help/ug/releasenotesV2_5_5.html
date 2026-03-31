@@ -1,0 +1,860 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Version 2.5.5 LTPDA Toolbox Software (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="releasenotesV2_6.html"><img src="b_prev.gif" border="0" align="bottom" alt="Version 2.6 LTPDA Toolbox Software"></a>&nbsp;&nbsp;&nbsp;<a href="releasenotesV2_5_4.html"><img src="b_next.gif" border="0" align="bottom" alt="Version 2.5.4 LTPDA Toolbox Software"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Version 2.5.5 LTPDA Toolbox Software</h1>
+    <hr>
+    
+    <p>
+          
+    <style type="text/css">
+      p { margin-left:30px; }
+      h4 { margin-left:15px; }
+      h5.title {color:#990000; margin-left:20px; margin-top:1ex; margin-bottom:.9ex; font-weight:bold; font-size:2ex}
+    </style>
+    
+    <!-- BEGIN: Content file -->
+
+    <a name="top_of_page"></a>
+    This table summarizes what's new in Version 2.5.5:
+    <table cellspacing="0" class="body" cellpadding="4" border="2" width="100%">
+      <colgroup>
+        <col width="25%">
+        <col width="25%">
+        <col width="25%">
+        <col width="25%">
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th bgcolor="#B2B2B2" valign="top">New Features and Changes</th>
+          <th bgcolor="#B2B2B2" valign="top">Version Compatibility Considerations</th>
+          <th bgcolor="#B2B2B2" valign="top">Fixed Bugs and Known Problems</th>
+          <th bgcolor="#B2B2B2" valign="top">Related Documentation at Web Site</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#F2F2F2">Yes<br>Details below</td>
+          <td bgcolor="#F2F2F2">Yes &#8212; Details labeled as <a href="#removed_features">Deprecated and removed features</a> in descriptions of changes, below.</td>
+          <td bgcolor="#F2F2F2"><a href="https://ed.fbk.eu/ltpda/mantis/login_page.php" target="_top">Bug Reports</a> at Web site</td>
+          <td bgcolor="#F2F2F2">Printable Release Notes: <a href="http://www.lisa.aei-hannover.de/ltpda/downloads/version_255/files/Release_Notes_v2.5.5.pdf" target="_top">PDF</a></td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <ul>
+      <li><a href="#introduction">Introduction</a></li>
+      <li><a href="#main_changes">Main Changes</a></li>
+      <ul>
+        <li><a href="#parameter_lists">Parameter lists</a></li>
+        <li><a href="#plotting">Plotting</a></li>
+        <li><a href="#ssm_models">Improved model documentation for SSM models</a></li>
+      </ul>
+      <li><a href="#other_changes">Other Changes</a></li>
+      <li><a href="#new_methods">New Methods</a></li>
+      <ul>
+        <li><a href="#ao_static_constant">AO Static Constant Constructors</a></li>
+      </ul>
+      <li><a href="#removed_features">Deprecated and removed features</a></li>
+      <li><a href="#mantis_issues">MANTIS Issues</a></li>
+      <li><a href="#plotting">Plotting in LTPDA - the new way</a></li>
+      <ul>
+        <li><a href="#plotting_introduction">Introduction</a></li>
+        <li><a href="#plotting_plot_styles">Plot Styles</a></li>
+        <li><a href="#plotting_plot_information">Plot information</a></li>
+        <li><a href="#plotting_aos">Plotting AOs</a></li>
+        <li><a href="#plotting_collections">Plotting Collections</a></li>
+        <li><a href="#plotting_matrix">Plotting Matrix Objects</a></li>
+        <li><a href="#plotting_combining">Combining collection and matrix objects</a></li>
+      </ul>
+      <li><a href="http://www.lisa.aei-hannover.de/ltpda/downloads/version_255/files/Release_Notes_v2.5.5.pdf">Detailed changes since v2.5.4</a></li>
+    </ul>
+    
+    <!-- HEADLINE: Introduction -->
+    <h3 class="title" id="introduction">Introduction</h3>
+    <p>This version of LTPDA is 2.5.5. This document lists the changes since V2.5.4.</p>
+    <p><i>This version requires MATLAB 2010a or above.</i></p>
+    
+    <!-- HEADLINE: Main Changes -->
+    <h3 class="title" id="main_changes">Main Changes</h3>
+    <p>This version of LTPDA includes a vast number of improvements and bug fixes.
+    In addition, the following significant changes are included in this release.</p>
+    
+    <!-- HEADLINE: Parameter lists -->
+    <h4 class="title" id="parameter_lists">Parameter lists</h4> 
+    <p>Default plist values are applied in all methods now and a check is done
+      whether or not the user input keys are supported by the algorithm. You can 
+      choose the action that results if a input key is not found in the default 
+      plist (choose from &lsquo;None&rsquo;, &lsquo;Warning&rsquo;, or &lsquo;Error&rsquo;) in the 
+    LTPDA preferences (<b>LTPDAprefs</b>).</p>
+    <p>Parameters in parameter lists now support multiple key names. This 
+      allows us to change the names of parameter keys while remaining backwards 
+    compatible with existing scripts.</p>
+    
+    <!-- HEADLINE: Plotting -->
+    <h4 class="title" id="plotting">Plotting</h4> 
+    <p>A new way of plotting has been introduced into LTPDA which leverages the 
+    figure, axes and line handles of MATLAB. You can set up your default line
+    styles in the LTPDA preferences GUI now. One structural change here is that 
+    the &lsquo;plotinfo&rsquo; property of a user object is no longer a plist, 
+    but is now a plotinfo object. More details are included below in the section
+    <a href="#">Plotting in LTPDA - the new way</a>.</p>
+    
+    <!-- HEADLINE: Improved model documentation for SSM models -->
+    <h4 class="title" id="ssm_models">Improved model documentation for SSM models</h4> 
+    <p>For models which support it, the model overview generated when clicking 
+    the &lsquo;Model Information&rsquo; documentation link will contain lists of 
+    inputs, states, outputs and parameters.</p>
+    
+    <!-- HEADLINE: Other Changes -->
+    <h3 class="title" id="other_changes">Other Changes</h3>
+    <ul>
+      <li>The mfir constructor now supports specifying the window used to design 
+        the filter.</li>
+      <li>The <b>ao/spectrogram</b> can now produce normalised spectrograms via 
+        the new <b>plist</b> option  &lsquo;normalise&rsquo;.</li>
+      <li>The toolbox has a new data type (<b>tfmap</b>) for storing 
+        time-frequency maps. This is a combination of the <b>data3D</b> and 
+        <b>tsdata</b> types. The <b>ao/spectrogram</b> method now returns AOs 
+        with this data type.</li>
+      <li><b>ao/interp</b> now supports all interpolation methods that 
+        MATLAB&rsquo;s <b>interp1</b> supports.</li>
+      <li><b>timespan</b> objects now have a property 'nsecs' which just returns 
+        the length of the timespan. We already have an 'interval' but this returns 
+        a string.</li>
+    </ul>
+    
+    <!-- HEADLINE: New Methods -->
+    <h3 class="title" id="new_methods">New Methods</h3>
+    <ul>
+      <li>The <b>matrix</b> class has a wrapper of the <b>ao/dsmean</b> method</li>
+      <li>The <b>matrix</b> class now has spectral methods <b>cohere</b>, 
+        <b>cpsd</b>, <b>lcohere</b>, <b>lcpsd</b>, <b>ltfe</b>, and <b>tfe</b></li>
+      <li>The <b>collection</b> class now has a <b>psd</b> method</li>
+      <li>The <b>ao</b> class has a new static method <b>R</b> which returns an 
+        AO containing the gas constant. See table below for other constants.</li> 
+      <li>New AO method which converts the units of an AO to SI units (<b>ao/toSI<b>).</li>
+    </ul>
+    
+    <!-- HEADLINE: AO Static Constant Constructors -->
+    <h4 class="title" id="ao_static_constant">AO Static Constant Constructors</h4> 
+    <p>A number of static constructors for the ao class have been added to LTPDA. 
+      To create an ao with the value of the speed of light, for example, do</p>
+<div class="fragment"><pre class="programlisting">
+>> ao.c
+----------- ao 01: C -----------
+ 
+       name: C
+       data: 299792458
+             -------- cdata 01 ------------
+                  y:  [1x1], double
+                 dy:  [0x0], double
+             yunits:  [m s^(-1)]
+             ------------------------------
+              
+       hist: ao / ao / 976fad6449ed51fd421ad39004d225dd468e2ede
+description: Speed of light in vacuum
+       UUID: 83da778e-b004-46cb-8690-52381120a429
+--------------------------------</pre></div>    
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="20%"/>
+          <col width="80%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top">
+            <td class="helptopic" bgcolor="#ffffff">c</td>
+            <td bgcolor="#ffffff">convenient constructor of an AO containing the value of the speed of light in vacuum</td>
+          </tr>
+          <tr valign="top">
+            <td class="helptopic" bgcolor="#f3f4f5">G</td>
+            <td bgcolor="#f3f4f5">convenient constructor of an AO containing the value of the universal constant of gravitation</td>
+          </tr>
+          <tr valign="top">
+            <td class="helptopic" bgcolor="#ffffff">R</td>
+            <td bgcolor="#ffffff">convenient constructor of an AO containing the value of the gas constant</td>
+          </tr>
+          <tr valign="top">
+            <td class="helptopic" bgcolor="#f3f4f5">e</td>
+            <td bgcolor="#f3f4f5">convenient constructor of an AO containing the value of the elementary charge</td>
+          </tr>
+          <tr valign="top">
+            <td class="helptopic" bgcolor="#ffffff">epsilon0</td>
+            <td bgcolor="#ffffff">convenient constructor of an AO containing the value of the vacuum permittivity</td>
+          </tr>
+          <tr valign="top">
+            <td class="helptopic" bgcolor="#f3f4f5">h</td>
+            <td bgcolor="#f3f4f5">convenient constructor of an AO containing the value of the Planck constant</td>
+          </tr>
+          <tr valign="top">
+            <td class="helptopic" bgcolor="#ffffff">kB</td>
+            <td bgcolor="#ffffff">convenient constructor of an AO containing the value of the Boltzmann's constant</td>
+          </tr>
+          <tr valign="top">
+            <td class="helptopic" bgcolor="#f3f4f5">mu0</td>
+            <td bgcolor="#f3f4f5">convenient constructor of an AO containing the value of the vacuum permeability</td>
+          </tr>
+        </tbody>
+      </table>   
+    </p>
+
+    <!-- HEADLINE: Deprecated and removed features -->
+    <h3 class="title" id="removed_features">Deprecated and removed features</h3>
+    <p>The following methods and features have been deprecated:</p>
+    <p>None</p>
+    <p>The following methods and features have been removed:</p>
+    <ul>
+      <li>The various math options for <b>ao/iplot</b> which were deprecated in 
+        an earlier version of LTPDA have now been removed.</li>
+      <li>The function <b>ao/whiten1D</b> doesn't support any more the value 2 
+        for the parameter 'Weights'. Use the string '1/abs' instead.</li>
+    </ul>
+
+    <!-- HEADLINE: MANTIS Issues -->
+    <h3 class="title" id="mantis_issues">MANTIS Issues</h3>
+    <p>For detailed information please visit the webpage: <a href="https://ed.fbk.eu/ltpda/mantis/login_page.php">Mantis Bug Tracker</a></p>
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" border="2" width="100%">
+        <thead>
+          <tr valign="top">
+            <th bgcolor="#B2B2B2" valign="top">Issue #</th>
+            <th bgcolor="#B2B2B2" valign="top">Status</th>
+            <th bgcolor="#B2B2B2" valign="top">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>568</td><td>resolved</td><td>Can save a filter that does not load with miir('&lt;filename&gt;')</td></tr>
+          <tr><td>572</td><td>resolved</td><td>ao/detrend doesn't recognise parameter 'N'</td></tr>
+          <tr><td>590</td><td>resolved</td><td>Why does the whitened data have using m / sqrt(Hz) ?</td></tr>
+          <tr><td>594</td><td>new</td><td>Split for xydata</td></tr>
+          <tr><td>593</td><td>new</td><td>scale to SI prefix</td></tr>
+          <tr><td>592</td><td>closed</td><td>ao.iplot changes needed</td></tr>
+          <tr><td>588</td><td>closed</td><td>Method to retrieve objects for pipeline</td></tr>
+          <tr><td>580</td><td>resolved</td><td>We need a method to 'tune' the length of timeseries objects</td></tr>
+          <tr><td>579</td><td>resolved</td><td>An ao.toSI method is needed</td></tr>
+          <tr><td>578</td><td>assigned</td><td>matrix and collection should subclass ltpda_container</td></tr>
+          <tr><td>577</td><td>resolved</td><td>LTPDA Preferences: an option to choose error/warning for plist keys/values</td></tr>
+          <tr><td>576</td><td>resolved</td><td>LTPDA Plotting Preferences: 'Markersize' within plot styles</td></tr>
+          <tr><td>575</td><td>assigned</td><td>consolidate function terminates with an error message</td></tr>
+          <tr><td>574</td><td>assigned</td><td>ao from pzmodel doesn't respect the original output units</td></tr>
+        </tbody>
+      </table>
+    </p>
+
+    <!-- HEADLINE: Plotting in LTPDA - the new way -->
+    <h3 class="title" id="plotting">Plotting in LTPDA - the new way</h3>
+
+    <!-- HEADLINE: Introduction -->
+    <h4 class="title" id="plotting_introduction">Introduction</h4> 
+    <p>This document, and the work behind it, is in response to various user 
+      requests to have a more powerful way of plotting data. Generally, iplot 
+      is fine, but it covers only, let&rsquo;s say, 70% of use cases. In the past, 
+      if you wanted to do anything more powerful you had to drop back down to 
+      basic MATLAB figure/plot construction. While that is possible, it&rsquo;s quite 
+      painful to extract all the information from LTPDA objects and get it all 
+      on the plot the way you want. So now there&rsquo;s a new way, and that is the 
+      subject of this document.</p>
+      
+    <p>Once this new way of plotting settles down and solidifies, we can write 
+      a new section of the user manual to capture the contents of this document.</p>
+
+    <!-- HEADLINE: Plot Styles -->
+    <h4 class="title" id="plotting_plot_styles">Plot Styles</h4> 
+    <p>The first new feature is the ability to define yourself the default plot 
+      colors and styles that will be used. This is done under the LTPDA 
+      preferences panel (LTPDAprefs). On the tab entitled &ldquo;Plot Styles&rdquo; you can 
+      now specify a list of styles that will be used, in order, if no other 
+      information is provided. You can also import and export these styles 
+      (to an XML file). That even allows you to edit this list by hand (which 
+      may be easier). If you choose to do that, you should be aware that the 
+      color is specified in the RGB format of java - a single negative number. 
+      To determine a number for your favourite color, you can do the following:</p>
+
+<div class="fragment"><pre class="programlisting">
+<span class="comment">% Translate a MATLAB color to a Java color</span>
+c1 = utils.prog.mcolor2jcolor([0.565 0.247 0.667]);
+c2 = utils.prog.mcolor2jcolor('r');
+<span class="comment">% Determine the RGB value</span>
+v1 = c1.getRGB()
+v2 = c2.getRGB()</pre></div>    
+
+    <!-- HEADLINE: Plot information -->
+    <h4 class="title" id="plotting_plot_information">Plot information</h4>
+    <p>In previous times, the &lsquo;plotinfo&rsquo; field of all ltpda_uoh 
+      objects was intended to contain a plist which could set values for how the 
+      object/data would be presented on plots. For example, you could set values 
+      for things like &lsquo;color&rsquo;, &lsquo;linestyle&rsquo;, and 
+      &lsquo;linewidth&rsquo;. These values would be read by iplot and used when 
+      creating a plot.</p>
+
+    <p>Now, in the current CVS version of LTPDA, the plotinfo field is always a 
+      plotinfo object - a new class of object which encapsulates these various 
+      display properties. The following table lists and describes the properties:</p>
+
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="30%"/>
+          <col width="70%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top" align="center">
+        		<th bgcolor="#D7D7D7" align="center" valign="middle" colspan="4">plotinfo</th>
+      	  </tr>
+          <tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Property</th>
+        		<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top">
+            <td bgcolor="#ffffff">style</td>
+            <td bgcolor="#ffffff">Contains a (java) line-style object. See table below.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">includeInLegend</td>
+            <td bgcolor="#f3f4f5">A flag to indicate whether or not the owning object should be included in the legend when plotted.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#ffffff">showErrors</td>
+            <td bgcolor="#ffffff">A flag to indicate whether or not the errors (should they exist) of the owning object should be plotted as errorbars on the plot.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">figure</td>
+            <td bgcolor="#f3f4f5">A handle to the figure on which the owning object should be plotted.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#ffffff">axes</td>
+            <td bgcolor="#ffffff">A handle (or handles) on which the owning object should be plotted.</td>
+          </tr>
+        </tbody>
+      </table>   
+    </p>
+
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="30%"/>
+          <col width="70%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top" align="center">
+        		<th bgcolor="#D7D7D7" align="center" valign="middle" colspan="4">plot style [mpipeline.ltpdapreferences.PlotStyle]</th>
+      	  </tr>
+          <tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Property</th>
+        		<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top">
+            <td bgcolor="#ffffff">linestyle</td>
+            <td bgcolor="#ffffff">One of the valid linestyles (see utils.plottools.allowedLinestyles)</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">linewidth</td>
+            <td bgcolor="#f3f4f5">The linewidth to use when plotting the data contained in the object which owns the plotinfo object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#ffffff">color</td>
+            <td bgcolor="#ffffff">A valid MATLAB color.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">marker</td>
+            <td bgcolor="#f3f4f5">A valid MATLAB marker (see utils.plottools.allowedMarkers)</td>
+          </tr>
+        </tbody>
+      </table>   
+    </p>
+
+    <p>Creating a plotinfo object (should you wish to) can be done in the following ways:</p>
+
+<div class="fragment"><pre class="programlisting">
+p = plotinfo(); <span class="comment">% creates a plotinfo with the next default style</span>
+p = plotinfo(2); <span class="comment">% creates a plotinfo with the 2nd style defined in the prefs</span>
+p = plotinfo(pl) <span class="comment">% creates a plotinfo from a plist</span>
+p = plotinfo(linestyle, linewidth, color, marker); <span class="comment">% create with these properties</span>
+p = plotinfo(linestyle, linewidth, color, marker, ...
+includeInLegend, showErrors, axes, figure);</pre></div>
+
+    <p>Normally, creating a plotinfo object is not necessary. Instead, if you 
+      have an LTPDA user object (for example, an AO) you can use convenient 
+      methods to set properties. When using the following methods, if the object 
+      doesn&rsquo;t already have a defined plotinfo object, then one is created.</p>
+
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="30%"/>
+          <col width="70%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top" align="center">
+        		<th bgcolor="#D7D7D7" align="center" valign="middle" colspan="4">Methods for setting plotinfo fifields</th>
+      	  </tr>
+          <tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Method</th>
+        		<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top">
+            <td bgcolor="#ffffff">setPlotLineStyle</td>
+            <td bgcolor="#ffffff">Set the line style of the plotinfo.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">setPlotLinewidth</td>
+            <td bgcolor="#f3f4f5">Set the linewidth of the plotinfo.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#ffffff">setPlotColor</td>
+            <td bgcolor="#ffffff">Set the color of the plotinfo.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">setPlotMarker</td>
+            <td bgcolor="#f3f4f5">Set the marker of the plotinfo.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#ffffff">setShowsErrors</td>
+            <td bgcolor="#ffffff">Set the showErrors flag.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">setPlottingStyle</td>
+            <td bgcolor="#f3f4f5">Set one of the defined plotting styles.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#ffffff">setPlotAxes</td>
+            <td bgcolor="#ffffff">Set the axes of the plotinfo.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">setPlotFigure</td>
+            <td bgcolor="#f3f4f5">Set the figure of the plotinfo.</td>
+          </tr>
+        </tbody>
+      </table>   
+    </p>
+
+    <p>Examples of how to use plotinfo objects and these associated methods will 
+      be presented in the following sections.</p>
+
+    <!-- HEADLINE: Plotting AOs -->
+    <h4 class="title" id="plotting_aos">Plotting AOs</h4>
+    <p></p>
+
+    <!-- HEADLINE: Plot a single AO -->
+    <h5 class="title">Plot a single AO</h5>
+    <p>Given a single AO, you can tell it to plot itself by doing the following:</p>
+
+<div class="fragment"><pre class="programlisting">
+<span class="comment">% build an AO</span>
+a = ao.randn(10,10);
+<span class="comment">% plot it on a new set of axes on a new figure using the next default plot style</span>
+a.plot</pre></div>
+
+    <p>This will produce a plot like the following:</p>
+    <p><img src="images/release255_1.png" alt="Plot" width="400"></p>
+    <p>Note that if you plot the object again, the next defined plot style will 
+      be used. If you want to use the same style again, you have to set the plot 
+      style to a defined state before plotting, either by resetting the internal 
+      counter (plotinfo.resetStyles()) before plotting, or by setting the style 
+      before plotting (using, for example, a.setPlottingStyle(1)).</p>
+
+    <!-- HEADLINE: Plot an AO with a particular style -->
+    <h5 class="title">Plot an AO with a particular style</h5>
+    <p>You can plot an AO with one of you defined styles by doing the following:</p>
+
+<div class="fragment"><pre class="programlisting">
+<span class="comment">% build an AO</span>
+a = ao.randn(10,10);
+a.setPlottingStyle(4);
+<span class="comment">% plot it on a new set of axes on a new figure using the next default plot style</span>
+a.plot</pre></div>
+
+    <p><img src="images/release255_2.png" alt="Plot" width="400"></p>
+    <p>Alternatively, you can specify simply the color, or any of the other properties:</p>
+
+<div class="fragment"><pre class="programlisting">
+<span class="comment">% build an AO</span>
+a = ao(1:10);
+a.setPlotColor('m');
+a.setPlotLineStyle('--');
+<span class="comment">% plot it on a new set of axes on a new figure using the next default plot style</span>
+a.plot</pre></div>
+
+    <p><img src="images/release255_3.png" alt="Plot" width="400"></p>
+    <p>You can, if you so wish, build a plotinfo object and use it:</p>
+
+<div class="fragment"><pre class="programlisting">
+<span class="comment">% build an AO</span>
+a = ao.randn(10,10);
+pi = plotinfo('-', 3, 'k', 'none');
+a.setPlotinfo(pi);
+<span class="comment">% plot it on a new set of axes on a new figure using the next default plot style</span>
+a.plot</pre></div>
+
+    <p><img src="images/release255_4.png" alt="Plot" width="400"></p>
+
+    <!-- HEADLINE: Plotting multiple AOs on the sample axes -->
+    <h5 class="title">Plotting multiple AOs on the sample axes</h5>
+    <p>By default, if you tell ao/plot to plot multiple objects, it will try to 
+      plot them on the same set of axes. Here&rsquo;s an example of this:</p>
+
+<div class="fragment"><pre class="programlisting">
+<span class="comment">% build two AOs</span>
+a = ao(1:10);
+b = ao(2:12);
+<span class="comment">% Set their colors</span>
+a.setPlotColor('m');
+b.setPlotColor([0.3 0.5 0.24]);
+<span class="comment">% Plot them together</span>
+plot(a,b)</pre></div>
+
+    <p>This will produce a plot like this:</p>
+    <p><img src="images/release255_5.png" alt="Plot" width="400"></p>
+    <p>You can also chain together plotting events. Suppose you plot an object 
+     then later wish to plot an object on the same axes, you can do:</p>
+
+<div class="fragment"><pre class="programlisting">
+<span class="comment">% reset the plotting styles counter</span>
+plotinfo.resetStyles();
+<span class="comment">% build two AOs with particular start times</span>
+a = ao.randn(10,10);
+a.setName();
+a.setT0('2012-04-04 12:00:00')
+a.setToffset(5)
+b = ao.randn(10,10);
+b.setName();
+b.setT0('2012-04-04 12:00:20')
+<span class="comment">% Plot them together, and get the objects back with their plotinfo fields filled</span>
+[a, b] = plot(a,b)
+<span class="comment">% Create a third object</span>
+c = ao.randn(15,10);
+c.setName;
+c.setT0('2012-04-04 12:00:10')
+<span class="comment">% Set the plot axes for this object to be the same as for the first object we plotted</span>
+c.setPlotAxes(a.plotinfo.axes);
+<span class="comment">% Plot the third object</span>
+c.plot</pre></div>
+
+    <p>This will yield a plot like this:</p>
+    <p><img src="images/release255_6.png" alt="Plot" width="400"></p>
+    <p>The key here is that you tell the object &lsquo;c&rsquo; where it should plot itself (on which axes).</p>
+
+    <!-- HEADLINE: Plotting multiple AOs on subplots -->
+    <h5 class="title">Plotting multiple AOs on subplots</h5>
+    <p>As stated above, the default is to plot multiple objects on the same set 
+      of axes. Suppose you want to plot objects on subplots. Then you first 
+      create the subplot axes and tell each object where it should plot itself. 
+      Here&rsquo;s an example:</p>
+
+<div class="fragment"><pre class="programlisting">
+<span class="comment">% Reset the plot styles counter</span>
+plotinfo.resetStyles();
+<span class="comment">% Create two AOs</span>
+a = ao(1:10);
+b = ao(2:12);
+<span class="comment">% Make a new figure with two subplots</span>
+figure
+ah(1) = subplot(121);
+ah(2) = subplot(122);
+<span class="comment">% Tell each AO on which subplot axes it should plot itself</span>
+a.setPlotAxes(ah(1));
+b.setPlotAxes(ah(2));
+<span class="comment">% Plot the objects</span>
+plot(a,b)</pre></div>
+
+    <p>This should yield a plot like this:</p>
+    <p><img src="images/release255_7.png" alt="Plot" width="400"></p>
+
+    <!-- HEADLINE: Plotting complex valued AOs -->
+    <h5 class="title">Plotting complex valued AOs</h5>
+    <p>If the AO you wish to plot has complex values, the default is to plot the 
+      absolute value of the data. If you provide two axes handles, however, then 
+      the real and imaginary (for cdata or xydata) or absolute value and phase 
+      (for fsdata) will be plotted. Here&rsquo;s an example:</p>
+
+<div class="fragment"><pre class="programlisting">
+<span class="comment">% Reset the plot styles counter</span>
+plotinfo.resetStyles();
+<span class="comment">% Create a complex valued cdata AO</span>
+a = ao(complex(1:10, 1:10));
+<span class="comment">% plot magnitude</span>
+a.plot
+<span class="comment">% plot real and imag</span>
+figure
+ah(1) = subplot(211);
+ah(2) = subplot(212);
+a.setPlotAxes(ah);
+a.plot</pre></div>
+
+    <p>This will produce two plots like this:</p>
+    <p><img src="images/release255_8.png" alt="Plot" width="400"><img src="images/release255_9.png" alt="Plot" width="400"></p>
+    <p>Here&rsquo;s an example of a complex valued fsdata AO:</p>
+
+<div class="fragment"><pre class="programlisting">
+<span class="comment">% Reset the plot styles counter</span>
+plotinfo.resetStyles();
+<span class="comment">% Create a complex valued fsdata AO</span>
+a = ao.randn(1000,10);
+f = miir(plist('type', 'lowpass', 'fc', 1, 'fs', 10));
+af = a.filter(f);
+out = af + 0.1 * ao.randn(1000,10);
+T = tfe(a, out, plist('navs', 4));
+<span class="comment">% Create two subplots</span>
+figure
+ah(1) = subplot(211);
+ah(2) = subplot(212);
+<span class="comment">% Set the axes</span>
+T.setPlotAxes(ah)
+<span class="comment">% Plot the transfer function</span>
+T.plot</pre></div>
+
+    <p>This gives a plot like this:</p>
+    <p><img src="images/release255_10.png" alt="Plot" width="400"></p>
+    <p>Here&rsquo;s an example of a complex valued fsdata AO:</p>
+
+
+    <!-- HEADLINE: Plotting other kinds of objects -->
+    <h5 class="title">Plotting other kinds of objects</h5>
+    <p>In order to plot objects other than AOs, there needs to be a plot method 
+      defined. So far we have a plot method for all subclasses of ltpda_tf 
+      (pzmodel, mfir, miir, rational, parfrac). So you can now do:</p>
+
+<div class="fragment"><pre class="programlisting">
+<span class="comment">% Reset the plot styles counter</span>
+plotinfo.resetStyles();
+<span class="comment">% Create a pzmodel</span>
+p = pzmodel(1, 1, 100);
+<span class="comment">% Plot mag and phase</span>
+figure
+ah(1) = subplot(121);
+ah(2) = subplot(122);
+p.setPlotAxes(ah);
+p.plot</pre></div>
+
+    <p>Which yields:</p>
+    <p><img src="images/release255_11.png" alt="Plot" width="400"></p>
+
+    <!-- HEADLINE: Creating more complex plots -->
+    <h5 class="title">Creating more complex plots</h5>
+    <p>Now that you can specify the axes on which objects should appear, you can 
+      do very complex plots. Here&rsquo;s an example where the axes are set out and 
+      then populated.</p>
+
+<div class="fragment"><pre class="programlisting">
+<span class="comment">% Reset the plot styles counter</span>
+plotinfo.resetStyles();
+<span class="comment">% Create two AO time-series</span>
+a1 = ao.randn(100, 10);
+a1.setName();
+a2 = ao.randn(100, 10);
+a2.setName();
+<span class="comment">% compute PSDs</span>
+[S_a1, S_a2] = psd(a1, a2);
+<span class="comment">% make figure</span>
+figure
+topLeft = subplot('Position', [0.1 0.6 0.35 0.35]);
+topRight = subplot('Position', [0.55 0.6 0.35 0.35]);
+bottom = subplot('Position', [0.1 0.12 0.8 0.35]);
+<span class="comment">% set axes</span>
+a1.setPlotAxes(topLeft);
+a2.setPlotAxes(topRight);
+S_a1.setPlotAxes(bottom);
+S_a2.setPlotAxes(bottom);
+<span class="comment">% plot objects</span>
+plot(a1, a2, S_a1, S_a2)</pre></div>
+
+    <p>This will produce a figure like this:</p>
+    <p><img src="images/release255_12.png" alt="Plot" width="400"></p>
+
+    <!-- HEADLINE: Plotting Collections -->
+    <h4 class="title" id="plotting_collections">Plotting Collections</h4>
+    <p>A plot method is defined on the collection class. The way it works is to 
+      try to plot all objects in the collection on the same set of axes. If the 
+      collection object has no plotinfo, or if no axes are defined in the 
+      plotinfo, then a new set of axes are created on a new figure. If the 
+      collection does have a defined set of axes in its plotinfo, then all 
+      objects are plotted on that set of axes. This works by setting the axes 
+      to each object in the collection, then telling the object to plot itself. 
+      This relies on there being a defined plot method for each class of object 
+      in the collection.</p>
+
+    <p>Here&rsquo;s an example of plotting a collection containing two AOs on a single set of axes:</p>
+
+<div class="fragment"><pre class="programlisting">
+<span class="comment">% Reset the plot styles counter</span>
+plotinfo.resetStyles();
+<span class="comment">% Create two AO time-series</span>
+a = ao.randn(10,10);
+b = ao.randn(10,10);
+<span class="comment">% Create a collection containing these AOs</span>
+c = collection(a, b);
+<span class="comment">% Plot the collection</span>
+c.plot</pre></div>
+
+    <p>This should produce the following figure:</p>
+    <p><img src="images/release255_13.png" alt="Plot" width="400"></p>
+    <p>You can also plot collections on subplots:</p>
+
+<div class="fragment"><pre class="programlisting">
+<span class="comment">% Reset the plot styles counter</span>
+plotinfo.resetStyles();
+<span class="comment">% Create 4 AOs</span>
+a = ao.randn(10,10);
+b = ao.randn(10,10);
+c = ao.randn(10,10);
+d = ao.randn(10,10);
+<span class="comment">% Collect them into 2 collections</span>
+c1 = collection(a, b);
+c2 = collection(c, d);
+<span class="comment">% Create two subplots</span>
+figure
+ah(1) = subplot(211);
+ah(2) = subplot(212);
+<span class="comment">% Set the collection axes</span>
+c1.setPlotAxes(ah(1));
+c2.setPlotAxes(ah(2));
+<span class="comment">% Plot the collections</span>
+plot(c1, c2)</pre></div>
+    
+    <p>This will give a plot like this:</p>
+    <p><img src="images/release255_14.png" alt="Plot" width="400"></p>
+
+    <!-- HEADLINE: Plotting Matrix Objects -->
+    <h4 class="title" id="plotting_matrix">Plotting Matrix Objects</h4>
+    <p>In order to create complex arrays of subplots, you can use matrix 
+      objects. The matrix class has a plot method defined on it, allowing you 
+      to layout your objects in any way you wish.</p>
+
+    <!-- HEADLINE: Plotting a 2x1 matrix -->
+    <h5 class="title">Plotting a 2x1 matrix</h5>
+    <p>Here is an example of plotting two AOs side-by-side using a matrix object:</p>
+
+<div class="fragment"><pre class="programlisting">
+<span class="comment">% Create two AOs</span>
+a = ao.randn(10,10);
+b = ao.randn(10,10);
+a.setName;
+b.setName;
+<span class="comment">% Collect them into a matrix</span>
+m = matrix(a, b)
+<span class="comment">% Plot the matrix</span>
+m.plot</pre></div>
+
+    <p>This will produce a figure like this:</p>
+    <p><img src="images/release255_15.png" alt="Plot" width="400"></p>
+    <p>If you want the plots the other way around, you can just make a matrix of a different shape:</p>
+
+<div class="fragment"><pre class="programlisting">
+<span class="comment">% Create two AOs</span>
+a = ao.randn(10,10);
+b = ao.randn(10,10);
+a.setName;
+b.setName;
+<span class="comment">% Collect them into a matrix</span>
+m = matrix([a; b])
+<span class="comment">% Plot the matrix</span>
+m.plot</pre></div>
+
+    <p>Producing a plot like this:</p>
+    <p><img src="images/release255_16.png" alt="Plot" width="400"></p>
+
+    <!-- HEADLINE: Plotting a 2x2 matrix -->
+    <h5 class="title">Plotting a 2x2 matrix</h5>
+
+<div class="fragment"><pre class="programlisting">
+<span class="comment">% Create two AOs</span>
+a1 = ao.randn(10,10);
+a1.setName;
+a2 = ao.randn(10,10);
+a2.setName;
+a3 = ao.randn(10,10);
+a3.setName;
+a4 = ao.randn(10,10);
+a4.setName;
+<span class="comment">% create a 2x2 matrix</span>
+m1 = matrix([a1 a2; a3 a4])
+m1.plot</pre></div>
+
+    <p><img src="images/release255_17.png" alt="Plot" width="400"></p>
+
+    <!-- HEADLINE: Combining collection and matrix objects -->
+    <h4 class="title" id="plotting_combining">Combining collection and matrix objects</h4>
+    <p>By using a combination of collections and matrix objects, you can create more complex arrangements:</p>
+    
+<div class="fragment"><pre class="programlisting">
+a1 = ao.randn(10,10);
+a1.setName;
+a2 = ao.randn(10,10);
+a2.setName;
+a3 = ao.randn(10,10);
+a3.setName;
+c1 = collection(a1)
+c2 = collection(a2, a3);
+m = matrix([c1; c2])
+m.plot</pre></div>
+
+    <p><img src="images/release255_18.png" alt="Plot" width="400"></p>
+
+<div class="fragment"><pre class="programlisting">
+a1 = ao.randn(10,10);
+a1.setName;
+a2 = ao.randn(10,10);
+a2.setName;
+a3 = ao.randn(10,10);
+a3.setName;
+c1 = collection(a1)
+c2 = collection(a2, a3);
+m = matrix([c1; c2])
+m.plot</pre></div>
+
+
+    <p><img src="images/release255_19.png" alt="Plot" width="400"></p>
+
+    <!-- END: Content file -->
+    
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="releasenotesV2_6.html"><img src="b_prev.gif" border="0" align="bottom" alt="Version 2.6 LTPDA Toolbox Software"></a>&nbsp;</td>
+        <td align="left">Version 2.6 LTPDA Toolbox Software</td>
+        <td>&nbsp;</td>
+        <td align="right">Version 2.5.4 LTPDA Toolbox Software</td>
+        <td align="right" width="20"><a href="releasenotesV2_5_4.html"><img src="b_next.gif" border="0" align="bottom" alt="Version 2.5.4 LTPDA Toolbox Software"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

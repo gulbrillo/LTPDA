@@ -1,0 +1,61 @@
+# circuit definition
+
+r r1 21.6850736450k nin nsum ### fitted
+r r2 14.6653597906k nsum np ### fitted
+r r3 1.1508003353k nout nm ### fitted
+r r4 3.5551286677k nm GND ### fitted
+c c2 1u np GND ### fitted
+c c5 1u nsum nout ### fitted
+op op1 tle2227 np nm nout       
+
+factor 1
+uinput nin 50
+#zin abs
+ 
+
+# computing instructions
+freq log 1  1k 1000
+
+uoutput nout:abs:deg
+
+#zin 
+#maxinput
+#noisy all  
+#noise nout2 all sum
+
+#mininput 1 10k 10M
+#minnoise nout 10k 100k 3n
+#margin allop
+
+
+#fitting instructions
+param r1 1k 1000M
+param r2 1k 1000M
+param r3 1k 1000M
+param r4 1k 1000k
+#param c2 0n 1u
+#param c5 0n 1u
+
+
+
+
+#param factor 1m 1k
+fit 2plpresp.out dbdeg  rel
+
+
+
+#gnuterm eps
+gnuterm x11
+rewrite samebetter
+
+
+
+
+
+
+
+
+
+
+
+

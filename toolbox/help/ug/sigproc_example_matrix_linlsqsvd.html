@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Linear least squares with singular value deconposition - multiple experiments (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="sigproc_example_ao_linlsqsvd.html"><img src="b_prev.gif" border="0" align="bottom" alt="Linear least squares with singular value deconposition - single experiment"></a>&nbsp;&nbsp;&nbsp;<a href="sigproc_example_matrix_linfitsvd.html"><img src="b_next.gif" border="0" align="bottom" alt="Iterative linear parameter estimation for multichannel systems - symbolic system model in frequency domain"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Linear least squares with singular value deconposition - multiple experiments</h1>
+    <hr>
+    
+    <p>
+      
+
+
+<p>Determine the coefficients of a linear combination of noises</p>
+
+<h2>Contents</h2>
+<div><ul><li><a href="#1">Make data</a></li>
+<li><a href="#2">Do fit</a></li></ul></div>
+
+<h2>Make data<a name="1"></a></h2>
+
+<div class="fragment"><pre>
+
+  fs    = 10;
+  nsecs = 10;
+
+  <span class="comment">% fit basis for 2 experiments case</span>
+  B1 = ao(plist(<span class="string">'tsfcn'</span>, <span class="string">'randn(size(t))'</span>, <span class="string">'fs'</span>, fs, <span class="string">'nsecs'</span>, nsecs, <span class="string">'yunits'</span>, <span class="string">'T'</span>));
+  B1.setName;
+  B2 = ao(plist(<span class="string">'tsfcn'</span>, <span class="string">'randn(size(t))'</span>, <span class="string">'fs'</span>, fs, <span class="string">'nsecs'</span>, nsecs, <span class="string">'yunits'</span>, <span class="string">'T'</span>));
+  B2.setName;
+  B3 = ao(plist(<span class="string">'tsfcn'</span>, <span class="string">'randn(size(t))'</span>, <span class="string">'fs'</span>, fs, <span class="string">'nsecs'</span>, nsecs, <span class="string">'yunits'</span>, <span class="string">'T'</span>));
+  B3.setName;
+  B4 = ao(plist(<span class="string">'tsfcn'</span>, <span class="string">'randn(size(t))'</span>, <span class="string">'fs'</span>, fs, <span class="string">'nsecs'</span>, nsecs, <span class="string">'yunits'</span>, <span class="string">'T'</span>));
+  B4.setName;
+
+  C1 = matrix(B1,B2,plist(<span class="string">'shape'</span>,[2,1]));
+  C1.setName;
+  C2 = matrix(B3,B4,plist(<span class="string">'shape'</span>,[2,1]));
+  C2.setName;
+
+  <span class="comment">% make additive noise</span>
+  n1  = ao(plist(<span class="string">'tsfcn'</span>, <span class="string">'randn(size(t))'</span>, <span class="string">'fs'</span>, fs, <span class="string">'nsecs'</span>, nsecs, <span class="string">'yunits'</span>, <span class="string">'m'</span>));
+  n1.setName;
+  n2  = ao(plist(<span class="string">'tsfcn'</span>, <span class="string">'randn(size(t))'</span>, <span class="string">'fs'</span>, fs, <span class="string">'nsecs'</span>, nsecs, <span class="string">'yunits'</span>, <span class="string">'m'</span>));
+  n2.setName;
+
+  <span class="comment">% coefficients of the linear combination</span>
+  a1 = ao(1,plist(<span class="string">'yunits'</span>,<span class="string">'m/T'</span>));
+  a1.setName;
+  a2 = ao(2,plist(<span class="string">'yunits'</span>,<span class="string">'m/T'</span>));
+  a2.setName;
+
+  <span class="comment">% assign output values</span>
+  <span class="comment">% y is a matrix containing the outputs of two experiments:</span>
+  y1 = a1*B1 + a2*B3 + n1;
+  y2 = a1*B2 + a2*B4 + n2;
+  y = matrix(y1,y2,plist(<span class="string">'shape'</span>,[2,1]));
+
+</pre></div>
+
+
+</pre><h2>Do fit<a name="2"></a></h2>
+
+  <div class="fragment"><pre>
+
+  <span class="comment">% Get a fit with linlsqsvd</span>
+  pobj = linlsqsvd(C1, C2, y)
+
+</pre></div>
+
+<div class="fragment"><pre>
+
+  ---- pest 1 ----
+         name: a1*C1+a2*C2
+  param names: {'a1', 'a2'}
+            y: [0.97312642877028477;2.0892132651873916]
+           dy: [0.06611444020240001;0.065007088662104057]
+       yunits: [T^(-1) m][T^(-1) m]
+          pdf: []
+          cov: [2x2], ([0.00437111920327673 -0.000390118937121542;-0.000390118937121542 0.00422592157632266])
+         corr: []
+        chain: []
+         chi2: 0.85210029717685576
+          dof: 198
+       models: matrix(B1/tsdata Ndata=[100x1], fs=10, nsecs=10, t0=1970-01-01 00:00:00.000 UTC, B2/tsdata Ndata=[100x1], fs=10, nsecs=10, t0=1970-01-01 00:00:00.000 UTC), matrix(B3/tsdata Ndata=[100x1], fs=10, nsecs=10, t0=1970-01-01 00:00:00.000 UTC, B4/tsdata Ndata=[100x1], fs=10, nsecs=10, t0=1970-01-01 00:00:00.000 UTC)
+  description: 
+         UUID: 545c9699-e749-40d5-bbe1-1322599c9c5d
+  ----------------
+
+</pre></div>
+
+<div class="fragment"><pre>
+
+  <span class="comment">% do linear combination: using eval</span>
+  yfit = pobj.eval;
+
+  <span class="comment">% extract objects</span>
+  yfit1 = getObjectAtIndex(yfit,1);
+  yfit2 = getObjectAtIndex(yfit,2);
+
+  <span class="comment">% Plot - compare data with fit</span>
+  iplot(y1, yfit1)
+  iplot(y2, yfit2)
+
+</pre></div>
+
+<p>
+  <div align="center">
+    <IMG src="images/example_matrix_linlsqsvd_01.png" align="center" border="0">
+  </div>
+</p>
+<p>
+  <div align="center">
+    <IMG src="images/example_matrix_linlsqsvd_02.png" align="center" border="0">
+  </div>
+</p>
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="sigproc_example_ao_linlsqsvd.html"><img src="b_prev.gif" border="0" align="bottom" alt="Linear least squares with singular value deconposition - single experiment"></a>&nbsp;</td>
+        <td align="left">Linear least squares with singular value deconposition - single experiment</td>
+        <td>&nbsp;</td>
+        <td align="right">Iterative linear parameter estimation for multichannel systems - symbolic system model in frequency domain</td>
+        <td align="right" width="20"><a href="sigproc_example_matrix_linfitsvd.html"><img src="b_next.gif" border="0" align="bottom" alt="Iterative linear parameter estimation for multichannel systems - symbolic system model in frequency domain"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

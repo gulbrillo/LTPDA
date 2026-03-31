@@ -1,0 +1,456 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>IFO/Temperature Example -  Spectral Analysis (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_topic_3_5.html"><img src="b_prev.gif" border="0" align="bottom" alt="Empirical Transfer Function estimation"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_topic_4.html"><img src="b_next.gif" border="0" align="bottom" alt="Topic 4 - Transfer function models and digital filtering"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">IFO/Temperature Example -  Spectral Analysis</h1>
+    <hr>
+    
+    <p>
+      
+<h2>Loading the consolidated data sets from topic 2</h2>
+In the last topic you should have saved your consolidated data files as
+<p>
+<ul>
+		 <li>ifo_temp_example/temp_fixed.xml</li>
+		 <li>ifo_temp_example/ifo_fixed.xml</li>
+</ul>
+</p>
+
+<p>
+  In order to proceed with the spectral analysis, we need to use the <tt>ao</tt> constuctor, with the
+  set of parameters "From XML File". The key
+  parameters are:
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="15%"/>
+      <col width="35%"/>
+      <col width="50%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Key</th>
+        <th class="categorylist">Value</th>
+        <th class="categorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Key 'filename' for IFO -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>FILENAME</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">'ifo_temp_example/ifo_fixed.xml'</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>The name of the file to read the data from.</p>
+        </td>
+      </tr>
+       <!-- Key 'filename' for T -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>FILENAME</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">'ifo_temp_example/temp_fixed.xml'</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>The name of the file to read the data from.</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+<p>Hint: the command-line sequence may be similar to the following:
+  <div class="fragment"><pre>
+<span class="comment">%% Get the consolidated data</span>
+<span class="comment">% Using the xml format</span>
+
+T_filename = <span class="string">'ifo_temp_example/temp_fixed.xml'</span>;
+x_filename = <span class="string">'ifo_temp_example/ifo_fixed.xml'</span>;
+
+pl_load_T = plist(<span class="string">'filename'</span>, T_filename);
+pl_load_x = plist(<span class="string">'filename'</span>, x_filename);
+
+<span class="comment">% Build the data aos</span>
+T = ao(pl_load_T);
+x = ao(pl_load_x);</pre></div>
+</p>
+<br>
+<br>
+<h2>Estimating the PSD of the signals</h2>
+<p>
+  To perform the PSD estimation, you can use the method
+<p>
+  <table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1">
+    <tr width="90%">
+      <td>
+        <tt>ao/lpsd</tt>
+      </td>
+    </tr>
+  </table>
+</p>
+<p>Hint: the command-line sequence may be similar to the following:
+  <div class="fragment"><pre>
+<span class="comment">%% PSD</span>
+x_psd = lpsd(x)
+x_psd.setName(<span class="string">'Interferometer'</span>);
+
+T_psd = lpsd(T)
+T_psd.setName(<span class="string">'Temperature'</span>);
+
+<span class="comment">% Plot estimated PSD</span>
+pl_plot = plist(<span class="string">'Arrangement'</span>, <span class="string">'subplots'</span>, <span class="string">'LineStyles'</span>, {<span class="string">'-'</span>,<span class="string">'-'</span>},<span class="string">'Linecolors'</span>, {<span class="string">'b'</span>, <span class="string">'r'</span>});
+iplot(sqrt(x_psd), sqrt(T_psd), pl_plot);</pre></div>
+</p>
+<br>
+<br>
+<h2>Reducing time interval</h2>
+
+<p>
+    Looking at the output of the analysis it is easy to recognize in the IFO PSD the signature of
+    some strong "spike" in the data. Indeed, if we plot the <tt>x</tt> data, we can find it
+    around <tt>t = 40800</tt>. There is also a leftover from the filtering process performed during
+    consolidation right near to the last data.
+  </p>
+  <p>
+    We can then try to estimate the impact of the "glitch" by comparing the results we obtain by
+    passing to <tt>ao/lpsd</tt> a reduced fraction of the data.
+  </p>
+
+  <p>
+    In order to select a fraction of the data we use the method:
+
+    <table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1">
+      <tr width="90%">
+        <td>
+          <tt>ao/split</tt>
+        </td>
+      </tr>
+    </table>
+  </p>
+<p>
+  The relevant parameters for this method are listed here, together with their recommended values:
+</p>
+<p>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="15%"/>
+      <col width="35%"/>
+      <col width="50%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Key</th>
+        <th class="categorylist">Value</th>
+        <th class="categorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Key 'SPLIT_TYPE' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>SPLIT_TYPE</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">'interval'</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>The method for splitting the <tt>ao</tt></p>
+        </td>
+      </tr>
+      <!-- Key 'START_TIME' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>START_TIME</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          x.t0 + 40800
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>A time-object to start at</p>
+        </td>
+      </tr>
+      <!-- Key 'END_TIME' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>END_TIME</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          x.t0 + 193500
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>A time-object to end at</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+<p>
+  Notice that in order to perform this action, we access one property of the <tt>ao</tt> object,
+  called "t0". The call to the <tt>t0</tt> methods gives as an output an object of the
+  <tt>time</tt> class. Additionally, it's possibly to directly add a numer (in seconds) to
+  obtain a new time object.
+</p>
+<p>
+  Hint: the command-line sequence may be similar to the following:
+</p>
+<p>
+ <div class="fragment"><pre>
+<span class="comment">%% Skip some IFO glitch from the consolidation</span>
+
+pl_split = plist(<span class="string">'start_time'</span>, x.t0 + 40800, ...
+  <span class="string">'end_time'</span>, x.t0 + 193500);
+
+x_red = split(x, pl_split);
+T_red = split(T, pl_split);</pre></div>
+</p>
+<p>
+  <table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1">
+    <tr width="90%">
+      <td>
+        Note: you can also use the parameter 'times' for split to specify times relative to the first sample.
+        In this case:
+        <div class="fragment"><pre>
+            plist(<span class="string">'times'</span>, [40800 193500]).
+          </pre>
+        </div>
+        would work.
+      </td>
+    </tr>
+  </table>
+</p>
+<p>
+  And we can proceed, evaluating 2 more <tt>ao</tt>s to compare the effect of skipping the
+  "glitch". After doing that, we can plot them in comparison.
+</p>
+<p>Hint:</p>
+<p>
+<div class="fragment"><pre>
+<span class="comment">%% PSD</span>
+x_red_psd = lpsd(x_red);
+x_red_psd.setName(<span class="string">'Interferometer'</span>);
+
+T_red_psd = lpsd(T_red)
+T_red_psd.setName(<span class="string">'Temperature'</span>);
+
+<span class="comment">% Plot estimated PSD</span>
+pl_plot = plist(<span class="string">'Arrangement'</span>, <span class="string">'stacked'</span>, <span class="string">'LineStyles'</span>, {<span class="string">'-'</span>,<span class="string">'-'</span>},<span class="string">'Linecolors'</span>, {<span class="string">'b'</span>, <span class="string">'r'</span>});
+iplot(sqrt(x_psd), sqrt(x_red_psd), pl_plot);
+iplot(sqrt(T_psd), sqrt(T_red_psd), pl_plot);</pre></div>
+</p>
+<br>
+<br>
+<img src="images/ltpda_training_1/topic3/IFO_PSD_1.png" alt="PSD of IFO data" border="1">
+<br>
+<br>
+<img src="images/ltpda_training_1/topic3/T_PSD_1.png" alt="PSD of Temperature data" border="1">
+<br>
+<br>
+ <h2>Estimating the cross-spectra</h2>
+ <p>
+   We can now proceed and use the
+   <table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1">
+     <tr width="90%">
+       <td>
+         <tt>ao/lcpsd</tt>
+       </td>
+     </tr>
+   </table>
+   method to evaluate the cross-spectra of the signals, employing a shorter window in order to reduce the
+   scatter of the estimated values.
+ </p>
+<p>
+Hint:
+</p>
+<p>
+<div class="fragment"><pre>
+<span class="comment">%% CPSD estimate</span>
+CTx = lcpsd(T_red, x_red);
+CxT = lcpsd(x_red, T_red);
+
+<span class="comment">% Plot estimated CPSD</span>
+iplot(CTx);
+iplot(CxT);</pre></div>
+</p>
+<br>
+<br>
+<img src="images/ltpda_training_1/topic3/IFO_T_CPSD_1.png" alt="CPSD of IFO and T data" border="1">
+<br>
+<br>
+<img src="images/ltpda_training_1/topic3/IFO_T_CPSD_2.png" alt="CPSD of T and IFO data" border="1">
+<br>
+<br>
+<p>
+  As expected, there is a strong low-frequency correlation between the IFO data <tt>x</tt> and the
+  temperature data <tt>T</tt>.
+</p>
+<br>
+<br>
+<h2>Estimating the cross-coherence</h2>
+<p>
+  Similarly, we can now proceed and use the
+  <table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1">
+    <tr width="90%">
+      <td>
+        <tt>ao/lcohere</tt>
+      </td>
+    </tr>
+  </table>
+  method to evaluate the cross-coherence of the signals. The output will be a [2x2] matrix of <tt>ao</tt>s,
+  and we want to look at one of the off-diagonal terms:
+</p>
+<p>
+<div class="fragment"><pre>
+<span class="comment">%% Coherence estimate</span>
+coh = lcohere(T_red, x_red);
+      
+<span class="comment">% Plot estimated cross-coherence</span>
+iplot(coh, plist(<span class="string">'YScales'</span>, <span class="string">'lin'</span>))</pre></div>
+</p>
+<br>
+<br>
+<img src="images/ltpda_training_1/topic3/IFO_T_cohere_1.png" alt="Cross-coherence of T and IFO data" border="1">
+<br>
+<br>
+<p>
+  The coherence approaches 1 at low frequency.
+</p>
+<br>
+<br>
+ <h2>Estimating the transfer function of temperature</h2>
+ <p>
+   We want now to perform noise projection, trying to estimate the transfer function of the
+   temperature signal into the interferometer output.
+   In order to do that, we can use the
+   <table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1">
+     <tr width="90%">
+       <td>
+         <tt>ao/ltfe</tt>
+       </td>
+     </tr>
+   </table> method.
+ </p>
+<p>
+ We also want to plot this transfer function to check that the units are correct. <br />
+ Hint:
+<div class="fragment"><pre>
+<span class="comment">%% transfer function estimate</span>
+tf = ltfe(T_red, x_red)
+
+<span class="comment">% Plot estimated TF</span>
+iplot(tf);</pre></div>
+</p>
+<br>
+<br>
+<img src="images/ltpda_training_1/topic3/IFO_T_TF_1.png" alt="Transfer function T to IFO" border="1">
+<br>
+<br>
+<p>
+  As expected, the transfer function T -> IFO is well measured at low frequencies.
+</p>
+
+<h2>Noise projection</h2>
+<p>
+  We can eventually perform the noise projection, estimating the amount of the noise in the IFO
+  being actually caused by temperature fluctuations. It's a frequency domain estimate:
+</p>
+<p>
+<div class="fragment"><pre>
+<span class="comment">%% Noise projection in frequency domain</span>
+
+proj = T_red_psd .* (abs(tf)).^2;
+proj.simplifyYunits;
+proj.setName(<span class="string">'temp. contrib. projection'</span>)
+
+<span class="comment">%% Plotting the noise projection in frequency domain</span>
+iplot(x_red_psd, proj);</pre></div>
+</p>
+<p>
+  The contribution of the temperature fluctuations is clearly estimated.
+</p>
+<br>
+<br>
+<img src="images/ltpda_training_1/topic3/IFO_projection.png" alt="Noise projection of T into IFO" border="1">
+<br>
+<br>
+  <h2>Saving the results</h2>
+<p>
+  Let's fininsh this section of the exercise by saving the results on disk, in xml or mat format. We want to keep the
+  results about the Power Spectral Density and Transfer Function Estimates, at least.
+</p>
+<p>
+Hint: the command-line sequence may be similar to the following:
+<div class="fragment"><pre>
+<span class="comment">%% Save the PSD data</span>
+<span class="comment">% xml format</span>
+
+pl_save_x_PSD = plist(<span class="string">'filename'</span>, <span class="string">'ifo_temp_example/ifo_psd.xml'</span>);
+pl_save_T_PSD = plist(<span class="string">'filename'</span>, <span class="string">'ifo_temp_example/T_psd.xml'</span>);
+
+pl_save_xT_CPSD = plist(<span class="string">'filename'</span>, <span class="string">'ifo_temp_example/ifo_T_cpsd.xml'</span>);
+pl_save_xT_cohere = plist(<span class="string">'filename'</span>, <span class="string">'ifo_temp_example/ifo_T_cohere.xml'</span>);
+
+pl_save_xT_TFE = plist(<span class="string">'filename'</span>, <span class="string">'ifo_temp_example/T_ifo_tf.xml'</span>);</pre></div>
+</p>
+<p>
+or
+<div class="fragment"><pre>
+<span class="comment">% mat format</span>
+
+pl_save_x_PSD = plist(<span class="string">'filename'</span>, <span class="string">'ifo_temp_example/ifo_psd.mat'</span>);
+pl_save_T_PSD = plist(<span class="string">'filename'</span>, <span class="string">'ifo_temp_example/T_psd.mat'</span>);
+
+pl_save_xT_CPSD = plist(<span class="string">'filename'</span>, <span class="string">'ifo_temp_example/ifo_T_cpsd.mat'</span>);
+pl_save_xT_cohere = plist(<span class="string">'filename'</span>, <span class="string">'ifo_temp_example/ifo_T_cohere.mat'</span>);
+
+pl_save_xT_TFE = plist(<span class="string">'filename'</span>, <span class="string">'ifo_temp_example/T_ifo_tf.mat'</span>);</pre></div>
+</p>
+<p>and
+<div class="fragment"><pre>
+<span class="comment">% Save</span>
+x_red_psd.save(pl_save_x_PSD);
+T_red_psd.save(pl_save_T_PSD);
+CxT.save(pl_save_xT_CPSD);
+coh.save(pl_save_xT_cohere);
+tf.save(pl_save_xT_TFE);</pre></div>
+</p>
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_topic_3_5.html"><img src="b_prev.gif" border="0" align="bottom" alt="Empirical Transfer Function estimation"></a>&nbsp;</td>
+        <td align="left">Empirical Transfer Function estimation</td>
+        <td>&nbsp;</td>
+        <td align="right">Topic 4 - Transfer function models and digital filtering</td>
+        <td align="right" width="20"><a href="ltpda_training_topic_4.html"><img src="b_next.gif" border="0" align="bottom" alt="Topic 4 - Transfer function models and digital filtering"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

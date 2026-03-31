@@ -1,0 +1,24 @@
+<!-- Template for submitting objects to databases -->
+<!-- $Id$ -->
+
+<submission_info>
+  <experiment_title>
+	A title for the experiment.
+  </experiment_title>
+  <experiment_description>
+    Some sensible description of the experiment.
+  </experiment_description>
+  <analysis_description>
+    Describe the analysis that was done.
+  </analysis_description>
+  <quantity>      
+  </quantity>
+  <keywords>
+  </keywords>
+  <reference_ids>
+  </reference_ids>
+  <additional_comments>
+  </additional_comments>
+  <additional_authors>
+  </additional_authors>
+</submission_info>

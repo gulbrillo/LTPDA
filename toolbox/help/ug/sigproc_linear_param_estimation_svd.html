@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Linear Parameter Estimation with Singular Value Decomposition (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="sigproc_fit_mcmc_ex1.html"><img src="b_prev.gif" border="0" align="bottom" alt="Markov Chain Monte Carlo - Simple experiment"></a>&nbsp;&nbsp;&nbsp;<a href="sigproc_example_ao_linlsqsvd.html"><img src="b_next.gif" border="0" align="bottom" alt="Linear least squares with singular value deconposition - single experiment"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Linear Parameter Estimation with Singular Value Decomposition</h1>
+    <hr>
+    
+    <p>
+      <!-- $Id$ -->
+
+  <!-- ================================================== -->
+  <!--                 BEGIN CONTENT FILE                 -->
+  <!-- ================================================== -->
+  <!-- ===== link box: Begin ===== -->
+  <p>
+    <table border="1"  width="80%">
+      <tr>
+        <td>
+          <table border="0" cellpadding="5" class="categorylist" width="100%">
+            <colgroup>
+              <col width="37%"/>
+              <col width="63%"/>
+            </colgroup>
+            <tbody>
+              <tr valign="top">
+                <td>
+                  <a href="#linlsqsvd_1exp">ao/linlsqsvd</a>
+                </td>
+                <td>Linear least squares with singular value deconposition - single experiment.</td>
+              </tr>
+              <tr valign="top">
+                <td>
+                  <a href="#linlsqsvd_Nexp">matrix/linlsqsvd</a>
+                </td>
+                <td>Linear least squares with singular value deconposition - multiple experiments.</td>
+              </tr>
+              <tr valign="top">
+                <td>
+                  <a href="#linfitsvd1">matrix/linfitsvd</a>
+                </td>
+                <td>Iterative linear parameter estimation for multichannel systems - symbolic system model in frequency domain.</td>
+              </tr>
+              <tr valign="top">
+                <td>
+                  <a href="#linfitsvd2">matrix/linfitsvd</a>
+                </td>
+                <td>Iterative linear parameter estimation for multichannel systems - ssm system model in time domain.</td>
+              </tr>
+              <tr valign="top">
+                <td>
+                  <a href="#ref">References</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </p>
+  <!-- ===== link box: End ====== -->
+  
+  <p>
+  </p>
+  <p>
+    The following sections gives an introduction to the linear parameters
+    estimation methods based on singular value decomposition.
+  </p>
+
+  <!-- ===== ao/linlsqsvd ====== -->
+  <h2><a name="#linlsqsvd_1exp">Linear least squares with singular value deconposition - single experiment.</a></h2>
+  <p>
+    We report an <a href="sigproc_example_ao_linlsqsvd.html">example</a>
+    of the application of <a href="matlab:doc('ao/linlsqsvd')">ao/linlsqsvd</a>.
+    The <a href="sigproc_example_ao_linlsqsvd.html">example</a> shows how to
+    perform a linear parameters estimation for a single data series which is
+    representing the output of an experiment on a given physical system.
+  </p>
+  
+  <!-- ===== matrix/linlsqsvd ====== -->
+  <h2><a name="#linlsqsvd_Nexp">Linear least squares with singular value deconposition - multiple experiments.</a></h2>
+  <p>
+    We report an <a href="sigproc_example_matrix_linlsqsvd.html">example</a>
+    of the application of <a href="matlab:doc('matrix/linlsqsvd')">matrix/linlsqsvd</a>.
+    The <a href="sigproc_example_matrix_linlsqsvd.html">example</a> shows how to
+    perform a linear parameters estimation for multiple data series which are
+    representing the output of multiple experiments on a given physical system.
+  </p>
+  
+  <!-- ===== matrix/linfitsvd ====== -->
+  <h2><a name="#linfitsvd1">Iterative linear parameter estimation for multichannel systems - symbolic system model in frequency domain.</a></h2>
+  <p>
+    We report an <a href="sigproc_example_matrix_linfitsvd.html">example</a>
+    of the application of <a href="matlab:doc('matrix/linfitsvd')">matrix/linfitsvd</a>.
+    The <a href="sigproc_example_matrix_linfitsvd.html">example</a> shows how to
+    perform an iterative linear parameters estimation for a multichannel system.
+    System model is analystic and frequency domain. Fit is performed in time domain.
+    Further details can be found in ref. [1].
+  </p>
+  
+  <!-- ===== matrix/linfitsvd ====== -->
+  <h2><a name="#linfitsvd2">Iterative linear parameter estimation for multichannel systems - ssm system model in time domain.</a></h2>
+  <p>
+    We report an <a href="sigproc_example_matrix_linfitsvd_ssm.html">example</a>
+    of the application of <a href="matlab:doc('matrix/linfitsvd')">matrix/linfitsvd</a>.
+    The <a href="sigproc_example_matrix_linfitsvd_ssm.html">example</a> shows how to
+    perform an iterative linear parameters estimation for a multichannel system.
+    System model is ssm and time domain. Fit is performed in time domain.
+  </p>
+  
+  <h2><a name="#ref"> References</a></h2>
+  <ol>
+    <li> M Nofrarias, L Ferraioli, G Congedo, Comparison of parameter 
+    estimates results in STOC Exercise 6, S2-AEI-TN-3070.</li>
+  </ol>
+  
+  
+  
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="sigproc_fit_mcmc_ex1.html"><img src="b_prev.gif" border="0" align="bottom" alt="Markov Chain Monte Carlo - Simple experiment"></a>&nbsp;</td>
+        <td align="left">Markov Chain Monte Carlo - Simple experiment</td>
+        <td>&nbsp;</td>
+        <td align="right">Linear least squares with singular value deconposition - single experiment</td>
+        <td align="right" width="20"><a href="sigproc_example_ao_linlsqsvd.html"><img src="b_next.gif" border="0" align="bottom" alt="Linear least squares with singular value deconposition - single experiment"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

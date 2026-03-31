@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Cross-spectral density estimates (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="sigproc_psd.html"><img src="b_prev.gif" border="0" align="bottom" alt="Power spectral density estimates"></a>&nbsp;&nbsp;&nbsp;<a href="sigproc_cohere.html"><img src="b_next.gif" border="0" align="bottom" alt="Cross coherence estimates"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Cross-spectral density estimates</h1>
+    <hr>
+    
+    <p>
+      <h2>Description</h2>
+<p>
+  Cross-power spectral density is performed by the Welch's averaged, modified periodogram method.
+  The LTPDA method <a href="matlab:doc('ao/cpsd')">ao/cpsd</a> estimates the cross-spectral density of time-series
+  signals, included in the input <tt>ao</tt>s following the Welch's averaged, modified periodogram method <a href="#references">[1]</a>. 
+  Data are windowed prior to the estimation of the spectra, by multiplying
+  it with a <a href="specwin.html">spectral window object</a>, and can be detrended by polinomial of time in order to reduce the impact
+  of the border discontinuities. The window length is adjustable to shorter lenghts to reduce the spectral
+  density uncertainties, and the percentage of subsequent window overlap can be adjusted as well.
+  <br>
+  <br>
+  <h2>Syntax</h2>
+</p>
+<div class="fragment"><pre>
+    <br>    b = cpsd(a1,a2,pl)
+  </pre>
+</div>
+<p>
+  <tt>a1</tt> and <tt>a2</tt> are the 2 <tt>ao</tt>s containing the input time series to be evaluated, <tt>b</tt> is the output object, 
+  and <tt>pl</tt> is an optional parameters list.
+  <h2>Parameters</h2>  
+The parameter list <tt>pl</tt> includes the following parameters:</p>
+<ul>
+  <li> <tt>'Nfft'</tt> - number of samples in each fft [default: length of input data]
+    A string value containing the variable 'fs' can
+  also be used, e.g., plist('Nfft', '2*fs') </li>
+ <li> <tt>'Win'</tt> - the window to be applied to the data to remove the 
+    discontinuities at edges of segments. [default: taken from user prefs].<br>
+    The window is described by a string with its name and, only in the case of Kaiser window,
+  the additional parameter <tt>'psll'</tt>. <br>For instance: plist('Win', 'Kaiser', 'psll', 200).  </li>
+  <li> <tt>'Olap'</tt> - segment percent overlap [default: -1, (taken from window function)] </li>
+  <li> <tt>'Order'</tt> - order of segment detrending <ul>
+      <li>      -1 - no detrending  </li>
+      <li>       0 - subtract mean [default] </li>
+      <li>       1 - subtract linear fit </li>
+  <li>       N - subtract fit of polynomial, order N  </li> </ul> </li>
+  <li><tt>'Navs'</tt>  - number of averages. If set, and if Nfft was set to 0 or -1, the number of points for each window will be calculated to match the request. [default: -1, not set] </li> 
+ <li><tt>'Times'</tt>  - interval of time to evaluate the calculation on. If empty [default], it will take the whole section.</li>
+</ul>
+<p>
+  The length of the window is set by the value of the parameter <tt>'Nfft'</tt>, so that the window
+  is actually rebuilt using only the key features of the window, i.e. the name and, for Kaiser windows, the PSLL.
+</p>
+
+<p>As an alternative to setting the number of points <tt>'Nfft'</tt> in each window, it's possible to ask for a given number of CPSD estimates by setting the  <tt>'Navs'</tt> parameter, and the algorithm takes care of calculating the correct window length, according to the amount of overlap between subsequent segments.</p>
+<p>
+  <table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1">
+    <tr width="90%">
+      <td>
+        If the user doesn't specify the value of a given parameter, the default value is used.
+      </td>
+    </tr>
+  </table>
+</p>
+
+<p>
+  The function makes CPSD estimates between the 2 input <tt>ao</tt>s. The input argument
+  list must contain 2 analysis objects, and the output will contain the CPSD estimate.
+  If passing two identical objects <tt>ai</tt>, the output will be equivalent to the output of <tt>psd(ai)</tt>.
+</p>
+</pre> </div>
+</p>
+<p>
+  <h2>Algorithm</h2>
+  <p>
+    The algorithm is based in standard MATLAB's tools, as the ones used by <a href="matlab:doc('pwelch')">pwelch</a>. However, in order to 
+    compute the standard deviation of mean for each frequency bin, the averaging of the different segments is performed using Welford's 
+    algorithm  <a href="#references">[2]</a> which allows to compute mean and variance in one loop.   
+  </p>  
+  <h2>Example</h2>
+</p>
+<p>
+  Evaluation of the CPSD of two time-series represented by: a low frequency sinewave signal superimposed to
+  white noise, and a low frequency sinewave signal at the same frequency, phase shifted and with different
+  amplitude, superimposed to white noise.
+</p>
+<div class="fragment"><pre>
+    nsecs = 1000;
+    x = ao(plist(<span class="string">'waveform'</span>,<span class="string">'sine wave'</span>,<span class="string">'f'</span>,0.1,<span class="string">'A'</span>,1,<span class="string">'nsecs'</span>,nsecs,<span class="string">'fs'</span>,10)) + ...
+    ao(plist(<span class="string">'waveform'</span>,<span class="string">'noise'</span>,<span class="string">'type'</span>,<span class="string">'normal'</span>,<span class="string">'nsecs'</span>,nsecs,<span class="string">'fs'</span>,10));
+    x.setYunits(<span class="string">'m'</span>);
+    y = ao(plist(<span class="string">'waveform'</span>,<span class="string">'sine wave'</span>,<span class="string">'f</span>',0.1,<span class="string">'A'</span>,2,<span class="string">'nsecs'</span>,nsecs,<span class="string">'fs'</span>,10,<span class="string">'phi'</span>,90)) + ...
+    4*ao(plist(<span class="string">'waveform'</span>,<span class="string">'noise'</span>,<span class="string">'type'</span>,<span class="string">'normal'</span>,<span class="string">'nsecs'</span>,nsecs,<span class="string">'fs'</span>,10));
+    y.setYunits(<span class="string">'V'</span>);
+    z = cpsd(x,y,plist(<span class="string">'nfft'</span>,1000));
+    iplot(z);
+  </pre>
+</div>
+
+<img src="images/cpsd_1.png" alt="" border="3">
+<br>
+
+<h2><a name="references">References</a></h2>
+
+<ol>
+  <li> P.D. Welch, The Use of Fast Fourier Transform for the Estimation of Power Spectra: A Method Based on Time Averaging Over Short,
+Modified Periodograms, <i>IEEE Trans. on Audio and Electroacoustics</i>, Vol. 15, No. 2 (1967), pp. 70 - 73</a></li>
+  <li> B. P. Weldford, Note on a Method for Calculating Corrected Sums of Squares and Products,
+  <i>Technometrics<i>, Vol. 4, No. 3 (1962), pp 419 - 420.</li>
+</ol>
+
+
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="sigproc_psd.html"><img src="b_prev.gif" border="0" align="bottom" alt="Power spectral density estimates"></a>&nbsp;</td>
+        <td align="left">Power spectral density estimates</td>
+        <td>&nbsp;</td>
+        <td align="right">Cross coherence estimates</td>
+        <td align="right" width="20"><a href="sigproc_cohere.html"><img src="b_next.gif" border="0" align="bottom" alt="Cross coherence estimates"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

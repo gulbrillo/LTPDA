@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Retrieving LTPDA objects from a repository (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="repo_explore.html"><img src="b_prev.gif" border="0" align="bottom" alt="Exploring an LTPDA Repository"></a>&nbsp;&nbsp;&nbsp;<a href="repo_gui.html"><img src="b_next.gif" border="0" align="bottom" alt="Using the LTPDA Repository GUI"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Retrieving LTPDA objects from a repository</h1>
+    <hr>
+    
+    <p>
+      <p>
+  Objects can be retrieved from the repository either by specifying an object ID or a collection ID. The LTPDA 
+  Toolbox provides class construtors to retrieve objects. In additon, to retrieve a collection of objects, the <tt>collection</tt> class
+  can be used.
+</p>
+<br>
+<h2>The retrieval process</h2>
+<p>
+  When an object is retrieved, the following steps are taken:
+  <ol>
+    <li>The object type for the requested ID is retrieved from the <tt>objmeta</tt> table</li>
+    <li>A call is made to the appropriate class constructor</li>
+    <li>The class constructor retrieves the XML string from the objs table</li>
+    <li>The XML string is then converted into an XML Xdoc object</li>
+    <li>The Xdoc object is then parsed to recreate the desired object</li>
+  </ol>
+</p>
+
+<br>
+<h2>Retrieving objects</h2>
+
+<p>
+  To retrieve an object, you must know its object ID, or the ID of the collection that contains that object. If you don't know the 
+  class of the object, you can use the <tt>collection</tt> class as a container, as follows:
+  <div class="fragment"><pre>    
+      a = collection(plist(<span class="string">'hostname'</span>, <span class="string">'localhost'</span>, <span class="string">'database'</span>, <span class="string">'ltpda_test'</span>, <span class="string">'id'</span>, 1))
+      ---- collection 1 ----
+      name: none
+      num objs: 1
+      01: ao | New Block/tsdataNdata=[10x1], fs=1, nsecs=10, t0=1970-01-01 00:00:00.000
+      description: 
+      UUID: 9ec7a613-9442-4451-9b40-af18f4afea00
+      ----------------------</pre>
+  </div>
+</p>
+<p>
+  If you already know the class of the object (for example, <tt>ao</tt>), you can directly call the class constructor method:
+  <div class="fragment"><pre>    
+      <span class="comment">% Define the hostname and database</span>
+      hostname = <span class="string">'localhost'</span>;
+      database = <span class="string">'ltpda_test'</span>;
+      
+      <span class="comment">% Retrieve the object</span>
+      q = ao(plist(<span class="string">'hostname'</span>, hostname, <span class="string">'database'</span>, dbname, <span class="string">'ID'</span>, 12));</pre>
+  </div>
+</p>
+
+<br>
+<p>
+  Multiple objects can be retrieved simultaneously by giving a list of object IDs. For example
+  <div class="fragment"><pre>    
+      a = ao(plist(<span class="string">'hostname'</span>, <span class="string">'localhost'</span>, <span class="string">'database'</span>, <span class="string">'ltpda_test'</span>, <span class="string">'id'</span>, [1 2 3]));</pre>
+  </div>
+</p>
+<br>
+<h2>Retrieving object collections</h2>
+<p>
+  Collections of objects can be retrieved by specifying the collection ID. The following script retrieves a collection:
+  <div class="fragment"><pre>    
+      a = collection(plist(<span class="string">'hostname'</span>, <span class="string">'localhost'</span>, <span class="string">'database'</span>, <span class="string">'ltpda_test'</span>, <span class="string">'cid'</span>, 1));</pre>
+  </div>
+  The output is a <tt>collection</tt> object containing the objects retrieved.
+</p>
+
+<h2>Retrieving binary objects</h2>
+<p>The retrieval process may be speeded up by taking advantage of the fact that the objects are stored in the databases also in binary form. 
+This can be achieved by using the parameter 'binary', that will build the object from the corresponding binary representation, if 
+stored in the database.
+  <div class="fragment"><pre>    
+      <span class="comment">% Retrieve the collection</span>
+      q = ao(plist(<span class="string">'hostname'</span>, hostname, <span class="string">'database'</span>, dbname, <span class="string">'ID'</span>, 12, <span class="string">'binary'</span>, <span class="string">'yes'</span>));</pre>
+  </div>
+  If the binary representation is not in the database, the object will be built from the XML one.
+</p>
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="repo_explore.html"><img src="b_prev.gif" border="0" align="bottom" alt="Exploring an LTPDA Repository"></a>&nbsp;</td>
+        <td align="left">Exploring an LTPDA Repository</td>
+        <td>&nbsp;</td>
+        <td align="right">Using the LTPDA Repository GUI</td>
+        <td align="right" width="20"><a href="repo_gui.html"><img src="b_next.gif" border="0" align="bottom" alt="Using the LTPDA Repository GUI"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

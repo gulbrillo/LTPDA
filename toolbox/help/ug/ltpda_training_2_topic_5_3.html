@@ -1,0 +1,505 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Create simulated experiment data sets (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_2_topic_5_2.html"><img src="b_prev.gif" border="0" align="bottom" alt="A simplified LPF system identification experiment"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_2_topic_5_4.html"><img src="b_next.gif" border="0" align="bottom" alt="Build state-space LTP models for system identification"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Create simulated experiment data sets</h1>
+    <hr>
+    
+    <p>
+      
+<p> In this section of the exercise we show how to creat 
+    simulated experiment data sets. 
+   
+    First of all, we set a reference time for our
+    experiment. The <tt>t0</tt> can be defined as follows.<br>
+</p>
+<div class="fragment">
+    <pre> <br>     clear <span class="string">all</span> 
+    <span class="comment"> % Define a reference time for the experiments </span>     
+     t0 = time(<span class="string">'2012-01-17 17:04:11.529 UTC'</span>);  
+    </pre>
+</div>
+<p> The two experiments are in fact two separate injections of
+    frequency sweeps in the first and the differential channel. This
+    means that we create a signal of sinusoidals and a signal of zeros
+    for each experiment. These injections are already built-in and can
+    be constructed with the equivalent input key of a plist. 
+    
+<h2>Create first experiment (Inv0001) injection</h2>
+    
+    For the injection signal to the first channel we can use
+    the following: 
+</p>
+<br>
+<div class="fragment">
+    <pre><br>
+        <span class="comment">%%% First channel (x1)</span>
+
+        <span class="comment">% Create input signal from built-in model</span>
+        i1_1 = ao(plist(<span class="string">'built-in'</span>, <span class="string">'signals_3045_1_1'</span>));
+
+        <span class="comment">% Adding reference time</span>
+        i1_1.setT0(t0);
+        
+    </pre>
+</div>
+<p> We can call the zeropad function and add some zeros before and
+    after the actual signal. These chuncks will be used to extract the
+    simulated noise of the LTP system. The <tt>'N'</tt> key of the
+    plist defines the number of samples and with the <tt>'position'</tt>
+    key (<tt>'pre'</tt> or <tt>'post'</tt>) we can define where to
+add the zeros; before of after the built-in signal constructed. </p>
+
+<div class="fragment">
+    <pre><br>
+        <span class="comment">% Add zeros before and after </span>
+        i1_1.zeropad(plist(<span class="string">'N'</span>, 200000, <span class="string">'position'</span>, <span class="string">'pre'</span>));
+        i1_1.zeropad(plist(<span class="string">'N'</span>, 20000, <span class="string">'position'</span>, <span class="string">'post'</span>));
+
+        <span class="comment">% Set Name</span>
+        i1_1.setName('Inv0001_x1_inj');
+     </pre>
+   </div>   
+ <p> The input of zeros to inject to the differential channel is
+    easier to obtain. We construct an <tt>ao</tt> object with an
+    input plist. The <tt>'Yvals'</tt> would be all zeros and the
+    number of samples the same as <tt>inj_1_1</tt>. </p>       
+        
+<div class="fragment">
+    <pre> <br> 
+    <span class="comment">%%% Second channel (x12)</span>
+    
+    <span class="comment">% Input signal for second channel is zero</span>
+    <span class="comment">% We build this signal by forcing it to lay on the same time values as the i1_1</span>
+    i1_2 = ao(plist(<span class="string">'Yvals'</span>, zeros(size(i1_1.x)), <span class="string">'fs'</span>, 10, <span class="string">'t0'</span>, t0, <span class="string">'Yunits'</span>, <span class="string">'m'</span>));
+    i1_2.setToffset(i1_1.toffset);
+    i1_2.setName(<span class="string">'Inv0001_x12_inj'</span>);
+        </pre>
+</div>
+
+<p> Plotting the injection for the two channels in the first experiment produces the 
+figure below.
+</p>
+
+<div class="fragment">
+    <pre> <br>       
+ <span class="comment">% Plot injection signals</span>
+        iplot(i1_1, i1_2)
+    </pre>
+</div>
+
+  <div align="center">
+    <IMG width="1000px" src="images/ltpda_training_2/Topic5/training_5_3_inj1.png"  align="center" border="0">
+  </div>
+
+<h2>Create second experiment (Inv0002) injection</h2>
+
+<p> The same would apply for the second experiment with the
+    exception that:
+    <ol> 
+<li>The injection is applied now to the second channel.</li>
+<li>The injected signal is different from the previous. We use the built-in
+signa <tt>signals_3045_1_1</tt>. </li>
+</ol>
+ </p>
+
+ <div class="fragment">
+   <pre><br>
+     <span class="comment">%% Generate data for experiments Inv0002</span>
+     
+     <span class="comment">%%% Second channel</span>
+     
+     i2_2 = ao(plist(<span class="string">'built-in'</span>,<span class="string">'signals_3045_1_2'</span>));
+     i2_2.setT0(t0);
+     i2_2.zeropad(plist(<span class="string">'N'</span>, 200000,<span class="string">'position'</span>, <span class="string">'pre'</span>));
+     i2_2.zeropad(plist(<span class="string">'N'</span>, 20000,<span class="string">'position'</span>, <span class="string">'post'</span>));
+     i2_2.setName(<span class="string">'Inv0002_x1_inj'</span>);
+     
+     <span class="comment">%%% First channel</span>
+     
+     i2_1 = ao(plist(<span class="string">'Yvals'</span>, zeros(size(i2_2.x)), <span class="string">'fs'</span>, 10, <span class="string">'t0'</span>, t0));
+     i2_1.setToffset(i2_2.toffset);
+     i2_1.setName(<span class="string">'Inv0002_x12_inj'</span>);
+     
+     iplot(i2_1, i2_2)
+   </pre>
+</div>
+  <div align="center">
+    <IMG width="1000px" src="images/ltpda_training_2/Topic5/training_5_3_inj2.png"  align="center" border="0">
+  </div>
+  
+  <h2>Create the model for data generation</h2>
+
+<p> To generate our data sets we will use the built-in model <tt>LPF</tt> 
+which assemble in a single object all the subsystems together with a default 
+profile of noise inputs. For more information on the model type
+</p>
+
+<div class="fragment">
+    <pre> <br> 
+    help <span class="string">ssm_model_LPF</span>
+     </pre>
+</div>
+
+<p> We will build this model at the same time that we set some parameters to a 
+certain numerical value. These are the parameters that we will be estimating 
+in later in this exercise and are described in the following table
+</p>
+
+<table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="15%"/>
+      <col width="35%"/>
+      <col width="50%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Key</th>
+        <th class="categorylist">Value</th>
+        <th class="categorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- FEEPS_XX -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">'FEEPS_XX'</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>0.82</p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>FEEPs actuation gain in X direction</p>
+        </td>
+      </tr>
+      <!--  CAPACT_TM2_XX -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">'CAPACT_TM2_XX'</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>1.08</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Capacitive actuation in TM2 in X direction</p>
+        </td>
+      </tr>
+      <!-- IFO_X12X1 -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">'IFO_X12X1'</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>0.0004</p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>Interferometer cross-coupling X1 -> X12 </p>
+        </td>
+      </tr>
+      <!-- EOM_TM1_STIFF_XX -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">'EOM_TM1_STIFF_XX'</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>1.3e-6</p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>TM1 stifness in X direction (squared)</p>
+        </td>
+      </tr>
+       <!-- EOM_TM2_STIFF_XX -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">'EOM_TM2_STIFF_XX'</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>1.9e-6</p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>TM2 stifness in X direction (squared)</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p> On our implementation, we first define a string <tt>params</tt> with the 
+  name of the parameters, an array <tt>values</tt> with the numerical values 
+  previously defined and then we input them to the plist that defines our model.
+</p>
+
+  <div class="fragment">
+    <pre> <br>  
+      
+      <span class="comment">% Define parameters and nominal values</span>
+      params = {...
+            <span class="string">'FEEPS_XX'</span>, ...         % Coupling of the commanded force along X to the applied force along X 
+            <span class="string">'CAPACT_TM2_XX'</span>, ...    % Actuaction cross-coupling of TM2 force along X to TM2 force along X
+            <span class="string">'IFO_X12X1'</span>, ...        % The coupling of the x position of TM1 to the estimated x position of TM2 w.r.t. TM1
+            <span class="string">'EOM_TM1_STIFF_XX'</span>, ... % Total stiffness of TM1 along X when moving along X.
+            <span class="string">'EOM_TM2_STIFF_XX'</span> ...  % Total stiffness of TM2 along X when moving along X.
+            };
+      values = [0.82 1.08 0.0004 1.3e-6 1.9e-6];
+            
+      <span class="comment">% Create plist defining how we want to build the model </span>
+      simPlist = plist(<span class="string">'built-in'</span>,<span class="string">'LPF'</span>, ... <span class="comment">% From built-in models </span>
+                       <span class="string">'DIM'</span>, 1, ...                        <span class="comment">% We use a one dimensional model</span>
+                       <span class="string">'CONTINUOUS'</span>, false, ...             <span class="comment">% The model descrete </span>
+                       <span class="string">'param names'</span>, params, ...           <span class="comment">% Parameter names </span>
+                       <span class="string">'param values'</span>, values, ...          <span class="comment">% Parameter values </span>
+                       <span class="string">'VERSION'</span>, <span class="string">'Best Case June 2011'</span>); <span class="comment">% Version of the LPF </span>
+      
+      <span class="comment">% Create the LPF model. </span>
+      LPF = ssm(simPlist);
+      
+      <span class="comment">%% save model</span>                          
+      save(LPF, <span class="string">'generation_LPF_model.mat'</span>);                          
+      
+    </pre>
+  </div>
+  
+  <h2>Generate data for the experiments</h2>
+<p> 
+ To produce a set of data we first need to define how the different noise sources 
+ are correlated, i.e. the noise covariance. The <tt>ssm</tt> class provides 
+ a method that provides this information (although the user is free to provide
+ his own covariance matrix)
+</p>
+
+<div class="fragment">
+    <pre><br>
+        <span class="comment">%% Generate noise covariance for experiments 1 &amp; 2 </span>
+        cov = LPF.generateCovariance;        
+    </pre>
+</div>
+
+<p> 
+ Next, define the ports where the inputs are injected abd where the outputs are measured
+</p>
+
+ <div class="fragment">
+    <pre><br>       
+        <span class="comment">% Define input and output channels</span>
+        inNames = {...
+              <span class="string">'GUIDANCE.IFO_x1'</span>  ...   <span class="comment">% x1 control coordinate, read by o1 IFO</span>
+              <span class="string">'GUIDANCE.IFO_x12'</span> ...   <span class="comment">% x12 control coordinate, read by differential IFO</span>
+              };
+        
+        outNames = {...
+              <span class="string">'DELAY_IFO.x1'</span>  ...      <span class="comment">% o1 IFO</span>
+              <span class="string">'DELAY_IFO.x12'</span> ...      <span class="comment">% o12 IFO</span>
+              <span class="string">'DFACS.sc_x'</span>    ...      <span class="comment">% commanded force on SC</span>
+              <span class="string">'DFACS.tm2_x'</span>   ...      <span class="comment">% commanded force on TM2</span>
+              };        
+    </pre>
+</div>
+
+<p>And add this information in a <tt>plist</tt> and use it to call the method <tt>simulate</tt> </p>
+
+<div class="fragment">
+  <pre><br>
+    
+    pl_sim_Inv0001 = plist(...
+                <span class="string">'aos variable names'</span>, inNames(1),...
+                <span class="string">'aos'</span>, i1_1,...
+                <span class="string">'return outputs'</span>, outNames,...
+                <span class="string">'cpsd variable names'</span>, cov.find(<span class="string">'names'</span>), ...
+                <span class="string">'cpsd'</span>, cov.find(<span class="string">'cov'</span>), ...
+                <span class="string">'displayTime'</span>, true,...
+                <span class="string">'t0'</span>, t0);
+    
+    <span class="comment">% Inv0001: run the simulation</span>
+    <span class="comment">% In this investigation, the guidance is applied on the x1 control coordinate, read by o1 IFO</span>
+    pl_sim_Inv0001 = plist(...
+                        <span class="string">'aos variable names'</span>, inNames(1),...       <span class="comment">% Names of the inputs </span>
+                        <span class="string">'aos'</span>, i1_1,...                            <span class="comment">% injection signals </span>
+                        <span class="string">'return outputs'</span>, outNames,...             <span class="comment">% Names of the outputs </span>
+                        <span class="string">'cpsd variable names'</span>, cov.find(<span class="string">'names'</span>), ...  
+                        <span class="string">'cpsd'</span>, cov.find(<span class="string">'cov'</span>), ...
+                        <span class="string">'displayTime'</span>, true,...
+                        <span class="string">'t0'</span>, t0);
+    
+    <span class="comment">% Generate data</span>
+    o_0001 = LPF.simulate(pl_sim_Inv0001);
+  </pre>
+</div>
+
+<p>We <tt>unpack</tt> to recover all the different output ports we ask for in the <tt>plist</tt></p>
+
+<div class="fragment">
+    <pre><br>
+       <span class="comment">% The output Analysis Objects are grouped in a matrix object, so we need to index them</span>
+       [o1_0001, o12_0001, Fsc_0001, Ftm2_0001] =  o_0001.unpack;  
+    </pre>
+</div>
+
+<p>And repeat the same operation to produce the data set for the second experiment. 
+Notice that in the plist we change the input port (in order to inject the signal in 
+the differential channel) and the injected signal is now <tt>i2_2</tt></p>
+
+<div class="fragment">
+       <pre><br>
+           
+        <span class="comment">% Inv0002: run the simulation</span>
+        <span class="comment">% In this investigation, the guidance is applied on the x12 control coordinate, read by differential IFO</span>
+        pl_sim_Inv0002 = plist(...
+                      <span class="string">'aos variable names'</span>, inNames(2), ...
+                      <span class="string">'aos'</span>, i2_2, ...
+                      <span class="string">'return outputs'</span>, outNames, ...
+                      <span class="string">'cpsd variable names'</span>, cov.find(<span class="string">'names'</span>), ...
+                      <span class="string">'cpsd'</span>, cov.find(<span class="string">'cov'</span>), ...
+                      <span class="string">'displayTime'</span>, true, ...
+                      <span class="string">'t0'</span>, t0);
+
+        <span class="comment">% Generate data</span>
+        o_0002 = LPF.simulate(pl_sim_Inv0002);
+
+        <span class="comment">% The output Analysis Objects are grouped in a matrix object, so we need to unpack them</span>
+        [o1_0002, o12_0002, Fsc_0002, Ftm2_0002] =  o_0002.unpack;
+        
+    </pre>
+</div>
+<p> </p>
+
+  <h2>Build matrix objects for the analysis</h2>
+
+  <p>The methods that we will use in the analysis work, for simplicity, with <tt>matrix</tt> objects. 
+  These objects allow to put several time series together to refelct the fact that our analysis requires
+  many channels. In this particular case only two: x1 and x12.
+  The objects are built as follows:
+</p>
+
+<div class="fragment">
+    <pre><br>       
+    <span class="comment">%% Build matrix objects</span>
+
+    <span class="comment">% Group the guidance injection signals of both experiments in the same matrix model</span>
+    inj_signal(1) = matrix(i1_1, i1_2, plist(<span class="string">'shape'</span>, [2 1]));
+    inj_signal(2) = matrix(i2_1, i2_2, plist(<span class="string">'shape'</span>, [2 1]));
+
+    <span class="comment">% Group the measured outputs of both experiments in the same matrix model</span>
+    meas_signal(1) = matrix(o1_0001, o12_0001, plist(<span class="string">'shape'</span>, [2 1]));
+    meas_signal(2) = matrix(o1_0002, o12_0002, plist(<span class="string">'shape'</span>, [2 1]));
+    
+    <span class="comment">% Group the commanded forces of both experiments in the same matrix model</span>
+    cmd_forces(1) = matrix(Fsc_0001, Ftm2_0001, plist(<span class="string">'shape'</span>, [2 1]));
+    cmd_forces(2) = matrix(Fsc_0002, Ftm2_0002, plist(<span class="string">'shape'</span>, [2 1]));
+    </pre>
+</div>
+
+  <p>Once these objects are built, we can easily split our original data into the 
+  different segments of interest: we take a short segment where the input was applied 
+  for the <tt>in</tt> and <tt>out</tt> object, and a long segment without injected 
+  signal for the <tt>noise</tt>.
+</p>
+
+<div class="fragment">
+    <pre><br>
+            
+    <span class="comment">% Split in times to get input, output, noise and commanded forces chunks</span>
+    in    = split(inj_signal, plist(<span class="string">'times'</span>, [-2000 inf]));
+    out   = split(meas_signal, plist(<span class="string">'times'</span>, [-2000 inf]));
+    noise = split(meas_signal, plist(<span class="string">'times'</span>, [-inf -2000]));    
+    Fcmd  = split(cmd_forces, plist(<span class="string">'times'</span>, [-inf -2000]));          
+    </pre>
+</div>
+
+  <p>Each of these contains two <tt>matrix</tt> objects (one for each experiment), 
+  with two time series (for x1 and x12) within. We can take a look at the objects for the
+  second experiment:
+</p>
+
+<div class="fragment">
+    <pre> <br>
+    <span class="comment">% Plot injected signal in 2nd experiment</span>
+    in(2).iplot
+     </pre>
+</div>
+  <div align="center">
+    <IMG width="1000px" src="images/ltpda_training_2/Topic5/training_5_3_ex2_ch2_in.png"  align="center" border="0">
+  </div>
+  <div class="fragment">
+    <pre> <br> 
+    <span class="comment">% Plot measured signal in 2nd experiment</span>
+    out(2).iplot
+     </pre>
+</div>
+    <div align="center">
+    <IMG width="1000px" src="images/ltpda_training_2/Topic5/training_5_3_ex2_ch2_out.png"  align="center" border="0">
+  </div>
+  <div class="fragment">
+    <pre> <br> 
+    <span class="comment">% Plot initial noise segment in 2nd experiment</span>
+    noise(2).iplot
+     </pre>
+</div>
+    <div align="center">
+    <IMG width="1000px" src="images/ltpda_training_2/Topic5/training_5_3_ex2_ch2_noise.png"  align="center" border="0">
+  </div>
+    <div class="fragment">
+    <pre> <br> 
+    <span class="comment">% Plot commanded forces in 2nd experiment</span>
+    Fcmd(2).iplot
+     </pre>
+</div>
+    <div align="center">
+    <IMG width="1000px" src="images/ltpda_training_2/Topic5/training_5_3_ex2_ch2_cmdF.png"  align="center" border="0">
+  </div>
+
+
+<p> 
+   Finally, we just need to save the objects we have just created. We will use them 
+   later for parameter estimation.    
+</p>
+<div class="fragment">
+    <pre><br>
+        <span class="comment">%% save objects</span>
+        
+        save([o_0001 o_0002], <span class="string">'full_signal.mat'</span>);
+        save(inj_signal, <span class="string">'inj_signal.mat'</span>);
+        save(in, <span class="string">'input.mat'</span>);
+        save(out, <span class="string">'output.mat'</span>);
+        save(noise, <span class="string">'noise.mat'</span>);     
+        save(Fcmd, <span class="string">'cmdForces.mat'</span>);
+    </pre>
+</div>
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_2_topic_5_2.html"><img src="b_prev.gif" border="0" align="bottom" alt="A simplified LPF system identification experiment"></a>&nbsp;</td>
+        <td align="left">A simplified LPF system identification experiment</td>
+        <td>&nbsp;</td>
+        <td align="right">Build state-space LTP models for system identification</td>
+        <td align="right" width="20"><a href="ltpda_training_2_topic_5_4.html"><img src="b_next.gif" border="0" align="bottom" alt="Build state-space LTP models for system identification"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

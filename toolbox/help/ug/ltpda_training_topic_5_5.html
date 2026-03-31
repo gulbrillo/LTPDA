@@ -1,0 +1,215 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>IFO/Temperature Example - signal subtraction (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_topic_5_4.html"><img src="b_prev.gif" border="0" align="bottom" alt="Non-linear least squares fitting of time series"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_2_intro.html"><img src="b_next.gif" border="0" align="bottom" alt="LTPDA Training Session 2"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">IFO/Temperature Example - signal subtraction</h1>
+    <hr>
+    
+    <p>
+      
+
+
+<p>
+  During this exercise we will:
+  <ol>
+    <li> Load the AOs with the IFO and Temperature data
+    <li> Load the transfer function of the data
+    <li> Split the TF to select the meaningful region only
+    <li> Fit the TF with <tt>zDomainFit</tt>
+    <li> Subtract the temperature contribution from the IFO signal
+  </ol>
+</p>
+
+<p>
+  Let us load the test data and split out the 'good' part as we did in Topic 3:
+</p>
+
+<div class="fragment"><pre>
+    ifo = ao(plist(<span class="string">'filename'</span>, <span class="string">'ifo_temp_example/ifo_fixed.xml'</span>));
+    ifo.setName();
+    T = ao(plist(<span class="string">'filename'</span>, <span class="string">'ifo_temp_example/temp_fixed.xml'</span>));
+    T.setName();
+
+    <span class="comment">% Split out the good part of the data</span>
+    pl_split = plist(<span class="string">'split_type'</span>, <span class="string">'interval'</span>, ...
+                <span class="string">'start_time'</span>, ifo.t0 + 40800, ...
+                <span class="string">'end_time'</span>, ifo.t0 + 193500);
+
+    ifo_red = split(ifo, pl_split);
+    T_red = split(T, pl_split);
+</pre></div>
+
+<p>
+  These data are already preprocessed with <tt>ao/consolidate</tt> in order to set
+  the sampling frequency to 1Hz. <br/>
+  We could look at the data...
+</p>
+<div class="fragment"><pre>
+    iplot(ifo_red, T_red, plist(<span class="string">'arrangement'</span>, <span class="string">'subplots'</span>))
+</pre></div>
+
+<p>
+  <div align="center">
+    <IMG src="images/ltpda_training_1/topic5/ltpda_training_5_5_1.png" align="center" border="0">
+  </div>
+</p>
+
+<p>
+  Let us load the transfer function estimate we calculated in Topic 3.
+</p>
+
+<div class="fragment"><pre>
+  tf = ao(<span class="string">'ifo_temp_example/T_ifo_tf.xml'</span>);
+</pre></div>
+
+<p>
+  The meaningful frequency region is in the range 2e-5 <i>Hz</i> - 1e-3 <i>Hz</i>.
+  Therefore we split the transfer function to extract only meaningful data.
+</p>
+
+<div class="fragment"><pre>
+    tfsp = split(tf, plist(<span class="string">'frequencies'</span>, [2e-5 1e-3]));
+    iplot(tf, tfsp)
+</pre></div>
+
+<p>
+  The plot compares full range TF with splitted TF:
+  <div align="center">
+    <IMG src="images/ltpda_training_1/topic5/ltpda_training_5_5_4.png" align="center" border="0">
+  </div>
+  Once we have the proper transfer function, we could start the fitting process.
+  A rapid look to the TF data should convince us that we need a very simple object
+  to fit our data so we could try a fitting session "by hand". In other words,
+  it is more convenient to skip the automathic functionality of <tt>zDomainFit</tt>.
+  Moreover, we force <tt> zDomainFit </tt> to fit a stable model to data because
+  we want to output a stable filter.
+</p>
+
+<div class="fragment"><pre>
+    plfit = plist(...
+        <span class="string">'AutoSearch'</span>, <span class="string">'off'</span>, ...
+        <span class="string">'StartPolesOpt'</span>, <span class="string">'clog'</span>, ...
+        <span class="string">'maxiter'</span>, 5, ...
+        <span class="string">'minorder'</span>, 3, ...
+        <span class="string">'maxorder'</span>, 3, ...
+        <span class="string">'weightparam'</span>, <span class="string">'abs'</span>, ...
+        <span class="string">'Plot'</span>, <span class="string">'on'</span>, ...
+        <span class="string">'ForceStability'</span>, <span class="string">'on'</span>, ...
+        <span class="string">'CheckProgress'</span>, <span class="string">'off'</span>);
+
+    fobj = zDomainFit(tfsp, plfit);
+    fobj.filters.setIunits(<span class="string">'K'</span>);
+    fobj.filters.setOunits(<span class="string">'m'</span>);
+</pre></div>
+
+<p>
+  <div align="center">
+    <IMG src="images/ltpda_training_1/topic5/ltpda_training_5_5_5.png" align="center" border="0">
+  </div>
+</p>
+
+<p>
+  It is time to filter temperature data with the fit output in order to
+  extract temperature contribution to interferometer output. Detrend
+  after the filtering is performed to subtract mean to data (bias subtraction).
+</p>
+
+<div class="fragment"><pre>
+    ifoT = filter(T, fobj, plist(<span class="string">'bank'</span>,<span class="string">'parallel'</span>));
+    ifoT = split(ifoT, pl_split);
+    ifoT.detrend(plist(<span class="string">'order'</span>, 0));
+    ifoT.simplifyYunits;
+    ifoT.setName();
+</pre></div>
+
+<p>
+  Then we subtract temperature contribution from measured interferometer data
+</p>
+
+<div class="fragment"><pre>
+  ifonT = ifo_red - ifoT;
+  ifonT.setName();
+</pre></div>
+
+<p>
+  The figure reports measured interferometer data, temperature contribution
+  to interferometer output and interferometer output without thermal drifts.
+</p>
+
+<div class="fragment"><pre>
+  iplot(ifo_red, ifoT, ifonT)
+</pre></div>
+
+<p>
+  <div align="center">
+    <IMG src="images/ltpda_training_1/topic5/ltpda_training_5_5_6.png" align="center" border="0">
+  </div>
+</p>
+
+<p>
+  If you now compare spectra of the original IFO signal and the one with the temperature contribution
+  removed, you should see something like the figure below:
+</p>
+<div class="fragment"><pre>
+  ifoxx = ifo_red.lpsd;
+  ifonTxx = ifonT.lpsd;
+  iplot(ifoxx, ifonTxx)
+</pre></div>
+<p>
+  <div align="center">
+    <IMG src="images/ltpda_training_1/topic5/ltpda_training_5_5_7.png" align="center" border="0">
+  </div>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_topic_5_4.html"><img src="b_prev.gif" border="0" align="bottom" alt="Non-linear least squares fitting of time series"></a>&nbsp;</td>
+        <td align="left">Non-linear least squares fitting of time series</td>
+        <td>&nbsp;</td>
+        <td align="right">LTPDA Training Session 2</td>
+        <td align="right" width="20"><a href="ltpda_training_2_intro.html"><img src="b_next.gif" border="0" align="bottom" alt="LTPDA Training Session 2"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

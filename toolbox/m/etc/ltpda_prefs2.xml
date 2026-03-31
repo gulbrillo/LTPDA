@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<LTPDAPreferences version="2.0302">
+ <Preferences>
+  <Plot plotDefaultAxesFontSize="18" plotDefaultAxesFontWeight="bold" plotDefaultAxesGridLineStyle="-" plotDefaultAxesLineWidth="1" plotDefaultAxesMinorGridLineStyle=":" plotDefaultIncludeDescription="false" plotDefaultLegendFontSize="18" plotDefaultLineLineWidth="1" plotDefaultlinemarkersize="10"/>
+  <Display displayVerboseLevel="2" displayWrapLegendStrings="10" displayWrapStrings="8"/>
+  <Models/>
+  <Extensions/>
+  <Time timeTimezone="UTC" timestringFormat="yyyy-mm-dd HH:MM:SS.FFF z"/>
+  <Repository expiry="60"/>
+  <External dotBinaryPath="" dotOutputFormat="pdf"/>
+  <Misc defaultWindow="Hanning"/>
+ </Preferences>
+</LTPDAPreferences>

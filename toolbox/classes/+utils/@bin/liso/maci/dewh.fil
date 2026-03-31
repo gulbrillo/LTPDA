@@ -1,0 +1,12 @@
+pole 4
+zero 400
+pole 4
+zero 400
+
+
+# computing instructions
+factor 25
+
+freq log 0.1 8k 1000
+
+iir 16384 start 4 4

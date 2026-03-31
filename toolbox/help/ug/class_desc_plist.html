@@ -1,0 +1,611 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>plist Class (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="class_desc_pest.html"><img src="b_prev.gif" border="0" align="bottom" alt="pest Class"></a>&nbsp;&nbsp;&nbsp;<a href="class_desc_pzmodel.html"><img src="b_next.gif" border="0" align="bottom" alt="pzmodel Class"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">plist Class</h1>
+    <hr>
+    
+    <p>
+      <!-- $Id$ -->
+
+  <!-- ================================================== -->
+  <!--                 BEGIN CONTENT FILE                 -->
+  <!-- ================================================== -->
+
+  <!-- =====           Link Table: Begin           ===== -->
+  <!-- ===== Created by docHelper.htmlAddLinkTable ===== -->
+  <p>
+    <table border="1"  width="80%">
+      <tr>
+        <td>
+          <table border="0" cellpadding="5" class="categorylist" width="100%">
+            <colgroup>
+              <col width="25%"/>
+              <col width="75%"/>
+            </colgroup>
+            <tbody>
+              <tr valign="top">
+                <td><a href="class_desc_plist.html#top_properties">Properties</a></td>
+                <td>Properties of the class</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_plist.html#top_methods">Methods</a></td>
+                <td>All Methods of the class ordered by category.</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="constructor_examples_plist.html">Examples</a></td>
+                <td>Some constructor examples</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </p>
+  <!-- ===== Link Table: End ====== -->
+
+  <!-- ===== Back to Class descriptions ===== -->
+  <a href="class_desc_main.html">
+    <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Class descriptions"/>
+    Back to Class descriptions
+  </a>
+
+  <h2 class="title"><a name="top_properties"/>Properties</h2>
+  <p>
+    The LTPDA toolbox restrict access of the properties.<br></br>
+    The get access is 'public' and thus it is possible to get the values with the dot-command (similar to structures).<br></br>
+    <pre class="programlisting">For example:<br></br>val = obj.prop(2).prop;</pre>
+    The set access is 'protected' and thus it is only possible to assign a value to a property with a set-method.
+    <pre class="programlisting">
+For example:
+obj2 = obj1.setName(<span class="string">'my name'</span>) <span class="comment">% This command creates a copy of obj1 (obj1 ~= obj2)</span>
+obj.setName(<span class="string">'my name'</span>);        <span class="comment">% This command applies to obj</span>    </pre>
+  </p>
+
+  <!-- =====        Striped 5x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Properties</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('plist.params')">params</a></td>
+        <td bgcolor="#f3f4f5">List of param-objects</td>
+        <td bgcolor="#f3f4f5">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('plist.readonly')">readonly</a></td>
+        <td bgcolor="#ffffff">Flag to indicate that the plist is locked (or not)</td>
+        <td bgcolor="#ffffff">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('plist.name')">name</a></td>
+        <td bgcolor="#f3f4f5">Name of the object</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('plist.description')">description</a></td>
+        <td bgcolor="#ffffff">Description of the object</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('plist.UUID')">UUID</a></td>
+        <td bgcolor="#f3f4f5">Universally Unique Identifier of 128-bit</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 5x3 table: End ==== -->
+
+  <!-- ===== Top of page ===== -->
+  <a href="#top_of_page">
+    <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top"/>
+    Back to Top
+  </a>
+
+  <h2 class="title"><a name="top_methods"/>Methods</h2>
+
+  <!-- =====           Link Table: Begin           ===== -->
+  <!-- ===== Created by docHelper.htmlAddLinkTable ===== -->
+  <p>
+    <table border="1"  width="80%">
+      <tr>
+        <td>
+          <table border="0" cellpadding="5" class="subcategorylist" width="100%">
+            <colgroup>
+              <col width="25%"/>
+              <col width="75%"/>
+            </colgroup>
+            <tbody>
+              <tr valign="top">
+                <td><a href="class_desc_plist.html#constructor">Constructor</a></td>
+                <td>Constructor of this class</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_plist.html#helper">Helper</a></td>
+                <td>Helper methods only for internal usage</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_plist.html#internal">Internal</a></td>
+                <td>Internal methods only for internal usage</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_plist.html#output">Output</a></td>
+                <td>Output methods</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_plist.html#relational_operator">Relational Operator</a></td>
+                <td>Relational operator methods</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </p>
+  <!-- ===== Link Table: End ====== -->
+
+  <!-- ===== Top of page ===== -->
+  <a href="#top_of_page">
+    <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top"/>
+    Back to Top
+  </a>
+
+  <!-- ===== Methods Category: Constructor ===== -->
+  <h3 class="title"><a name="constructor"/>Constructor</h3>
+
+  <!-- =====        Striped 1x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('plist')">plist</a></td>
+        <td bgcolor="#f3f4f5">Plist class object constructor.</td>
+        <td bgcolor="#f3f4f5">plist</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 1x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Helper ===== -->
+  <h3 class="title"><a name="helper"/>Helper</h3>
+
+  <!-- =====        Striped 32x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('plist/get')">get</a></td>
+        <td bgcolor="#f3f4f5">Get a property of a object.</td>
+        <td bgcolor="#f3f4f5">ltpda_obj</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('plist/setDescription')">setDescription</a></td>
+        <td bgcolor="#ffffff">Sets the 'description' property of a ltpda_uo object.</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('plist/setName')">setName</a></td>
+        <td bgcolor="#f3f4f5">Sets the property 'name' of an ltpda_uoh object.</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('plist/addAlternativeKeys')">addAlternativeKeys</a></td>
+        <td bgcolor="#ffffff">Adds some alternative key names to an existing key.</td>
+        <td bgcolor="#ffffff">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('plist/append')">append</a></td>
+        <td bgcolor="#f3f4f5">Append a param-object, plist-object or a key/value pair to the parameter list.</td>
+        <td bgcolor="#f3f4f5">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('plist/combine')">combine</a></td>
+        <td bgcolor="#ffffff">Multiple parameter lists (plist objects) into a single plist.</td>
+        <td bgcolor="#ffffff">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('plist/find')">find</a></td>
+        <td bgcolor="#f3f4f5">Overloads find routine for a parameter list.</td>
+        <td bgcolor="#f3f4f5">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('plist/getAllKeys')">getAllKeys</a></td>
+        <td bgcolor="#ffffff">Return all keys (even the alternative key names) of the parameter list.</td>
+        <td bgcolor="#ffffff">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('plist/getIndexForKey')">getIndexForKey</a></td>
+        <td bgcolor="#f3f4f5">Returns the index of a parameter with the given key.</td>
+        <td bgcolor="#f3f4f5">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('plist/getKeys')">getKeys</a></td>
+        <td bgcolor="#ffffff">Return all the default keys of the parameter list.</td>
+        <td bgcolor="#ffffff">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('plist/getOptionsForParam')">getOptionsForParam</a></td>
+        <td bgcolor="#f3f4f5">Returns the options for the specified parameter key.</td>
+        <td bgcolor="#f3f4f5">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('plist/getParamValueForParam')">getParamValueForParam</a></td>
+        <td bgcolor="#ffffff">Returns the paramValue for the specified parameter key.</td>
+        <td bgcolor="#ffffff">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('plist/getSelectionForParam')">getSelectionForParam</a></td>
+        <td bgcolor="#f3f4f5">Returns the selection mode for the specified parameter key.</td>
+        <td bgcolor="#f3f4f5">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('plist/isparam')">isparam</a></td>
+        <td bgcolor="#ffffff">Look for a given key in the parameter lists.</td>
+        <td bgcolor="#ffffff">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('plist/merge')">merge</a></td>
+        <td bgcolor="#f3f4f5">The values for the same key of multiple parameter lists together.</td>
+        <td bgcolor="#f3f4f5">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('plist/mfind')">mfind</a></td>
+        <td bgcolor="#ffffff">Multiple-arguments find routine for a parameter list.</td>
+        <td bgcolor="#ffffff">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('plist/nparams')">nparams</a></td>
+        <td bgcolor="#f3f4f5">Returns the number of param objects in the list.</td>
+        <td bgcolor="#f3f4f5">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('plist/propertiesForParam')">propertiesForParam</a></td>
+        <td bgcolor="#ffffff">Returns the properties structure for a given parameter.</td>
+        <td bgcolor="#ffffff">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('plist/propertyForParam')">propertyForParam</a></td>
+        <td bgcolor="#f3f4f5">Returns the value of the specified property for a given parameter.</td>
+        <td bgcolor="#f3f4f5">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('plist/psdSegments')">psdSegments</a></td>
+        <td bgcolor="#ffffff">Returns the time-series segments from a PSD plist.</td>
+        <td bgcolor="#ffffff">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('plist/pset')">pset</a></td>
+        <td bgcolor="#f3f4f5">Set or add a key/value pairor a param-object into the parameter list.</td>
+        <td bgcolor="#f3f4f5">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('plist/regexp')">regexp</a></td>
+        <td bgcolor="#ffffff">Performs a regular expression search on the input plists.</td>
+        <td bgcolor="#ffffff">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('plist/remove')">remove</a></td>
+        <td bgcolor="#f3f4f5">Remove a parameter from the parameter list.</td>
+        <td bgcolor="#f3f4f5">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('plist/removeKeys')">removeKeys</a></td>
+        <td bgcolor="#ffffff">Removes keys from a PLIST.</td>
+        <td bgcolor="#ffffff">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('plist/search')">search</a></td>
+        <td bgcolor="#f3f4f5">Returns a subset of a parameter list.</td>
+        <td bgcolor="#f3f4f5">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('plist/setDefaultForParam')">setDefaultForParam</a></td>
+        <td bgcolor="#ffffff">Sets the default value of the param object in dependencies of the 'key'</td>
+        <td bgcolor="#ffffff">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('plist/setDescriptionForParam')">setDescriptionForParam</a></td>
+        <td bgcolor="#f3f4f5">Sets the property 'desc' of the param object in dependencies of the 'key'</td>
+        <td bgcolor="#f3f4f5">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('plist/setOptionsForParam')">setOptionsForParam</a></td>
+        <td bgcolor="#ffffff">Sets the options of the param object in dependencies of the 'key'</td>
+        <td bgcolor="#ffffff">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('plist/setSelectionForParam')">setSelectionForParam</a></td>
+        <td bgcolor="#f3f4f5">Sets the selection mode of the param object in dependencies of the 'key'</td>
+        <td bgcolor="#f3f4f5">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('plist/string')">string</a></td>
+        <td bgcolor="#ffffff">Converts a plist object to a command string which will recreate the plist object.</td>
+        <td bgcolor="#ffffff">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('plist/subset')">subset</a></td>
+        <td bgcolor="#f3f4f5">Returns a subset of a parameter list.</td>
+        <td bgcolor="#f3f4f5">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('plist/type')">type</a></td>
+        <td bgcolor="#ffffff">Converts the input plist to MATLAB functions.</td>
+        <td bgcolor="#ffffff">plist</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 32x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Internal ===== -->
+  <h3 class="title"><a name="internal"/>Internal</h3>
+
+  <!-- =====        Striped 12x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('plist/isprop')">isprop</a></td>
+        <td bgcolor="#f3f4f5">Tests if the given field is one of the object properties.</td>
+        <td bgcolor="#f3f4f5">ltpda_obj</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('plist/bsubmit')">bsubmit</a></td>
+        <td bgcolor="#ffffff">Submits the given collection of objects in binary form to an LTPDA repository</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('plist/submit')">submit</a></td>
+        <td bgcolor="#f3f4f5">Submits the given collection of objects to an LTPDA repository</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('plist/update')">update</a></td>
+        <td bgcolor="#ffffff">Updates the given object in an LTPDA repository</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('plist/getDescriptionForParam')">getDescriptionForParam</a></td>
+        <td bgcolor="#f3f4f5">Returns the description for the specified parameter key.</td>
+        <td bgcolor="#f3f4f5">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('plist/getSetRandState')">getSetRandState</a></td>
+        <td bgcolor="#ffffff">Gets or sets the random state of the MATLAB functions 'rand' and 'randn'</td>
+        <td bgcolor="#ffffff">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('plist/matchKey')">matchKey</a></td>
+        <td bgcolor="#f3f4f5">Returns a logical array with the same size of the parametes with a 1 if the input key matches to the key name(s) and a 0 if not.</td>
+        <td bgcolor="#f3f4f5">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('plist/matchKeyWithRegexp')">matchKeyWithRegexp</a></td>
+        <td bgcolor="#ffffff">Returns a logical array with the same size of the parametes with a 1 if the input string matches to the key name(s) and a 0 if not.</td>
+        <td bgcolor="#ffffff">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('plist/matchKeys')">matchKeys</a></td>
+        <td bgcolor="#f3f4f5">Returns a logical array with the same size of the parametes with a 1 if one of the input key(s) matches to the key name(s) and a 0 if not.</td>
+        <td bgcolor="#f3f4f5">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('plist/parse')">parse</a></td>
+        <td bgcolor="#ffffff">A plist for strings which can be converted into numbers</td>
+        <td bgcolor="#ffffff">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('plist/shouldIgnore')">shouldIgnore</a></td>
+        <td bgcolor="#f3f4f5">True for plists which have the key 'ignore' with the value true.</td>
+        <td bgcolor="#f3f4f5">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('plist/simplify')">simplify</a></td>
+        <td bgcolor="#ffffff">Simplifies a plist.</td>
+        <td bgcolor="#ffffff">plist</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 12x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Output ===== -->
+  <h3 class="title"><a name="output"/>Output</h3>
+
+  <!-- =====        Striped 3x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('plist/save')">save</a></td>
+        <td bgcolor="#f3f4f5">Overloads save operator for ltpda objects.</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('plist/char')">char</a></td>
+        <td bgcolor="#ffffff">Convert a parameter list into a string.</td>
+        <td bgcolor="#ffffff">plist</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('plist/disp')">disp</a></td>
+        <td bgcolor="#f3f4f5">Display plist object.</td>
+        <td bgcolor="#f3f4f5">plist</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 3x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Relational_Operator ===== -->
+  <h3 class="title"><a name="relational_operator"/>Relational Operator</h3>
+
+  <!-- =====        Striped 1x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('plist/isequal')">isequal</a></td>
+        <td bgcolor="#f3f4f5">Overloads the isequal operator for ltpda objects.</td>
+        <td bgcolor="#f3f4f5">ltpda_obj</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 1x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ================================================== -->
+  <!--                  END CONTENT FILE                  -->
+  <!-- ================================================== -->
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="class_desc_pest.html"><img src="b_prev.gif" border="0" align="bottom" alt="pest Class"></a>&nbsp;</td>
+        <td align="left">pest Class</td>
+        <td>&nbsp;</td>
+        <td align="right">pzmodel Class</td>
+        <td align="right" width="20"><a href="class_desc_pzmodel.html"><img src="b_next.gif" border="0" align="bottom" alt="pzmodel Class"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

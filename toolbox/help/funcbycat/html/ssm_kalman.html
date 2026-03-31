@@ -1,0 +1,307 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!-- $Id$ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="../../ug/docstyle.css">
+    <title>LTPDA Method: ssm/kalman</title>
+  </head>
+  <body>
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <p style="font-size:1px;">&nbsp;</p>
+
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../../ug/../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ssm_cpsdForIndependentInputs.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ssm/cpsdForIndependentInputs"></a>&nbsp;&nbsp;&nbsp;<a href="ssm_modifyTimeStep.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ssm/modifyTimeStep"></a></td>
+      </tr>
+    </table>
+
+    <h1 class="title">Method ssm/kalman</h1>
+    <hr />
+
+<pre>  <SPAN CLASS="HELPTOPIC">KALMAN</SPAN> applies <span Class="helptopic">kalman</span> filtering to a discrete ssm with given i/o
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+  DESCRIPTION: <SPAN CLASS="HELPTOPIC">KALMAN</SPAN> applies <span Class="helptopic">kalman</span> filtering to a discrete ssm with
+               given i/o.
+  CALL: [mat_out pl_out] = <span class="helptopic">kalman</span>(sys, plist_inputs)
+ 
+  INPUTS:
+          - sys, (array of) ssm object
+ 
+  OUTPUTS:
+           _ mat_out contains specified returned aos
+           _ pl_out contains 'lastX', the last state position
+ 
+  <a href="ssm_kalman.html#down">Parameters Description</a>
+  
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</pre>
+
+    <!-- =====        Striped 4x2 table: Begin        ==== -->
+    <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+    <div class="sectiontitle"></div>
+    <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+      <colgroup>
+        <col width="30%"/>
+        <col width="70%"/>
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th class="categorylist">Method Details</th>
+          <th class="categorylist"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Access</td>
+          <td bgcolor="#f3f4f5">public</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Defining Class</td>
+          <td bgcolor="#ffffff">ssm</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Sealed</td>
+          <td bgcolor="#f3f4f5">0</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Static</td>
+          <td bgcolor="#ffffff">0</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- ===== Striped 4x2 table: End ==== -->
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <h2>Parameter Description</h2>    <a name="down" id="down"></a>
+
+    <!-- Link-Table of the sets -->
+    <table border="0" cellpadding="4" cellspacing="0" class="pagenavtable">
+      <tr><th>Sets for this method &#8230;</th></tr>
+        <tr><td><a href="#1">Default</a></td></tr>
+    </table>
+
+    <a name="1"></a>
+    <!-- Parameter List Table: Default -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>Default</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">reorganize</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">COVARIANCE VARIABLE NAMES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of strings specifying the desired input variable names.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CPSD VARIABLE NAMES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of strings specifying the desired input variable names.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">AOS VARIABLE NAMES, AO NAMES, AO PORT NAMES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of input port names corresponding to the different input AOs.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CONSTANT VARIABLE NAMES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of strings of the desired input variable names.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RETURN STATES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of names of state ports to return.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RETURN OUTPUTS, OUTPUTS</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of output ports to return.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">KNOWN OUTPUT VARIABLE NAMES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of strings of the known output variable names.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">kalman</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">COVARIANCE</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The covariance of this noise between input ports for the <i>time-discrete</i> noise model.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CPSD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The one sided cross-psd of the white noise between input ports.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">AOS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">An array of input AOs (experimental stimuli).</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CONSTANTS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Array of DC values for the different corresponding inputs.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">KNOWN OUTPUTS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Array of AOs for the different corresponding outputs (experiment measurements).</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NSAMPLES</td>
+            <td bgcolor="#F2F2F2">Inf</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The maximum number of samples to simulate (AO length(s) overide this).</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SSINI</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell-array of vectors that give the initial position for simulation.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TINI</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The initial filtering time (seconds).</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DISPLAYTIME</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Switch off/on the display</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">REORGANIZE</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">When set to 0, this means the ssm does not need be modified to match the requested i/o. Faster but dangerous!</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FORCE COMPLETE</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Force the use of the complete simulation code.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('COVARIANCE VARIABLE NAMES', cell(0,0), 'CPSD VARIABLE NAMES', cell(0,0), 'AOS VARIABLE NAMES', cell(0,0), 'CONSTANT VARIABLE NAMES', cell(0,0), 'RETURN STATES', cell(0,0), 'RETURN OUTPUTS', cell(0,0), 'KNOWN OUTPUT VARIABLE NAMES', cell(0,0), 'COVARIANCE', [[]], 'CPSD', [[]], 'AOS', [[]], 'CONSTANTS', [[]], 'KNOWN OUTPUTS', [[]], 'NSAMPLES', [Inf], 'SSINI', cell(0,0), 'TINI', [0], 'DISPLAYTIME', [true], 'REORGANIZE', [true], 'FORCE COMPLETE', [false])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <p><!-- Table of the minfo object -->
+      <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+        <colgroup>
+          <col width="25%"/>
+          <col width="75%"/>
+        </colgroup>
+        <thead>
+          <tr valign="top">
+            <th class="categorylist" colspan="2">Some information of the method ssm/kalman are listed below:</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Property: 'mclass' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Class name</td>
+            <td bgcolor="#f3f4f5">ssm</td>
+          </tr>
+          <!-- Property: 'mname' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Method name</td>
+            <td bgcolor="#ffffff">kalman</td>
+          </tr>
+          <!-- Property: 'mcategory' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Category</td>
+            <td bgcolor="#f3f4f5">Operator</td>
+          </tr>
+          <!-- Property: 'mpackage' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Package name</td>
+            <td bgcolor="#ffffff">ltpda</td>
+          </tr>
+          <!-- Property: 'modifier' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Can be used as modifier</td>
+            <td bgcolor="#f3f4f5">1</td>
+          </tr>
+          <!-- Property: 'supportedNumTypes' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Supported numeric types</td>
+            <td bgcolor="#ffffff">{'double'}</td>
+          </tr>
+        </tbody>
+      </table>
+    </p>
+
+
+    <br>
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ssm_cpsdForIndependentInputs.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ssm/cpsdForIndependentInputs"></a>&nbsp;</td>
+        <td align="left">Method: ssm/cpsdForIndependentInputs</td>
+        <td>&nbsp;</td>
+        <td align="right">Method: ssm/modifyTimeStep</td>
+        <td align="right" width="20"><a href="ssm_modifyTimeStep.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ssm/modifyTimeStep"></a></td>
+      </tr>
+    </table>
+
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+
+   </body>
+</html>

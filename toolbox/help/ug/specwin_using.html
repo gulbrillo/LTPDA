@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Using spectral windows (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="specwin_description.html"><img src="b_prev.gif" border="0" align="bottom" alt="What are LTPDA spectral windows?"></a>&nbsp;&nbsp;&nbsp;<a href="sigproc_methods.html"><img src="b_next.gif" border="0" align="bottom" alt="Spectral Estimation Methods"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Using spectral windows</h1>
+    <hr>
+    
+    <p>
+      <p>
+  Spectral windows are typically used in spectral analysis algorithms. In all LTPDA spectral analysis 
+  functions, spectral windows are specified as parameters in an input parameter list. The following
+  example shows the use of <tt>ao/psd</tt> to estimate an Amplitude Spectral Density of
+  the time-series captured in the input AO, <tt>a</tt>. The help for <a href="matlab:doc('ao/ao/psd')">ao/lpsd</a>
+  reveals that the required parameter for setting the window function is <tt>'Win'</tt>.
+</p>	
+<div class="fragment"><pre>
+    <br>    <span class="comment">% Parameters</span> 
+    nsecs = 1000;
+    fs = 10;
+    
+    <span class="comment">% Create input AOs</span>
+    x1 = ao(plist( <span class="string">'waveform'</span>, <span class="string">'sine wave'</span>, <span class="string">'f'</span>,0.1, <span class="string">'A'</span>,1, <span class="string">'nsecs'</span>,nsecs, <span class="string">'fs'</span>,fs));
+    x2 = ao(plist( <span class="string">'waveform'</span>, <span class="string">'noise'</span>, <span class="string">'type'</span>, <span class="string">'normal'</span>, <span class="string">'nsecs'</span>,nsecs, <span class="string">'fs'</span>,fs));
+       
+    <span class="comment">% Add both</span>
+    x = x1 + x2;
+    
+    <span class="comment">% Compute psd with Blackman-Harris window</span>
+    z = psd(x,plist(<span class="string">'win'</span>,<span class="string">'BH92'</span>));
+        
+    <span class="comment">% Plot</span>
+    iplot(z);
+</pre></div>
+<p>
+  In this case, the size of the spectral window (number of samples) may not match the length
+  of the segments in the spectral estimation. The <tt>psd</tt> algorithm then 
+  recomputes the window using the input design but for the correct length of window function.
+</p>
+
+<img src="images/specwin_using1.png" >
+
+<h2>Selecting the Peak Side-Lobe level (psll) with Kaiser's window</h2>
+<p>
+  The <a href="specwin_description.html">table</a> in the previous section shows how each standard spectral window is defined by the 
+  Peak Side-Lobe level (<tt>psll</tt>). However, Kaiser's window allows the user to define the <tt>psll</tt> of the window.
+</p> 
+<p>
+  The following example shows the importance of selecting a suitable <tt>psll</tt> according to each application. The example creates 
+  1/f noise (in fact, noise generated 
+  by a pole-zero model with a pole at low frequencies) and computes the Amplitude Spectrum Density (ASD) with three different <tt>psll</tt> 
+  values. The ASD with the lowest value shows a bias at high frequencies compared with the response of the pzmodel used to generate 
+  the data (in black). This effect is due to the power added by the high order lobes of the window. The ASD with the highet value of the
+  <tt>psll</tt> adds a feature at low frequencies because the main lobe of the window is too wide. Only the 
+  middle value gives an estimation of the ASD without adding window related features.   
+</p> 
+
+<div class="fragment"><pre>
+    <br>    <span class="comment">% Parameters</span>
+    nsecs = 10000;
+    fs = 1;
+    
+    <span class="comment">% Create pzmodel with a low frequency pole</span>
+    pzm = pzmodel(1e5,[1e-7,0.1],[]);
+    
+    <span class="comment">% Build (nearly) 1/f noise</span>
+    x = ao(plist(<span class="string">'pzmodel'</span>,pzm, <span class="string">'nsecs'</span>,nsecs, <span class="string">'fs'</span>,fs));
+    
+    <span class="comment">% Compute psd with Blackman-Harris window</span>
+    z1 = psd(x,plist(<span class="string">'scale'</span>,<span class="string">'ASD'</span>,<span class="string">'win'</span>,<span class="string">'Kaiser'</span>,<span class="string">'psll'</span>,50));
+    z1.setName(<span class="string">'psll = 50'</span>);
+    z2 = psd(x,plist('scale',<span class="string">'ASD'</span>,<span class="string">'win'</span>,<span class="string">'Kaiser'</span>,<span class="string">'psll'</span>,100));
+    z2.setName(<span class="string">'psll = 100'</span>);
+    z3 = psd(x,plist(<span class="string">'scale'</span>,<span class="string">'ASD'</span>,<span class="string">'win'</span>,<span class="string">'Kaiser'</span>,<span class="string">'psll'</span>,1000));
+    z3.setName(<span class="string">'psll = 1000'</span>);
+    
+    <span class="comment">% Plot</span>
+    r = resp(pzm,plist(<span class="string">'f1'</span>,1e-4,<span class="string">'f2'</span>,1));
+    r.setName(<span class="string">'response'</span>)
+    r.setPlotinfo(plist(<span class="string">'color'</span>,<span class="string">'k'</span>))
+    iplot(z1,z2,z3,abs(r));
+</pre></div>
+
+<img src="images/specwin_using2.png" >
+
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="specwin_description.html"><img src="b_prev.gif" border="0" align="bottom" alt="What are LTPDA spectral windows?"></a>&nbsp;</td>
+        <td align="left">What are LTPDA spectral windows?</td>
+        <td>&nbsp;</td>
+        <td align="right">Spectral Estimation Methods</td>
+        <td align="right" width="20"><a href="sigproc_methods.html"><img src="b_next.gif" border="0" align="bottom" alt="Spectral Estimation Methods"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

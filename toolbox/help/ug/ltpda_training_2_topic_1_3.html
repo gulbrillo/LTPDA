@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Review of spectral estimators (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_2_topic_1_2.html"><img src="b_prev.gif" border="0" align="bottom" alt="Saving and loading objects"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_2_topic_1_4.html"><img src="b_next.gif" border="0" align="bottom" alt="Preparing data segments (splitting)"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Review of spectral estimators</h1>
+    <hr>
+    
+    <p>
+      <p>
+  We have two classes of spectral estimators in LTPDA: one class based on the standard
+  WOSA (Welch's Overlapped Segmented Average) and a modified version of WOSA which estimates
+  the spectral quantities at frequencies spaced logarithmically. 
+</p>
+
+
+<h2>Estimating Power Spectral Densities</h2>
+<p>
+  To estimate the Power Spectral Density of a time-series, you can use the method <tt>ao/psd</tt> or the logarithmically
+  spaced frequencies version, <tt>ao/lpsd</tt>. For example:
+  <div class="fragment"><pre>
+      <span class="comment">% Generate a time-series of random numbers</span>      
+      a   = ao.randn(100, 10);
+      
+      <span class="comment">% Compute a PSD with the default configuration.</span>      
+      axx = psd(a);
+      
+      <span class="comment">% Plot the result</span>      
+      iplot(axx)</pre></div>
+  The <tt>psd</tt> method has various configuration parameters to adjust its behaviour. These 
+  are described in the method's documentation. If you do:
+  <div class="fragment"><pre>
+      help ao/psd</pre></div>
+  and then click on the 'Parameters Description' link, you should see a documentation window
+  with a full table describing the parameters for <tt>psd</tt>. To get a brief list of the <tt>plist</tt>
+  keys available, you can simply do:
+  <div class="fragment"><pre>
+      >> keys(<span class="string">'ao'</span>, <span class="string">'psd'</span>)
+      ------------------------------------------------
+      Default   
+	  ------------------------------------------------
+	  NFFT, WIN, PSLL, OLAP, ORDER, NAVS, TIMES, SCALE</pre></div>
+  <br>
+  So, to compute the Amplitude Spectral Density of a time-series with a certain
+  number of averages, you do:
+  <div class="fragment"><pre>
+      <span class="comment">% Generate a time-series of random numbers</span>      
+      a   = ao.randn(100, 10);
+      
+      <span class="comment">% Create a plist to configure ao/psd</span>      
+      psdPlist = plist(<span class="string">'navs'</span>, 10, <span class="string">'scale'</span>, <span class="string">'asd'</span>);
+      
+      <span class="comment">% Compute the PSD of the time-series with the given configuration plist</span>      
+      axx = psd(a, psdPlist);
+      
+      <span class="comment">% Plot the result</span>      
+      iplot(axx)</pre></div>
+  <br>
+  The logarithmic-spaced version of PSD (<tt>ao/lpsd</tt>) shares some of the configuration
+  keys with <tt>ao/psd</tt>. As such, you can, more often than not, simply interchange them:
+  <div class="fragment"><pre>
+      <span class="comment">% Generate a time-series of random numbers</span>      
+      a   = ao.randn(100, 10);
+      
+      <span class="comment">% Create a plist to configure ao/psd</span>      
+      psdPlist = plist(<span class="string">'navs'</span>, 10, <span class="string">'scale'</span>, <span class="string">'asd'</span>);
+      
+      <span class="comment">% Compute the logarithmically spaced PSD of the time-series with the given configuration plist</span>      
+      axx = lpsd(a, psdPlist);
+      
+      <span class="comment">% Plot the result</span>      
+      iplot(axx)</pre></div>
+  (You will notice that <tt>lpsd</tt> doesn't respond to the key 'NAVS' since it computes the number of averages
+  per frequency bin itself. You should see that LTPDA warns you that the key 'NAVS' is ignored.)  
+</p>
+
+<h2>Estimating transfer functions, cross-spectral densities and coherence</h2>
+<p>
+  Transfer functions can be estimated from input and output data using the <tt>ao/tfe</tt> method (or the
+  corresponding log-spaced method, <tt>ao/ltfe</tt>).
+  Here's an example:
+  <div class="fragment"><pre>
+      <span class="comment">% Sample frequency of our data</span>      
+      fs = 10;
+      
+      <span class="comment">% Generate a time-series of random numbers</span>      
+      input   = ao.randn(100, fs);
+      
+      <span class="comment">% Create a digital filter</span>      
+      myFilter = miir(plist(<span class="string">'type'</span>, <span class="string">'bandpass'</span>, <span class="string">'fc'</span>, [0.5 1], <span class="string">'fs'</span>, fs, <span class="string">'order'</span>, 3));      
+      
+      <span class="comment">% Filter the noise data</span>      
+      output = filter(input, myFilter);
+            
+      <span class="comment">% Estimate the transfer function from input to output</span>      
+      T = tfe(input, output);
+      
+      <span class="comment">% Plot the result</span>      
+      iplot(T)</pre></div>
+  Cross-spectral densities can be estimated using <tt>ao/cpsd</tt> (or <tt>ao/lcpsd</tt>) and coherence
+  can be estimated using <tt>ao/cohere</tt> (or <tt>ao/lcohere</tt>).
+</p>
+
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_2_topic_1_2.html"><img src="b_prev.gif" border="0" align="bottom" alt="Saving and loading objects"></a>&nbsp;</td>
+        <td align="left">Saving and loading objects</td>
+        <td>&nbsp;</td>
+        <td align="right">Preparing data segments (splitting)</td>
+        <td align="right" width="20"><a href="ltpda_training_2_topic_1_4.html"><img src="b_next.gif" border="0" align="bottom" alt="Preparing data segments (splitting)"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

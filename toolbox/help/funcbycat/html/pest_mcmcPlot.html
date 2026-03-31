@@ -1,0 +1,341 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!-- $Id$ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="../../ug/docstyle.css">
+    <title>LTPDA Method: pest/mcmcPlot</title>
+  </head>
+  <body>
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <p style="font-size:1px;">&nbsp;</p>
+
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../../ug/../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="pest_index.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: pest/index"></a>&nbsp;&nbsp;&nbsp;<a href="pest_requirements.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: pest/requirements"></a></td>
+      </tr>
+    </table>
+
+    <h1 class="title">Method pest/mcmcPlot</h1>
+    <hr />
+
+<pre>  <SPAN CLASS="HELPTOPIC">MCMCPLOT</SPAN>.M - Tool to visualise results of a MCMC sampling.
+ 
+  DESCRIPTION:  Simple tool that plots results from mcmc pest objects.
+                Plots the traces of the chains and th PDFs of the
+                parameters.
+ 
+  CALL: 
+        &gt;&gt; <span class="helptopic">mcmcPlot</span>(pest_obj,pl)
+ 
+        &gt;&gt; pest_obj.<span class="helptopic">mcmcPlot</span>(pl)
+ 
+ 
+  PARAMETERS: - pest_obj: pest object
+              - pl:       plist
+ 
+     EXAMPLE: - <span class="helptopic">mcmcPlot</span>(p,plist('plotmatrix',true,'burnin',5000,'pdfs',[2 4 5]))
+ 
+ <a href="pest_mcmcPlot.html#down">ParametersDescription</a>
+ 
+  Nikos Oct 2011
+ 
+ </pre>
+
+    <!-- =====        Striped 4x2 table: Begin        ==== -->
+    <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+    <div class="sectiontitle"></div>
+    <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+      <colgroup>
+        <col width="30%"/>
+        <col width="70%"/>
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th class="categorylist">Method Details</th>
+          <th class="categorylist"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Access</td>
+          <td bgcolor="#f3f4f5">public</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Defining Class</td>
+          <td bgcolor="#ffffff">pest</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Sealed</td>
+          <td bgcolor="#f3f4f5">0</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Static</td>
+          <td bgcolor="#ffffff">0</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- ===== Striped 4x2 table: End ==== -->
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <h2>Parameter Description</h2>    <a name="down" id="down"></a>
+
+    <!-- Link-Table of the sets -->
+    <table border="0" cellpadding="4" cellspacing="0" class="pagenavtable">
+      <tr><th>Sets for this method &#8230;</th></tr>
+        <tr><td><a href="#1">Default</a></td></tr>
+    </table>
+
+    <a name="1"></a>
+    <!-- Parameter List Table: Default -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>Default</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">mcmcPlot</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CHAINS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Insert an array containing the parameters to plot. If left empty,then by default will plot the chains of every parameter. If set to zero then no chains are plotted. (note: The loglikelihood is stored in the first column)</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CHAIN COLOR</td>
+            <td bgcolor="#F2F2F2">[0.16700000000000001 0.56399999999999995 0.98799999999999999 ...]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A 3x1 vector defining the color of the chains.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FACE COLOR</td>
+            <td bgcolor="#F2F2F2">[0.16700000000000001 0.56399999999999995 0.98799999999999999 ...]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A 3x1 vector defining the color of the faces of the bar graphs. It also applies to plotmatrix.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">EDGE COLOR</td>
+            <td bgcolor="#F2F2F2">[0.16700000000000001 0.56399999999999995 0.98799999999999999 ...]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A 3x1 vector defining the color of the edges. It also applies to plotmatrix.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">BURNIN</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Number of samples (of the chains) to be discarded for the computation of the PDFs of the parameters. Also usedfor producing the plotmatrix figure.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NBINS</td>
+            <td bgcolor="#F2F2F2">25</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Number of bins of the pdf histogram computed for every parameter (used again for the computation of the PDFs of the parameters)</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PLOTMATRIX</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Flag to determine if a plotmatrix is desired</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TICKS</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">In case where the 'PLOTMATRIX' is set to true, and the dimensionality is high, sometimes it is convenient to not draw the x and y-ticks. This flag takes care of this. </td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PDFS</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Determine if a plot of the PDFs of each parameter is desired. The same as the 'CHAINS' option but for plotting the PDFs of the paramters.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PLOT FIT CURVES</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Set to true to attempt to plot Gaussian fit curves to parameters histograms.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PARAM NAMES</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Cell array of names of the parameters to be assigned to each plot. If left empty the default values from the pest object will be used. If the 'NAMES' field of the pest object is empty, some default names will be used.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TRUE VALUES</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">If the parameter values are known and provided, they will be drawn on the histogram plots. </td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">HIST TYPE</td>
+            <td bgcolor="#F2F2F2">'hist'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'hist'</font></li><li><font color="#1111FF">'stairs'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">The histogram type.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PLOT ELLIPSOID</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">True false flag, to plot ellipsoids at different confidence levels, intead of the data. Applies if 'Plotmatrix' is set to true.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">COLORPDFS</td>
+            <td bgcolor="#F2F2F2">'r-'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Choose a color for the fitted Gaussians on the PDFs. Used also to point the estimated parameters on the PDFs.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ERROR COLOR</td>
+            <td bgcolor="#F2F2F2">'r--'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Choose a color for the estimated errors on the PDFs.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">COLORMAP</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Choose a colormap for the PDF histograms (as a string). By default colormaps are not used. Note: For best results it is recomended to use this option with less than 25 'NBINS'. For the available colormaps type 'doc colormap'in the terminal.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RESULTS</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Set to "true" if a table of the results of the estimated parameters is desired.The results are printed on screen in 2 columns: the 1st contains the mean valueand the second the sigma.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FONTSIZE</td>
+            <td bgcolor="#F2F2F2">10</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The font size for all the cases of the plots.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PLOT CUMSUM</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">True-False flag to plot hte cumulative mean of the chains.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PYTHON CORNER PLOT, PY CPLOT</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">A flag to enable/disable the python corner plot. Works only if the 'triangle' python module has been imported. Saves the figure under the name 'triangle_plot' in current directory.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SHOW PROVENANCE</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">A flag to enable/disable the provenance text patch.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SAVEFIG</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">FALSE-TRUE flag to save the figures on disk. If set to true, the PDF and FIG files are going to be saved under the name 'mcmcplot_fig_#' in the currect directory. The stoc.plot.savePlot function is used.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('CHAINS', [[]], 'CHAIN COLOR', [[0.16700000000000001 0.56399999999999995 0.98799999999999999]], 'FACE COLOR', [[0.16700000000000001 0.56399999999999995 0.98799999999999999]], 'EDGE COLOR', [[0.16700000000000001 0.56399999999999995 0.98799999999999999]], 'BURNIN', [1], 'NBINS', [25], 'PLOTMATRIX', [false], 'TICKS', [false], 'PDFS', [true], 'PLOT FIT CURVES', [true], 'PARAM NAMES', [[]], 'TRUE VALUES', [[]], 'HIST TYPE', 'hist', 'PLOT ELLIPSOID', [false], 'COLORPDFS', 'r-', 'ERROR COLOR', 'r--', 'COLORMAP', '', 'RESULTS', [false], 'FONTSIZE', [10], 'PLOT CUMSUM', [true], 'PYTHON CORNER PLOT', [false], 'SHOW PROVENANCE', [true], 'SAVEFIG', [false])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <p><!-- Table of the minfo object -->
+      <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+        <colgroup>
+          <col width="25%"/>
+          <col width="75%"/>
+        </colgroup>
+        <thead>
+          <tr valign="top">
+            <th class="categorylist" colspan="2">Some information of the method pest/mcmcPlot are listed below:</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Property: 'mclass' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Class name</td>
+            <td bgcolor="#f3f4f5">pest</td>
+          </tr>
+          <!-- Property: 'mname' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Method name</td>
+            <td bgcolor="#ffffff">mcmcPlot</td>
+          </tr>
+          <!-- Property: 'mcategory' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Category</td>
+            <td bgcolor="#f3f4f5">Helper</td>
+          </tr>
+          <!-- Property: 'mpackage' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Package name</td>
+            <td bgcolor="#ffffff">ltpda</td>
+          </tr>
+          <!-- Property: 'modifier' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Can be used as modifier</td>
+            <td bgcolor="#f3f4f5">1</td>
+          </tr>
+          <!-- Property: 'supportedNumTypes' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Supported numeric types</td>
+            <td bgcolor="#ffffff">{'double'}</td>
+          </tr>
+        </tbody>
+      </table>
+    </p>
+
+
+    <br>
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="pest_index.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: pest/index"></a>&nbsp;</td>
+        <td align="left">Method: pest/index</td>
+        <td>&nbsp;</td>
+        <td align="right">Method: pest/requirements</td>
+        <td align="right" width="20"><a href="pest_requirements.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: pest/requirements"></a></td>
+      </tr>
+    </table>
+
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+
+   </body>
+</html>

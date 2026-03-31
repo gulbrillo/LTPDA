@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Introduction to the various LPF noise models (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_2_topic_2_3.html"><img src="b_prev.gif" border="0" align="bottom" alt="Building an LTP model"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_2_topic_2_5.html"><img src="b_next.gif" border="0" align="bottom" alt="Building an LPF model"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Introduction to the various LPF noise models</h1>
+    <hr>
+    
+    <p>
+      <p>
+  As with the system models, the various noise models also come in different versions.
+  You can build these noise models individually and inspect their responses. Let's look at a couple of examples.
+</p>
+<h2>Capacitive actuation Noise Model</h2>
+<p>
+  For example, let's build the noise model used for generating force and torque noise of the 
+  GRS actuation. The model is called <tt>DIST_CAPACT</tt>.
+  <br>
+  We start by inspecting the model to see what versions are available, and, within each version, 
+  the parameters available for setting. Start with opening the model documentation:
+    <div class="fragment"><pre>
+      help ssm_model_DIST_CAPACT</pre></div>
+  and click on the 'Model Information' link.
+  As we can see, there are 5 versions available. All of them allow the user to choose a parameter for the dimension 
+  of the model, so to operate only along x (1D), along  x, y and phi (2D), or along all degrees of freedom (3D).
+  In addition, you can scroll to the 
+  details section for a particular model version and see what configuration parameters
+  are available to you. For instance, in this case we have different pole-zero models that characterize the noise shaping filters
+  that color unit-variance white noise to mimick the force and torque noise associated with the electrostatic
+  actuation provided bt the GRS and the FEE.
+  
+  After deciding the version we want to build, and the values of the parameters we want to set, we can build
+  it by doing:
+  <div class="fragment"><pre>
+      <span class="comment">% Build the default version of the GRS CAPactive ACTuation noise model</span>      
+      GRScapactNoise = ssm(plist(<span class="string">'built-in'</span>, <span class="string">'DIST_CAPACT'</span>));</pre></div>
+  Now that we've built the object, we can use the <tt>ssm/viewDetails</tt> method to inspect the various inputs and outputs of this model:
+  <div class="fragment"><pre>
+      GRScapactNoise.viewDetails</pre></div>  
+  so to understand how the input blocks are called, how many and which ports we have for each input, and how many and which outputs are available.
+</p>
+
+<h2>IFO readout Noise Models</h2>
+<p>
+  As another example, let's build the noise model used for generating readout noise of the 
+  interferometer. The model is called <tt>DIST_IFO_READOUT</tt>.
+  <br>
+  Again, start by inspecting the model to see what versions are available, and, within each version, 
+  the parameters available for setting. As before, open the model documentation with:
+    <div class="fragment"><pre>
+      help ssm_model_DIST_IFO_READOUT</pre></div>
+  As we can see, there are 4 versions available. All of them allow the user to choose a parameter for the dimensions 
+  of the model, so to operate only with the longitudinal degrees of freedom (1D), or also with angular ones (2D and 3D).
+  In addition, you can scroll to the 
+  details section for a particular model version and see what configuration parameters
+  are available to you. For instance, in this case we have different pole-zero models that characterize the noise shaping filters
+  that color unit-variance white noise to mimick the readout noise for the different IFO components.
+  
+  After deciding the version we want to build, and the values of the parameters we want to set, we can build
+  it by doing:
+  <div class="fragment"><pre>
+      <span class="comment">% Build the default version of the IFO Readout noise model</span>      
+      IFOreadoutNoise = ssm(plist(<span class="string">'built-in'</span>, <span class="string">'DIST_IFO_READOUT'</span>));</pre></div>
+  Now that we built the object, we can use the <tt>ssm/viewDetails</tt> method to inspect the various inputs and outputs of this model:
+  <div class="fragment"><pre>
+      IFOreadoutNoise.viewDetails</pre></div>  
+  so to understand how the input blocks are called, how many and which ports we have for each input, and how many and which outputs are available. 
+</p>
+<p>
+This noise source is added after the modelling of the actual conversion of the TMs position into an IFO reading, 
+so it represents noise sources such as shot noise in the beams, electronics noise (additive, digitization, ...).
+</p>
+<p>
+Other noise sources that act 'common mode' on all IFO channels, such as 
+laser frequency fluctuations, are modelled by the <tt>DIST_IFO_POSITION</tt> noise model, that can be built by doing:
+ <div class="fragment"><pre>
+      <span class="comment">% Build the default version of the IFO so-called position noise model</span>      
+      IFOfrequencyNoise = ssm(plist(<span class="string">'built-in'</span>, <span class="string">'DIST_IFO_POSITION'</span>));</pre></div>
+  Now that we built the object, we can use the <tt>ssm/viewDetails</tt> method to inspect the various inputs and outputs of this model:
+  <div class="fragment"><pre>
+      IFOfrequencyNoise.viewDetails</pre></div>  
+  so to understand how the input blocks are called, how many and which ports we have for each input, and how many and which outputs are available. 
+</p>
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_2_topic_2_3.html"><img src="b_prev.gif" border="0" align="bottom" alt="Building an LTP model"></a>&nbsp;</td>
+        <td align="left">Building an LTP model</td>
+        <td>&nbsp;</td>
+        <td align="right">Building an LPF model</td>
+        <td align="right" width="20"><a href="ltpda_training_2_topic_2_5.html"><img src="b_next.gif" border="0" align="bottom" alt="Building an LPF model"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

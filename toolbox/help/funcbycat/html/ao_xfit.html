@@ -1,0 +1,452 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!-- $Id$ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="../../ug/docstyle.css">
+    <title>LTPDA Method: ao/xfit</title>
+  </head>
+  <body>
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <p style="font-size:1px;">&nbsp;</p>
+
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../../ug/../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ao_xcorr.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ao/xcorr"></a>&nbsp;&nbsp;&nbsp;<a href="ao_zDomainFit.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ao/zDomainFit"></a></td>
+      </tr>
+    </table>
+
+    <h1 class="title">Method ao/xfit</h1>
+    <hr />
+
+<pre>  <SPAN CLASS="HELPTOPIC">XFIT</SPAN> fit a function of x to data.
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+  DESCRIPTION: <SPAN CLASS="HELPTOPIC">XFIT</SPAN> performs a non-linear fit of a function of x to data.
+  smodels fitting is also supported.
+  
+  ALGORITHM: <SPAN CLASS="HELPTOPIC">XFIT</SPAN> does a chi-squared minimization by means of different
+  algorithms (see details in the default plist). Covariance matrix is also
+  computed from the Fisher's Information Matrix. In case the Information
+  Matrix is not positive-definite, uncertainties will not be stored in the
+  output. 
+ 
+  CALL:        b = <span class="helptopic">xfit</span>(a, pl)
+ 
+  INPUTS:      a  - input AO to fit to
+               pl - parameter list (see below)
+ 
+  OUTPUTs:     b  - a pest object containing the best-fit parameters,
+                    goodness-of-fit reduced chi-squared, fit degree-of-freedom
+                    covariance matrix and uncertainties. Additional
+                    quantities, like the Information Matrix, are contained 
+                    within the procinfo. The best-fit model can be evaluated
+                    from pest\eval.
+ 
+  <a href="ao_xfit.html#down">Parameters Description</a>
+ 
+  EXAMPLES:
+ 
+  % 1) Fit to a frequency-series
+ 
+    % Create a frequency-series
+    datapl = plist('fsfcn', '0.01./(0.0001+f) + 5*abs(randn(size(f))) ', 'f1', 1e-5, 'f2', 5, 'nf', 1000, ...
+       'xunits', 'Hz', 'yunits', 'N/Hz');
+    data = ao(datapl);
+    data.setName;
+  
+    % Do fit
+    fitpl = plist('Function', 'P(1)./(P(2) + Xdata) + P(3)', ...
+      'P0', [0.1 0.01 1]);
+    params = <span class="helptopic">xfit</span>(data, fitpl)
+  
+    % Evaluate model
+    BestModel = eval(params,plist('type','fsdata','xdata',data,'xfield','x'));
+    BestModel.setName;
+    
+    % Display results
+    iplot(data,BestModel)
+ 
+  % 2) Fit to a noisy sine-wave
+ 
+    % Create a noisy sine-wave
+    fs    = 10;
+    nsecs = 500;
+    datapl = plist('waveform', 'Sine wave', 'f', 0.01, 'A', 0.6, 'fs', fs, 'nsecs', nsecs, ...
+      'xunits', 's', 'yunits', 'm');
+    sw = ao(datapl);
+    noise = ao(plist('tsfcn', '0.01*randn(size(t))', 'fs', fs, 'nsecs', nsecs));
+    data = sw+noise;
+    data.setName;
+  
+    % Do fit
+    fitpl = plist('Function', 'P(1).*sin(2*pi*P(2).*Xdata + P(3))', ...
+      'P0', [1 0.01 0]);
+    params = <span class="helptopic">xfit</span>(data, fitpl)
+  
+    % Evaluate model
+    BestModel = eval(params,plist('type','tsdata','xdata',sw,'xfield','x'));
+    BestModel.setName;
+    
+    % Display results
+    iplot(data,BestModel)
+ 
+  % 3) Fit an smodel of a straight line to some data
+ 
+    % Create a noisy straight-line
+    datapl = plist('xyfcn', '2.33 + 0.1*x + 0.01*randn(size(x))', 'x', 0:0.1:10, ...
+      'xunits', 's', 'yunits', 'm');
+    data = ao(datapl);
+    data.setName;
+  
+    % Model to fit
+    mdl = smodel('a + b*x');
+    mdl.setXvar('x');
+    mdl.setParams({'a', 'b'}, {1 2});
+  
+    % Fit model
+    fitpl = plist('Function', mdl, 'P0', [1 1]);
+    params = <span class="helptopic">xfit</span>(data, fitpl)
+  
+    % Evaluate model
+    BestModel = eval(params,plist('xdata',data,'xfield','x'));
+    BestModel.setName;
+    
+    % Display results
+    iplot(data,BestModel)
+ 
+  % 4) Fit a chirp-sine firstly starting from an initial guess (quite close
+  % to the true values) (bad convergency) and secondly by a Monte Carlo
+  % search (good convergency)
+ 
+    % Create a noisy chirp-sine
+    fs    = 10;
+    nsecs = 1000;
+    
+    % Model to fit and generate signal
+    mdl = smodel(plist('name', 'chirp', 'expression', 'A.*sin(2*pi*(f + f0.*t).*t + p)', ...
+      'params', {'A','f','f0','p'}, 'xvar', 't', 'xunits', 's', 'yunits', 'm'));
+  
+    % signal
+    s = mdl.setValues({10,1e-4,1e-5,0.3});
+    s.setXvals(0:1/fs:nsecs-1/fs);
+    signal = s.eval;
+    signal.setName;
+  
+    % noise
+    noise = ao(plist('tsfcn', '1*randn(size(t))', 'fs', fs, 'nsecs', nsecs));
+  
+    % data
+    data = signal + noise;
+    data.setName;
+  
+    % Fit model from the starting guess
+    fitpl_ig = plist('Function', mdl, 'P0',[8,9e-5,9e-6,0]);
+    params_ig = <span class="helptopic">xfit</span>(data, fitpl_ig);
+  
+    % Evaluate model
+    BestModel_ig = eval(params_ig,plist('xdata',data,'xfield','x'));
+    BestModel_ig.setName;
+    
+    % Display results
+    iplot(data,BestModel_ig)
+    
+    % Fit model by a Monte Carlo search
+    fitpl_mc = plist('Function', mdl, ...
+      'MonteCarlo', true, 'Npoints', 1000, 'LB', [8,9e-5,9e-6,0], 'UB', [11,3e-4,2e-5,2*pi]);
+    params_mc = <span class="helptopic">xfit</span>(data, fitpl_mc)
+    
+    % Evaluate model
+    BestModel_mc = eval(params_mc,plist('xdata',data,'xfield','x'));
+    BestModel_mc.setName;
+    
+    % Display results
+    iplot(data,BestModel_mc)
+ 
+  % 5) Multichannel fit of smodels
+ 
+    % Ch.1 data
+    datapl = plist('xyfcn', '0.1*x + 0.01*randn(size(x))', 'x', 0:0.1:10, 'name', 'channel 1', ...
+      'xunits', 'K', 'yunits', 'Pa');
+    a1 = ao(datapl);
+    % Ch.2 data
+    datapl = plist('xyfcn', '2.5*x + 0.1*sin(2*pi*x) + 0.01*randn(size(x))', 'x', 0:0.1:10, 'name', 'channel 2', ...
+      'xunits', 'K', 'yunits', 'T');
+    a2 = ao(datapl);
+    
+    % Model to fit
+    mdl1 = smodel('a*x');
+    mdl1.setXvar('x');
+    mdl1.setParams({'a'}, {1});
+    mdl1.setXunits('K');
+    mdl1.setYunits('Pa');
+    
+    mdl2 = smodel('b*x + a*sin(2*pi*x)');
+    mdl2.setXvar('x');
+    mdl2.setParams({'a','b'}, {1,2});
+    mdl2.setXunits('K');
+    mdl2.setYunits('T');
+    
+    % Fit model
+    params = <span class="helptopic">xfit</span>(a1,a2, plist('Function', [mdl1,mdl2]));
+    
+    % evaluate model
+    b = eval(params, plist('index',1,'xdata',a1,'xfield','x'));
+    b.setName('fit Ch.1');
+    r = a1-b;
+    r.setName('residuals');
+    iplot(a1,b,r)
+    
+    b = eval(params, plist('index',2,'xdata',a2,'xfield','x'));
+    b.setName('fit Ch.2');
+    r = a2-b;
+    r.setName('residuals');
+    iplot(a2,b,r)
+ 
+  <a href="ao_xfit.html#down">Parameters Description</a>
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</pre>
+
+    <!-- =====        Striped 4x2 table: Begin        ==== -->
+    <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+    <div class="sectiontitle"></div>
+    <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+      <colgroup>
+        <col width="30%"/>
+        <col width="70%"/>
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th class="categorylist">Method Details</th>
+          <th class="categorylist"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Access</td>
+          <td bgcolor="#f3f4f5">public</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Defining Class</td>
+          <td bgcolor="#ffffff">ao</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Sealed</td>
+          <td bgcolor="#f3f4f5">0</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Static</td>
+          <td bgcolor="#ffffff">0</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- ===== Striped 4x2 table: End ==== -->
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <h2>Parameter Description</h2>    <a name="down" id="down"></a>
+
+    <!-- Link-Table of the sets -->
+    <table border="0" cellpadding="4" cellspacing="0" class="pagenavtable">
+      <tr><th>Sets for this method &#8230;</th></tr>
+        <tr><td><a href="#1">Default</a></td></tr>
+    </table>
+
+    <a name="1"></a>
+    <!-- Parameter List Table: Default -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>Default</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">xfit</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FUNCTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The function (or symbolic model <tt>smodel</tt>) of Xdata that you want to fit. For example: 'P(1)*Xdata'.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">WEIGHTS</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">An array of weights, one value per X sample.<br>By default, <tt>xfit</tt> takes data uncertainties from the dy field of the input object.If provided, <tt>weights</tt> make <tt>xfit</tt> ignore these.Otherwise <tt>weights</tt> will be considered as ones.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">P0</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">An array of starting guesses for the parameters.<br>This is not necessary if you fit with <tt>smodel</tt>s; in that case the parametervalues from the <tt>smodel</tt> are taken as the initial guess.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LB</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Lower bounds for the parameters.<br>This improves the convergency. Mandatory for Monte Carlo.<br>For multichannel fitting it has to be a cell-array.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">UB</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Upper bounds for the parameters.<br>This improves the convergency. Mandatory for Monte Carlo.<br>For multichannel fitting it has to be a cell-array.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ALGORITHM</td>
+            <td bgcolor="#F2F2F2">'fminsearch'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'fminsearch'</font></li><li><font color="#1111FF">'fminunc'</font></li><li><font color="#1111FF">'fmincon'</font></li><li><font color="#1111FF">'patternsearch'</font></li><li><font color="#1111FF">'ga'</font></li><li><font color="#1111FF">'simulannealbnd'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">A string defining the fitting algorithm.<br><tt>fminunc</tt>, <tt>fmincon</tt> require 'Optimization Toolbox' to be installed.<br><tt>patternsearch</tt>, <tt>ga</tt>, <tt>simulannealbnd</tt> require 'Genetic Algorithm and Direct Search' to be installed.<br></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">OPTSET</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">An optimisation structure to pass to the fitting algorithm.<br>See <tt>fminsearch</tt>, <tt>fminunc</tt>, <tt>fmincon</tt>, <tt>optimset</tt>, for details.<br>See <tt>patternsearch</tt>, <tt>psoptimset</tt>, for details.<br>See <tt>ga</tt>, <tt>gaoptimset</tt>, for details.<br>See <tt>simulannealbnd</tt>, <tt>saoptimset</tt>, for details.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FITUNC</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Fit parameter uncertainties or not.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">UNCMTD</td>
+            <td bgcolor="#F2F2F2">'hessian'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'hessian'</font></li><li><font color="#1111FF">'jacobian'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Choose the uncertainties estimation method.<br>For multi-channel fitting <tt>hessian</tt> is mandatory.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FASTHESS</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Choose whether or not the hessian should be estimated from a fast-forward finite differences algorithm; use this method to achieve better performance in CPU-time, but accuracy is not ensured; otherwise, the default (computer expensive, but more accurate) method will be used.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">MONTECARLO</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Do a Monte Carlo search in the parameter space.<br>Useful when dealing with high multiplicity of local minima. May be computer-expensive.<br>Note that, if used, P0 will be ignored. It also requires to define LB and UB.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NPOINTS</td>
+            <td bgcolor="#F2F2F2">100000</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Set the number of points in the parameter space to be extracted.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NOPTIMS</td>
+            <td bgcolor="#F2F2F2">10</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Set the number of optimizations to be performed after the Monte Carlo.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ESTIMATOR</td>
+            <td bgcolor="#F2F2F2">'chi2'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'chi2'</font></li><li><font color="#1111FF">'abs'</font></li><li><font color="#1111FF">'log'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Choose the robust local M-estimate as the statistical estimator of the fit:<br> 'chi2' (least square) for data with normal distribution;<br> 'abs' (mean absolute deviation) for data with double exponential distribution;<br> 'log' (log least square) for data with Lorentzian distribution.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('FUNCTION', '', 'WEIGHTS', '', 'P0', [[]], 'LB', [[]], 'UB', [[]], 'ALGORITHM', 'fminsearch', 'OPTSET', '', 'FITUNC', [true], 'UNCMTD', 'hessian', 'FASTHESS', [false], 'MONTECARLO', [false], 'NPOINTS', [100000], 'NOPTIMS', [10], 'ESTIMATOR', 'chi2')</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <p><!-- Table of the minfo object -->
+      <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+        <colgroup>
+          <col width="25%"/>
+          <col width="75%"/>
+        </colgroup>
+        <thead>
+          <tr valign="top">
+            <th class="categorylist" colspan="2">Some information of the method ao/xfit are listed below:</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Property: 'mclass' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Class name</td>
+            <td bgcolor="#f3f4f5">ao</td>
+          </tr>
+          <!-- Property: 'mname' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Method name</td>
+            <td bgcolor="#ffffff">xfit</td>
+          </tr>
+          <!-- Property: 'mcategory' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Category</td>
+            <td bgcolor="#f3f4f5">Signal Processing</td>
+          </tr>
+          <!-- Property: 'mpackage' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Package name</td>
+            <td bgcolor="#ffffff">ltpda</td>
+          </tr>
+          <!-- Property: 'modifier' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Can be used as modifier</td>
+            <td bgcolor="#f3f4f5">0</td>
+          </tr>
+          <!-- Property: 'supportedNumTypes' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Supported numeric types</td>
+            <td bgcolor="#ffffff">{'double'}</td>
+          </tr>
+        </tbody>
+      </table>
+    </p>
+
+
+    <br>
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ao_xcorr.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ao/xcorr"></a>&nbsp;</td>
+        <td align="left">Method: ao/xcorr</td>
+        <td>&nbsp;</td>
+        <td align="right">Method: ao/zDomainFit</td>
+        <td align="right" width="20"><a href="ao_zDomainFit.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ao/zDomainFit"></a></td>
+      </tr>
+    </table>
+
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+
+   </body>
+</html>

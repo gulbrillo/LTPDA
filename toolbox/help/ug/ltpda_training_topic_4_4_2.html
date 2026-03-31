@@ -1,0 +1,261 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>By defining filter properties (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_topic_4_4_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="By discretizing transfer function models"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_topic_4_5.html"><img src="b_next.gif" border="0" align="bottom" alt="IFO/Temperature Example - Simulation"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">By defining filter properties</h1>
+    <hr>
+    
+    <p>
+      <h2>By defining filter properties</h2>
+<p>
+  In the LTPDA toolbox you have several ways to define digital filters. You can take
+  a look at the <a href="sigproc_dfilt.html"> digital filtering</a> help pages. In this
+  tutorial we will see how to create a bandpass filter and how to use it to filter data.
+</p>
+<h3>Estimating power spectrum in a limited band</h3>
+<p>
+  In this example we want to estimate the power spectrum of an interferometer time series
+  in the LTP bandwidth, [1e-3, 30e-3] Hz.
+  We need first to load it from the data package as follows:
+</p>
+<div class="fragment"><pre>
+    d = ao(<span class="string">'topic4/BandpassExample.xml'</span>);
+</pre></div>
+<p>
+  We can now take a look at the data
+</p>
+<div class="fragment"><pre>
+    d.iplot
+</pre></div>
+<p>
+  <img src="images/ltpda_training_1/topic4/BandPassEx1.png" alt="inteferometer data" border="1" >
+</p>
+<p>
+  Before estimating the power spectrum we would like to remove all the contributions
+  outside our band and, in particular, the trend which will add up as a low frequency
+  feature into our spectrum. We could apply the <tt>detrend</tt> method but
+  we can also design a bandpass filter
+  to do the job. The properties of this filter would be the following:
+</p>
+
+<table cellspacing="0" class="body" cellpadding="2" border="0" width="50%">
+  <colgroup>
+    <col width="15%"/>
+    <col width="35%"/>
+  </colgroup>
+  <thead>
+    <tr valign="top">
+      <th class="categorylist">Key</th>
+      <th class="categorylist">Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Key 'filename' -->
+    <tr valign="top">
+      <td bgcolor="#f3f4f5">
+        <p><tt>TYPE</tt></p>
+      </td>
+      <td bgcolor="#f3f4f5">
+        <p><span class="string">'bandpass'</span></p>
+      </td>
+    </tr>
+    <!-- Key 'filename' -->
+    <tr valign="top">
+      <td bgcolor="#f3f4f5">
+        <p><tt>ORDER</tt></p>
+      </td>
+      <td bgcolor="#f3f4f5">
+        2
+      </td>
+    </tr>
+    <!-- Key 'filename' -->
+    <tr valign="top">
+      <td bgcolor="#f3f4f5">
+        <p><tt>FS</tt></p>
+      </td>
+      <td bgcolor="#f3f4f5">
+        3.247
+      </td>
+    </tr>
+    <!-- Key 'filename' -->
+    <tr valign="top">
+      <td bgcolor="#f3f4f5">
+        <p><tt>FC</tt></p>
+      </td>
+      <td bgcolor="#f3f4f5">
+        [5e-4 5e-2]
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>
+  We have set the cut-off frequencies slightly below and above the interesting
+  bandwidth trying to avoid any kind of unwanted effect in the band.
+  All the previous properties of the filter can be set as parameters in a
+  <tt>plist</tt> that we can then insert in the constructor. We will use in our example
+  the <tt>miir</tt> constructor to create a IIR filter.
+</p>
+<div class="fragment"><pre>
+    pl = plist(<span class="string">'type'</span>, <span class="string">'bandpass'</span>, <span class="string">'order'</span>, 2, <span class="string">'fs'</span>, 3.247, <span class="string">'fc'</span>, [5e-4 5e-2]);
+    bp = miir(pl);
+</pre></div>
+<p>
+  <tt>bp</tt> is a <tt>filter</tt> object. Although we could set units, we
+  don't need units here since the input and output are <tt>rad</tt>
+  and therefore the filter will remain unitless.
+  The response of the filter can be easily evaluated using the <tt>resp</tt>
+  method, showing us the expected shape. We specify the frequecy range and
+  the number of points we want with a plist.
+</p>
+<div class="fragment"><pre>
+    bp.resp(plist(<span class="string">'f1'</span>, 1e-4, <span class="string">'f2'</span>, 1, <span class="string">'nf'</span>, 200));
+</pre></div>
+<p>
+  <img src="images/ltpda_training_1/topic4/BandPassEx2.png" alt="Bandpass filter response" border="1" >
+</p>
+<p>
+  Once we have the <tt>filter</tt> object defined, to apply it to the data is
+  straightforward. The standard method to do so is <tt>filter(AO, filter_obj)</tt>,
+  however we will use here the <tt>filtfilt</tt> method which processes the data
+  in both the forward and reverse direction producing a zero-phase filter
+  but also removing transients.
+</p>
+<div class="fragment"><pre>
+    df = filtfilt(d, bp);
+</pre></div>
+<p>
+  We can see how the filter has removed the trend by plotting both time series:
+</p>
+<div class="fragment"><pre>
+    df.setPlotinfo();
+    iplot(d, df)
+</pre></div>
+<p>Please notice here that we had to reset the <tt>plotinfo</tt> properties that were propagated by the <tt>filtfilt</tt> method.
+</p>
+<p>
+  <img src="images/ltpda_training_1/topic4/BandPassEx3.png" alt="Time series comparison" border="1" >
+</p>
+<p>
+  We are now ready to estimate the power spectrum using <tt>psd</tt> and the
+  following parameters:
+</p>
+
+<table cellspacing="0" class="body" cellpadding="2" border="0" width="50%">
+  <colgroup>
+    <col width="15%"/>
+    <col width="35%"/>
+  </colgroup>
+  <thead>
+    <tr valign="top">
+      <th class="categorylist">Key</th>
+      <th class="categorylist">Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Key 'filename' -->
+    <tr valign="top">
+      <td bgcolor="#f3f4f5">
+        <p><tt>NFFT</tt></p>
+      </td>
+      <td bgcolor="#f3f4f5">
+        1e4
+      </td>
+    </tr>
+    <!-- Key 'filename' -->
+    <tr valign="top">
+      <td bgcolor="#f3f4f5">
+        <p><tt>SCALE</tt></p>
+      </td>
+      <td bgcolor="#f3f4f5">
+        <p><span class="string">'PSD'</span></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>
+  This can be done by typing the following in the command window
+</p>
+<div class="fragment"><pre>
+    pl = plist(<span class="string">'Nfft'</span>, 1e4, <span class="string">'scale'</span>, <span class="string">'PSD'</span>);
+    p = psd(d, df, pl);
+</pre></div>
+<p>
+ Since we entered two objects to <tt>psd</tt>, we get two objects at the output
+ which can be easily plot using <tt>iplot</tt>
+</p>
+<div class="fragment"><pre>
+    p.sqrt.iplot
+</pre></div>
+<p>
+  <img src="images/ltpda_training_1/topic4/BandpassEx4.png" alt="Power spectrum" border="1" >
+</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_topic_4_4_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="By discretizing transfer function models"></a>&nbsp;</td>
+        <td align="left">By discretizing transfer function models</td>
+        <td>&nbsp;</td>
+        <td align="right">IFO/Temperature Example - Simulation</td>
+        <td align="right" width="20"><a href="ltpda_training_topic_4_5.html"><img src="b_next.gif" border="0" align="bottom" alt="IFO/Temperature Example - Simulation"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

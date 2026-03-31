@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Simulate LPF with injected signals (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_2_topic_4_6.html"><img src="b_prev.gif" border="0" align="bottom" alt="Estimate tranfser functions from simulated signals, compare with Bode estimates"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_2_topic_5.html"><img src="b_next.gif" border="0" align="bottom" alt="Topic 5 - Introduction to system identification of LPF."></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Simulate LPF with injected signals</h1>
+    <hr>
+    
+    <p>
+      <p>
+  We can, of course, do the same injections but with the full LPF model and 
+  with noise switched on.
+</p>
+<p>
+  In Topic 2 you already saw how to simulate an LPF model with all the noises
+  switched on. If we combine that with the signal injections we've been doing
+  in this topic, then a simulation with noise and injected signals can be done 
+  like this:
+  <div class="fragment"><pre>  
+      <span class="comment">% Create a standard LPF model</span>
+      lpf = ssm(plist(<span class="string">'built-in'</span>, <span class="string">'LPF'</span>));
+      
+      <span class="comment">% Generate suitable covariance matrix for all inputs</span>
+      cov = lpf.generateCovariance;
+      
+      <span class="comment">% Create some time-series analysis object to inject</span>
+      aSignal = ao(plist(<span class="string">'tsfcn'</span>, <span class="string">'1e-7*sin(2*pi*0.005*t)'</span>, <span class="string">'fs'</span>, 1/lpf.timestep, <span class="string">'nsecs'</span>, 10000));       
+      
+      <span class="comment">% Create the plist to configure simulate</span>      
+      sim_pl = plist(<span class="string">'AOS'</span>, aSignal, <span class="string">'AOS Variable Names'</span>, <span class="string">'GUIDANCE.ifo_x1'</span>, ... 
+                     <span class="string">'return outputs'</span>, {<span class="string">'DELAY_IFO.x1'</span>, <span class="string">'DELAY_IFO.x12'</span>}, ...
+                     <span class="string">'CPSD variable names'</span>, cov.find(<span class="string">'names'</span>), ...
+                     <span class="string">'CPSD'</span>, cov.find(<span class="string">'cov'</span>));
+                    
+      <span class="comment">% Run the simulation</span>      
+      out = simulate(lpf, sim_pl);
+  </pre></div>
+  We can then plot the two IFO outputs by doing:
+  <div class="fragment"><pre>  
+      <span class="comment">% Unpack the outputs</span>      
+      [o1, o12] = unpack(out);
+      
+      <span class="comment">% Plot on subplots</span>      
+      plot_pl = plist(<span class="string">'arrangement'</span>, <span class="string">'subplots'</span>);
+      iplot(o1, o12, plot_pl);
+  </pre></div>
+  This should result in a plot like this:
+  <br>
+  <IMG src="images/ltpda_training_2/Topic4/sim_noise_and_signal.png"  align="center" border="0">
+  <br>
+  We can estimate the spectral densities of these two signals and we will should a signal at 5mHz:
+  <div class="fragment"><pre>  
+      <span class="comment">% Create a PSD plist with 16 averages, linear segment-wise detrending </span>      
+      psd_pl = plist('navs', 16, 'order', 1, 'win', 'BH92');
+      
+      <span class="comment">% Estimate PSDs</span>      
+      [o1_xx, o12_xx] = psd(o1, o12, psd_pl);
+      
+      <span class="comment">% Plot the ASDs</span>      
+      iplot(sqrt(o1_xx), sqrt(o12_xx));
+  </pre></div>
+  This should result in a plot like this:
+  <br>
+  <IMG src="images/ltpda_training_2/Topic4/sim_noise_and_signal_spectra.png"  align="center" border="0">
+  <br>
+</p>
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_2_topic_4_6.html"><img src="b_prev.gif" border="0" align="bottom" alt="Estimate tranfser functions from simulated signals, compare with Bode estimates"></a>&nbsp;</td>
+        <td align="left">Estimate tranfser functions from simulated signals, compare with Bode estimates</td>
+        <td>&nbsp;</td>
+        <td align="right">Topic 5 - Introduction to system identification of LPF.</td>
+        <td align="right" width="20"><a href="ltpda_training_2_topic_5.html"><img src="b_next.gif" border="0" align="bottom" alt="Topic 5 - Introduction to system identification of LPF."></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

@@ -1,0 +1,1200 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!-- $Id$ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="../../ug/docstyle.css">
+    <title>LTPDA Method: MCMC/MCMC</title>
+  </head>
+  <body>
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <p style="font-size:1px;">&nbsp;</p>
+
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../../ug/../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="LTPDANamedItem_listGroups.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: LTPDANamedItem/listGroups"></a>&nbsp;&nbsp;&nbsp;<a href="MCMC_rebuild.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: MCMC/rebuild"></a></td>
+      </tr>
+    </table>
+
+    <h1 class="title">Method MCMC/MCMC</h1>
+    <hr />
+
+<pre>  set details</pre>
+
+    <!-- =====        Striped 4x2 table: Begin        ==== -->
+    <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+    <div class="sectiontitle"></div>
+    <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+      <colgroup>
+        <col width="30%"/>
+        <col width="70%"/>
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th class="categorylist">Method Details</th>
+          <th class="categorylist"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Access</td>
+          <td bgcolor="#f3f4f5">public</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Defining Class</td>
+          <td bgcolor="#ffffff">MCMC</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Sealed</td>
+          <td bgcolor="#f3f4f5">0</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Static</td>
+          <td bgcolor="#ffffff">0</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- ===== Striped 4x2 table: End ==== -->
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <h2>Parameter Description</h2>    <a name="down" id="down"></a>
+
+    <!-- Link-Table of the sets -->
+    <table border="0" cellpadding="4" cellspacing="0" class="pagenavtable">
+      <tr><th>Sets for this method &#8230;</th></tr>
+        <tr><td><a href="#1">Default</a></td></tr>
+        <tr><td><a href="#2">From MAT File</a></td></tr>
+        <tr><td><a href="#3">From XML File</a></td></tr>
+        <tr><td><a href="#4">From Repository</a></td></tr>
+        <tr><td><a href="#5">From Built-in Model</a></td></tr>
+    </table>
+
+    <a name="1"></a>
+    <!-- Parameter List Table: Default -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>Default</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LIKELIHOOD VERSION, LLH VERSION, LLH VER</td>
+            <td bgcolor="#F2F2F2">'chi2'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The version of the likelihood, for the case of MFH models. For more information type: >> help mfh_model_loglikelihood. </td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SIMPLEX</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Set to true to perform a simplex search to find the starting parameters of the MCMC chain.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">MHSAMPLE</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Set to true to perform a mhsample search. This is set to true by default. Only to be set to false by the user if we does not want to perform the mcmc search.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FREQUENCIES</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Array of frequencies where the analysis is performed. NOTE: Not the maximum and minimum frequency. In this case please use the 'F1' and 'F2' keys.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">F1</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Initial frequency for the analysis.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">F2</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Maximum frequency for the analysis.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">INNAMES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The input names. Used in the SSM case.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">OUTNAMES</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The output names. Used in the SSM case.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PINV</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Use the Penrose-Moore pseudoinverse.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TOL</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Tolerance for the Penrose-Moore pseudoinverse.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">JDES</td>
+            <td bgcolor="#F2F2F2">1000</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The desired number of spectral frequencies to compute. Used in the case of 'LPSD' method.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">REGULARIZE</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">If the resulting fisher matrix is not positive definite, try a numerical trick to continue sampling.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NEARESTSPD</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Try to find the nearest symmetric and positive definite covariance matrix, with the 'nearestSPD' method from MATLAB file exchange.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">YUNITS</td>
+            <td bgcolor="#F2F2F2">'m s^-2'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The Y units of the noise time series, in case the MFH object is a 'core' type.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NFFT</td>
+            <td bgcolor="#F2F2F2">-1</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The number of samples in each fft [default: length of input data]. <br>A string value containing the variable 'fs' can also be used, e.g., <br> <tt>plist('Nfft', '2*fs')</tt></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">WIN</td>
+            <td bgcolor="#F2F2F2">'Hanning'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'Rectangular'</font></li><li><font color="#1111FF">'Welch'</font></li><li><font color="#1111FF">'Bartlett'</font></li><li><font color="#1111FF">'Hanning'</font></li><li><font color="#1111FF">'Hamming'</font></li><li><font color="#1111FF">'Nuttall3'</font></li><li><font color="#1111FF">'Nuttall4'</font></li><li><font color="#1111FF">'Nuttall3a'</font></li><li><font color="#1111FF">'Nuttall3b'</font></li><li><font color="#1111FF">'Nuttall4a'</font></li><li><font color="#1111FF">'Nuttall4b'</font></li><li><font color="#1111FF">'Nuttall4c'</font></li><li><font color="#1111FF">'BH92'</font></li><li><font color="#1111FF">'SFT3F'</font></li><li><font color="#1111FF">'SFT3M'</font></li><li><font color="#1111FF">'FTNI'</font></li><li><font color="#1111FF">'SFT4F'</font></li><li><font color="#1111FF">'SFT5F'</font></li><li><font color="#1111FF">'SFT4M'</font></li><li><font color="#1111FF">'FTHP'</font></li><li><font color="#1111FF">'HFT70'</font></li><li><font color="#1111FF">'FTSRS'</font></li><li><font color="#1111FF">'SFT5M'</font></li><li><font color="#1111FF">'HFT90D'</font></li><li><font color="#1111FF">'HFT95'</font></li><li><font color="#1111FF">'HFT116D'</font></li><li><font color="#1111FF">'HFT144D'</font></li><li><font color="#1111FF">'HFT169D'</font></li><li><font color="#1111FF">'HFT196D'</font></li><li><font color="#1111FF">'HFT223D'</font></li><li><font color="#1111FF">'HFT248D'</font></li><li><font color="#1111FF">'Kaiser'</font></li><li><font color="#1111FF">'levelledHanning'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">The window to be applied to the data to remove the discontinuities at edges of segments. [default: taken from user prefs] <br>Only the design parameters of the window object are used. Enter a string value containing the window name e.g.<br><tt>plist('Win', 'Kaiser', 'psll', 200)</tt><br><tt>plist('Win', 'BH92')</tt></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PSLL</td>
+            <td bgcolor="#F2F2F2">200</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The peak sidelobe level for Kaiser windows.<br>Note: it is ignored for all other windows</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">OLAP</td>
+            <td bgcolor="#F2F2F2">-1</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The segment percent overlap [-1 == take from window function]</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ORDER, N</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">-1</font></li><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li><li><font color="#1111FF">2</font></li><li><font color="#1111FF">3</font></li><li><font color="#1111FF">4</font></li><li><font color="#1111FF">5</font></li><li><font color="#1111FF">6</font></li><li><font color="#1111FF">7</font></li><li><font color="#1111FF">8</font></li><li><font color="#1111FF">9</font></li></ul></td>
+            <td bgcolor="#F2F2F2">The order of segment detrending:<ul><li>-1 - no detrending</li><li>0 - subtract mean</li><li>1 - subtract linear fit</li><li>N - subtract fit of polynomial, order N</li></ul></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAVS</td>
+            <td bgcolor="#F2F2F2">-1</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Force number of averages. If set, and if Nfft was set to 0 or -1,<br>the number of points for each window will be calculated to match the request.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DROP WINDOW SAMPLES</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Drop the recommended (by the window) number of samples of the final computed spectral series.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMES, SPLIT</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The time range to analyze. If not empty, sets the time interval to operate on.<br>As in ao/split, the interval can be specified by:<ul><li>a vector of doubles</li><li>a timespan object</li><li>a cell array of time strings</li><li>a vector of time objects</li></ul></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">MASK</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Mask out segments in the averaging process. The mask should be a vector of logical values, one value per segment being averaged. The plist method [psdSegments] can be used to generate a default mask for your PSD settings. If empty, all segments will be included in the average.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">computeICSMatrix</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">INPUT</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The injection signals.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NOUT</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The number of outputs.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">INVERSE</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Set to false to return the spectrum matrix, but not inverted.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ISDIAG</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">For the case of systems where the cross-spectrum matrix is diagonal it can be set to true to skip estimating the non-diagonal elements. Useful for multiple inputs/outputs.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">INTERPOLATION METHOD, INTERP METHOD</td>
+            <td bgcolor="#F2F2F2">'LINEAR'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'LINEAR'</font></li><li><font color="#1111FF">'SPLINE'</font></li><li><font color="#1111FF">'PCHIP'</font></li><li><font color="#1111FF">'CUBIC'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">The interpolation method.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FREQS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Array of frequencies where the analysis is performed.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NOISE SCALE</td>
+            <td bgcolor="#F2F2F2">'PSD'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'PSD'</font></li><li><font color="#1111FF">'LPSD'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Select the way to handle the noise/weight data. Can use the PSD/CPSD or the LPSD/CLPSD functions.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">BIN DATA</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Set to true to re-bin the measured noise data.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FIT NOISE MODEL</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Set to true to attempt a fit on the noise spectra using the 'polyfitSpectrum' function.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">POLYNOMIAL ORDER</td>
+            <td bgcolor="#F2F2F2">[-4 -3 -2 -1 0 1 2 3 4]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The order of the polynomial to be used in the 'polyfitSpectrum' function.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PLOT FITS</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Set to true to produce plots of the fits in case of 'fit noise model' is set to true.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">lpsd</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">KDES</td>
+            <td bgcolor="#F2F2F2">100</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The desired number of averages.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LMIN</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The minimum segment length.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SCALE</td>
+            <td bgcolor="#F2F2F2">'PSD'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'PSD'</font></li><li><font color="#1111FF">'ASD'</font></li><li><font color="#1111FF">'PS'</font></li><li><font color="#1111FF">'AS'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">The scaling of output. Choose from:<ul><li>PSD - Power Spectral Density</li><li>ASD - Amplitude (linear) Spectral Density</li><li>PS  - Power Spectrum</li><li>AS  - Amplitude (linear) Spectrum</li></ul></td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">simplex</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">OUTPUT</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The measured output data.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NOISE</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The noise data.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">MODEL</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The model to use.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">X0, PARAMVALUES, P0</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The starting point.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DISPLAY</td>
+            <td bgcolor="#F2F2F2">'iter'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'iter'</font></li><li><font color="#1111FF">'off'</font></li><li><font color="#1111FF">'notify'</font></li><li><font color="#1111FF">'final'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Level of display..</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FUNVALCHECK</td>
+            <td bgcolor="#F2F2F2">'off'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'off'</font></li><li><font color="#1111FF">'on'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Check whether objective function values are valid. 'on' displays an error when the objective function returns a value that is complex, Inf or NaN. 'off' (the default) displays no error.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">MAXFUNEVALS</td>
+            <td bgcolor="#F2F2F2">1000</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Maximum number of function evaluations allowed.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">MAXITER</td>
+            <td bgcolor="#F2F2F2">1000</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Maximum number of iterations allowed.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">OUTPUTFCN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">User-defined function that is called at each iteration.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PLOTFCNS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Plots various measures of progress while the algorithm executes.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TOLFUN</td>
+            <td bgcolor="#F2F2F2">1.0000000000000001e-05</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Termination tolerance on the function value.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TOLX</td>
+            <td bgcolor="#F2F2F2">1.0000000000000001e-05</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Termination tolerance on x.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FITPARAMS</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The names of the parameters to fit.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LOG PARAMETERS</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The parameters to sample in log-scale.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TXT</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Set to true if a print of the parameters into a txt file is desired.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FUNC</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The function handle to minimize.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">APPLY NEGATIVE</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">For the case of a log-likelihood function, a negative sign is added to the numerical value, because the SIMPLEX is a minimisation algorithm</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">mhsample</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DIFF MODEL</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Model to use for the update of the covariance matrix during the search phase. It should be an unprocessed version of the model to fit.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NSAMPLES</td>
+            <td bgcolor="#F2F2F2">1000</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">number of samples of the chain.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">COV</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">covariance of the gaussian jumping distribution.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SCALE COV</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">True-False flag to scale the covariance matrix with N_pars^(-1/2) for a more suitable proposal distribution.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LOGLIKELIHOOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A log-likelihood function. Must be a 'mhf' LTPDA object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RANGE</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Range where the parameteters are sampled. They are used as uniform priors if no prior knowledge of the parameters is present. For example, for a two parameter problem [x1, x2], the ranges are set as r = {[min_x1 max_x1], [min_x2 max_x2]}. If the input inital values x0 are outside those limits, a random parameteer vector from r will be chosen.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SEARCH</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Set to true to use bigger jumps in parameter space during annealing and cool down.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PROPOSAL SAMPLER</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Set the proposal PDF to sample from. If left empty the multivariate Gaussian is used.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PROPOSAL PDF</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Input the proposal PDF. This is needed when the proposal PDF is not symmetric.If this field is empty, a symmetric PDF is assumed. Check help for details.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">HEAT</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The heat index flattening likelihood surface during annealing.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TC</td>
+            <td bgcolor="#F2F2F2">[0 0 0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">An array of three values [i, j, k], setting the i-th and j-th sample for the cooling down. The k value is used for the adaptive proposal scheme. The proposal will be optimised up to the k-th sample of the chain.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">JUMPS</td>
+            <td bgcolor="#F2F2F2">[2 10 1000 10000]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">An array of four numbers setting the rescaling of the covariance matrix during the search phase.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PLOT TRACES</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">True-False flag to plot the chain traces during the run. The figures are printed every 'FPRINT' samples.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PLOT DIAGNOSTICS</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Set to true to plot diagnostigs at the end of the sampling.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DEBUG</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Set to true to get debug information of the MCMC process.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PRINT DIAGNOSTICS</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Set to true to print information of the statistics of the MCMC chains.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FPRINT</td>
+            <td bgcolor="#F2F2F2">100</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Print progress on screen every specified numeber of samples.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PRIOR</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Must be an MFH object that calculates the prior probability at a given point.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ANNEAL</td>
+            <td bgcolor="#F2F2F2">'simul'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'simul'</font></li><li><font color="#1111FF">'thermo'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Choose type of annealing during sampling. Default value is simulated annealing. Choose "thermo" for annealing with a thermostat. SNR is computed and if it is larger than a fixed value SNR0 (provided also in the plist), then the chains are heated by a factor of (SNR(1)/SNR0)^2.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">MODELFREQDEPENDENT</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Set to true to use frequency dependent s models, set to false when using constant models</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SNR0</td>
+            <td bgcolor="#F2F2F2">200</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Fixed value for thermostated annealing.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FREQUENCIES VECTOR</td>
+            <td bgcolor="#F2F2F2">200</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A vector of frequencies. Used for the update of the Fisher Matrix during the MH sampling.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DIFFSTEP</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Numerical differentiation step for ssm models</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NGRID</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Number of points in the grid to compute the optimal differentiation step for ssm models</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">STEPRANGES</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">An array with upper and lower values for the parameters ranges. To be used to compute the optimal differentiation step for ssm models.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">LOGA</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">True-False flag. Set to true when the logarithm of the likelihood is used.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ADAPTIVE PROPOSAL, ADAPTIVE</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">True-False flag. Set to true if you want to use adaptive proposals for the MCMC chain. Requires to set a third Tc profile parameter.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ADAPTIVE FACTOR, FACTOR</td>
+            <td bgcolor="#F2F2F2">9.9999999999999995e-21</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">This factor has to be a small positive constant, and is applied to the adaptive proposal algorithm.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">COVARIANCE UPDATE, COV UPDATE</td>
+            <td bgcolor="#F2F2F2">1000</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">For the cases where the 'ADAPTIVE' scheme is active, this key defines the number of samples after which the covariance matrix is updated up until TC(3). See plist key 'TC'.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RAND_STREAM</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Internal MATLAB state of the pseudorandom number generator. You can set the state with a structure which should contain all properties of the MATLAB class RandStream</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">mfh_model_loglikelihood</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FUNCTION NAME, FUNC NAME</td>
+            <td bgcolor="#F2F2F2">'LLH'</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the likelihood function handle.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NOISE MODEL</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The given noise model. It may be a) an AO time-series with the appropriate Y units, b) an AO frequency-series of the correct size (NoutputsXNoutputs), c) a SMODEL (function of freqs) of the correct size (NoutputsXNoutputs) d) a MFH object. </td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TRIM</td>
+            <td bgcolor="#F2F2F2">[100 -100]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A 2x1 vector that denotes the samples to split from the star and end of the time-series (split in offsets).</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">K0</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The first FFT coefficient of the analysis. All FFT coefficients with k<k0 are discarded from the analysis.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TRANSFORM, TRANSFORMATIONS</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A list of transformations to be applied to the inputs before evaluating the expression.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DOPLOT</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">True-False flag to plot the FFT of the signal time-series.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">For the case of 'CORE', the sampling frequency of the time series is needed.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">K1</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The k1 coefficient to downsample in frequency domain. More info found in Phys. Rev. D 90, 042003. Default value is 1 (one), in which case all the spectra is used.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SEGMENTS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A custom timespan object, in case of user-split data. Data must be evenly sampled and each segment must have the same length. Necessary for this kind of analysis is the filling of the 'T0' and 'TOFFSET' plist keys.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">T0</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The t0 of the time series in the MFH model. Necessary to reconstruct the time vector and split the data.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TOFFSET</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The toffset of the time series in the MFH model. Necessary to reconstruct the time vector and split the data.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">BIN GROUPS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A numerical vector that denotes to the start and end frequency value that corresponds to the given frequency block amplitude. The min(freqs) and max(freqs) is taken from the key 'FREQUENCIES'. Each ETA amplitude value is automatically taken into account in the likelihood function as in 'Phys. Rev. D 80, 063007 (2009)' and 'Phys. Rev. D 88, 084044 (2013)'.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NOISE PARAMETERS INDEX, NOISE PARAMETER INDICES, ETA INDICES</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The index of the noise parameters.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">P0 NOISE</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The initial guess for the noise parameters. </td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ALPHA</td>
+            <td bgcolor="#F2F2F2">10000</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The scale parameter for the prior distributions of the noise parameters. Applied to the case of the 'NOISE FIT V1' likelihood. </td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NU</td>
+            <td bgcolor="#F2F2F2">'common'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'common'</font></li><li><font color="#1111FF">'by bins groups'</font></li><li><font color="#1111FF">'by bins'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">The 'degrees of freedom' parameter for the student-t distribution, as proposed in PRD 84, 122004 (2011). There are three posibilities to ad th nu coefficient. The 'COMMON' choise, follows the simplified logic that the noise frequency bins follow the same distribution. The second 'BY BIN GROUPS' considers common value for the coefficient for neighboring frequency bins, defined with the key 'BIN GROUPS'. The last choice considers a different degree of freedom for each frequency bin.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ERROR RATIO</td>
+            <td bgcolor="#F2F2F2">0.5</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The percentage of error allowed for each frequency bin (or group of bins).</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DATA</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The measured data.  In contrast to the frequency domain likelihoods, the model and the data to form the (data-model)^2 chi^2 cost function are required.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DY</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The errors 'dy' of the data, to be taken into account in the likelihood function.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]], 'LIKELIHOOD VERSION', 'chi2', 'SIMPLEX', [false], 'MHSAMPLE', [true], 'FREQUENCIES', [[]], 'F1', [[]], 'F2', [[]], 'INNAMES', '', 'OUTNAMES', '', 'PINV', [false], 'TOL', [[]], 'JDES', [1000], 'REGULARIZE', [false], 'NEARESTSPD', [false], 'YUNITS', 'm s^-2', 'NFFT', [-1], 'WIN', 'Hanning', 'PSLL', [200], 'OLAP', [-1], 'ORDER', [0], 'NAVS', [-1], 'DROP WINDOW SAMPLES', [true], 'TIMES', [[]], 'MASK', [[]], 'INPUT', '', 'NOUT', '', 'INVERSE', [true], 'ISDIAG', [false], 'INTERPOLATION METHOD', 'LINEAR', 'FREQS', [[]], 'NOISE SCALE', 'PSD', 'BIN DATA', [false], 'FIT NOISE MODEL', [false], 'POLYNOMIAL ORDER', [[-4 -3 -2 -1 0 1 2 3 4]], 'PLOT FITS', [false], 'KDES', [100], 'LMIN', [0], 'SCALE', 'PSD', 'OUTPUT', '', 'NOISE', '', 'MODEL', '', 'X0', [[]], 'DISPLAY', 'iter', 'FUNVALCHECK', 'off', 'MAXFUNEVALS', [1000], 'MAXITER', [1000], 'OUTPUTFCN', [[]], 'PLOTFCNS', [[]], 'TOLFUN', [1.0000000000000001e-05], 'TOLX', [1.0000000000000001e-05], 'FITPARAMS', '', 'LOG PARAMETERS', '', 'TXT', [false], 'FUNC', '', 'APPLY NEGATIVE', [true], 'DIFF MODEL', '', 'NSAMPLES', [1000], 'COV', '', 'SCALE COV', [true], 'LOGLIKELIHOOD', [[]], 'RANGE', cell(0,0), 'SEARCH', [true], 'PROPOSAL SAMPLER', [[]], 'PROPOSAL PDF', [[]], 'HEAT', [1], 'TC', [[0 0 0]], 'JUMPS', [[2 10 1000 10000]], 'PLOT TRACES', [false], 'PLOT DIAGNOSTICS', [false], 'DEBUG', [false], 'PRINT DIAGNOSTICS', [true], 'FPRINT', [100], 'PRIOR', '', 'ANNEAL', 'simul', 'MODELFREQDEPENDENT', [true], 'SNR0', [200], 'FREQUENCIES VECTOR', [200], 'DIFFSTEP', [[]], 'NGRID', [[]], 'STEPRANGES', [[]], 'LOGA', [true], 'ADAPTIVE PROPOSAL', [true], 'ADAPTIVE FACTOR', [9.9999999999999995e-21], 'COVARIANCE UPDATE', [1000], 'RAND_STREAM', [[]], 'FUNCTION NAME', 'LLH', 'NOISE MODEL', [[]], 'TRIM', [[100 -100]], 'K0', [1], 'TRANSFORM', cell(0,0), 'DOPLOT', [true], 'FS', [[]], 'K1', [1], 'SEGMENTS', [[]], 'T0', [[]], 'TOFFSET', [[]], 'BIN GROUPS', [[]], 'NOISE PARAMETERS INDEX', [[]], 'P0 NOISE', [[]], 'ALPHA', [10000], 'NU', 'common', 'ERROR RATIO', [0.5], 'DATA', [[]], 'DY', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="2"></a>
+    <!-- Parameter List Table: From MAT File -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From MAT File</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uo.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FILENAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">MAT filename.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]], 'FILENAME', '')</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="3"></a>
+    <!-- Parameter List Table: From XML File -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From XML File</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uo.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FILENAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">XML filename.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]], 'FILENAME', '')</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="4"></a>
+    <!-- Parameter List Table: From Repository -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From Repository</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uo.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">HOSTNAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Database server hostname.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DATABASE</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Database name.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">USERNAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">User name to use when connecting to the database. Leave blank to be prompted.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PASSWORD</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Password to use when connecting to the database. Leave blank to be prompted.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CONN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Java mysql object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ID, IDS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A vector of object IDs.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CID</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A vector of collection IDs.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">UUID, UUIDS</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell array of UUIDs.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">BINARY</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">1</font></li><li><font color="#1111FF">0</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Use binary representation (not always available).</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]], 'HOSTNAME', '', 'DATABASE', '', 'USERNAME', '', 'PASSWORD', cell(0,0), 'CONN', [[]], 'ID', [[]], 'CID', [[]], 'UUID', cell(0,0), 'BINARY', [true])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <a name="5"></a>
+    <!-- Parameter List Table: From Built-in Model -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>From Built-in Model</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uoh.addGlobalKeys</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NAME</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The name of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DESCRIPTION</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The description of the constructed object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMESPAN</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Give a timespan for the object.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CALLERISMETHOD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Allow an override of the caller is method feature.</td>
+          </tr>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">ltpda_uo.buildplist</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">BUILT-IN</td>
+            <td bgcolor="#F2F2F2">''</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Choose one of the built-in models. (use <i>class</i>.getBuiltInModels to get a list for a particular user class)</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">VERSION</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Version of the built in model. The default version is used for the case that no 'Version' is defined.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('NAME', '', 'DESCRIPTION', '', 'TIMESPAN', [[]], 'CALLERISMETHOD', [[]], 'BUILT-IN', '', 'VERSION', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <p><!-- Table of the minfo object -->
+      <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+        <colgroup>
+          <col width="25%"/>
+          <col width="75%"/>
+        </colgroup>
+        <thead>
+          <tr valign="top">
+            <th class="categorylist" colspan="2">Some information of the method MCMC/MCMC are listed below:</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Property: 'mclass' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Class name</td>
+            <td bgcolor="#f3f4f5">MCMC</td>
+          </tr>
+          <!-- Property: 'mname' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Method name</td>
+            <td bgcolor="#ffffff">MCMC</td>
+          </tr>
+          <!-- Property: 'mcategory' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Category</td>
+            <td bgcolor="#f3f4f5">Constructor</td>
+          </tr>
+          <!-- Property: 'mpackage' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Package name</td>
+            <td bgcolor="#ffffff">ltpda</td>
+          </tr>
+          <!-- Property: 'modifier' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Can be used as modifier</td>
+            <td bgcolor="#f3f4f5">0</td>
+          </tr>
+          <!-- Property: 'supportedNumTypes' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Supported numeric types</td>
+            <td bgcolor="#ffffff">{'double'}</td>
+          </tr>
+        </tbody>
+      </table>
+    </p>
+
+
+    <br>
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="LTPDANamedItem_listGroups.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: LTPDANamedItem/listGroups"></a>&nbsp;</td>
+        <td align="left">Method: LTPDANamedItem/listGroups</td>
+        <td>&nbsp;</td>
+        <td align="right">Method: MCMC/rebuild</td>
+        <td align="right" width="20"><a href="MCMC_rebuild.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: MCMC/rebuild"></a></td>
+      </tr>
+    </table>
+
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+
+   </body>
+</html>

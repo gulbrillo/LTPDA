@@ -1,0 +1,474 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>LTPDA Extension Modules (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="repo_gui_retrieve.html"><img src="b_prev.gif" border="0" align="bottom" alt="Retrieving objects and collections from a repository"></a>&nbsp;&nbsp;&nbsp;<a href="class_desc_main.html"><img src="b_next.gif" border="0" align="bottom" alt="Class descriptions"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">LTPDA Extension Modules</h1>
+    <hr>
+    
+    <p>
+      <p>
+  As of Version 2.4, LTPDA now supports extension modules. This should allow 
+  users to extend LTPDA to provide more specific functionalities for their own
+  context.
+</p>
+<p>
+  <ul>
+		<li><a href="#whatis">What is an Extension Module?</a></li>
+		<li><a href="#building">Building your own Extension Module</a></li>
+		<li><a href="#installing">Installing Extension Modules</a></li>
+		<li><a href="#newmethods">Adding New Methods</a></li>    
+		<li><a href="#userclasses">New User Classes</a></li>
+		<li><a href="#unittests">Unit Tests</a></li>    
+	</ul>
+</p>
+<br><br>
+<h2><a name="whatis">What is an Extension Module?</a></h2>
+<p>
+  Extension modules are a collection of class methods, new user classes, built-in models,
+  utility functions, examples, source files, and unit tests. All extension modules have the 
+  following structure on disk:
+  <pre>
+My_Module/
+|-- README.txt
+|-- classes
+|   |-- README_classes.txt
+|-- examples
+|-- functions
+|   |-- README_functions.txt
+|-- jar
+|   |-- README_jar.txt
+|-- models
+|   |-- README_models.txt
+|-- moduleinfo.xml
+|-- pipelines
+|   |-- README_pipelines.txt
+|-- tests
+    |-- README_tests.txt
+    |-- classes
+    |   |-- README_class_tests.txt
+    |-- models
+        |-- README_model_tests.txt
+  </pre>
+  The file <tt>moduleinfo.xml</tt> contains the name and version of the module. It is 
+  not necessary that the module name and the containing directory are the same, though 
+  they may be. To build an extension module, see Section <a href="#building">Building your own Extension Module</a>. The various
+  directories and their uses are described in the following sections.
+</p>
+
+<h3>classes</h3>
+<p>
+  The <tt>classes</tt> directory can contain either new LTPDA user classes (see Section <a href="#userclasses">New User Classes</a>) 
+  or by adding methods to existing LTPDA user classes (see Section <a href="#newmethods">Adding New Methods</a>).
+</p>
+
+<h3>examples</h3>
+<p>
+  The <tt>examples</tt> directory is meant to contain useful examples for users.
+</p>
+
+<h3>jar</h3>
+<p>
+  Since MATLAB is built on top of java, one useful way to extend the functionalities is to create java classes and methods, or even
+  graphical user interfaces. The LTPDA startup script (<tt>ltpda_startup</tt>) will take care of properly installing any jar files (java archive files)
+  contained within this directory.
+</p>
+
+<h3>models</h3>
+<p>
+  Here you should place any built-in models, either for existing LTPDA user classes, or for new user classes defined in this module. The LTPDA 
+  built-in model framework looks in this directory (and any sub-directories) for built-in models.
+</p>
+
+<h3>pipelines</h3>
+<p>
+  This directory is meant to hold any LTPDA pipelines or analysis workflows which you want to distribute to users.
+</p>
+
+<h3>tests</h3>
+<p>
+  The <tt>tests</tt> directory should contain unit-tests for all new class methods, user classes and built-in models in this module. For help in writing
+  unit tests see Section <a href="#unittests">Unit Tests</a>.
+</p>
+
+
+<br><br>
+<h2><a name="building">Building your own Extension Module</a></h2>
+
+<p>
+  Building your own extension modules starts by preparing the directory structure on disk. For this
+  we have a convenient utility method:
+</p>
+<div class="fragment"><pre>
+    >> utils.modules.buildModule(<span class="string">'/some/path/'</span>, <span class="string">'My_Module'</span>)
+</pre></div>
+
+<br><br>
+<h2><a name="installing">Installing Extension Modules</a></h2>
+<p>
+  Installing an LTPDA Extension Module is straightforward. Start the LTPDA Preferences:
+</p>
+<div class="fragment"><pre>
+    >> LTPDAprefs
+</pre></div>
+<p>
+Select the 'Extensions' tab. Click the 'Browse' button to locate the module directory on disk, or directly type the path to the module in the input text field.
+Click the 'plus' button to add this extension to the list. You should see some activity on the MATLAB terminal as LTPDA will start installing any
+extension methods for existing user classes. Removing an extension module is just a case of selecting the module in the list and clicking the 'minus' 
+button.
+</p>
+<p>
+  <table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1">
+    <tr width="90%">
+      <td>
+        Note: after installing an extension module, in order to make new methods available to the workbench, you need to rebuild the 
+        library from the workbench menu: "Tools -> Rebuild LTPDA Library". This will take a couple of minutes, but afterwards
+        the new methods from the extension module should be available on the workbench.
+      </td>
+    </tr>
+  </table>
+</p>
+
+<br><br>
+<h2><a name="newmethods">Adding New Methods</a></h2>
+<p>
+  New methods can be added to existing LTPDA user classes. For example, you can add a new method to the Analysis Object class (<tt>ao</tt>)
+  by creating a sub-directory of the <tt>classes</tt> directory called <tt>ao</tt> then put your new method in there. For example, suppose
+  we want to create a new AO method called <tt>myCalibration</tt>. We create a directory <tt>ao</tt> in <tt>My_Module/classes</tt> then add 
+  the new file <tt>myCalibration.m</tt> to that directory. In order for the new method to work, the LTPDA startup function <tt>ltpda_startup</tt>
+  copies all methods for core LTPDA user classes in to their correct class directories. In order to write a correct LTPDA user-class method, it 
+  is recommended to look at some examples, such as <tt>ao/abs</tt>, <tt>ao/average</tt>, or <tt>ao/psd</tt>. You can also extend other existing user 
+  classes in the same way. Just make a directory of the correct class name (remember to leave off the <tt>@</tt> from the directory name; this is not supposed to
+  be a 'normal' MATLAB class directory) and put your new methods in there.
+</p>
+
+<br><br>
+<h2><a name="userclasses">New User Classes</a></h2>
+<p>
+  This is an advanced topic, and it is assumed that you are familiary with 
+  creating MATLAB classes already. To get familiar, read the MATLAB documentation on Object-Oriented Programming in the user manual.
+</p>
+<p>
+  You can create new user classes in the <tt>classes</tt> directory. These follow MATLAB rules for classes, i.e., the directory name begins with a <tt>@</tt>
+  and contains a constructor file with the same name. For example, suppose we want to create a new user class which stores trigger events from some experiment. 
+  Each trigger event has the following properties: a trigger time, an amplitude, and a frequency. We would create a new directory under <tt>classes</tt> called
+  <tt>@Trigger</tt> and an associated constructor file like this:
+  
+</p>
+<div class="fragment"><pre>
+    >> cd <span class="string">'My_Module/classes'</span>
+    >> mkdir <span class="string">@Trigger</span>
+    >> edit <span class="string">@Trigger/Trigger.m</span>
+</pre></div>
+<p>
+  The constructor file should declare that this new Trigger class is a subclass of the LTPDA user-object base class <tt>ltpda_uoh</tt>.
+</p>
+<div class="fragment"><pre>
+<span class="comment">% TRIGGER constructor for Trigger class.</span>
+<span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+<span class="comment">%</span>
+<span class="comment">% DESCRIPTION: TRIGGER constructor for Trigger class.</span>
+<span class="comment">%</span>
+<span class="comment">% CONSTRUCTOR:</span>
+<span class="comment">%</span>
+<span class="comment">%       t = Trigger()       - creates an empty trigger object</span>
+<span class="comment">%</span>
+<span class="comment">% <a href="matlab:utils.helper.displayMethodInfo('Trigger', 'Trigger')">Parameter Sets</a></span>
+<span class="comment">%</span>
+<span class="comment">% VERSION:     $Id$</span>
+<span class="comment">%</span>
+<span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+
+classdef Trigger < ltpda_uoh
+  
+  %---------- Public (read/write) Properties  ----------
+  properties
+    time      = time();
+    amplitude = [];
+    frequency = [];
+  end
+    
+  methods
+    function obj = Trigger(varargin)
+      
+      import utils.const.*
+      utils.helper.msg(msg.PROC3, <span class="string">'running %s/%s'</span>, mfilename(<span class="string">'class'</span>), mfilename);
+      
+      <span class="comment">% do some initialisation of the object</span>
+      
+    end <span class="comment">% End constructor</span>
+    
+  end
+  
+end
+</pre></div>
+<p>
+  Various methods need to be defined by any new user class, in particular, the following abstract methods need to be created:
+  <table cellspacing="0" class="body" cellpadding="4" border="2">
+    <colgroup>
+      <col width="20%">
+      <col width="80%">
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th bgcolor="#B2B2B2">Method name</th>
+        <th bgcolor="#B2B2B2">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- attachToDom -->
+      <tr valign="top">
+        <td bgcolor="#F2F2F2">
+          <p>attachToDom</p>
+        </td>
+        <td bgcolor="#F2F2F2">
+          <p>Defines how the object is serialized to an XML DOM.</p>
+        </td>
+      </tr>
+      <!-- char -->
+      <tr valign="top">
+        <td bgcolor="#F2F2F2">
+          <p>char</p>
+        </td>
+        <td bgcolor="#F2F2F2">
+          <p>Creates a character representation of the object, typically for use in display.</p>
+        </td>
+      </tr>
+      <!-- copy -->
+      <tr valign="top">
+        <td bgcolor="#F2F2F2">
+          <p>copy</p>
+        </td>
+        <td bgcolor="#F2F2F2">
+          <p>Makes a deep or shallow copy of the object, depending on the passed argument.</p>
+        </td>
+      </tr>
+      <!-- display -->
+      <tr valign="top">
+        <td bgcolor="#F2F2F2">
+          <p>display</p>
+        </td>
+        <td bgcolor="#F2F2F2">
+          <p>Defines how the object is displayed on the MATLAB terminal.</p>
+        </td>
+      </tr>
+      <!-- fromDom -->
+      <tr valign="top">
+        <td bgcolor="#F2F2F2">
+          <p>fromDom</p>
+        </td>
+        <td bgcolor="#F2F2F2">
+          <p>Constructs an object from an XML DOM.</p>
+        </td>
+      </tr>
+      <!-- loadobj -->
+      <tr valign="top">
+        <td bgcolor="#F2F2F2">
+          <p>loadobj</p>
+        </td>
+        <td bgcolor="#F2F2F2">
+          <p>This function is called is MATLAB is unable to load an object from a MAT file, for example if the class structure changes between versions. This gives an opportunity to update the loaded structure before trying to create an object from it. For more details, see MATLAB's help topic <tt>>>help loadobj</tt></p>
+        </td>
+      </tr>
+      <!-- update_struct -->
+      <tr valign="top">
+        <td bgcolor="#F2F2F2">
+          <p>update_struct</p>
+        </td>
+        <td bgcolor="#F2F2F2">
+          <p>Define rules how to update structure representation of an object between versions.</p>
+        </td>
+      </tr>
+      <!-- generateConstructorPlist -->
+      <tr valign="top">
+        <td bgcolor="#F2F2F2">
+          <p>generateConstructorPlist</p>
+        </td>
+        <td bgcolor="#F2F2F2">
+          <p>Given an instance of the user object, this method generates a plist which can be used to construct an object with the same properties.</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  In most cases, copying these methods from an existing LTPDA user class, for example, <tt>ao</tt>, is a good start.
+</p>
+<p>
+  In addition to defining these abstract methods, you typically need to overload some static methods (which we usually place inside the class constructor file). The following
+  code fragment shows the necessary methods needed to complete our Trigger example.  
+</p>
+
+<div class="fragment"><pre>
+  methods (Static)
+    
+    <span class="comment">% This provides the hook for the command <tt>&lt;class&gt;.getBuiltInModels</tt>. </span>
+    function mdls = getBuiltInModels(varargin)
+      mdls = ltpda_uo.getBuiltInModels(<span class="string">'Trigger'</span>);
+    end
+    
+    <span class="comment">% Here we typically return the CVS version or some other version string </span>
+    function out = VEROUT()
+      out = <span class="string">'$Id$'</span>;
+    end
+    
+    <span class="comment">% This provides the hook for the command <tt>&lt;class&gt;.getInfo</tt>. </span>
+    function ii = getInfo(varargin)
+      ii = utils.helper.generic_getInfo(varargin{:}, <span class="string">'Trigger'</span>);
+    end
+    
+    <span class="comment">% Here we return a list of parameter sets that this constructor can handle. </span>
+    function out = SETS()
+      out = [SETS@ltpda_uoh, ...
+        {'<span class="string">Default'</span>}             ...
+        ];
+    end
+    
+    
+    <span class="comment">% This returns a parameter list for a given parameter set. </span>
+    <span class="comment">% The use of the MATLAB 'persistent' keyword means we don't repeatedly build the same plist.</span>
+    function plout = getDefaultPlist(set)
+      persistent pl;
+      persistent lastset;
+      if exist(<span class="string">'pl'</span>, <span class="string">'var'</span>)==0 || isempty(pl) || ~strcmp(lastset, set)
+        pl = Trigger.buildplist(set);
+        lastset = set;
+      end
+      plout = pl;
+    end
+    
+    <span class="comment">% This builds a parameter list for the given set name. </span>
+    function out = buildplist(set)
+      
+      if ~utils.helper.ismember(lower(Trigger.SETS), lower(set))
+        error(<span class="string">'### Unknown set [%s]'</span>, set);
+      end
+      
+      out = plist();
+      out = Trigger.addGlobalKeys(out);
+      out = buildplist@ltpda_uoh(out, set);
+      
+      <span class="comment">% Build the requested parameter list.</span>
+      switch lower(set)
+        case <span class="string">'Default'</span>
+          % time
+          p = param({<span class="string">'time'</span>,<span class="string">'The time of the trigger. Give either a string representation or a time object.'</span>}, paramValue.EMPTY_STRING);
+          out.append(p);
+          
+          % amplitude
+          p = param({<span class="string">'amplitude'</span>,<span class="string">'The trigger amplitude.'</span>}, paramValue.EMPTY_DOUBLE);
+          out.append(p);
+          
+          % frequency
+          p = param({<span class="string">'frequency'</span>,<span class="string">'The trigger frequency.'</span>}, paramValue.EMPTY_DOUBLE);
+          out.append(p);
+          
+      end
+    end % function out = getDefaultPlist(varargin)
+    
+    <span class="comment">% This creates arrays of the given size containing empty Trigger objects.</span>
+    function obj = initObjectWithSize(n,m)
+      obj = Trigger.newarray([n m]);
+      for ii = 1:numel(obj)
+        obj(ii).UUID = char(java.util.UUID.randomUUID);
+      end
+    end
+    
+  end <span class="comment">% End static methods</span>
+  
+  methods (Static, Access=protected)
+    
+    <span class="comment">% Global keys are added to all parameter lists so that properties common to all</span>
+    <span class="comment">% user objects can be set.</span>
+    function pl = removeGlobalKeys(pl)
+      pl.remove(<span class="string">'name'</span>);
+      pl.remove(<span class="string">'description'</span>);
+    end
+    
+    function pl = addGlobalKeys(pl)
+      % Name
+      p = param({<span class="string">'Name'</span>,<span class="string">'The name of the constructed trigger object.'</span>}, paramValue.STRING_VALUE(<span class="string">'None'</span>));
+      pl.append(p);
+      
+      % Description
+      p = param({<span class="string">'Description'</span>,<span class="string">'The description of the constructed trigger object.'</span>}, paramValue.EMPTY_STRING);
+      pl.append(p);      
+    end
+    
+  end <span class="comment">% End static, private methods</span>
+  
+  methods (Static = true, Hidden = true)
+    varargout = loadobj(varargin)
+    varargout = update_struct(varargin);
+  end
+  
+  methods
+    varargout = char(varargin)
+    varargout = display(varargin)
+    varargout = copy(varargin)
+  end
+  
+  methods (Hidden = true)
+    varargout = attachToDom(varargin)
+  end
+  
+  methods (Access = protected)
+    obj = fromStruct(obj, a_struct)
+    varargout = fromDom(varargin)
+  end
+</pre></div>
+  
+
+<br><br>
+<h2><a name="unittests">Unit Tests</a></h2>
+
+<p>
+  LTPDA provides a unit test framework that aims to make it easy to test your new methods, classes and built-in models. Unit tests are methods of a
+  unit test class. These unit test classes should inherit from one of the base classes <tt>ltpda_utp</tt> or <tt>ltpda_builtin_model_utp</tt>. The
+  directory <tt>ltpda_toolbox/ltpda/classes/tests/</tt> contains these test classes and examples for testing classes and built-in models. To run
+  the unit tests you can use the unit test runner class <tt>ltpda_test_runner</tt>. For example,
+</p>
+<div class="fragment"><pre>
+  >> ltpda_test_runner.RUN_ALL_TESTS
+  >> ltpda_test_runner.RUN_TESTS(<span class="string">'@my_class_tests'</span>)
+  >> ltpda_test_runner.RUN_TESTS(<span class="string">'@my_class_tests'</span>, <span class="string">'test_a_particular_method_feature'</span>)
+</pre></div>
+
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="repo_gui_retrieve.html"><img src="b_prev.gif" border="0" align="bottom" alt="Retrieving objects and collections from a repository"></a>&nbsp;</td>
+        <td align="left">Retrieving objects and collections from a repository</td>
+        <td>&nbsp;</td>
+        <td align="right">Class descriptions</td>
+        <td align="right" width="20"><a href="class_desc_main.html"><img src="b_next.gif" border="0" align="bottom" alt="Class descriptions"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

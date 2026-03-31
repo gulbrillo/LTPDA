@@ -1,0 +1,167 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Constructor examples of the SMODEL class (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="constructor_examples_ao.html"><img src="b_prev.gif" border="0" align="bottom" alt="Constructor examples of the AO class"></a>&nbsp;&nbsp;&nbsp;<a href="constructor_examples_mfir.html"><img src="b_next.gif" border="0" align="bottom" alt="Constructor examples of the MFIR class"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Constructor examples of the SMODEL class</h1>
+    <hr>
+    
+    <p>
+      <!-- $Id$ -->
+
+<!-- -------------------------------------------------- -->
+<!-- --------------- BEGIN CONTENT FILE --------------- -->
+<!-- -------------------------------------------------- -->
+
+
+<!-- --------------- Link box: begin --------------- -->
+<table border="0" summary="Simple list" class="simplelist_nottable_last">
+  <tr>
+    <td>
+      <a href="constructor_examples_general.html#copy">Copy a symbolic model object</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="constructor_examples_general.html#empty">Construct an empty symbolic model object</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="constructor_examples_general.html#zero">Construct an empty symbolic model object with the size zero</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="constructor_examples_general.html#file">Construct a symbolic model object by loading the object from a file</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="#simple">Construct a simple example</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="matlab:web(smodel.getInfo('smodel').tohtml, '-helpbrowser')">Construct an LTPDA object from a parameter list object (PLIST)</a>
+    </td>
+  </tr>
+</table>
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a name="simple"></a>A simple example</h2>
+<p>The following example shows you how to create a symbolic model.</p>
+<div class="fragment"><pre class="programlisting">
+>> s = smodel(<span class="string">'a.*x.^2+b.*x+c'</span>);
+</pre></div>
+<p>You define with the command above the symbolic model. Please take care that each symbolic can represent a vector/matrix of numbers. 
+This mean that you should use the array operators like '.*' or '.+' or ... and not the matrix operators like '*' or '^' or ....</p>
+<p>Now, it is necessary to define the parameters with their default values</p>
+<div class="fragment"><pre class="programlisting">
+>> s.setParams({<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>}, {1 2 3})
+   ---- symbolic model 1 ----
+          name: None
+          expr: a.*x.^2+b.*x+c
+        params: {'a', 'b', 'c'}
+        values: {1, 2, 3}
+          xvar: 
+         xvals: []
+        xunits: []
+        yunits: []
+   description: 
+          UUID: 7a084750-89c2-47f0-8c6b-65e9079bf6b3
+   --------------------------
+</pre></div>
+<p>Finally it is necessary to set the 'x' variable and the values.</p>
+<div class="fragment"><pre class="programlisting">
+>> s.setXvar(<span class="string">'x'</span>)
+   ---- symbolic model 1 ----
+          name: None
+          expr: a.*x.^2+b.*x+c
+        params: {'a', 'b', 'c'}
+        values: {1, 2, 3}
+          xvar: x
+         xvals: []
+        xunits: []
+        yunits: []
+   description: 
+          UUID: ca9276b0-cc97-4001-9135-00c6799ec8b1
+   --------------------------
+
+>> s.setXvals(-100:100)
+   ---- symbolic model 1 ----
+          name: None
+          expr: a.*x.^2+b.*x+c
+        params: {'a', 'b', 'c'}
+        values: {1, 2, 3}
+          xvar: x
+         xvals: [-100 -99 -98 -97 -96 -95 -94 -93 -92 -91 -90 -89 -88 -87 -86 ...]
+        xunits: []
+        yunits: []
+   description: 
+          UUID: f43e2f9b-3fb6-4e3c-92ba-7cba31c6a6c3
+   --------------------------
+</pre></div>
+<p>After all steps above it is possible to plot the model.</p>
+<div class="fragment"><pre class="programlisting">
+>> s.setXunits(<span class="string">'s'</span>);
+>> s.setYunits(<span class="string">'V'</span>);
+>> s.setName(<span class="string">'Just a test'</span>);
+>> iplot(s.eval)
+</pre></div>
+
+<img src="images/constructor_examples_smodel_plot.png" alt="Plot of symbolic model" border="3" width="800px"></img>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="constructor_examples_ao.html"><img src="b_prev.gif" border="0" align="bottom" alt="Constructor examples of the AO class"></a>&nbsp;</td>
+        <td align="left">Constructor examples of the AO class</td>
+        <td>&nbsp;</td>
+        <td align="right">Constructor examples of the MFIR class</td>
+        <td align="right" width="20"><a href="constructor_examples_mfir.html"><img src="b_next.gif" border="0" align="bottom" alt="Constructor examples of the MFIR class"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

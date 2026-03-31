@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Power spectral density estimates (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="sigproc_methods.html"><img src="b_prev.gif" border="0" align="bottom" alt="Spectral Estimation Methods"></a>&nbsp;&nbsp;&nbsp;<a href="sigproc_cpsd.html"><img src="b_next.gif" border="0" align="bottom" alt="Cross-spectral density estimates"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Power spectral density estimates</h1>
+    <hr>
+    
+    <p>
+      <h2>Description</h2>
+<p>
+The LTPDA method <a href="matlab:doc('ao/psd')">ao/psd</a> estimates the power spectral density of time-series
+  signals, included in the input <tt>ao</tt>s following the Welch's averaged, modified periodogram method <a href="#references">[1]</a>.
+  Data are windowed prior to the estimation of the spectrum, by multiplying 
+  it with a <a href="specwin.html">spectral window object</a>, and can be detrended by a polinomial of time in order to reduce the impact 
+  of the border discontinuities. The window length is adjustable to shorter lenghts to reduce the spectral 
+  density uncertainties, and the percentage of subsequent window overlap can be adjusted as well. The detrending is
+  performed on the individual windows. The user can choose the quantity being given in output among 
+  ASD (amplitude spectral density), PSD (power spectral density), AS (amplitude spectrum), and PS (power spectrum).   
+  <br>
+  <br>
+  <h2>Syntax</h2>
+</p>
+<div class="fragment"><pre>
+    <br>    bs = psd(a1, a2, a3, ..., pl)
+    bs = psd(as, pl)
+    bs = as.psd(pl)
+</pre> </div>
+<p> 
+  <tt>a1</tt>, <tt>a2</tt>, <tt>a3</tt>, ... are <tt>ao</tt>(s) containing the input time series to be evaluated. <tt>bs</tt> includes 
+  the output object(s) and  <tt>pl</tt> is an optional parameter list. 
+</p>
+<h2>Parameters</h2>
+<p>
+  The parameter list <tt>pl</tt> includes the following parameters:
+</p>
+<ul>
+  <li> <tt>'Nfft'</tt> - number of samples in each fft [default: length of input data]
+    A string value containing the variable 'fs' can
+  also be used, e.g., plist('Nfft', '2*fs') </li>
+  <li> <tt>'Win'</tt> - the window to be applied to the data to remove the 
+    discontinuities at edges of segments. [default: taken from user prefs].<br>
+    The window is described by a string with its name and, only in the case of Kaiser window,
+  the additional parameter <tt>'psll'</tt>. <br>For instance: plist('Win', 'Kaiser', 'psll', 200).  </li>
+  </li>
+  <li> <tt>'Olap'</tt> - segment percent overlap [default: -1, (taken from window function)] </li>
+  <li> <tt>'Scale'</tt> - scaling of output. Choose from: <ul>
+      <li>  'ASD' - amplitude spectral density </li> 
+      <li>  'PSD' - power spectral density [default] </li>
+      <li>  'AS'  - amplitude spectrum </li>
+  <li>  'PS'  - power spectrum </li> </ul> </li>
+  <li> <tt>'Order'</tt> - order of segment detrending <ul>
+      <li>      -1 - no detrending  </li> 
+      <li>       0 - subtract mean [default] </li> 
+      <li>       1 - subtract linear fit </li> 
+  <li>       N - subtract fit of polynomial, order N  </li> </ul> </li>
+  <li><tt>'Navs'</tt>  - number of averages. If set, and if Nfft was set to 0 or -1, the number of points for each window will be calculated to match the request. [default: -1, not set] </li>
+  <li><tt>'Times'</tt>  - interval of time to evaluate the calculation on. If empty [default], it will take the whole section.</li>
+</ul>
+<p> 
+  The length of the window is set by the value of the parameter <tt>'Nfft'</tt>, so that the window
+  is actually built using only the key features of the window: the name and, for Kaiser windows, the psll.
+</p>
+<p>As an alternative to setting the number of points <tt>'Nfft'</tt> in each window, it's possible to ask for a given number of PSD estimates by setting the  <tt>'Navs'</tt> parameter, and the algorithm takes care of calculating the correct window length, according to the amount of overlap between subsequent segments.</p>
+<p>
+  <table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1">
+    <tr width="90%">
+      <td>
+        If the user doesn't specify the value of a given parameter, the default value is used.
+      </td>
+    </tr>
+  </table>
+</p>
+<h2>Algorithm</h2>
+<p>
+  The algorithm is based in standard MATLAB's tools, as the ones used by <a href="matlab:doc('pwelch')">pwelch</a>. However, in order to 
+  compute the standard deviation of the mean for each frequency bin, the averaging of the different segments is performed using Welford's 
+  algorithm  <a href="#references">[2]</a> which allows to compute mean and variance in one loop.   
+</p>
+<h2>Examples</h2>
+<p>   
+  1. Evaluation of the PSD of a time-series represented by a low frequency sinewave signal, superimposed to
+  white noise. Comparison of the effect of windowing on the estimate of the white noise level and
+  on resolving the signal.
+</p>
+<div class="fragment"><pre>
+    <br>    <span class="comment">% create two AOs</span>
+    x1   = ao(plist(<span class="string">'waveform'</span>,<span class="string">'sine wave'</span>,<span class="string">'f'</span>,0.1,<span class="string">'A'</span>,1,<span class="string">'nsecs'</span>,1000,<span class="string">'fs'</span>,10)); 
+    x2   = ao(plist(<span class="string">'waveform'</span>,<span class="string">'noise'</span>,<span class="string">'type'</span>,<span class="string">'normal'</span>,<span class="string">'nsecs'</span>,1000,<span class="string">'fs'</span>,10));
+    <span class="comment">% add both AOs</span>
+    x    = x1 + x2;
+    <span class="comment">% compute the psd changing the 'nfft'</span>
+    y_lf = psd(x);
+    y_hf = psd(x,plist(<span class="string">'nfft'</span>,1000));
+    <span class="comment">% compare </span>
+    iplot(y_lf, y_hf) 
+</pre></div>
+
+<img src="images/psd_1.png" alt="" border="3">
+
+<p>   
+  2. Evaluation of the PSD of a time-series represented by a low frequency sinewave signal, superimposed to
+  white noise and to a low frequency linear drift. In the example, the same spectrum is computed with different 
+  spectral windows.
+</p>
+<div class="fragment"><pre>
+    <br>    <span class="comment">% create three AOs</span>
+    x1 = ao(plist(<span class="string">'waveform'</span>,<span class="string">'sine wave'</span>,<span class="string">'f'</span>,0.1,<span class="string">'A'</span>,1,<span class="string">'nsecs'</span>,1000,<span class="string">'fs'</span>,10,<span class="string">'yunits'</span>,<span class="string">'m'</span>)); 
+    x2 = ao(plist(<span class="string">'waveform'</span>,<span class="string">'noise'</span>,<span class="string">'type'</span>,<span class="string">'normal'</span>,<span class="string">'nsecs'</span>,1000,<span class="string">'fs'</span>,10,<span class="string">'yunits'</span>,<span class="string">'m'</span>));
+    x3 = ao(plist(<span class="string">'tsfcn'</span>, <span class="string">'t.^2 + t'</span>,<span class="string">'nsecs'</span>,1000,<span class="string">'fs'</span>,10,<span class="string">'yunits'</span>,<span class="string">'m'</span>)); 
+    <span class="comment">% add them</span>
+    x = x1 + x2 + x3;
+    <span class="comment">% compute psd with different windows</span>
+    y_1 = psd(x,plist(<span class="string">'scale'</span>,<span class="string">'ASD'</span>,<span class="string">'order'</span>,1,<span class="string">'win'</span>,<span class="string">'BH92'</span>));
+    y_2 = psd(x,plist(<span class="string">'scale'</span>,<span class="string">'ASD'</span>,<span class="string">'order'</span>,2,<span class="string">'win'</span>,<span class="string">'Hamming'</span>));
+    y_3 = psd(x,plist(<span class="string">'scale'</span>,<span class="string">'ASD'</span>,<span class="string">'order'</span>,2,<span class="string">'win'</span>,<span class="string">'Kaiser'</span>,<span class="string">'psll'</span>,200));
+    <span class="comment">% compare</span>
+    iplot(y_1, y_2, y_3);
+</pre></div>
+<p>
+  <img src="images/psd_2.png" alt="" border="3">
+</p>
+<h2><a name="references">References</a></h2>
+
+<ol>
+   <li> P.D. Welch, The Use of Fast Fourier Transform for the Estimation of Power Spectra: A Method Based on Time Averaging Over Short,
+Modified Periodograms, <i>IEEE Trans. on Audio and Electroacoustics</i>, Vol. 15, No. 2 (1967), pp. 70 - 73.</a></li>
+  <li> B. P. Weldford, Note on a Method for Calculating Corrected Sums of Squares and Products,
+  <i>Technometrics<i>, Vol. 4, No. 3 (1962), pp 419 - 420.</li>
+</ol>
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="sigproc_methods.html"><img src="b_prev.gif" border="0" align="bottom" alt="Spectral Estimation Methods"></a>&nbsp;</td>
+        <td align="left">Spectral Estimation Methods</td>
+        <td>&nbsp;</td>
+        <td align="right">Cross-spectral density estimates</td>
+        <td align="right" width="20"><a href="sigproc_cpsd.html"><img src="b_next.gif" border="0" align="bottom" alt="Cross-spectral density estimates"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

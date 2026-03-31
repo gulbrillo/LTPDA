@@ -1,0 +1,287 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Units in LTPDA (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="collection_objects.html"><img src="b_prev.gif" border="0" align="bottom" alt="Collection objects"></a>&nbsp;&nbsp;&nbsp;<a href="plist_intro.html"><img src="b_next.gif" border="0" align="bottom" alt="Parameter Lists"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Units in LTPDA</h1>
+    <hr>
+    
+    <p>
+      <p>
+  The handling of physical units is one of the key features of LTPDA. 
+  The following sections show how to deal with them.</p>
+
+    <ul>
+        <li><a href="ltpda_units.html#supported_units">Supported units</a></li>
+        <li><a href="ltpda_units.html#user_defined_units">User-defined units</a></li>
+        <li><a href="ltpda_units.html#setting_units">Setting units</a></li>
+        <li><a href="ltpda_units.html#using_units">Unit propagation in methods</a></li>
+        <li><a href="ltpda_units.html#simplifying_units">Units simplification</a></li>
+        <li><a href="ltpda_units.html#si_units">Units in SI</a></li>
+    </ul>
+</p>	
+
+
+<a name="supported_units" id= "supported_units"></a>
+<h4 class="title">Supported units</h4>
+<p>LTPDA supports the SI units and many others. A <tt>unit</tt> object allows to handle the unit string and 
+the exponent of the prefix. Here is an example:
+<div class="fragment"><pre>
+>> unit(<span class="string">'aF / nN'</span>)
+------ unit/1 -------
+strs: { 'F' 'N' }  [1x2]
+exps: [1 -1]
+vals: [-18 -9]
+---------------------
+</pre></div> 
+ The list of supported units is accessible by typing:
+ <div class="fragment"><pre>
+>> unit.supportedUnits
+</pre></div> 
+ The list of supported prefixes is accessible by typing:
+ <div class="fragment"><pre>
+>> unit.supportedPrefixes
+</pre></div> 
+ 
+ </p>
+<a name="user_defined_units" id= "user_defined_units"></a>
+<h4 class="title">User-defined units</h4>
+<p>Units can be defined by the user. For that, the <a href="setup.html#prefs_misc">LTPDA Preferences</a> interface can be used.</p>
+
+<a name="setting_units" id= "setting_units"></a>
+<h4 class="title">Setting units</h4>
+<p>Physical units for objects can be set when building them, via the an entry in parameter list:
+<div class="fragment"><pre>
+>> a1 = ao([1:10], [2:2:20], plist(<span class="string">'xunits'</span>, <span class="string">'K'</span>, <span class="string">'yunits'</span>, <span class="string">'Pa'</span>))
+----------- ao 01: a1 -----------
+ 
+       name: ''
+       data: (1,2) (2,4) (3,6) (4,8) (5,10) ...
+             -------- xydata [x, y] --------
+              
+                  x:  [1 10], double
+                  y:  [1 10], double
+                 dx:  [0 0], double
+                 dy:  [0 0], double
+             xunits:  [K]
+             yunits:  [Pa]
+             -------------------------------
+              
+       hist: ao / ao / 11c33bf1421898d27b94853f646e22673ebc750d
+description: 
+       UUID: 5ba41239-aa65-4c5b-9146-105fc5f4b4e6
+---------------------------------
+</pre></div>
+<div class="fragment"><pre>
+>> m = miir(plist(<span class="string">'type'</span>, <span class="string">'lowpass'</span>, <span class="string">'fs'</span>, 10, <span class="string">'fc'</span>, 0.1, <span class="string">'iunits'</span>, <span class="string">'N'</span>, <span class="string">'ounits'</span>, <span class="string">'m'</span>))
+------ miir/1 -------
+          b: [1 -0.9390625058174924]
+     histin: 0
+      ntaps: 2
+         fs: 10
+     infile: 
+          a: [0.030468747091253801 0.030468747091253801]
+    histout: 0
+     iunits: [N]
+     ounits: [m]
+       hist: miir.hist 
+   procinfo: []
+   plotinfo: []
+       name: lowpass
+description: 
+       UUID: 4e15bfea-bae8-496f-be51-96dacfd82b7f
+---------------------
+</pre></div> 
+Units can also be set via the <tt>setYunits</tt> and <tt>setXunits</tt> methods:
+<div class="fragment"><pre>
+>> a1.setYunits(<span class="string">'N / m^2'</span>)
+----------- ao 01: ans -----------
+ 
+       name: ''
+       data: (1,2) (2,4) (3,6) (4,8) (5,10) ...
+             -------- xydata [x, y] --------
+              
+                  x:  [1 10], double
+                  y:  [1 10], double
+                 dx:  [0 0], double
+                 dy:  [0 0], double
+             xunits:  [K]
+             yunits:  [N m^(-2)]
+             -------------------------------
+              
+       hist: ao / setYunits / 11c33bf1421898d27b94853f646e22673ebc750d
+description: 
+       UUID: 24b96137-5427-4565-9359-3804b45948ef
+----------------------------------
+</pre></div> 
+Similarly, <tt>setIunits</tt> and <tt>setOunits</tt> exist for filter objects. More in following sections.
+</p>
+
+<a name="using_units" id= "using_units"></a>
+<h4 class="title">Unit propagation in methods</h4>
+<p>The LTPDA methods implement unit checking and propagation.
+ <div class="fragment"><pre>
+>> V = ao(1, plist(<span class="string">'yunits'</span>, <span class="string">'V'</span>));
+>> N = ao(10, plist(<span class="string">'yunits'</span>, <span class="string">'N'</span>));
+>> d = V/N
+----------- ao 01: (V / N) -----------
+ 
+       name: (V / N)
+       data: 0.1
+             -------- cdata [vals] ------------
+                  y:  [1x1], double
+                 dy:  [0x0], double
+             yunits:  [V N^(-1)]
+             ----------------------------------
+              
+       hist: ao / mrdivide / 11c33bf1421898d27b94853f646e22673ebc750d
+description: 
+       UUID: 41c9e535-a153-417e-9acc-76232d26d0b6
+--------------------------------------
+</pre></div>
+<div class="fragment"><pre>
+>> a1 = ao(plist(<span class="string">'waveform'</span>, <span class="string">'noise'</span>, <span class="string">'sigma'</span>, 1, <span class="string">'fs'</span>, 10, <span class="string">'nsecs'</span>, 10000, <span class="string">'yunits'</span>, <span class="string">'m s^-2'</span>));
+>> s1 = sqrt(psd(a1))
+----------- ao 01: sqrt(PSD(noise)) -----------
+ 
+       name: sqrt(PSD(noise))
+       data: (0,0.0742969798142685) (0.0001,0.188581537118303) (0.0002,0.0973085901222778) (0.0003,0.0364681549203924) (0.0004,0.183740667882419) ...
+             -------- fsdata [x, y] --------
+              
+                  x:  [1 50001], double
+                  y:  [1 50001], double
+                 dx:  [0 0], double
+                 dy:  [0 0], double
+             xunits:  [Hz]
+             yunits:  [m s^(-2) Hz^(-1/2)]
+               enbw:  0.000200435
+                 fs:  10
+                 t0:  1970-01-01 00:00:00.000 UTC
+               navs:  1
+             -------------------------------
+              
+       hist: ao / sqrt / 11c33bf1421898d27b94853f646e22673ebc750d
+description: 
+       UUID: 9a90bea2-5c4e-4f0f-a62b-7224ee0fe332
+-----------------------------------------------
+</pre></div> 
+</p>
+<p>Units checking means it is not possible to add apples to bananas:
+<div class="fragment"><pre>
+>> m1 = ao(plist(<span class="string">'waveform'</span>, <span class="string">'noise'</span>, <span class="string">'sigma'</span>, 1, <span class="string">'fs'</span>, 10, <span class="string">'nsecs'</span>, 10000, <span class="string">'yunits'</span>, <span class="string">'nT'</span>));
+>> d1 = a1 + m1
+Error using ao/elementOp>isDataCompatible (line 348)
+### Y units should be equivalent for the plus operator [m s^(-2)] <-> [nT]
+Error in ao/elementOp>operateData (line 310)
+  if isDataCompatible(a1, a2, op)
+Error in ao/elementOp/operateSingleObject (line 270)
+    res.data = operateData(a1, a2, op, axis);
+Error in ao/elementOp (line 153)
+      operateSingleObject(res, a1, [], a2, []);
+Error in ao/plus (line 38)
+  res = ao.elementOp(callerIsMethod, @getInfo, @getDefaultPlist, op, opname, opsym, aosNames, varargin(:)); 
+</pre></div> 
+</p>
+
+<a name="simplifying_units" id= "simplifying_units"></a>
+<h4 class="title">Units simplification</h4>
+<p>Physical units can be a bit involved after a few operations. LTPDA offers the possibility to simplify them, via the
+<tt>simplifyUnits</tt> method:
+<div class="fragment"><pre>
+>> V = ao(1, plist(<span class="string">'yunits'</span>, <span class="string">'nV'</span>));
+>> N = ao(10, plist(<span class="string">'yunits'</span>, <span class="string">'V/N'</span>));
+>> r = V/N
+----------- ao 01: (V / N) -----------
+ 
+       name: (V / N)
+       data: 0.1
+             -------- cdata [vals] ------------
+                  y:  [1x1], double
+                 dy:  [0x0], double
+             yunits:  [nV V^(-1) N]
+             ----------------------------------
+              
+       hist: ao / mrdivide / 11c33bf1421898d27b94853f646e22673ebc750d
+description: 
+       UUID: ec071cb3-3663-4e00-8a7a-2176679847df
+--------------------------------------
+
+>> r1 = r.simplifyYunits
+----------- ao 01: (V / N) -----------
+ 
+       name: (V / N)
+       data: 1e-10
+             -------- cdata [vals] ------------
+                  y:  [1x1], double
+                 dy:  [0x0], double
+             yunits:  [N]
+             ----------------------------------
+              
+       hist: ao / simplifyYunits / 11c33bf1421898d27b94853f646e22673ebc750d
+description: 
+       UUID: b9a5d863-5ece-469a-bf80-664b21a15321
+--------------------------------------
+</pre></div> 
+
+Please notice that also the prefixes are simplified, by scaling the values. 
+It is possible to force the method not to scale the prefixes, or to specify a list of units to ignore:
+<div class="fragment"><pre>
+>> r2 = r.simplifyYunits(plist(<span class="string">'prefixes'</span>, false))
+----------- ao 01: (V / N) -----------
+ 
+       name: (V / N)
+       data: 0.1
+             -------- cdata [vals] ------------
+                  y:  [1x1], double
+                 dy:  [0x0], double
+             yunits:  [nN]
+             ----------------------------------
+              
+       hist: ao / simplifyYunits / 11c33bf1421898d27b94853f646e22673ebc750d
+description: 
+       UUID: 4dc04ef2-cdd0-44d4-a42f-0b70e609aa52
+--------------------------------------
+</pre></div> 
+</p>
+
+<a name="si_units" id= "si_units"></a>
+<h4 class="title">SI units</h4>
+
+<p>The <tt>toSI</tt> method is available to help expressing the units only in term of the fundamental SI units.</p>
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="collection_objects.html"><img src="b_prev.gif" border="0" align="bottom" alt="Collection objects"></a>&nbsp;</td>
+        <td align="left">Collection objects</td>
+        <td>&nbsp;</td>
+        <td align="right">Parameter Lists</td>
+        <td align="right" width="20"><a href="plist_intro.html"><img src="b_next.gif" border="0" align="bottom" alt="Parameter Lists"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

@@ -1,0 +1,415 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Noise whitening (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="gapfill.html"><img src="b_prev.gif" border="0" align="bottom" alt="Data gap filling"></a>&nbsp;&nbsp;&nbsp;<a href="sigproc.html"><img src="b_next.gif" border="0" align="bottom" alt="Signal Processing in LTPDA"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Noise whitening</h1>
+    <hr>
+    
+    <p>
+      <!-- $Id$ -->
+
+  <!-- ================================================== -->
+  <!--                 BEGIN CONTENT FILE                 -->
+  <!-- ================================================== -->
+  <!-- ===== link box: Begin ===== -->
+  <p>
+    <table border="1"  width="80%">
+      <tr>
+        <td>
+          <table border="0" cellpadding="5" class="categorylist" width="100%">
+            <colgroup>
+              <col width="37%"/>
+              <col width="63%"/>
+            </colgroup>
+            <tbody>
+              <tr valign="top">
+                <td>
+                  <a href="#WhitenIntro">Introduction</a>
+                </td>
+                <td>Noise whitening in LTPDA.</td>
+              </tr>
+              <tr valign="top">
+                <td>
+                  <a href="#WhitenAlgo">Algorithm</a>
+                </td>
+                <td>Whitening Algorithms.</td>
+              </tr>
+              <tr valign="top">
+                <td>
+                  <a href="#Whiten1D">1D data</a>
+                </td>
+                <td>Whitening noise in one-dimensional data.</td>
+              </tr>
+              <tr valign="top">
+                <td>
+                  <a href="#Whiten2D">2D data</a>
+                </td>
+                <td>Whitening noise in two-dimensional data.</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </p>
+  <!-- ===== link box: End ====== -->
+
+  
+  <!-- ===== Intro ====== -->
+  <h2><a name="WhitenIntro">Noise whitening in LTPDA</a></h2>
+  <p>
+    A random process <i>w(t)</i> is considered white if it is zero mean 
+    and uncorrelated:
+  </p>
+  <p>
+    <IMG src="images/whitening01.gif" align="center" border="0">
+  </p>
+  <p>
+    As a consequence, the power spectral density of a white process is a 
+    constant at every frequency:
+  </p>
+  <p>
+    <IMG src="images/whitening02.gif" align="center" border="0">
+  </p>
+  <p>
+    In other words, The power per unit of frequency associated to a white noise
+    process is uniformly distributed on the whole available frequency range.
+    An example is reported in figure 1.
+  </p>
+  
+  <div align="center">
+    <table border="0">
+      <caption align="bottom">
+        <b> Figure 1:</b> Power spectral density (estimated with the welch method)
+        of a gaussian unitary variance zero mean random process. 
+        The process <i>w(t)</i> is assumed to have 
+        physical units of <tt>m</tt> therefore its power spectral density has
+        physical units of <tt>m^2/Hz</tt>. Note that the power spectral density
+        average value is 2 instead of the expected 1 (unitary variance process)
+        since we calculated one-sided power spectral density.
+      </caption>
+      <tr>
+        <td>
+          <IMG src="images/whitening03.png" align="center" border="0">
+        </td>
+      </tr>
+    </table>
+  </div>
+  
+  <p>
+  </p>
+  
+  <p>
+    A non-white (colored) noise process is instead characterized by a given
+    distribution of the power per unit of frequency along the available frequency
+    bandwidth. <br>
+    Whitening operation on a given non-white process corresponds to force 
+    such a process to satisfy the conditions described above for a white process.
+  </p>
+  <p>
+    In LTPDA there are different methods for noise whitening:
+    <ul>
+      <li> <a href="matlab:doc('ao/buildWhitener1D')"> buildWhitener1D.m</a> 
+      <li> <a href="matlab:doc('ao/whiten1D')"> whiten1D.m</a> 
+      <li> <a href="matlab:doc('ao/firwhiten')">firwhiten.m</a>
+      <li> <a href="matlab:doc('ao/whiten2D')">whiten2D.m</a>
+    </ul>
+    They accept time series analysis objects as an input and they output noise 
+    whitening filters or whitened time series analysis objects.
+  </p>
+  
+  <!-- ===== Algorithm ====== -->
+  <h2><a name="WhitenAlgo">Whitening Algorithms</a></h2>
+
+  <h3>buildWhitener1D</h3>
+  <p>
+    <tt>buildWhitener1D</tt> performs a frequency domain identification of the system
+    in order to extract the proper whitening filter. The function needs a model
+    for the one-sided power spectral density of the given process. If no model
+    is provided, the power spectral density of the process is calculated with
+    the <a href="matlab:doc('ao/psd')">psd</a> and <a href="matlab:doc('ao/bin_data')">bin_data</a> algorithm. <br>
+    <ol>
+      <li> The inverse of the square root of the model for the power spectral 
+      density is fit in z-domain in order to determine a whitening 
+      filter.
+      <li> Unstable poles are removed by an all-pass stabilization procedure.
+      <li> Whitening filter is provided at the output.
+    </ol>
+  </p>
+  
+  <h3>Whiten1D</h3>
+  <p>
+    <tt>whiten1D</tt> implements the same functionality of <tt>buildWhitener1D</tt>
+    but it adds the filtering step so input data are filtered with the identified filter
+    internally to the method.
+  </p>
+  
+  <h3>Firwhiten</h3>
+  <p>
+    <tt>firwhiten</tt> whitens the input time-series by building an FIR
+    whitening filter. <br>
+    <ol>
+      <li> Make ASD of time-series.
+      <li> Perform running median to get noise-floor estimate <a href="matlab:doc('ao/smoother')">ao/smoother</a>.
+      <li> Invert noise-floor estimate.
+      <li> Call <a href="matlab:doc('mfir')">mfir()</a> on noise-floor estimate to produce whitening filter.
+      <li> Filter data.
+    </ol>
+  </p>
+  
+  <h3>Whiten2D</h3>
+  <p>
+    <tt>whiten2D</tt> whitens cross-correlated time-series. Whitening
+    filters are constructed by a fitting procedure to the models
+    for the corss-spectral matrix provided.
+    In order to work with <tt>whiten2D</tt> you must provide
+    a model (frequency series analysis objects) for the cross-spectral density
+    matrix of the process.
+    <ol>
+      <li> Whitening filters frequency response is calculated by the 
+      eigendecomposition of the cross-spectral matrix.
+      <li> Calculated responses are fit in z-domain in order to identify
+      corresponding autoregressive moving average filters.
+      <li> Input time-series is filtered. The filtering process corresponds to:<br>
+      w(1) = Filt11(a(1)) + Filt12(a(2))<br>
+      w(2) = Filt21(a(1)) + Filt22(a(2))
+    </ol>
+  </p>
+  
+  
+  <!-- ===== 1D Examples ====== -->
+  <h2><a name="buildWhitener1D">Whitening noise in one-dimensional data</a></h2>
+  <p>
+    We can now test an example of the one-dimensinal whitening filters capabilities.
+    With the following commands we can generate a colored noise data series
+    for parameters description please refer to the
+    <a href="matlab:doc('ao')">ao</a>,
+    <a href="matlab:doc('miir')">miir</a> and
+    <a href="matlab:doc('ao/filter')">filter</a>
+    documentation pages.
+  </p>
+  <div class="fragment"><pre>
+    
+    fs = 1; <span class="comment">% sampling frequency</span>
+    
+    <span class="comment">% Generate gaussian white noise</span>
+    pl = plist(<span class="string">'tsfcn'</span>, <span class="string">'randn(size(t))'</span>, ...
+      <span class="string">'fs'</span>, fs, ...
+      <span class="string">'nsecs'</span>, 1e5, ...
+      <span class="string">'yunits'</span>, <span class="string">'m'</span>);
+    a = ao(pl);
+    
+    <span class="comment">% Get a coloring filter</span>
+    pl = plist(<span class="string">'type'</span>, <span class="string">'bandpass'</span>, ...
+      <span class="string">'fs'</span>, fs, ...
+      <span class="string">'order'</span>, 3, ...
+      <span class="string">'gain'</span>, 1, ...
+      <span class="string">'fc'</span>, [0.03 0.1]);
+    ft = miir(pl);
+    
+    <span class="comment">% Coloring noise</span>
+    af = filter(a, ft);
+    
+  </pre></div>
+  
+  <p>
+    Now we can try to white colored noise.
+  </p>
+
+  
+  <h3>buildWhitener1D</h3>
+  <p>
+    If you want to try <tt>buildWhitener1D</tt> to get a whitening filter for
+    the present colored noise, you can try the following code. Please refer to the
+    <a href="matlab:doc('ao/buildWhitener1D')">buildWhitener1D</a> documentation page
+    for the meaning of any parameter. The result of the whitening procedure 
+    is reported in figure 2.
+  </p>
+  
+  <div class="fragment"><pre>
+      
+    pl = plist(...
+      <span class="string">'MaxIter'</span>, 30, ...
+      <span class="string">'MinOrder'</span>, 9, ...
+      <span class="string">'MaxOrder'</span>, 15, ...
+      <span class="string">'FITTOL'</span>, 5e-2);
+  
+    wfil = buildWhitener1D(af,pl);
+
+    aw = filter(af,wfil);
+    
+  </pre></div>
+  
+  <div align="center">
+    <table border="0">
+      <caption align="bottom">
+        <b> Figure 2:</b> Power spectral density (estimated with the welch method)
+        of colored and whitened processes.
+      </caption>
+      <tr>
+        <td>
+          <IMG src="images/whitening04.png" align="center" border="0">
+        </td>
+      </tr>
+    </table>
+  </div>
+  
+  
+  <h3>Firwhiten</h3>
+  <p>
+    As an alternative you can try <tt>firwhiten</tt> to whiten the present 
+    colored noise. Please refer to the
+    <a href="matlab:doc('ao/firwhiten')">firwhiten</a> documentation page
+    for the meaning of any parameter. The result of the whitening procedure 
+    is reported in figure 3.
+  </p>
+  
+  <div class="fragment"><pre>
+      
+    pl = plist(...
+      <span class="string">'Ntaps'</span>, 5000, ...
+      <span class="string">'Nfft'</span>, 1e5, ...
+      <span class="string">'BW'</span>, 5);
+  
+    aw = firwhiten(af, pl);
+    
+  </pre></div>
+  
+  <div align="center">
+    <table border="0">
+      <caption align="bottom">
+        <b> Figure 3:</b> Power spectral density (estimated with the welch method)
+        of colored and whitened processes.
+      </caption>
+      <tr>
+        <td>
+          <IMG src="images/whitening05.png" align="center" border="0">
+        </td>
+      </tr>
+    </table>
+  </div>
+  
+  
+  <!-- ===== 2D Examples ====== -->
+  <h2><a name="Whiten2D">Whitening noise in two-dimensional data</a></h2>
+  
+  <p>
+    We consider now the problem of whitening cross correlated data series.
+    As a example we consider a typical couple of x-dynamics LTP data series.
+    <tt>a1</tt> and <tt>a2</tt> are interferometer output noise data series.
+    In oreder to whiten data we must input a frequency response model of the 
+    cross spectral matrix of the cross-correlated process.
+  </p>
+  <p>
+    <IMG src="images/whitening10.gif" align="center" border="0">
+  </p>
+  <p>
+    Refer to <a href="matlab:doc('ao/firwhiten')">whiten2D</a> documentation page
+    for the meaning of any parameter.
+  </p>
+  
+  <div class="fragment"><pre>
+      
+    pl = plist(...
+      <span class="string">'csd11'</span>, mod11, ...
+      <span class="string">'csd12'</span>, mod12, ...
+      <span class="string">'csd21'</span>, mod21, ...
+      <span class="string">'csd22'</span>, mod22, ...
+      <span class="string">'MaxIter'</span>, 75, ...
+      <span class="string">'PoleType'</span>, 3, ...
+      <span class="string">'MinOrder'</span>, 20, ...
+      <span class="string">'MaxOrder'</span>, 40, ...
+      <span class="string">'Weights'</span>, 2, ...
+      <span class="string">'Plot'</span>, false,...
+      <span class="string">'Disp'</span>, false,...
+      <span class="string">'MSEVARTOL'</span>, 1e-2,...
+      <span class="string">'FITTOL'</span>, 1e-3);
+  
+    [aw1,aw2] = whiten2D(a1,a2,pl);
+    
+  </pre></div>
+  
+  <div align="center">
+    <table border="0">
+      <caption align="bottom">
+        <b> Figure 4:</b> Power spectral density of the noisy data series
+        before (left) and after (right) the whitening.
+      </caption>
+      <tr>
+        <td>
+          <IMG src="images/whitening06.png" align="center" border="0">
+        </td>
+        <td>
+          <IMG src="images/whitening07.png" align="center" border="0">
+        </td>
+      </tr>
+    </table>
+  </div>
+  
+  <div align="center">
+    <table border="0">
+      <caption align="bottom">
+        <b> Figure 5:</b> Real (left) and Imaginary (right) part of the 
+        <a href="matlab:doc('ao/cohere')">coherence</a> function. 
+        Blue line refers to theoretical expectation for colored noise data.
+        Red line refers to calculated values for colored noise data.
+        Green line refers to calculated values for whitened noise data.
+        
+      </caption>
+      <tr>
+        <td>
+          <IMG src="images/whitening08.png" align="center" border="0">
+        </td>
+        <td>
+          <IMG src="images/whitening09.png" align="center" border="0">
+        </td>
+      </tr>
+    </table>
+  </div>
+  
+  
+  
+  
+  
+  
+  
+  
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="gapfill.html"><img src="b_prev.gif" border="0" align="bottom" alt="Data gap filling"></a>&nbsp;</td>
+        <td align="left">Data gap filling</td>
+        <td>&nbsp;</td>
+        <td align="right">Signal Processing in LTPDA</td>
+        <td align="right" width="20"><a href="sigproc.html"><img src="b_next.gif" border="0" align="bottom" alt="Signal Processing in LTPDA"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Markov Chain Monte Carlo (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="sigproc_polyfit.html"><img src="b_prev.gif" border="0" align="bottom" alt="Polynomial Fitting"></a>&nbsp;&nbsp;&nbsp;<a href="sigproc_fit_mcmc_ex1.html"><img src="b_next.gif" border="0" align="bottom" alt="Markov Chain Monte Carlo - Simple experiment"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Markov Chain Monte Carlo</h1>
+    <hr>
+    
+    <p>
+      <!-- ================================================== -->
+<!--                 BEGIN CONTENT FILE                 -->
+<!-- ================================================== -->
+<!-- ===== link box: Begin ===== -->
+<p>
+  <table border="1"  width="80%">
+    <tr>
+      <td>
+        <table border="0" cellpadding="5" class="categorylist" width="100%">
+          <colgroup>
+            <col width="37%"/>
+            <col width="63%"/>
+          </colgroup>
+          <tbody>
+            <tr valign="top">
+              <td>
+                <a href="#mcmc">ao/mcmc</a>
+              </td>
+              <td>MCMC - single/multiple experiments with AOs as inputs.</td>
+            </tr>
+            <tr valign="top">
+              <td>
+                <a href="#mcmc">matrix/mcmc</a>
+              </td>
+              <td>MCMC - single/multiple experiments with matrix objects as inputs.</td>
+            </tr>
+            <tr valign="top">
+              <td>
+                <a href="#ref">References</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </table>
+</p>
+<!-- ===== link box: End ====== -->
+
+<p>
+  The following section is dedicated to Bayesian parameter estimation techniques. Theoretical aspects are explained and some usefull examples are provided.
+</p>
+
+<!-- ===== theory====== -->
+<h2><a name="#linlsqsvd_1exp">A little bit of theory.</a></h2>
+<p>
+  The MCMC is a statistical method that is based on random sampling from the parameter space and it is considered suitable and efficient when the parameter space is multidimensional. New samples are generated using a Markov Chain mechanism and in each jump (or step) in the parameter space, the likelihood is calculated. After a sufficient number of samples, one can investigate the shape of the likelihood surface.
+</p>
+
+<!-- ===== syntax ====== -->
+<h2><a name="#linlsqsvd_Nexp">Syntax</a></h2>
+<p>
+  <div class="fragment"><pre>
+      <br>    <span class="comment">% call the method</span>
+      p = mcmc(out,plist);
+  </pre></div>
+</p>
+Where, <tt>out</tt> is an AO or matrix object of the measured signal (output of the system).
+
+<!-- ===== parameters ====== -->
+<h2><a name="#linfitsvd1">Parameters</a></h2>
+<p>
+  The parameter list <tt>plist</tt> includes the following parameters:
+</p>
+
+<ul>
+  <li> <tt>'Model'</tt> - Input model to the algorithm. </li>
+  <li> <tt>'FitParams'</tt> - A cell array of evaluated parameters.</li>
+  <li> <tt>'input'</tt> - A matrix array (or vector of AOs) of input signals. </li>
+  <li> <tt>'noise'</tt> - A matrix array (or vector of AOs)  of noise spectrum (PSD) used to compute the likelihood.</li>
+  <li> <tt>'N'</tt> - total number of samples of the chain.</li>
+  <li> <tt>'cov'</tt> - covariance of the gaussian jumping distribution. </li>
+  <li> <tt>'search'</tt> - Set to true to use bigger jumps in parameter space during annealing and cool down.</li>
+  <li> <tt>'frequencies'</tt> - Range of frequencies where the analysis is performed. If an array, only first and last are used.</li>
+  <li> <tt>'fsout'</tt> - Desired sampling frequency to resample the input time series.</li>
+  <li> <tt>'simplex'</tt> - Set to true to perform a simplex search to find the starting parameters of the MCMC chain.</li>
+  <li> <tt>'mhsample'</tt> - Set to <tt>true</tt> to perform a mhsample search. This is set to <tt>true</tt> by default. Only to be set to <tt>false</tt> by the user if we does not want to perform the mcmc search.</li>
+  <li> <tt>'heat'</tt> - The heat index flattening likelihood surface during annealing.</li>
+  <li> <tt>'x0'</tt> - The proposed initial values. A vector of values.</li>
+  <li> <tt>'jumps'</tt> - An array of four numbers setting the rescaling of the covariance matrix during the search phase. The first value is the one applied by default, the following thhree apply just when the chain sample is <tt>mod(10)</tt>, <tt>mod(25)</tt> and <tt>mod(100)</tt> respectively. </li>
+  <li> <tt>'plot'</tt> - Select indexes of the parameters to be plotted. For example, if the user desires to plot all 6 chains, he should set the key to <tt>[2 3 4 5 6 7]</tt>. In the first chain the log-likelihood values are stored.</li>
+  <li> <tt>'debug'</tt> - Set to true to get debug information of the MCMC process. </li>
+  <li> <tt>'Navs'</tt> - The number of averages to use when calculating PSD and CPSD. </li>
+  <li> <tt>'Tc'</tt> - an array of two values setting the initial and final value for the cooling down.</li>
+  <li> <tt>'prior'</tt> - Mean, sigma and normalization factor for priors. Still under test. </li>
+  <li> <tt>'range'</tt> - Range where the parameteters are sampled. A cell array containing a vector <tt>[a b]</tt> for each parameter. The algorithm searches for the parameter between <tt>a</tt> and <tt>b</tt>.</li>
+  <li> <tt>'inNames'</tt> - Input names. Used for ssm models </li>
+  <li> <tt>'outNames'</tt> - Output names. Used for ssm models  </li>
+</ul>
+
+<p>
+  Extra attention is needed when filling the <tt>input</tt>, <tt>noise</tt> and <tt>out</tt> fields. The objects must be organized in a arrays or matrices with a special way. The columns of a matrix are the numbers of experiments and the rows are the number of channels. In the case of LTP we have two channels. If we want to import two experiments, then for each key we specify a 2x2 AOs object or a 2x2 matrix object.
+</p>
+<p>
+  <table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1">
+    <tr width="90%">
+      <td>
+        If the user doesn't specify the value of a given parameter, the default value is used.
+      </td>
+    </tr>
+  </table>
+</p>
+
+<!-- ===== examples ====== -->
+<h2><a name="#linfitsvd2">Examples</a></h2>
+<p>
+  There is one simple example for the use of mcmc method estimating parameters of a simple  <a href="sigproc_fit_mcmc_ex1.html">harmonic oscillator ssm model</a>.
+   For a more complex application (full LTP ssm model) refer to the <a href="ltpda_training_2_topic_5.html">LTPDA training 2, Topic 5</a>.
+</p>
+
+<h2><a name="#ref"> References</a></h2>
+<ol>
+  <li> M Nofrarias et al, Bayesian parameter estimation in the second LISA Pathfinder mock data challenge, PHYSICAL REVIEW D 82, 122002 (2010) </li>
+  <li> M Nofrarias, L Ferraioli, G Congedo, Comparison of parameter
+  estimates results in STOC Exercise 6, S2-AEI-TN-3070.</li>
+  
+</ol>
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="sigproc_polyfit.html"><img src="b_prev.gif" border="0" align="bottom" alt="Polynomial Fitting"></a>&nbsp;</td>
+        <td align="left">Polynomial Fitting</td>
+        <td>&nbsp;</td>
+        <td align="right">Markov Chain Monte Carlo - Simple experiment</td>
+        <td align="right" width="20"><a href="sigproc_fit_mcmc_ex1.html"><img src="b_next.gif" border="0" align="bottom" alt="Markov Chain Monte Carlo - Simple experiment"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

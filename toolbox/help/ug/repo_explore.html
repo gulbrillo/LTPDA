@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Exploring an LTPDA Repository (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="repo_submit.html"><img src="b_prev.gif" border="0" align="bottom" alt="Submitting LTPDA objects to a repository"></a>&nbsp;&nbsp;&nbsp;<a href="repo_retrieve.html"><img src="b_next.gif" border="0" align="bottom" alt="Retrieving LTPDA objects from a repository"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Exploring an LTPDA Repository</h1>
+    <hr>
+    
+    <p>
+      <p>
+  Exploring an LTPDA repository is most easily achieved using the purpose-built graphical user interface. This
+  interface is accessible by typing:
+</p>
+<div class="fragment"><pre>
+    >> LTPDARepositoryQuery
+</pre></div>
+<p>
+  The figure belows shows the query dialog that appears through either interface:
+  <br>
+  <img src="images/querydialog.png" alt="LTPDA Query Builder" border="3">
+  <br>
+</p>
+<p>
+  You can construct a query by use of the drop-down menus and buttons, then execute
+  the query to retreive a table of results, like the one shown below:
+  <br>
+  <img src="images/queryresults.png" alt="LTPDA Query Results" border="3">
+  <br>
+</p>
+<p>
+  If the query dialog is launched from within the LTPDA Workbench, the results table has an
+  additional button which can be used to create constructor blocks on the current pipeline
+  corresponding to the selected records in the results table.
+</p>
+
+
+<!--
+<p>
+  Since an LTPDA repository is just a MySQL database, you can query the database using standard
+  SQL commands via any of the popular MySQL clients. In addition, the LTPDA toolbox provides a 
+  simplified command that can be used to execute simple queries with only basic SQL knowledge.
+</p>
+<p>
+  The command is <tt>utils.mysql.dbquery</tt> and it can be used to perform various queries.
+  It takes the following input arguments:
+  <table border="1" cellpadding="2" width="30%" bgcolor="#DDDDDD">
+    <tr valign="top">
+      <td><tt>conn</tt></td><td>A database connection object</td>
+    </tr>
+    <tr valign="top">
+      <td><tt>tablename</tt></td><td>The name of a table to search</td>
+    </tr>
+    <tr valign="top">
+      <td><tt>query</tt></td><td>The query string written in MySQL SQL syntax</td>
+    </tr>
+  </table>	 
+  <br>
+Examples of usage are:
+
+</p>
+   
+<h2>Searching particular tables</h2>
+ 
+<p> 
+  <div class="fragment"><pre>
+      >> info  = utils.mysql.dbquery(conn, 'select * from objmeta where id>1000 and id<2000');
+      >> info  = utils.mysql.dbquery(conn, 'ao',           'id>1000 and id<2000');
+      >> info  = utils.mysql.dbquery_dbquery(conn, 'objmeta',      'name like "x12"');
+      >> info  = utils.mysql.dbquery(conn, 'users',        'username="aouser"');
+      >> info  = utils.mysql.dbquery(conn, 'collections',  'id=3');
+      >> info  = utils.mysql.dbquery(conn, 'collections',  'obj_ids="1,2"');
+      >> info  = utils.mysql.dbquery(conn, 'transactions', 'user_id=3');
+      >> info  = utils.mysql.dbquery(conn, 'transactions', 'obj_id=56');
+  </pre></div>
+</p>
+ 
+<h2>Retrieving a list of tables</h2>
+ 
+<p> 
+  You can retrieve a list of the tables in a database with the call:
+  <div class="fragment"><pre>
+      >> info  = utils.mysql.dbquery(conn)
+  </pre></div>
+  
+</p>
+
+  
+<h2>High-level queries</h2>
+<p>
+  Various standard queries are envisaged which ask typical questions, such as:
+  "Give me data for a particular signal spanning a particular time-span".  
+</p>
+<p>
+  Formulating this question as an SQL query requires a good knowledge of the SQL
+  syntax used by MySQL. The query has to search across multiple tables in order
+  to gather the IDs of the objects that fulfill the query. For these standard questions,
+  high-level functions will be built which perform the query given some input information. This
+  avoids the user having to formulate complicated SQL statements.
+</p>
+<p>
+  The following high-level queries currently exist in the toolbox:
+<table border="1" cellpadding="2" bgcolor="#DDDDDD">
+  <tr valign="top">
+    <td><tt>ltpda_getAOsInTimeSpan</tt></td><td>Retrieve particular AOs in the given time-span</td>
+  </tr>
+</table>
+</p>
+
+-->
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="repo_submit.html"><img src="b_prev.gif" border="0" align="bottom" alt="Submitting LTPDA objects to a repository"></a>&nbsp;</td>
+        <td align="left">Submitting LTPDA objects to a repository</td>
+        <td>&nbsp;</td>
+        <td align="right">Retrieving LTPDA objects from a repository</td>
+        <td align="right" width="20"><a href="repo_retrieve.html"><img src="b_next.gif" border="0" align="bottom" alt="Retrieving LTPDA objects from a repository"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

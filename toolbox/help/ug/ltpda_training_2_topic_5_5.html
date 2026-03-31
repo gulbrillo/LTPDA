@@ -1,0 +1,199 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Calculate expected covariance of the parameters (FIM) (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_2_topic_5_4.html"><img src="b_prev.gif" border="0" align="bottom" alt="Build state-space LTP models for system identification"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_2_topic_5_6.html"><img src="b_next.gif" border="0" align="bottom" alt="Perform system identification to estimate desired parameters"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Calculate expected covariance of the parameters (FIM)</h1>
+    <hr>
+    
+    <p>
+      
+ <p> 
+  Once we have defined a models and some injected signals, we can proceed to estimate the
+  errors we can expect on the estimation of our parameters. To do so we compute the inverse
+  of the Fisher Information Matrix (FIM) as shown below.    
+</p> 
+
+ <p> 
+  Our first step is to recover the objects created in the previous section.
+</p> 
+<div class="fragment">
+ <pre>  <br>  
+        <span class="comment">%% Load objects</span>
+
+        in    = matrix(<span class="string">'input.mat'</span>);           
+        out   = matrix(<span class="string">'output.mat'</span>);
+        noise = matrix(<span class="string">'noise.mat'</span>);
+        mdl   = ssm(<span class="string">'fitting_model.mat'</span>);
+ </pre>
+</div>
+
+<p> 
+  Next step will be to define input/output ports for the <tt>ssm</tt> model
+  and the numerical value for the parameters under analysis. Notice that 
+  we evaluate the Fisher matrix for a given set of numerical values, here
+  we will use the ones used to generate data so we will get the optimal 
+  expected errors. This is also known as the Cramer-Rao (lower) Bound (CRB). 
+</p> 
+
+<div class="fragment">
+ <pre>  <br>  
+        <span class="comment">%% Input & Output names</span>
+        inNames  = {<span class="string">'GUIDANCE.IFO_x1'</span>  <span class="string">'GUIDANCE.IFO_x12'</span>};
+        outNames = {<span class="string">'DELAY_IFO.x1'</span> <span class="string">'DELAY_IFO.x12'</span>};
+
+        params = {<span class="string">'FEEPS_XX'</span>,<span class="string">'CAPACT_TM2_XX'</span>, <span class="string">'IFO_X12X1'</span>, <span class="string">'EOM_TM1_STIFF_XX'</span>, <span class="string">'EOM_TM2_STIFF_XX'</span>};
+        values = [0.82 1.08 0.0004 1.3e-6 1.9e-6];
+ </pre>
+</div>
+
+<p> 
+Our <tt>ssm</tt> models are not analytical models which means that to derive them 
+with respect our parameters we need to set a differentiation step. The LTPDA allows
+to compute it, but we will not enter here in this detail. For this exercise 
+we will use the following values:
+</p>
+<div class="fragment">
+ <pre>  <br>  
+        <span class="comment">% Differentiation steps</span>
+        steps =  [1e-11 2.3e-07 1e-15 8.4e-11 2.4e-12];
+ </pre>
+</div>
+<p> 
+And now we can call the <tt>crb</tt> method with the <tt>plist</tt> provided 
+in the example below
+</p>
+<div class="fragment">
+    <pre><br> 
+        <span class="comment">%% Estimate Covariance matrix</span>
+        pl_crb = plist(<span class="string">'FitParams'</span>, params,...  
+                  <span class="string">'paramsValues'</span>, values,...         
+                  <span class="string">'diffStep'</span>, steps,...
+                  <span class="string">'ngrid'</span>, 5,...                      <span class="comment">% Number of points in the grid to compute the optimal differentiation step for ssm models </span>
+                  <span class="string">'inNames'</span>, inNames,...
+                  <span class="string">'outNames'</span>, outNames,...
+                  <span class="string">'input'</span>, in,...
+                  <span class="string">'f1'</span>, 1e-4,...                      <span class="comment">% Initial frequency for the analysis</span>
+                  <span class="string">'f2'</span>, 1,...                         <span class="comment">% Final frequency for the analysis</span>
+                  <span class="string">'model'</span>, mdl,...                   
+                  <span class="string">'Navs'</span>, 5,...                       <span class="comment">% Force number of averages</span>
+                  <span class="string">'pinv'</span>, false);                     <span class="comment">% Use the Penrose-Moore pseudoinverse</span>
+
+        mcrb = crb(noise, pl_crb);
+
+        <span class="comment">% Save object</span>
+        save(mcrb, <span class="string">'crb_5params_ssm.mat'</span>);
+ </pre>
+</div>
+
+<p> 
+The method returns an <tt>ao</tt> with the inverse of the Fisher matrix, i.e.
+the estimated covariance matrix for our parameters. The square root of the 
+diagonal of this object tell us the error standard deviation 
+we can expect for these parameters and the non-diagonal terms, 
+the correlation between them. In our case, for instance:
+</p>
+
+<table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+    <colgroup>
+      <col width="15%"/>
+      <col width="15%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Parameter</th>
+        <th class="categorylist">Std. deviation</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- FEEPS_XX -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">FEEPS_XX</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>0.0002</p>
+        </td>
+      </tr>
+      <!--  CAPACT_TM2_XX -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">CAPACT_TM2_XX</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>3.0e-06</span></p>
+        </td>
+      </tr>
+      <!-- IFO_X12X1 -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">IFO_X12X1</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>1.1e-07</p>
+        </td>
+      </tr>
+      <!-- EOM_TM1_STIFF_XX -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">EOM_TM1_STIFF_XX</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>1.7e-10</p>
+        </td>
+      </tr>
+       <!-- EOM_TM2_STIFF_XX -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><span class="string">EOM_TM2_STIFF_XX</span></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>1.6e-10</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+<p> 
+We will later compare this estimated standard deviations 
+to the ones obtained with our parameter estimation methods.
+</p>
+  
+  
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_2_topic_5_4.html"><img src="b_prev.gif" border="0" align="bottom" alt="Build state-space LTP models for system identification"></a>&nbsp;</td>
+        <td align="left">Build state-space LTP models for system identification</td>
+        <td>&nbsp;</td>
+        <td align="right">Perform system identification to estimate desired parameters</td>
+        <td align="right" width="20"><a href="ltpda_training_2_topic_5_6.html"><img src="b_next.gif" border="0" align="bottom" alt="Perform system identification to estimate desired parameters"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

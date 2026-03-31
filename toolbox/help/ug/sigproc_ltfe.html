@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Log-scale transfer function estimates (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="sigproc_lcohere.html"><img src="b_prev.gif" border="0" align="bottom" alt="Log-scale cross coherence density estimates"></a>&nbsp;&nbsp;&nbsp;<a href="sigproc_fit.html"><img src="b_next.gif" border="0" align="bottom" alt="Fitting Algorithms"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Log-scale transfer function estimates</h1>
+    <hr>
+    
+    <p>
+      <h2>Description</h2>
+<p>
+  The LTPDA method <a href="matlab:doc('ao/ltfe')">ao/ltfe</a> estimates the transfer function of time-series
+  signals, included in the input <tt>ao</tt>s following the LPSD algorithm <a href="#references">[1]</a>. Spectral density estimates are not 
+  evaluated at frequencies which are linear multiples of the minimum frequency resolution <tt>1/T</tt>, where <tt>T</tt> 
+  is the window lenght, but on a logarithmic scale. The algorithm takes care of calculating the frequencies at which to evaluate
+  the spectral estimate, aiming at minimizing the uncertainty in the estimate itself, and to recalculate a suitable
+  window length for each frequency bin.
+  </p>
+  <p> 
+  Data are windowed prior to the estimation of the spectrum, by multiplying
+  it with a <a href="specwin.html">spectral window object</a>, and can be detrended by polinomial of time in order to reduce the impact
+  of the border discontinuities. Detrending is performed on each individual window.
+  The user can choose the quantity being given in output among ASD (amplitude spectral density),
+  PSD (power spectral density), AS (amplitude spectrum), and PS (power spectrum).
+  </p>
+  <br>
+<h2>Syntax</h2>
+</p>
+<div class="fragment"><pre>
+    <br>    b = ltfe(a1,a2,pl)
+  </pre>
+</div>
+<p>
+  <tt>a1</tt> and <tt>a2</tt> are the 2 <tt>ao</tt>s containing the input time series to be evaluated, <tt>b</tt> is the output object and <tt>pl</tt> is an optional parameter list.
+ 
+  <h2>Parameters</h2>
+  <p>The parameter list <tt>pl</tt> includes the following parameters:</p> 
+  <ul>
+  <li> <tt>'Kdes'</tt> - desired number of averages   [default: 100]</li>
+  <li> <tt>'Jdes'</tt> - number of spectral frequencies to compute [default: 1000]</li>
+  <li> <tt>'Lmin'</tt> - minimum segment length [default: 0]</li>
+  <li> <tt>'Win'</tt> - the window to be applied to the data to remove the 
+    discontinuities at edges of segments. [default: taken from user prefs].<br>
+    The window is described by a string with its name and, only in the case of Kaiser window,
+  the additional parameter <tt>'psll'</tt>. <br>For instance: plist('Win', 'Kaiser', 'psll', 200).  </li>
+  <li> <tt>'Olap'</tt> - segment percent overlap [default: -1, (taken from window function)] </li>
+  <li> <tt>'Order'</tt> - order of segment detrending <ul>
+      <li>      -1 - no detrending  </li>
+      <li>       0 - subtract mean [default] </li>
+      <li>       1 - subtract linear fit </li>
+      <li>       N - subtract fit of polynomial, order N  </li> </ul> </li>
+</ul>
+  The length of the window is set by the value of the parameter <tt>'Nfft'</tt>, so that the window
+  is actually rebuilt using only the key features of the window, i.e. the name and, for Kaiser windows, the PSLL.
+</p>
+
+<p>
+  <table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1">
+    <tr width="90%">
+      <td>
+        If the user doesn't specify the value of a given parameter, the default value is used.
+      </td>
+    </tr>
+  </table>
+</p>
+
+</p>
+<p>The function makes logaritmic frequencyscale transfer functions estimates between the 2 input <tt>ao</tt>s, and the output will contain the transfer function estimate from the first <tt>ao</tt> to the second.</p>
+
+</pre> </div>
+</p>
+<h2>Algorithm</h2>
+<p>
+  The algorithm is implemented according to <a href="#references">[1]</a>. The sample variance is computed according to:  
+</p>
+<div align="center">
+  <img src="images/tfe_sigma1.png" >
+</div>
+where
+ <div align="center">
+  <img src="images/tfe_sigma2.png" >
+</div>
+  <br>
+<p>
+is the coherence function.
+  In the LPSD algorithm, the first frequencies bins are usually computed using a single segment containing all the data. 
+  For these bins, the standard deviation of the mean is set to <tt>Inf</tt>.
+</p>
+  <h2>Example</h2>
+<p>
+  Evaluation of the transfer function between two time-series represented by:
+  a low frequency sinewave signal superimposed to
+  white noise, and a low frequency sinewave signal at the same frequency, phase shifted and with different
+  amplitude, superimposed to white noise.
+</p>
+<div class="fragment"><pre>
+    <br>    <span class="comment">% Parameters</span>
+    nsecs = 1000;
+    fs  = 10;
+    nfft = 1000;
+    
+    <span class="comment">% Create input AOs</span>
+    x = ao(plist(<span class="string">'waveform'</span>,<span class="string">'sine wave'</span>,<span class="string">'f'</span>,0.1,<span class="string">'A'</span>,1,<span class="string">'nsecs'</span>,nsecs,<span class="string">'fs'</span>,fs)) + ...
+        ao(plist(<span class="string">'waveform'</span>,<span class="string">'noise'</span>,<span class="string">'type'</span>,<span class="string">'normal'</span>,<span class="string">'nsecs'</span>,nsecs,<span class="string">'fs'</span>,fs));
+    x.setYunits(<span class="string">'m'</span>);
+    y = ao(plist(<span class="string">'waveform'</span>,<span class="string">'sine wave'</span>,<span class="string">'f'</span>,0.1,<span class="string">'A'</span>,2,<span class="string">'nsecs'</span>,nsecs,<span class="string">'fs'</span>,fs,<span class="string">'phi'</span>,90)) + ...
+        4*ao(plist(<span class="string">'waveform'</span>,<span class="string">'noise'</span>,<span class="string">'type'</span>,<span class="string">'normal'</span>,<span class="string">'nsecs'</span>,nsecs,<span class="string">'fs'</span>,fs));
+    y.setYunits(<span class="string">'V'</span>);
+    
+    <span class="comment">% Compute transfer function</span>
+    Txy = ltfe(x,y,plist(<span class="string">'win'</span>,specwin(<span class="string">'Kaiser'</span>,1,200),<span class="string">'nfft'</span>,nfft));
+
+    <span class="comment">% Plot</span>
+    iplot(Txy);
+  </pre>
+</div>
+
+<img src="images/l_transfer_1.png" alt="" border="3">
+<br>
+<!-- <img src="images/l_transfer_2.png" alt="" border="3">
+<br> -->
+
+<h2><a name="references">References</a></h2>
+
+<ol>
+ <li> M. Troebs, G. Heinzel, Improved spectrum estimation from digitized time series
+on a logarithmic frequency axis, <a href="http://dx.doi.org/10.1016/j.measurement.2005.10.010" ><i>Measurement</i>, Vol. 39 (2006), pp. 120 - 129</a>.  See also the <a href="http://dx.doi.org/10.1016/j.measurement.2008.04.004" >Corrigendum</a>. </li>
+</ol>
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="sigproc_lcohere.html"><img src="b_prev.gif" border="0" align="bottom" alt="Log-scale cross coherence density estimates"></a>&nbsp;</td>
+        <td align="left">Log-scale cross coherence density estimates</td>
+        <td>&nbsp;</td>
+        <td align="right">Fitting Algorithms</td>
+        <td align="right" width="20"><a href="sigproc_fit.html"><img src="b_next.gif" border="0" align="bottom" alt="Fitting Algorithms"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

@@ -1,0 +1,43 @@
+%%%%%%%%%%%%%%%%%%%%   class: MCMC   %%%%%%%%%%%%%%%%%%%%
+%
+%   <a href="matlab:help MCMC/MCMC">MCMC/MCMC</a>                 -  - Markov Chain Monte Carlo algorithm
+%   <a href="matlab:help MCMC/ao2strucArrays">MCMC/ao2strucArrays</a>       - AO2NUMMATRICES.m
+%   <a href="matlab:help MCMC/attachToDom">MCMC/attachToDom</a>          - % Create empty ao node with the attribute 'shape'
+%   <a href="matlab:help MCMC/buildLogLikelihood">MCMC/buildLogLikelihood</a>   - (No help available)
+%   <a href="matlab:help MCMC/buildplist">MCMC/buildplist</a>           - (No help available)
+%   <a href="matlab:help MCMC/calculateCovariance">MCMC/calculateCovariance</a>  - (No help available)
+%   <a href="matlab:help MCMC/checkDiffStep">MCMC/checkDiffStep</a>        - (No help available)
+%   <a href="matlab:help MCMC/checkP0class">MCMC/checkP0class</a>         - (No help available)
+%   <a href="matlab:help MCMC/checkXo">MCMC/checkXo</a>              - --------------------------------------------------------------------------
+%   <a href="matlab:help MCMC/collectOutputAOs">MCMC/collectOutputAOs</a>     - (No help available)
+%   <a href="matlab:help MCMC/computeBeta">MCMC/computeBeta</a>          - (No help available)
+%   <a href="matlab:help MCMC/computeICSMatrix">MCMC/computeICSMatrix</a>     - (No help available)
+%   <a href="matlab:help MCMC/copy">MCMC/copy</a>                 -  makes a (deep) copy of the input MCMCs.
+%   <a href="matlab:help MCMC/decision">MCMC/decision</a>             - DECISION: Compute the MH acceptance ratio
+%   <a href="matlab:help MCMC/defineLogLikelihood">MCMC/defineLogLikelihood</a>  - (No help available)
+%   <a href="matlab:help MCMC/drawAdaptiveSample">MCMC/drawAdaptiveSample</a>   - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   <a href="matlab:help MCMC/drawSample">MCMC/drawSample</a>           - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   <a href="matlab:help MCMC/fromDom">MCMC/fromDom</a>              - % Get shape
+%   <a href="matlab:help MCMC/fromStruct">MCMC/fromStruct</a>           -  creates from a structure a TIMESPAN object.
+%   <a href="matlab:help MCMC/getLikelihood">MCMC/getLikelihood</a>        -  Get the likelihood function in a mfh object.
+%   MCMC/getParamNames        - (No help available)
+%   <a href="matlab:help MCMC/getPest">MCMC/getPest</a>              -  Get the estimated parameters in a pest object.
+%   <a href="matlab:help MCMC/handle_data_for_icsm">MCMC/handle_data_for_icsm</a> - (No help available)
+%   <a href="matlab:help MCMC/initObjectWithSize">MCMC/initObjectWithSize</a>   - (No help available)
+%   <a href="matlab:help MCMC/jump">MCMC/jump</a>                 - JUMP: Propose new point on the parameter space
+%   <a href="matlab:help MCMC/loadobj">MCMC/loadobj</a>              -  is called by the load function for user objects.
+%   <a href="matlab:help MCMC/logDecision">MCMC/logDecision</a>          - LOGDECISION: Compute the logarithm of the MH acceptance ratio
+%   <a href="matlab:help MCMC/main">MCMC/main</a>                 - (No help available)
+%   <a href="matlab:help MCMC/mhsample">MCMC/mhsample</a>             -  The Metropolis - Hastings algorithm
+%   <a href="matlab:help MCMC/mhutils">MCMC/mhutils</a>              - --------------------------------------------------------------------------
+%   <a href="matlab:help MCMC/performDataChecks">MCMC/performDataChecks</a>    - (No help available)
+%   <a href="matlab:help MCMC/plotLogLikelihood">MCMC/plotLogLikelihood</a>    - (No help available)
+%   <a href="matlab:help MCMC/preprocess">MCMC/preprocess</a>           - MCMC.preprocess.
+%   <a href="matlab:help MCMC/preprocessMFH">MCMC/preprocessMFH</a>        - (No help available)
+%   <a href="matlab:help MCMC/preprocessModel">MCMC/preprocessModel</a>      - --------------------------------------------------------------------------
+%   <a href="matlab:help MCMC/processChain">MCMC/processChain</a>         - PROCESSCHAIN: Get the statisticts of the MCMC Chain
+%   <a href="matlab:help MCMC/setInputs">MCMC/setInputs</a>            - (No help available)
+%   <a href="matlab:help MCMC/setModel">MCMC/setModel</a>             -  Set the model of the investigation.
+%   <a href="matlab:help MCMC/setNoise">MCMC/setNoise</a>             -  Set the measured noise of the experiment.
+%   <a href="matlab:help MCMC/simplex">MCMC/simplex</a>              -  Multidimensional unconstrained nonlinear minimization (Nelder-Mead)
+%   <a href="matlab:help MCMC/updateFIM">MCMC/updateFIM</a>            - --------------------------------------------------------------------------

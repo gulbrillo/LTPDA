@@ -1,0 +1,8 @@
+digraph G {
+  rankdir=LR
+  node0 [shape=box, label="White noise"]
+  node1 [shape=box, label="PSD"] 
+  node2 [shape=box, label="Sqrt"]
+  node3 [shape=box, label="Plot"] 
+  node0 -> node1 -> node2 -> node3
+}

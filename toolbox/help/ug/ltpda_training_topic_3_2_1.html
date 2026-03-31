@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Example 1: Simply PSD (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_topic_3_2.html"><img src="b_prev.gif" border="0" align="bottom" alt="Power Spectral Density estimation"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_topic_3_2_2.html"><img src="b_next.gif" border="0" align="bottom" alt="Example 2: Windowing data"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Example 1: Simply PSD</h1>
+    <hr>
+    
+    <p>
+      <p>The idea of the first exercise is the following:
+  <ol>
+    <li>simulate a time-series of white noise data</li>
+    <li>evaluate the Power Spectrum of the data</li>
+    <li>calculate the square root of the calculated power spectrum</li>
+    <li>plot the results</li>
+  </ol>
+  In a flow diagram, the representation is as follows:
+</p>
+<br>
+<br>
+<img src="images/ltpda_training_1/topic3/PSD_1_flowchart.png" alt="Dataflow for the 1st example of ao/psd" width="600px" border="1">
+<br>
+<br>
+<h2>Simulate a time-series of white noise data</h2>
+<p>
+  There are many different ways to simulate a white noise time series data. Here we choose a pretty powerful one: 
+  the "From Waveform" AO constructor.
+</p>
+<p>
+  Let's start building a plist to tune the parameters of the <tt>ao</tt> constructor: among the available constructor methods,
+  we choose the noise generator via the key <tt>WAVEFORM</tt> assigning the value "noise". Then let's make the time series last longer by setting the number of seconds (<tt>nsecs</tt>)
+  to 1000.
+  <div class="fragment"><pre>
+    pl_noise  = plist(<span class="string">'waveform'</span>, <span class="string">'noise'</span>, <span class="string">'fs'</span>, 1, <span class="string">'nsecs'</span>, 1000);</pre></div>
+  Eventually, we set the units of the noise to be <tt>meters</tt> by selecting means of the plist method <tt>pset</tt>: the "Yunits" parameter
+  and entering <tt>'m'</tt>.
+  <div class="fragment"><pre>
+    pl_noise.pset(<span class="string">'yunits'</span>, <span class="string">'m'</span>);</pre></div>
+To actually build the time-series AO, we then call the <tt>ao</tt> constructor with the plist we just prepared:
+<div class="fragment"><pre>
+    n = ao(pl_noise);</pre></div>
+</p>
+<br>
+<br>
+<h2>Evaluate the Power Spectrum of the data</h2>
+<p>
+  The next step is to choose the parameters for the <tt>psd</tt> method of the <tt>ao</tt> class. In order to know the key name,
+  the description, the default and possible values for the parameters, we can type 
+  <div class="fragment"><pre>
+    help ao/psd</pre></div>
+  and then click the "Parameters Description" link. Let's discuss the parameters and their meaning:
+  <ul>
+    <li><tt>Nfft</tt> allows to choose the number of samples in each periodogram evaluation</li>
+    <li><tt>Win</tt> allows to choose the type of spectral window to be employed to reduce the edge effects at beginning/end of the data sections.</li>
+    <li><tt>Psll</tt> allows to choose the peak-sidelobe level in the case of Kaiser windows.</li>
+    <li><tt>Olap</tt> allows to choose the percentual overlap between subsequent segments</li>
+    <li><tt>Order</tt> allows to choose the degree of detrending applied to each segment prior to windowing</li>
+    <li><tt>Navs</tt> allows to choose the number of averages to perform for each ferquency bin</li>
+    <li><tt>Times</tt> allows to choose a reduced set of the inputs by asking the are within a given time range</li>
+    <li><tt>Scale</tt> allows to choose the quantity to be sent in output (ASD, PSD, AS, PS)</li>
+  </ul>
+</p>
+<p>
+  If the user does not specify any value for the parameters, the routine applies the default values.
+</p>
+<p>
+  In this case, we will use the default parameters:
+  <ul>
+    <li><tt>Nfft</tt> -1 so to estimate the PSD only on one window, including the whole data set</li>
+    <li><tt>Win</tt> = The value set by the user in the preferences</li>
+    <li><tt>Psll</tt> = 200 in the case of Kaiser window</li>
+    <li><tt>Olap</tt> = -1 so the overlap will be chosen based on the windows properties</li>
+    <li><tt>Order</tt> = 0 so to remove the mean value from the data before applying the window</li>
+    <li><tt>Navs</tt> = -1 so to set the lenght of the window (all data, in this case) rather than asking for a given number of means at each frequency</li>
+    <li><tt>Times</tt> = [] so to analyze all the input data</li>
+    <li><tt>Scale</tt> = 'PSD' so we evaluate the Power Spectral Density [output units] will be [input units]^2 / Hz </li>
+  </ul>
+  In this case, we would not need any specification plist, but let's prepare one. The we can go ahead and do the calculation:
+ <div class="fragment"><pre>
+    pl_psd = plist(<span class="string">'Scale'</span>, <span class="string">'PSD'</span>);
+    s = psd(n, pl_psd);</pre></div>
+</p>
+<br>
+<br> 
+<h2>Extract the square root of the calculated power spectrum</h2>
+
+<p>
+  For this exercise, we proceed by computing the square root of the calculated spectrum.
+  Notice: by default, as described in its help, <tt>ao/sqrt</tt> applied to
+  <tt>fsdata</tt> and <tt>tsdata</tt> objects acts only on the <i>y</i> (dependent) variable.
+  We'll see later that is possible to choose different outputs for the <tt>ao/psd</tt> method so as to avoid this step, if we wanted to, by selecting the "Value" <span class="string">'ASD'</span> for the "Key" <span class="string">'Scale'</span>.
+</p>
+<p>
+  For now, let's add the <tt>sqrt</tt> step to the flow by applying it to the output of the
+  <tt>ao/psd</tt> method.
+  <div class="fragment"><pre>
+    a = sqrt(s);</pre></div>
+</p>
+<br>
+<br> 
+<h2>Plot the results</h2>
+<p>
+  What remains is just to plot the calculated square root of the PSD of the input white noise.
+  Just call <tt>ao/iplot</tt>. The output one should be similar to the following:
+</p>
+
+<p>
+  <img src="images/ltpda_training_1/topic3/PSD_1_PSD.png" alt="PSD 1: evaluated PSD" border="1">
+</p>
+<p>Please notice:
+  <ul>
+    <li>The log-log shape of the plot</li>
+    <li>The x-axis units</li>
+    <li>The y-axis units</li>
+    <li>The history steps reported on the legend</li>
+  </ul>
+</p>
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_topic_3_2.html"><img src="b_prev.gif" border="0" align="bottom" alt="Power Spectral Density estimation"></a>&nbsp;</td>
+        <td align="left">Power Spectral Density estimation</td>
+        <td>&nbsp;</td>
+        <td align="right">Example 2: Windowing data</td>
+        <td align="right" width="20"><a href="ltpda_training_topic_3_2_2.html"><img src="b_next.gif" border="0" align="bottom" alt="Example 2: Windowing data"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

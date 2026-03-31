@@ -1,0 +1,13 @@
+pole 10 2
+
+
+
+
+# computing instructions
+
+
+
+
+freq log 1 10k 1000
+
+tfoutput db:deg

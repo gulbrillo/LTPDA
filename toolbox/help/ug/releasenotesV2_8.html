@@ -1,0 +1,209 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Version 2.8 LTPDA Toolbox Software (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="releasenotesV2_9.html"><img src="b_prev.gif" border="0" align="bottom" alt="Version 2.9 LTPDA Toolbox Software"></a>&nbsp;&nbsp;&nbsp;<a href="releasenotesV2_7_1.html"><img src="b_next.gif" border="0" align="bottom" alt="Version 2.7.1 LTPDA Toolbox Software"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Version 2.8 LTPDA Toolbox Software</h1>
+    <hr>
+    
+    <p>
+          
+    <style type="text/css">
+      p { margin-left:30px; }
+      h4 { margin-left:15px; }
+      h5.title {color:#990000; margin-left:20px; margin-top:1ex; margin-bottom:.9ex; font-weight:bold; font-size:2ex}
+    </style>
+    
+    <!-- BEGIN: Content file -->
+
+    <a name="top_of_page"></a>
+    This table summarizes what's new in Version 2.8:
+    <table cellspacing="0" class="body" cellpadding="4" border="2" width="100%">
+      <colgroup>
+        <col width="25%">
+        <col width="25%">
+        <col width="25%">
+        <col width="25%">
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th bgcolor="#B2B2B2" valign="top">New Features and Changes</th>
+          <th bgcolor="#B2B2B2" valign="top">Version Compatibility Considerations</th>
+          <th bgcolor="#B2B2B2" valign="top">Fixed Bugs and Known Problems</th>
+          <th bgcolor="#B2B2B2" valign="top">Related Documentation at Web Site</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#F2F2F2">Yes<br>Details below</td>
+          <td bgcolor="#F2F2F2">No</td>
+          <td bgcolor="#F2F2F2"><a href="https://ed.fbk.eu/ltpda/mantis/login_page.php" target="_top">Bug Reports</a> at Web site</td>
+          <td bgcolor="#F2F2F2">Printable Release Notes: <a href="http://www.lisa.aei-hannover.de/ltpda/downloads/version_28/files/Release_Notes_v2.8.pdf" target="_top">PDF</a></td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <ul>
+      <li><a href="#introduction">Introduction</a></li>
+      <li><a href="#known_issues">Known Issues</a></li>
+      <li><a href="#main_changes">Main Changes</a></li>
+      <ul>
+        <li><a href="#new_methods">New Methods</a></li>
+        <li><a href="#changes_to_methods">Changes to methods</a></li>
+      </ul>
+      <li><a href="#mantis_issues">MANTIS Issues Resolved</a></li>
+      <li><a href="http://www.lisa.aei-hannover.de/ltpda/downloads/version_28/files/Release_Notes_v2.8.pdf">Detailed changes since v2.7.1</a></li>
+    </ul>
+    
+    <!-- HEADLINE: Introduction -->
+    <h3 class="title" id="introduction">Introduction</h3>
+    <p>This version of LTPDA is 2.8. This document lists the changes since V2.7.1.</p>
+    <p><i>This version requires MATLAB 2011a or above.</i></p>
+    
+    <!-- HEADLINE: Known Issues -->
+    <h3 class="title" id="known_issues">Known Issues</h3>
+    <p>On Mac OS X versions which use java 1.7 (on newer versions of MATLAB) there is an issue 
+      with the LTPDAprefs GUI when selecting paths of extension modules. There is a bug in the 
+      underlying java file-chooser widget which means there is an &lsquo;Open&rsquo; button instead of a
+      &lsquo;Choose&rsquo; button. The result is that you can&rsquo;t select a directory but must, instead, select a file
+      (for example the .xml file in the extension) then delete the filename from the path before
+      pressing the + button to add the extension.
+    </p>
+    
+    <!-- HEADLINE: Main Changes -->
+    <h3 class="title" id="main_changes">Main Changes</h3>
+    <p>This version of LTPDA contains many under-the-hood improvements, particularly in the area
+      of speed, and also some changes to the underlying data structures for analysis objects.
+    </p>
+    <p>In addition, a number of deprecated GUI tools (including the workbench) have been removed
+      from this version. These have been unsupported for a few versions now, and continued
+      maintenance is no longer possible. The user manual, and in particular, the training sessions,
+      have been updated to reflect this. Some of the functionality pertaining to the repository
+      interaction, has been grouped together into a single GUI called <b>LTPDARepositoryQuery</b>.
+    </p>
+    
+    
+    <!-- HEADLINE: New Methods -->
+    <h4 class="title" id="new_methods">New Methods</h4> 
+    <ul>
+      <li><b>ao/polyfitSpectrum</b> A new tool which offers an alternative way to fit a smooth model to a spectrum. The method works by fitting a polynomial to the log of the x and y data in the input spectrum.</li>
+      <li><b>timespan/tohtml</b> displays an array of time-span objects in an HTML table.</li>
+      <li>New setter methods for AOs: <b>ao/setEnbw</b>, and <b>ao/setNavs</b>.</li>
+      <li>There is a new AO built-in model for building pulse-trains (<b>help ao_model_pulsetrain</b>).</li>
+      <li><b>ao/edgedetect</b> is a new method which detects edges in a binary pulse train.</li>
+      <li><b>ao/pad</b> allows padding an AO with a particular value.</li>
+      <li><b>ao/cast</b> allows you to cast the values in an AO to another data type.</li>
+      <li><b>matrix/double</b> returns a matrix of doubles created from the internal objects. </li>
+      <li><b>ao/simplifyZunits</b> simplifies the z-units of the AO.</li>
+      <li><b>ao/simplifyXunits</b> simplifies the z-units of the AO.</li>
+      <li><b>timespan/merge</b> can merge multiple timespans into one.</li>
+      <li><b>ao/detectOutliers</b> detects outliers in a time-series.</li>
+    </ul>    
+    
+    <!-- HEADLINE: Changes to methods -->
+    <h4 class="title" id="changes_to_methods">Changes to methods</h4> 
+    <ul>
+      <li><b>ao/iplotyy</b> has been rewritten to allow for many new features, including plotting of multiple objects on each of the two axes.</li>
+      <li>In all AO constructors, you can now specify a 'timespan' plist key, passing a timespan object which will then be used to split the data before returning.</li>
+      <li>Reading from data files with the AO constructor now allows for some header lines to be skipped.</li>
+      <li>AO linear fitting methods have improved error estimates.</li>
+      <li><b>pest/jtable</b> displays the values in the parameter estimate object in a table window.</li>
+      <li><b>pest/table</b> displays a <b>pest</b> object at the MATLAB command prompt.</li>
+      <li>We have new methods to set the marker face and edge colour on all user objects. We also have a method to set if the marker shouldd be filled or not.</li>
+      <li><b>ao/iplot</b> subplots are now linked when zooming.</li>
+      <li><b>ao/dft</b> now estimates errors based on the frequencies surrounding the target frequency.</li>
+    </ul>    
+    
+    <!-- HEADLINE: MANTIS Issues Resolved -->
+    <h3 class="title" id="mantis_issues">MANTIS Issues Resolved</h3>
+    <table cellspacing="0" class="body" cellpadding="4" border="2" width="100%">
+      <thead>
+        <tr valign="top">
+          <th bgcolor="#B2B2B2" valign="top">Issue</th>
+          <th bgcolor="#B2B2B2" valign="top">Type</th>
+          <th bgcolor="#B2B2B2" valign="top">Decription</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>0000748</td><td>Bug Report</td><td>iplot fails for bar plots</td></tr>
+        <tr><td>0000747</td><td>Change Request</td><td>giving a name to a figure</td></tr>
+        <tr><td>0000744</td><td>Change Request</td><td>An option in ao/consolidate not to be truncating to the shortest data set</td></tr>
+        <tr><td>0000737</td><td>Change Request </td><td>skip the printout of the error and units titles when these are empty.</td></tr>
+        <tr><td>0000732</td><td>Change Request</td><td>Giving a 'name' to the window of an iPlot</td></tr>
+        <tr><td>0000731</td><td>Bug Report</td><td>iplot not showing titles in fsdata plot</td></tr>
+        <tr><td>0000727</td><td>Change Request</td><td>A search method for collection objects</td></tr>
+        <tr><td>0000726</td><td>Change Request</td><td>A method to join/merge timespan objects</td></tr>
+        <tr><td>0000722</td><td>Change Request</td><td>toSI converts [Hz] into [s]</td></tr>
+        <tr><td>0000720</td><td>Bug Report</td><td>warnings from bin_data</td></tr>
+        <tr><td>0000719</td><td>Change Request</td><td>Remove unused/old/broken GUIs</td></tr>
+        <tr><td>0000715</td><td>Bug Report</td><td>built-in model information only contains 1st version</td></tr>
+        <tr><td>0000714</td><td>Change Request</td><td>showErrors field in the plotinfo objects is ignored by ao.iplot</td></tr>
+        <tr><td>0000713</td><td>Bug Report</td><td>The plotinfo constructor via plist is incomplete</td></tr>
+        <tr><td>0000708</td><td>Change Request</td><td>iplotyy should accept a parameter to change the axis range</td></tr>
+        <tr><td>0000707</td><td>Bug Report</td><td>iplotyy should accept a vector of two objects</td></tr>
+        <tr><td>0000706</td><td>Change Request</td><td>ao.lincom should be implemented as a wrapper of ao/plus and ao/times</td></tr>
+        <tr><td>0000705</td><td>Bug Report</td><td>Bug division and multiplication uncertainty propagation</td></tr>
+        <tr><td>0000704</td><td>Bug Report</td><td>ao/linfit does overwrites dy in input aos</td></tr>
+        <tr><td>0000703</td><td>Change Request</td><td>Lack of GRS electrostatic built-in model parameters</td></tr>
+        <tr><td>0000702</td><td>Bug Report</td><td>HetSegsFreqs does not fully support heterodyne with cuts</td></tr>
+        <tr><td>0000701</td><td>Bug Report</td><td>Phi torque estimation uses wrong default parameters for stiffness</td></tr>
+        <tr><td>0000700</td><td>Bug Report</td><td>ao/spikecleaning leaves ao one sample short</td></tr>
+        <tr><td>0000699</td><td>Change Request</td><td>addvalue method missing</td></tr>
+        <tr><td>0000698</td><td>Change Request</td><td>An utility to fit spectra with polynomial low</td></tr>
+        <tr><td>0000697</td><td>Bug Report</td><td>Review issue with ao/split</td></tr>
+        <tr><td>0000696</td><td>Change Request</td><td>timespan.toHtml method needed</td></tr>
+        <tr><td>0000695</td><td>Change Request</td><td>ao/split to match AOs</td></tr>
+        <tr><td>0000694</td><td>Change Request</td><td>missing ao/simplifyXunits</td></tr>
+        <tr><td>0000692</td><td>Change Request</td><td>ao class supporting specification via object supporting char</td></tr>
+        <tr><td>0000691</td><td>Change Request</td><td>ao.split should support an array of timespan objects</td></tr>
+        <tr><td>0000688</td><td>Bug Report</td><td>stoc.misc.readExecutedTimeline crashes while reading 20131115_319_executed_timeline.txt</td></tr>
+        <tr><td>0000687</td><td>Bug Report</td><td>heterodyne and pipe.heterodyne show inconsistent behaviour</td></tr>
+        <tr><td>0000684</td><td>Change Request</td><td>Remove LTPDAWorkbench message handling from main toolbox</td></tr>
+        <tr><td>0000683</td><td>Change Request</td><td>utils.const.msg function with no \newline needed</td></tr>
+        <tr><td>0000681</td><td>Bug Report</td><td>parameter list help on plotIntervals do not work</td></tr>
+        <tr><td>0000680</td><td>Change Request</td><td>Improve utils.helper.warn and .err</td></tr>
+        <tr><td>0000678</td><td>Change Request</td><td>ao.linfit could be implemented as a particular case of ao.polynomfit</td></tr>
+        <tr><td>0000677</td><td>Bug Report</td><td>ao.polynomfit errors for the case of no errors provided</td></tr>
+        <tr><td>0000071</td><td>Change Request</td><td>Correct behavior of 'procinfo'</td></tr>
+      </tbody>
+    </table>
+    
+    <!-- END: Content file -->
+    
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="releasenotesV2_9.html"><img src="b_prev.gif" border="0" align="bottom" alt="Version 2.9 LTPDA Toolbox Software"></a>&nbsp;</td>
+        <td align="left">Version 2.9 LTPDA Toolbox Software</td>
+        <td>&nbsp;</td>
+        <td align="right">Version 2.7.1 LTPDA Toolbox Software</td>
+        <td align="right" width="20"><a href="releasenotesV2_7_1.html"><img src="b_next.gif" border="0" align="bottom" alt="Version 2.7.1 LTPDA Toolbox Software"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

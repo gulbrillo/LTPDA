@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Querying the contents of a repository (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="repo_gui_submit.html"><img src="b_prev.gif" border="0" align="bottom" alt="Submitting objects to a repository"></a>&nbsp;&nbsp;&nbsp;<a href="repo_gui_hlq.html"><img src="b_next.gif" border="0" align="bottom" alt="Performing High-Level Queries"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Querying the contents of a repository</h1>
+    <hr>
+    
+    <p>
+      <p>
+  Querying an LTPDA repository is done using standard SQL statements. The repository GUI
+  presents the user with the possibility to graphically build SQL statements which avoids
+  learning SQL syntax. Currently, the SQL statements that can be built in this way are 
+  restricted to queries on a single database table. High-level queries, searching more database tables at once, are implemented in the following panel.
+</p>
+<p>
+  The repository GUI has a query panel which looks like the figure below:
+</p>
+<br>
+<br>
+<img src="images/repo_gui_query_1.png" alt="Repo GUI Query">
+<br>
+<br>
+<p>
+  In this figure, you see that the user has built a query to select all objects 
+  submitted on the 24th February 2008. The results will contain the object id, 
+  the submitted date, the experiment title, the experiment description, and the analysis
+  description. The results will be sorted in descending order of the object id.
+</p>
+<p>
+  Executing the query (click the 'Execute query' button) produces the results table
+  shown below.
+</p>
+<br>
+<br>
+<img src="images/repo_gui_query_2.png" alt="Repo GUI Query Results">
+<br>
+<br>
+<p>
+  The query string that is actually executed is presented in the text edit
+  box above the 'Execute query' button. This query string can be edited to allow for finer
+  control over the query. This is meant for users who already have a working knowledge of MySQL 
+  SQL syntax.
+</p>
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="repo_gui_submit.html"><img src="b_prev.gif" border="0" align="bottom" alt="Submitting objects to a repository"></a>&nbsp;</td>
+        <td align="left">Submitting objects to a repository</td>
+        <td>&nbsp;</td>
+        <td align="right">Performing High-Level Queries</td>
+        <td align="right" width="20"><a href="repo_gui_hlq.html"><img src="b_next.gif" border="0" align="bottom" alt="Performing High-Level Queries"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

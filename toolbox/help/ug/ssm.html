@@ -1,0 +1,686 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Statespace models (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="smodel_introduction.html"><img src="b_prev.gif" border="0" align="bottom" alt="Introduction to parametric models in LTPDA"></a>&nbsp;&nbsp;&nbsp;<a href="ssm_introduction.html"><img src="b_next.gif" border="0" align="bottom" alt="Introduction to Statespace Models with LTPDA"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Statespace models</h1>
+    <hr>
+    
+    <p>
+      <P>
+	<H2>Why use state space modeling?</H2>
+	<P>State space modeling is efficient to simulate systems with large
+	dimensionality, be it in terms of inputs, outputs, or pole/zeros.
+	Adding nonlinearities to a model is also easier as in the frequency
+	domain, however there is no such capability in the toolbox yet.
+	Another reason to use them is to build complex parametric models,
+	where intricated parameters make impossible the symbolic calculation
+	of the transfer function coefficients &ndash; as a matter of fact
+	the transfer function can be computed out of a determinant involving
+	the A matrix, explaining the complexity of the calculation.</P>
+	<P>For tasks such as identification, state space modeling is
+	computationally rather heavy, especially if colored noise is
+	involved in the process.</P>
+	<P>State space models can be converted into a matrix of transfer
+	function in the s- or the z-domain. The functions in the toolbox
+	that enable this are ss2pzmodel, ss2miir, ss2rational.</P>
+	<H2>Generalities on State Space Modeling</H2>
+	<P><FONT COLOR="#000000">In order to familiarize with state space
+	modeling, this help page is a mere copy of the <A HREF="http://en.wikipedia.org/wiki/State_space_representation">Wiki page</A> .</FONT></P>
+	<P><FONT COLOR="#000000">In control engineering, a </FONT><FONT COLOR="#000000"><B>state
+	space representation</B></FONT><FONT COLOR="#000000"> is a
+	mathematical model of a physical system as a set of input, output
+	and state variables related by first-order <A HREF="http://en.wikipedia.org/wiki/Differential_equation">differential
+	equations</A>. To abstract from the number of inputs, outputs </FONT>and<FONT COLOR="#000000">
+	states, the variables are expressed as vectors and the differential
+	and algebraic equations are written in matrix form (the last one can
+	be done when the <A HREF="http://en.wikipedia.org/wiki/Dynamical_system">dynamical
+	system</A> is linear and time invariant). The state space
+	representation (also known as the &quot;time-domain approach&quot;)
+	provides a convenient and compact way to model and analyze systems
+	with multiple inputs and outputs. With </FONT><FONT COLOR="#000000"><I>p</I></FONT><FONT COLOR="#000000">
+	inputs and </FONT><FONT COLOR="#000000"><I>q</I></FONT><FONT COLOR="#000000">
+	outputs, we would otherwise have to write down <A HREF="http://en.wikipedia.org/wiki/Laplace_transform">Laplace
+	transforms</A> to encode all the information about a system. Unlike
+	the frequency domain approach, the use of the state space
+	representation is not limited to systems with linear components and
+	zero initial conditions. &quot;State space&quot; refers to the space
+	whose axes are the state variables. The state of the system can be
+	represented as a vector within that space.</FONT></P>
+	<H2><FONT COLOR="#000000">State variables</FONT></H2>
+	<H2><FONT COLOR="#000080"><A HREF="http://en.wikipedia.org/wiki/File:Typical_State_Space_model.png"><FONT COLOR="#000080"><IMG SRC="images/State_space_fichiers/Typical_State_Space_model.png" NAME="images3" ALIGN=BOTTOM WIDTH=382 HEIGHT=154 BORDER=1></FONT></A></FONT><FONT COLOR="#000000">
+	</FONT>
+	</H2>
+	<P>Typical state space model</P>
+	<P><FONT COLOR="#000000">The internal <A HREF="http://en.wikipedia.org/wiki/State_variable">state
+	variables</A> are the smallest possible subset of system variables
+	that can represent the entire state of the system at any given time.
+	State variables must be linearly independent; a state variable
+	cannot be a linear combination of other state variables. The minimum
+	number of state variables required to represent a given system, </FONT><FONT COLOR="#000000"><I>n</I></FONT><FONT COLOR="#000000">,
+	is usually equal to the order of the system's defining differential
+	equation. If the system is represented in transfer function form,
+	the minimum number of state variables is equal to the order of the
+	transfer function's denominator after it has been reduced to a
+	proper fraction. It is important to understand that converting a
+	state space realization to a transfer function form may lose some
+	internal information about the system, and may provide a description
+	of a system which is stable, when the state-space realization is
+	unstable at certain points. In electric circuits, the number of
+	state variables is often, though not always, the same as the number
+	of energy storage elements in the circuit such as <A HREF="http://en.wikipedia.org/wiki/Capacitor">capacitors</A>
+	and <A HREF="http://en.wikipedia.org/wiki/Inductor">inductors</A>.</FONT></P>
+	<H2><FONT COLOR="#000000">Linear systems</FONT></H2>
+	<P>The most general state-space representation of a linear system
+	with <I>p</I> inputs, <I>q</I> outputs and <I>n</I> state variables
+	is written in the following form:</P>
+	<P><IMG SRC="images/State_space_fichiers/036212a5fe0e6fded881a8f2d536cbb1.png" NAME="images4" ALT="\dot{\mathbf{x}}(t) = A(t) \mathbf{x}(t) + B(t) \mathbf{u}(t)" ALIGN=BOTTOM WIDTH=227 HEIGHT=21 BORDER=0>
+		</P>
+	<P><IMG SRC="images/State_space_fichiers/1d1151bf91e0a3f42167568730cead9f.png" NAME="images5" ALT="\mathbf{y}(t) = C(t) \mathbf{x}(t) + D(t) \mathbf{u}(t)" ALIGN=BOTTOM WIDTH=229 HEIGHT=21 BORDER=0>
+		</P>
+	<P>where:</P>
+	<UL>
+		<LI><P><IMG SRC="images/State_space_fichiers/0b46dcfa3789d90891d7d22aa4bf1b83.png" NAME="images6" ALT="x(\cdot)" ALIGN=BOTTOM WIDTH=31 HEIGHT=21 BORDER=0>
+		is called the &quot;state vector&quot;,&nbsp; 
+		<IMG SRC="images/State_space_fichiers/76bfa39f75341b43cc349cbf72261ac6.png" NAME="images7" ALT="x(t) \in \mathbb{R}^n" ALIGN=BOTTOM WIDTH=80 HEIGHT=21 BORDER=0>;
+				</P>
+		<LI><P><IMG SRC="images/State_space_fichiers/89df6576cd198dc2449bf59e97a61df3.png" NAME="images8" ALT="y(\cdot)" ALIGN=BOTTOM WIDTH=30 HEIGHT=21 BORDER=0>
+		is called the &quot;output vector&quot;,&nbsp; 
+		<IMG SRC="images/State_space_fichiers/592f30a36abb23d30f67aeac77f10a63.png" NAME="images9" ALT="y(t) \in \mathbb{R}^q" ALIGN=BOTTOM WIDTH=78 HEIGHT=21 BORDER=0>;
+				</P>
+		<LI><P><IMG SRC="images/State_space_fichiers/918aa6368974b6014859c56e1ef6762c.png" NAME="images10" ALT="u(\cdot)" ALIGN=BOTTOM WIDTH=31 HEIGHT=21 BORDER=0>
+		is called the &quot;input (or control) vector&quot;,&nbsp; 
+		<IMG SRC="images/State_space_fichiers/09a537199dfe82dc35d0050c72850b4c.png" NAME="images11" ALT="u(t) \in \mathbb{R}^p" ALIGN=BOTTOM WIDTH=78 HEIGHT=21 BORDER=0>;
+				</P>
+		<LI><P><IMG SRC="images/State_space_fichiers/b53a04dbe423d4e39eaedadf54e3ee31.png" NAME="images12" ALT="A(\cdot)" ALIGN=BOTTOM WIDTH=35 HEIGHT=21 BORDER=0>
+		is the &quot;state matrix&quot;,&nbsp; 
+		<IMG SRC="images/State_space_fichiers/d67f69962a6411d08f1ba642d8c75617.png" NAME="images13" ALT="\operatorname{dim}[A(\cdot)] = n \times n" ALIGN=BOTTOM WIDTH=153 HEIGHT=21 BORDER=0>,
+				</P>
+		<LI><P><IMG SRC="images/State_space_fichiers/8f528e3252e95ac5edef108971a1d43f.png" NAME="images14" ALT="B(\cdot)" ALIGN=BOTTOM WIDTH=36 HEIGHT=21 BORDER=0>
+		is the &quot;input matrix&quot;,&nbsp; 
+		<IMG SRC="images/State_space_fichiers/a4d9e024860226d6ad283d1d217f1c31.png" NAME="images15" ALT="\operatorname{dim}[B(\cdot)] = n \times p" ALIGN=BOTTOM WIDTH=152 HEIGHT=21 BORDER=0>,
+				</P>
+		<LI><P><IMG SRC="images/State_space_fichiers/d4d99b70fae67ddcd7923dbe5dbb6424.png" NAME="images16" ALT="C(\cdot)" ALIGN=BOTTOM WIDTH=34 HEIGHT=21 BORDER=0>
+		is the &quot;output matrix&quot;,&nbsp; 
+		<IMG SRC="images/State_space_fichiers/452963fb0f31641c763dab57d77f6d15.png" NAME="images17" ALT="\operatorname{dim}[C(\cdot)] = q \times n" ALIGN=BOTTOM WIDTH=151 HEIGHT=21 BORDER=0>,
+				</P>
+		<LI><P><IMG SRC="images/State_space_fichiers/9828f5f36ec8af68cc289bbf41a2c751.png" NAME="images18" ALT="D(\cdot)" ALIGN=BOTTOM WIDTH=37 HEIGHT=21 BORDER=0>
+		is the &quot;feedthrough (or feedforward) matrix&quot; (in cases
+		where the system model does not have a direct feedthrough, 
+		<IMG SRC="images/State_space_fichiers/9828f5f36ec8af68cc289bbf41a2c751.png" NAME="images19" ALT="D(\cdot)" ALIGN=BOTTOM WIDTH=37 HEIGHT=21 BORDER=0>
+		is the zero matrix),&nbsp; 
+		<IMG SRC="images/State_space_fichiers/5b6e715515525947881d6fb6ea56fb15.png" NAME="images20" ALT="\operatorname{dim}[D(\cdot)] = q \times p" ALIGN=BOTTOM WIDTH=151 HEIGHT=21 BORDER=0>,
+				</P>
+		<LI><P><IMG SRC="images/State_space_fichiers/b6b4d433fef1cae095423823ab60d1e5.png" NAME="images21" ALT="\dot{\mathbf{x}}(t) := \frac{\operatorname{d}}{\operatorname{d}t} \mathbf{x}(t)" ALIGN=BOTTOM WIDTH=120 HEIGHT=42 BORDER=0>.
+				</P>
+	</UL>
+	<P><FONT COLOR="#000000">In this general formulation, all matrices
+	are allowed to be time-variant (i.e., their elements can depend on
+	time); however, in the common <A HREF="http://en.wikipedia.org/wiki/LTI_system">LTI</A>
+	case, matrices will be time invariant. The time variable </FONT><FONT COLOR="#000000"><I>t</I></FONT><FONT COLOR="#000000">
+	can be a &quot;continuous&quot; (e.g., 
+	<IMG SRC="images/State_space_fichiers/6080cfaa75ff6363d282e29a14b46632.png" NAME="images22" ALT="t \in \mathbb{R}" ALIGN=BOTTOM WIDTH=45 HEIGHT=15 BORDER=0>)
+	or discrete (e.g., 
+	<IMG SRC="images/State_space_fichiers/d3bd3b5e80beacc6f4a28dacabf2c0c5.png" NAME="images23" ALT="t \in \mathbb{Z}" ALIGN=BOTTOM WIDTH=45 HEIGHT=15 BORDER=0>).
+	In the latter case, the time variable is usually indicated as </FONT><FONT COLOR="#000000"><I>k</I></FONT><FONT COLOR="#000000">.
+	<A HREF="http://en.wikipedia.org/wiki/Hybrid_system">Hybrid systems</A>
+	allow for time domains that have both continuous and discrete parts.
+	Depending on the assumptions taken, the state-space model
+	representation can assume the following forms:</FONT></P>
+	<TABLE DIR="LTR" CELLPADDING=4 CELLSPACING=2>
+		<TR VALIGN=TOP>
+			<TD>
+				<P><B>System type</B></P>
+			</TD>
+			<TD>
+				<P><B>State-space model</B></P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD>
+				<P>Continuous time-invariant</P>
+			</TD>
+			<TD>
+				<P><IMG SRC="images/State_space_fichiers/ddfd74546a0e35f9ec054af2ecd3f2fa.png" NAME="images24" ALT="\dot{\mathbf{x}}(t) = A \mathbf{x}(t) + B \mathbf{u}(t)" ALIGN=BOTTOM WIDTH=182 HEIGHT=21 BORDER=0><BR><IMG SRC="images/State_space_fichiers/d0ac09f5cde2ce822ecc3e369692d04b.png" NAME="images25" ALT="\mathbf{y}(t) = C \mathbf{x}(t) + D \mathbf{u}(t)" ALIGN=BOTTOM WIDTH=184 HEIGHT=21 BORDER=0></P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD>
+				<P>Continuous time-variant</P>
+			</TD>
+			<TD>
+				<P><IMG SRC="images/State_space_fichiers/95f05c22aefb06c919d8fb5ce8b26689.png" NAME="images26" ALT="\dot{\mathbf{x}}(t) = \mathbf{A}(t) \mathbf{x}(t) + \mathbf{B}(t) \mathbf{u}(t)" ALIGN=BOTTOM WIDTH=230 HEIGHT=21 BORDER=0><BR><IMG SRC="images/State_space_fichiers/b2f523062e3020870da5e52c293a6a49.png" NAME="images27" ALT="\mathbf{y}(t) = \mathbf{C}(t) \mathbf{x}(t) + \mathbf{D}(t) \mathbf{u}(t)" ALIGN=BOTTOM WIDTH=230 HEIGHT=21 BORDER=0></P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD>
+				<P>Discrete time-invariant</P>
+			</TD>
+			<TD>
+				<P><IMG SRC="images/State_space_fichiers/ab56c0fbbdf9445c187021a5df2553fa.png" NAME="images28" ALT="\mathbf{x}(k+1) = A \mathbf{x}(k) + B \mathbf{u}(k)" ALIGN=BOTTOM WIDTH=227 HEIGHT=21 BORDER=0><BR><IMG SRC="images/State_space_fichiers/7da081c23726f8324878080112ec1af3.png" NAME="images29" ALT="\mathbf{y}(k) = C \mathbf{x}(k) + D \mathbf{u}(k)" ALIGN=BOTTOM WIDTH=195 HEIGHT=21 BORDER=0></P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD>
+				<P>Discrete time-variant</P>
+			</TD>
+			<TD>
+				<P><IMG SRC="images/State_space_fichiers/9fae6c7e6be7c79bde9cff343e96e853.png" NAME="images30" ALT="\mathbf{x}(k+1) = \mathbf{A}(k) \mathbf{x}(k) + \mathbf{B}(k) \mathbf{u}(k)" ALIGN=BOTTOM WIDTH=281 HEIGHT=21 BORDER=0><BR><IMG SRC="images/State_space_fichiers/693a070bff55c952ca4b781867656bcf.png" NAME="images31" ALT="\mathbf{y}(k) = \mathbf{C}(k) \mathbf{x}(k) + \mathbf{D}(k) \mathbf{u}(k)" ALIGN=BOTTOM WIDTH=248 HEIGHT=21 BORDER=0></P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD>
+				<P>Laplace domain of<BR>continuous time-invariant</P>
+			</TD>
+			<TD>
+				<P><IMG SRC="images/State_space_fichiers/73704ff87694600b875bcdbe9dd47f82.png" NAME="images32" ALT="s \mathbf{X}(s) = A \mathbf{X}(s) + B \mathbf{U}(s)" ALIGN=BOTTOM WIDTH=211 HEIGHT=21 BORDER=0><BR><IMG SRC="images/State_space_fichiers/b4edd4ea37a52ac0cfb97ef2cf8b6166.png" NAME="images33" ALT="\mathbf{Y}(s) = C \mathbf{X}(s) + D \mathbf{U}(s)" ALIGN=BOTTOM WIDTH=206 HEIGHT=21 BORDER=0></P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TD>
+				<P>Z-domain of<BR>discrete time-invariant</P>
+			</TD>
+			<TD>
+				<P><IMG SRC="images/State_space_fichiers/f40fb3cdcef75a4ffb787848e34f1a5d.png" NAME="images34" ALT="z \mathbf{X}(z) = A \mathbf{X}(z) + B \mathbf{U}(z)" ALIGN=BOTTOM WIDTH=216 HEIGHT=21 BORDER=0><BR><IMG SRC="images/State_space_fichiers/db506ab5a492b5f2ce0d1645db661c8e.png" NAME="images35" ALT="\mathbf{Y}(z) = C \mathbf{X}(z) + D \mathbf{U}(z)" ALIGN=BOTTOM WIDTH=208 HEIGHT=21 BORDER=0></P>
+			</TD>
+		</TR>
+	</TABLE>
+	<P><FONT COLOR="#000000">Example: Continuous-time LTI case</FONT> 
+	</P>
+	<P><FONT COLOR="#000000">Stability and natural response
+	characteristics of a continuous-time <A HREF="http://en.wikipedia.org/wiki/LTI_system">LTI
+	system</A> (i.e., linear with matrices that are constant with
+	respect to time) can be studied from the <A HREF="http://en.wikipedia.org/wiki/Eigenvalue">eigenvalues</A>
+	of the matrix </FONT><FONT COLOR="#000000"><B>A</B></FONT><FONT COLOR="#000000">.
+	The stability of a time-invariant state-space model can be
+	determined by looking at the system's <A HREF="http://en.wikipedia.org/wiki/Transfer_function">transfer
+	function</A> in factored form. It will then look something like
+	this:</FONT></P>
+	<DL>
+		<DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/3fa715cc96511bc510aabcb71c1f2781.png" NAME="images36" ALT=" \textbf{G}(s) = k \frac{ (s - z_{1})(s - z_{2})(s - z_{3})                              }{ (s - p_{1})(s - p_{2})(s - p_{3})(s - p_{4})                                }" ALIGN=BOTTOM WIDTH=346 HEIGHT=48 BORDER=0>
+				</DD></DL>
+	<P>
+	<FONT COLOR="#000000">The denominator of the transfer function is
+	equal to the <A HREF="http://en.wikipedia.org/wiki/Characteristic_polynomial">characteristic
+	polynomial</A> found by taking the <A HREF="http://en.wikipedia.org/wiki/Determinant">determinant</A>
+	of </FONT><FONT COLOR="#000000"><I>sI</I></FONT><FONT COLOR="#000000">
+	&minus; </FONT><FONT COLOR="#000000"><I>A</I></FONT><FONT COLOR="#000000">,</FONT></P>
+	<DL>
+		<DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/05e74baab950e092f7ef8acbf4654c84.png" NAME="images37" ALT="\mathbf{\lambda}(s) = |sI - A|" ALIGN=BOTTOM WIDTH=129 HEIGHT=21 BORDER=0>.
+				</DD></DL>
+	<P>
+	<FONT COLOR="#000000">The roots of this polynomial (the <A HREF="http://en.wikipedia.org/wiki/Eigenvalue">eigenvalues</A>)
+	are the system transfer function's <A HREF="http://en.wikipedia.org/wiki/Complex_pole">poles</A>
+	(i.e., the <A HREF="http://en.wikipedia.org/wiki/Singularity">singularities</A>
+	where the transfer function's magnitude is unbounded). These poles
+	can be used to analyze whether the system is <A HREF="http://en.wikipedia.org/wiki/Exponential_stability">asymptotically
+	stable</A> or <A HREF="http://en.wikipedia.org/wiki/Marginal_stability">marginally
+	stable</A>. An alternative approach to determining stability, which
+	does not involve calculating eigenvalues, is to analyze the system's
+	<A HREF="http://en.wikipedia.org/wiki/Lyapunov_stability">Lyapunov
+	stability</A>.</FONT></P>
+	<P><FONT COLOR="#000000">The zeros found in the numerator of 
+	<IMG SRC="images/State_space_fichiers/e75eebaaa95472ea1407f43448f37ab8.png" NAME="images38" ALT="\textbf{G}(s)" ALIGN=BOTTOM WIDTH=39 HEIGHT=21 BORDER=0>
+	can similarly be used to determine whether the system is <A HREF="http://en.wikipedia.org/wiki/Minimum_phase">minimum
+	phase</A>.</FONT></P>
+	<P><FONT COLOR="#000000">The system may still be </FONT><FONT COLOR="#000000"><B>input&ndash;output
+	stable</B></FONT><FONT COLOR="#000000"> (see <A HREF="http://en.wikipedia.org/wiki/BIBO_stability">BIBO
+	stable</A>) even though it is not internally stable. This may be the
+	case if unstable poles are canceled out by zeros (i.e., if those
+	singularities in the transfer function are <A HREF="http://en.wikipedia.org/wiki/Removable_singularity">removable</A>).</FONT></P>
+	<H3 STYLE="border: none; padding: 0cm"><FONT COLOR="#000000">Controllability</FONT></H3>
+	<P><FONT COLOR="#000000">Main article: <A HREF="http://en.wikipedia.org/wiki/Controllability">Controllability</A></FONT></P>
+	<P><FONT COLOR="#000000">Thus, state controllability condition
+	implies that it is possible&nbsp;&ndash; by admissible inputs&nbsp;&ndash;
+	to steer the states from any initial value to any final value within
+	some finite time window. A continuous time-invariant linear
+	state-space model is </FONT><FONT COLOR="#000000"><B>controllable</B></FONT><FONT COLOR="#000000">
+	<A HREF="http://en.wikipedia.org/wiki/Iff">if and only if</A></FONT></P>
+	<DL>
+		<DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/43a31067bb4883d16e9670dee45cafa6.png" NAME="images39" ALT="\operatorname{rank}\begin{bmatrix}B&amp; AB&amp; A^{2}B&amp; ...&amp; A^{n-1}B\end{bmatrix} = n" ALIGN=BOTTOM WIDTH=319 HEIGHT=24 BORDER=0>
+				</DD></DL>
+	<H3 STYLE="border: none; padding: 0cm">
+	<FONT COLOR="#000000">Observability</FONT></H3>
+	<P><FONT COLOR="#000000">Main article: <A HREF="http://en.wikipedia.org/wiki/Observability">Observability</A></FONT></P>
+	<P>Observability is a measure for how well internal states of a
+	system can be inferred by knowledge of its external outputs. The
+	observability and controllability of a system are mathematical duals
+	(i.e., as controllablity provides that an input is available that
+	brings any initial state to any desired final state, observability
+	provides that knowing an output trajectory provides enough
+	information to predict the initial state of the system).</P>
+	<P>A continuous time-invariant linear state-space model is
+	<B>observable</B> if and only if</P>
+	<DL>
+		<DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/0fda525c5450269a5ee9e6a429c318d8.png" NAME="images40" ALT="\operatorname{rank}\begin{bmatrix}C\\ CA\\ ...\\ CA^{n-1}\end{bmatrix} = n" ALIGN=BOTTOM WIDTH=161 HEIGHT=97 BORDER=0>
+				</DD></DL>
+	<P>
+	<FONT COLOR="#000000">(<A HREF="http://en.wikipedia.org/wiki/Rank_%28linear_algebra%29">Rank</A>
+	is the number of linearly independent rows in a matrix.)</FONT></P>
+	<H3 STYLE="border: none; padding: 0cm"><FONT COLOR="#000000">Transfer
+	function</FONT></H3>
+	<P><FONT COLOR="#000000">The &quot;<A HREF="http://en.wikipedia.org/wiki/Transfer_function">transfer
+	function</A>&quot; of a continuous time-invariant linear state-space
+	model can be derived in the following way:</FONT></P>
+	<P><FONT COLOR="#000000">First, taking the <A HREF="http://en.wikipedia.org/wiki/Laplace_transform">Laplace
+	transform</A> of</FONT></P>
+	<DL>
+		<DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/ddfd74546a0e35f9ec054af2ecd3f2fa.png" NAME="images41" ALT="\dot{\mathbf{x}}(t) = A \mathbf{x}(t) + B \mathbf{u}(t)" ALIGN=BOTTOM WIDTH=182 HEIGHT=21 BORDER=0>
+				</DD></DL>
+	<P>
+	yields</P>
+	<DL>
+		<DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/73704ff87694600b875bcdbe9dd47f82.png" NAME="images42" ALT="s\mathbf{X}(s) = A \mathbf{X}(s) + B \mathbf{U}(s)" ALIGN=BOTTOM WIDTH=211 HEIGHT=21 BORDER=0>
+				</DD></DL>
+	<P>
+	Next, we simplify for 
+	<IMG SRC="images/State_space_fichiers/0762e07773e4f1f30137d7915c154851.png" NAME="images43" ALT="\mathbf{X}(s)" ALIGN=BOTTOM WIDTH=40 HEIGHT=21 BORDER=0>,
+	giving</P>
+	<DL>
+		<DD STYLE="margin-left: 0cm; border: none; padding: 0cm"><IMG SRC="images/State_space_fichiers/f28999fa2e82ade6d97d98696ca7ff3a.png" NAME="images44" ALT="(s\mathbf{I} - A)\mathbf{X}(s) = B\mathbf{U}(s)" ALIGN=BOTTOM WIDTH=194 HEIGHT=21 BORDER=0>
+				</DD><DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/5b52cc12764f99ab8e3fcfab7bb54706.png" NAME="images45" ALT="\mathbf{X}(s) = (s\mathbf{I} - A)^{-1}B\mathbf{U}(s)" ALIGN=BOTTOM WIDTH=214 HEIGHT=23 BORDER=0>
+				</DD></DL>
+	<P>
+	this is substituted for 
+	<IMG SRC="images/State_space_fichiers/0762e07773e4f1f30137d7915c154851.png" NAME="images46" ALT="\mathbf{X}(s)" ALIGN=BOTTOM WIDTH=40 HEIGHT=21 BORDER=0>
+	in the output equation</P>
+	<DL>
+		<DD STYLE="margin-left: 0cm; border: none; padding: 0cm"><IMG SRC="images/State_space_fichiers/b4edd4ea37a52ac0cfb97ef2cf8b6166.png" NAME="images47" ALT="\mathbf{Y}(s) = C\mathbf{X}(s) + D\mathbf{U}(s)" ALIGN=BOTTOM WIDTH=206 HEIGHT=21 BORDER=0>,
+		giving 
+		</DD><DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/97826155d4972cbddde77a96957af4b6.png" NAME="images48" ALT="\mathbf{Y}(s) = C((s\mathbf{I} - A)^{-1}B\mathbf{U}(s)) + D\mathbf{U}(s)" ALIGN=BOTTOM WIDTH=327 HEIGHT=23 BORDER=0>
+				</DD></DL>
+	<P>
+	<FONT COLOR="#000000">Because the <A HREF="http://en.wikipedia.org/wiki/Transfer_function">transfer
+	function</A> 
+	<IMG SRC="images/State_space_fichiers/046cdad9e9789e63b5196b2be94110e7.png" NAME="images49" ALT="\mathbf{G}(s)" ALIGN=BOTTOM WIDTH=40 HEIGHT=21 BORDER=0>
+	is defined as the ratio of the output to the input of a system, we
+	take</FONT></P>
+	<DL>
+		<DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/64c51e4be94f51d2064e88ccd44c5927.png" NAME="images50" ALT="\mathbf{G}(s) = \mathbf{Y}(s) / \mathbf{U}(s)" ALIGN=BOTTOM WIDTH=159 HEIGHT=21 BORDER=0>
+				</DD></DL>
+	<P>
+	and substitute the previous expression for 
+	<IMG SRC="images/State_space_fichiers/336fec49a4b9e27e1bc99139f4023267.png" NAME="images51" ALT="\mathbf{Y}(s)" ALIGN=BOTTOM WIDTH=40 HEIGHT=21 BORDER=0>
+	with respect to 
+	<IMG SRC="images/State_space_fichiers/3f0af3cafb3dcd9039883b8047986fc2.png" NAME="images52" ALT="\mathbf{U}(s)" ALIGN=BOTTOM WIDTH=40 HEIGHT=21 BORDER=0>,
+	giving</P>
+	<DL>
+		<DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/510b6fe3ab8ef640745bfc65e481fdb6.png" NAME="images53" ALT="\mathbf{G}(s) = C(s\mathbf{I} - A)^{-1}B + D" ALIGN=BOTTOM WIDTH=229 HEIGHT=23 BORDER=0>
+				</DD></DL>
+	<P>
+	Clearly 
+	<IMG SRC="images/State_space_fichiers/046cdad9e9789e63b5196b2be94110e7.png" NAME="images54" ALT="\mathbf{G}(s)" ALIGN=BOTTOM WIDTH=40 HEIGHT=21 BORDER=0>
+	must have <I>q</I> by <I>p</I> dimensionality, and thus has a total
+	of <I>qp</I> elements. So for every input there are <I>q</I>
+	transfer functions with one for each output. This is why the
+	state-space representation can easily be the preferred choice for
+	multiple-input, multiple-output (MIMO) systems.</P>
+	<H3 STYLE="border: none; padding: 0cm"><FONT COLOR="#000000">Canonical
+	realizations</FONT></H3>
+	<P><FONT COLOR="#000000">Any given transfer function which is
+	<A HREF="http://en.wikipedia.org/wiki/Strictly_proper">strictly
+	proper</A> can easily be transferred into state-space by the
+	following approach (this example is for a 4-dimensional,
+	single-input, single-output system)):</FONT></P>
+	<P>Given a transfer function, expand it to reveal all coefficients
+	in both the numerator and denominator. This should result in the
+	following form:</P>
+	<DL>
+		<DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/cc96db353659ef3ff0408ce45112743e.png" NAME="images55" ALT=" \textbf{G}(s) = \frac{n_{1}s^{3} + n_{2}s^{2} + n_{3}s + n_{4}}{s^{4} + d_{1}s^{3} + d_{2}s^{2} + d_{3}s + d_{4}}" ALIGN=BOTTOM WIDTH=298 HEIGHT=47 BORDER=0>.
+				</DD></DL>
+	<P>
+	The coefficients can now be inserted directly into the state-space
+	model by the following approach:</P>
+	<DL>
+		<DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/612dae4aec269355721c7ad6ec438adf.png" NAME="images56" ALT="\dot{\textbf{x}}(t) = \begin{bmatrix}                               -d_{1}&amp; -d_{2}&amp; -d_{3}&amp; -d_{4}\\                                1&amp;      0&amp;      0&amp;      0\\                                0&amp;      1&amp;      0&amp;      0\\                                0&amp;      0&amp;      1&amp;      0                             \end{bmatrix}\textbf{x}(t) +                              \begin{bmatrix} 1\\ 0\\ 0\\ 0\\ \end{bmatrix}\textbf{u}(t)" ALIGN=BOTTOM WIDTH=398 HEIGHT=97 BORDER=0>
+				</DD><DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/b578227cbffe36298e451dddad03316a.png" NAME="images57" ALT=" \textbf{y}(t) = \begin{bmatrix} n_{1}&amp; n_{2}&amp; n_{3}&amp; n_{4} \end{bmatrix}\textbf{x}(t)" ALIGN=BOTTOM WIDTH=238 HEIGHT=25 BORDER=0>.
+				</DD></DL>
+	<P>
+	This state-space realization is called <B>controllable canonical
+	form</B> because the resulting model is guaranteed to be
+	controllable (i.e., because the control enters a chain of
+	integrators, it has the ability to move every state).</P>
+	<P>The transfer function coefficients can also be used to construct
+	another type of canonical form</P>
+	<DL>
+		<DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/48a1d333782665d7903fe3f142cbeed6.png" NAME="images58" ALT="\dot{\textbf{x}}(t) = \begin{bmatrix}                               -d_{1}&amp;   1&amp;  0&amp;  0\\                               -d_{2}&amp;   0&amp;  1&amp;  0\\                               -d_{3}&amp;   0&amp;  0&amp;  1\\                               -d_{4}&amp;   0&amp;  0&amp;  0                             \end{bmatrix}\textbf{x}(t) +                              \begin{bmatrix} n_{1}\\ n_{2}\\ n_{3}\\ n_{4} \end{bmatrix}\textbf{u}(t)" ALIGN=BOTTOM WIDTH=337 HEIGHT=97 BORDER=0>
+				</DD><DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/79354cdcf381d3986dafa970009f10b4.png" NAME="images59" ALT=" \textbf{y}(t) = \begin{bmatrix} 1&amp; 0&amp; 0&amp; 0 \end{bmatrix}\textbf{x}(t)" ALIGN=BOTTOM WIDTH=198 HEIGHT=25 BORDER=0>.
+				</DD></DL>
+	<P>
+	This state-space realization is called <B>observable canonical form</B>
+	because the resulting model is guaranteed to be observable (i.e.,
+	because the output exits from a chain of integrators, every state
+	has an effect on the output).</P>
+	<H3 STYLE="border: none; padding: 0cm"><FONT COLOR="#000000">Proper
+	transfer functions</FONT></H3>
+	<P><FONT COLOR="#000000">Transfer functions which are only <A HREF="http://en.wikipedia.org/wiki/Proper_transfer_function">proper</A>
+	(and not <A HREF="http://en.wikipedia.org/wiki/Strictly_proper">strictly
+	proper</A>) can also be realised quite easily. The trick here is to
+	separate the transfer function into two parts: a strictly proper
+	part and a constant.</FONT></P>
+	<DL>
+		<DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/4634759df4f7389f67ac2d972c937ee6.png" NAME="images60" ALT=" \textbf{G}(s) = \textbf{G}_{SP}(s) + \textbf{G}(\infty)" ALIGN=BOTTOM WIDTH=205 HEIGHT=21 BORDER=0>
+				</DD></DL>
+	<P>
+	The strictly proper transfer function can then be transformed into a
+	canonical state space realization using techniques shown above. The
+	state space realization of the constant is trivially 
+	<IMG SRC="images/State_space_fichiers/f66dfcf330a8db1668e1fefff7ef58bb.png" NAME="images61" ALT="\textbf{y}(t) = \textbf{G}(\infty)\textbf{u}(t)" ALIGN=BOTTOM WIDTH=146 HEIGHT=20 BORDER=0>.
+	Together we then get a state space realization with matrices <I>A</I>,<I>B</I>
+	and <I>C</I> determined by the strictly proper part, and matrix <I>D</I>
+	determined by the constant.</P>
+	<P><BR>Here is an example to clear things up a bit:</P>
+	<DL>
+		<DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/53d2d208c9f9c252174c85b1e0c7bce3.png" NAME="images62" ALT=" \textbf{G}(s) = \frac{s^{2} + 3s + 3}{s^{2} + 2s + 1}                      = \frac{s + 2}{s^{2} + 2s + 1} + 1" ALIGN=BOTTOM WIDTH=322 HEIGHT=45 BORDER=0>
+				</DD></DL>
+	<P>
+	which yields the following controllable realization</P>
+	<DL>
+		<DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/d9679b5a5a38271e615b871f76c79c38.png" NAME="images63" ALT="\dot{\textbf{x}}(t) = \begin{bmatrix}                               -2&amp; -1\\                                1&amp;      0\\                             \end{bmatrix}\textbf{x}(t) +                              \begin{bmatrix} 1\\ 0\end{bmatrix}\textbf{u}(t)" ALIGN=BOTTOM WIDTH=270 HEIGHT=48 BORDER=0>
+				</DD><DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/278467bd0ca464c472b4e47477bdaaa5.png" NAME="images64" ALT=" \textbf{y}(t) = \begin{bmatrix} 1&amp; 2\end{bmatrix}\textbf{x}(t) + \begin{bmatrix} 1\end{bmatrix}\textbf{u}(t)" ALIGN=BOTTOM WIDTH=231 HEIGHT=25 BORDER=0>
+				</DD></DL>
+	<P>
+	Notice how the output also depends directly on the input. This is
+	due to the 
+	<IMG SRC="images/State_space_fichiers/b00b33e9ecc56576da0c0710f7fd548e.png" NAME="images65" ALT="\textbf{G}(\infty)" ALIGN=BOTTOM WIDTH=51 HEIGHT=20 BORDER=0>
+	constant in the transfer function.</P>
+	<H3 STYLE="border: none; padding: 0cm"><FONT COLOR="#000000">Feedback</FONT></H3>
+	<P STYLE="margin-bottom: 0cm; border: none; padding: 0cm"><FONT COLOR="#000080"><A HREF="http://en.wikipedia.org/wiki/File:Typical_State_Space_model_with_feedback.png"><FONT COLOR="#000080"><IMG SRC="images/State_space_fichiers/Typical_State_Space_model_with_feedback.png" NAME="images66" ALIGN=BOTTOM WIDTH=359 HEIGHT=224 BORDER=1></FONT></A></FONT>
+		</P>
+	<P>Typical state space model with feedback</P>
+	<P><FONT COLOR="#000000">A common method for feedback is to multiply
+	the output by a matrix </FONT><FONT COLOR="#000000"><I>K</I></FONT><FONT COLOR="#000000">
+	and setting this as the input to the system: 
+	<IMG SRC="images/State_space_fichiers/3b8be748204028e004ff5140c7ed2e78.png" NAME="images67" ALT="\mathbf{u}(t) = K \mathbf{y}(t)" ALIGN=BOTTOM WIDTH=112 HEIGHT=21 BORDER=0>.
+	Since the values of </FONT><FONT COLOR="#000000"><I>K</I></FONT><FONT COLOR="#000000">
+	are unrestricted the values can easily be negated for <A HREF="http://en.wikipedia.org/wiki/Negative_feedback">negative
+	feedback</A>. The presence of a negative sign (the common notation)
+	is merely a notational one and its absence has no impact on the end
+	results.</FONT></P>
+	<DL>
+		<DD STYLE="margin-left: 0cm; border: none; padding: 0cm"><IMG SRC="images/State_space_fichiers/ddfd74546a0e35f9ec054af2ecd3f2fa.png" NAME="images68" ALT="\dot{\mathbf{x}}(t) = A \mathbf{x}(t) + B \mathbf{u}(t)" ALIGN=BOTTOM WIDTH=182 HEIGHT=21 BORDER=0>
+				</DD><DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/d0ac09f5cde2ce822ecc3e369692d04b.png" NAME="images69" ALT="\mathbf{y}(t) = C \mathbf{x}(t) + D \mathbf{u}(t)" ALIGN=BOTTOM WIDTH=184 HEIGHT=21 BORDER=0>
+				</DD></DL>
+	<P>
+	becomes</P>
+	<DL>
+		<DD STYLE="margin-left: 0cm; border: none; padding: 0cm"><IMG SRC="images/State_space_fichiers/75e73a990aed8d68c4ea0dfe1dc04823.png" NAME="images70" ALT="\dot{\mathbf{x}}(t) = A \mathbf{x}(t) + B K \mathbf{y}(t)" ALIGN=BOTTOM WIDTH=200 HEIGHT=21 BORDER=0>
+				</DD><DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/417f9e2993d831bf2ec0777be3f684d9.png" NAME="images71" ALT="\mathbf{y}(t) = C \mathbf{x}(t) + D K \mathbf{y}(t)" ALIGN=BOTTOM WIDTH=202 HEIGHT=21 BORDER=0>
+				</DD></DL>
+	<P>
+	solving the output equation for 
+	<IMG SRC="images/State_space_fichiers/8bd1b0065e60113616b6750730e820f4.png" NAME="images72" ALT="\mathbf{y}(t)" ALIGN=BOTTOM WIDTH=34 HEIGHT=21 BORDER=0>
+	and substituting in the state equation results in</P>
+	<DL>
+		<DD STYLE="margin-left: 0cm; border: none; padding: 0cm"><IMG SRC="images/State_space_fichiers/57650b1210f16a5bcd9a545c351f0be8.png" NAME="images73" ALT="\dot{\mathbf{x}}(t) = \left(A + B K \left(I - D K\right)^{-1} C \right) \mathbf{x}(t)" ALIGN=BOTTOM WIDTH=312 HEIGHT=26 BORDER=0>
+				</DD><DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/78413a2591cd295ceda503bc6b2ea91b.png" NAME="images74" ALT="\mathbf{y}(t) = \left(I - D K\right)^{-1} C \mathbf{x}(t)" ALIGN=BOTTOM WIDTH=216 HEIGHT=24 BORDER=0>
+				</DD></DL>
+	<P>
+	<FONT COLOR="#000000">The advantage of this is that the <A HREF="http://en.wikipedia.org/wiki/Eigenvalues">eigenvalues</A>
+	of </FONT><FONT COLOR="#000000"><I>A</I></FONT><FONT COLOR="#000000">
+	can be controlled by setting </FONT><FONT COLOR="#000000"><I>K</I></FONT><FONT COLOR="#000000">
+	appropriately through eigendecomposition of 
+	<IMG SRC="images/State_space_fichiers/ff1b77ecd88e145dd3c106bdc6e98811.png" NAME="images75" ALT="\left(A + B K \left(I - D K\right)^{-1} C \right)" ALIGN=BOTTOM WIDTH=212 HEIGHT=30 BORDER=0>.
+	This assumes that the open-loop system is <A HREF="http://en.wikipedia.org/wiki/Controllability">controllable</A>
+	or that the unstable eigenvalues of </FONT><FONT COLOR="#000000"><I>A</I></FONT><FONT COLOR="#000000">
+	can be made stable through appropriate choice of </FONT><FONT COLOR="#000000"><I>K</I></FONT><FONT COLOR="#000000">.</FONT></P>
+	<P>One fairly common simplification to this system is removing <I>D</I>
+	and setting <I>C</I> to identity, which reduces the equations to</P>
+	<DL>
+		<DD STYLE="margin-left: 0cm; border: none; padding: 0cm"><IMG SRC="images/State_space_fichiers/3468897c1e237cff1ab38682f9b78693.png" NAME="images76" ALT="\dot{\mathbf{x}}(t) = \left(A + B K \right) \mathbf{x}(t)" ALIGN=BOTTOM WIDTH=184 HEIGHT=21 BORDER=0>
+				</DD><DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/67a23f55dcbb3f93c3c5c8fc3681952b.png" NAME="images77" ALT="\mathbf{y}(t) = \mathbf{x}(t)" ALIGN=BOTTOM WIDTH=94 HEIGHT=21 BORDER=0>
+				</DD></DL>
+	<P>
+	This reduces the necessary eigendecomposition to just <I>A</I> + <I>BK</I>.</P>
+	<H3 STYLE="border: none; padding: 0cm"><FONT COLOR="#000000">Feedback
+	with setpoint (reference) input</FONT></H3>
+	<P STYLE="margin-bottom: 0cm; border: none; padding: 0cm"><FONT COLOR="#000080"><A HREF="http://en.wikipedia.org/wiki/File:Typical_State_Space_model_with_feedback_and_input.png"><FONT COLOR="#000080"><IMG SRC="images/State_space_fichiers/Typical_State_Space_model_with_feedback_and_input.png" NAME="images78" ALIGN=BOTTOM WIDTH=446 HEIGHT=240 BORDER=1></FONT></A></FONT>
+		</P>
+	<P>Output feedback with set point</P>
+	<P>In addition to feedback, an input, <I>r</I>(<I>t</I>), can be
+	added such that 
+	<IMG SRC="images/State_space_fichiers/c821af7d0e7d7d7b2a163898969ff496.png" NAME="images79" ALT="\mathbf{u}(t) = -K \mathbf{y}(t) + \mathbf{r}(t)" ALIGN=BOTTOM WIDTH=183 HEIGHT=21 BORDER=0>.</P>
+	<DL>
+		<DD STYLE="margin-left: 0cm; border: none; padding: 0cm"><IMG SRC="images/State_space_fichiers/ddfd74546a0e35f9ec054af2ecd3f2fa.png" NAME="images80" ALT="\dot{\mathbf{x}}(t) = A \mathbf{x}(t) + B \mathbf{u}(t)" ALIGN=BOTTOM WIDTH=182 HEIGHT=21 BORDER=0>
+				</DD><DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/d0ac09f5cde2ce822ecc3e369692d04b.png" NAME="images81" ALT="\mathbf{y}(t) = C \mathbf{x}(t) + D \mathbf{u}(t)" ALIGN=BOTTOM WIDTH=184 HEIGHT=21 BORDER=0>
+				</DD></DL>
+	<P>
+	becomes</P>
+	<DL>
+		<DD STYLE="margin-left: 0cm; border: none; padding: 0cm"><IMG SRC="images/State_space_fichiers/3d79549a0fc64810b943e3cb57e13af8.png" NAME="images82" ALT="\dot{\mathbf{x}}(t) = A \mathbf{x}(t) - B K \mathbf{y}(t) + B \mathbf{r}(t)" ALIGN=BOTTOM WIDTH=272 HEIGHT=21 BORDER=0>
+				</DD><DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/798f03a10bb4be76f6abf2ac6910a396.png" NAME="images83" ALT="\mathbf{y}(t) = C \mathbf{x}(t) - D K \mathbf{y}(t) + D \mathbf{r}(t)" ALIGN=BOTTOM WIDTH=274 HEIGHT=21 BORDER=0>
+				</DD></DL>
+	<P>
+	solving the output equation for 
+	<IMG SRC="images/State_space_fichiers/8bd1b0065e60113616b6750730e820f4.png" NAME="images84" ALT="\mathbf{y}(t)" ALIGN=BOTTOM WIDTH=34 HEIGHT=21 BORDER=0>
+	and substituting in the state equation results in</P>
+	<DL>
+		<DD STYLE="margin-left: 0cm; border: none; padding: 0cm"><IMG SRC="images/State_space_fichiers/38d70e22f115d9278eb21de4e4e484e6.png" NAME="images85" ALT="\dot{\mathbf{x}}(t) = \left(A - B K \left(I + D K\right)^{-1} C \right) \mathbf{x}(t) + B \left(I -  K \left(I + D K\right)^{-1}D \right) \mathbf{r}(t)" ALIGN=BOTTOM WIDTH=588 HEIGHT=25 BORDER=0>
+				</DD><DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/37aad76449d0f436741f30b04413c4cd.png" NAME="images86" ALT="\mathbf{y}(t) = \left(I + D K\right)^{-1} C \mathbf{x}(t) + \left(I + D K\right)^{-1} D \mathbf{r}(t)" ALIGN=BOTTOM WIDTH=394 HEIGHT=24 BORDER=0>
+				</DD></DL>
+	<P>
+	One fairly common simplification to this system is removing <I>D</I>,
+	which reduces the equations to</P>
+	<DL>
+		<DD STYLE="margin-left: 0cm; border: none; padding: 0cm"><IMG SRC="images/State_space_fichiers/680eb3b0a3e7da89e78ed453cd1667ad.png" NAME="images87" ALT="\dot{\mathbf{x}}(t) = \left(A - B K C \right) \mathbf{x}(t) + B \mathbf{r}(t)" ALIGN=BOTTOM WIDTH=271 HEIGHT=21 BORDER=0>
+				</DD><DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/2f8e4ed7d6ee668acb3731a715a41e64.png" NAME="images88" ALT="\mathbf{y}(t) = C \mathbf{x}(t)" ALIGN=BOTTOM WIDTH=109 HEIGHT=21 BORDER=0>
+				</DD></DL>
+	<H3 STYLE="border: none; padding: 0cm">
+	<FONT COLOR="#000000">Moving object example</FONT></H3>
+	<P><FONT COLOR="#000000">A classical linear system is that of
+	one-dimensional movement of an object. The <A HREF="http://en.wikipedia.org/wiki/Newton&#39;s_laws_of_motion">Newton's
+	laws of motion</A> for an object moving horizontally on a plane and
+	attached to a wall with a spring</FONT></P>
+	<DL>
+		<DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/4ac69961a4f494cd12470e4005c7b6c9.png" NAME="images89" ALT="m \ddot{y}(t) = u(t) - k_1 \dot{y}(t) - k_2 y(t)" ALIGN=BOTTOM WIDTH=258 HEIGHT=21 BORDER=0>
+				</DD></DL>
+	<P>
+	where</P>
+	<UL>
+		<LI><P STYLE="margin-bottom: 0cm; border: none; padding: 0cm"><I>y</I>(<I>t</I>)
+		is position; 
+		<IMG SRC="images/State_space_fichiers/4721de091b5d15bb9809fa41a5e40db7.png" NAME="images90" ALT="\dot y(t)" ALIGN=BOTTOM WIDTH=32 HEIGHT=21 BORDER=0>
+		is velocity; 
+		<IMG SRC="images/State_space_fichiers/d822334addb31f4d4fe1683e609e2742.png" NAME="images91" ALT="\ddot{y}(t)" ALIGN=BOTTOM WIDTH=32 HEIGHT=21 BORDER=0>
+		is acceleration 
+		</P>
+		<LI><P STYLE="margin-bottom: 0cm; border: none; padding: 0cm"><I>u</I>(<I>t</I>)
+		is an applied force 
+		</P>
+		<LI><P STYLE="margin-bottom: 0cm; border: none; padding: 0cm"><I>k</I><SUB>1</SUB>
+		is the viscous friction coefficient 
+		</P>
+		<LI><P STYLE="margin-bottom: 0cm; border: none; padding: 0cm"><I>k</I><SUB>2</SUB>
+		is the spring constant 
+		</P>
+		<LI><P><I>m</I> is the mass of the object 
+		</P>
+	</UL>
+	<P>The state equation would then become</P>
+	<DL>
+		<DD STYLE="margin-left: 0cm; border: none; padding: 0cm"><IMG SRC="images/State_space_fichiers/c3b6d7d7cd783c7f6a6dd2ff7478f8a0.png" NAME="images92" ALT="\left[ \begin{matrix} \mathbf{\dot{x_1}}(t) \\ \mathbf{\dot{x_2}}(t) \end{matrix} \right] = \left[ \begin{matrix} 0 &amp; 1 \\ -\frac{k_2}{m} &amp; -\frac{k_1}{m} \end{matrix} \right] \left[ \begin{matrix} \mathbf{x_1}(t) \\ \mathbf{x_2}(t) \end{matrix} \right] + \left[ \begin{matrix} 0 \\ \frac{1}{m} \end{matrix} \right] \mathbf{u}(t)" ALIGN=BOTTOM WIDTH=357 HEIGHT=49 BORDER=0>
+				</DD><DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/7771c47e6e2f82d6138ee2e2ec920c7e.png" NAME="images93" ALT="\mathbf{y}(t) = \left[ \begin{matrix} 1 &amp; 0 \end{matrix} \right] \left[ \begin{matrix} \mathbf{x_1}(t) \\ \mathbf{x_2}(t) \end{matrix} \right]" ALIGN=BOTTOM WIDTH=176 HEIGHT=49 BORDER=0>
+				</DD></DL>
+	<P>
+	where</P>
+	<UL>
+		<LI><P STYLE="margin-bottom: 0cm; border: none; padding: 0cm"><I>x</I><SUB>1</SUB>(<I>t</I>)
+		represents the position of the object 
+		</P>
+		<LI><P STYLE="margin-bottom: 0cm; border: none; padding: 0cm"><IMG SRC="images/State_space_fichiers/93381b17950c251e433b768a2e2ba6b3.png" NAME="images94" ALT="x_2(t) = \dot{x_1}(t)" ALIGN=BOTTOM WIDTH=108 HEIGHT=21 BORDER=0>
+		is the velocity of the object 
+		</P>
+		<LI><P STYLE="margin-bottom: 0cm; border: none; padding: 0cm"><IMG SRC="images/State_space_fichiers/08b851e43484faf6400aa16c3632cda5.png" NAME="images95" ALT="\dot{x_2}(t) = \ddot{x_1}(t)" ALIGN=BOTTOM WIDTH=108 HEIGHT=21 BORDER=0>
+		is the acceleration of the object 
+		</P>
+		<LI><P>the output 
+		<IMG SRC="images/State_space_fichiers/8bd1b0065e60113616b6750730e820f4.png" NAME="images96" ALT="\mathbf{y}(t)" ALIGN=BOTTOM WIDTH=34 HEIGHT=21 BORDER=0>
+		is the position of the object 
+		</P>
+	</UL>
+	<P><FONT COLOR="#000000">The <A HREF="http://en.wikipedia.org/wiki/Controllability">controllability</A>
+	test is then</FONT></P>
+	<DL>
+		<DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/1b66d8f8c0227384d70806878463f8ce.png" NAME="images97" ALT="\left[ \begin{matrix} B &amp; AB \end{matrix} \right] = \left[ \begin{matrix} \left[ \begin{matrix} 0 \\ \frac{1}{m} \end{matrix} \right] &amp; \left[ \begin{matrix} 0 &amp; 1 \\ -\frac{k_2}{m} &amp; -\frac{k_1}{m} \end{matrix} \right]   \left[ \begin{matrix} 0 \\ \frac{1}{m} \end{matrix} \right] \end{matrix} \right] = \left[ \begin{matrix} 0 &amp; \frac{1}{m} \\ \frac{1}{m} &amp; \frac{k_1}{m^2} \end{matrix} \right]" ALIGN=BOTTOM WIDTH=422 HEIGHT=49 BORDER=0>
+				</DD></DL>
+	<P>
+	which has full rank for all <I>k</I><SUB>1</SUB> and <I>m</I>.</P>
+	<P><FONT COLOR="#000000">The <A HREF="http://en.wikipedia.org/wiki/Observability">observability</A>
+	test is then</FONT></P>
+	<DL>
+		<DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/05e20d83a2969f3b9e48fef4bacc8d3c.png" NAME="images98" ALT="\left[ \begin{matrix} C \\ CA \end{matrix} \right] = \left[ \begin{matrix} \left[ \begin{matrix} 1 &amp; 0 \end{matrix} \right] \\ \left[ \begin{matrix} 1 &amp; 0 \end{matrix} \right] \left[ \begin{matrix} 0 &amp; 1 \\ -\frac{k_2}{m} &amp; -\frac{k_1}{m} \end{matrix} \right] \end{matrix} \right] = \left[ \begin{matrix} 1 &amp; 0 \\ 0 &amp; 1 \end{matrix} \right]" ALIGN=BOTTOM WIDTH=340 HEIGHT=74 BORDER=0>
+				</DD></DL>
+	<P>
+	which also has full rank. Therefore, this system is both
+	controllable and observable.</P>
+	<H2 STYLE="border: none; padding: 0cm"><FONT COLOR="#000000">Nonlinear
+	systems</FONT></H2>
+	<P>The more general form of a state space model can be written as
+	two functions.</P>
+	<DL>
+		<DD STYLE="margin-left: 0cm; border: none; padding: 0cm"><IMG SRC="images/State_space_fichiers/0902bfc977a4f7f7c7cc8bc54ac93634.png" NAME="images99" ALT="\mathbf{\dot{x}}(t) = \mathbf{f}(t, x(t), u(t))" ALIGN=BOTTOM WIDTH=174 HEIGHT=21 BORDER=0>
+				</DD><DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/f5d907725ffb26ae9fd08b9615298756.png" NAME="images100" ALT="\mathbf{y}(t) = \mathbf{h}(t, x(t), u(t))" ALIGN=BOTTOM WIDTH=178 HEIGHT=21 BORDER=0>
+				</DD></DL>
+	<P>
+	The first is the state equation and the latter is the output
+	equation. If the function 
+	<IMG SRC="images/State_space_fichiers/f6980ec56e3e7fcce7a143b507a53126.png" NAME="images101" ALT="f(\cdot,\cdot,\cdot)" ALIGN=BOTTOM WIDTH=59 HEIGHT=21 BORDER=0>
+	is a linear combination of states and inputs then the equations can
+	be written in matrix notation like above. The <I>u</I>(<I>t</I>)
+	argument to the functions can be dropped if the system is unforced
+	(i.e., it has no inputs).</P>
+	<H3 STYLE="border: none; padding: 0cm"><FONT COLOR="#000000">Pendulum
+	example</FONT></H3>
+	<P><FONT COLOR="#000000">A classic nonlinear system is a simple
+	unforced <A HREF="http://en.wikipedia.org/wiki/Pendulum">pendulum</A></FONT></P>
+	<DL>
+		<DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/7880de515445681f6e12f7c482ddc9ef.png" NAME="images102" ALT="ml\ddot\theta(t)= -mg\sin\theta(t) - kl\dot\theta(t)" ALIGN=BOTTOM WIDTH=258 HEIGHT=25 BORDER=0>
+				</DD></DL>
+	<P>
+	where</P>
+	<UL>
+		<LI><P STYLE="margin-bottom: 0cm; border: none; padding: 0cm">&theta;(<I>t</I>)
+		is the angle of the pendulum with respect to the direction of
+		gravity 
+		</P>
+		<LI><P STYLE="margin-bottom: 0cm; border: none; padding: 0cm"><I>m</I>
+		is the mass of the pendulum (pendulum rod's mass is assumed to be
+		zero) 
+		</P>
+		<LI><P STYLE="margin-bottom: 0cm; border: none; padding: 0cm"><I>g</I>
+		is the gravitational acceleration 
+		</P>
+		<LI><P STYLE="margin-bottom: 0cm; border: none; padding: 0cm"><I>k</I>
+		is coefficient of friction at the pivot point 
+		</P>
+		<LI><P><I>l</I> is the radius of the pendulum (to the center of
+		gravity of the mass <I>m</I>) 
+		</P>
+	</UL>
+	<P>The state equations are then</P>
+	<DL>
+		<DD STYLE="margin-left: 0cm; border: none; padding: 0cm"><IMG SRC="images/State_space_fichiers/0cec7d908b5ca88fb84845636a5aa5b2.png" NAME="images103" ALT="\dot{x_1}(t) = x_2(t)" ALIGN=BOTTOM WIDTH=108 HEIGHT=21 BORDER=0>
+				</DD><DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/66a8c07009561c21dcf5481d01b376f3.png" NAME="images104" ALT="\dot{x_2}(t) = - \frac{g}{l}\sin{x_1}(t) - \frac{k}{m}{x_2}(t)" ALIGN=BOTTOM WIDTH=254 HEIGHT=41 BORDER=0>
+				</DD></DL>
+	<P>
+	where</P>
+	<UL>
+		<LI><P STYLE="margin-bottom: 0cm; border: none; padding: 0cm"><I>x</I><SUB>1</SUB>(<I>t</I>):
+		= &theta;(<I>t</I>) is the angle of the pendulum 
+		</P>
+		<LI><P STYLE="margin-bottom: 0cm; border: none; padding: 0cm"><IMG SRC="images/State_space_fichiers/5cd1da7ba81f4b866e8174ab86e3c5c8.png" NAME="images105" ALT="x_2(t) :=\dot{x_1}(t)" ALIGN=BOTTOM WIDTH=112 HEIGHT=21 BORDER=0>
+		is the rotational velocity of the pendulum 
+		</P>
+		<LI><P><IMG SRC="images/State_space_fichiers/7bbc064941778c6e2e4d88bf4152c728.png" NAME="images106" ALT="\dot{x_2} =\ddot{x_1}" ALIGN=BOTTOM WIDTH=63 HEIGHT=17 BORDER=0>
+		is the rotational acceleration of the pendulum 
+		</P>
+	</UL>
+	<P>Instead, the state equation can be written in the general form</P>
+	<DL>
+		<DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/e0da7bf257cb650885319ce4b5833bd8.png" NAME="images107" ALT="\dot{x}(t) = \left( \begin{matrix} \dot{x_1}(t) \\ \dot{x_2}(t) \end{matrix} \right) = \mathbf{f}(t, x(t)) = \left( \begin{matrix} x_2(t) \\ - \frac{g}{l}\sin{x_1}(t) - \frac{k}{m}{x_2}(t) \end{matrix} \right)." ALIGN=BOTTOM WIDTH=473 HEIGHT=49 BORDER=0>
+				</DD></DL>
+	<P>
+	<FONT COLOR="#000000">The <A HREF="http://en.wikipedia.org/wiki/Mechanical_equilibrium">equilibrium</A>/<A HREF="http://en.wikipedia.org/wiki/Stationary_point">stationary
+	points</A> of a system are when 
+	<IMG SRC="images/State_space_fichiers/4009ed416fcf36f8b7ec3dbabe9fa791.png" NAME="images108" ALT="\dot{x} = 0" ALIGN=BOTTOM WIDTH=46 HEIGHT=15 BORDER=0>
+	and so the equilibrium points of a pendulum are those that satisfy</FONT></P>
+	<DL>
+		<DD STYLE="margin-left: 0cm; margin-bottom: 0.5cm; border: none; padding: 0cm">
+		<IMG SRC="images/State_space_fichiers/f8f06079d8991d2831f60ec5a190f11b.png" NAME="images109" ALT="\left( \begin{matrix} x_1 \\ x_2 \end{matrix} \right) = \left( \begin{matrix} n\pi \\ 0 \end{matrix} \right)" ALIGN=BOTTOM WIDTH=120 HEIGHT=48 BORDER=0>
+				</DD></DL>
+	<P>
+	for integers <I>n</I>.</P>
+</P>
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="smodel_introduction.html"><img src="b_prev.gif" border="0" align="bottom" alt="Introduction to parametric models in LTPDA"></a>&nbsp;</td>
+        <td align="left">Introduction to parametric models in LTPDA</td>
+        <td>&nbsp;</td>
+        <td align="right">Introduction to Statespace Models with LTPDA</td>
+        <td align="right" width="20"><a href="ssm_introduction.html"><img src="b_next.gif" border="0" align="bottom" alt="Introduction to Statespace Models with LTPDA"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

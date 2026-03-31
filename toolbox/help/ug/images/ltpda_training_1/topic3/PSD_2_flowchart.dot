@@ -1,0 +1,31 @@
+digraph G {
+  rankdir=LR
+  node00 [shape=box, label="EGSE FEE x1 data"]
+  node01 [shape=box, label="EGSE FEE x2 data"] 
+  node02 [shape=box, label="EGSE FEE y1 data"]
+  node03 [shape=box, label="EGSE FEE y2 data"] 
+  node04 [shape=box, label="window type"]
+  node05 [shape=box, label="window length"]
+  node06 [shape=box, label="window detrending"]
+  node07 [shape=box, label="window overlap"]
+  node08 [shape=box, label="output type"]
+  node09 [shape=box, label = "window"]
+  node10 [shape=box, label = "psd"]
+  node12 [shape=box, label = "individual plots"]
+
+
+  node04 -> node09 
+  node06 -> node09
+  node07 -> node09  
+
+  node09 -> node10
+  node05 -> node10
+  node00 -> node10
+  node01 -> node10
+  node02 -> node10
+  node03 -> node10
+  node08 -> node10
+
+  node10 -> node12
+
+}

@@ -1,0 +1,423 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Creating Analysis Objects (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ao_intro.html"><img src="b_prev.gif" border="0" align="bottom" alt="Analysis Objects"></a>&nbsp;&nbsp;&nbsp;<a href="ao_save.html"><img src="b_next.gif" border="0" align="bottom" alt="Saving Analysis Objects"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Creating Analysis Objects</h1>
+    <hr>
+    
+    <p>
+      <!-- $Id$ -->
+  <p>Analysis objects can be created in MATLAB in many ways. Apart from being created by the many
+    algorithms in the LTPDA Toolbox, AOs can also be created from initial data or descriptions
+    of data. The various <i>constructors</i>
+    are listed in the function help: <a href="matlab:doc('ao')">ao help</a>.</p>
+
+      <h3 class="title">Examples of creating AOs</h3>
+
+    <p>The following examples show some ways to create Analysis Objects.</p>
+
+    <ul>
+        <li><a href="ao_create.html#text">Creating AOs from text files</a></li>
+        <li><a href="ao_create.html#xml">Creating AOs from XML or MAT files</a></li>
+        <li><a href="ao_create.html#fcn">Creating AOs from MATLAB functions</a></li>
+        <li><a href="ao_create.html#tsfcn">Creating AOs from functions of time</a></li>
+        <li><a href="ao_create.html#window">Creating AOs from window functions</a></li>
+        <li><a href="ao_create.html#waveform">Creating AOs from waveform descriptions</a></li>
+        <li><a href="ao_create.html#pzmodel">Creating AOs from pole zero models</a></li>
+    </ul>
+
+    <hr>
+    <h4 class="title"><a name="text"></a>Creating AOs from text files.</h4>
+
+    <p>Analysis Objects can be created from text files containing ASCII numbers. Files
+        ending in '.txt' or '.dat' will be handled as ASCII file inputs.  The
+    first column is taken to be the amplitude samples. The created AO is of type <tt>cdata</tt>.
+    The following code shows this in action:</p>
+      <div class="fragment"><pre>
+       >>  a = ao(<span class="string">'data.txt'</span>)
+Warning: !!! You haven't defined a data type.
+The output will be an AO with constant data. 
+> In ao.fromDatafile at 75
+  In ltpda_uo.fromFile at 157
+  In ao.ao>ao.ao at 348 
+----------- ao 01: a -----------
+ 
+       name: ''
+       data: 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 ...
+             -------- cdata [vals] ------------
+                  y:  [100x2], double
+                 dy:  [0x0], double
+             yunits:  
+             ----------------------------------
+              
+       hist: ao / ao / 11c33bf1421898d27b94853f646e22673ebc750d
+description: 
+       UUID: 714712ad-dcbf-48dc-b453-124bc401cfc3
+--------------------------------
+    </pre></div>      
+
+    <p>As with most constructor calls, an equivalent action can be achieved using an input
+        <a href="plist_intro.html">Parameter List</a>.</p>
+
+    <div class="fragment"><pre>
+        >> a = ao(plist(<span class="string">'filename'</span>, <span class="string">'data.txt'</span>))
+    </pre></div>
+    <p>A very useful constructor for the user is the following: the
+    first column is taken to be the time instances; the second column is taken to be the amplitude
+    samples. The created AO is of type <tt>tsdata</tt> with the sample rate set by the difference
+    between the time-stamps of the first two samples in the file. The name of the resulting AO is
+    set to the filename (without the file extension). The filename is also stored as a parameter in
+    the history parameter list. In order to obtain this, the <tt>ao</tt> constructor needs to be configured
+    via a <tt>plist</tt>:</p>
+
+    <div class="fragment"><pre>
+        >> a = ao(<span class="string">'data.txt'</span>, plist(<span class="string">'type'</span>, <span class="string">'tsdata'</span>, <span class="string">'columns'</span>, [1 2]))
+----------- ao 01: a -----------
+ 
+       name: ''
+       data: (0,-1.57598732060313) (0.1,1.82575122802555) (0.2,0.204267478815429) (0.3,-1.16339579241533) (0.4,0.120609818645024) ...
+             -------- tsdata [x, y] --------
+              
+                  x:  [100 1], double
+                  y:  [100 1], double
+                 dx:  [0 0], double
+                 dy:  [0 0], double
+             xunits:  [s]
+             yunits:  
+                  fs:  10
+               nsecs:  10
+                  t0:  1970-01-01 00:00:00.000 UTC
+             -------------------------------
+              
+       hist: ao / ao / 11c33bf1421898d27b94853f646e22673ebc750d
+description: 
+       UUID: 467d68e1-0a0a-4f9d-928a-536a74427f31
+--------------------------------
+    </pre></div>
+    <hr>
+    <h4 class="title"><a name="xml"></a>Creating AOs from XML or .mat files</h4>
+
+    <p>AOs can be saved as both XML and .MAT files. As such, they can also be created from these
+        files.</p>
+
+    <div class="fragment"><pre>
+        >> a = ao(<span class="string">'a.xml'</span>)
+        ----------- ao 01: a -----------
+ 
+       name: ''
+       data: (0,-1.57598732060313) (0.1,1.82575122802555) (0.2,0.204267478815429) (0.3,-1.16339579241533) (0.4,0.120609818645024) ...
+             -------- tsdata [x, y] --------
+              
+                  x:  [100 1], double
+                  y:  [100 1], double
+                 dx:  [0 0], double
+                 dy:  [0 0], double
+             xunits:  [s]
+             yunits:  
+                  fs:  10
+               nsecs:  10
+                  t0:  1970-01-01 00:00:00.000 UTC
+             -------------------------------
+              
+       hist: ao / ao / 11c33bf1421898d27b94853f646e22673ebc750d
+description: 
+       UUID: 467d68e1-0a0a-4f9d-928a-536a74427f31
+--------------------------------
+    </pre></div>
+
+    <hr>
+    <h4 class="title"><a name="fcn"></a>Creating AOs from MATLAB functions</h4>
+
+    <p>AOs can be created from any valid MATLAB function which returns a vector or matrix of values.
+        For such calls, a parameter list is used as input. For example, the following code creates
+        an AO containing 1000 random numbers:</p>
+
+    <div class="fragment"><pre>
+        >> a = ao(plist(<span class="string">'fcn'</span>, <span class="string">'randn(1000, 1)'</span>))
+        ----------- ao 01: a -----------
+ 
+       name: ''
+       data: 0.0704977862099333 -1.93302660372422 0.818722013821727 1.26175710906169 1.16734286458427 -0.570329994878025 -0.393897571578092 -1.01743401819165 0.250205871646325 0.252124808964812 ...
+             -------- cdata [vals] ------------
+                  y:  [1000x1], double
+                 dy:  [0x0], double
+             yunits:  
+             ----------------------------------
+              
+       hist: ao / ao / 11c33bf1421898d27b94853f646e22673ebc750d
+description: 
+       UUID: 9744572a-349c-4ed5-bb12-26cee0a2c6c6
+--------------------------------
+    </pre></div>
+  <p>Here you can see that the AO is a <tt>cdata</tt> type.</p>
+   <p>The name of the AOs can be created when building the objects, via the <tt>name</tt> parameter:</p>
+       <div class="fragment"><pre>
+        >> a = ao(plist(<span class="string">'fcn'</span>, <span class="string">'randn(1000, 1)'</span>, <span class="string">'name'</span>, <span class="string">'My data'</span>))
+        ----------- ao 01: My data -----------
+ 
+       name: My data
+       data: -0.00551290141704299 1.20011431909571 -1.03401713888056 -0.847567754466168 0.433422036872966 -0.887523979425756 0.121232620802761 -0.401904890482745 1.09667832321064 0.436674648218274 ...
+             -------- cdata [vals] ------------
+                  y:  [1000x1], double
+                 dy:  [0x0], double
+             yunits:  
+             ----------------------------------
+              
+       hist: ao / ao / 11c33bf1421898d27b94853f646e22673ebc750d
+description: 
+       UUID: 41adbb93-abb9-42bb-843a-62e26d7f3729
+--------------------------------------
+ 
+    </pre></div> 
+
+    <hr>
+    <h4 class="title"><a name="tsfcn"></a>Creating AOs from functions of time</h4>
+
+    <p>AOs can be created from any valid MATLAB function which is a function of the variable
+        <tt>t</tt>. For such calls, a parameter list is used as input. For example, the following
+        code creates an AO containing sinusoidal signal at 1Hz with some additional Gaussian noise:</p>
+
+    <div class="fragment"><pre>
+        pl = plist();
+        pl = append(pl, <span class="string">'nsecs'</span>, 100);
+        pl = append(pl, <span class="string">'fs'</span>, 10);
+        pl = append(pl, <span class="string">'tsfcn'</span>, <span class="string">'sin(2*pi*1*t)+randn(size(t))'</span>);
+        a = ao(pl)
+        ----------- ao 01: a -----------
+ 
+       name: ''
+       data: (0,1.2598690621946) (0.1,-0.518094254597338) (0.2,1.01242966287229) (0.3,2.18175020239501) (0.4,1.13289098425403) ...
+             -------- tsdata [x, y] --------
+              
+                  x:  [1000 1], double
+                  y:  [1000 1], double
+                 dx:  [0 0], double
+                 dy:  [0 0], double
+             xunits:  [s]
+             yunits:  
+                  fs:  10
+               nsecs:  100
+                  t0:  1970-01-01 00:00:00.000 UTC
+             -------------------------------
+              
+       hist: ao / ao / 11c33bf1421898d27b94853f646e22673ebc750d
+description: 
+       UUID: 4d8d5a69-1fd8-4638-8afd-02d1e42cb951
+--------------------------------
+     </pre></div>
+  <p>Here you can see that the AO is a <tt>tsdata</tt> type, as you would expect. Also note that you
+    need to specify the sample rate (<tt>fs</tt>) and the number of seconds of data you would like
+    to have (<tt>nsecs</tt>).</p>
+
+    <hr>
+    <h4 class="title"><a name="window"></a>Creating AOs from window functions</h4>
+
+    <p>The LTPDA Toolbox contains a class for designing spectral windows
+        (see <a href="specwin.html">Spectral Windows</a>). A spectral window object can
+        also be used to create an Analysis Object as follows:</p>
+
+    <div class="fragment"><pre>
+        >> w = specwin(<span class="string">'Hanning'</span>, 1000)
+        ------ specwin/1 -------
+      type: Hanning
+     alpha: 0
+      psll: 31.5
+       rov: 50
+     nenbw: 1.5
+      w3db: 1.4381999999999999
+  flatness: -1.4236
+levelorder: []
+      skip: 0
+       len: 1000
+------------------------
+
+        >> a = ao(w)
+        ----------- ao 01: ao(Hanning) -----------
+ 
+       name: ao(Hanning)
+       data: 0 9.86957193144233e-06 3.94778980919441e-05 8.88238095955174e-05 0.00015790535835003 0.0002467198171342 0.000355263679705398 0.000483532660937647 0.000631521696991266 0.000799224945512489 ...
+             -------- cdata [vals] ------------
+                  y:  [1x1000], double
+                 dy:  [0x0], double
+             yunits:  
+             ----------------------------------
+              
+       hist: ao / ao / 11c33bf1421898d27b94853f646e22673ebc750d
+description: 
+       UUID: 44686f99-9426-43da-8adf-73d092254c05
+------------------------------------------
+    </pre></div>
+    <p>
+      It is also possible to pass the information about the window as a plist to the ao constructor.
+    </p>
+    <div class="fragment"><pre>
+        >> ao(plist(<span class="string">'win'</span>, <span class="string">'Hanning'</span>, <span class="string">'length'</span>, 1000))
+        ----------- ao 01: ao(Hanning) -----------
+ 
+       name: ao(Hanning)
+       data: 0 9.86957193144233e-06 3.94778980919441e-05 8.88238095955174e-05 0.00015790535835003 0.0002467198171342 0.000355263679705398 0.000483532660937647 0.000631521696991266 0.000799224945512489 ...
+             -------- cdata [vals] ------------
+                  y:  [1x1000], double
+                 dy:  [0x0], double
+             yunits:  
+             ----------------------------------
+              
+       hist: ao / ao / 11c33bf1421898d27b94853f646e22673ebc750d
+description: 
+       UUID: 02b145c2-ae2f-40af-a149-53b66ed06d58
+------------------------------------------
+    </pre></div>
+    
+  <p>
+    The example code above creates a Hanning window object with 1000 points. The call to the AO
+    constructor then creates a <tt>cdata</tt> type AO with 1000 points. This AO can then be multiplied
+    against other AOs in order to window the data.
+    </p>
+
+    <hr>
+    <h4 class="title"><a name="waveform"></a>Creating AOs from waveform descriptions</h4>
+
+    <p>
+        MATLAB contains various functions for creating different waveforms, for example,
+        <tt>square</tt>, <tt>sawtooth</tt>. Some of these functions can be called upon to create
+        Analysis Objects. The following code creates an AO with a sawtooth waveform:
+    </p>
+
+    <div class="fragment"><pre>
+        pl = plist();
+        pl = append(pl, <span class="string">'fs'</span>, 100);
+        pl = append(pl, <span class="string">'nsecs'</span>, 5);
+        pl = append(pl, <span class="string">'waveform'</span>, 'Sawtooth');
+        pl = append(pl, <span class="string">'f'</span>, 1);
+        pl = append(pl, <span class="string">'width'</span>, 0.5);
+
+        asaw = ao(pl)
+        ----------- ao 01: Sawtooth -----------
+ 
+       name: Sawtooth
+       data: (0,-1) (0.01,-0.96) (0.02,-0.92) (0.03,-0.88) (0.04,-0.84) ...
+             -------- tsdata [x, y] --------
+              
+                  x:  [1 500], double
+                  y:  [1 500], double
+                 dx:  [0 0], double
+                 dy:  [0 0], double
+             xunits:  [s]
+             yunits:  
+                  fs:  100
+               nsecs:  5
+                  t0:  1970-01-01 00:00:00.000 UTC
+             -------------------------------
+              
+       hist: ao / ao / 11c33bf1421898d27b94853f646e22673ebc750d
+description: 
+       UUID: fd01eb6e-4a93-4c5a-be8b-77efa23da2d1
+---------------------------------------
+   </pre></div>
+  <p>
+    You can call the <tt>iplot</tt> function to view the resulting waveform:
+    </p>
+    <div class="fragment"><pre>
+        iplot(asaw);
+    </pre></div>
+  <img src="images/ao_create_sawtooth.png" alt="Sawtooth waveform" border="3" width="800px">
+
+	<hr>
+  <h4 class="title"><a name="pzmodel"></a>Creating AOs from pole zero models</h4>
+
+  <p>
+      When generating an AO from a pole zero model, the noise generator function is called.
+	  This a method to generate arbitrarily long time series with a prescribed spectral density.
+	  The algorithm is based on the following paper:
+  </p>
+  <p>Franklin, Joel N.:
+<i> Numerical simulation of stationary and non-stationary gaussian
+random processes </i>, SIAM review, Volume {<b> 7</b>}, Issue 1, page 68--80, 1965.
+  </p>
+  <p>
+ 	The Document <i> Generation of Random time series with prescribed spectra </i> by Gerhard Heinzel (S2-AEI-TN-3034) <br> corrects a mistake in the aforesaid paper and describes the practical implementation.
+      The following code creates an AO with a time series having a prescribed spectral density,
+	  defined by the input pole zero model:
+  </p>
+
+  <div class="fragment"><pre>
+	f1    = 5;
+	f2    = 10;
+	f3    = 1;
+	gain  = 1;
+	fs    = 10;  <span class="comment">% sampling frequancy</span>
+	nsecs = 100; <span class="comment">% number of seconds to be generated</span>
+  
+	p = [pz(f1) pz(f2)];
+	z = [pz(f3)];
+	pzm = pzmodel(gain, p, z);
+	a = ao(pzm, nsecs, fs)
+----------- ao 01: noisegen() -----------
+ 
+       name: noisegen()
+       data: (0,-5.76788205447447) (0.1,-2.52555281234382) (0.2,-13.5550152475477) (0.3,-12.3242958095728) (0.4,13.1571973729713) ...
+             -------- tsdata [x, y] --------
+              
+                  x:  [1000 1], double
+                  y:  [1000 1], double
+                 dx:  [0 0], double
+                 dy:  [0 0], double
+             xunits:  [s]
+             yunits:  
+                  fs:  10
+               nsecs:  100
+                  t0:  1970-01-01 00:00:00.000 UTC
+             -------------------------------
+              
+       hist: ao / ao / 11c33bf1421898d27b94853f646e22673ebc750d
+description: 
+       UUID: 40b52491-4880-4dbc-bb48-46202db99475
+-----------------------------------------
+  </pre></div>
+<p>
+  You can call the <tt>iplot</tt> function to view the resulting noise.
+  </p>
+  <div class="fragment"><pre>
+      iplot(a);
+  </pre></div>
+<img src="images/ao_create_noise.png" alt="Random time series" border="3" width="800px">
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ao_intro.html"><img src="b_prev.gif" border="0" align="bottom" alt="Analysis Objects"></a>&nbsp;</td>
+        <td align="left">Analysis Objects</td>
+        <td>&nbsp;</td>
+        <td align="right">Saving Analysis Objects</td>
+        <td align="right" width="20"><a href="ao_save.html"><img src="b_next.gif" border="0" align="bottom" alt="Saving Analysis Objects"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

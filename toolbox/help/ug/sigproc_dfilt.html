@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Digital Filtering (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="sigproc.html"><img src="b_prev.gif" border="0" align="bottom" alt="Signal Processing in LTPDA"></a>&nbsp;&nbsp;&nbsp;<a href="sigproc_iir.html"><img src="b_next.gif" border="0" align="bottom" alt="IIR Filters"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Digital Filtering</h1>
+    <hr>
+    
+    <p>
+      <p>
+  A digital filter is an operation that associates an input time series x[n] into an output one, y[n]. Methods developed in the LTPDA Toolbox deal with linear digital filters, i.e. those which fulfill that a linear combination of inputs results in a linear combination of outputs with the same coefficients (provided that these are not time dependent). In these conditions, the filter can be expressed as
+</p>
+<div align="center">
+<IMG src="images/sigproc_1.png" width="173" height="55" align="center" border="0">
+</div>
+<p>
+described in these terms, the filter is completely described by the impulse response h[k], and can then be subdivided into the following classes: 
+</p>
+
+<ul>
+<li> Causal: if there is no output before input is fed in.
+<div align="center">
+<IMG src="images/sigproc_2.png" width="103" height="28" align="center" border="0">
+</div>
+  </li>
+<li> Stable: if finite input results in finite output.  
+<div align="center">
+<IMG src="images/sigproc_3.png" width="105" height="55" align="center" border="0">
+</div>
+</li>
+<li> Shift invariant: if time shift in the input results in a time shift in the output by the same amount.  
+<div align="center">
+<IMG src="images/sigproc_4.png" width="84" height="28" align="center" border="0">
+</div>
+</li>
+</ul>
+<br>
+<h2><a name="ARMA">Digital filters classification</a></h2>
+<p>
+Digital filters can be described as difference equations. If we consider an input time series x and an output y, three specific cases can then be distinguished:
+</p>
+<ul>
+<li> Autoregressive (AR) process: the difference equation in this case is given by:  
+<div align="center">
+<br>
+<IMG src="images/sigproc_12.png" width="154" height="56" align="center" border="0">
+</div>
+<br>
+AR processes can be also classified as <a href="sigproc_iir.html"> IIR Filters</a>.
+    <br>
+    <br></li>
+<li> Moving Averrage (MA) process:the difference equation in this case is given by: <br>  
+<div align="center">
+<br>
+<IMG src="images/sigproc_11.png" width="156" height="56" align="center" border="0">
+</div>
+<br>
+MA processes can be also classified as <a href="sigproc_fir.html"> FIR Filters</a>.
+    <br>
+    <br></li>
+<li>Autoregressive Moving Average (ARMA) process: the difference equation in this case contains both an AR and a MA process:   
+<div align="center">
+<br>
+<IMG src="images/sigproc_7.png" width="283" height="56" align="center" border="0">
+</div>
+ </li>
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="sigproc.html"><img src="b_prev.gif" border="0" align="bottom" alt="Signal Processing in LTPDA"></a>&nbsp;</td>
+        <td align="left">Signal Processing in LTPDA</td>
+        <td>&nbsp;</td>
+        <td align="right">IIR Filters</td>
+        <td align="right" width="20"><a href="sigproc_iir.html"><img src="b_next.gif" border="0" align="bottom" alt="IIR Filters"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

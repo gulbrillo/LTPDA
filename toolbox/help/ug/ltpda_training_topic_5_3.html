@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Fitting time series with polynomials (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_topic_5_2.html"><img src="b_prev.gif" border="0" align="bottom" alt="Generation of noise with given PSD"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_topic_5_4.html"><img src="b_next.gif" border="0" align="bottom" alt="Non-linear least squares fitting of time series"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Fitting time series with polynomials</h1>
+    <hr>
+    
+    <p>
+      
+<p>
+  Fitting time series with polynomials exploits the function <tt>ao/polyfit</tt>.
+  Details on the agorithm can be found in the <a href="sigproc_polyfit.html">appropriate help page</a>.
+</p>
+
+<h2> Fitting time series with polynomials </h2>
+
+<p>
+  During this exercise we will:
+  <ol>
+    <li> Load time series noise
+    <li> Fit data with ao/polyfit
+    <li> Check results
+  </ol>
+</p>
+
+<p>
+  Let's open a new editor window and load test data.
+</p>
+
+<div class="fragment"><pre>
+    a = ao(plist(<span class="string">'filename'</span>, <span class="string">'topic5/T5_Ex04_TestNoise.xml'</span>));
+    a.setName();
+</pre></div>
+
+<p>
+  Try to fit data with <tt>ao/polyfit</tt>. We decide to fit with a 6th order polynomial.
+</p>
+
+<div class="fragment"><pre>
+    plfit = plist(<span class="string">'N'</span>, 6);
+    p     = polyfit(a, plfit)
+</pre></div>
+<p>
+  The output of the polifit method is a parameter estimation object (<tt>pest</tt>-object). This object contains the coefficients of the fitted polynomial.
+</p>
+<div class="fragment"><pre>
+---- pest 1 ----
+       name: polyfit(a)
+ parameters:
+             P1:   9.1738842e-15 +-   5.0781997e-14 [m s^(-6)]
+             P2:  -1.0105535e-11 +-   1.5272591e-10 [m s^(-5)]
+             P3:   1.1467469e-08 +-   1.7567488e-07 [m s^(-4)]
+             P4:  -2.8397623e-06 +-   9.6440306e-05 [m s^(-3)]
+             P5:   -0.0044447573 +-     0.025624775 [m s^(-2)]
+             P6:      0.13779743 +-       2.9321071 [m s^(-1)]
+             P7:       47.519031 +-       105.42745 [m]
+ 
+        pdf: []
+        cov: [7x7], ([2.57881118597054e-27 -7.72869712435383e-24 8.77207944145014e-21 -4.67120229268015e-18 1.16517894641315e-15 -1.16052934006908e-13 2.73279821621369e-12;-7.72869712435383e-24 2.33252022407021e-20 -2.66952587411623e-17 1.43594424166059e-14 -3.6267488596848e-12 3.66996931772136e-10 -8.8246258706484e-09;8.77207944145014e-21 -2.66952587411623e-17 3.08616635389935e-14 -1.68087475028813e-11 4.3130451226497e-09 -4.45597417857348e-07 1.10252789031329e-05;-4.67120229268015e-18 1.43594424166059e-14 -1.68087475028813e-11 9.30073263760312e-09 -2.43649023481382e-06 0.00025896803296049 -0.00667866538500405;1.16517894641315e-15 -3.6267488596848e-12 4.3130451226497e-09 -2.43649023481382e-06 0.000656629115560015 -0.0727240078893827 2.0026099434953;-1.16052934006908e-13 3.66996931772136e-10 -4.45597417857348e-07 0.00025896803296049 -0.0727240078893827 8.59725202675112 -266.884491131194;2.73279821621369e-12 -8.8246258706484e-09 1.10252789031329e-05 -0.00667866538500405 2.0026099434953 -266.884491131194 11114.9468971226])
+       corr: []
+      chain: []
+       chi2: 1
+        dof: 993
+     models: smodel(P1*X.^6 + P2*X.^5 + P3*X.^4 + P4*X.^3 + P5*X.^2 + P6*X.^1 + P7*X.^0)
+description: 
+       UUID: 08970689-fe18-4581-8040-cff939363a32
+----------------
+</pre></div>
+
+<p>
+  Once we have the <tt>pest</tt> object with the coefficients, we can evaluate it. In order to construct 
+  an object with the same time base we can pass the input AO, and specify to use its 'x' field to build the 'x' field
+  of the output.
+</p>
+
+<div class="fragment"><pre>
+    b = p.eval(a, plist(<span class="string">'type'</span>, <span class="string">'tsdata'</span>, <span class="string">'xfield'</span>, <span class="string">'x'</span>));
+    b.setName();
+</pre></div>
+
+<p>
+  Now, let's check the fit results with some plotting. We can compare data with fitted model
+  and look at the fit residuals.
+</p>
+
+<div class="fragment"><pre>
+    iplot(a, b)
+    iplot(a - b)
+</pre></div>
+
+<p>
+  <div align="center">
+    <IMG src="images/ltpda_training_1/topic5/ltpda_training_5_3_1.png" align="center" border="0">
+  </div>
+  <div align="center">
+    <IMG src="images/ltpda_training_1/topic5/ltpda_training_5_3_2.png" align="center" border="0">
+  </div>
+</p>
+
+<p>
+  You could also try using <tt>ao/detrend</tt> on the input time-series to yield
+  a very similar result as that shown in the last plot.
+</p>
+
+
+
+
+
+
+
+
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_topic_5_2.html"><img src="b_prev.gif" border="0" align="bottom" alt="Generation of noise with given PSD"></a>&nbsp;</td>
+        <td align="left">Generation of noise with given PSD</td>
+        <td>&nbsp;</td>
+        <td align="right">Non-linear least squares fitting of time series</td>
+        <td align="right" width="20"><a href="ltpda_training_topic_5_4.html"><img src="b_next.gif" border="0" align="bottom" alt="Non-linear least squares fitting of time series"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

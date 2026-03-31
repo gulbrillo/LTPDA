@@ -1,0 +1,243 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Constructor examples of the SPECWIN class (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="constructor_examples_plist.html"><img src="b_prev.gif" border="0" align="bottom" alt="Constructor examples of the PLIST class"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_intro.html"><img src="b_next.gif" border="0" align="bottom" alt="LTPDA Training Session 1"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Constructor examples of the SPECWIN class</h1>
+    <hr>
+    
+    <p>
+      <!-- $Id$ -->
+
+<!-- -------------------------------------------------- -->
+<!-- --------------- BEGIN CONTENT FILE --------------- -->
+<!-- -------------------------------------------------- -->
+
+<table border="0" summary="Simple list" class="simplelist_nottable_last">
+  <tr>
+    <td>
+      <a href="constructor_examples_specwin.html#empty">Construct empty SPECWIN object</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="constructor_examples_specwin.html#xml_file">Construct a SPECWIN object by loading the object from a file</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="constructor_examples_specwin.html#particular">Construct a SPECWIN of a particular window type an length</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="constructor_examples_specwin.html#kaiser">Construct a SPECWIN Kaiser window with the prescribed psll</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="constructor_examples_specwin.html#plist">Construct a SPECWIN object from a parameter list (PLIST) object</a>
+    </td>
+  </tr>
+</table>
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a href="gui_specwin.html">For help in designing a SPECWIN object, see also the Spectral Window GUI documentation</a></h2>
+<hr />
+<h2 class="title"></h2>
+<h2 class="title"><a name="empty"></a>Construct empty SPECWIN object</h2>
+<p>The following example creates an empty specwin object</p>
+<div class="fragment"><pre class="programlisting">
+w = specwin()
+-------- None ------------
+
+   alpha: -1
+    psll: -1
+     rov: -1
+   nenbw: -1
+    w3db: -1
+flatness: -1
+      ws: -1
+     ws2: -1
+     win: 1
+
+--------------------------
+</pre></div>
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a name="xml_file"></a>Construct a SPECWIN object by loading the object from a file</h2>
+<p>The following example creates a new specwin object by loading the specwin object from disk.</p>
+<div class="fragment"><pre class="programlisting">
+p = specwin(<span class="string">'specwin.mat'</span>)
+p = specwin(<span class="string">'specwin.xml'</span>)
+</pre></div>
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a name="particular"></a>Construct a SPECWIN of a particular window type an length</h2>
+  <p>To create a spectral window object, you call the <tt>specwin</tt> class constructor. The following
+	code fragment creates a 100-point Hanning window:
+  </p>
+  <div class="fragment"><pre>
+	>> w = specwin(<span class="string">'Hanning'</span>, 100)
+	-------- Hanning ------------
+
+	   alpha: 0
+	    psll: 31.5
+	     rov: 50
+	   nenbw: 1.5
+	    w3db: 1.4382
+	flatness: -1.4236
+	      ws: 50
+	     ws2: 37.5
+	     win: 100
+
+	-----------------------------
+	</pre></div>
+  <p><a href="specwin_description.html">List of available window functions</a></p>
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a name="kaiser"></a>Construct a SPECWIN Kaiser window with the prescribed psll</h2>
+  <p>In the special case of creating a Kaiser window, the additional input parameter, PSLL, must be supplied. For example, the following code creates a 100-point Kaiser window with -150dB peak side-lobe level:</p>
+  <div class="fragment"><pre>
+	>> w = specwin(<span class="string">'Kaiser'</span>, 100, 150)
+	-------- Kaiser ------------
+
+	   alpha: 6.18029
+	    psll: 150
+	     rov: 73.3738
+	   nenbw: 2.52989
+	    w3db: 2.38506
+	flatness: -0.52279
+	      ws: 28.2558
+	     ws2: 20.1819
+	     win: 100
+
+	----------------------------
+	</pre></div>
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a name="plist"></a>Construct a SPECWIN object from a parameter list (PLIST) object</h2>
+<p>Construct a SPECWIN from its definion.
+  <table border="0" summary="Simple list" class="simplelist_nottable_last" width="50%">
+    <tr valign="top">
+      <td width="25%">
+        <p>'Name'</p>
+      </td>
+      <td width="75%">
+        <p>Spectral window name [default: 'Kaiser']</p>
+      </td>
+    </tr>
+    <tr valign="top">
+      <td width="25%">
+        <p>'N'</p>
+      </td>
+      <td width="75%">
+        <p>Spectral window length [default: 10]</p>
+      </td>
+    </tr>
+    <tr valign="top">
+      <td width="25%">
+        <p>'PSLL'</p>
+      </td>
+      <td width="75%">
+        <p>Peak sidelobe length (only for Kaiser type)<br />[default: 150]</p>
+      </td>
+    </tr>
+  </table>
+</p>
+<div class="fragment"><pre class="programlisting">
+pl = plist(<span class="string">'Name'</span>, <span class="string">'Kaiser'</span>, <span class="string">'N'</span>, 1000, <span class="string">'PSLL'</span>, 75);
+
+w = specwin(pl)
+-------- Kaiser ------------
+
+   alpha: 3.21394
+    psll: 75
+     rov: 63.4095
+   nenbw: 1.85055
+    w3db: 1.75392
+flatness: -0.963765
+      ws: 389.305
+     ws2: 280.892
+     win: 1000
+
+----------------------------
+</pre></div>
+<div class="fragment"><pre class="programlisting">
+pl = plist(<span class="string">'Name'</span>, <span class="string">'Hanning'</span>, <span class="string">'N'</span>, 1000);
+
+w =specwin(pl)
+-------- Hanning ------------
+
+   alpha: 0
+    psll: 31.5
+     rov: 50
+   nenbw: 1.5
+    w3db: 1.4382
+flatness: -1.4236
+      ws: 500
+     ws2: 375
+     win: 1000
+
+-----------------------------
+</pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="constructor_examples_plist.html"><img src="b_prev.gif" border="0" align="bottom" alt="Constructor examples of the PLIST class"></a>&nbsp;</td>
+        <td align="left">Constructor examples of the PLIST class</td>
+        <td>&nbsp;</td>
+        <td align="right">LTPDA Training Session 1</td>
+        <td align="right" width="20"><a href="ltpda_training_intro.html"><img src="b_next.gif" border="0" align="bottom" alt="LTPDA Training Session 1"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

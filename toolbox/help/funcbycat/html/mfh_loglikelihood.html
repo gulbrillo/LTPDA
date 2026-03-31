@@ -1,0 +1,252 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!-- $Id$ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="../../ug/docstyle.css">
+    <title>LTPDA Method: mfh/loglikelihood</title>
+  </head>
+  <body>
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <p style="font-size:1px;">&nbsp;</p>
+
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../../ug/../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="mfh_lincom.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: mfh/lincom"></a>&nbsp;&nbsp;&nbsp;<a href="mfh_multinest.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: mfh/multinest"></a></td>
+      </tr>
+    </table>
+
+    <h1 class="title">Method mfh/loglikelihood</h1>
+    <hr />
+
+<pre>  <SPAN CLASS="HELPTOPIC">LOGLIKELIHOOD</SPAN>: Compute log-likelihood for MFH objects
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+  Compute the (unnormalized) log-likelihood for MFH objects.
+  For the MFH objects, the log-likelihood function must be defined
+  by the user. For example, for the definition &lt;o - H x i&gt;*S^-1&lt;o - H x i&gt;
+  the function 'func' must cover the term &lt;o - H x i&gt;. The 'S' matrix 
+  corresponds to the 'noise' plist key.
+ 
+  EXAMPLE:  LLH = <span class="helptopic">loglikelihood</span>(func, pl);
+ 
+  For more than one channel model, then input an array of MFH objects.
+  NOTE: The 'S' matrix must be of the correct size Nout X Nout.
+  For example, for the 2 input - 2 output case:
+ 
+            mfh_fncs = [ch1_mfh_exp1 , ch1_mfh_exp2 ; ...
+                        ch2_mfh_exp1 , ch2_mfh_exp2 ]
+ 
+            LLH = <span class="helptopic">loglikelihood</span>(mfh_fncs, plist);
+ 
+  For systems that require multiple channels and experiments, then:          
+ 
+            LLH = <span class="helptopic">loglikelihood</span>([ch1_mfh ; ch2_mfh], plist);
+ 
+  OUTPUTS:  logL - A collection of objects containing the LLH, SNR,
+                   LLH(frequencies).
+ 
+  NOTE:     If callerIsMethod is true, only the numerical values of the
+            above items are returned.
+ 
+  Example:  [LLH SNR LLH(f)] = <span class="helptopic">loglikelihood</span>(m, plist);
+ 
+            Otherwise, if callerIsMethod == false
+ 
+            collection = <span class="helptopic">loglikelihood</span>(myfunc, plist);
+ 
+  <a href="mfh_loglikelihood.html#down">Parameters Description</a>
+ 
+  M. Nofrarias, N. Karnesis 2012
+ 
+ </pre>
+
+    <!-- =====        Striped 4x2 table: Begin        ==== -->
+    <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+    <div class="sectiontitle"></div>
+    <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+      <colgroup>
+        <col width="30%"/>
+        <col width="70%"/>
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th class="categorylist">Method Details</th>
+          <th class="categorylist"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Access</td>
+          <td bgcolor="#f3f4f5">public</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Defining Class</td>
+          <td bgcolor="#ffffff">mfh</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Sealed</td>
+          <td bgcolor="#f3f4f5">0</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Static</td>
+          <td bgcolor="#ffffff">0</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- ===== Striped 4x2 table: End ==== -->
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <h2>Parameter Description</h2>    <a name="down" id="down"></a>
+
+    <!-- Link-Table of the sets -->
+    <table border="0" cellpadding="4" cellspacing="0" class="pagenavtable">
+      <tr><th>Sets for this method &#8230;</th></tr>
+        <tr><td><a href="#1">Default</a></td></tr>
+    </table>
+
+    <a name="1"></a>
+    <!-- Parameter List Table: Default -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>Default</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">loglikelihood</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">X</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The parameter values. A 1xNumParams array.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NOISE</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The inverse cross-spectrum matrix of the measured noise.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">F</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Numerical array of frequencies.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">WRAP DOUBLE</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Wraps the input model in a double() call to ensure the model output is numeric for internal calculations. If your model already returns a numeric vector, you can leave this set to false.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">K0</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The first FFT coefficient of the analysis. All FFT coefficients with k<k0 are discarded from the analysis.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('X', [[]], 'NOISE', [[]], 'F', [[]], 'WRAP DOUBLE', [false], 'K0', [1])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <p><!-- Table of the minfo object -->
+      <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+        <colgroup>
+          <col width="25%"/>
+          <col width="75%"/>
+        </colgroup>
+        <thead>
+          <tr valign="top">
+            <th class="categorylist" colspan="2">Some information of the method mfh/loglikelihood are listed below:</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Property: 'mclass' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Class name</td>
+            <td bgcolor="#f3f4f5">mfh</td>
+          </tr>
+          <!-- Property: 'mname' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Method name</td>
+            <td bgcolor="#ffffff">loglikelihood</td>
+          </tr>
+          <!-- Property: 'mcategory' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Category</td>
+            <td bgcolor="#f3f4f5">Signal Processing</td>
+          </tr>
+          <!-- Property: 'mpackage' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Package name</td>
+            <td bgcolor="#ffffff">ltpda</td>
+          </tr>
+          <!-- Property: 'modifier' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Can be used as modifier</td>
+            <td bgcolor="#f3f4f5">1</td>
+          </tr>
+          <!-- Property: 'supportedNumTypes' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Supported numeric types</td>
+            <td bgcolor="#ffffff">{'double'}</td>
+          </tr>
+        </tbody>
+      </table>
+    </p>
+
+
+    <br>
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="mfh_lincom.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: mfh/lincom"></a>&nbsp;</td>
+        <td align="left">Method: mfh/lincom</td>
+        <td>&nbsp;</td>
+        <td align="right">Method: mfh/multinest</td>
+        <td align="right" width="20"><a href="mfh_multinest.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: mfh/multinest"></a></td>
+      </tr>
+    </table>
+
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+
+   </body>
+</html>

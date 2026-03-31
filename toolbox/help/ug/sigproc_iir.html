@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>IIR Filters (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="sigproc_dfilt.html"><img src="b_prev.gif" border="0" align="bottom" alt="Digital Filtering"></a>&nbsp;&nbsp;&nbsp;<a href="sigproc_fir.html"><img src="b_next.gif" border="0" align="bottom" alt="FIR Filters"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">IIR Filters</h1>
+    <hr>
+    
+    <p>
+      <p>
+  Infinite Impulse Response filters are those filters present a non-zero infinite length response when excited with a very brief (ideally an infinite peak) input signal. A linear causal IIR filter can be described by the following difference equation
+</p>
+<div align="center">
+  <IMG src="images/sigproc_7.png" width="283" height="56" align="middle" border="0">
+</div>
+<p>
+  This operation describe a recursive system, i.e. a system that depends on current and past samples of the input x[n], but also on the output data stream y[n]. 
+</p>
+<h2><a name="IIRbuild">Creating a IIR filter in the LTPDA</a></h2>
+
+The LTPDA Toolbox allows the implementation of IIR filters by means of the <a href="pzmodel_filter.html"> miir class</a>. 
+
+<h2><a name="IIRplist">Creating from a plist</a></h2>
+<p>
+  The following example creates an order 1 highpass filter with high frequency gain 2. Filter is designed for 10 Hz sampled data and has a cut-off frequency of 0.2 Hz.
+</p>
+<div class="fragment"><pre>
+    
+    pl = plist(<span class="string">'type'</span>, <span class="string">'highpass'</span>, ...
+      <span class="string">'order'</span>, 1,         ...
+      <span class="string">'gain'</span>,  2.0,       ...
+      <span class="string">'fs'</span>,    10,        ...
+      <span class="string">'fc'</span>,    0.2);
+    f = miir(pl)
+</pre></div>
+
+<h2><a name="IIRpzmodel">Creating from a pzmodel</a></h2>
+<p>
+  IIR filters can also be <a href="pzmodel_filter.html"> created from a pzmodel </a>.
+</p>
+<h2><a name="IIRdiff">Creating from a difference equation</a></h2>
+<p>
+  Alternatively, the filter can be defined in terms of two vectors specifying the coefficients of the filter and the sampling frequency. The following example creates a IIR filter with sampling frequency 1 Hz and the following recursive equation:
+</p>
+
+<div align="center">
+  <IMG src="images/sigproc_9.png" width="299" height="28" align="middle" border="0">
+</div>
+
+<p><br></p>
+
+<div class="fragment"><pre>
+    
+    a = [0.5 -0.01];
+    b = [1 0.1];
+    fs = 1;
+    f = miir(a,b,fs)
+</pre></div>
+
+<p>
+  <br>
+  Notice that the convetion used in this function is the one described in the <a href="sigproc_dfilt.html"> Digital filters classification</a> section 
+</p>
+
+<h2><a name="IIRimport">Importing an existing model</a></h2>
+<p>
+  The miir constructor also accepts as an input existing models in different formats:
+</p>
+<li>
+<li><p>LISO files:<p>
+  <div class="fragment"><pre>
+      f = miir(<span class="string">'foo_iir.fil'</span>)
+  </pre></div>
+</li>
+<li><p>XML files:</p>
+<div class="fragment"><pre>
+    f = miir(<span class="string">'foo_iir.xml'</span>)
+</pre></div>
+<li><p>MAT files:</p>
+  <div class="fragment"><pre>
+      f = miir(<span class="string">'foo_iir.mat'</span>)
+  </pre></div>
+</li>
+<li><p>From repository:</p>
+  <div class="fragment"><pre>
+      f = miir(plist(<span class="string">'hostname'</span>, <span class="string">'localhost'</span>, <span class="string">'database'</span>, <span class="string">'ltpda'</span>, <span class="string">'ID'</span>, []))
+  </pre></div>
+</li>
+</ul> 
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="sigproc_dfilt.html"><img src="b_prev.gif" border="0" align="bottom" alt="Digital Filtering"></a>&nbsp;</td>
+        <td align="left">Digital Filtering</td>
+        <td>&nbsp;</td>
+        <td align="right">FIR Filters</td>
+        <td align="right" width="20"><a href="sigproc_fir.html"><img src="b_next.gif" border="0" align="bottom" alt="FIR Filters"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

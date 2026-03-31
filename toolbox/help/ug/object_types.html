@@ -1,0 +1,212 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Types of User Objects (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="objects_intro.html"><img src="b_prev.gif" border="0" align="bottom" alt="Introducing LTPDA Objects"></a>&nbsp;&nbsp;&nbsp;<a href="objects_create.html"><img src="b_next.gif" border="0" align="bottom" alt="Creating LTPDA Objects"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Types of User Objects</h1>
+    <hr>
+    
+    <p>
+      <p>
+  LTPDA has various classes of objects which the user can create and manipulate. All of these classes of object (termed 'user objects'), 
+  with the exception of the <tt>plist</tt> class, track their history through all manipulations. The following
+  table summarizes these types. 
+  <table cellspacing="0" class="body" cellpadding="2" border="1" width="80%">
+    <colgroup>
+      <col width="15%"/>
+      <col width="85%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Class</th>
+        <th class="categorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Class 'plist' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>plist</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>A class of object that allows storing a set of key/value pairs. This is the equivalent to a 'dictionary' in other languages, like python or Objective-C.
+          Since a history step must contain a <tt>plist</tt> object, this class cannot itself track history, since it would be recursive.</p>
+        </td>
+      </tr>
+      <!-- Class 'AO' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>ao</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>A class of object that implements Analysis Objects. Such objects can store various types of numeric data: time-series, frequency-series
+          , x-y data series, x-y-z data series, and arrays of numbers.</p>
+        </td>
+      </tr>
+      <!-- Class 'mfir' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>mfir</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>A class of object that implements Finite Impulse Response (FIR) digital filters.</p>
+        </td>
+      </tr>
+      <!-- Class 'miir' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>miir</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>A class of object that implements Infinite Impulse Response (IIR) digital filters.</p>
+        </td>
+      </tr>
+      <!-- Class 'pzmodel' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>pzmodel</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>A class of object that represents transfer functions given in a pole/zero format.</p>
+        </td>
+      </tr>
+      <!-- Class 'rational' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>rational</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>A class of object that represents transfer functions given in rational form.</p>
+        </td>
+      </tr>
+      <!-- Class 'parfrac' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>parfrac</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>A class of object that represents transfer functions given as a series of partial fractions.</p>
+        </td>
+      </tr>
+      <!-- Class 'timespan' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>timespan</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>A class of object that represents a span of time. A <tt>timespan</tt> object has a start time and an end time.</p>
+        </td>
+      </tr>
+      <!-- Class 'ssm' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>ssm</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>A class of object that represents a statespace model.</p>
+        </td>
+      </tr>
+      <!-- Class 'smodel' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>smodel</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>A class of object that represents a parametric model of a chosen <tt>x</tt> variable. Such objects can be combined, manipulated symbolically, 
+          and then evaluated numerically.</p>
+        </td>
+      </tr>
+      <!-- Class 'pest' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>pest</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>A class of object that represents the result of a fit with a chosen <tt>model</tt>. Such objects contain the estimated parameter values,
+          the uncertainties, the covariance matrix, the estimated chi^2 and degrees of freedom. They can be evaluated to yield values predictions.
+          </p>
+        </td>
+      </tr>
+      <!-- Class 'filterbank' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>filterbank</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>A class of object that represents a bank of digital filters. The filter bank can be of type 'parallel' or 'serial'.</p>
+        </td>
+      </tr>
+      <!-- Class 'matrix' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>matrix</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>A class of object that allows storing other User Objects in a matrix-like array. There are various methods which act
+            on the object array as if it were a matrix of the underlying data. For example, you can form a matrix of Analysis Objects, then compute
+          the determinant of this matrix, which will yield another matrix object containing a single AO.</p>
+        </td>
+      </tr>
+      <!-- Class 'collection' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>collection</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>A class of object that allows storing other User Objects in a cell-array. This is purely a convenience class, aimed at simplifying 
+            keeping a collection of different classes of user objects together. This is useful, for example, for submitting or retrieving 
+          a collection of user objects from/to an LTPDA Repository.</p>
+        </td>
+      </tr>
+      <!-- Class 'mfh' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>mfh</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>A class of object that allows wrapping around MATLAB function handles. They allow history tracking, and writing functions of: 
+          input (variable) parameters, constants (e.g. data) and so on.</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="objects_intro.html"><img src="b_prev.gif" border="0" align="bottom" alt="Introducing LTPDA Objects"></a>&nbsp;</td>
+        <td align="left">Introducing LTPDA Objects</td>
+        <td>&nbsp;</td>
+        <td align="right">Creating LTPDA Objects</td>
+        <td align="right" width="20"><a href="objects_create.html"><img src="b_next.gif" border="0" align="bottom" alt="Creating LTPDA Objects"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Remove trends from a time-series AO (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_topic_2_4.html"><img src="b_prev.gif" border="0" align="bottom" alt="Interpolation of a time-series AO"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_topic_2_6.html"><img src="b_next.gif" border="0" align="bottom" alt="Whitening noise"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Remove trends from a time-series AO</h1>
+    <hr>
+    
+    <p>
+      <p>
+  The <tt>ao/detrend</tt> method offers the possibility to remove polynomial trends from a data series.
+</p>
+<p>
+  The method can be configured with the following <a href="../funcbycat/html/ao_detrend.html#1">parameters</a>:
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="25%"/>
+      <col width="75%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Key</th>
+        <th class="categorylist">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Key 'N' -->
+      <tr valign="top">
+        <td bgcolor="#f3f4f5">
+          <p><tt>N (or 'ORDER')</tt></p>
+        </td>
+        <td bgcolor="#f3f4f5">
+          <p>The order of the polynomial to fit and remove. For orders below 10, a very fast C-code algorithm
+            is used. For higher orders, the MATLAB functions <tt>polyfit</tt> and <tt>polyval</tt> are used to
+          construct the polynomial which is then subtracted from the data.</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</p>
+<br>
+<h2>Example 1</h2>
+<p>
+  In this example we will construct a time-series consisting of noise plus a known quadratic trend.
+  We will then remove that trend using <tt>ao/detrend</tt> and compare the detrended time-series with the
+  original noise.
+</p>
+<p>
+  First let's create the time-series series consisting of the noise plus trend.
+</p>
+<div class="fragment"><pre>
+    <span class="comment">% Construct noise data stream</span>
+    fs = 10;
+    nsecs = 10;
+    pl = plist(<span class="string">'name'</span>, <span class="string">'None'</span>, <span class="string">'tsfcn'</span>, <span class="string">'5+randn(size(t))'</span>, <span class="string">'fs'</span>, fs, <span class="string">'nsecs'</span>, nsecs, <span class="string">'yunits'</span>, <span class="string">'V'</span>);
+    x  = ao(pl);
+    <span class="comment">% Construct a quadratic data series</span>
+    pl_trend = plist(<span class="string">'tsfcn'</span>, <span class="string">'t.^2'</span>, <span class="string">'fs'</span>, fs, <span class="string">'nsecs'</span>, nsecs);
+    trend = ao(pl_trend);
+    <span class="comment">% Add them together</span>
+    fcn_trend = x + trend;
+  </pre>
+</div>
+<p>
+  <table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1">
+    <tr width="90%">
+      <td>
+        The offset of 5 is added to the noise to ensure the data series
+        doesn't come close to zero; we want to divide by it later in the example.
+      </td>
+    </tr>
+  </table>
+</p>
+<p>
+  Next we will detrend the data and compare the result to the noise data <tt>x</tt> we made above.
+</p>
+<div class="fragment"><pre>
+    pl_detr = plist(<span class="string">'N'</span>, 2);
+    detr    = detrend(fcn_trend, pl_detr);
+    iplot(x, fcn_trend, detr, plist(<span class="string">'LineStyles'</span>, {<span class="string">''</span>, <span class="string">''</span>, <span class="string">'--'</span>}));
+  </pre>
+</div>
+<p>
+  <table cellspacing="0" class="note" summary="Note" cellpadding="5" border="1">
+    <tr width="90%">
+      <td>
+        In the <tt>plist</tt> we specified 'LineStyles' as empty strings. These just serve as place holders
+        and can be interpreted as "just to the default". If you want a data-series plotted with no line, then
+        specify 'none', for example, <tt>{'none', '-', '--'}</tt>.
+      </td>
+    </tr>
+  </table>
+</p>
+<br>
+<img src="images/ltpda_training_1/topic2/detrend.png" alt="Detrend" border="3">
+<br>
+<p>
+  From this plot, it is not very easy to see how well our detrending worked. Let's form
+  the fractional difference of the original <tt>x</tt> data and the detrended data and plot that instead.
+</p>
+<div class="fragment"><pre>
+    detr5 = detr + 5;
+    differ  = 100 .* (x - detr5) ./ x;
+    iplot(differ);
+  </pre>
+</div>
+<p>
+  The result is shown below. We added the value 5 to the detrended time-series
+  just to ensure that we don't divide by any values close to zero.
+</p>
+<br>
+<img src="images/ltpda_training_1/topic2/detrend_diff.png" alt="Detrend" border="3">
+<br>
+<p>
+  Try increasing the length of the data series to say, 1000 or 10000 seconds, to see how the
+  detrending improves.
+</p>
+<p>
+<p>The value of the coefficient describing the subracted trend are included in the field <tt>procinfo</tt> of the <tt>ao</tt> objects. 
+The <tt>procinfo</tt> is actually a <tt>plist</tt> object, so we can search for parameters, in this case the key is 'coeffs':
+<div class="fragment"><pre>
+    c = find(detr.procinfo, 'coeffs');
+
+    <span class="comment">% Remember also, that you will loose the 'coeffs' if you make any operation on the "detr"</span>
+</pre></div>
+</p>
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_topic_2_4.html"><img src="b_prev.gif" border="0" align="bottom" alt="Interpolation of a time-series AO"></a>&nbsp;</td>
+        <td align="left">Interpolation of a time-series AO</td>
+        <td>&nbsp;</td>
+        <td align="right">Whitening noise</td>
+        <td align="right" width="20"><a href="ltpda_training_topic_2_6.html"><img src="b_next.gif" border="0" align="bottom" alt="Whitening noise"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

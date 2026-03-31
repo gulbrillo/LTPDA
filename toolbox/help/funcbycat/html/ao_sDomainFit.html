@@ -1,0 +1,450 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!-- $Id$ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="../../ug/docstyle.css">
+    <title>LTPDA Method: ao/sDomainFit</title>
+  </head>
+  <body>
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <p style="font-size:1px;">&nbsp;</p>
+
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../../ug/../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ao_rms.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ao/rms"></a>&nbsp;&nbsp;&nbsp;<a href="ao_select.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ao/select"></a></td>
+      </tr>
+    </table>
+
+    <h1 class="title">Method ao/sDomainFit</h1>
+    <hr />
+
+<pre>  <span class="helptopic">sDomainFit</span> performs a fitting loop to identify model order and
+  parameters.
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+  DESCRIPTION: <span class="helptopic">sDomainFit</span> fit a partial fraction model to frequency
+      response data using  the function utils.math.vcfit.
+ 
+      The function performs a fitting loop to automatically identify model
+      order and parameters in s-domain. Output is a s-domain model expanded
+      in partial fractions:
+ 
+               r1              rN
+      f(s) = ------- + ... + ------- + d
+             s - p1          s - pN
+ 
+      The function attempt to perform first the identification of a model
+      with d = 0, then if the operation do not succeed, it try the
+      identification with d different from zero.
+      %     Identification loop stop when the stop condition is reached.
+      Stop criterion is based on three different approachs:
+ 
+      1) Mean Squared Error and variation
+      Check if the normalized mean squared error is lower than the value specified in
+      FITTOL and if the relative variation of the mean squared error is lower
+      than the value specified in MSEVARTOL.
+      E.g. FITTOL = 1e-3, MSEVARTOL = 1e-2 search for a fit with
+      normalized magnitude error lower than 1e-3 and and MSE relative
+      variation lower than 1e-2.
+ 
+      1) Log residuals difference and root mean squared error
+      Log Residuals difference
+      Check if the minimum of the logarithmic difference between data and
+      residuals is larger than a specified value. ie. if the conditioning
+      value is 2, the function ensures that the difference between data and
+      residuals is at lest 2 order of magnitude lower than data itsleves.
+      Root Mean Squared Error
+      Check that the variation of the root mean squared error is lower than
+      10^(-1*value).
+ 
+      2) Residuals spectral flatness and root mean squared error
+      Residuals Spectral Flatness
+      In case of a fit on noisy data, the residuals from a good fit are
+      expected to be as much as possible similar to a white noise. This
+      property can be used to test the accuracy of a fit procedure. In
+      particular it can be tested that the spectral flatness coefficient of
+      the residuals is larger than a certain qiantity sf such that 0&lt;sf&lt;1.
+      Root Mean Squared Error
+      Check that the variation of the root mean squared error is lower than
+      10^(-1*value).
+ 
+      Both in the first and second approach the fitting loop stops when the
+      two stopping conditions are satisfied.
+      The output are AOs containing the frequency response of the fitted
+      model, while the Model parameters are output as a parfrac model
+      in the output AOs procinfo filed.
+ 
+      The function can also perform a single loop without taking care of
+      the stop conditions. This happens when 'AutoSearch' parameter is
+      setted to 'off'.
+ 
+      If you provide more than one AO as input, they will be fitted
+      together with a common set of poles.
+ 
+  CALL:         mod = <span class="helptopic">sDomainFit</span>(a, pl)
+ 
+  INPUTS:      a  - input AOs to fit to. If you provide more than one AO as
+                    input, they will be fitted together with a common set
+                    of poles. Only frequency domain (fsdata) data can be
+                    fitted. Each non fsdata object will be ignored. Input
+                    objects must have the same number of elements.
+               pl - parameter list (see below)
+ 
+  OUTPUTS:
+                mod - matrix of one parfrac object for each input AO.
+                      Usseful fit information are stored in the procinfoi
+                      field:
+                      FIT_RESP  - model frequency response.
+                      FIT_RESIDUALS - analysis object containing the fit
+                      residuals.
+                      FIT_MSE - analysis object containing the mean squared
+                      error progression during the fitting loop.
+ 
+ 
+  Note: all the input objects are assumed to caontain the same X
+  (frequencies) values
+ 
+ 
+  EXAMPLES:
+ 
+  1) Fit to a frequency-series using Mean Squared Error and variation stop
+  criterion
+ 
+    % Create a frequency-series AO
+    pl_data = plist('fsfcn', '0.01./(0.0001+f)', 'f1', 1e-5, 'f2', 5, 'nf', 1000);
+    a = ao(pl_data);
+ 
+    % Fitting parameter list
+    pl_fit = plist('AutoSearch','on',...
+    'StartPoles',[],...
+    'StartPolesOpt','clog',...
+    'maxiter',5,...
+    'minorder',2,...
+    'maxorder',20,...
+    'weights',[],...
+    'CONDTYPE','MSE',...
+    'FITTOL',1e-3,...
+    'MSEVARTOL',1e-2,...
+    'Plot','off',...
+    'ForceStability','off',...
+    'direct term','off',...
+    'CheckProgress','off');
+ 
+    % Do fit
+    b = <span class="helptopic">sDomainFit</span>(a, pl_fit);
+ 
+  2) Fit to a frequency-series using Log residuals difference and mean
+  squared error variation stop criterion
+ 
+    % Create a frequency-series AO
+    pl_data = plist('fsfcn', '0.01./(0.0001+f)', 'f1', 1e-5, 'f2', 5, 'nf', 1000);
+    a = ao(pl_data);
+ 
+    % Fitting parameter list
+    pl_fit = plist('FS',[],...
+    'AutoSearch','on',...
+    'StartPoles',[],...
+    'StartPolesOpt','clog',...
+    'maxiter',5,...
+    'minorder',2,...
+    'maxorder',20,...
+    'weights',[],...
+    'weightparam','abs',...
+    'CONDTYPE','RLD',...
+    'FITTOL',1e-3,...
+    'MSEVARTOL',1e-2,...
+    'Plot','off',...
+    'ForceStability','off',...
+    'CheckProgress','off');
+ 
+    % Do fit
+    b = <span class="helptopic">sDomainFit</span>(a, pl_fit);
+ 
+  3) Fit to a frequency-series using Residuals spectral flatness and mean
+  squared error variation stop criterion
+ 
+    % Create a frequency-series AO
+    pl_data = plist('fsfcn', '0.01./(0.0001+f)', 'f1', 1e-5, 'f2', 5, 'nf', 1000);
+    a = ao(pl_data);
+ 
+    % Fitting parameter list
+    pl_fit = plist('FS',[],...
+    'AutoSearch','on',...
+    'StartPoles',[],...
+    'StartPolesOpt','clog',...
+    'maxiter',5,...
+    'minorder',2,...
+    'maxorder',20,...
+    'weights',[],...
+    'weightparam','abs',...
+    'CONDTYPE','RSF',...
+    'FITTOL',0.5,...
+    'MSEVARTOL',1e-2,...
+    'Plot','off',...
+    'ForceStability','off',...
+    'CheckProgress','off');
+ 
+    % Do fit
+    b = <span class="helptopic">sDomainFit</span>(a, pl_fit);
+ 
+ 
+  <a href="ao_sDomainFit.html#down">Parameters Description</a>
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</pre>
+
+    <!-- =====        Striped 4x2 table: Begin        ==== -->
+    <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+    <div class="sectiontitle"></div>
+    <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+      <colgroup>
+        <col width="30%"/>
+        <col width="70%"/>
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th class="categorylist">Method Details</th>
+          <th class="categorylist"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Access</td>
+          <td bgcolor="#f3f4f5">public</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Defining Class</td>
+          <td bgcolor="#ffffff">ao</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Sealed</td>
+          <td bgcolor="#f3f4f5">0</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Static</td>
+          <td bgcolor="#ffffff">0</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- ===== Striped 4x2 table: End ==== -->
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <h2>Parameter Description</h2>    <a name="down" id="down"></a>
+
+    <!-- Link-Table of the sets -->
+    <table border="0" cellpadding="4" cellspacing="0" class="pagenavtable">
+      <tr><th>Sets for this method &#8230;</th></tr>
+        <tr><td><a href="#1">Default</a></td></tr>
+    </table>
+
+    <a name="1"></a>
+    <!-- Parameter List Table: Default -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>Default</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">sDomainFit</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">AUTOSEARCH</td>
+            <td bgcolor="#F2F2F2">'on'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'on'</font></li><li><font color="#1111FF">'off'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">'on': Parform a full automatic search for the<br>transfer function order. The fitting<br>procedure will stop when stop conditions<br>defined are satisfied.<br>'off': Perform a fitting loop as long as the<br>number of iteration reach 'maxiter'. The order<br>of the fitting function will be that<br>specified in 'minorder'.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">STARTPOLES</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A vector of starting poles. Providing a fixed<br>set of starting poles fixes the function<br>order. If it is left empty starting poles are<br>internally assigned.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">STARTPOLESOPT</td>
+            <td bgcolor="#F2F2F2">'clog'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'real'</font></li><li><font color="#1111FF">'clog'</font></li><li><font color="#1111FF">'clin'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Define the characteristics of internally<br>assigned starting poles. Admitted values<br>are:<ul><li>'real' linear-spaced real poles</li><li>'clog' log-spaced complex poles</li><li>'clin' linear-spaced complex poles<li></ul></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">MAXITER</td>
+            <td bgcolor="#F2F2F2">50</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Maximum number of iterations in fit routine.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">MINORDER</td>
+            <td bgcolor="#F2F2F2">2</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Minimum order to fit with.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">MAXORDER</td>
+            <td bgcolor="#F2F2F2">20</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Maximum order to fit with.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">WEIGHTS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A vector with the desired weights. If a single<br>Ao is input weights must be a Nx1 vector where<br>N is the number of elements in the input Ao. If<br>M Aos are passed as input, then weights must<br>be a NxM matrix. If it is leaved empty weights<br>are internally assigned basing on the input<br>parameters</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">WEIGHTPARAM</td>
+            <td bgcolor="#F2F2F2">'abs'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'ones'</font></li><li><font color="#1111FF">'abs'</font></li><li><font color="#1111FF">'sqrt'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Specify the characteristics of the internally<br>assigned weights. Admitted values are:<ul><li>'ones' assigns weights equal to 1 to all data.<li><li>'abs' weights data with <tt>1./abs(y)</tt></li><li>'sqrt' weights data with <tt>1./sqrt(abs(y))</tt></li></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CONDTYPE</td>
+            <td bgcolor="#F2F2F2">'MSE'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'MSE'</font></li><li><font color="#1111FF">'RLD'</font></li><li><font color="#1111FF">'RSF'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Fit conditioning type. Admitted values are:<ul><li>'MSE' Mean Squared Error and variation</li><li>'RLD' Log residuals difference and mean squared error variation<li><li>'RSF' Residuals spectral flatness and mean squared error variation<li></ul></td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FITTOL</td>
+            <td bgcolor="#F2F2F2">0.001</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Fit tolerance.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">MSEVARTOL</td>
+            <td bgcolor="#F2F2F2">0.01</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Mean Squared Error Variation - Check if the<br>realtive variation of the mean squared error is<br>smaller than the value specified. This<br>option is useful for finding the minimum of Chi-squared.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">PLOT</td>
+            <td bgcolor="#F2F2F2">'off'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'on'</font></li><li><font color="#1111FF">'off'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Plot results of each fitting step.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FORCESTABILITY</td>
+            <td bgcolor="#F2F2F2">'off'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'on'</font></li><li><font color="#1111FF">'off'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Force poles to be stable</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DIRECT TERM</td>
+            <td bgcolor="#F2F2F2">'off'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'on'</font></li><li><font color="#1111FF">'off'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Fit with direct term.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">CHECKPROGRESS</td>
+            <td bgcolor="#F2F2F2">'off'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'on'</font></li><li><font color="#1111FF">'off'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Display the status of the fit iteration.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DELAY</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Innput a delay that will be subtracted from the fit.<br></td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('AUTOSEARCH', 'on', 'STARTPOLES', [[]], 'STARTPOLESOPT', 'clog', 'MAXITER', [50], 'MINORDER', [2], 'MAXORDER', [20], 'WEIGHTS', [[]], 'WEIGHTPARAM', 'abs', 'CONDTYPE', 'MSE', 'FITTOL', [0.001], 'MSEVARTOL', [0.01], 'PLOT', 'off', 'FORCESTABILITY', 'off', 'DIRECT TERM', 'off', 'CHECKPROGRESS', 'off', 'DELAY', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <p><!-- Table of the minfo object -->
+      <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+        <colgroup>
+          <col width="25%"/>
+          <col width="75%"/>
+        </colgroup>
+        <thead>
+          <tr valign="top">
+            <th class="categorylist" colspan="2">Some information of the method ao/sDomainFit are listed below:</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Property: 'mclass' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Class name</td>
+            <td bgcolor="#f3f4f5">ao</td>
+          </tr>
+          <!-- Property: 'mname' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Method name</td>
+            <td bgcolor="#ffffff">sDomainFit</td>
+          </tr>
+          <!-- Property: 'mcategory' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Category</td>
+            <td bgcolor="#f3f4f5">Signal Processing</td>
+          </tr>
+          <!-- Property: 'mpackage' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Package name</td>
+            <td bgcolor="#ffffff">ltpda</td>
+          </tr>
+          <!-- Property: 'modifier' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Can be used as modifier</td>
+            <td bgcolor="#f3f4f5">0</td>
+          </tr>
+          <!-- Property: 'supportedNumTypes' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Supported numeric types</td>
+            <td bgcolor="#ffffff">{'double'}</td>
+          </tr>
+        </tbody>
+      </table>
+    </p>
+
+
+    <br>
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ao_rms.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ao/rms"></a>&nbsp;</td>
+        <td align="left">Method: ao/rms</td>
+        <td>&nbsp;</td>
+        <td align="right">Method: ao/select</td>
+        <td align="right" width="20"><a href="ao_select.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ao/select"></a></td>
+      </tr>
+    </table>
+
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+
+   </body>
+</html>

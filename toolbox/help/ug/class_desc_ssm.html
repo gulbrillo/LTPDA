@@ -1,0 +1,974 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>ssm Class (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="class_desc_smodel.html"><img src="b_prev.gif" border="0" align="bottom" alt="smodel Class"></a>&nbsp;&nbsp;&nbsp;<a href="class_desc_timespan.html"><img src="b_next.gif" border="0" align="bottom" alt="timespan Class"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">ssm Class</h1>
+    <hr>
+    
+    <p>
+      <!-- $Id$ -->
+
+  <!-- ================================================== -->
+  <!--                 BEGIN CONTENT FILE                 -->
+  <!-- ================================================== -->
+
+  <!-- =====           Link Table: Begin           ===== -->
+  <!-- ===== Created by docHelper.htmlAddLinkTable ===== -->
+  <p>
+    <table border="1"  width="80%">
+      <tr>
+        <td>
+          <table border="0" cellpadding="5" class="categorylist" width="100%">
+            <colgroup>
+              <col width="25%"/>
+              <col width="75%"/>
+            </colgroup>
+            <tbody>
+              <tr valign="top">
+                <td><a href="class_desc_ssm.html#top_properties">Properties</a></td>
+                <td>Properties of the class</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_ssm.html#top_methods">Methods</a></td>
+                <td>All Methods of the class ordered by category.</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="constructor_examples_ssm.html">Examples</a></td>
+                <td>Some constructor examples</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </p>
+  <!-- ===== Link Table: End ====== -->
+
+  <!-- ===== Back to Class descriptions ===== -->
+  <a href="class_desc_main.html">
+    <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Class descriptions"/>
+    Back to Class descriptions
+  </a>
+
+  <h2 class="title"><a name="top_properties"/>Properties</h2>
+  <p>
+    The LTPDA toolbox restrict access of the properties.<br></br>
+    The get access is 'public' and thus it is possible to get the values with the dot-command (similar to structures).<br></br>
+    <pre class="programlisting">For example:<br></br>val = obj.prop(2).prop;</pre>
+    The set access is 'protected' and thus it is only possible to assign a value to a property with a set-method.
+    <pre class="programlisting">
+For example:
+obj2 = obj1.setName(<span class="string">'my name'</span>) <span class="comment">% This command creates a copy of obj1 (obj1 ~= obj2)</span>
+obj.setName(<span class="string">'my name'</span>);        <span class="comment">% This command applies to obj</span>    </pre>
+  </p>
+
+  <!-- =====        Striped 18x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Properties</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm.amats')">amats</a></td>
+        <td bgcolor="#f3f4f5">A matrix representing a difference/differential term in the state equation, block stored in a cell array</td>
+        <td bgcolor="#f3f4f5">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm.bmats')">bmats</a></td>
+        <td bgcolor="#ffffff">B matrix representing an input coefficient matrix in the state equation, block stored in a cell array</td>
+        <td bgcolor="#ffffff">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm.cmats')">cmats</a></td>
+        <td bgcolor="#f3f4f5">C matrix representing the state projection in the observation equation, block stored in a cell array</td>
+        <td bgcolor="#f3f4f5">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm.dmats')">dmats</a></td>
+        <td bgcolor="#ffffff">D matrix representing the direct feed through term in the observation equation, block stored in a cell array</td>
+        <td bgcolor="#ffffff">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm.timestep')">timestep</a></td>
+        <td bgcolor="#f3f4f5">Timestep of the difference equation. Zero means the representation is time continuous and A defines a differential equation.</td>
+        <td bgcolor="#f3f4f5">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm.inputs')">inputs</a></td>
+        <td bgcolor="#ffffff">Ssmblock for input blocks</td>
+        <td bgcolor="#ffffff">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm.states')">states</a></td>
+        <td bgcolor="#f3f4f5">Ssmblock  describing state blocks</td>
+        <td bgcolor="#f3f4f5">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm.outputs')">outputs</a></td>
+        <td bgcolor="#ffffff">Ssmblock  describing the output blocks</td>
+        <td bgcolor="#ffffff">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm.numparams')">numparams</a></td>
+        <td bgcolor="#f3f4f5">Nested plist describing the numeric (substituted) parameters</td>
+        <td bgcolor="#f3f4f5">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm.params')">params</a></td>
+        <td bgcolor="#ffffff">Nested plist describing the symbolic parameters</td>
+        <td bgcolor="#ffffff">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm.hist')">hist</a></td>
+        <td bgcolor="#f3f4f5">History of the object (history object)</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm.historyArray')">historyArray</a></td>
+        <td bgcolor="#ffffff">Array of history objects for saving</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm.procinfo')">procinfo</a></td>
+        <td bgcolor="#f3f4f5">Plist with additional information for an object.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm.plotinfo')">plotinfo</a></td>
+        <td bgcolor="#ffffff">Plotinfo object</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm.timespan')">timespan</a></td>
+        <td bgcolor="#f3f4f5">A timespan indicating the valid time-range of the object</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm.name')">name</a></td>
+        <td bgcolor="#ffffff">Name of the object</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm.description')">description</a></td>
+        <td bgcolor="#f3f4f5">Description of the object</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm.UUID')">UUID</a></td>
+        <td bgcolor="#ffffff">Universally Unique Identifier of 128-bit</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 18x3 table: End ==== -->
+
+  <!-- ===== Top of page ===== -->
+  <a href="#top_of_page">
+    <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top"/>
+    Back to Top
+  </a>
+
+  <h2 class="title"><a name="top_methods"/>Methods</h2>
+
+  <!-- =====           Link Table: Begin           ===== -->
+  <!-- ===== Created by docHelper.htmlAddLinkTable ===== -->
+  <p>
+    <table border="1"  width="80%">
+      <tr>
+        <td>
+          <table border="0" cellpadding="5" class="subcategorylist" width="100%">
+            <colgroup>
+              <col width="25%"/>
+              <col width="75%"/>
+            </colgroup>
+            <tbody>
+              <tr valign="top">
+                <td><a href="class_desc_ssm.html#constructor">Constructor</a></td>
+                <td>Constructor of this class</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_ssm.html#converter">Converter</a></td>
+                <td>Convertor methods</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_ssm.html#helper">Helper</a></td>
+                <td>Helper methods only for internal usage</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_ssm.html#internal">Internal</a></td>
+                <td>Internal methods only for internal usage</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_ssm.html#operator">Operator</a></td>
+                <td>Operator methods</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_ssm.html#output">Output</a></td>
+                <td>Output methods</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_ssm.html#relational_operator">Relational Operator</a></td>
+                <td>Relational operator methods</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_ssm.html#signal_processing">Signal Processing</a></td>
+                <td>Signal processing methods</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </p>
+  <!-- ===== Link Table: End ====== -->
+
+  <!-- ===== Top of page ===== -->
+  <a href="#top_of_page">
+    <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top"/>
+    Back to Top
+  </a>
+
+  <!-- ===== Methods Category: Constructor ===== -->
+  <h3 class="title"><a name="constructor"/>Constructor</h3>
+
+  <!-- =====        Striped 2x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/rebuild')">rebuild</a></td>
+        <td bgcolor="#f3f4f5">Rebuilds the input objects using the history.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm')">ssm</a></td>
+        <td bgcolor="#ffffff">Statespace model class constructor.</td>
+        <td bgcolor="#ffffff">ssm</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 2x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Converter ===== -->
+  <h3 class="title"><a name="converter"/>Converter</h3>
+
+  <!-- =====        Striped 4x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/ssm2miir')">ssm2miir</a></td>
+        <td bgcolor="#f3f4f5">Converts a statespace model object to a miir object</td>
+        <td bgcolor="#f3f4f5">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/ssm2pzmodel')">ssm2pzmodel</a></td>
+        <td bgcolor="#ffffff">Converts a time-continuous statespace model object to a pzmodel</td>
+        <td bgcolor="#ffffff">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/ssm2rational')">ssm2rational</a></td>
+        <td bgcolor="#f3f4f5">Converts a statespace model object to a rational frac. object</td>
+        <td bgcolor="#f3f4f5">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/ssm2ss')">ssm2ss</a></td>
+        <td bgcolor="#ffffff">Converts a statespace model object to a MATLAB statespace object.</td>
+        <td bgcolor="#ffffff">ssm</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 4x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Helper ===== -->
+  <h3 class="title"><a name="helper"/>Helper</h3>
+
+  <!-- =====        Striped 32x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/get')">get</a></td>
+        <td bgcolor="#f3f4f5">Get a property of a object.</td>
+        <td bgcolor="#f3f4f5">ltpda_obj</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/search')">search</a></td>
+        <td bgcolor="#ffffff">Select objects that match the given name.</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/setDescription')">setDescription</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'description' property of a ltpda_uo object.</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/setName')">setName</a></td>
+        <td bgcolor="#ffffff">Sets the property 'name' of an ltpda_uoh object.</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/created')">created</a></td>
+        <td bgcolor="#f3f4f5">Returns a time object of the last modification.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/creator')">creator</a></td>
+        <td bgcolor="#ffffff">Extract the creator(s) from the history.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/csvexport')">csvexport</a></td>
+        <td bgcolor="#f3f4f5">Exports the data of an object to a csv file.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/index')">index</a></td>
+        <td bgcolor="#ffffff">Index into a 'ltpda_uoh' object array or matrix. This properly captures the history.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/plot')">plot</a></td>
+        <td bgcolor="#f3f4f5">Plots the user object on a figure.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/requirements')">requirements</a></td>
+        <td bgcolor="#ffffff">Returns a list of LTPDA extension requirements for a given object.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/setPlotAxes')">setPlotAxes</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'axes' property of a the object's plotinfo.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/setPlotColor')">setPlotColor</a></td>
+        <td bgcolor="#ffffff">Sets the color of a the object's plotinfo.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/setPlotFigure')">setPlotFigure</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'figure' property of a the object's plotinfo.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/setPlotFillmarker')">setPlotFillmarker</a></td>
+        <td bgcolor="#ffffff">Defines if the plot function fill the marker or not.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/setPlotLineStyle')">setPlotLineStyle</a></td>
+        <td bgcolor="#f3f4f5">Sets the linestyle of a the object's plotinfo.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/setPlotLinewidth')">setPlotLinewidth</a></td>
+        <td bgcolor="#ffffff">Sets the linewidth of a the object's plotinfo.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/setPlotMarker')">setPlotMarker</a></td>
+        <td bgcolor="#f3f4f5">Sets the marker of a the object's plotinfo.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/setPlotMarkerEdgeColor')">setPlotMarkerEdgeColor</a></td>
+        <td bgcolor="#ffffff">Sets the color of a the object's marker edge.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/setPlotMarkerFaceColor')">setPlotMarkerFaceColor</a></td>
+        <td bgcolor="#f3f4f5">Sets the color of a the object's marker face.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/setPlotMarkersize')">setPlotMarkersize</a></td>
+        <td bgcolor="#ffffff">Sets the markersize of a the object's plotinfo.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/setPlotinfo')">setPlotinfo</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'plotinfo' property of a ltpda_uoh object.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/setPlottingStyle')">setPlottingStyle</a></td>
+        <td bgcolor="#ffffff">Sets the style property of a the object's plotinfo.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/setProcinfo')">setProcinfo</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'procinfo' property of a ltpda_uoh object.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/setShowsErrors')">setShowsErrors</a></td>
+        <td bgcolor="#ffffff">Sets the 'showErrors' property of a the object's plotinfo.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/setTimespan')">setTimespan</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'timespan' property of a ltpda_uoh object.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/addParameters')">addParameters</a></td>
+        <td bgcolor="#ffffff">Adds the parameters to the model.</td>
+        <td bgcolor="#ffffff">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/duplicateInput')">duplicateInput</a></td>
+        <td bgcolor="#f3f4f5">Copies the specified input blocks.</td>
+        <td bgcolor="#f3f4f5">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/parameterDiff')">parameterDiff</a></td>
+        <td bgcolor="#ffffff">Makes a ssm that produces the output and state derivatives.</td>
+        <td bgcolor="#ffffff">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/setBlockProperties')">setBlockProperties</a></td>
+        <td bgcolor="#f3f4f5">Sets the specified properties of the specified SSM blocks.</td>
+        <td bgcolor="#f3f4f5">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/setParameters')">setParameters</a></td>
+        <td bgcolor="#ffffff">Sets the values of the given parameters.</td>
+        <td bgcolor="#ffffff">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/setParams')">setParams</a></td>
+        <td bgcolor="#f3f4f5">Sets the parameters of the model to the given plist.</td>
+        <td bgcolor="#f3f4f5">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/setPortProperties')">setPortProperties</a></td>
+        <td bgcolor="#ffffff">Sets names of the specified SSM ports.</td>
+        <td bgcolor="#ffffff">ssm</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 32x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Internal ===== -->
+  <h3 class="title"><a name="internal"/>Internal</h3>
+
+  <!-- =====        Striped 8x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/isprop')">isprop</a></td>
+        <td bgcolor="#f3f4f5">Tests if the given field is one of the object properties.</td>
+        <td bgcolor="#f3f4f5">ltpda_obj</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/bsubmit')">bsubmit</a></td>
+        <td bgcolor="#ffffff">Submits the given collection of objects in binary form to an LTPDA repository</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/submit')">submit</a></td>
+        <td bgcolor="#f3f4f5">Submits the given collection of objects to an LTPDA repository</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/update')">update</a></td>
+        <td bgcolor="#ffffff">Updates the given object in an LTPDA repository</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/string')">string</a></td>
+        <td bgcolor="#f3f4f5">Writes a command string that can be used to recreate the input object(s).</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/type')">type</a></td>
+        <td bgcolor="#ffffff">Converts the input objects to MATLAB functions.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/generateConstructorPlist')">generateConstructorPlist</a></td>
+        <td bgcolor="#f3f4f5">Generates a PLIST from the properties which can rebuild the object.</td>
+        <td bgcolor="#f3f4f5">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/ssm2dot')">ssm2dot</a></td>
+        <td bgcolor="#ffffff">Converts a statespace model object a DOT file.</td>
+        <td bgcolor="#ffffff">ssm</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 8x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Operator ===== -->
+  <h3 class="title"><a name="operator"/>Operator</h3>
+
+  <!-- =====        Striped 16x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/append')">append</a></td>
+        <td bgcolor="#f3f4f5">S embedded subsytems, with exogenous inputs</td>
+        <td bgcolor="#f3f4f5">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/assemble')">assemble</a></td>
+        <td bgcolor="#ffffff">S embedded subsytems, with exogenous inputs</td>
+        <td bgcolor="#ffffff">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/cpsd')">cpsd</a></td>
+        <td bgcolor="#f3f4f5">Computes the output theoretical CPSD shape with given inputs.</td>
+        <td bgcolor="#f3f4f5">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/cpsdForCorrelatedInputs')">cpsdForCorrelatedInputs</a></td>
+        <td bgcolor="#ffffff">Computes the output theoretical CPSD shape with given inputs.</td>
+        <td bgcolor="#ffffff">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/cpsdForIndependentInputs')">cpsdForIndependentInputs</a></td>
+        <td bgcolor="#f3f4f5">Computes the output theoretical CPSD shape with given inputs.</td>
+        <td bgcolor="#f3f4f5">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/kalman')">kalman</a></td>
+        <td bgcolor="#ffffff">Applies Kalman filtering to a discrete ssm with given i/o</td>
+        <td bgcolor="#ffffff">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/modifyTimeStep')">modifyTimeStep</a></td>
+        <td bgcolor="#f3f4f5">Modifies the timestep of a ssm object</td>
+        <td bgcolor="#f3f4f5">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/optimiseForFitting')">optimiseForFitting</a></td>
+        <td bgcolor="#ffffff">Reduces the system matrices to doubles and strings.</td>
+        <td bgcolor="#ffffff">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/psd')">psd</a></td>
+        <td bgcolor="#f3f4f5">Computes the output theoretical PSD shape with given inputs.</td>
+        <td bgcolor="#f3f4f5">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/removeEmptyBlocks')">removeEmptyBlocks</a></td>
+        <td bgcolor="#ffffff">Enables to do model simplification</td>
+        <td bgcolor="#ffffff">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/reorganize')">reorganize</a></td>
+        <td bgcolor="#f3f4f5">REOGANIZE rearranges a ssm object for fast input to BODE, SIMULATE, PSD.</td>
+        <td bgcolor="#f3f4f5">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/sMinReal')">sMinReal</a></td>
+        <td bgcolor="#ffffff">Gives a minimal realization of a ssm object by deleting unreached states</td>
+        <td bgcolor="#ffffff">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/simplify')">simplify</a></td>
+        <td bgcolor="#f3f4f5">Enables to do model simplification</td>
+        <td bgcolor="#f3f4f5">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/simulate')">simulate</a></td>
+        <td bgcolor="#ffffff">Simulates a discrete ssm with given inputs</td>
+        <td bgcolor="#ffffff">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/steadyState')">steadyState</a></td>
+        <td bgcolor="#f3f4f5">Returns a possible value for the steady state of an ssm.</td>
+        <td bgcolor="#f3f4f5">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/subsParameters')">subsParameters</a></td>
+        <td bgcolor="#ffffff">Enables to substitute symbolic patameters</td>
+        <td bgcolor="#ffffff">ssm</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 16x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Output ===== -->
+  <h3 class="title"><a name="output"/>Output</h3>
+
+  <!-- =====        Striped 14x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/save')">save</a></td>
+        <td bgcolor="#f3f4f5">Overloads save operator for ltpda objects.</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/report')">report</a></td>
+        <td bgcolor="#ffffff">Generates an HTML report about the input objects.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/viewHistory')">viewHistory</a></td>
+        <td bgcolor="#f3f4f5">Displays the history of an object as a dot-view or a MATLAB figure.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/char')">char</a></td>
+        <td bgcolor="#ffffff">Convert a ssm object into a string.</td>
+        <td bgcolor="#ffffff">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/disp')">disp</a></td>
+        <td bgcolor="#f3f4f5">Display ssm object.</td>
+        <td bgcolor="#f3f4f5">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/displayProperties')">displayProperties</a></td>
+        <td bgcolor="#ffffff">DISPAYPROPERTIES displays the ssm model porperties.</td>
+        <td bgcolor="#ffffff">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/dotview')">dotview</a></td>
+        <td bgcolor="#f3f4f5">View an ssm object via the DOT interpreter.</td>
+        <td bgcolor="#f3f4f5">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/double')">double</a></td>
+        <td bgcolor="#ffffff">Convert a statespace model object to double arrays for given i/o</td>
+        <td bgcolor="#ffffff">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/findParameters')">findParameters</a></td>
+        <td bgcolor="#f3f4f5">Returns parameter names matching the given pattern.</td>
+        <td bgcolor="#f3f4f5">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/getParameters')">getParameters</a></td>
+        <td bgcolor="#ffffff">Returns parameter values for the given names.</td>
+        <td bgcolor="#ffffff">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/getParams')">getParams</a></td>
+        <td bgcolor="#f3f4f5">Returns the parameter list for this SSM model.</td>
+        <td bgcolor="#f3f4f5">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/getPortNamesForBlocks')">getPortNamesForBlocks</a></td>
+        <td bgcolor="#ffffff">Returns a list of port names for the given block.</td>
+        <td bgcolor="#ffffff">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/isStable')">isStable</a></td>
+        <td bgcolor="#f3f4f5">Tells if ssm is numerically stable</td>
+        <td bgcolor="#f3f4f5">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/settlingTime')">settlingTime</a></td>
+        <td bgcolor="#ffffff">Retunrns 1% the settling time of the system.</td>
+        <td bgcolor="#ffffff">ssm</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 14x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Relational_Operator ===== -->
+  <h3 class="title"><a name="relational_operator"/>Relational Operator</h3>
+
+  <!-- =====        Striped 1x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/isequal')">isequal</a></td>
+        <td bgcolor="#f3f4f5">Overloads the isequal operator for ltpda objects.</td>
+        <td bgcolor="#f3f4f5">ltpda_obj</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 1x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Signal_Processing ===== -->
+  <h3 class="title"><a name="signal_processing"/>Signal Processing</h3>
+
+  <!-- =====        Striped 10x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/bode')">bode</a></td>
+        <td bgcolor="#f3f4f5">Makes a bode plot from the given inputs to outputs.</td>
+        <td bgcolor="#f3f4f5">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/bodecst')">bodecst</a></td>
+        <td bgcolor="#ffffff">Makes a bodecst plot from the given inputs to outputs.</td>
+        <td bgcolor="#ffffff">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/c2d')">c2d</a></td>
+        <td bgcolor="#f3f4f5">Performs actions on ao objects.</td>
+        <td bgcolor="#f3f4f5">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/d2c')">d2c</a></td>
+        <td bgcolor="#ffffff">Performs actions on ao objects.</td>
+        <td bgcolor="#ffffff">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/d2d')">d2d</a></td>
+        <td bgcolor="#f3f4f5">Performs actions on ao objects.</td>
+        <td bgcolor="#f3f4f5">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/loglikelihood')">loglikelihood</a></td>
+        <td bgcolor="#ffffff">Compute log-likelihood for SSM objects</td>
+        <td bgcolor="#ffffff">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/projectNoise')">projectNoise</a></td>
+        <td bgcolor="#f3f4f5">Performs actions on ao objects.</td>
+        <td bgcolor="#f3f4f5">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/resp')">resp</a></td>
+        <td bgcolor="#ffffff">Gives the timewise impulse response of a statespace model.</td>
+        <td bgcolor="#ffffff">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('ssm/respcst')">respcst</a></td>
+        <td bgcolor="#f3f4f5">Gives the timewise impulse response of a statespace model.</td>
+        <td bgcolor="#f3f4f5">ssm</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('ssm/viewDetails')">viewDetails</a></td>
+        <td bgcolor="#ffffff">Performs actions on ssm objects.</td>
+        <td bgcolor="#ffffff">ssm</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 10x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ================================================== -->
+  <!--                  END CONTENT FILE                  -->
+  <!-- ================================================== -->
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="class_desc_smodel.html"><img src="b_prev.gif" border="0" align="bottom" alt="smodel Class"></a>&nbsp;</td>
+        <td align="left">smodel Class</td>
+        <td>&nbsp;</td>
+        <td align="right">timespan Class</td>
+        <td align="right" width="20"><a href="class_desc_timespan.html"><img src="b_next.gif" border="0" align="bottom" alt="timespan Class"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Building signals (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_2_topic_4_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="LPF model inputs"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_2_topic_4_3.html"><img src="b_next.gif" border="0" align="bottom" alt="How to inject signals"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Building signals</h1>
+    <hr>
+    
+    <p>
+      <h2>Introduction</h2>
+<p>
+  Building signals in LTPDA can be done in various ways. Perhaps you already have data
+  in a text file, or you have a formula for a particular time-series. These can all be
+  accommodated by the AO constructor.
+</p>
+<p>
+  Another useful way to build template signals is by using so-called 'built-in models'. These
+  built-in models serve as kind-of user-defined constructors. They typicall output objects of a
+  particular type, with the exact details of the object being governed by a few configuration
+  parameters. For example, you've already used a built-in model to build a particular kind of 
+  <tt>ssm</tt> object -- the LPF model. We also have built-in models for some of the signal templates
+  indended for use in some of the LPF system identification experiments.
+</p>
+<p>
+  If you launch the LTPDA model browser, you can browse the various built-in models available to 
+  LTPDA on your system. To launch the browser, do:
+  <div class="fragment"><pre>
+  >> LTPDAModelBrowser    
+  </pre></div>
+  You can also request a textual list of the available models for a particular LTPDA user class by
+  doing, for example, 
+  <div class="fragment"><pre>
+  >> ao.getBuiltInModels
+  </pre></div>
+</p>
+<h2>Building signals from AO built-in model</h2>
+<p>
+  The battery of signals prescribed in S2-UTN-TN-3045 for the first system identification
+  experiment can be built using the following command:
+  <div class="fragment"><pre>
+  >> sig = ao(plist(<span class="string">'built-in'</span>, <span class="string">'signals_3045_1_1'</span>));
+  </pre></div>
+  If you plot this AO you should see a plot like this:
+  <div align="center">
+    <IMG src="images/ltpda_training_2/Topic4/ao_model_signals_3045_1_1_output.png"  align="center" border="0">
+  </div>
+  There are a number of ao built-in models included in the LPF_DA_Module which reproduce
+  the signals for the TN-3045 experiments. All 6 of these models have a single configurable parameter. 
+  To see the help/description for this model, either use the model browser, or from the terminal do:
+  <div class="fragment"><pre>
+  >> help ao_model_signals_3045_1_1
+  </pre></div>
+  This pattern is always the same in LTPDA, to get help for any built-in model, you need to know
+  its class, then just do:
+  <div class="fragment"><pre>
+  >> help [class]_model_[model name]
+  </pre></div>
+  The help usually includes a short description of the model and a link called "Model Information". If
+  you click on that you will see a window which gives more information about the model and the parameters
+  you can configure at build-time. For example, for the model we built above, you can also specify
+  the gap you want to have between each of the 7 finite duration sine-waves. The duration of the 
+  sine-waves is specified by the experiment and so is not a parameter. To change the gap between all signals to 1000s, 
+  build the model like this:
+  <div class="fragment"><pre>
+  >> sig = ao(plist(<span class="string">'built-in'</span>, <span class="string">'signals_3045_1_1'</span>, <span class="string">'gaps'</span>, 1000));
+  </pre></div>
+  
+</p>
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_2_topic_4_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="LPF model inputs"></a>&nbsp;</td>
+        <td align="left">LPF model inputs</td>
+        <td>&nbsp;</td>
+        <td align="right">How to inject signals</td>
+        <td align="right" width="20"><a href="ltpda_training_2_topic_4_3.html"><img src="b_next.gif" border="0" align="bottom" alt="How to inject signals"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

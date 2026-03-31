@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Submitting LTPDA objects to a repository (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="repo_connect.html"><img src="b_prev.gif" border="0" align="bottom" alt="Connecting to an LTPDA Repository"></a>&nbsp;&nbsp;&nbsp;<a href="repo_explore.html"><img src="b_next.gif" border="0" align="bottom" alt="Exploring an LTPDA Repository"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Submitting LTPDA objects to a repository</h1>
+    <hr>
+    
+    <p>
+      <p>
+  Any of the <it>user</it> objects can be submitted to an LTPDA repository
+</p>
+
+<p>
+  There are three different methods which submit/update object(s) to the repository:
+  <ul>
+    <li><h3>submit</h3>
+      Submits the given collection of objects to an LTPDA Repository. If multiple objects 
+      are submitted together, a corresponding collection entry will be made. The objects 
+      are stored as a XML representation <b>and</b> if possible a binary representation 
+    (see bsubmit).</li>
+    <li><h3>bsubmit</h3>
+      Submits the given collection of objects to an LTPDA Repository. If multiple objects 
+      are submitted together, a corresponding collection entry will be made. The objects 
+      are stored <b>only</b> as a binary representation.<br />
+      In order to retrieve this object by calling a constructor it is necessary to 
+      set the key <tt>'BINARY'</tt> to 'yes' because the XML representation doesn't exist. 
+      For example the AO constructor 
+      <a href="matlab:web(ao.getInfo('ao', 'from repository').tohtml, '-helpbrowser')">'From Repository'</a>
+    </li>    
+    <li><h3>update</h3>
+      Updates the specified object with a new object.
+    </li>    
+  </ul>
+</p>
+
+<h2>The submission process</h2>
+
+<p>
+  When an object is submitted, the following steps are taken:<br />
+  <ol>
+    <li>The <tt>userid</tt> of the user connecting is retrieved from the <it>Users</it> table of the repository</li>
+    <li>For each object to be submitted:
+      <ol>
+        <li>The object to be submitted is checked to be one of the types listed above</li>
+        <li>The <tt>name</tt>, <tt>created</tt>, and <tt>version</tt> fields are read from the object</li>
+        <li>The object is converted to an XML text string</li>
+        <li>An MD5 hash sum is computed for the XML string</li>
+        <li>The XML string and the hash code are inserted in to the <tt>objs</tt> table</li>
+        <li>The automatically assigned ID of the object is retrieved from the <tt>objs</tt> table</li>
+        <li>An attempt is made to create a binary representation of the object (.MAT). If this is possible, the binary data is inserted in the <tt>bobjs</tt> table.</li>
+        <li>Various pieces of meta-data (object name, object type, created time, client IP address, <i>etc.</i>) are submitted to the <tt>objmeta</tt> table</li>
+        <li>Additional meta-data is entered into the table matching the object class (<tt>ao</tt>, <tt>tsdata</tt>, <i>etc.</i>)</li>
+        <li>An 'in' entry is made in the <tt>transaction</tt> table recording the user ID and the object ID</li>
+      </ol>
+    </li>
+    <li>A entry is then made in the <tt>collections</tt> table, even if this is a single object submission</li>
+    <li>The object IDs and the collection ID are returned to the user</li>
+  </ol>
+</p>
+
+<br />
+<h2>Submitting objects</h2>
+
+<p>
+  Objects can be submitted using the command <tt>submit</tt>. This command takes at least two inputs:
+  <table border="1" cellpadding="2" width="30%" bgcolor="#DDDDDD">
+    <tr valign="top">
+      <td><tt>object</tt></td><td>The object(s) to submit</td>
+    </tr>
+    <tr valign="top">
+      <td><tt>pl</tt></td><td>A plist containing various pieces of information (see below)</td>
+    </tr>
+  </table>
+</p>
+<p>
+  The <tt>plist</tt> details can be found at: <a href="matlab:web(ltpda_uo.getInfo('submit').tohtml, '-helpbrowser')">Parameter Sets</a>
+</p>
+<p>
+  The following example script connects to a repository and submits an AO:
+  <div class="fragment">
+    <pre>      
+      <span class="comment">% Load the AO</span>
+      a = ao(<span class="string">'result.xml'</span>);
+      
+      <span class="comment">% Build a plist containing connection parameters and submission information</span>
+      pl = plist(...
+        <span class="string">'hostname'</span>, <span class="string">'localhost'</span>, ...
+        <span class="string">'database'</span>, <span class="string">'test'</span>, ...
+        <span class="string">'experiment title'</span>, <span class="string">'Interferometer noise'</span>, ...
+        <span class="string">'experiment description'</span>, <span class="string">'Spectral estimation of interferometer output signal'</span>, ...
+        <span class="string">'analysis description'</span>, <span class="string">'Spectrum of the recorded signal'</span>, ...
+        <span class="string">'quantity'</span>, <span class="string">'photodiode output'</span>, ...
+        <span class="string">'keywords'</span>, <span class="string">'interferometer, noise, spectrum'</span>, ...
+        <span class="string">'reference ids'</span>, <span class="string">''</span>, ...
+        <span class="string">'additional comments'</span>, <span class="string">'none'</span>, ...
+        <span class="string">'additional authors'</span>, <span class="string">'no one'</span>);
+      
+      <span class="comment">% Submit the AO</span>
+      [ids, cid] = submit(a, pl);</pre>
+  </div>
+  The ID assigned to the submitted object is contained in the first output of the <tt>submit</tt> function:
+  <div class="fragment">
+    <pre>    
+      <span class="comment">% Inspect the object ID</span>
+      disp(ids)
+      212</pre>
+  </div>
+  If the <tt>plist</tt> contains sufficient information, it is possible to overide the appearance of the
+  'submission' dialog by giving the key/value pair: 'no dialog', <tt>true</tt>.
+</p>
+
+<h2>Submitting collections</h2>
+<p>
+  Collections of LTPDA objects can also be submitted. Here a collection is defined as a group of objects
+  submitted at the same time. In this way, a single information structure describing the collection is
+  assigned to all the objects. The collection is just a virtual object; it is defined by a list of object IDs in the database.
+</p>
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="repo_connect.html"><img src="b_prev.gif" border="0" align="bottom" alt="Connecting to an LTPDA Repository"></a>&nbsp;</td>
+        <td align="left">Connecting to an LTPDA Repository</td>
+        <td>&nbsp;</td>
+        <td align="right">Exploring an LTPDA Repository</td>
+        <td align="right" width="20"><a href="repo_explore.html"><img src="b_next.gif" border="0" align="bottom" alt="Exploring an LTPDA Repository"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

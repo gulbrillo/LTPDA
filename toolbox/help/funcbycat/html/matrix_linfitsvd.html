@@ -1,0 +1,327 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!-- $Id$ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="../../ug/docstyle.css">
+    <title>LTPDA Method: matrix/linfitsvd</title>
+  </head>
+  <body>
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <p style="font-size:1px;">&nbsp;</p>
+
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../../ug/../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="matrix_lincom.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: matrix/lincom"></a>&nbsp;&nbsp;&nbsp;<a href="matrix_linlsqsvd.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: matrix/linlsqsvd"></a></td>
+      </tr>
+    </table>
+
+    <h1 class="title">Method matrix/linfitsvd</h1>
+    <hr />
+
+<pre>  <SPAN CLASS="HELPTOPIC">LINFITSVD</SPAN> Linear fit with singular value decomposition
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+  DESCRIPTION: Linear least square problem with singular value
+  decomposition
+ 
+  ALGORITHM: Perform linear identification of the parameters of a
+  multichannel systems. The results of different experiments on the same
+  system can be passed as input. The algorithm, thanks to the singular
+  value decomposition, extract the maximum amount of information from each
+  single channel and for each experiment. Total information is then
+  combined to get the final result.
+             
+  CALL:                   pars = <span class="helptopic">linfitsvd</span>(os1,...,osn,pl);
+  
+  INPUT:
+                - osi are vector of system output signals. They must be
+                Nx1 matrix objects, where N is the output dimension of the
+                system
+  
+  OUTPUT:
+                - pars: a pest object containing parameter estimation
+ 
+  <a href="matrix_linfitsvd.html#down">Parameters Description</a>
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</pre>
+
+    <!-- =====        Striped 4x2 table: Begin        ==== -->
+    <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+    <div class="sectiontitle"></div>
+    <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+      <colgroup>
+        <col width="30%"/>
+        <col width="70%"/>
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th class="categorylist">Method Details</th>
+          <th class="categorylist"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Access</td>
+          <td bgcolor="#f3f4f5">public</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Defining Class</td>
+          <td bgcolor="#ffffff">matrix</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Sealed</td>
+          <td bgcolor="#f3f4f5">0</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Static</td>
+          <td bgcolor="#ffffff">0</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- ===== Striped 4x2 table: End ==== -->
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <h2>Parameter Description</h2>    <a name="down" id="down"></a>
+
+    <!-- Link-Table of the sets -->
+    <table border="0" cellpadding="4" cellspacing="0" class="pagenavtable">
+      <tr><th>Sets for this method &#8230;</th></tr>
+        <tr><td><a href="#1">Default</a></td></tr>
+    </table>
+
+    <a name="1"></a>
+    <!-- Parameter List Table: Default -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>Default</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">linfitsvd</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">MODEL</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">System model. It have to be parametric. A matrix of smodel objects or a ssm object</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">INNAMES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell array containing cell arrays of the input ports names for each experiment. Used only with ssm models.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">OUTNAMES</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell array containing cell arrays of the output ports names for each experiment. Used only with ssm models.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FITPARAMS</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell array with the names of the fit parameters</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">INPUT</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Collection of input signals</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">BOUNDEDPARAMS</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell array with the names of the bounded fit parameters</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">BOUNDVALS</td>
+            <td bgcolor="#F2F2F2">{} [0x0]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">A cell array with the boundaries values for the bounded fit parameters</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DMODEL</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Partial derivatives of the system parametric model. A matrix of smodel objects</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">WHITENINGFILTER</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The multichannel whitening filter. A matrix object of filters</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NLOOPS</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Number of desired iteration loops.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NCUT</td>
+            <td bgcolor="#F2F2F2">100</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Number of bins to be discharged in order to cut whitening filter transients</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NPAD</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Number of points for zero padding.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">KNOWNPARAMS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Known Parameters. A pest object containing parameters values, names and errors</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TOL</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Convergence threshold for fit parameters</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FAST</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Using fast option causes the whitening filter to be applied in frequency domain.The filter matrix is considered diagonal. The method skip time domain filtering saving some process timeIt works only when the imput model is a matrix of smodels</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">SETALIAS</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Set to true in order to aassign internally the values to the model alias</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">STHRESHOLD</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Fix upper treshold for singular values.Singular values larger than the value will be ignored.This correspon to consider only parameters combinations with error lower then the value</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DIFFSTEP</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Numerical differentiation step for ssm models</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">MODEL FS</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The sample rate to discretize the model at for performing the simulations.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RESAMPLE FILTER</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The filter used for resampling when adjusting the input data to the model fs.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('MODEL', [[]], 'INNAMES', cell(0,0), 'OUTNAMES', cell(0,0), 'FITPARAMS', cell(0,0), 'INPUT', [[]], 'BOUNDEDPARAMS', cell(0,0), 'BOUNDVALS', cell(0,0), 'DMODEL', [[]], 'WHITENINGFILTER', [[]], 'NLOOPS', [1], 'NCUT', [100], 'NPAD', [[]], 'KNOWNPARAMS', [[]], 'TOL', [1], 'FAST', [false], 'SETALIAS', [false], 'STHRESHOLD', [1], 'DIFFSTEP', [[]], 'MODEL FS', [[]], 'RESAMPLE FILTER', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <p><!-- Table of the minfo object -->
+      <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+        <colgroup>
+          <col width="25%"/>
+          <col width="75%"/>
+        </colgroup>
+        <thead>
+          <tr valign="top">
+            <th class="categorylist" colspan="2">Some information of the method matrix/linfitsvd are listed below:</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Property: 'mclass' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Class name</td>
+            <td bgcolor="#f3f4f5">matrix</td>
+          </tr>
+          <!-- Property: 'mname' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Method name</td>
+            <td bgcolor="#ffffff">linfitsvd</td>
+          </tr>
+          <!-- Property: 'mcategory' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Category</td>
+            <td bgcolor="#f3f4f5">Signal Processing</td>
+          </tr>
+          <!-- Property: 'mpackage' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Package name</td>
+            <td bgcolor="#ffffff">ltpda</td>
+          </tr>
+          <!-- Property: 'modifier' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Can be used as modifier</td>
+            <td bgcolor="#f3f4f5">0</td>
+          </tr>
+          <!-- Property: 'supportedNumTypes' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Supported numeric types</td>
+            <td bgcolor="#ffffff">{'double'}</td>
+          </tr>
+        </tbody>
+      </table>
+    </p>
+
+
+    <br>
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="matrix_lincom.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: matrix/lincom"></a>&nbsp;</td>
+        <td align="left">Method: matrix/lincom</td>
+        <td>&nbsp;</td>
+        <td align="right">Method: matrix/linlsqsvd</td>
+        <td align="right" width="20"><a href="matrix_linlsqsvd.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: matrix/linlsqsvd"></a></td>
+      </tr>
+    </table>
+
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+
+   </body>
+</html>

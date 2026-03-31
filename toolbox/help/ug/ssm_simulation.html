@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Simulations (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ssm_assemble.html"><img src="b_prev.gif" border="0" align="bottom" alt="Assembling systems"></a>&nbsp;&nbsp;&nbsp;<a href="TransferFunction_model.html"><img src="b_next.gif" border="0" align="bottom" alt="Transfer Function Modelling"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Simulations</h1>
+    <hr>
+    
+    <p>
+      <P>The function simulate can use ssm object to produce simulations. 
+</P>
+<H2>Simulation example. 
+</H2>
+<P>The following closed loop system is built. 
+</P>
+<DIV CLASS="fragment"><PRE><FONT SIZE=2>&gt;&gt; sys = ssm(plist(</FONT><FONT COLOR="#a020f0">'built-in'</FONT>, <FONT COLOR="#a020f0">'standard_system_params'</FONT>, <FONT COLOR="#a020f0">'setnames'</FONT>, {<FONT COLOR="#a020f0">'W'</FONT> <FONT COLOR="#a020f0">'C'</FONT>}, <FONT COLOR="#a020f0">'setvalues'</FONT>, [-0.2 -0.5]));
+&gt;&gt; sys.modifTimeStep(0.01);
+<FONT SIZE=2>&gt;&gt; sys.duplicateInput(</FONT><FONT COLOR="#a020f0">'U'</FONT>,<FONT COLOR="#a020f0">'Negative Bias'</FONT>);
+&gt;&gt; controller = ssm(plist( <FONT COLOR="#0000ff">...</FONT>
+<FONT COLOR="#a020f0">'amats'</FONT><FONT COLOR="#000000">,cell(0,0), </FONT><FONT COLOR="#a020f0">'bmats'</FONT><FONT COLOR="#000000">,cell(0,1), </FONT><FONT COLOR="#a020f0">'cmats'</FONT><FONT COLOR="#000000">,cell(1,0), </FONT><FONT COLOR="#a020f0">'dmats'</FONT><FONT COLOR="#000000">,{-1}, </FONT><FONT COLOR="#0000ff">...</FONT>
+<FONT COLOR="#a020f0">'timestep'</FONT><FONT COLOR="#000000">,0.01, </FONT><FONT COLOR="#a020f0">'name'</FONT><FONT COLOR="#000000">,</FONT><FONT COLOR="#a020f0">'controller'</FONT><FONT COLOR="#000000">, </FONT><FONT COLOR="#a020f0">'params'</FONT><FONT COLOR="#000000">,plist, </FONT><FONT COLOR="#0000ff">...</FONT>
+<FONT COLOR="#a020f0">'statenames'</FONT><FONT COLOR="#000000">,{}, </FONT><FONT COLOR="#a020f0">'inputnames'</FONT><FONT COLOR="#000000">,{</FONT><FONT COLOR="#a020f0">'Y'</FONT><FONT COLOR="#000000">}, </FONT><FONT COLOR="#a020f0">'outputnames'</FONT><FONT COLOR="#000000">,{</FONT><FONT COLOR="#a020f0">'U'</FONT><FONT COLOR="#000000">} ));</FONT>
+------ ssm/1 -------
+      amats: {  [2x2]  }  [1x1]
+      mmats: {  [2x2]  }  [1x1]
+      bmats: {  [2x2]   [2x1]  }  [1x2]
+      cmats: {  [1x2]   
+                [1x2]  }  [2x1]
+      dmats: {  [1x2]    []     
+                [1x2]    []    }  [2x2]
+   timestep: 0.01
+     inputs:  [1x2 ssmblock]
+         1 : N | Fn [kg m s^(-2)], On [m]
+         2 : Negative Bias | Fu [kg m s^(-2)]
+     states:  [1x1 ssmblock]
+         1 : standard test system | x [m], xdot [m s^(-1)]
+    outputs:  [1x2 ssmblock]
+         1 : Y | y [m]
+         2 : U | U &gt; 1 []
+     params: (empty-plist) [1x1 plist]
+    version: $Id$
+    Ninputs: 2
+ inputsizes: [2 1]
+   Noutputs: 2
+outputsizes: [1 1]
+    Nstates: 1
+ statesizes: 2
+    Nparams: 0
+isnumerical: true
+       hist: ssm.hist [1x1 history]
+   procinfo: (empty-plist) [1x1 plist]
+   plotinfo: (empty-plist) [1x1 plist]
+       name: assembled( standard_system_params + controller))
+description: 
+    mdlfile: 
+       UUID: 163d7103-063b-4a57-af7e-b08d22fe42c1
+--------------------</PRE></DIV><P>
+Then we wish to use the inputs of N for a correlated force noise and
+measurement noise, &ldquo;Negative Bias&rdquo; for a sinewave, and
+there will be an observation DC offset.</P>
+<P>We want as an output the controller output &ldquo;U&rdquo; and the
+sensor output &ldquo;y&rdquo;.</P>
+<DIV CLASS="fragment"><PRE>&gt;&gt; ao1 = ao(plist(<FONT COLOR="#a020f0">'FCN'</FONT>,<FONT COLOR="#a020f0">'sin(0:0.01:100)'</FONT>));
+<FONT COLOR="#000000">&gt;&gt; ao_out = sysCL.simulate( plist(</FONT><FONT COLOR="#0000ff">...</FONT>
+<FONT COLOR="#a020f0"> 'NOISE VARIABLE NAMES'</FONT><FONT COLOR="#000000">, {</FONT><FONT COLOR="#a020f0">'Fn'</FONT><FONT COLOR="#000000"> </FONT><FONT COLOR="#a020f0">'On'</FONT><FONT COLOR="#000000">}, </FONT><FONT COLOR="#a020f0">'COVARIANCE'</FONT><FONT COLOR="#000000">, [1 0.1 ; 0.1 2] , </FONT><FONT COLOR="#0000ff">...</FONT>
+<FONT COLOR="#a020f0"> 'AOS VARIABLE NAMES'</FONT><FONT COLOR="#000000">, {</FONT><FONT COLOR="#a020f0">'Fu'</FONT><FONT COLOR="#000000">} ,</FONT><FONT COLOR="#a020f0">'AOS'</FONT><FONT COLOR="#000000">, ao1 ,</FONT><FONT COLOR="#0000ff">...</FONT>
+<FONT COLOR="#a020f0"> 'CONSTANT VARIABLE NAMES'</FONT><FONT COLOR="#000000">, {</FONT><FONT COLOR="#a020f0">'On'</FONT><FONT COLOR="#000000">}, </FONT><FONT COLOR="#a020f0">'CONSTANTS'</FONT><FONT COLOR="#000000">, 35, </FONT><FONT COLOR="#0000ff">...</FONT>
+<FONT COLOR="#a020f0"> 'RETURN STATES'</FONT><FONT COLOR="#000000">, {</FONT><FONT COLOR="#a020f0">'x'</FONT><FONT COLOR="#000000">}, </FONT><FONT COLOR="#a020f0">'RETURN OUTPUTS'</FONT><FONT COLOR="#000000">, {</FONT><FONT COLOR="#a020f0">'y'</FONT><FONT COLOR="#000000"> </FONT><FONT COLOR="#a020f0">'U &gt; 1'</FONT><FONT COLOR="#000000">}, </FONT><FONT COLOR="#0000ff">...</FONT>
+<FONT COLOR="#a020f0"> 'SSINI'</FONT><FONT COLOR="#000000"> , {[100;3]}, </FONT><FONT COLOR="#a020f0">'TINI'</FONT><FONT COLOR="#000000">, 0));</FONT>
+&gt;&gt; iplot(ao_out([1, 2, 3]));</PRE></DIV><P>
+<IMG SRC="images/simulate.png" NAME="images1" ALIGN=LEFT WIDTH=567 HEIGHT=454 BORDER=0><BR CLEAR=LEFT>It
+turns out the system output (blue) is not much like the state (red),
+causing the control (green) to waste a lot of energy. The state is
+not experimentally available, but might be obtained through
+filtering. The kalman method is so far the only filtering method
+implemented in the toolbox.</P>
+<DIV CLASS="fragment"><PRE><FONT COLOR="#000000">&gt;&gt; ao_est = sysCL.kalman( plist(</FONT><FONT COLOR="#0000ff">...</FONT>
+<FONT COLOR="#a020f0"> 'NOISE VARIABLE NAMES'</FONT><FONT COLOR="#000000">, {</FONT><FONT COLOR="#a020f0">'Fn'</FONT><FONT COLOR="#000000"> </FONT><FONT COLOR="#a020f0">'On'</FONT><FONT COLOR="#000000">}, </FONT><FONT COLOR="#a020f0">'COVARIANCE'</FONT><FONT COLOR="#000000">, [1 0.1 ; 0.1 2] , </FONT><FONT COLOR="#0000ff">...</FONT>
+<FONT COLOR="#a020f0"> 'AOS VARIABLE NAMES'</FONT><FONT COLOR="#000000">, {</FONT><FONT COLOR="#a020f0">'Fu'</FONT><FONT COLOR="#000000">} ,</FONT><FONT COLOR="#a020f0">'AOS'</FONT><FONT COLOR="#000000">, ao1 ,</FONT><FONT COLOR="#0000ff">...</FONT>
+<FONT COLOR="#a020f0"> 'CONSTANT VARIABLE NAMES'</FONT><FONT COLOR="#000000">, {</FONT><FONT COLOR="#a020f0">'On'</FONT><FONT COLOR="#000000">}, </FONT><FONT COLOR="#a020f0">'CONSTANTS'</FONT><FONT COLOR="#000000">, 35, </FONT><FONT COLOR="#0000ff">...</FONT>
+<FONT COLOR="#a020f0"> 'OUTPUT VARIABLE NAMES'</FONT><FONT COLOR="#000000">, {</FONT><FONT COLOR="#a020f0">'y'</FONT><FONT COLOR="#000000">}, </FONT><FONT COLOR="#a020f0">'OUTPUTS'</FONT><FONT COLOR="#000000"> , ao_out(2), </FONT><FONT COLOR="#0000ff">...</FONT>
+<FONT COLOR="#a020f0"> 'RETURN STATES'</FONT><FONT COLOR="#000000">, 1, </FONT><FONT COLOR="#a020f0">'RETURN OUTPUTS'</FONT><FONT COLOR="#000000">, 1 ));</FONT>
+&gt;&gt; iplot(ao_out(2), ao_est(1), ao_out(1))</PRE></DIV><P>
+<IMG SRC="images/kalman.png" NAME="images2" ALIGN=LEFT WIDTH=567 HEIGHT=454 BORDER=0><BR CLEAR=LEFT>In
+this example the estimate (blue) of the state (green) is
+satisfactory. It leads us to think that such a filter should be used
+to provide with the input of the controller. 
+</P>
+<P>However, the DC offset correction by the kalman filter is one
+information that is not available under usual circumstances. 
+</P>
+<P><BR><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P><BR><BR>
+</P>
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ssm_assemble.html"><img src="b_prev.gif" border="0" align="bottom" alt="Assembling systems"></a>&nbsp;</td>
+        <td align="left">Assembling systems</td>
+        <td>&nbsp;</td>
+        <td align="right">Transfer Function Modelling</td>
+        <td align="right" width="20"><a href="TransferFunction_model.html"><img src="b_next.gif" border="0" align="bottom" alt="Transfer Function Modelling"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

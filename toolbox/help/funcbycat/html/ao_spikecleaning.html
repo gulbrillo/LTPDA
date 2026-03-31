@@ -1,0 +1,284 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!-- $Id$ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="../../ug/docstyle.css">
+    <title>LTPDA Method: ao/spikecleaning</title>
+  </head>
+  <body>
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <p style="font-size:1px;">&nbsp;</p>
+
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../../ug/../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ao_spectrogram.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ao/spectrogram"></a>&nbsp;&nbsp;&nbsp;<a href="ao_split.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ao/split"></a></td>
+      </tr>
+    </table>
+
+    <h1 class="title">Method ao/spikecleaning</h1>
+    <hr />
+
+<pre>  <span class="helptopic">spikecleaning</span> detects and corrects possible spikes in analysis objects
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+  DESCRIPTION: <SPAN CLASS="HELPTOPIC">SPIKECLEANING</SPAN> detects spikes in the temperature data and
+ 	           replaces them by artificial values depending on the method
+               chosen ('random', 'mean', 'previous', 'linear', 'spline').
+               The first three methods consider extrapolation techniques
+               linear and spline apply interpolations to the data.
+ 
+ 	           Spikes are defined as singular samples or groups of samples
+               with an (absolute) value higher than kspike times the
+               standard deviation of the high-pass filtered (IIR filter)
+               input AO.x
+ 
+  CALL:        b = <span class="helptopic">spikecleaning</span>(a1, a2, ..., an, pl)
+ 
+  INPUTS:    aN - a list of analysis objects
+ 	           pl - parameter list
+ 
+  OUTPUTS:     b - a list of analysis objects with "spike values" removed
+               and corrected
+ 
+  <a href="ao_spikecleaning.html#down">Parameters Description</a>
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</pre>
+
+    <!-- =====        Striped 4x2 table: Begin        ==== -->
+    <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+    <div class="sectiontitle"></div>
+    <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+      <colgroup>
+        <col width="30%"/>
+        <col width="70%"/>
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th class="categorylist">Method Details</th>
+          <th class="categorylist"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Access</td>
+          <td bgcolor="#f3f4f5">public</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Defining Class</td>
+          <td bgcolor="#ffffff">ao</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#f3f4f5">Sealed</td>
+          <td bgcolor="#f3f4f5">0</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#ffffff">Static</td>
+          <td bgcolor="#ffffff">0</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- ===== Striped 4x2 table: End ==== -->
+
+    <a name="top_of_page" id="top_of_page"></a>
+    <h2>Parameter Description</h2>    <a name="down" id="down"></a>
+
+    <!-- Link-Table of the sets -->
+    <table border="0" cellpadding="4" cellspacing="0" class="pagenavtable">
+      <tr><th>Sets for this method &#8230;</th></tr>
+        <tr><td><a href="#1">Default</a></td></tr>
+    </table>
+
+    <a name="1"></a>
+    <!-- Parameter List Table: Default -->
+    <p>
+      <table cellspacing="0" class="body" cellpadding="4" summary="" width="100%" border="2">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="45%"/>
+        </colgroup>
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#B9C6DD" colspan="4"><h3>Default</h3></th>
+      	  </tr>
+        	<tr valign="top">
+        		<td bgcolor="#B9C6DD" colspan="4"><i>no description</i></td>
+      	  </tr>
+        	<tr valign="top">
+      	  	<th bgcolor="#D7D7D7">Key</th>
+        		<th bgcolor="#D7D7D7">Default Value</th>
+        		<th bgcolor="#D7D7D7">Options</th>
+      	  	<th bgcolor="#D7D7D7">Description</th>
+        	</tr>
+        </thead>
+        <tbody>
+          <tr valign="top" ><td align="center" bgcolor="#CCCCFF" colspan="4">spikecleaning</td></tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">KSPIKE</td>
+            <td bgcolor="#F2F2F2">3.2999999999999998</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">High values imply no correction of relative low amplitude spikes.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">FC</td>
+            <td bgcolor="#F2F2F2">0.025000000000000001</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Frequency cut-off of the IIR filter.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">ORDER</td>
+            <td bgcolor="#F2F2F2">2</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">The order of the IIR filter.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RIPPLE</td>
+            <td bgcolor="#F2F2F2">0.5</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Specify the pass/stop-band ripple for bandpass/bandreject filters</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">METHOD</td>
+            <td bgcolor="#F2F2F2">'random'</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">'random'</font></li><li><font color="#1111FF">'mean'</font></li><li><font color="#1111FF">'previous'</font></li><li><font color="#1111FF">'spline'</font></li><li><font color="#1111FF">'linear'</font></li></ul></td>
+            <td bgcolor="#F2F2F2">The method used to replace the spike value. Random and mean follow extrapolation methods while spline and linear follow interpolateion methods.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NUMPREVPOINTS</td>
+            <td bgcolor="#F2F2F2">4</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Number of previous points to delete and interpolate.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">NUMFOLLPOINTS</td>
+            <td bgcolor="#F2F2F2">5</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Number of following points to delete and interpolate.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">INTERPOINTS</td>
+            <td bgcolor="#F2F2F2">10</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Length of the segments at both sides of the spike that are going to be used when interpolating.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">DIFFSPIKES</td>
+            <td bgcolor="#F2F2F2">6</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Minimum distance in samples between spikes to consider them different spikes.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">TIMES</td>
+            <td bgcolor="#F2F2F2">1</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Number of times to clean the spikes recursively.</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">REMOVEDDSTEMPERATUREOFFSET</td>
+            <td bgcolor="#F2F2F2">0</td>
+            <td bgcolor="#F2F2F2"><ul><li><font color="#1111FF">0</font></li><li><font color="#1111FF">1</font></li></ul></td>
+            <td bgcolor="#F2F2F2">Remove DDS temperature offset after scale change tranitory</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">OFFSETTHRESHOLD</td>
+            <td bgcolor="#F2F2F2">0.001</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Offset threshold when removing the DDS temperature offset after scale change (only if selected).</td>
+          </tr>
+          <tr valign="top">
+            <td bgcolor="#F2F2F2">RAND_STREAM</td>
+            <td bgcolor="#F2F2F2">[]</td>
+            <td bgcolor="#F2F2F2"><i>none</i></td>
+            <td bgcolor="#F2F2F2">Internal MATLAB state of the pseudorandom number generator. You can set the state with a structure which should contain all properties of the MATLAB class RandStream</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table cellpadding="4">
+        <thead>
+        	<tr valign="top">
+        		<th bgcolor="#FFEE99"><h3>Example</h3></th>
+      	  </tr>
+        </thead>
+        <tbody>
+          <tr bgcolor="#FFEE99"><td>plist('KSPIKE', [3.2999999999999998], 'FC', [0.025000000000000001], 'ORDER', [2], 'RIPPLE', [0.5], 'METHOD', 'random', 'NUMPREVPOINTS', [4], 'NUMFOLLPOINTS', [5], 'INTERPOINTS', [10], 'DIFFSPIKES', [6], 'TIMES', [1], 'REMOVEDDSTEMPERATUREOFFSET', [0], 'OFFSETTHRESHOLD', [0.001], 'RAND_STREAM', [[]])</td></tr>
+        </tbody>
+      </table>
+      </p>
+      <!-- ===== Back to top ===== -->
+      <a href="#top_of_page">
+        <img src="../../ug/doc_to_top_up.gif" border="0" align="bottom" alt="back to top"/>
+        back to top
+      </a>
+    </p>
+
+    <p><!-- Table of the minfo object -->
+      <table cellspacing="0" class="body" cellpadding="2" border="0" width="60%">
+        <colgroup>
+          <col width="25%"/>
+          <col width="75%"/>
+        </colgroup>
+        <thead>
+          <tr valign="top">
+            <th class="categorylist" colspan="2">Some information of the method ao/spikecleaning are listed below:</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Property: 'mclass' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Class name</td>
+            <td bgcolor="#f3f4f5">ao</td>
+          </tr>
+          <!-- Property: 'mname' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Method name</td>
+            <td bgcolor="#ffffff">spikecleaning</td>
+          </tr>
+          <!-- Property: 'mcategory' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Category</td>
+            <td bgcolor="#f3f4f5">Signal Processing</td>
+          </tr>
+          <!-- Property: 'mpackage' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Package name</td>
+            <td bgcolor="#ffffff">ltpda</td>
+          </tr>
+          <!-- Property: 'modifier' -->
+          <tr valign="top">
+            <td bgcolor="#f3f4f5">Can be used as modifier</td>
+            <td bgcolor="#f3f4f5">0</td>
+          </tr>
+          <!-- Property: 'supportedNumTypes' -->
+          <tr valign="top">
+            <td bgcolor="#ffffff">Supported numeric types</td>
+            <td bgcolor="#ffffff">{'double'}</td>
+          </tr>
+        </tbody>
+      </table>
+    </p>
+
+
+    <br>
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ao_spectrogram.html"><img src="../../ug/b_prev.gif" border="0" align="bottom" alt="Method: ao/spectrogram"></a>&nbsp;</td>
+        <td align="left">Method: ao/spectrogram</td>
+        <td>&nbsp;</td>
+        <td align="right">Method: ao/split</td>
+        <td align="right" width="20"><a href="ao_split.html"><img src="../../ug/b_next.gif" border="0" align="bottom" alt="Method: ao/split"></a></td>
+      </tr>
+    </table>
+
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+
+   </body>
+</html>

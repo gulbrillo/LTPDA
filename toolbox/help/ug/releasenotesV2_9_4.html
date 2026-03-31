@@ -1,0 +1,250 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Version 2.9.4 LTPDA Toolbox Software (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="releasenotes.html"><img src="b_prev.gif" border="0" align="bottom" alt="Release Notes"></a>&nbsp;&nbsp;&nbsp;<a href="releasenotesV2_9_3.html"><img src="b_next.gif" border="0" align="bottom" alt="Version 2.9.3 LTPDA Toolbox Software"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Version 2.9.4 LTPDA Toolbox Software</h1>
+    <hr>
+    
+    <p>
+          
+    <style type="text/css">
+      p { margin-left:30px; }
+      h4 { margin-left:15px; }
+    </style>
+    
+    <!-- BEGIN: Content file -->
+
+    <a name="top_of_page"></a>
+    This table summarizes what's new in Version 2.9.4:
+    <table cellspacing="0" class="body" cellpadding="4" border="2" width="100%">
+      <colgroup>
+        <col width="25%">
+        <col width="25%">
+        <col width="25%">
+        <col width="25%">
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th bgcolor="#B2B2B2" valign="top">New Features and Changes</th>
+          <th bgcolor="#B2B2B2" valign="top">Version Compatibility Considerations</th>
+          <th bgcolor="#B2B2B2" valign="top">Fixed Bugs and Known Problems</th>
+          <th bgcolor="#B2B2B2" valign="top">Related Documentation at Web Site</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#F2F2F2">Yes<br>Details below</td>
+          <td bgcolor="#F2F2F2">No</td>
+          <td bgcolor="#F2F2F2"><a href="https://ed.fbk.eu/ltpda/mantis/login_page.php" target="_top">Bug Reports</a> at Web site</td>
+          <td bgcolor="#F2F2F2">Printable Release Notes: <a href="http://www.lisa.aei-hannover.de/ltpda/downloads/version_294/files/Release_Notes_v2.9.4.pdf" target="_top">PDF</a></td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <ul>
+      <li><a href="#introduction">Introduction</a></li>
+      <li><a href="#known_issues">Known Issues</a></li>
+      <li><a href="#main_changes">Main Changes</a></li>
+      <li><a href="#requirements">Requirements</a></li>
+      <ul>
+        <li><a href="#new_methods">New Methods</a></li>
+        <li><a href="#changes_to_methods">Changes to methods</a></li>
+      </ul>
+      <li><a href="https://ed.fbk.eu/ltpda/mantis/login_page.php">MANTIS Issues Resolved</a></li>
+      <li><a href="http://www.lisa.aei-hannover.de/ltpda/downloads/version_294/files/Release_Notes_v2.9.4.pdf">Detailed changes since v2.8</a></li>
+    </ul>
+    
+    <!-- HEADLINE: Introduction -->
+    <h3 class="title" id="introduction">Introduction</h3>
+    <p>This version of LTPDA is 2.9.4. This document lists the changes since V2.8.</p>
+    <p><i>This version requires MATLAB 2012b or above.</i></p>
+    
+    <!-- HEADLINE: Known Issues -->
+    <h3 class="title" id="known_issues">Known Issues</h3>
+    <p>None</p>
+    
+    <!-- HEADLINE: Main Changes -->
+    <h3 class="title" id="main_changes">Main Changes</h3>
+    <p>This version of LTPDA contains many under-the-hood improvements, particularly in the 
+      area of speed, and also some changes to the underlying data structures for analysis objects.
+    </p>
+    <p>This version also includes changes to the plotting tools to adapt to the changes to the
+      graphics objects in recent MATLAB versions.
+    </p>
+    <p>It is now possible to submit and retrieve MATLAB figures to/from an LTPDA repository,
+      assuming the figures are created using LTPDA plotting tools (like iplot, ao/plot).
+    </p>
+    <p>Spectral estimation methods now automatically drop the first N samples (defined by the
+      window function) from the resulting estimates as these samples are biased. This can be
+      deactivated in the plist. See <b>help ao/psd</b> for example.
+    </p>
+    <p>LTPDA now supports data types other than double() in AOs, and some methods properly
+      treat these data types.
+    </p>
+    
+    <!-- HEADLINE: Known Issues -->
+    <h3 class="title" id="requirements">Requirements</h3>
+    <p>A number of changes made required us to change the minimum MATLAB installation
+      requirements to
+    </p>
+    
+    <table cellspacing="0" class="body" cellpadding="4" border="2" width="50%">
+      <colgroup>
+        <col width="25%">
+        <col width="25%">
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th bgcolor="#B2B2B2" valign="top">Software</th>
+          <th bgcolor="#B2B2B2" valign="top">Version</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#F2F2F2">MATLAB</td>
+          <td bgcolor="#F2F2F2">8.0 (R2012b)</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#F2F2F2">Signal Processing Toolbox</td>
+          <td bgcolor="#F2F2F2">6.18</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#F2F2F2">Symbolic Math Toolbox</td>
+          <td bgcolor="#F2F2F2">5.9</td>
+        </tr>
+        <tr valign="top">
+          <td bgcolor="#F2F2F2">Optimisation Toolbox*</td>
+          <td bgcolor="#F2F2F2">6.2.1</td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <!-- HEADLINE: New Methods -->
+    <h4 class="title" id="new_methods">New Methods</h4> 
+    <ul>
+      <li><b>ao/mod</b> An overload of the mod() function.</li>
+      <li><b>ao/window</b> A new method for windowing time-series data.</li>
+      <li><b>ao/dtfe</b> is a discrete transfer function estimation tool based on the DFT.</li>
+      <li><b>ao/nyquistplot</b> for making nyquist plots from fsdata AOs.</li>
+      <li><b>ao/flscov</b> performs iterative re-weighted least squares fitting.</li>
+      <li><b>ao/summaryReport</b> produces a tabular report of the input AO array. Currently only works for time-series AOs.</li>
+      <li><b>ao/psdvfit</b> vector fitting applied to spectra. It comes with a companion method <b>ao/validateSpectrumMod</b> for validating the fit.</li>
+      <li><b>ao/union</b> overloads the union operator for AOs.</li>
+      <li><b>timespan(ao)</b> a new constructor which creates a timespan object from a time-series AO.</li>
+    </ul>    
+    
+    <!-- HEADLINE: Changes to methods -->
+    <h4 class="title" id="changes_to_methods">Changes to methods</h4> 
+    <ul>
+      <li><b>ao/dft</b> has been improved to allow windowing and scaling of the measurements.</li>
+      <li><b>ao/interp</b> has a new method called ‘auto’ which selects the best choice of interpolation based on the data type.</li>
+      <li><b>ao/split</b> now supports automatically splitting a time-series according to any significant gaps in the data.</li>
+      <li><b>ao/resample</b> now supports different data types. For non-double types, we do nearest neighbour interpolation.</li>
+    </ul>    
+    
+    <!-- HEADLINE: MANTIS Issues Resolved -->
+    <h3 class="title" id="mantis_issues">MANTIS Issues Resolved</h3>
+    <table cellspacing="0" class="body" cellpadding="4" border="2" width="100%">
+      <colgroup>
+        <col width="10%">
+        <col width="75%">
+        <col width="15%">
+      </colgroup>
+      <thead>
+        <tr valign="top">
+          <th bgcolor="#B2B2B2" valign="top">Issue Id</th>
+          <th bgcolor="#B2B2B2" valign="top">Decription</th>
+          <th bgcolor="#B2B2B2" valign="top">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <td bgcolor="#FFFFFF">881</td><td bgcolor="#FFFFFF">Java error in provenance when not connected to network</td><td bgcolor="#FFFFFF">resolved</td></tr>
+        <td bgcolor="#F2F2F2">880</td><td bgcolor="#F2F2F2">Would like summaryReport method for ao and collection classes</td><td bgcolor="#F2F2F2">resolved</td></tr>
+        <td bgcolor="#FFFFFF">879</td><td bgcolor="#FFFFFF">ltpda_uo/setDescription does not apply empty values</td><td bgcolor="#FFFFFF">resolved</td></tr>
+        <td bgcolor="#F2F2F2">868</td><td bgcolor="#F2F2F2">ao/polyfit does not work as advertised</td><td bgcolor="#F2F2F2">resolved</td></tr>
+        <td bgcolor="#FFFFFF">867</td><td bgcolor="#FFFFFF">ao/diff seems to work with option 3point but not w/ 2point</td><td bgcolor="#FFFFFF">resolved</td></tr>
+        <td bgcolor="#F2F2F2">862</td><td bgcolor="#F2F2F2">logical operators should preserve data type</td><td bgcolor="#F2F2F2">resolved</td></tr>
+        <td bgcolor="#FFFFFF">853</td><td bgcolor="#FFFFFF">Add retrieval by UUID to ltpda_uo/retrieve and retrieveFigure</td><td bgcolor="#FFFFFF">resolved</td></tr>
+        <td bgcolor="#F2F2F2">852</td><td bgcolor="#F2F2F2">Infrastructure to support alternative data types</td><td bgcolor="#F2F2F2">resolved</td></tr>
+        <td bgcolor="#FFFFFF">851</td><td bgcolor="#FFFFFF">linfit and reference time</td><td bgcolor="#FFFFFF">resolved</td></tr>
+        <td bgcolor="#F2F2F2">850</td><td bgcolor="#F2F2F2">iplotyy and iplotPSD do not support "figurenames" plist key</td><td bgcolor="#F2F2F2">resolved</td></tr>
+        <td bgcolor="#FFFFFF">849</td><td bgcolor="#FFFFFF">ao/setY should accept cdata ao</td><td bgcolor="#FFFFFF">resolved</td></tr>
+        <td bgcolor="#F2F2F2">846</td><td bgcolor="#F2F2F2">Search window does not work in online help</td><td bgcolor="#F2F2F2">resolved</td></tr>
+        <td bgcolor="#FFFFFF">831</td><td bgcolor="#FFFFFF">New MATLAB handles underscores better in legends etc</td><td bgcolor="#FFFFFF">resolved</td></tr>
+        <td bgcolor="#F2F2F2">828</td><td bgcolor="#F2F2F2">Error due to AO being too large ?</td><td bgcolor="#F2F2F2">resolved</td></tr>
+        <td bgcolor="#FFFFFF">827</td><td bgcolor="#FFFFFF">Method for converting between units, i.e., from 'm' to 'pm'</td><td bgcolor="#FFFFFF">resolved</td></tr>
+        <td bgcolor="#F2F2F2">820</td><td bgcolor="#F2F2F2">table method for timespans</td><td bgcolor="#F2F2F2">resolved</td></tr>
+        <td bgcolor="#FFFFFF">819</td><td bgcolor="#FFFFFF">isDataCompatible in ao.elementOp too strict</td><td bgcolor="#FFFFFF">resolved</td></tr>
+        <td bgcolor="#F2F2F2">817</td><td bgcolor="#F2F2F2">time/plot method</td><td bgcolor="#F2F2F2">resolved</td></tr>
+        <td bgcolor="#FFFFFF">808</td><td bgcolor="#FFFFFF">strjoin not supported Matlab pre 2013a</td><td bgcolor="#FFFFFF">resolved</td></tr>
+        <td bgcolor="#F2F2F2">804</td><td bgcolor="#F2F2F2">Conversion to doubles for matrix of tsdata or fsdata AOs</td><td bgcolor="#F2F2F2">resolved</td></tr>
+        <td bgcolor="#FFFFFF">799</td><td bgcolor="#FFFFFF">isemptyunit method is needed</td><td bgcolor="#FFFFFF">resolved</td></tr>
+        <td bgcolor="#F2F2F2">797</td><td bgcolor="#F2F2F2">pzmodel/tomiir fails when called within method</td><td bgcolor="#F2F2F2">resolved</td></tr>
+        <td bgcolor="#FFFFFF">796</td><td bgcolor="#FFFFFF">iplotyy has no time in data tooltips</td><td bgcolor="#FFFFFF">resolved</td></tr>
+        <td bgcolor="#F2F2F2">793</td><td bgcolor="#F2F2F2">collection/removeObjectAtIndex method removes wrong object</td><td bgcolor="#F2F2F2">resolved</td></tr>
+        <td bgcolor="#FFFFFF">792</td><td bgcolor="#FFFFFF">Failure to recognize plist parameters in iplot of frequency-series array</td><td bgcolor="#FFFFFF">resolved</td></tr>
+        <td bgcolor="#F2F2F2">788</td><td bgcolor="#F2F2F2">Requesting a 'setNames' method for colleciton objects</td><td bgcolor="#F2F2F2">resolved</td></tr>
+        <td bgcolor="#FFFFFF">787</td><td bgcolor="#FFFFFF">Overload of mod() function for AOs</td><td bgcolor="#FFFFFF">resolved</td></tr>
+        <td bgcolor="#F2F2F2">778</td><td bgcolor="#F2F2F2">Bug in ao/toSI with prefixes</td><td bgcolor="#F2F2F2">resolved</td></tr>
+        <td bgcolor="#FFFFFF">777</td><td bgcolor="#FFFFFF">time string format</td><td bgcolor="#FFFFFF">resolved</td></tr>
+        <td bgcolor="#F2F2F2">774</td><td bgcolor="#F2F2F2">Display of pest with large chains</td><td bgcolor="#F2F2F2">resolved</td></tr>
+        <td bgcolor="#FFFFFF">772</td><td bgcolor="#FFFFFF">Better composite plists</td><td bgcolor="#FFFFFF">resolved</td></tr>
+        <td bgcolor="#F2F2F2">768</td><td bgcolor="#F2F2F2">iplot for collection and matrix objects</td><td bgcolor="#F2F2F2">resolved</td></tr>
+        <td bgcolor="#FFFFFF">764</td><td bgcolor="#FFFFFF">plist key warnings in utils.plottools.consolidatePlot(gcf)</td><td bgcolor="#FFFFFF">resolved</td></tr>
+        <td bgcolor="#F2F2F2">763</td><td bgcolor="#F2F2F2">pest/table output is mismatched</td><td bgcolor="#F2F2F2">resolved</td></tr>
+        <td bgcolor="#FFFFFF">717</td><td bgcolor="#FFFFFF">t0 after spike cleaning</td><td bgcolor="#FFFFFF">resolved</td></tr>
+        <td bgcolor="#F2F2F2">709</td><td bgcolor="#F2F2F2">ao/integrate should have other methods</td><td bgcolor="#F2F2F2">resolved</td></tr>
+        <td bgcolor="#FFFFFF">624</td><td bgcolor="#FFFFFF">matrix cross product</td><td bgcolor="#FFFFFF">resolved</td></tr>
+        <td bgcolor="#F2F2F2">391</td><td bgcolor="#F2F2F2">Make loading of ao faster or make loading of history optional</td><td bgcolor="#F2F2F2">resolved ?</td></tr>
+      </tbody>
+    </table>
+    
+    <!-- END: Content file -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="releasenotes.html"><img src="b_prev.gif" border="0" align="bottom" alt="Release Notes"></a>&nbsp;</td>
+        <td align="left">Release Notes</td>
+        <td>&nbsp;</td>
+        <td align="right">Version 2.9.3 LTPDA Toolbox Software</td>
+        <td align="right" width="20"><a href="releasenotesV2_9_3.html"><img src="b_next.gif" border="0" align="bottom" alt="Version 2.9.3 LTPDA Toolbox Software"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

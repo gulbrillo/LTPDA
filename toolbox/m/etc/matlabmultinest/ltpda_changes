@@ -1,0 +1,56 @@
+In this document the changes to the original code are summarised. The reason for these edits is to adapt the algorithm to the LTPDA architecture.
+
+The main difference is the definition and evaluation of the likelihood function. In the original code the likelihood is defined as a function_handle, and to be evaluated it needs the set of data and a numerical parameter set. In LTPDA we only need a parameter set because the data is stored inside the -so called- mfh object. 
+
+————————————————————————————
+List of changes per function
+————————————————————————————
+
+A) nested_sampler:
+
+- Inputs were changed to
+
+function [logZ, nest_samples, post_samples] = nested_sampler(Nmcmc, Nlive, tolerance, likelihood, prior, verbose, DEBUG, varargin)
+
+- Removed global variables DEbUG and verbose.
+- Removed lines 135-140. They correspond to the extra parameters that do not apply to our implementation.
+- Changed i,j,k for-loop indices to ii, jj, and kk respectively.
+- Changed call of draw_multinest to 
+
+[livepoints(idx, :), logL(idx)] = draw_multinest(fracvol, Bs, mus, logLmin, prior, flike, DEBUG);  
+
+- Changed call of draw_mcmc to
+
+[livepoints(idx, :), logL(idx)] = draw_mcmc(livepoints, cholmat, ...
+              logLmin, prior, flike, Nmcmc, Nsloppy, ...
+              covfrac, diffevfrac, walkfrac, stretchfrac);
+
+- 
+
+B) draw_mcmc:
+
+- Inputs were changed to 
+
+function [sample, logL] = draw_mcmc(livepoints, cholmat, logLmin, prior, likelihood, Nmcmc, verbose) 
+
+- Removed global verbose variable. 
+- Changed likelihood evaluation to logLnew = likelihood(sc);  
+
+c) optimal_ellipsoids:
+
+- Removed global DEBUG flag
+- Added DEBUG flag parameter as input
+
+D) draw_multinest:
+
+- Changed inputs to 
+
+function [sample, logL] = draw_multinest(fracvol, Bs, mus, logLmin, prior, likelihood, DEBUG)
+
+- Removed global DEBUG flag.
+- Changed line 63,64 to logL = likelihood(rescaledpnt); 
+
+
+————————————————————————————
+End of List of changes 
+————————————————————————————

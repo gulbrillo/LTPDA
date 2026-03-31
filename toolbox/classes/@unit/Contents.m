@@ -1,0 +1,33 @@
+%%%%%%%%%%%%%%%%%%%%   class: unit   %%%%%%%%%%%%%%%%%%%%
+%
+%   <a href="matlab:help unit/HzToS">unit/HzToS</a>         -  convert any 'Hz' units to 's'
+%   <a href="matlab:help unit/atan2">unit/atan2</a>         -  implements atan2 operator for two unit objects
+%   <a href="matlab:help unit/attachToDom">unit/attachToDom</a>   - % Create empty unit node with the attribute 'shape'
+%   <a href="matlab:help unit/char">unit/char</a>          -  convert a unit object into a string.
+%   <a href="matlab:help unit/copy">unit/copy</a>          -  makes a (deep) copy of the input unit objects.
+%   <a href="matlab:help unit/disp">unit/disp</a>          -  display an unit object.
+%   <a href="matlab:help unit/factor">unit/factor</a>        -  factorises units in to numerator and denominator units.
+%   <a href="matlab:help unit/fromDom">unit/fromDom</a>       - % There exist two possibilities.
+%   <a href="matlab:help unit/fromStruct">unit/fromStruct</a>    -  creates from a structure a UNIT object.
+%   <a href="matlab:help unit/isemptyunit">unit/isemptyunit</a>   -  overloads the isequal operator for ltpda unit objects.
+%   <a href="matlab:help unit/isequal">unit/isequal</a>       -  overloads the isequal operator for ltpda unit objects.
+%   <a href="matlab:help unit/loadobj">unit/loadobj</a>       -  is called by the load function for user objects.
+%   <a href="matlab:help unit/mpower">unit/mpower</a>        -  implements mpower operator for unit objects.
+%   <a href="matlab:help unit/mrdivide">unit/mrdivide</a>      -  implements mrdivide operator for unit objects.
+%   <a href="matlab:help unit/mtimes">unit/mtimes</a>        -  implements mtimes operator for unit objects.
+%   <a href="matlab:help unit/plus">unit/plus</a>          -  implements addition operator for unit objects.
+%   <a href="matlab:help unit/power">unit/power</a>         -  implements power operator for unit objects.
+%   <a href="matlab:help unit/rdivide">unit/rdivide</a>       -  implements rdivide operator for unit objects.
+%   <a href="matlab:help unit/sToHz">unit/sToHz</a>         -  convert any 's' units to 'Hz'
+%   <a href="matlab:help unit/setVals">unit/setVals</a>       -  set the vals field of the unit
+%   <a href="matlab:help unit/simplify">unit/simplify</a>      -  the units.
+%   <a href="matlab:help unit/split">unit/split</a>         -  split a unit into a set of single units.
+%   <a href="matlab:help unit/sqrt">unit/sqrt</a>          -  computes the square root of an unit object.
+%   <a href="matlab:help unit/string">unit/string</a>        -  converts a unit object to a command string which will recreate the unit object.
+%   <a href="matlab:help unit/times">unit/times</a>         -  implements times operator for unit objects.
+%   <a href="matlab:help unit/toSI">unit/toSI</a>          -  converts the units to SI.
+%   <a href="matlab:help unit/tolabel">unit/tolabel</a>       -  converts a unit object to LaTeX string suitable for use as axis labels.
+%   <a href="matlab:help unit/unit">unit/unit</a>          -  a helper class for implementing units in LTPDA.
+%   <a href="matlab:help unit/update_struct">unit/update_struct</a> -  update the input structure to the current ltpda version
+%   <a href="matlab:help unit/xlabel">unit/xlabel</a>        -  place a xlabel on the given axes taking into account the units and
+%   <a href="matlab:help unit/ylabel">unit/ylabel</a>        -  place a ylabel on the given axes taking into account the units and

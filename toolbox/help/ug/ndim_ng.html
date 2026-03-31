@@ -1,0 +1,286 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Noise generation with given cross-spectral density (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="franklin_ng.html"><img src="b_prev.gif" border="0" align="bottom" alt="Franklin noise-generator"></a>&nbsp;&nbsp;&nbsp;<a href="smodel.html"><img src="b_next.gif" border="0" align="bottom" alt="Parameteric models"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Noise generation with given cross-spectral density</h1>
+    <hr>
+    
+    <p>
+      <!-- $Id$ -->
+
+  <!-- ================================================== -->
+  <!--                 BEGIN CONTENT FILE                 -->
+  <!-- ================================================== -->
+  <!-- ===== link box: Begin ===== -->
+  <p>
+    <table border="1"  width="80%">
+      <tr>
+        <td>
+          <table border="0" cellpadding="5" class="categorylist" width="100%">
+            <colgroup>
+              <col width="37%"/>
+              <col width="63%"/>
+            </colgroup>
+            <tbody>
+              <tr valign="top">
+                <td>
+                  <a href="#mchspectra">Multichannel Spectra</a>
+                </td>
+                <td>Theoretical background on multichannel spectra.</td>
+              </tr>
+              <tr valign="top">
+                <td>
+                  <a href="#NGTheory">Noise generation</a>
+                </td>
+                <td>Theoretical introduction to multichannel noise generation.</td>
+              </tr>
+              <tr valign="top">
+		<td>
+                  <a href="#ngMCH">Multichannel Noise Generation</a>
+                </td>
+		 <td>Generation of multichannel noise with given cross-spectral density matrix.</td>
+	      </tr>
+	      <tr valign="top">
+                <td>
+                  <a href="#ng1D">Noisegen 1D</a>
+                </td>
+                <td>Generation of one-dimensional noise with given spectral density.</td>
+              </tr>
+              <tr valign="top">
+                <td>
+                  <a href="#ng2D">Noisegen 2D</a>
+                </td>
+                <td>Generation of two-dimensional noise with given cross-spectral density.</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </p>
+  <!-- ===== link box: End ====== -->
+
+
+
+  <p>
+  </p>
+  <p>
+    The following sections gives an introduction to the generation of model 
+    noise with a given cross spectral density. Further details can be found
+    in ref. [1].
+  </p>
+
+  <!-- ===== Multichannel Spectra Theory ====== -->
+  <h2><a name="mchspectra">Theoretical background on multichannel spectra</a></h2>
+  <p>
+    We define the autocorrelation function (ACF) of a stationary multichannel process as:
+  </p>
+  <div>
+  <IMG src="images/ngEqn1.gif" align="center" border="0">
+  </div>
+  <p>
+  </p>
+  <p>
+    If the multichannel process is L dimensional then the kth element of the ACF is a LxL matrix:
+  </p>
+  <div>
+  <IMG src="images/ngEqn2.gif" align="center" border="0">
+  </div>
+  <p>
+  </p>
+  <p>
+    The ACF matrix is not hermitian but have the property that:
+  </p>
+  <div>
+  <IMG src="images/ngEqn3.gif" align="center" border="0">
+  </div>
+  <p>
+  </p>
+  <p>
+    The cross-spectral density matrix (CSD) is defined as the fourier transform of the ACF:
+  </p>
+  <div>
+  <IMG src="images/ngEqn4.gif" align="center" border="0">
+  </div>
+  <p>
+  </p>
+  <p>
+    the CSD matrix is hermitian.
+  </p>
+  <p>
+    A multichannel white noise process is defined as the process whose ACF satisfies:
+  </p>
+  <div>
+  <IMG src="images/ngEqn5.gif" align="center" border="0">
+  </div>
+  <p>
+  </p>
+  <p>
+    therefore the cross-spectral matrix has constant terms as a function of the frequency:
+  </p>
+  <div>
+  <IMG src="images/ngEqn6.gif" align="center" border="0">
+  </div>
+  <p>
+  </p>
+  <p>
+    The individual processes are each white noise processes with power spectral density (PSD) given by 
+    <IMG src="images/ngEqn7.gif" align="center" border="0">. 
+    The cross-correlation between the processes is zero except at the same time instant 
+    where they are correlated with a cross-correlation given by the off-diagonal elements of 
+    <IMG src="images/ngEqn8.gif" align="center" border="0">. 
+    A common assumption is 
+    <IMG src="images/ngEqn9.gif" align="center" border="0"> 
+      (identity matrix) that is equivalent to assume the white processes having unitary variance 
+      and are completely uncorrelated being zero the off diagonal terms of the CSD matrix.
+      Further details can be found in [1 - 3].
+  </p>
+
+  <!-- ===== Multichannel Noise Generation Theory ====== -->
+  <h2><a name="NGTheory">Theoretical introduction to multichannel noise generation</a></h2>
+  <p>
+    The problem of multichannel noise generation with a given cross-spectrum 
+    is formulated in frequency domain as follows:
+  </p>
+  <div>
+  <IMG src="images/ngEqn10.gif" align="center" border="0">
+  </div>
+  <p>
+  </p>
+  <p>
+    <IMG src="images/ngEqn11.gif" align="center" border="0"> is a 
+    multichannel digital filter that generating colored noise data with given cross-spectrum 
+    <IMG src="images/ngEqn12.gif" align="center" border="0"> 
+    starting from a set of mutually independent unitary variance with noise processes.
+  </p>
+  <p>
+    After some mathematics it can be showed that the desired multichannel coloring filter can be written as:
+  </p>
+  <div>
+  <IMG src="images/ngEqn13.gif" align="center" border="0">
+  </div>
+  <p>
+  </p>
+  <p>
+    where <IMG src="images/ngEqn14.gif" align="center" border="0"> 
+      and <IMG src="images/ngEqn15.gif" align="center" border="0">
+      are the eigenvectors and eigenvalues matrices of 
+      <IMG src="images/ngEqn12.gif" align="center" border="0">
+      matrix.  
+  </p>
+
+  <!-- ===== Multichannel Noise Generator ====== -->
+  <h2><a name="ngMCH">Generation of multichannel noise with given cross-spectral density matrix</a></h2>
+  <p>
+    <tt>LTPDA Toolbox</tt> provides two methods (<a href="matlab:doc('matrix/mchNoisegenFilter')">mchNoisegenFilter</a> and
+    <a href="matlab:doc('matrix/mchNoisegen')">mchNoisegen</a>) of the class <tt>matrix</tt> for the production
+    of multichannel noise coloring filter and multichannel colored noise data series.
+    Noise data are colored Gaussian distributed time series with given cross-spectral density matrix.
+    Noise generation process is properly initialized in order to avoid starting transients on the data series.
+    Details on frequency domain identification of noisegen filters and on the noise generation process
+    can be found in ref. [1].
+    <a href="matlab:doc('matrix/mchNoisegenFilter')">mchNoisegenFilter</a> needs a model for the one-sided 
+    cross-spectral density or power spectral density if we are considering one-dimensional problems.
+    <a href="matlab:doc('matrix/mchNoisegen')">mchNoisegen</a> instead accepts as input the noise generating filter
+    produced by <a href="matlab:doc('matrix/mchNoisegenFilter')">mchNoisegenFilter</a>.
+    Details on accepted parameters can be found on the documentation pages of the two methods:
+    <ul>
+      <li> <a href="matlab:doc('matrix/mchNoisegenFilter')">mchNoisegenFilter</a>
+      <li> <a href="matlab:doc('matrix/mchNoisegen')">mchNoisegen</a>
+    </ul>
+  </p>
+
+  
+  <!-- ===== Noisegen 1D ====== -->
+  <h2><a name="ng1D">Generation of one-dimensional noise with given spectral density</a></h2>
+  <p>
+    <tt>noisegen1D</tt> is a coloring tool allowing the generation of colored noise from withe noise with a given spectrum. 
+    The function constructs a coloring filter through a fitting procedure to the model provided. 
+    If no model is provided an error is prompted. The colored noise provided has one-sided psd 
+    corresponding to the input model.
+    The function needs a model for the one-sided power spectral density of 
+    the given process. Details on accepted parameters can be found on
+    the <a href="matlab:doc('ao/noisegen1D')">noisegen1D</a> documentation page. <br>
+    <ol>
+      <li> The square root of the model for the power spectral 
+      density is fit in z-domain in order to determine a coloring
+      filter.
+      <li> Unstable poles are removed by an all-pass stabilization procedure.
+      <li> White input data are filtered with the identified filter in order to be colored.
+    </ol>
+  </p>
+
+  
+  <!-- ===== Noisegen 2D ====== -->
+  <h2><a name="ng2D">Generation of two-dimensional noise with given cross-spectral density</a></h2>
+  <p>
+    <tt>noisegen2D</tt> is a nose coloring tool allowing the generation
+    two data series with the given cross-spectral density from two starting
+    white and mutually uncorrelated data series.
+    Coloring filters are constructed by a fitting procedure to a model 
+    for the corss-spectral density matrix provided. 
+    In order to work with <tt>noisegen2D</tt> you must provide
+    a model (frequency series analysis objects) for the cross-spectral density
+    matrix of the process.
+    Details on accepted parameters can be found on
+    the <a href="matlab:doc('ao/noisegen2D')">noisegen2D</a> documentation page. <br>
+    <ol>
+      <li> Coloring filters frequency response is calculated by the 
+      eigendecomposition of the model cross-spectral matrix.
+      <li> Calculated responses are fit in z-domain in order to identify
+      corresponding autoregressive moving average filters.
+      <li> Input time-series are filtered. The filtering process corresponds to:<br>
+      o(1) = Filt11(a(1)) + Filt12(a(2))<br>
+      o(2) = Filt21(a(1)) + Filt22(a(2))
+    </ol>
+  </p>
+  
+
+  <h2>References</h2>
+  <p>
+    <ol>
+      <li> L. Ferraioli et. al., Calibrating spectral estimation for the LISA 
+	Technology Package with multichannel synthetic noise generation, Phys. Rev. D 82, 042001 (2010).
+      <li> S. M. Kay, Modern Spectral Estimation, Prentice-Hall, 1999 </li>
+      <li> G. M. Jenkins and D. G. Watts, Spectral Analysis and Its Applications, Holden-Day 1968. </li>
+    </ol>
+  </p>
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="franklin_ng.html"><img src="b_prev.gif" border="0" align="bottom" alt="Franklin noise-generator"></a>&nbsp;</td>
+        <td align="left">Franklin noise-generator</td>
+        <td>&nbsp;</td>
+        <td align="right">Parameteric models</td>
+        <td align="right" width="20"><a href="smodel.html"><img src="b_next.gif" border="0" align="bottom" alt="Parameteric models"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

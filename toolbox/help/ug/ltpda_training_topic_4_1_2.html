@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Partial fraction representation (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_topic_4_1_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="Pole zero model representation"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_topic_4_1_3.html"><img src="b_next.gif" border="0" align="bottom" alt="Rational representation"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Partial fraction representation</h1>
+    <hr>
+    
+    <p>
+      <h2>Creating a partial fraction model</h2>
+
+<p>
+  We can also specify a transfer function as a sum of partial fraction using the
+  <tt>parfrac</tt> object. This will define a transfer function with the following
+  shape (you can take a look at <tt>help parfrac</tt>):
+</p>
+<div class="fragment"><pre>
+    <span class="comment">
+      % DESCRIPTION: PARFRAC partial fraction representation of a transfer function.
+      %
+      %                 R(1)       R(2)             R(n)
+      %      H(s)  =  -------- + -------- + ... + -------- + K(s)
+      %               s - P(1)   s - P(2)         s - P(n)
+      %
+    </span>
+</pre></div>
+
+<p>
+  In this case we will need to define an array of residues (R), an array of poles (P)
+  and direct terms K. All of them either real or complex, for example the ones defined
+  by:
+  <ul>
+    <li>R(1) = 1+2i, R(2) = 2  </li>
+    <li>P(1) = 10+i, P(2) = 2+5*i</li>
+    <li>K = 0</li>
+  </ul>
+  which can be inserted directly in the <tt>parfrac</tt> constructor:
+</p>
+<div class="fragment"><pre>
+m = parfrac([1+2i; 2], [10+i; 2+5*i], 0)
+</pre></div>
+
+<p>
+  We can now take a look at the response of the transfer function that we have
+  just created. We can specify the frequency region in what we are interested
+  with the plist of the <tt>resp</tt> function. For example, we would like to
+  evaluate our transfer function model from f1 = 0.1 Hz to f2 = 10 Hz.
+</p>
+
+<div class="fragment"><pre>
+resp(m, plist(<span class="string">'f1'</span>, 0.1, <span class="string">'f2'</span>, 10))
+</pre></div>
+
+<p>
+  <img src="images/ltpda_training_1/topic4/resp_parfrac.png" alt="Response of a parfrac model" border="1" >
+</p>
+
+
+
+
+
+
+
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_topic_4_1_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="Pole zero model representation"></a>&nbsp;</td>
+        <td align="left">Pole zero model representation</td>
+        <td>&nbsp;</td>
+        <td align="right">Rational representation</td>
+        <td align="right" width="20"><a href="ltpda_training_topic_4_1_3.html"><img src="b_next.gif" border="0" align="bottom" alt="Rational representation"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

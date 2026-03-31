@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Polynomial Fitting (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="sigproc_fit.html"><img src="b_prev.gif" border="0" align="bottom" alt="Fitting Algorithms"></a>&nbsp;&nbsp;&nbsp;<a href="sigproc_fit_mcmc.html"><img src="b_next.gif" border="0" align="bottom" alt="Markov Chain Monte Carlo"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Polynomial Fitting</h1>
+    <hr>
+    
+    <p>
+      <p>
+  <a href="matlab:doc('ao/polyfit')">polyfit.m</a> overloads the polyfit() function of MATLAB for Analysis Objects.<br/>
+  The script calls the following MATLAB functions:
+  <ul>
+    <li> polyfit.m </li>
+    <li> polyval.m </li>
+  </ul>
+  <h2><a name="usage">Usage</a></h2>
+  <div class="fragment"><pre>
+      <span class="comment">% CALL:        b = polyfit(a, pl)</span>
+      <span class="comment">%</span>
+      <span class="comment">% Parameters:  'N'      - degree of polynomial to fit</span>
+      <span class="comment">%              'coeffs' - (optional) coefficients</span>
+      <span class="comment">%                         formed e.g. by [p,s] = polyfit(x,y,N);</span>
+  </pre></div>
+  The MATLAB function polyfit.m finds the coefficients of the polynomial p(x) of degree N that fits the vector 'x' to the vector 'y', in a least squares sense.<br/> After this in the script <a href="matlab:doc('ao/polyfit')">polyfit.m</a> the function polyval.m is called, which  evaluates the polynomial of order 'N' according to these coefficients. <br/>
+  Using the output of polyval.m the fitted data series is created and outputted as analysis object.
+</p>
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="sigproc_fit.html"><img src="b_prev.gif" border="0" align="bottom" alt="Fitting Algorithms"></a>&nbsp;</td>
+        <td align="left">Fitting Algorithms</td>
+        <td>&nbsp;</td>
+        <td align="right">Markov Chain Monte Carlo</td>
+        <td align="right" width="20"><a href="sigproc_fit_mcmc.html"><img src="b_next.gif" border="0" align="bottom" alt="Markov Chain Monte Carlo"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

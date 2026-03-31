@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Introduction to state-space models in LTPDA (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_2_topic_2.html"><img src="b_prev.gif" border="0" align="bottom" alt="Topic 2 - Simulating LPF noise in LTPDA."></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_2_topic_2_2.html"><img src="b_next.gif" border="0" align="bottom" alt="Introduction to the LPF state-space models in LTPDA"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Introduction to state-space models in LTPDA</h1>
+    <hr>
+    
+    <p>
+      <h2>Introducing state-space models in LTPDA</h2>
+<p>
+  State-space models in LTPDA are encapsulated by the <tt>ssm</tt> class. Building 
+  state-space models by hand, while possible, is complicated and beyond the scope
+  of this training session. The most useful class constructor we can use for building
+  <tt>ssm</tt> objects is the one that builds from built-in models.
+</p>
+<p>
+  For the purposes of this training session, we can treat the resulting state-space
+  models as black boxes. They have inputs and outputs and describe a system in terms
+  of a state-space realisation of the system's dynamical response. More details about
+  the implementation is provided in the main LTPDA user manual.
+</p>
+<p>
+  State-space model objects in LTPDA are structured in the following way. Each model
+  has a number of
+  <ul>
+  <li>input blocks</li> 
+  <li>state blocks</li>
+  <li>output blocks.</li></ul> 
+  Each block has a number of ports. The exact numbers of blocks and ports depends on 
+  the underlying state-space structure of the system, but they need to properly match in order to
+  allow the model to be consistent. The structure of a model is shown 
+  in the following figure:
+  <div align="center">
+    <IMG src="images/ltpda_training_2/Topic2/ssm_structure.png" width="600" align="center" border="0">
+  </div>
+</p>
+
+<h2>Building a state-space model in LTPDA</h2>
+<p>
+  LTPDA comes with some example built-in models for the <tt>ssm</tt> class. One such
+  example is a simple 1D harmonic oscillator. To build this model we use the 'built-in' 
+  model constructor of the <tt>ssm</tt> class. (Note: the 'built-in' model constructor can be 
+  used for all the different user classes in LTPDA.)
+</p>
+<p>
+  To see a list of the <tt>ssm</tt> built-in models available to you, you can do
+  <div class="fragment"><pre>
+  <span class="comment">% Get a list of available built-in ssm models</span>
+  ssm.getBuiltInModels</pre></div>
+<br>
+  Or you can use the graphical interface for browsing models:
+  <div class="fragment"><pre>
+  <span class="comment">% Use the model browser</span>
+  LTPDAModelBrowser</pre></div>
+<br>
+  To build one of these models, for example, the 1D Harmonic Oscillator, you can do:
+  <div class="fragment"><pre>
+  <span class="comment">% Build a Harmonic Oscillator model</span>
+  sys = ssm(plist(<span class="string">'built-in'</span>, <span class="string">'HARMONIC_OSC_1D'</span>))</pre></div>
+<br>
+  You should then see details of the model on the terminal. To get a nicer view of the
+  inputs and outputs for this model, you can do:
+  <div class="fragment"><pre>
+  <span class="comment">% View details of the model</span>
+  sys.viewDetails</pre></div>
+<br>
+  You should then see a window like the following:
+  <div align="center">
+    <IMG src="images/ltpda_training_2/Topic2/harm_osc_details.png" width="600" align="center" border="0">
+  </div>
+  This should show details about the different blocks (inputs, states, outputs) and then the
+  ports within those blocks. 
+<br>  
+  In this case, the system has two input blocks, called ''command'' and ''noise'', that can be used to respectively
+  the external force acting on the particle, and the additive noise of the readout observing the position of the particle itself.
+  Each input block has a name, a description, and (in this case) only one port. Each port has an index, a name, a description, and some 
+  physical units for the quantity in input.
+  The system has one state block, with two states (position and velocity of the particle). Each state has an index, a name, a description, and some 
+  physical units for the quantity it represents.
+  In this case, the system has one output block, called ''position'', that represents the particle position as observed via the readout 
+  (meaning, with the readout noise added). The output block has a name, a description, and (in this case) only one port. Each port has an index, a name, a description, and some 
+  physical units for the quantity in output.
+<br>
+  Additionally, the report includes a description of the parameters, if any, 
+  that can be adjusted to characterize the system, and are represented in symbolic or numeric form.
+</p>
+
+<h2>Assembling state-space models in LTPDA</h2>
+<p>
+  If you build multiple <tt>ssm</tt> objects, you can assemble them together using the <tt>ssm/assemble</tt> 
+  method. Although we don't need to do that in this training session, it may be useful to know
+  the rules in case you want to build your own models, and because the LPF models we will be using are built in this way, assembling simpler subsystems. 
+  Essentially, if you ask LTPDA to assemble
+  2 or more models, then it will look for matching input and output blocks and connect them together.
+  Here, matching means that the input block <em>name</em> matches the output block name, and that they 
+  both have the same <em>number of ports</em>. The ports are then connected in numerical order. The inputs
+  of any block which gets connected to an output block will not appear in the final composite model.
+</p>
+
+<h2>Using state-space models in LTPDA</h2>
+<p>
+  Once you have built your <tt>ssm</tt> model in LTPDA, you can go on and use 
+  it in various ways. The most common ways are to produce transfer functions (using <tt>ssm/bode</tt>) 
+  responses of the system or to simulate the time-domain system response to different inputs (using <tt>ssm/simulate</tt>).
+  Both of these topics will be covered in later sections.
+</p>
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_2_topic_2.html"><img src="b_prev.gif" border="0" align="bottom" alt="Topic 2 - Simulating LPF noise in LTPDA."></a>&nbsp;</td>
+        <td align="left">Topic 2 - Simulating LPF noise in LTPDA.</td>
+        <td>&nbsp;</td>
+        <td align="right">Introduction to the LPF state-space models in LTPDA</td>
+        <td align="right" width="20"><a href="ltpda_training_2_topic_2_2.html"><img src="b_next.gif" border="0" align="bottom" alt="Introduction to the LPF state-space models in LTPDA"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

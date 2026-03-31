@@ -1,0 +1,814 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>pzmodel Class (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="class_desc_plist.html"><img src="b_prev.gif" border="0" align="bottom" alt="plist Class"></a>&nbsp;&nbsp;&nbsp;<a href="class_desc_rational.html"><img src="b_next.gif" border="0" align="bottom" alt="rational Class"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">pzmodel Class</h1>
+    <hr>
+    
+    <p>
+      <!-- $Id$ -->
+
+  <!-- ================================================== -->
+  <!--                 BEGIN CONTENT FILE                 -->
+  <!-- ================================================== -->
+
+  <!-- =====           Link Table: Begin           ===== -->
+  <!-- ===== Created by docHelper.htmlAddLinkTable ===== -->
+  <p>
+    <table border="1"  width="80%">
+      <tr>
+        <td>
+          <table border="0" cellpadding="5" class="categorylist" width="100%">
+            <colgroup>
+              <col width="25%"/>
+              <col width="75%"/>
+            </colgroup>
+            <tbody>
+              <tr valign="top">
+                <td><a href="class_desc_pzmodel.html#top_properties">Properties</a></td>
+                <td>Properties of the class</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_pzmodel.html#top_methods">Methods</a></td>
+                <td>All Methods of the class ordered by category.</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="constructor_examples_pzmodel.html">Examples</a></td>
+                <td>Some constructor examples</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </p>
+  <!-- ===== Link Table: End ====== -->
+
+  <!-- ===== Back to Class descriptions ===== -->
+  <a href="class_desc_main.html">
+    <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Class descriptions"/>
+    Back to Class descriptions
+  </a>
+
+  <h2 class="title"><a name="top_properties"/>Properties</h2>
+  <p>
+    The LTPDA toolbox restrict access of the properties.<br></br>
+    The get access is 'public' and thus it is possible to get the values with the dot-command (similar to structures).<br></br>
+    <pre class="programlisting">For example:<br></br>val = obj.prop(2).prop;</pre>
+    The set access is 'protected' and thus it is only possible to assign a value to a property with a set-method.
+    <pre class="programlisting">
+For example:
+obj2 = obj1.setName(<span class="string">'my name'</span>) <span class="comment">% This command creates a copy of obj1 (obj1 ~= obj2)</span>
+obj.setName(<span class="string">'my name'</span>);        <span class="comment">% This command applies to obj</span>    </pre>
+  </p>
+
+  <!-- =====        Striped 14x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Properties</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel.poles')">poles</a></td>
+        <td bgcolor="#f3f4f5">Pole-array of the model</td>
+        <td bgcolor="#f3f4f5">pzmodel</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel.zeros')">zeros</a></td>
+        <td bgcolor="#ffffff">Zero-array of the model</td>
+        <td bgcolor="#ffffff">pzmodel</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel.gain')">gain</a></td>
+        <td bgcolor="#f3f4f5">Gain of the model</td>
+        <td bgcolor="#f3f4f5">pzmodel</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel.delay')">delay</a></td>
+        <td bgcolor="#ffffff">Delay of the pole/zero model</td>
+        <td bgcolor="#ffffff">pzmodel</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel.iunits')">iunits</a></td>
+        <td bgcolor="#f3f4f5">Input units of the object</td>
+        <td bgcolor="#f3f4f5">ltpda_tf</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel.ounits')">ounits</a></td>
+        <td bgcolor="#ffffff">Output  units of the object</td>
+        <td bgcolor="#ffffff">ltpda_tf</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel.hist')">hist</a></td>
+        <td bgcolor="#f3f4f5">History of the object (history object)</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel.historyArray')">historyArray</a></td>
+        <td bgcolor="#ffffff">Array of history objects for saving</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel.procinfo')">procinfo</a></td>
+        <td bgcolor="#f3f4f5">Plist with additional information for an object.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel.plotinfo')">plotinfo</a></td>
+        <td bgcolor="#ffffff">Plotinfo object</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel.timespan')">timespan</a></td>
+        <td bgcolor="#f3f4f5">A timespan indicating the valid time-range of the object</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel.name')">name</a></td>
+        <td bgcolor="#ffffff">Name of the object</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel.description')">description</a></td>
+        <td bgcolor="#f3f4f5">Description of the object</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel.UUID')">UUID</a></td>
+        <td bgcolor="#ffffff">Universally Unique Identifier of 128-bit</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 14x3 table: End ==== -->
+
+  <!-- ===== Top of page ===== -->
+  <a href="#top_of_page">
+    <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top"/>
+    Back to Top
+  </a>
+
+  <h2 class="title"><a name="top_methods"/>Methods</h2>
+
+  <!-- =====           Link Table: Begin           ===== -->
+  <!-- ===== Created by docHelper.htmlAddLinkTable ===== -->
+  <p>
+    <table border="1"  width="80%">
+      <tr>
+        <td>
+          <table border="0" cellpadding="5" class="subcategorylist" width="100%">
+            <colgroup>
+              <col width="25%"/>
+              <col width="75%"/>
+            </colgroup>
+            <tbody>
+              <tr valign="top">
+                <td><a href="class_desc_pzmodel.html#arithmetic_operator">Arithmetic Operator</a></td>
+                <td>Arithmetic Operator</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_pzmodel.html#constructor">Constructor</a></td>
+                <td>Constructor of this class</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_pzmodel.html#helper">Helper</a></td>
+                <td>Helper methods only for internal usage</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_pzmodel.html#internal">Internal</a></td>
+                <td>Internal methods only for internal usage</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_pzmodel.html#operator">Operator</a></td>
+                <td>Operator methods</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_pzmodel.html#output">Output</a></td>
+                <td>Output methods</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_pzmodel.html#relational_operator">Relational Operator</a></td>
+                <td>Relational operator methods</td>
+              </tr>
+              <tr valign="top">
+                <td><a href="class_desc_pzmodel.html#signal_processing">Signal Processing</a></td>
+                <td>Signal processing methods</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </p>
+  <!-- ===== Link Table: End ====== -->
+
+  <!-- ===== Top of page ===== -->
+  <a href="#top_of_page">
+    <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top"/>
+    Back to Top
+  </a>
+
+  <!-- ===== Methods Category: Arithmetic_Operator ===== -->
+  <h3 class="title"><a name="arithmetic_operator"/>Arithmetic Operator</h3>
+
+  <!-- =====        Striped 4x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel/mrdivide')">mrdivide</a></td>
+        <td bgcolor="#f3f4f5">Overloads the division operator for pzmodels.</td>
+        <td bgcolor="#f3f4f5">pzmodel</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel/mtimes')">mtimes</a></td>
+        <td bgcolor="#ffffff">Overloads the multiplication operator for pzmodels.</td>
+        <td bgcolor="#ffffff">pzmodel</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel/rdivide')">rdivide</a></td>
+        <td bgcolor="#f3f4f5">Overloads the division operator for pzmodels.</td>
+        <td bgcolor="#f3f4f5">pzmodel</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel/times')">times</a></td>
+        <td bgcolor="#ffffff">Overloads the multiplication operator for pzmodels.</td>
+        <td bgcolor="#ffffff">pzmodel</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 4x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Constructor ===== -->
+  <h3 class="title"><a name="constructor"/>Constructor</h3>
+
+  <!-- =====        Striped 2x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel/rebuild')">rebuild</a></td>
+        <td bgcolor="#f3f4f5">Rebuilds the input objects using the history.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel')">pzmodel</a></td>
+        <td bgcolor="#ffffff">Constructor for pzmodel class.</td>
+        <td bgcolor="#ffffff">pzmodel</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 2x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Helper ===== -->
+  <h3 class="title"><a name="helper"/>Helper</h3>
+
+  <!-- =====        Striped 31x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel/get')">get</a></td>
+        <td bgcolor="#f3f4f5">Get a property of a object.</td>
+        <td bgcolor="#f3f4f5">ltpda_obj</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel/setIunits')">setIunits</a></td>
+        <td bgcolor="#ffffff">Sets the 'iunits' property a transfer function object.</td>
+        <td bgcolor="#ffffff">ltpda_tf</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel/setOunits')">setOunits</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'ounits' property a transfer function object.</td>
+        <td bgcolor="#f3f4f5">ltpda_tf</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel/simplifyUnits')">simplifyUnits</a></td>
+        <td bgcolor="#ffffff">Simplify the input units and/or output units of the object.</td>
+        <td bgcolor="#ffffff">ltpda_tf</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel/search')">search</a></td>
+        <td bgcolor="#f3f4f5">Select objects that match the given name.</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel/setDescription')">setDescription</a></td>
+        <td bgcolor="#ffffff">Sets the 'description' property of a ltpda_uo object.</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel/setName')">setName</a></td>
+        <td bgcolor="#f3f4f5">Sets the property 'name' of an ltpda_uoh object.</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel/created')">created</a></td>
+        <td bgcolor="#ffffff">Returns a time object of the last modification.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel/creator')">creator</a></td>
+        <td bgcolor="#f3f4f5">Extract the creator(s) from the history.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel/csvexport')">csvexport</a></td>
+        <td bgcolor="#ffffff">Exports the data of an object to a csv file.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel/index')">index</a></td>
+        <td bgcolor="#f3f4f5">Index into a 'ltpda_uoh' object array or matrix. This properly captures the history.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel/requirements')">requirements</a></td>
+        <td bgcolor="#ffffff">Returns a list of LTPDA extension requirements for a given object.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel/setPlotAxes')">setPlotAxes</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'axes' property of a the object's plotinfo.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel/setPlotColor')">setPlotColor</a></td>
+        <td bgcolor="#ffffff">Sets the color of a the object's plotinfo.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel/setPlotFigure')">setPlotFigure</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'figure' property of a the object's plotinfo.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel/setPlotFillmarker')">setPlotFillmarker</a></td>
+        <td bgcolor="#ffffff">Defines if the plot function fill the marker or not.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel/setPlotLineStyle')">setPlotLineStyle</a></td>
+        <td bgcolor="#f3f4f5">Sets the linestyle of a the object's plotinfo.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel/setPlotLinewidth')">setPlotLinewidth</a></td>
+        <td bgcolor="#ffffff">Sets the linewidth of a the object's plotinfo.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel/setPlotMarker')">setPlotMarker</a></td>
+        <td bgcolor="#f3f4f5">Sets the marker of a the object's plotinfo.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel/setPlotMarkerEdgeColor')">setPlotMarkerEdgeColor</a></td>
+        <td bgcolor="#ffffff">Sets the color of a the object's marker edge.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel/setPlotMarkerFaceColor')">setPlotMarkerFaceColor</a></td>
+        <td bgcolor="#f3f4f5">Sets the color of a the object's marker face.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel/setPlotMarkersize')">setPlotMarkersize</a></td>
+        <td bgcolor="#ffffff">Sets the markersize of a the object's plotinfo.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel/setPlotinfo')">setPlotinfo</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'plotinfo' property of a ltpda_uoh object.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel/setPlottingStyle')">setPlottingStyle</a></td>
+        <td bgcolor="#ffffff">Sets the style property of a the object's plotinfo.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel/setProcinfo')">setProcinfo</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'procinfo' property of a ltpda_uoh object.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel/setShowsErrors')">setShowsErrors</a></td>
+        <td bgcolor="#ffffff">Sets the 'showErrors' property of a the object's plotinfo.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel/setTimespan')">setTimespan</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'timespan' property of a ltpda_uoh object.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel/setDelay')">setDelay</a></td>
+        <td bgcolor="#ffffff">Sets the 'delay' property of the pzmodel object.</td>
+        <td bgcolor="#ffffff">pzmodel</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel/setGain')">setGain</a></td>
+        <td bgcolor="#f3f4f5">Sets the 'gain' property of the pzmodel object.</td>
+        <td bgcolor="#f3f4f5">pzmodel</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel/setPoles')">setPoles</a></td>
+        <td bgcolor="#ffffff">Set the property 'poles' of a pole/zero model.</td>
+        <td bgcolor="#ffffff">pzmodel</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel/setZeros')">setZeros</a></td>
+        <td bgcolor="#f3f4f5">Set the property 'zeros' of a pole/zero model.</td>
+        <td bgcolor="#f3f4f5">pzmodel</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 31x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Internal ===== -->
+  <h3 class="title"><a name="internal"/>Internal</h3>
+
+  <!-- =====        Striped 10x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel/isprop')">isprop</a></td>
+        <td bgcolor="#f3f4f5">Tests if the given field is one of the object properties.</td>
+        <td bgcolor="#f3f4f5">ltpda_obj</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel/plot')">plot</a></td>
+        <td bgcolor="#ffffff">The transfer function objects on the given axes.</td>
+        <td bgcolor="#ffffff">ltpda_tf</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel/bsubmit')">bsubmit</a></td>
+        <td bgcolor="#f3f4f5">Submits the given collection of objects in binary form to an LTPDA repository</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel/submit')">submit</a></td>
+        <td bgcolor="#ffffff">Submits the given collection of objects to an LTPDA repository</td>
+        <td bgcolor="#ffffff">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel/update')">update</a></td>
+        <td bgcolor="#f3f4f5">Updates the given object in an LTPDA repository</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel/string')">string</a></td>
+        <td bgcolor="#ffffff">Writes a command string that can be used to recreate the input object(s).</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel/type')">type</a></td>
+        <td bgcolor="#f3f4f5">Converts the input objects to MATLAB functions.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel/generateConstructorPlist')">generateConstructorPlist</a></td>
+        <td bgcolor="#ffffff">Generates a PLIST from the properties which can rebuild the object.</td>
+        <td bgcolor="#ffffff">pzmodel</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel/getlowerFreq')">getlowerFreq</a></td>
+        <td bgcolor="#f3f4f5">Gets the frequency of the lowest pole or zero in the model.</td>
+        <td bgcolor="#f3f4f5">pzmodel</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel/getupperFreq')">getupperFreq</a></td>
+        <td bgcolor="#ffffff">Gets the frequency of the highest pole or zero in the model.</td>
+        <td bgcolor="#ffffff">pzmodel</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 10x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Operator ===== -->
+  <h3 class="title"><a name="operator"/>Operator</h3>
+
+  <!-- =====        Striped 2x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel/tomfir')">tomfir</a></td>
+        <td bgcolor="#f3f4f5">Approximates a pole/zero model with an FIR filter.</td>
+        <td bgcolor="#f3f4f5">pzmodel</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel/tomiir')">tomiir</a></td>
+        <td bgcolor="#ffffff">Converts a pzmodel to an IIR filter using a bilinear transform.</td>
+        <td bgcolor="#ffffff">pzmodel</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 2x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Output ===== -->
+  <h3 class="title"><a name="output"/>Output</h3>
+
+  <!-- =====        Striped 6x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel/save')">save</a></td>
+        <td bgcolor="#f3f4f5">Overloads save operator for ltpda objects.</td>
+        <td bgcolor="#f3f4f5">ltpda_uo</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel/report')">report</a></td>
+        <td bgcolor="#ffffff">Generates an HTML report about the input objects.</td>
+        <td bgcolor="#ffffff">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel/viewHistory')">viewHistory</a></td>
+        <td bgcolor="#f3f4f5">Displays the history of an object as a dot-view or a MATLAB figure.</td>
+        <td bgcolor="#f3f4f5">ltpda_uoh</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel/char')">char</a></td>
+        <td bgcolor="#ffffff">Convert a pzmodel object into a string.</td>
+        <td bgcolor="#ffffff">pzmodel</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel/conj')">conj</a></td>
+        <td bgcolor="#f3f4f5">Overloads conjugate functionality for pzmodel objects.</td>
+        <td bgcolor="#f3f4f5">pzmodel</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel/disp')">disp</a></td>
+        <td bgcolor="#ffffff">Overloads display functionality for pzmodel objects.</td>
+        <td bgcolor="#ffffff">pzmodel</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 6x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Relational_Operator ===== -->
+  <h3 class="title"><a name="relational_operator"/>Relational Operator</h3>
+
+  <!-- =====        Striped 1x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel/isequal')">isequal</a></td>
+        <td bgcolor="#f3f4f5">Overloads the isequal operator for ltpda objects.</td>
+        <td bgcolor="#f3f4f5">ltpda_obj</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 1x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ===== Methods Category: Signal_Processing ===== -->
+  <h3 class="title"><a name="signal_processing"/>Signal Processing</h3>
+
+  <!-- =====        Striped 3x3 table: Begin        ==== -->
+  <!-- ===== Created by docHelper.htmlAddStripedTable ===== -->
+  <div class="sectiontitle"></div>
+  <table cellspacing="0" class="body" cellpadding="2" border="0" width="80%">
+    <colgroup>
+      <col width="14%"/>
+      <col width="72%"/>
+      <col width="14%"/>
+    </colgroup>
+    <thead>
+      <tr valign="top">
+        <th class="categorylist">Methods</th>
+        <th class="categorylist">Description</th>
+        <th class="categorylist">Defining Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel/resp')">resp</a></td>
+        <td bgcolor="#f3f4f5">Returns the complex response of a transfer function as an Analysis Object.</td>
+        <td bgcolor="#f3f4f5">ltpda_tf</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#ffffff"><a href="matlab:doc('pzmodel/fngen')">fngen</a></td>
+        <td bgcolor="#ffffff">Creates an arbitrarily long time-series based on the input pzmodel.</td>
+        <td bgcolor="#ffffff">pzmodel</td>
+      </tr>
+      <tr valign="top">
+        <td bgcolor="#f3f4f5"><a href="matlab:doc('pzmodel/simplify')">simplify</a></td>
+        <td bgcolor="#f3f4f5">Simplifies pzmodels by cancelling like poles with like zeros.</td>
+        <td bgcolor="#f3f4f5">pzmodel</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- ===== Striped 3x3 table: End ==== -->
+
+    <!-- ===== Back to Top of Methods ===== -->
+    <a href="#top_methods">
+      <img src="doc_to_top_up.gif" border="0" align="bottom" alt="Back to Top of Section"/>
+      Back to Top of Section
+    </a>
+
+  </p>
+
+  <!-- ================================================== -->
+  <!--                  END CONTENT FILE                  -->
+  <!-- ================================================== -->
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="class_desc_plist.html"><img src="b_prev.gif" border="0" align="bottom" alt="plist Class"></a>&nbsp;</td>
+        <td align="left">plist Class</td>
+        <td>&nbsp;</td>
+        <td align="right">rational Class</td>
+        <td align="right" width="20"><a href="class_desc_rational.html"><img src="b_next.gif" border="0" align="bottom" alt="rational Class"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

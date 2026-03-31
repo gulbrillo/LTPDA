@@ -1,0 +1,35 @@
+% FQ2RI Convert frequency/Q pole/zero representation into real
+% and imaginary conjugate pairs.
+%
+% [G,ri]= fq2ri(f0, Q)
+%
+
+function [G,ri]= fq2ri(f0, Q)
+    
+  if(nargin==0)
+    disp('usage: ri = fq2ri2(f0, Q)')
+    return
+  elseif(nargin==1 || nargin==2 && isnan(Q))
+    ri = -((2*pi*f0));
+  elseif(nargin==2 && Q>=0)
+    if Q < 0.5
+      disp('!!! Q < 0.5! Splitting to two real poles;')
+      a = 2*pi*f0/(2*Q)*(1+sqrt(1-4*Q^2));
+      b = 2*pi*f0/(2*Q)*(1-sqrt(1-4*Q^2));
+      ri = [a b];
+    elseif Q == 0.5
+      disp('!!! Q = 0.5! Returning one real pole;')
+      w0  = 2*pi*f0;
+      re  = w0/(2*Q);
+      ri  = [re];
+    else
+      w0  = 2*pi*f0;
+      re  = w0/(2*Q);
+      im  = w0*sqrt(1-1/(4*Q^2));
+      tri = complex(re,im);
+      ri  = [tri; conj(tri)];
+    end
+  end
+  
+end
+% END

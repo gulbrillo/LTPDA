@@ -1,0 +1,222 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Working with LTPDA objects (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="objects_create.html"><img src="b_prev.gif" border="0" align="bottom" alt="Creating LTPDA Objects"></a>&nbsp;&nbsp;&nbsp;<a href="ao_intro.html"><img src="b_next.gif" border="0" align="bottom" alt="Analysis Objects"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Working with LTPDA objects</h1>
+    <hr>
+    
+    <p>
+      <p>
+  The use of LTPDA objects requires some understanding of the nature of objects as implemented in MATLAB.
+</p>
+<p>
+  For full details of objects in MATLAB, refer to <a href="matlab:web(['jar:file:///' matlabroot '/help/techdoc/help.jar!/matlab_oop/ug_intropage.html'])">MATLAB Classes and Object-Oriented Programming</a>.
+  For convenience, the most important aspects in the context of LTPDA are reviewed below.
+</p>
+<p>
+  <ul>
+    <li>
+      <p><a href="objects_working.html#calling">Calling object methods</a></p>
+    </li>
+    <li>
+      <p><a href="objects_working.html#set">Setting object properties</a></p>
+    </li>
+    <li>
+      <p><a href="objects_working.html#copy">Copying objects</a></p>
+    </li>
+  </ul>
+</p>
+
+<a name="calling" id= "calling"><h3 class="title">Calling object methods</h3></a>
+
+<p>
+  Each class in LTPDA has a set of methods (functions) which can operate/act on instances of the class (objects).
+  For example, the AO class has a method <tt>psd</tt> which can compute the Power Spectral Density estimate of a
+  time-series AO.
+</p>
+<p>
+  To see which methods a particular class has, use the <tt>methods</tt> command. For example,
+  <div class="fragment"><pre>
+      >> methods(<span class="string">'ao'</span>)
+  </pre></div>
+</p>
+<p>
+  To call a method on an object, <tt>obj.method</tt>, or, <tt>method(obj)</tt>. For example,
+  <div class="fragment"><pre>
+      >> b = a.psd
+  </pre></div>
+  or
+  <div class="fragment"><pre>
+      >> b = psd(a)
+  </pre></div>
+  Additional arguments can be passed to the method (via a <tt>plist</tt>, for example), as follows:
+  <div class="fragment"><pre>
+      >> b = a.psd(plist(<span class="string">'scale'</span>, <span class="string">'PSD'</span>))
+  </pre></div>
+  or
+  <div class="fragment"><pre>
+      >> pl = plist(<span class="string">'scale'</span>, <span class="string">'PSD'</span>);
+      >> b = psd(a, pl)
+  </pre></div>
+</p><br>
+<p>
+  In order to pass multiple objects to a method, you must use the form
+  <div class="fragment"><pre>
+      >> b = psd(a1, a2, pl)
+  </pre></div>
+</p><br>
+<p>
+  Some methods can behave as modifiers which means that the object which the method acts on is modified. To
+  modify an object, just give no output. If we start with a time-series AO then modify it with the <tt>psd</tt>
+  method,
+  <div class="fragment"><pre>
+      >> a = ao(1:100, randn(100, 1), plist(<span class="string">'type'</span>, <span class="string">'tsdata'</span>));
+      M:     constructing from X and Y values and frequencies.
+      >> a
+      ----------- ao 01: a -----------
+ 
+             name: ''
+             data: (1,-0.356403360618887) (2,-0.431691783711256) (3,0.779328180381919) (4,0.816324576608273) (5,1.14830402609895) ...
+                   -------- tsdata [x, y] --------
+              
+                        x:  [100 1], double
+                        y:  [100 1], double
+                       dx:  [0 0], double
+                       dy:  [0 0], double
+                   xunits:  [s]
+                   yunits:  
+                        fs:  1
+                     nsecs:  100
+                        t0:  1970-01-01 00:00:00.000 UTC
+                   -------------------------------
+              
+             hist: ao / ao / 0fdb45fcdecae9b31415a1e452a9dd292856b644
+      description: 
+             UUID: e9d8bfdd-d01a-4f16-aefa-dc6c67b5d075
+      --------------------------------
+  </pre></div><br>
+  Then call the <tt>psd</tt> method:
+  <div class="fragment"><pre>
+      >> a.psd
+      >> a.psd
+      M:     using default Nfft of 100
+      M:     reset window to BH92(100)
+      M:     using default overlap of 66.1%
+      ----------- ao 01: PSD(a) -----------
+ 
+             name: PSD(a)
+             data: (0,0.292599665179019) (0.01,0.229144695170146) (0.02,0.00474763264361868) (0.03,0.0438531813570101) (0.04,0.258565926012549) ...
+                   -------- fsdata [x, y] --------
+              
+                        x:  [51 1], double
+                        y:  [51 1], double
+                       dx:  [0 0], double
+                       dy:  [0 0], double
+                   xunits:  [Hz]
+                   yunits:  [Hz^(-1)]
+                     enbw:  0.0200435
+                       fs:  1
+                       t0:  1970-01-01 00:00:01.000 UTC
+                     navs:  1
+                   -------------------------------
+                    
+             hist: ao / psd / 0fdb45fcdecae9b31415a1e452a9dd292856b644
+      description: 
+             UUID: 14ed0a0e-ba8b-4ebb-a50b-9563790ee0d5
+      -------------------------------------
+  </pre></div><br>
+  then the object <tt>a</tt> is converted to a frequency-series AO.
+</p><br>
+<p>
+  This modifier behaviour only works with certain methods, in particular, methods requiring more than one input object
+  will not behave as modifiers.
+</p><br>
+<a name="set" id= "set"><h3 class="title">Setting object properties</h3></a>
+<p>
+  All object properties must be set using the appropriate setter method. For example, to set the name of a IIR filter
+  object,
+  <div class="fragment"><pre>
+      >> ii = miir();
+      >> ii.setName(<span class="string">'My Filter'</span>);
+  </pre></div>
+</p>
+<p>
+  Reading the value of a property is achieved by:
+  <div class="fragment"><pre>
+      >> ii.name
+      ans =
+      My Filter
+  </pre></div>
+</p><br>
+
+<a name="copy" id= "copy"><h3 class="title">Copying objects</h3></a>
+<br>
+<p>
+  Since all objects in LTPDA are handle objects, creating copies of objects needs to be done differently than in standard
+  MATLAB. For example,
+  <div class="fragment"><pre>
+      >> a = ao();
+      >> b = a;
+  </pre></div>
+  in this case, the variable <tt>b</tt> is a copy of the handle <tt>a</tt>, not a copy of the object pointed too
+  by the handle <tt>a</tt>. To see how this behaves,
+  <div class="fragment"><pre>
+      >> a = ao();
+      >> b = a;
+      >> b.setName(<span class="string">'My Name'</span>);
+      >> a.name
+      ans =
+      My Name
+  </pre></div>
+</p>
+<p>
+  Copying the object can be achieved using the copy constructor:
+  <div class="fragment"><pre>
+      >> a = ao();
+      >> b = ao(a);
+      >> b.setName(<span class="string">'My Name'</span>);
+      >> a.name
+      ans =
+      ''
+  </pre></div>
+  <p>In this case, the variable <tt>b</tt> points to a new distinct copy of the object pointed to by <tt>a</tt>.
+    </p>
+</p>
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="objects_create.html"><img src="b_prev.gif" border="0" align="bottom" alt="Creating LTPDA Objects"></a>&nbsp;</td>
+        <td align="left">Creating LTPDA Objects</td>
+        <td>&nbsp;</td>
+        <td align="right">Analysis Objects</td>
+        <td align="right" width="20"><a href="ao_intro.html"><img src="b_next.gif" border="0" align="bottom" alt="Analysis Objects"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

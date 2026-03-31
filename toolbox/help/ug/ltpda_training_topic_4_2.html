@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Transforming models between representations (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_topic_4_1_3.html"><img src="b_prev.gif" border="0" align="bottom" alt="Rational representation"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_topic_4_3.html"><img src="b_next.gif" border="0" align="bottom" alt="Modelling a system"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Transforming models between representations</h1>
+    <hr>
+    
+    <p>
+      <h2>Transforming between different representations</h2>
+
+<p>
+  The LTPDA toolbox allows you to go from one representation to the other. However,
+  in the current version (v2.3), only the transformations shown in the following
+  table are allowed
+</p>
+
+<div align="center">
+  <img src="images/TransformTable.png" alt="Pole/zero model TF" border="3">
+</div>
+
+<p>
+  We can see how this work for the allowed transformation using the models that
+  we have just created. To turn our <tt>pzmodel</tt> into a <tt>rational</tt>
+  one, we just need to insert the first into the rational constructor
+</p>
+<p>
+  For example, if we consider again our <tt>pzmodel</tt>
+</p>
+
+<div class="fragment"><pre>
+	pzm = pzmodel(5, [10 2], {1, 0.1}, <span class="string">'mymodel'</span>)
+---- pzmodel 1 ----
+	       name: mymodel
+	       gain: 5
+	      delay: 0
+    	 iunits: []
+	     ounits: []
+	description: 
+	       UUID: 93420391-23c8-4829-b5a5-3988f1109be6
+	pole 001: (f=10 Hz, Q=2, ri=-15.71+60.84i)
+	zero 001: (f=1 Hz, Q=NaN, ri=-6.283)
+	zero 002: (f=0.1 Hz, Q=NaN, ri=-0.6283)
+	-------------------
+</pre></div>
+
+<p>
+  To transform it into its rational equivalent we just need to give it as a input to
+  the <tt>rational</tt> constructor
+</p>
+
+<div class="fragment"><pre>
+	rat = rational(pzm)
+	---- rational 1 ----
+	model:       rational(mymodel)
+	num:         [1.26651479552922 8.75352187005424 5]
+	den:         [0.000253302959105844 0.00795774715459477 1]
+	iunits:      []
+	ounits:      []
+	description: 
+	UUID:        deb9a67f-6237-4112-9025-17fd4c42ce53
+	--------------------
+</pre></div>
+
+<p>
+  The transformation returns again the first <tt>pzmodel</tt> however the
+  name property allows us to follow the operations that we've been performing to
+  this object.
+</p>
+
+<div class="fragment"><pre>
+    pzm2 = pzmodel(rat)
+    ---- pzmodel 1 ----
+           name: pzmodel(rational(mymodel))
+           gain: 5
+          delay: 0
+         iunits: []
+         ounits: []
+    description:
+           UUID: b2177fde-1465-4c5c-a94f-29d73d9aed67
+    pole 001: (f=10 Hz,Q=2)
+    zero 001: (f=1 Hz,Q=NaN)
+    zero 002: (f=0.1 Hz,Q=NaN)
+    -------------------
+</pre></div>
+
+
+
+
+
+
+
+
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_topic_4_1_3.html"><img src="b_prev.gif" border="0" align="bottom" alt="Rational representation"></a>&nbsp;</td>
+        <td align="left">Rational representation</td>
+        <td>&nbsp;</td>
+        <td align="right">Modelling a system</td>
+        <td align="right" width="20"><a href="ltpda_training_topic_4_3.html"><img src="b_next.gif" border="0" align="bottom" alt="Modelling a system"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Introducing LTPDA Objects (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="trouble_shooting.html"><img src="b_prev.gif" border="0" align="bottom" alt="Trouble-shooting"></a>&nbsp;&nbsp;&nbsp;<a href="object_types.html"><img src="b_next.gif" border="0" align="bottom" alt="Types of User Objects"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Introducing LTPDA Objects</h1>
+    <hr>
+    
+    <p>
+      <p>
+  The LTPDA toolbox is object oriented and as such, extends the MATLAB object types to many others. All data processing is
+  done using objects and methods of those classes.
+</p>
+<p>
+  For full details of objects in MATLAB, refer to <a href="http://www.mathworks.de/de/help/matlab/object-oriented-programming.html">MATLAB Classes and Object-Oriented Programming</a>.
+</p>
+<a name="classes" id= "classes"><h3 class="title">LTPDA Classes</h3></a>
+
+<p>
+  Various classes make up the object-oriented infrastructure of LTPDA. The figure below shows all the classes in LTPDA.
+  All classes are derived from the base class, <tt>ltpda_obj</tt>. The classes then fall into two main types deriving
+  from the classes <tt>ltpda_nuo</tt> and <tt>ltpda_uo</tt>.
+</p>
+<br>
+  <img src="images/class_diagram.png" alt="LTPDA classes">
+<br>
+<p>
+  The left branch, <tt>ltpda_nuo</tt>, are termed 'non-user objects'. These
+  objects are not typically accessed or created by users. The right branch, <tt>ltpda_uo</tt>, are termed 'user objects'.
+  These objects have a 'name' and a 'history' property which means that their processing history is tracked through all
+  LTPDA algorithms. In addition, these 'user objects' can be saved to disk or to an LTPDA repository.
+</p>
+<p>
+  The objects drawn in green are expected to be created by users in scripts or on the LTPDA GUI.
+</p>
+
+
+ <p>Details of each class are given in:</p>
+
+  <table border="1" cellpadding="2" width="30%" bgcolor="#DDDDDD">
+    <tr valign="top">
+      <td><a href="class_desc_ao.html">analysis object class</a></td>
+    </tr>
+    <tr valign="top">
+      <td><a href="class_desc_ssm.html">statespace model class</a></td>
+    </tr>
+    <tr valign="top">
+      <td><a href="class_desc_rational.html">rational class</a></td>
+    </tr>
+    <tr valign="top">
+      <td><a href="class_desc_parfrac.html">partial fraction class</a></td>
+    </tr>
+    <tr valign="top">
+      <td><a href="class_desc_pzmodel.html">pole/zero model class</a></td>
+    </tr>
+    <tr valign="top">
+      <td><a href="class_desc_miir.html">iir filter class</a></td>
+    </tr>
+    <tr valign="top">
+      <td><a href="class_desc_mfir.html">fir filter class</a></td>
+    </tr>
+    <tr valign="top">
+      <td><a href="class_desc_timespan.html">timespan class</a></td>
+    </tr>
+    <tr valign="top">
+      <td><a href="class_desc_plist.html">parameter list class</a></td>
+    </tr>
+    <tr valign="top">
+      <td><a href="class_desc_specwin.html">spectral window class</a></td>
+    </tr>
+    <tr valign="top">
+      <td><a href="class_desc_time.html">time class</a></td>
+    </tr>
+    <tr valign="top">
+      <td><a href="class_desc_pz.html">pole/zero class</a></td>
+    </tr>
+    <tr valign="top">
+      <td><a href="class_desc_minfo.html">method info class</a></td>
+    </tr>
+    <tr valign="top">
+      <td><a href="class_desc_history.html">history class</a></td>
+    </tr>
+    <tr valign="top">
+      <td><a href="class_desc_provenance.html">provenance class</a></td>
+    </tr>
+    <tr valign="top">
+      <td><a href="class_desc_param.html">parameter class</a></td>
+    </tr>
+    <tr valign="top">
+      <td><a href="class_desc_unit.html">unit class</a></td>
+    </tr>
+    <tr valign="top">
+      <td><a href="class_desc_cdata.html">constant data class</a></td>
+    </tr>
+    <tr valign="top">
+      <td><a href="class_desc_xydata.html">xy data class</a></td>
+    </tr>
+    <tr valign="top">
+      <td><a href="class_desc_tsdata.html">time-series data class</a></td>
+    </tr>
+    <tr valign="top">
+      <td><a href="class_desc_fsdata.html">frequency-series data class</a></td>
+    </tr>
+    <tr valign="top">
+      <td><a href="class_desc_xyzdata.html">xyz data class</a></td>
+    </tr>
+  </table>
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="trouble_shooting.html"><img src="b_prev.gif" border="0" align="bottom" alt="Trouble-shooting"></a>&nbsp;</td>
+        <td align="left">Trouble-shooting</td>
+        <td>&nbsp;</td>
+        <td align="right">Types of User Objects</td>
+        <td align="right" width="20"><a href="object_types.html"><img src="b_next.gif" border="0" align="bottom" alt="Types of User Objects"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

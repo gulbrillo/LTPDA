@@ -1,0 +1,221 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Constructor examples of the PZMODEL class (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="constructor_examples_miir.html"><img src="b_prev.gif" border="0" align="bottom" alt="Constructor examples of the MIIR class"></a>&nbsp;&nbsp;&nbsp;<a href="constructor_examples_parfrac.html"><img src="b_next.gif" border="0" align="bottom" alt="Constructor examples of the PARFRAC class"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Constructor examples of the PZMODEL class</h1>
+    <hr>
+    
+    <p>
+      <!-- $Id$ -->
+
+<!-- -------------------------------------------------- -->
+<!-- --------------- BEGIN CONTENT FILE --------------- -->
+<!-- -------------------------------------------------- -->
+
+<table border="0" summary="Simple list" class="simplelist_nottable_last">
+  <tr>
+    <td>
+      <a href="pzmodel_model.html">General information about PZMODEL objects</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="constructor_examples_pzmodel.html#empty">Construct empty PZMODEL object</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="constructor_examples_pzmodel.html#xml_file">Construct a PZMODEL object by loading the object from a file</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="constructor_examples_pzmodel.html#gain_poles_zeros">Construct a PZMODEL object from gain, poles and zeros</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="constructor_examples_pzmodel.html#exist_model">Construct a PZMODEL object from an existing model</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="constructor_examples_pzmodel.html#plist">Construct a PZMODEL object from a parameter list (PLIST) object</a>
+    </td>
+  </tr>
+</table>
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a href="pzmodel_model.html">General information about pole/zero models</a></h2>
+<h2 class="title">
+  <!-- --------------- NEXT EXAMPLE --------------- -->
+  <a href="gui_pzmodel.html">For help in designing a PZMODEL object, see also the PZMODEL Helper GUI documentation</a></h2>
+<hr>
+<h2 class="title"><a name="empty"></a>Construct empty PZMODEL object</h2>
+<p>The following example creates an empty pzmodel object</p>
+<div class="fragment"><pre class="programlisting">
+pzm = pzmodel()
+---- pzmodel 1 ----
+model:    None
+gain :    0
+pole 001: pole(NaN)
+zero 001: zero(NaN)
+-------------------
+</pre></div>
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a name="xml_file"></a>Construct a PZMODEL object by loading the object from a file</h2>
+<p>The following example creates a new pzmodel object by loading the pzmodel object from disk.</p>
+<div class="fragment"><pre class="programlisting">
+p = pzmodel(<span class="string">'pzmodel.mat'</span>)
+p = pzmodel(<span class="string">'pzmodel.xml'</span>)
+</pre></div>
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a name="gain_poles_zeros"></a>Construct a PZMODEL object from gain, poles and zeros</h2>
+<p>The following code fragment creates a pole/zero model consisting of 2 poles and 2 zeros with a gain factor of 10:</p>
+<div class="fragment"><pre class="programlisting">
+gain  = 10;
+poles = [pole(1,2) pole(40)];
+zeros = [zero(10,3) zero(100)];
+
+pzm = pzmodel(gain, poles, zeros)
+---- pzmodel 1 ----
+model:    None
+gain :    10
+pole 001: pole(1,2)
+pole 002: pole(40)
+zero 001: zero(10,3)
+zero 002: zero(100)
+-------------------
+</pre></div>
+<p>It is possible to give the model direct a name.</p>
+<div class="fragment"><pre class="programlisting">
+gain  = 10;
+poles = [pole(1,2) pole(40)];
+zeros = [zero(10,3) zero(100)];
+
+pzm = pzmodel(gain, poles, zeros, <span class="string">'my model name'</span>)
+---- pzmodel 1 ----
+model:    <span class="string">my model name</span>
+gain :    10
+pole 001: pole(1,2)
+pole 002: pole(40)
+zero 001: zero(10,3)
+zero 002: zero(100)
+-------------------
+</pre></div>
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a name="exist_model"></a>Construct a PZMODEL object from an existing model</h2>
+<p>The pzmodel constructor also accepts as an input existing models in a LISO file format</p>
+<div class="fragment"><pre class="programlisting">
+pzm = pzmodel(<span class="string">'foo.fil'</span>)
+</pre></div>
+
+<!-- --------------- NEXT EXAMPLE --------------- -->
+
+<hr>
+<h2 class="title"><a name="plist"></a>Construct a PZMODEL object from a parameter list (PLIST) object</h2>
+<p>Construct a PZMODEL from its definion.
+  <table border="0" summary="Simple list" class="simplelist_nottable_last" width="50%">
+    <tr valign="top">
+      <td width="25%">
+        <p>'gain'</p>
+      </td>
+      <td width="75%">
+        <p>Model gain [default: 1]</p>
+      </td>
+    </tr>
+    <tr valign="top">
+      <td width="25%">
+        <p>'poles'</p>
+      </td>
+      <td width="75%">
+        <p>Vector of pole objects [default: empty pole]</p>
+      </td>
+    </tr>
+    <tr valign="top">
+      <td width="25%">
+        <p>'zeros'</p>
+      </td>
+      <td width="75%">
+        <p>Vector of zero objects [default: empty zero]</p>
+      </td>
+    </tr>
+    <tr valign="top">
+      <td width="25%">
+        <p>'name'</p>
+      </td>
+      <td width="75%">
+        <p>Name of model [default: 'None']</p>
+      </td>
+    </tr>
+  </table>
+</p>
+<div class="fragment"><pre class="programlisting">
+poles = [pole(0.1) pole(1,100)];
+zeros = [zero(10,3) zero(100)];
+pl = plist('name', 'my filter', 'poles', poles, 'zeros', zeros, 'gain', 10);
+
+pzm = pzmodel(pl)
+---- pzmodel 1 ----
+model:    my filter
+gain :    10
+pole 001: pole(0.1)
+pole 002: pole(1,100)
+zero 001: zero(10,3)
+zero 002: zero(100)
+-------------------
+</pre></div>
+
+<!-- ------------------------------------------------ -->
+<!-- --------------- END CONTENT FILE --------------- -->
+<!-- ------------------------------------------------ -->
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="constructor_examples_miir.html"><img src="b_prev.gif" border="0" align="bottom" alt="Constructor examples of the MIIR class"></a>&nbsp;</td>
+        <td align="left">Constructor examples of the MIIR class</td>
+        <td>&nbsp;</td>
+        <td align="right">Constructor examples of the PARFRAC class</td>
+        <td align="right" width="20"><a href="constructor_examples_parfrac.html"><img src="b_next.gif" border="0" align="bottom" alt="Constructor examples of the PARFRAC class"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

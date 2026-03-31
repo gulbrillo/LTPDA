@@ -1,0 +1,210 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Non-linear least squares fitting of time series (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_topic_5_3.html"><img src="b_prev.gif" border="0" align="bottom" alt="Fitting time series with polynomials"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_topic_5_5.html"><img src="b_next.gif" border="0" align="bottom" alt="IFO/Temperature Example - signal subtraction"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Non-linear least squares fitting of time series</h1>
+    <hr>
+    
+    <p>
+      
+<p>
+  Non-linear least square fitting of time-series exploits the function <tt>ao/xfit</tt>.   
+</p>
+
+<h2> Non-linear least square fitting of time series </h2>
+
+<p>
+  During this exercise we will:
+  <ol>
+    <li> Load time series data
+    <li> Fit data with <tt>ao/xfit</tt>
+    <li> Check results
+    <li> Refine the fit with a Monte Carlo search
+  </ol>
+</p>
+
+<p> 
+  Let us open a new editor window and load test data.
+</p>
+
+<div class="fragment"><pre>
+    a = ao(plist(<span class="string">'filename'</span>, <span class="string">'topic5/T5_Ex05_TestNoise.xml'</span>));
+    a.setName(<span class="string">'data'</span>);
+    iplot(a)</pre></div>
+
+<p>
+  As can be seen this is a chirped sine wave with some noise.
+  <div align="center">
+    <IMG src="images/ltpda_training_1/topic5/ltpda_training_5_4_1.png" align="center" border="0">
+  </div>
+  We could now try the fit. The first parameter to pass to <tt>xfit</tt>
+  is a fit model. In this case we assume that we are dealing with a linearly 
+  chirped sine wave according to the equation: <br/>
+
+  <br/>
+  <div align="center">
+    <IMG src="images/ltpda_training_1/topic5/ex4_chirpsine.gif" align="center" border="0">
+  </div>
+  <br/>
+  The previous function can be stored within a <tt>smodel</tt> analysis object to pass to the fitting machinery:
+<div class="fragment"><pre>
+    mdl = smodel(plist(<span class="string">'Name'</span>, <span class="string">'chirp'</span>, ...
+              <span class="string">'expression'</span>, <span class="string">'A.*sin(2*pi*(f + f0.*t).*t + p) + c'</span>, ...
+              <span class="string">'params'</span>, <span class="string">{'A', 'f', 'f0', 'p', 'c'}</span>, ...
+              <span class="string">'xvar'</span>, <span class="string">'t'</span>, ...
+              <span class="string">'xunits'</span>, <span class="string">'s'</span>, <span class="string">'yunits'</span>, <span class="string">'m'</span>));
+</pre></div>
+  
+  We need to specify a starting guess for the model parameters. 
+  The output of <tt>ao/xfit</tt> is a <tt>pest</tt> analysis objects containing fit parameters.
+
+</p>
+
+<div class="fragment"><pre>
+    plfit1 = plist(<span class="string">'Function'</span>, <span class="string">mdl</span>, ...
+              <span class="string">'P0'</span>, [5, 9e-5, 9e-6, 0, 5]);
+
+    params1 = xfit(a, plfit1);</pre></div>
+
+<p>
+  Once the fit is done, we can evaluate our model to check fit results.
+</p>
+
+<div class="fragment"><pre>
+    b = eval(params1, plist(<span class="string">'xdata'</span>, a, <span class="string">'xfield'</span>, <span class="string">'x'</span>));
+    b.setName();    
+    iplot(a, b)</pre></div>
+<p>
+  As you can see, the fit is not accurate. One of the great problems of
+  non-linear least square methods is that they easily find a local minimum of
+  the chi square function and stop there without finding the global minimum.
+  There are two possibile solutions to such kind of problems: the first one is
+  to refine step by step the fit by looking at the data; the second one is to
+  perform a Monte Carlo search in the parameter space. This way, the fitting machinery
+  extracts the number of points you define in the <tt>'Npoints'</tt>
+  key, evaluates the chi square at those points, reoders by ascending chi square, selects
+  the first guesses and fit starting from them.
+</p>
+
+<div class="fragment"><pre>
+plfit2 = plist(...
+		<span class="string">'Function'</span>, <span class="string">mdl</span>, ...
+		<span class="string">'MonteCarlo'</span>, <span class="string">'yes'</span>, ...
+		<span class="string">'Npoints'</span>, 1000, ...
+		<span class="string">'LB'</span>, [1, 5e-5, 5e-6, 0, 2], ...
+		<span class="string">'UB'</span>, [10, 5e-4, 5e-5, 2*pi, 7]);
+    
+    params2 = xfit(a, plfit2);
+    
+    c = eval(params2, plist(<span class="string">'xdata'</span>, a, <span class="string">'xfield'</span>, <span class="string">'x'</span>));
+    c.setName();
+    iplot(a, c)</pre></div>
+
+<p>
+  The fit now looks like better...
+  <div align="center">
+    <IMG src="images/ltpda_training_1/topic5/ltpda_training_5_4_3.png" align="center" border="0">
+  </div>
+  
+  Let us compare fit results with nominal parameters. <br/>
+  Data were generated with the following set of parameters:
+</p>
+
+<div class="fragment"><pre>
+    A  = 3
+    f  = 1e-4
+    f0 = 1e-5
+    p  = 0.3
+    c  = 5
+</pre></div>
+
+<p>
+
+  Fitted parameters are instead:
+</p>
+
+<div class="fragment"><pre>
+    A  = 3.02 +/- 0.05
+    f  = (7 +/- 3)e-5
+    f0 = (1.003 +/- 0.003)e-5 
+    p  = 0.33 +/- 0.04
+    c  = 4.97 +/- 0.03
+</pre></div>
+<p>
+  The correlation matrix of the parameters, the chi square, the degree of freedom, the covariance matrix are
+  store in the output <tt>pest</tt>. Other useful information are stored in the <tt>procinfo</tt> (processing information)
+  field. This field is a <tt>plist</tt> and is used to additional information that can be
+  returned from algorithms. For example, to extract the chi square, we write:
+</p>
+
+<div class="fragment"><pre>
+    params2.chi2
+    1.0253740840052
+</pre></div>
+<p>
+  And to know the correlation matrix:
+</p>
+
+<div class="fragment"><pre>
+    params2.corr
+    Columns 1 through 3
+
+                         1         0.120986348157139       -0.0970894969803509
+         0.120986348157139                         1        -0.966114904879414
+       -0.0970894969803509        -0.966114904879414                         1
+        -0.156801230958825        -0.848296014553159         0.717376893765734
+       -0.0994358284166703         0.187645552903433        -0.169496082635319
+
+    Columns 4 through 5
+
+        -0.156801230958825       -0.0994358284166703
+        -0.848296014553159         0.187645552903433
+         0.717376893765734        -0.169496082635319
+                         1        -0.199286767157984
+        -0.199286767157984                         1
+                       </pre></div>
+
+<p>
+  Not so bad!
+</p>
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_topic_5_3.html"><img src="b_prev.gif" border="0" align="bottom" alt="Fitting time series with polynomials"></a>&nbsp;</td>
+        <td align="left">Fitting time series with polynomials</td>
+        <td>&nbsp;</td>
+        <td align="right">IFO/Temperature Example - signal subtraction</td>
+        <td align="right" width="20"><a href="ltpda_training_topic_5_5.html"><img src="b_next.gif" border="0" align="bottom" alt="IFO/Temperature Example - signal subtraction"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>

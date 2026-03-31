@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en"> 
+  
+  <head>
+    <title>Introduction to the LPF state-space models in LTPDA (LTPDA Toolbox)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="Presents an overview of the features, system requirements, and starting the toolbox." />
+    <link rel="stylesheet" href="docstyle.css" type="text/css" />
+  </head>
+  
+  <body>
+    <a name="top_of_page" id="top_of_page"></a>
+    
+    <p style="font-size:1px;">&nbsp;</p>
+    
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="baseline"><b>LTPDA Toolbox&trade;</b></td>
+        <td><a href="../helptoc.html">contents</a></td>
+        <td valign="baseline" align="right"><a href="ltpda_training_2_topic_2_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="Introduction to state-space models in LTPDA"></a>&nbsp;&nbsp;&nbsp;<a href="ltpda_training_2_topic_2_3.html"><img src="b_next.gif" border="0" align="bottom" alt="Building an LTP model"></a></td>
+      </tr>
+    </table>
+    
+    <h1 class="title">Introduction to the LPF state-space models in LTPDA</h1>
+    <hr>
+    
+    <p>
+      <h2>LTP System Models</h2>
+<p>
+  Let's start with a word on terminology. The current implementation of the LPF models in LTPDA
+  uses: <ul> 
+  <li>the term 'LTP' to refer to the entire system but without noise models</li>
+  <li>the term 'LPF' to refer to 'LTP' + noise models</li></ul> 
+  All of the LPF <tt>ssm</tt> models are provided by the <tt>LPF_DA_Module</tt> LTPDA extension module.
+</p>
+<p>
+  The 3D closed-loop dynamical system of LTP is modelled using a number of sub-models
+  which are then assembled together to produce the final LTP model. The following
+  diagram shows the full set of <tt>ssm</tt> models which are assembled together
+  to give the main composite model 'LPF'.
+  <br>
+  <br>
+  <IMG src="images/ltpda_training_2/Topic2/SSM_Models.png" width="800px" align="center" border="0">
+  <br>
+  <br>
+  All noise models begin with the prefix <tt>DIST_*</tt>, and they are inputs to the corresponding model.
+  The noise models typically have one output block, whose name is the same as the model itself.
+  <br>
+  Each submodel has many 
+  parameters which all have default values. In section 7 you will learn how to 
+  change these parameter values at both build time and run time. 
+</p>
+<p>
+  As well as having many parameters, each sub-model has many inputs and outputs. In the process of
+  assembling the full LTP (or LPF) model, some of the inputs disappear (because they
+  are connected to outputs). However, many do not. 
+</p>
+<p>  
+  The following diagram shows the full
+  LTP model indicating many of the inputs and outputs you have access to.
+  <br>
+  <br>
+  <IMG src="images/ltpda_training_2/Topic2/lpf_ssm_model_loop.png" width="800px" align="center" border="0">
+  <br>
+  <br>
+  Any input named <tt>DIST_*</tt> will not appear in the full LPF model because the various
+  noise models will connect to these. However, the noise models themselves also have inputs
+  where you can inject noise/signals. These are described below.
+</p>
+<h2>LPF Noise Models</h2>
+<p>
+  The LTP model (and its submodels) have many inputs labelled <tt>DIST_*</tt>. These inputs are 
+  designed for inputting noise. The output block has two ports, one named <tt>*_DC</tt> for the DC term, 
+  and one named <tt>*_NOISE</tt> for the fluctuating term. 
+  To simplify this process, we have created a set of noise models
+  (noise shaping filters) which, when you input unit variance white noise, inject a particular
+  coloured noise into the LTP model. The first figure above shows the various noise models.
+</p>
+
+
+
+
+    </p>
+    
+    <br>
+    <table class="nav" summary="Navigation aid" border="0" width="100%" cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td align="left" width="20"><a href="ltpda_training_2_topic_2_1.html"><img src="b_prev.gif" border="0" align="bottom" alt="Introduction to state-space models in LTPDA"></a>&nbsp;</td>
+        <td align="left">Introduction to state-space models in LTPDA</td>
+        <td>&nbsp;</td>
+        <td align="right">Building an LTP model</td>
+        <td align="right" width="20"><a href="ltpda_training_2_topic_2_3.html"><img src="b_next.gif" border="0" align="bottom" alt="Building an LTP model"></a></td>
+      </tr>
+    </table>
+    
+    <br/>
+    <p class="copy">&copy;LTP Team</p>
+  </body>
+  
+</html>
