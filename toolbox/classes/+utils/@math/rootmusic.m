@@ -50,7 +50,7 @@ function [w_i,powers,w_mse,p_mse] = rootmusic(x,p,varargin)
 %             IEEE Trans. Acoust. Speech and Sig. Proc. 37, 1989
 %
 
-error(nargchk(2,5,nargin,'struct'));
+narginchk(2,5);
 
 xIsReal = isreal(x);
 

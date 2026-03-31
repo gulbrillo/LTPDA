@@ -7,8 +7,8 @@
 %
 
 function loadPrefs(varargin)
-  v = ver('LTPDA');
-  nv = utils.helper.ver2num(v(1).Version);
+  v = ltpda_ver();
+  nv = utils.helper.ver2num(v.Version);
   prefs = mpipeline.ltpdapreferences.LTPDAPreferences.loadFromDisk(LTPDAprefs.preffile, nv);
   
   % Version 2.4 drops support for built-in model directories.

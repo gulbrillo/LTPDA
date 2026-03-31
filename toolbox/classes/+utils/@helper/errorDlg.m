@@ -13,7 +13,5 @@ function errorDlg(msg, title)
     title = 'Error Dialog';
   end
   
-  warning('off', 'MATLAB:JavaEDTAutoDelegation')
-  javax.swing.JOptionPane.showMessageDialog('', msg, title, javax.swing.JOptionPane.ERROR_MESSAGE)
-  warning('on', 'MATLAB:JavaEDTAutoDelegation')
+  errordlg(msg, title, 'modal');
 end

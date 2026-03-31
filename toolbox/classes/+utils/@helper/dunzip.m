@@ -16,12 +16,15 @@
 %        (5) Michael Kleder, Nov 2005
 function M = dunzip(Z)
   
-  import com.mathworks.mlwidgets.io.InterruptibleStreamCopier
-  a=java.io.ByteArrayInputStream(Z);
-  b=java.util.zip.InflaterInputStream(a);
-  isc = InterruptibleStreamCopier.getInterruptibleStreamCopier;
+  a = java.io.ByteArrayInputStream(Z);
+  b = java.util.zip.InflaterInputStream(a);
   c = java.io.ByteArrayOutputStream;
-  isc.copyStream(b,c);
+  buf = javaArray('byte', 4096);
+  while true
+    n = b.read(buf, 0, 4096);
+    if n < 0, break; end
+    c.write(buf, 0, n);
+  end
   Q=typecast(c.toByteArray,'uint8');
   cn = double(Q(1)); % class
   nd = double(Q(2)); % # dims

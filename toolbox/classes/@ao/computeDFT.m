@@ -32,7 +32,7 @@
 
 function [Xx,f] = computeDFT(xin,nfft,varargin)
 
-  error(nargchk(2,3,nargin,'struct'));
+  narginchk(2,3);
   if nargin > 2,
     Fs = varargin{1};
   else

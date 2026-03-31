@@ -36,7 +36,7 @@ function varargout = validate(varargin)
 
   % --- Initial set up
   versions = []; % initialised with function: ltpda_versions
-  v = ver('LTPDA');
+  v = ltpda_ver();
   warning('!!! This method (%s) doesn''t work for the moment. The script ltpda_versions.m doesn''t exist in LTPDA %s only in 1.9.1. We have to update this method.', mfilename, v.Version);
   return
   ltpda_versions;

@@ -13,7 +13,5 @@ function warnDlg(msg, title)
     title = 'Warning Dialog';
   end
   
-  warning('off', 'MATLAB:JavaEDTAutoDelegation')
-  javax.swing.JOptionPane.showMessageDialog('', msg, title, javax.swing.JOptionPane.WARNING_MESSAGE)
-  warning('on', 'MATLAB:JavaEDTAutoDelegation')
+  warndlg(msg, title, 'modal');
 end

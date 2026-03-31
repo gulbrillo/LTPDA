@@ -138,7 +138,7 @@ function outObjs = fromFile(obj, pli)
         % version as the current version.
         if ~isempty(objs) && isa(objs(1), 'ltpda_uoh') && ~isempty(objs(1).hist)
           vObj = objs(1).hist.creator.ltpda_version;
-          v = ver('LTPDA');
+          v = ltpda_ver();
           if utils.helper.ver2num(v.Version) < utils.helper.ver2num(vObj)
             warning('LTPDA:setFromEncodedInfo', '!!! The object was saved with a higher LTPDA version %s than you use. Please update your LTPDA version.', vObj);
             fprintf(2, 'Can you trust the data?\n');

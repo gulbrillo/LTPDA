@@ -18,7 +18,7 @@ function p = setFromEncodedInfo(p, info)
 
   % We can only trust objects that are stroed with the same or lower LTPDA
   % version as the current version.
-  v = ver('LTPDA');
+  v = ltpda_ver();
   if utils.helper.ver2num(v.Version) < utils.helper.ver2num(p.ltpda_version)
     warning('LTPDA:setFromEncodedInfo', '!!! The object was saved with a higher LTPDA version %s than you use. Please update your LTPDA version.', p.ltpda_version);
     fprintf(2, 'Can you trust the data?\n');

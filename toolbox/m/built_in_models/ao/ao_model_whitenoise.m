@@ -119,17 +119,11 @@ function varargout = version01(varargin)
     sigma = 1;
   end
   
-  % set known random seed (MATLAB 7.12 = R2011a)
+  % set known random seed
   seed = 212366.3425;
-  if verLessThan('MATLAB', '7.12')
-    prevRandStream = RandStream.getDefaultStream;
-    RandStream.setDefaultStream(RandStream('shr3cong','seed', seed));
-    oncleanup = onCleanup(@() RandStream.setDefaultStream(prevRandStream));
-  else
-    prevRandStream = RandStream.getGlobalStream;
-    RandStream.setGlobalStream(RandStream('shr3cong','seed', seed));
-    oncleanup = onCleanup(@() RandStream.setGlobalStream(prevRandStream));
-  end
+  prevRandStream = RandStream.getGlobalStream;
+  RandStream.setGlobalStream(RandStream('shr3cong','seed', seed));
+  oncleanup = onCleanup(@() RandStream.setGlobalStream(prevRandStream));
   
   % build data vector
   y = sigma.*randn(fs*nsecs, 1);

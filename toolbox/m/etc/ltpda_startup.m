@@ -22,9 +22,6 @@ function ltpda_startup
   end
   
   % clear environment
-  if verLessThan('matlab', 'R2015b')
-    evalin('base', 'clear classes')
-  end
   evalin('base', 'clear java')
   
   %--------------------------------------------------------------------------
@@ -77,7 +74,7 @@ function ltpda_startup
   %--------------------------------------------------------------------------
   %--------------------------------------------------------------------------
   
-  v = ver('LTPDA');
+  v = ltpda_ver();
   
   %--------------------------------------------------------------------------
   % format of numbers on MATLAB terminal
@@ -275,8 +272,8 @@ function ltpda_startup
   
   %--------------------------------------------------------------------------
   % Check that the user uses at least the last supported MATLAB version.
-  if verLessThan('MATLAB', '8.0')
-    error('### LTPDA supports MATLAB versions 8.0 (R2012b) or higher');
+  if isMATLABReleaseOlderThan('R2025a')
+    error('### This fork of LTPDA requires MATLAB R2025a or later');
   end
   
   % Set LTPDA Root dir
@@ -297,32 +294,41 @@ function ltpda_startup
 end
 
 function installExtensionJarFiles
-  % We'll need to get all the users extension modules to look for jar
-  % files.
-  v = ver('LTPDA');
-  nv = utils.helper.ver2num(v(1).Version);
-  prefs = mpipeline.ltpdapreferences.LTPDAPreferences.loadFromDisk(LTPDAprefs.preffile, nv);
-  prefs.writeToDisk;
-  jextPaths = prefs.getExtensionsPrefs.getSearchPaths;
-  setappdata(0, 'LTPDApreferences', []);
-  clear prefs;
-  
-  extPaths = [];
-  for kk=0:jextPaths.size-1
-    extPaths = [extPaths {char(jextPaths.get(kk))}];
-  end
-  clear jextPaths;
-  
-  for kk=1:numel(extPaths)
-    p = extPaths{kk};
-    files = utils.prog.filescan(p, '.jar');
-    for ff=1:numel(files)
-      f = files{ff};
-      [path, name, ext] = fileparts(f);
-      if strcmp(ext, '.jar')
-        javaaddpath(f);
+  % Load JAR files from any user extension modules listed in preferences.
+  % Silently skips if preferences are unavailable (e.g. first run or no
+  % registered toolbox version).
+  try
+    v = ltpda_ver();
+    if isempty(v)
+      nv = utils.helper.ver2num('3.0.13');
+    else
+      nv = utils.helper.ver2num(v(1).Version);
+    end
+    prefs = mpipeline.ltpdapreferences.LTPDAPreferences.loadFromDisk(LTPDAprefs.preffile, nv);
+    prefs.writeToDisk;
+    jextPaths = prefs.getExtensionsPrefs.getSearchPaths;
+    setappdata(0, 'LTPDApreferences', []);
+    clear prefs;
+
+    extPaths = {};
+    for kk = 0:jextPaths.size-1
+      extPaths{end+1} = char(jextPaths.get(kk)); %#ok<AGROW>
+    end
+    clear jextPaths;
+
+    for kk = 1:numel(extPaths)
+      p = extPaths{kk};
+      files = utils.prog.filescan(p, '.jar');
+      for ff = 1:numel(files)
+        f = files{ff};
+        [~, ~, ext] = fileparts(f);
+        if strcmp(ext, '.jar')
+          javaaddpath(f);
+        end
       end
     end
+  catch ex
+    fprintf('Warning: could not load extension JAR files (%s). Continuing without extensions.\n', ex.message);
   end
 end
 
@@ -366,7 +372,7 @@ end
 
 function showLogo()
   
-  v = ver('LTPDA');
+  v = ltpda_ver();
   
   logo = {...
     '                                        ',...

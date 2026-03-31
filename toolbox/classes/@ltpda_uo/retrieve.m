@@ -86,7 +86,7 @@ function varargout = retrieve(conn, varargin)
   try
     
     if isempty(ltpda_version)
-      ltpda_version = ver('LTPDA');
+      ltpda_version = ltpda_ver();
     end
     
     for jj = 1:length(ids)

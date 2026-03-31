@@ -21,7 +21,7 @@ function newpath = remove_svn_from_matlabpath(oldpath)
       break;
     end
     % remove components if it contais .svn
-    if isempty(findstr(p,'.svn'))
+    if ~contains(p,'.svn')
       newpath = [newpath,pathsep,p];
     end
   end

@@ -36,7 +36,7 @@
 
 function [P,f] = computeperiodogram(x,win,nfft,esttype,varargin)
 
-  error(nargchk(3,5,nargin,'struct'));
+  narginchk(3,5);
   if nargin < 4,
     esttype = 'psd'; % Default, compenstate for window's power.
   end

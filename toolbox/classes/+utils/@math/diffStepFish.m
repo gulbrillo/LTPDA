@@ -9,7 +9,7 @@ function best = diffStepFish(fin,S,meval,params,ngrid,ranges,freqs,inNames,outNa
 
 % remove aux file if existing
 if exist('diffStepFish.txt','file') == 2
-    ! rm diffStepFish.txt
+    delete('diffStepFish.txt');
 end
 
 Nin  = size(fin,2);

@@ -179,7 +179,7 @@ for i = 1:length(mfiles)
 
       elseif ~isempty(line)
 
-        if ~isempty(findstr(line,'%'))
+        if contains(line,'%')
           found = found + 1;
           rr=line(2:length(line));
 

@@ -233,7 +233,9 @@ function saveObjectAsXML (obj, fullFilename)
   clear history/attachToDom
   
   % Create DOM node
-  dom = com.mathworks.xml.XMLUtils.createDocument('ltpda_object');
+  docBuilder = javax.xml.parsers.DocumentBuilderFactory.newInstance().newDocumentBuilder();
+  dom = docBuilder.newDocument();
+  dom.appendChild(dom.createElement('ltpda_object'));
   parent = dom.getDocumentElement;
   
   % add Attribute 'ltpda_version' to the root node

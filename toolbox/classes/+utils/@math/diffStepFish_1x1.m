@@ -10,8 +10,8 @@ function best = diffStepFish_1x1(fs,i1,S11,N,meval,params,numparams,ngrid,ranges
 import utils.const.*
 
 % remove aux file if existing
-if exist('diffStepFish.txt') == 2
-    ! rm diffStepFish.txt
+if exist('diffStepFish.txt','file') == 2
+    delete('diffStepFish.txt');
 end
 
 step = ones(ngrid,numel(params));

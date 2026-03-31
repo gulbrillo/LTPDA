@@ -102,7 +102,7 @@ function count = cprintf(style,format,varargin)
 %    2011-03-04: Performance improvement
 %    2010-06-27: Fix for R2010a/b; fixed edge case reported by Sharron; CPRINTF with no args runs the demo
 %    2009-09-28: Fixed edge-case problem reported by Swagat K
-%    2009-05-28: corrected nargout behavior sugegsted by Andreas Gäb
+%    2009-05-28: corrected nargout behavior sugegsted by Andreas Gï¿½b
 %    2009-05-13: First version posted on <a href="http://www.mathworks.com/matlabcentral/fileexchange/authors/27420">MathWorks File Exchange</a>
 %
 % See also:
@@ -140,8 +140,13 @@ function count = cprintf(style,format,varargin)
   %error(nargchk(2, inf, nargin, 'struct'));
   %str = sprintf(format,varargin{:});
 
-  % In compiled mode
-  try useDesktop = usejava('desktop'); catch, useDesktop = false; end
+  % In compiled mode, or if the com.mathworks CW styling APIs are unavailable (R2025a+)
+  try
+    com.mathworks.mde.cmdwin.CmdWinDocument.getInstance;
+    useDesktop = usejava('desktop');
+  catch
+    useDesktop = false;
+  end
   if isdeployed | ~useDesktop %#ok<OR2> - for Matlab 6 compatibility
       % do not display any formatting - use simple fprintf()
       % See: http://undocumentedmatlab.com/blog/bold-color-text-in-the-command-window/#comment-103035

@@ -26,7 +26,7 @@ function varargout = report(varargin)
   end
   
   % Check number of inputs
-  error(nargchk(1, 1, nargin, 'struct'));
+  narginchk(1, 1);
   
   % Get inputs
   pl = combine(varargin{1}, getDefaultPlist());

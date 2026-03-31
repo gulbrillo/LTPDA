@@ -17,7 +17,7 @@ function best = diffStepFish(mdl,data,params,ngrid,ranges,freqs)
   
   % remove aux file if existing
   if exist('diffStepFish.txt','file') == 2
-    ! rm diffStepFish.txt
+    delete('diffStepFish.txt');
   end
   
   % Copying model

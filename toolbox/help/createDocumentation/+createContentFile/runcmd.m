@@ -25,8 +25,8 @@ function runcmd(varargin)
   
   fclose(fid);
   
-  !chmod +x tmpcmd
-  !./tmpcmd
+  system('chmod +x tmpcmd');
+  system('./tmpcmd');
 
   catch ex
     fprintf(2, '%s\n', ex.getReport());

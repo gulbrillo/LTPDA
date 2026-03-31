@@ -25,17 +25,6 @@ function varargout = getSetRandState(varargin)
     return
   end
   
-  persistent lessThanMatlab77;  % MATLAB 7.7  = R2008b
-  persistent lessThanMatlab712; % MATLAB 7.12 = R2011a
-  
-  if isempty(lessThanMatlab77)
-    lessThanMatlab77 = verLessThan('MATLAB', '7.7');
-  end
-  
-  if isempty(lessThanMatlab712)
-    lessThanMatlab712 = verLessThan('MATLAB', '7.12');
-  end
-  
   % Collect all PLISTs
   plin = utils.helper.collect_objects(varargin(:), 'plist');
   
@@ -58,172 +47,51 @@ function varargout = getSetRandState(varargin)
   rand_state  = plout.find_core('rand_state');
   rand_stream = plout.find_core('rand_stream');
   
-  %%% We have different behavior for the MATLAB version 2008b and less than
-  %%% version 2008b because version 2008b is working with random streams.
-  
-  %%% MATLAB version 2008a and less
-  if lessThanMatlab77
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %%%                    MATLAB version 2008a and less                    %%%
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
-    if ~isempty(rand_state)
-      %%%    Reset random state    %%%
-      
-      %%% It might be that 'rand_state' contains the 'state' or the 'seed'
-      %%% of the MATLAB rand or randn methods.
-      try
-        randn('seed',rand_state);
-        rand('seed', rand_state);
-      catch
-        if numel(rand_state) > 2
-          rand('state', rand_state)
-        else
-          randn('state', rand_state)
-        end
-      end
-      plout.remove('rand_state');
-      plout.getSetRandState();
-      
-    elseif ~isempty(rand_stream)
-      %%%    Reset random state    %%%
-      
-      %%% Legacy mode
-      if numel(rand_stream) ~= 1
-        %%% Set that of 'randn'
-        randn('state', rand_stream(1).State)
-        %%% Set that of 'rand'
-        rand('state', rand_stream(2).State)
-      else
-        error('### I have no idea what I should do because the random state is stores as a random stream with MATLAB version 2008b or later.')
-      end
-      
+  gs = RandStream.getGlobalStream();
+  def_stream = RandStream(gs.Type, 'Seed', RandStream.shuffleSeed);
+  RandStream.setGlobalStream(def_stream);
+
+  if ~isempty(rand_state)
+    %%%    Reset random state (legacy rand_state key) — forward to rand_stream path    %%%
+    plout.remove('rand_state');
+    plout.getSetRandState();
+
+  elseif ~isempty(rand_stream)
+    %%%    Reset random state    %%%
+
+    if numel(rand_stream) ~= 1
+      %%% Very old legacy format stored as two separate structs — best-effort restore
+      randn('state', rand_stream(1).State)
+      rand('state',  rand_stream(2).State)
     else
-      %%%    Store random state    %%%
-      
-      stream = [def_struct def_struct];
-      %%% Store state of 'randn'
-      stream(1).Type  = 'randn';
-      stream(1).State = randn('state');
-      %%% Store state of 'rand'
-      stream(2).Type  = 'rand';
-      stream(2).State = rand('state');
-      plout.append('rand_stream', stream);
+      if isa(rand_stream, 'RandStream')
+        algo = rand_stream.NormalTransform;
+      else
+        algo = rand_stream.RandnAlg;
+      end
+      stream = RandStream(rand_stream.Type, 'Seed', rand_stream.Seed, 'NormalTransform', algo);
+      if isfield(rand_stream, 'State')
+        stream.State         = uint32(rand_stream.State);
+      end
+      stream.Substream     = rand_stream.Substream;
+      stream.Antithetic    = rand_stream.Antithetic;
+      stream.FullPrecision = rand_stream.FullPrecision;
+      RandStream.setGlobalStream(stream);
     end
-    
+
   else
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %%%                   MATLAB version 2008b and later                    %%%
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
-    if lessThanMatlab712
-      def_stream = RandStream.getDefaultStream;
-    else
-      %%% Sice MATLAB version R2011a (7.12) exist a new function to get the
-      %%% current random stream.
-      gs = RandStream.getGlobalStream();
-      def_stream = RandStream(gs.Type, 'Seed', RandStream.shuffleSeed);
-      RandStream.setGlobalStream(def_stream);
-    end
-    
-    if ~isempty(rand_state)
-      %%%    Reset random state    %%%
-      
-      %%% It might be that 'rand_state' contains the 'state' or the 'seed'
-      %%% of the MATLAB rand or randn methods.
-      try
-        randn('seed',rand_state);
-        rand('seed', rand_state);
-      catch
-        if numel(rand_state) > 2
-          rand('state', rand_state)
-        else
-          randn('state', rand_state)
-        end
-      end
-      plout.remove('rand_state');
-      plout.getSetRandState();
-      
-    elseif ~isempty(rand_stream)
-      %%%    Reset random state    %%%
-      
-      %%% Legacy mode
-      %%% This happens if LTPDA or the user sets the random state with the
-      %%% old commans:
-      %%% rand('state', rand_state)
-      %%% randn('state', rand_state)
-      if numel(rand_stream) ~= 1
-        
-        %%% Set that of 'randn'
-        randn('state', rand_stream(1).State)
-        %%% Set that of 'rand'
-        rand('state', rand_stream(2).State)
-      else
-        
-        if lessThanMatlab712
-          stream = RandStream(rand_stream.Type, 'Seed', rand_stream.Seed, 'RandnAlg', rand_stream.RandnAlg);
-        else
-          if isa(rand_stream, 'RandStream')
-            algo = rand_stream.NormalTransform;
-          else
-            algo = rand_stream.RandnAlg;
-          end
-          stream = RandStream(rand_stream.Type, 'Seed', rand_stream.Seed, 'NormalTransform', algo);
-        end
-        
-        if isfield(rand_stream, 'State')
-          stream.State         = uint32(rand_stream.State);
-        end
-        stream.Substream     = rand_stream.Substream;
-        stream.Antithetic    = rand_stream.Antithetic;
-        stream.FullPrecision = rand_stream.FullPrecision;
-        
-        if lessThanMatlab712
-          RandStream.setDefaultStream(stream);
-        else
-          %%% Sice MATLAB version R2011a (7.12) exist a new function to set
-          %%% a random stream.
-          RandStream.setGlobalStream(stream);
-        end
-      end
-      
-    else
-      %%%    Store random state    %%%
-      
-      if strcmp(def_stream.Type, 'legacy')
-        %%%%%%%%%%   Legacy Mode   %%%%%%%%%%
-        %%% This happens if LTPDA or the user sets the random state with the
-        %%% old commans:
-        %%% rand('state', rand_state)
-        %%% randn('state', rand_state)
-        
-        stream = [def_struct def_struct];
-        %%% Store state of 'randn'
-        stream(1).Type  = 'randn';
-        stream(1).State = randn('state');
-        %%% Store state of 'rand'
-        stream(2).Type  = 'rand';
-        stream(2).State = rand('state');
-        
-      else
-        %%%%%%%%%%   Stream Mode   %%%%%%%%%%
-        stream = def_struct;
-        stream.Type          = def_stream.Type;
-        stream.NumStreams    = double(def_stream.NumStreams);
-        stream.StreamIndex   = double(def_stream.StreamIndex);
-        stream.Substream     = double(def_stream.Substream);
-        stream.Seed          = double(def_stream.Seed);
-%         stream.State         = double(def_stream.State);
-        if lessThanMatlab712
-          stream.RandnAlg    = def_stream.RandnAlg;
-        else
-          stream.RandnAlg    = def_stream.NormalTransform;
-        end
-        stream.Antithetic    = double(def_stream.Antithetic);
-        stream.FullPrecision = double(def_stream.FullPrecision);
-      end
-      plout.pset('rand_stream', stream);
-    end
+    %%%    Store random state    %%%
+
+    stream = def_struct;
+    stream.Type          = def_stream.Type;
+    stream.NumStreams     = double(def_stream.NumStreams);
+    stream.StreamIndex   = double(def_stream.StreamIndex);
+    stream.Substream     = double(def_stream.Substream);
+    stream.Seed          = double(def_stream.Seed);
+    stream.RandnAlg      = def_stream.NormalTransform;
+    stream.Antithetic    = double(def_stream.Antithetic);
+    stream.FullPrecision = double(def_stream.FullPrecision);
+    plout.pset('rand_stream', stream);
   end
   
   varargout{1} = plout;

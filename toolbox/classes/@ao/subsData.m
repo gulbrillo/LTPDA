@@ -212,16 +212,10 @@ for jj = 1 : numel(objsCopy)
         % set the seed to the plist so that it goes in the history.
         pl.pset('Seed', sd);
         
-        % set seed (so long as we support 2010b, we need to do this)
-        if verLessThan('MATLAB', '7.12')
-          prevRandStream = RandStream.getDefaultStream;
-          RandStream.setDefaultStream(RandStream('mt19937ar','seed', sd));
-          oncleanup = onCleanup(@() RandStream.setDefaultStream(prevRandStream));
-        else
-          prevRandStream = RandStream.getGlobalStream;
-          RandStream.setGlobalStream(RandStream('mt19937ar','seed', sd));
-          oncleanup = onCleanup(@() RandStream.setGlobalStream(prevRandStream));
-        end
+        % set seed
+        prevRandStream = RandStream.getGlobalStream;
+        RandStream.setGlobalStream(RandStream('mt19937ar','seed', sd));
+        oncleanup = onCleanup(@() RandStream.setGlobalStream(prevRandStream));
         
         object.setY(replaceValuesWithCG(object.y,idx,Cinv));
         
