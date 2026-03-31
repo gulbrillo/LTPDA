@@ -7,7 +7,7 @@
 # Requirements:
 #   - git
 #   - gh  (GitHub CLI — https://cli.github.com/)
-#   - zip (included in Git for Windows / macOS / Linux)
+#   - zip  OR  PowerShell (Compress-Archive) — whichever is available
 #
 # What it does:
 #   1. Warns if there are uncommitted changes and offers to commit them.
@@ -37,6 +37,26 @@ info() { printf "\033[1;32m[info]\033[0m  %s\n" "$*"; }
 warn() { printf "\033[1;33m[warn]\033[0m  %s\n" "$*" >&2; }
 die()  { printf "\033[1;31m[error]\033[0m %s\n" "$*" >&2; exit 1; }
 
+# Create a zip from a source directory, using 'zip' or PowerShell as fallback.
+make_zip() {
+  local dest="$1"   # output zip filename (relative to cwd)
+  local src="$2"    # source directory (relative to cwd)
+  rm -f "$dest"
+  if command -v zip >/dev/null 2>&1; then
+    zip -r "$dest" "$src" \
+      --exclude "*/.git/*" \
+      --exclude "*/__pycache__/*" \
+      --exclude "*.DS_Store"
+  else
+    # PowerShell fallback (Git Bash on Windows without zip)
+    local win_dest win_src
+    win_dest="$(cygpath -w "$(pwd)/${dest}")"
+    win_src="$(cygpath -w "$(pwd)/${src}")"
+    powershell.exe -NoProfile -Command \
+      "Compress-Archive -Path '${win_src}' -DestinationPath '${win_dest}' -Force"
+  fi
+}
+
 # ---------------------------------------------------------------------------
 # Move to repo root (wherever this script lives)
 # ---------------------------------------------------------------------------
@@ -48,7 +68,10 @@ cd "$SCRIPT_DIR"
 # ---------------------------------------------------------------------------
 command -v git >/dev/null || die "'git' not found."
 command -v gh  >/dev/null || die "'gh' not found. Install from https://cli.github.com/"
-command -v zip >/dev/null || die "'zip' not found. Install Git for Windows or a zip utility."
+
+if ! command -v zip >/dev/null 2>&1 && ! command -v powershell.exe >/dev/null 2>&1; then
+  die "Neither 'zip' nor 'powershell.exe' found. Install a zip utility."
+fi
 
 gh auth status >/dev/null 2>&1 || die "Not authenticated with GitHub. Run: gh auth login"
 
@@ -95,18 +118,10 @@ fi
 # Create zip files
 # ---------------------------------------------------------------------------
 info "Creating ${TOOLBOX_ZIP} from toolbox/ ..."
-rm -f "$TOOLBOX_ZIP"
-zip -r "$TOOLBOX_ZIP" toolbox/ \
-  --exclude "*.DS_Store" \
-  --exclude "*/.git/*" \
-  --exclude "*/__pycache__/*"
+make_zip "$TOOLBOX_ZIP" "toolbox"
 
 info "Creating ${REPO_ZIP} from repository/ ..."
-rm -f "$REPO_ZIP"
-zip -r "$REPO_ZIP" repository/ \
-  --exclude "*.DS_Store" \
-  --exclude "*/.git/*" \
-  --exclude "*/__pycache__/*"
+make_zip "$REPO_ZIP" "repository"
 
 info "Assets ready:"
 ls -lh "$TOOLBOX_ZIP" "$REPO_ZIP"
