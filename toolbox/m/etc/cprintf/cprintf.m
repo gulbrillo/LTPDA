@@ -155,6 +155,8 @@ function count = cprintf(style,format,varargin)
       count1 = fprintf(format,varargin{:});
   else
       % Else (Matlab desktop mode)
+      % Wrap in try/catch: com.mathworks APIs removed in R2025a
+      try
       % Get the normalized style name and underlining flag
       [underlineFlag, boldFlag, style] = processStyleInfo(style);
 
@@ -252,6 +254,9 @@ function count = cprintf(style,format,varargin)
       %elementStart  = docElement.getStartOffset;
       %elementLength = docElement.getEndOffset - elementStart;
       %txt = cmdWinDoc.getText(elementStart,elementLength);
+      catch  % R2025a: com.mathworks APIs unavailable — fall back to plain fprintf
+        count1 = fprintf(format, varargin{:});
+      end
   end
 
   if nargout

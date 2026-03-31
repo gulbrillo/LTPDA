@@ -87,11 +87,11 @@ function test_isequal()
   
   %% Check a ltpda_obj property with 'symbolic' objects
   
-  sym1 = sym('m*a');
+  sym1 = str2sym('m*a');
   sym2 = sym(123);
   sym3 = sym('x', 'real');
   sym4 = sym(1/3, 'f');
-  sym5 = sym('3*a+8');
+  sym5 = str2sym('3*a+8');
   sym6 = sym(1/3, 'e');
   
   % Check empty array of symbolic objects

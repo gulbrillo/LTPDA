@@ -22,7 +22,11 @@ classdef (Hidden = true) msym < ltpda_nuo
   methods
     
     function ms = msym(varargin)
-      
+
+      if nargin == 0
+        return
+      end
+
       if isstruct(varargin{1})
         ms.s = varargin{1}.s;
       else

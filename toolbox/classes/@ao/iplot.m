@@ -257,6 +257,23 @@ function varargout = iplot(varargin)
     end
   end
   
+  % Force light theme on all LTPDA figures (overrides OS/MATLAB dark mode).
+  % Theme cannot be set as a root default in R2025a; must be per-figure.
+  for kk=1:numel(hfig)
+    try
+      set(hfig(kk), 'Theme', 'light');
+    catch
+    end
+  end
+
+  % Re-apply grid after Theme change — Theme assignment can reset grid state.
+  for kk=1:numel(hax)
+    try
+      grid(hax(kk), 'on');
+    catch
+    end
+  end
+
   % store input plist in each figure
   for kk=1:numel(hfig)
     utils.plottools.cacheObjectInUserData(hfig(kk), pl);
@@ -3146,7 +3163,7 @@ function applyPlotSettings(axesH, lineH)
   jPlotPrefs = prefs.getPlotPrefs();
   
   if jPlotPrefs.getPlotApplyPlotSettings.equals(mpipeline.ltpdapreferences.EnumPlotSetting.IPLOT_ONLY)
-    
+
     % Set all axes properteis
     for ii =1:numel(axesH)
       safeset(axesH(ii), 'FontSize', double(jPlotPrefs.getPlotDefaultAxesFontSize));

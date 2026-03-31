@@ -12,7 +12,7 @@ function msec = parse(str, format, timezone)
   
   % default timezone
   if isempty(timezone)
-    timezone = time.timezone;
+    timezone = time().timezone;
   end
   % convert string timezone into java object
   if ischar(timezone)

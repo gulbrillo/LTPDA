@@ -68,15 +68,17 @@ classdef time < ltpda_nuo
   properties (SetAccess = protected)
   end
 
-  % constant properties
-  properties (Constant = true)
+  % These properties read from LTPDApreferences at runtime.
+  % Declared Dependent (not Constant) because R2025a forbids get methods
+  % on Constant properties.
+  properties (Dependent = true, SetAccess = protected)
     timeformat;
     timezone;
   end
 
   % constant properties access methods
   methods
-    function value = get.timezone(obj)
+    function value = get.timezone(~)
       persistent val
       if isempty(val)
         p = getappdata(0, 'LTPDApreferences');
@@ -88,7 +90,7 @@ classdef time < ltpda_nuo
       value = val;
     end
 
-    function value = get.timeformat(obj)
+    function value = get.timeformat(~)
       persistent val
       if isempty(val)
         p = getappdata(0, 'LTPDApreferences');

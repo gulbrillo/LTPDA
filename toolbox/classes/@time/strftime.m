@@ -28,19 +28,19 @@ function str = strftime(msec, frmt, timezone)
   
   % second and third arguments are optional
   if nargin < 3
-    timezone = time.timezone;
+    timezone = time().timezone;
   end
   if nargin < 2
-    frmt = time.timeformat;
+    frmt = time().timeformat;
   end
   
   % check timezone
   if isempty(timezone)
-    timezone = time.timezone;
+    timezone = time().timezone;
   end
   % check frmt
   if isempty(frmt)
-    frmt = time.timeformat;
+    frmt = time().timeformat;
   end
   
   % In the case of NaN, just set the output to 'NaN'

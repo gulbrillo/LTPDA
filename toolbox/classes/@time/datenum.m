@@ -26,7 +26,7 @@ function num = datenum(obj)
   num = double(obj);
   
   % take care of timezone offset
-  num = num + time.timezone.getOffset(num * 1000)/1000;
+  num = num + time().timezone.getOffset(num * 1000)/1000;
   
   % divide by 60*60*24 to convert into days and add offset computed in local time
   num = num / 86400 + datenummx(1970,01,01,00,00,00);

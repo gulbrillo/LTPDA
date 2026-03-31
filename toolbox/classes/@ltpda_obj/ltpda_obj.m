@@ -117,6 +117,42 @@ classdef (Hidden = true) ltpda_obj < handle
   methods (Access = public, Static = true, Hidden = true)
     varargout = isequalMain(varargin)
   end
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %  R2025a compatibility: MATLAB no longer provides newarray implicitly for
+  %  handle subclasses. This base-class implementation uses dbstack to
+  %  determine the concrete calling class, so all subclasses inherit it
+  %  without modification.
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  methods (Static = true, Hidden = true)
+    function obj = newarray(sz)
+      % Find the concrete class name from the @ClassName folder in the call stack.
+      st = dbstack('-completenames');
+      className = '';
+      for kk = 2:min(10, numel(st))
+        tok = regexp(st(kk).file, '@(\w+)[\\/]', 'tokens', 'once');
+        if ~isempty(tok)
+          className = tok{1};
+          break;
+        end
+      end
+      if isempty(className)
+        error('ltpda:newarray', 'newarray: cannot determine concrete class from call stack');
+      end
+      n = prod(sz);
+      if n == 0
+        % Build an empty array of the right shape
+        dummy = feval(className);
+        obj = reshape(dummy(1:0), sz);
+      else
+        for ii = n:-1:1
+          obj(ii) = feval(className);
+        end
+        obj = reshape(obj, sz);
+      end
+    end
+  end
   
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %                             Methods (protected)                           %

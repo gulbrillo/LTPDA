@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -E \"@[^/]+/[^/]+\\\\.m$\")",
+      "Bash(perl -ne 'if \\(/\\\\/@\\([^\\\\/]+\\)\\\\/\\([^\\\\/]+\\)\\\\.m$/\\) { print \"\"\"\"$_\"\"\"\" if $1 eq $2 }')",
+      "Bash(/tmp/final_check.sh:*)",
+      "Bash(__NEW_LINE_f44f49583f6d6204__ chmod:*)",
+      "Bash(/tmp/final_check.sh)",
+      "Read(//c/Users/barke/GitHub/LTPDA/**)",
+      "Bash(while IFS= read -r line)",
+      "Bash(do echo:*)",
+      "Bash(/dev/null __NEW_LINE_d627c8c8a8db9845__ cat /tmp/final_report.txt)",
+      "Bash(do awk:*)",
+      "Bash(/tmp/find_bad_constructors.sh)",
+      "Bash(grep -E \"\\\\.\\(m|java\\)$\")"
+    ],
+    "additionalDirectories": [
+      "\\tmp"
+    ]
+  }
+}

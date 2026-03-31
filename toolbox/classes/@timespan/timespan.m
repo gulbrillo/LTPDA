@@ -56,25 +56,27 @@ classdef timespan < ltpda_uoh
     nsecs = 0;
   end
   
-  %---------- Constant Properties ----------
-  properties (Constant = true)
+  %---------- Dependent Properties (read from preferences at runtime) ----------
+  % Declared Dependent (not Constant) because R2025a forbids get methods
+  % on Constant properties.
+  properties (Dependent = true, SetAccess = protected)
     timeformat; % timeformat of the time span (see preferences)
     timezone; % timezone of the time span (see preferences)
   end
-  
+
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %                        Constant Property Methods                          %
+  %                        Dependent Property Methods                         %
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   methods
-    function value = get.timezone(obj)
+    function value = get.timezone(~)
       p = getappdata(0, 'LTPDApreferences');
       value = char(p.getTimePrefs.getTimeTimezone);
       if ischar(value)
         value = java.util.TimeZone.getTimeZone(value);
       end
     end
-    
-    function value = get.timeformat(obj)
+
+    function value = get.timeformat(~)
       p = getappdata(0, 'LTPDApreferences');
       value = char(p.getTimePrefs.getTimestringFormat);
     end

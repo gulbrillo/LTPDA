@@ -249,6 +249,7 @@ function ltpda_startup
   if USE_LTPDA_PLOT
     set(0, 'DefaultAxesXColor', [0 0 0]);
     set(0, 'DefaultAxesYColor', [0 0 0]);
+    set(0, 'DefaultAxesColor',  [1 1 1]);
     set(0, 'defaultfigurenumbertitle', 'on');
     set(0, 'DefaultFigureColor', 'w');
     set(0, 'DefaultFigurePosition', [0 0 1200 700]);
@@ -392,6 +393,9 @@ function showLogo()
     '                   **                   ',...
     '                  ****                  ',...
     };
+
+
+    
   
   l1 = '+----------------------------------------------------+';
   ll = length(l1);
@@ -410,11 +414,10 @@ function showLogo()
   if ~ischar(ltpdaHash), ltpdaHash = 'unknowh'; end
   
   disp([utils.prog.strpad('|', ll-1) '|'])
-  disp([utils.prog.strpad(sprintf('|          Welcome to the %s', v.Name), ll-1) '|'])
+  disp([utils.prog.strpad(sprintf('|            Welcome to the %s', v.Name), ll-1) '|'])
   disp([utils.prog.strpad('|', ll-1) '|'])
-  disp([utils.prog.strpad(sprintf('|                 Version: %s', v.Version), ll-1) '|'])
-  disp([utils.prog.strpad(sprintf('|                GIT Hash: %s', ltpdaHash), ll-1) '|'])
-  disp([utils.prog.strpad(sprintf('|                    Date: %s', v.Date), ll-1) '|'])
+  disp([utils.prog.strpad(sprintf('|                  Version: %s (PSSL)', v.Version), ll-1) '|'])
+  disp([utils.prog.strpad(sprintf('|                     Date: %s', v.Date), ll-1) '|'])
   disp([utils.prog.strpad('|', ll-1) '|'])
   disp(l1);
   
