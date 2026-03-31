@@ -503,49 +503,101 @@ classdef LTPDADatabaseConnectionManager < handle
 
     function [username, password, cache] = inputCredentials(cm, cred, msg)
     % INPUTCREDENTIALS Queries the user for database username and password.
+    % Uses inputdlg (R2025a compatible — replaces Java CredentialsDialog).
 
       % msg is an optional argument
       if nargin < 3
         msg = [];
       end
 
-      % build a cell array of usernames
+      % Build a sorted unique list of known usernames for this host/db.
       users = {};
       for id = 1:numel(cred)
         if ~isempty(cred(id).username)
-          users = [ users { cred(id).username } ];
+          users = [users {cred(id).username}]; %#ok<AGROW>
         end
       end
       users = sort(unique(users));
 
-      parent = com.mathworks.mde.desk.MLDesktop.getInstance.getMainFrame;
-      dialog = javaObjectEDT('connectionmanager.CredentialsDialog', ...
-          parent, cred(1).hostname, cred(1).database, users, cm.cachePassword, msg);
-      dialog.show();
-      if dialog.cancelled
+      % Compose prompt title
+      titleStr = sprintf('Connect to %s / %s', cred(1).hostname, cred(1).database);
+      if ~isempty(msg)
+        titleStr = [titleStr ' — ' msg];
+      end
+
+      % Pre-fill username if unambiguous
+      defaultUser = '';
+      if numel(users) == 1
+        defaultUser = users{1};
+      end
+
+      % Cache-password option
+      cacheOpt = cm.cachePassword;  % 0=no 1=yes 2=ask
+
+      % Build dialog prompts
+      prompts   = {'Username:', 'Password:'};
+      defaults  = {defaultUser, ''};
+      if cacheOpt == 2
+        prompts{end+1}  = 'Cache password? (yes/no):';
+        defaults{end+1} = 'yes';
+      end
+
+      answer = inputdlg(prompts, titleStr, [1 45], defaults);
+      if isempty(answer)
         throw(MException('utils:mysql:connect:UserCancelled', '### user cancelled'));
       end
-      username = char(dialog.username);
-      password = char(dialog.password);
-      cache    = logical(dialog.cache);
+
+      username = strtrim(answer{1});
+      password = answer{2};
+
+      if cacheOpt == 0
+        cache = false;
+      elseif cacheOpt == 1
+        cache = true;
+      else
+        cache = strcmpi(strtrim(answer{3}), 'yes');
+      end
     end
 
 
-    function [hostname, database, username] = selectDatabase(cm, credentials)
-    % SELECTDATABASE Makes the user choose to which database connect to.
+    function [hostname, database, username] = selectDatabase(cm, credentials) %#ok<INUSL>
+    % SELECTDATABASE Makes the user choose to which database to connect.
+    % Uses listdlg (R2025a compatible — replaces Java DatabaseSelectorDialog).
 
-      parent = com.mathworks.mde.desk.MLDesktop.getInstance.getMainFrame;
-      dialog = javaObjectEDT('connectionmanager.DatabaseSelectorDialog', parent);
-      for c = credentials
-        dialog.add(c.hostname, c.database, c.username);
+      if isempty(credentials)
+        throw(MException('utils:mysql:connect:UserCancelled', '### no credentials available'));
       end
-      dialog.show();
-      if dialog.cancelled
-        throw(MException('utils:mysql:connect:UserCancelled', '### user cancelled'));
+
+      % Build display strings and extract fields
+      labels    = {};
+      hostnames = {};
+      databases = {};
+      usernames = {};
+      for kk = 1:numel(credentials)
+        c = credentials(kk);
+        labels{end+1}    = sprintf('%s / %s  [%s]', c.hostname, c.database, c.username); %#ok<AGROW>
+        hostnames{end+1} = c.hostname; %#ok<AGROW>
+        databases{end+1} = c.database; %#ok<AGROW>
+        usernames{end+1} = c.username; %#ok<AGROW>
       end
-      hostname = char(dialog.hostname);
-      database = char(dialog.database);
-      username = char(dialog.username);
+
+      if numel(labels) == 1
+        % Only one option — select automatically
+        idx = 1;
+      else
+        idx = listdlg('ListString', labels, ...
+                      'SelectionMode', 'single', ...
+                      'Name', 'Select database', ...
+                      'PromptString', 'Choose a repository to connect to:', ...
+                      'ListSize', [350 150]);
+        if isempty(idx)
+          throw(MException('utils:mysql:connect:UserCancelled', '### user cancelled'));
+        end
+      end
+
+      hostname = hostnames{idx};
+      database = databases{idx};
+      username = usernames{idx};
       if isempty(username)
         username = [];
       end

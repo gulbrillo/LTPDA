@@ -1,58 +1,25 @@
-% RepositoryRetrieve is a graphical user interface for query the LTPDA repository.
+% RepositoryRetrieve — legacy Java-Swing retrieval dialog for LTPDA repository.
 %
-% CALL: RepositoryRetrieve
+% This class is no longer used. Object retrieval is now handled directly
+% inside the LTPDARepositoryQuery uifigure ("Retrieve selected to workspace").
+% Retained as a stub for compilation compatibility.
 %
 
 classdef RepositoryRetrieve < utils.gui.BaseGUI
-  
+
   properties
-    conn =  []; % Connection for retrieving objects
+    conn = [];
   end
-  
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %                                Constructor                                %
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  
+
   methods
-    function mainGUI = RepositoryRetrieve(parent, conn, objIDs)
-      
-      % Call super class
-      mainGUI@utils.gui.BaseGUI('mpipeline.repository.RepositoryRetrieveDialog', parent, false);
-      mainGUI.conn = conn;
-      
-      % Convert object IDs to a string (separated by a blanks)
-      numberStr = sprintf('%d ', objIDs);
-      numberStr = strtrim(numberStr);
-      
-      % We have to handle the Save and Import buttons before we can destroy
-      % the GUI.
-      mainGUI.baseDelOnExit = false;
-      
-      % Set number string to the text field.
-      mainGUI.gui.getObjectIDsTextField().setText(numberStr);
-      
-    end % End constructor
-    
+    function obj = RepositoryRetrieve(varargin) %#ok<VANUS>
+      % No-op stub.
+    end
   end
-  
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %                            Methods (protected)                            %
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  
+
   methods (Access = protected)
-    
-    cb_guiClosed(varargin)
-    
+    function cb_guiClosed(varargin) %#ok<VANUS>
+    end
   end
-  
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %                             Methods (private)                             %
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  
-  methods (Access = private)
-  end
-  
+
 end
-
-
-

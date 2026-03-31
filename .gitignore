@@ -1,1 +1,4 @@
 *.log
+# Root-level XML artifacts from test runs (ao XML save/load tests).
+# Subdirectory XML files (toolbox metadata, help, prefs templates) are NOT ignored.
+/*.xml

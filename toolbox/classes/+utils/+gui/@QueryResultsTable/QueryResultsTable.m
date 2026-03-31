@@ -1,54 +1,23 @@
-% QueryResultsTable is a graphical user interface for query the LTPDA repository.
+% QueryResultsTable — legacy Java-Swing results table for LTPDA repository queries.
 %
-% CALL: QueryResultsTable
+% This class is no longer used. Query results are now displayed directly
+% inside the LTPDARepositoryQuery uifigure via a uitable.
+% Retained as a stub for compilation compatibility.
 %
 
 classdef QueryResultsTable < utils.gui.BaseGUI
-  
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %                                Constructor                                %
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  
+
   methods
-    function mainGUI = QueryResultsTable(parent, jStmt, jQuery)
-      
-      jResult = jStmt.executeQuery(jQuery);
-      
-      % call super class
-      mainGUI@utils.gui.BaseGUI('mpipeline.repository.QueryResultsTableDialog', parent, false, jResult, jQuery, false);
-      mainGUI.gui.setUsedConn(jStmt.getConnection());
-      
-      % We have to remove the Connection, the Result and the Query String
-      % from the GUI before we can destroy the GUI. --> Super class can't
-      % delete the GUI.
-      mainGUI.baseDelOnExit = false;
-      
-      %--- called when create constructor(s) (press Create Constructors Button)
-      addCallback(mainGUI, mainGUI.gui.getCreateConstructors(), 'ActionPerformedCallback', @mainGUI.cb_retrieveObjectsFromTable);
-      
-    end % End constructor
-    
+    function obj = QueryResultsTable(varargin) %#ok<VANUS>
+      % No-op stub.
+    end
   end
-  
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %                            Methods (protected)                            %
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  
+
   methods (Access = protected)
-    
-    cb_guiClosed(varargin)
-    cb_retrieveObjectsFromTable(varargin)
-    
+    function cb_guiClosed(varargin) %#ok<VANUS>
+    end
+    function cb_retrieveObjectsFromTable(varargin) %#ok<VANUS>
+    end
   end
-  
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %                             Methods (private)                             %
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  
-  methods (Access = private)
-  end
-  
+
 end
-
-
-

@@ -1,76 +1,32 @@
-% BaseGUI is a base class for graphical user interface in LTPDA.
+% BaseGUI — legacy base class for Java-Swing-based LTPDA GUIs.
 %
-% CALL: BaseGUI
+% This class was the base for all Java-backed LTPDA GUIs. In R2025a those
+% GUIs have been rewritten using uifigure and this class is no longer used.
+% It is retained as a stub so that any extension code that references it
+% compiles without error.
 %
 
 classdef BaseGUI < handle
-  
+
   properties
-    gui            = [];   % Pointer to the java GUI
-    javaObjs       = {};   % Array of Java Event Objects e.g. JButton
-    javaEventNames = {};   % Array of Java Event Names e.g. ActionPerformedCallback
-    baseDelOnExit  = true; % Defines if the base class destroys the object
+    gui            = [];
+    javaObjs       = {};
+    javaEventNames = {};
+    baseDelOnExit  = true;
   end
-  
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %                                Constructor                                %
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  
+
   methods
-    function mainGUI = BaseGUI(varargin)
-      
-      % make a gui
-      mainGUI.gui = javaObjectEDT(varargin{:});
-      
-      %--- called when window is closed
-      addCallback(mainGUI, mainGUI.gui, 'WindowClosedCallback', @mainGUI.cb_guiClosed);
-      
-      % Make gui visible
-      mainGUI.gui.setVisible(true);
-      
-    end % End constructor
-    
-  end
-  
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %                              Methods (public)                             %
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  
-  methods (Access = public)
-    
-    function addCallback(obj, javaObj, javaEventName , matlabCallbackFcn)
-      % Register the MATLAB fcn to the java object.
-      h = handle(javaObj, 'callbackproperties');
-      set(h, javaEventName, {matlabCallbackFcn});
-      % Register the callbacks so that we can delete them later when the
-      % user close the GUI.
-      obj.javaObjs  = [obj.javaObjs,  javaObj];
-      obj.javaEventNames = [obj.javaEventNames, javaEventName];
+    function obj = BaseGUI(varargin) %#ok<VANUS>
+      % No-op stub — Java GUI backend no longer available in R2025a.
     end
-    
-    function display(varargin)
+
+    function addCallback(~, varargin) %#ok<VANUS>
     end
-    
   end
-  
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %                            Methods (protected)                            %
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  
+
   methods (Access = protected)
-    
-    cb_guiClosed(varargin)
-    
+    function cb_guiClosed(varargin) %#ok<VANUS>
+    end
   end
-  
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %                             Methods (private)                             %
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  
-  methods (Access = private)
-  end
-  
+
 end
-
-
-

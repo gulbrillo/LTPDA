@@ -16,7 +16,7 @@ function v = ltpda_ver()
 
   % Default fallback values
   v.Name    = 'LTPDA Toolbox';
-  v.Version = '4.0.0';
+  v.Version = '4.0.0 (PSSL)';
   v.Release = '(R2025a)';
   v.Date    = '31-03-26';
 

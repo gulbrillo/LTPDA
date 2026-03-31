@@ -1,13 +1,74 @@
-# LTPDA — Linear Time-invariant Physical Data Analysis
+# LTPDA — LISA Technology Package Data Analysis
 
 > **Unofficial fork** of the [LTPDA Toolbox](https://www.lisamission.org/ltpda/index.html) (toolbox v3.0.13, repository v2.5), originally developed by the LISA Mission team.
 
 A MATLAB toolbox for **accountable and reproducible data analysis**, with a built-in repository for storing, sharing, and retrieving analysis objects and results.
 
+## Fork maintainer
+
+**Simon Barke** — Precision Space Systems Lab (PSSL), University of Florida
+<simon.barke@gmail.com>
+
+Please [open an issue on GitHub](https://github.com/gulbrillo/LTPDA/issues) for bug reports, compatibility problems, or questions about this fork.
+
 ## Goals of this fork
 
 - Restore compatibility with **MATLAB R2025a and beyond** (the upstream toolbox targets R2012b era MATLAB)
 - Modernise the repository server so it can be deployed on **current server infrastructure** without legacy LAMP stack constraints
+
+---
+
+## Status
+
+All changes are relative to upstream v3.0.13. The toolbox has been updated for R2025a compatibility; the repository server has not been modified yet.
+
+### Toolbox
+
+**R2025a API removals — language and built-ins**
+
+| Change | Reason | Files |
+|--------|--------|-------|
+| `nargchk` → `narginchk` | `nargchk` removed in R2025a | `@repository/report.m`, `@math/rootmusic.m`, `@ao/computeperiodogram.m`, `@ao/computeDFT.m` and others |
+| Shell escape `!` → `delete()`/`system()` | Shell escape syntax removed in R2025a | `@math/diffStepFish.m`, `@math/diffStepFish_1x1.m`, `@ssm/diffStepFish.m` |
+| `findstr` → `contains`/`strfind` | `findstr` removed in R2021b | `MakeContents.m`, `@helper/remove_svn_from_matlabpath.m` |
+| `verLessThan` → `isMATLABReleaseOlderThan` | Version string format changed in R2025a, making `verLessThan` unreliable | `ltpda_startup.m` and version-branch guards |
+| `sym('expression')` → `str2sym('expression')` | `sym()` no longer accepts symbolic expressions (only variable names and numbers) in R2025a | `examples/test_isequal.m` |
+| Minimum MATLAB version check added to startup | Provides a clear error instead of cryptic failures on unsupported versions | `m/etc/ltpda_startup.m` |
+
+**R2025a API removals — internal MathWorks Java classes**
+
+| Change | Reason | Files |
+|--------|--------|-------|
+| `com.mathworks.mde.cmdwin.*` removed — coloured output replaced with plain `fprintf` | Internal command-window Java classes removed in R2025a | `LTPDAprintf.m`, `cprintf/cprintf.m` |
+| `com.mathworks.xml.XMLUtils` → `matlab.io.xml.dom` | `XMLUtils` removed in R2025a; standard DOM API used instead | `@ltpda_uo/save.m` |
+| `com.mathworks.mlwidgets.io.InterruptibleStreamCopier` removed — replaced with built-in `unzip` | Internal stream-copier class removed in R2025a | `@helper/dunzip.m` |
+| `javax.swing.JOptionPane` → `errordlg`/`warndlg` | Java Swing dialogs in helpers broken in R2025a | `@helper/errorDlg.m`, `@helper/warnDlg.m` |
+
+**Bug fixes**
+
+| Change | Reason | Files |
+|--------|--------|-------|
+| `msym` constructor: added `nargin == 0` early return | Constructor accessed `varargin{1}` unconditionally; crashed `ltpda_obj.newarray` when allocating arrays of `msym` objects, causing 11 test failures | `@msym/msym.m` |
+| `iplot`: apply `Theme = 'light'` per figure | R2025a's theme system overrides root `Default*` properties under OS dark mode, causing a black plot background; theme must be set per figure | `@ao/iplot.m` |
+| `iplot`: re-apply `grid on` after theme change | Setting `Theme` on a figure can reset axis grid state | `@ao/iplot.m` |
+
+**GUI rewrites (Java Swing backends removed in R2025a)**
+
+All LTPDA GUIs were thin MATLAB wrappers around Java Swing backends in the bundled JAR files. These have been rewritten using pure MATLAB `uifigure`/`uicontrol`. The underlying data and preference logic is unchanged.
+
+| Component | Replacement |
+|-----------|-------------|
+| `LTPDAprefs` — preferences dialog | `uifigure` with 5 tabs (Display, Plot, Extensions, Time, Misc) |
+| `LTPDADatabaseConnectionManager` — credentials and database-selector dialogs | `inputdlg` for credentials, `listdlg` for database selection |
+| `submitDialog` — repository upload metadata form | `uifigure` form with `uiwait`-based blocking |
+| `LTPDARepositoryQuery` — repository query dialog | `uifigure` with SQL text area, `uitable` results, and workspace retrieval |
+| `LTPDAModelBrowser` — built-in model browser | `uifigure` with listbox and documentation text area |
+
+**Test result: 108/108 tests pass on R2025a.**
+
+### Repository server
+
+No changes have been made to the repository server. See goals above.
 
 ---
 
@@ -122,4 +183,4 @@ For scheduled XML dumps, copy `ltpdareporobot.rb` to `/root/bin` with appropriat
 
 ## Contributing
 
-This fork is a work in progress. Contributions, bug reports, and compatibility fixes for modern MATLAB and server environments are welcome — open an issue or pull request.
+This fork is a work in progress. Please [open an issue on GitHub](https://github.com/gulbrillo/LTPDA/issues) for bug reports, compatibility fixes, or questions. Pull requests are welcome.
