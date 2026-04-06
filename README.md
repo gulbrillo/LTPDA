@@ -126,9 +126,172 @@ No changes have been made to the repository server. See goals above.
 
 ## Repository server installation
 
-The LTPDA repository is a web application that stores analysis objects and results, allowing them to be retrieved directly from MATLAB.
+Two versions of the repository server exist. Choose based on what you are connecting to:
 
-### Requirements (upstream/legacy)
+| Version | Stack | Status |
+|---------|-------|--------|
+| **v3.0** (this fork) | Nuxt 4 + FastAPI + MySQL, Docker | New — recommended for new deployments |
+| **v2.5 and below** (upstream/legacy) | PHP + MySQL + Ruby/Gnuplot, Apache | Legacy — instructions below |
+
+---
+
+## Repository v3.0 (Docker)
+
+### How it works
+
+The v3.0 repository is a complete rewrite of the web frontend and backend. The architecture is:
+
+```
+Apache (your existing web server)
+  └── reverse proxy → Docker container (port 8080, localhost only)
+        ├── nginx  →  Nuxt 4 SPA (static files, client-side rendering)
+        └── nginx  →  FastAPI REST API (Python, uvicorn)
+                           └── your existing MySQL server (host machine, port 3306)
+```
+
+Key differences from v2.5:
+
+- **No PHP.** The backend is Python (FastAPI). The frontend is a compiled Vue/Nuxt SPA.
+- **No per-user MySQL accounts.** User authentication is handled entirely by the application using bcrypt passwords and JWT tokens. A single MySQL service account is used for all database access.
+- **Single MySQL database.** All repositories live in one database (`ltpda_repo` by default), separated internally by a `repository_id` column. No `CREATE DATABASE` or `GRANT` required after initial setup.
+- **No Ruby or Gnuplot.** Plot generation uses Python/matplotlib inside the Docker container.
+- **First-run wizard.** On first visit the web UI shows a setup page where you enter MySQL credentials. The app creates the database, service account, and first admin user automatically — you never edit config files manually.
+- **MATLAB connects to MySQL directly** (unchanged from v2.5) — the MATLAB toolbox bypasses the web API entirely and talks to MySQL over JDBC on port 3306. See the MATLAB configuration section below.
+
+### Requirements
+
+**Server:**
+- Linux VPS or dedicated server
+- Docker Engine 24+ and Docker Compose v2 (`docker compose` command)
+- Apache 2.4+ (or Nginx) as the front-facing web server — your existing server works
+- MySQL 5.7+ or MariaDB 10.5+ running on the host (not in Docker)
+- A domain or subdomain pointing to your server (e.g. `repo.yourdomain.com`)
+
+**MySQL privileges needed for setup:**
+- One MySQL account with enough privileges to `CREATE DATABASE`, `CREATE USER`, and `GRANT` — typically the MySQL root account or a dedicated admin account. This is used **once** during the setup wizard and the credentials are never stored by the application.
+
+**Build machine (to compile the frontend):**
+- Node.js 20+ and npm — required to build the Nuxt frontend into static files before deployment. This can be done on your local machine or on the server.
+
+### Installation
+
+#### 1. Clone the repository
+
+```bash
+git clone https://github.com/gulbrillo/LTPDA.git
+cd LTPDA/repository
+```
+
+#### 2. Install Docker
+
+If Docker is not already installed on your server:
+
+```bash
+# Ubuntu/Debian
+curl -fsSL https://get.docker.com | sh
+sudo usermod -aG docker $USER   # allow running docker without sudo (re-login after)
+```
+
+Verify: `docker compose version` should show v2.x.
+
+#### 3. Build the Nuxt frontend
+
+The frontend is a Vue/Nuxt application that must be compiled into static HTML/JS/CSS files before Docker can serve it. Run this on any machine that has Node.js 20+ installed (your laptop or the server).
+
+```bash
+cd repository/frontend
+npm install
+npm run generate        # outputs static files to frontend/.output/public/
+```
+
+> You must re-run `npm run generate` and restart Docker whenever the frontend source changes.
+
+#### 4. Configure the Apache vhost
+
+Add a new virtual host to your Apache configuration (replace `repo.yourdomain.com` with your actual subdomain):
+
+```apache
+<VirtualHost *:80>
+    ServerName repo.yourdomain.com
+    Redirect permanent / https://repo.yourdomain.com/
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName repo.yourdomain.com
+
+    SSLEngine on
+    SSLCertificateFile    /etc/letsencrypt/live/repo.yourdomain.com/fullchain.pem
+    SSLCertificateKeyFile /etc/letsencrypt/live/repo.yourdomain.com/privkey.pem
+
+    ProxyPreserveHost On
+    ProxyPass        / http://127.0.0.1:8080/
+    ProxyPassReverse / http://127.0.0.1:8080/
+</VirtualHost>
+```
+
+Enable the required Apache modules and reload:
+
+```bash
+sudo a2enmod proxy proxy_http ssl
+sudo systemctl reload apache2
+```
+
+To obtain an SSL certificate with Let's Encrypt:
+
+```bash
+sudo certbot --apache -d repo.yourdomain.com
+```
+
+#### 5. Start Docker
+
+From the `repository/` directory:
+
+```bash
+docker compose up -d
+```
+
+This starts two containers:
+- **api** — FastAPI backend (Python), connects to your host MySQL on `host.docker.internal:3306`
+- **nginx** — serves the Nuxt static build and proxies `/api/` requests to the FastAPI container
+
+Check that both are running: `docker compose ps`
+
+#### 6. Run the setup wizard
+
+Open `https://repo.yourdomain.com` in a browser. You will be redirected to the setup page. Fill in:
+
+1. **MySQL connection** — hostname (`localhost` or your MySQL host), port (default 3306), desired database name (default `ltpda_repo`), and your MySQL admin username/password (e.g. `root`). These credentials are used once to create the database and service account and are never stored.
+2. **Service account** — a new MySQL username and password that the application will use for all ongoing database access. The account is created automatically with SELECT/INSERT/UPDATE/DELETE privileges only.
+3. **First admin user** — username and password for the first repository administrator.
+
+Click **Run Setup**. The wizard creates the database schema, service account, and admin user, then stores the service account credentials in `repository/config/config.json` (this file is excluded from git). You are redirected to the login page.
+
+#### 7. Verify
+
+- Log in with the admin credentials you entered in the wizard.
+- The dashboard should show "No repositories yet."
+- `GET https://repo.yourdomain.com/api/health` should return `{"status":"ok","configured":true}`.
+
+### Updating
+
+To update the application:
+
+```bash
+git pull
+cd repository/frontend && npm install && npm run generate  # rebuild frontend if changed
+cd ..
+docker compose up -d --build                               # rebuild and restart containers
+```
+
+### Configuring MATLAB to use Repository v3.0
+
+See [MATLAB toolbox — repository preferences](#toolbox-installation) (Phase 5, not yet implemented). In the current release, the MATLAB toolbox connects to the repository using the legacy v2.5 protocol (direct JDBC to a named MySQL database). Full v3.0 MATLAB integration is planned for the next release.
+
+---
+
+## Repository v2.5 (legacy)
+
+### Requirements
 
 | Component | Minimum version |
 |-----------|----------------|
@@ -138,8 +301,6 @@ The LTPDA repository is a web application that stores analysis objects and resul
 | Ruby      | 1.8.7          |
 | Gnuplot   | any recent     |
 | Sendmail / Postfix / qmail | — |
-
-> **Note:** One goal of this fork is to remove or replace these legacy dependencies so the repository can run on a modern stack.
 
 ### Steps
 
