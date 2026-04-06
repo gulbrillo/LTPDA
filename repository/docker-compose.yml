@@ -1,0 +1,26 @@
+services:
+  api:
+    build: ./backend
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"   # Linux: resolve host machine
+    volumes:
+      - ./config:/app/config                  # persists config.json across restarts
+    networks:
+      - internal
+
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8080:80"                  # localhost only — Apache proxies this
+    volumes:
+      - ./frontend/.output/public:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - api
+    networks:
+      - internal
+
+networks:
+  internal:

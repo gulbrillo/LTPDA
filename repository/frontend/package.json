@@ -1,0 +1,24 @@
+{
+  "name": "ltpda-repo-frontend",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview"
+  },
+  "dependencies": {
+    "nuxt": "^4.4.0",
+    "@primevue/nuxt-module": "^4.0.0",
+    "primevue": "^4.0.0",
+    "primeicons": "^7.0.0",
+    "@pinia/nuxt": "^0.9.0",
+    "pinia": "^2.2.0",
+    "axios": "^1.7.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "vue-tsc": "^2.1.0"
+  }
+}
