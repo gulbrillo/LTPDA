@@ -91,7 +91,7 @@ async def create_user(
             async with conn:
                 async with conn.cursor() as cur:
                     await cur.execute(
-                        f"CREATE USER IF NOT EXISTS '{body.username}'@'%' IDENTIFIED BY %s",
+                        f"CREATE USER IF NOT EXISTS '{body.username}'@'%%' IDENTIFIED BY %s",
                         (body.mysql_password,),
                     )
                     await cur.execute("FLUSH PRIVILEGES")
@@ -137,7 +137,7 @@ async def update_user(
             async with conn:
                 async with conn.cursor() as cur:
                     await cur.execute(
-                        f"ALTER USER IF EXISTS '{user.username}'@'%' IDENTIFIED BY %s",
+                        f"ALTER USER IF EXISTS '{user.username}'@'%%' IDENTIFIED BY %s",
                         (body.mysql_password,),
                     )
                     await cur.execute("FLUSH PRIVILEGES")
@@ -179,7 +179,7 @@ async def delete_user(
         conn = await get_admin_connection()
         async with conn:
             async with conn.cursor() as cur:
-                await cur.execute(f"DROP USER IF EXISTS '{username}'@'%'")
+                await cur.execute(f"DROP USER IF EXISTS '{username}'@'%%'")
                 await cur.execute("FLUSH PRIVILEGES")
     except Exception:
         pass  # MySQL user removal is best-effort; app record is already gone

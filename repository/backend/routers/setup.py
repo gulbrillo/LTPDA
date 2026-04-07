@@ -140,7 +140,7 @@ async def run_setup(req: SetupRequest):
                 uname = req.app_admin_username
                 mpw = req.app_admin_mysql_password
                 await cur.execute(
-                    f"CREATE USER IF NOT EXISTS '{uname}'@'%' IDENTIFIED BY %s",
+                    f"CREATE USER IF NOT EXISTS '{uname}'@'%%' IDENTIFIED BY %s",
                     (mpw,),
                 )
                 await cur.execute("FLUSH PRIVILEGES")
