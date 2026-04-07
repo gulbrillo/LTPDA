@@ -44,7 +44,7 @@ services:
     image: nginx:alpine
     restart: unless-stopped
     ports:
-      - "127.0.0.1:8080:80"                  # localhost only — Apache/Nginx proxies this
+      - "127.0.0.1:8088:80"                  # localhost only — Apache/Nginx proxies this
     volumes:
       - ./frontend/.output/public:/usr/share/nginx/html:ro
       - ./nginx.conf:/etc/nginx/nginx.conf:ro

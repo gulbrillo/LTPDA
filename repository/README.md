@@ -9,7 +9,7 @@ schema — MATLAB connects via JDBC exactly as before, no toolbox changes requir
 
 ```
 Apache (your existing web server)
-  └── reverse proxy → Docker (port 8080, localhost only)
+  └── reverse proxy → Docker (port 8088, localhost only)
         ├── nginx  →  Nuxt 4 SPA  (static files, client-side rendering)
         └── nginx  →  FastAPI REST API  (Python 3, uvicorn)
                            └── MySQL
@@ -86,8 +86,8 @@ You must re-run `npm run generate` and restart the containers whenever frontend 
     SSLCertificateKeyFile /etc/letsencrypt/live/repo.yourdomain.com/privkey.pem
 
     ProxyPreserveHost On
-    ProxyPass        / http://127.0.0.1:8080/
-    ProxyPassReverse / http://127.0.0.1:8080/
+    ProxyPass        / http://127.0.0.1:8088/
+    ProxyPassReverse / http://127.0.0.1:8088/
 </VirtualHost>
 ```
 

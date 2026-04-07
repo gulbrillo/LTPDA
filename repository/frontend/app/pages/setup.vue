@@ -112,8 +112,12 @@ async function runSetup() {
     }
     await router.push('/login')
   } catch (e: unknown) {
-    const err = e as { data?: { detail?: string } }
-    error.value = err?.data?.detail ?? 'Setup failed. Check your credentials and try again.'
+    const fe = e as { data?: { detail?: string; error?: string }; message?: string }
+    error.value =
+      fe?.data?.detail ||
+      fe?.data?.error ||
+      fe?.message ||
+      'Setup failed. Check your credentials and try again.'
   } finally {
     loading.value = false
   }

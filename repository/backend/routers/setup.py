@@ -102,62 +102,68 @@ async def run_setup(req: SetupRequest):
     except Exception as e:
         raise HTTPException(400, f"Cannot connect to MySQL: {e}")
 
-    async with conn:
-        async with conn.cursor() as cur:
-            # Create admin database
-            db = req.admin_db
-            await cur.execute(
-                f"CREATE DATABASE IF NOT EXISTS `{db}` "
-                "CHARACTER SET utf8 COLLATE utf8_general_ci"
-            )
-            await cur.execute(f"USE `{db}`")
+    try:
+        async with conn:
+            async with conn.cursor() as cur:
+                # Create admin database
+                db = req.admin_db
+                await cur.execute(
+                    f"CREATE DATABASE IF NOT EXISTS `{db}` "
+                    "CHARACTER SET utf8 COLLATE utf8_general_ci"
+                )
+                await cur.execute(f"USE `{db}`")
 
-            # Create v2.5-compatible admin schema
-            await _create_admin_schema(cur)
+                # Create v2.5-compatible admin schema
+                await _create_admin_schema(cur)
 
-            # Create first admin user (app record + MySQL account)
-            pw_hash = hash_password(req.app_admin_password)
-            await cur.execute(
-                """INSERT INTO users
-                     (username, password_hash, mysql_password,
-                      first_name, last_name, email, is_admin)
-                   VALUES (%s, %s, %s, %s, %s, %s, TRUE)
-                   ON DUPLICATE KEY UPDATE
-                     password_hash = VALUES(password_hash),
-                     mysql_password = VALUES(mysql_password)""",
-                (
-                    req.app_admin_username,
-                    pw_hash,
-                    req.app_admin_mysql_password,
-                    req.app_admin_first_name,
-                    req.app_admin_last_name,
-                    req.app_admin_email,
-                ),
-            )
+                # Create first admin user (app record + MySQL account)
+                pw_hash = hash_password(req.app_admin_password)
+                await cur.execute(
+                    """INSERT INTO users
+                         (username, password_hash, mysql_password,
+                          first_name, last_name, email, is_admin)
+                       VALUES (%s, %s, %s, %s, %s, %s, TRUE)
+                       ON DUPLICATE KEY UPDATE
+                         password_hash = VALUES(password_hash),
+                         mysql_password = VALUES(mysql_password)""",
+                    (
+                        req.app_admin_username,
+                        pw_hash,
+                        req.app_admin_mysql_password,
+                        req.app_admin_first_name,
+                        req.app_admin_last_name,
+                        req.app_admin_email,
+                    ),
+                )
 
-            # Create MySQL account for the first admin user
-            uname = req.app_admin_username
-            mpw = req.app_admin_mysql_password
-            await cur.execute(
-                f"CREATE USER IF NOT EXISTS '{uname}'@'%' IDENTIFIED BY %s",
-                (mpw,),
-            )
-            await cur.execute("FLUSH PRIVILEGES")
+                # Create MySQL account for the first admin user
+                uname = req.app_admin_username
+                mpw = req.app_admin_mysql_password
+                await cur.execute(
+                    f"CREATE USER IF NOT EXISTS '{uname}'@'%' IDENTIFIED BY %s",
+                    (mpw,),
+                )
+                await cur.execute("FLUSH PRIVILEGES")
+    except Exception as e:
+        raise HTTPException(400, f"Database setup failed: {e}")
 
     secret_key = secrets.token_hex(32)
     ssh_url = f"http://host.docker.internal:{req.ssh_sync_port}" if req.ssh_sync_enabled else None
-    write_config(
-        mysql_mode=req.mode,
-        mysql_host=host,
-        mysql_port=req.mysql_port,
-        admin_db=req.admin_db,
-        mysql_admin_user=req.mysql_admin_user,
-        mysql_admin_password=req.mysql_admin_password,
-        secret_key=secret_key,
-        ssh_sync_enabled=req.ssh_sync_enabled and req.mode == "bundled",
-        ssh_sync_url=ssh_url,
-        ssh_sync_secret=req.ssh_sync_secret,
-    )
+    try:
+        write_config(
+            mysql_mode=req.mode,
+            mysql_host=host,
+            mysql_port=req.mysql_port,
+            admin_db=req.admin_db,
+            mysql_admin_user=req.mysql_admin_user,
+            mysql_admin_password=req.mysql_admin_password,
+            secret_key=secret_key,
+            ssh_sync_enabled=req.ssh_sync_enabled and req.mode == "bundled",
+            ssh_sync_url=ssh_url,
+            ssh_sync_secret=req.ssh_sync_secret,
+        )
+    except Exception as e:
+        raise HTTPException(500, f"Config write failed: {e}")
 
     # Sync first admin user to SSH daemon if enabled
     ssh_sync_result = None
