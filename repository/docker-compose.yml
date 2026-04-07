@@ -29,9 +29,13 @@ services:
     build: ./backend
     restart: unless-stopped
     extra_hosts:
-      - "host.docker.internal:host-gateway"   # Linux: reach host machine (external MySQL)
+      - "host.docker.internal:host-gateway"   # Linux: reach host machine (external MySQL or SSH sync daemon)
     volumes:
       - ./config:/app/config                  # persists config.json across restarts
+    depends_on:
+      mysql:
+        condition: service_healthy
+        required: false   # optional: ignored in external-MySQL mode (no mysql service); waits in bundled mode
     networks:
       - internal
 

@@ -345,53 +345,112 @@ directly exposed to the internet), users connect through an **SSH tunnel**:
 ### SSH sync daemon (optional — bundled MySQL mode only)
 
 The SSH sync daemon automates Linux account management. When enabled in the setup wizard, it
-automatically creates and removes Linux SSH accounts whenever users are added or removed via the
-web UI — eliminating the manual `useradd`/`userdel` step.
+automatically creates, updates, and removes Linux SSH accounts whenever users are added, have their
+password changed, or are removed via the web UI — eliminating the manual `useradd`/`userdel` step.
 
 #### What it does
 
-- Runs on the host machine as a `root` systemd service
+- Runs on the **host machine** as a `root` systemd service (not inside Docker)
 - Listens for webhook calls from the FastAPI container on a configurable port (default: **9922**)
-- All webhooks are HMAC-SHA256 signed using a shared secret configured during setup
-- Creates tunnel-only accounts (`/usr/sbin/nologin` shell — no interactive access)
+- All webhooks are HMAC-SHA256 signed with a shared secret — requests with invalid signatures are rejected
+- Creates tunnel-only accounts (`/usr/sbin/nologin` shell — port-forwarding only, no interactive login)
+- Tracks accounts it created via a GECOS marker (`ltpda-managed`); refuses to modify or delete any account it did not create
+- Returns a 409 conflict if a requested username already exists as a non-LTPDA system account
+
+#### Prerequisites
+
+- Python 3.9 or later on the host
+- `pip3` available
+- The host must be the same machine Docker is running on (required for `host.docker.internal` to route correctly)
 
 #### Installation
 
+The daemon files live in `repository/ssh-sync-daemon/` in this repository. Copy them to the host
+server before running the setup wizard.
+
 ```bash
-# 1. Copy the daemon files to the host
+# ── On the host server ──────────────────────────────────────────────────────
+
+# 1. Copy daemon files (run from wherever you cloned this repository)
 sudo mkdir -p /opt/ltpda-ssh-sync
 sudo cp repository/ssh-sync-daemon/ssh_sync_daemon.py /opt/ltpda-ssh-sync/
 
-# 2. Install the Python dependency
+# 2. Install Python dependency
 sudo pip3 install flask
 
-# 3. Create the config file
+# 3. Create the config file from the example template
 sudo cp repository/ssh-sync-daemon/config.example.json /etc/ltpda-ssh-sync.json
-# Edit /etc/ltpda-ssh-sync.json — paste the shared_secret shown in the setup wizard
-sudo nano /etc/ltpda-ssh-sync.json
 
-# 4. Install and start the systemd service
+# 4. Edit the config — set shared_secret to the value you will enter in the setup wizard
+#    (generate a strong random string, e.g.: openssl rand -hex 32)
+sudo nano /etc/ltpda-ssh-sync.json
+```
+
+The config file must contain:
+
+```json
+{
+  "port": 9922,
+  "shared_secret": "your-strong-random-secret-here"
+}
+```
+
+```bash
+# 5. Install and enable the systemd service
 sudo cp repository/ssh-sync-daemon/ltpda-ssh-sync.service /etc/systemd/system/
 sudo systemctl daemon-reload
 sudo systemctl enable --now ltpda-ssh-sync
 
-# 5. Verify it is running
+# 6. Verify it started
 sudo systemctl status ltpda-ssh-sync
+# Expected: "Active: active (running)"
+
+# 7. Check the logs
+sudo journalctl -u ltpda-ssh-sync -n 30
 ```
 
 #### Firewall
 
-The daemon binds to `0.0.0.0:9922`. Restrict access to the Docker bridge network only:
+The daemon binds to `0.0.0.0:9922`. Restrict access to the Docker bridge network only so it is
+not reachable from the internet:
 
 ```bash
-# Allow Docker bridge (172.16.0.0/12) to reach port 9922; block everything else
+# Allow Docker bridge networks; block everything else
 sudo ufw allow from 172.16.0.0/12 to any port 9922
+sudo ufw allow from 192.168.0.0/16 to any port 9922
 ```
 
-#### Testing the connection
+#### Running the setup wizard with SSH sync enabled
 
-After logging in as an administrator, go to **Admin → Users**. A status bar at the top shows the
-daemon state. Click **Test** to verify the Docker container can reach the daemon.
+1. Install and start the daemon on the host (steps above).
+2. Open the setup wizard in your browser.
+3. In the **SSH sync daemon** section, enable the toggle, set the port (default 9922), and enter the
+   **same shared secret** you put in `/etc/ltpda-ssh-sync.json`.
+4. Click **Test daemon connection** to confirm the Docker container can reach the daemon before
+   submitting the form.
+5. Complete the wizard. The first admin user is synced to the daemon automatically during setup.
+
+#### After setup — testing and monitoring
+
+After logging in as an administrator, go to **Admin → Users**. A status bar shows the daemon
+state. Click **Test** to re-verify connectivity at any time.
+
+#### Safety rules
+
+- The daemon only modifies or deletes accounts whose GECOS field contains `ltpda-managed`.
+- If a username already exists as a non-LTPDA system account, the web UI shows a conflict warning
+  (HTTP 409). Choose a different username or remove the conflicting account manually.
+- Sync failures are **non-fatal**: user CRUD in the web UI always succeeds; a sync error is shown
+  as a warning alongside the success message.
+
+#### Troubleshooting
+
+| Symptom | Likely cause |
+|---------|-------------|
+| "Cannot reach SSH sync daemon" | Daemon not running, or firewall blocking port 9922 |
+| "Invalid signature" | Shared secret in wizard does not match `/etc/ltpda-ssh-sync.json` |
+| "Account conflict" | A system account with that username already exists on the host |
+| `useradd` errors in daemon log | Daemon not running as root |
 
 ---
 
