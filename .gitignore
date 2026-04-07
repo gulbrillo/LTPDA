@@ -4,3 +4,4 @@
 /*.xml
 # Release zip files built by make_release.sh
 /*.zip
+/.claude
