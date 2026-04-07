@@ -1,19 +1,46 @@
 services:
+
+  # ── Bundled MySQL (only used when started with --profile bundled) ──────────
+  mysql:
+    profiles: ["bundled"]
+    image: mysql:8
+    restart: unless-stopped
+    command:
+      - --max-allowed-packet=268435456   # 256 MB — required for LTPDA binary object BLOBs
+      - --innodb-buffer-pool-size=256M   # tunable; increase for better performance on large repos
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_ROOT_HOST: "%"       # allow root login from any host (Docker network)
+    ports:
+      - "127.0.0.1:3307:3306"   # localhost only (3306 taken by host MySQL) — MATLAB users access via SSH tunnel
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost",
+             "-u", "root", "--password=${MYSQL_ROOT_PASSWORD}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  # ── FastAPI backend ────────────────────────────────────────────────────────
   api:
     build: ./backend
     restart: unless-stopped
     extra_hosts:
-      - "host.docker.internal:host-gateway"   # Linux: resolve host machine
+      - "host.docker.internal:host-gateway"   # Linux: reach host machine (external MySQL)
     volumes:
       - ./config:/app/config                  # persists config.json across restarts
     networks:
       - internal
 
+  # ── nginx: serves Nuxt SPA + proxies /api/ to FastAPI ────────────────────
   nginx:
     image: nginx:alpine
     restart: unless-stopped
     ports:
-      - "127.0.0.1:8080:80"                  # localhost only — Apache proxies this
+      - "127.0.0.1:8080:80"                  # localhost only — Apache/Nginx proxies this
     volumes:
       - ./frontend/.output/public:/usr/share/nginx/html:ro
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
@@ -24,3 +51,6 @@ services:
 
 networks:
   internal:
+
+volumes:
+  mysql_data:

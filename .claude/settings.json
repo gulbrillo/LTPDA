@@ -17,7 +17,17 @@
       "WebFetch(domain:nuxt.com)",
       "Bash(ls -la \"/c/Users/barke/GitHub/LTPDA/repository/\"*.php)",
       "Bash(ls -1 \"/c/Users/barke/GitHub/LTPDA/repository/\"*.php)",
-      "Bash(git mv:*)"
+      "Bash(git mv:*)",
+      "Bash(find /c/Users/barke/GitHub/LTPDA/repository.old -type f \\\\\\(-name *.sql -o -name *.php -o -name *schema* -o -name *install* -o -name *config* \\\\\\))",
+      "Bash(xargs ls:*)",
+      "Bash(npm install:*)",
+      "Read(//usr/local/**)",
+      "Read(//c/Users/barke/AppData/Roaming/**)",
+      "Read(//c/Program Files/**)",
+      "Read(//c/Users/barke/AppData/Local/**)",
+      "Bash(export PATH=\"/c/Users/barke/AppData/Local/Volta/bin:$PATH\")",
+      "Bash(\"/c/Users/barke/AppData/Local/Volta/tools/image/node/24.14.1/npm\" install:*)",
+      "Bash(/c/Users/barke/AppData/Local/Volta/tools/image/node/24.14.1/npm install:*)"
     ],
     "additionalDirectories": [
       "\\tmp"

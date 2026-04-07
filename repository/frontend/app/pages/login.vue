@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { Eye, EyeOff } from 'lucide-vue-next'
 definePageMeta({ layout: false })
 
 const { login } = useAuth()
 const username = ref('')
 const password = ref('')
+const showPw = ref(false)
 const error = ref('')
 const loading = ref(false)
 
@@ -21,67 +23,80 @@ async function submit() {
 </script>
 
 <template>
-  <div class="login-page">
-    <div class="login-card">
+  <div class="page">
+    <div class="card">
+      <div class="logo">
+        <AppLogo :size="44" />
+      </div>
       <h1>LTPDA Repository</h1>
-      <p class="subtitle">Sign in to continue</p>
+      <p class="tagline">Sign in to your account</p>
+
       <form @submit.prevent="submit">
         <div class="field">
           <label>Username</label>
-          <input v-model="username" autofocus required />
+          <input v-model="username" autofocus required autocomplete="username" />
         </div>
         <div class="field">
           <label>Password</label>
-          <input v-model="password" type="password" required />
+          <div class="pw-wrap">
+            <input v-model="password" :type="showPw ? 'text' : 'password'" required autocomplete="current-password" class="pw-input" />
+            <button type="button" class="pw-eye" @click="showPw = !showPw" :title="showPw ? 'Hide' : 'Show'">
+              <EyeOff v-if="showPw" />
+              <Eye v-else />
+            </button>
+          </div>
         </div>
-        <div v-if="error" class="error-msg">{{ error }}</div>
+
+        <p v-if="error" class="error">{{ error }}</p>
+
         <button type="submit" :disabled="loading" class="btn-primary">
+          <span v-if="loading" class="spinner" />
           {{ loading ? 'Signing in…' : 'Sign in' }}
         </button>
       </form>
+
+      <p class="footer">LTPDA Repository v3.0</p>
     </div>
   </div>
 </template>
 
 <style scoped>
-.login-page {
-  min-height: 100vh;
-  display: flex;
+/* login.vue — vertically + horizontally centred card */
+.page {
   align-items: center;
   justify-content: center;
-  background: #f5f5f5;
+  padding: 1.5rem;
 }
-.login-card {
-  background: white;
-  border-radius: 8px;
-  padding: 2.5rem;
-  width: 100%;
-  max-width: 360px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+.card {
+  background: #ffffff;
+  border: 1px solid #d0dcea;
+  border-radius: 14px;
+  padding: 2.5rem 2rem;
+  width: 100%; max-width: 360px;
+  display: flex; flex-direction: column; align-items: center;
 }
-h1 { margin: 0 0 0.25rem; font-size: 1.5rem; }
-.subtitle { color: #666; margin: 0 0 1.5rem; font-size: 0.9rem; }
-.field { display: flex; flex-direction: column; gap: 0.25rem; margin-bottom: 0.75rem; }
-label { font-size: 0.85rem; font-weight: 500; color: #444; }
-input {
-  padding: 0.5rem 0.6rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 0.9rem;
+.logo { margin-bottom: 1.25rem; }
+h1 {
+  font-size: 1.2rem; font-weight: 700;
+  letter-spacing: -0.03em; color: #1e3050; margin-bottom: 0.3rem;
 }
-input:focus { outline: none; border-color: #2563eb; }
-.error-msg { color: #dc2626; font-size: 0.85rem; margin-bottom: 0.5rem; }
+.tagline { font-size: 0.825rem; color: #6a84a0; margin-bottom: 1.75rem; }
+form { width: 100%; display: flex; flex-direction: column; }
+.field { gap: 0.3rem; margin-bottom: 0.85rem; }
+.error {
+  font-size: 0.8rem; color: #b91c1c;
+  background: #fef2f2; border: 1px solid #fecaca;
+  border-radius: 8px; padding: 0.5rem 0.7rem; margin-bottom: 0.85rem;
+}
 .btn-primary {
-  width: 100%;
-  padding: 0.65rem;
-  background: #2563eb;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
-  margin-top: 0.5rem;
+  width: 100%; padding: 0.7rem;
+  font-size: 0.875rem; font-weight: 800;
+  margin-top: 0.25rem; border-radius: 9px;
 }
-.btn-primary:disabled { background: #93c5fd; cursor: not-allowed; }
-.btn-primary:hover:not(:disabled) { background: #1d4ed8; }
+.spinner {
+  width: 14px; height: 14px; flex-shrink: 0;
+  border: 2px solid rgba(26,52,97,0.3); border-top-color: #1a3461;
+  border-radius: 50%; animation: spin 0.6s linear infinite;
+}
+.footer { font-size: 0.75rem; color: #a8bdd0; margin-top: 1.75rem; }
 </style>

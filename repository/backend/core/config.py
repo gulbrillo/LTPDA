@@ -16,11 +16,15 @@ def _load() -> dict:
 
 def is_configured() -> bool:
     data = _load()
-    return bool(data.get("configured") and data.get("database_url") and data.get("secret_key"))
+    return bool(
+        data.get("configured")
+        and data.get("mysql_admin_user")
+        and data.get("secret_key")
+    )
 
 
-def get_database_url() -> str:
-    return _load().get("database_url", "")
+def get_config() -> dict:
+    return _load()
 
 
 def get_secret_key() -> str:
@@ -28,13 +32,44 @@ def get_secret_key() -> str:
     return data.get("secret_key") or secrets.token_hex(32)
 
 
-def write_config(database_url: str, secret_key: str) -> None:
+def write_config(
+    mysql_mode: str,
+    mysql_host: str,
+    mysql_port: int,
+    admin_db: str,
+    mysql_admin_user: str,
+    mysql_admin_password: str,
+    secret_key: str,
+    ssh_sync_enabled: bool = False,
+    ssh_sync_url: str | None = None,
+    ssh_sync_secret: str | None = None,
+) -> None:
     CONFIG_FILE.parent.mkdir(parents=True, exist_ok=True)
-    CONFIG_FILE.write_text(json.dumps({
+    data: dict = {
         "configured": True,
-        "database_url": database_url,
+        "mysql_mode": mysql_mode,
+        "mysql_host": mysql_host,
+        "mysql_port": mysql_port,
+        "admin_db": admin_db,
+        "mysql_admin_user": mysql_admin_user,
+        "mysql_admin_password": mysql_admin_password,
         "secret_key": secret_key,
-    }, indent=2))
+    }
+    if ssh_sync_enabled:
+        data["ssh_sync_enabled"] = True
+        data["ssh_sync_url"] = ssh_sync_url or "http://host.docker.internal:9922"
+        data["ssh_sync_secret"] = ssh_sync_secret or ""
+    CONFIG_FILE.write_text(json.dumps(data, indent=2))
+
+
+def get_ssh_sync_config() -> dict:
+    cfg = _load()
+    return {
+        "enabled": cfg.get("ssh_sync_enabled", False),
+        "url": cfg.get("ssh_sync_url", "http://host.docker.internal:9922"),
+        "secret": cfg.get("ssh_sync_secret", ""),
+        "mode": cfg.get("mysql_mode", "external"),
+    }
 
 
 ACCESS_TOKEN_EXPIRE_MINUTES = 8 * 60  # 8 hours

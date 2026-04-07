@@ -130,7 +130,7 @@ Two versions of the repository server exist. Choose based on what you are connec
 
 | Version | Stack | Status |
 |---------|-------|--------|
-| **v3.0** (this fork) | Nuxt 4 + FastAPI + MySQL, Docker | New — recommended for new deployments |
+| **v3.0** (this fork) | Nuxt 4 + FastAPI + MySQL (v2.5-compatible schema), Docker | New — recommended for new deployments |
 | **v2.5 and below** (upstream/legacy) | PHP + MySQL + Ruby/Gnuplot, Apache | Legacy — instructions below |
 
 ---
@@ -139,39 +139,65 @@ Two versions of the repository server exist. Choose based on what you are connec
 
 ### How it works
 
-The v3.0 repository is a complete rewrite of the web frontend and backend. The architecture is:
+The v3.0 repository is a rewrite of the web frontend and backend. The database structure is **compatible with v2.5**: one MySQL database per repository, per-user MySQL accounts, and a privileged admin account managed by the application. MATLAB connects directly via JDBC using the same credentials as before — no toolbox changes required.
 
 ```
 Apache (your existing web server)
   └── reverse proxy → Docker container (port 8080, localhost only)
         ├── nginx  →  Nuxt 4 SPA (static files, client-side rendering)
         └── nginx  →  FastAPI REST API (Python, uvicorn)
-                           └── your existing MySQL server (host machine, port 3306)
+                           └── MySQL (bundled container OR external dedicated server)
+                                 ├── ltpda_admin        ← users, repo registry, options
+                                 ├── myrepo             ← per-repository database (v2.5 schema)
+                                 └── anotherrepo        ← per-repository database
 ```
 
 Key differences from v2.5:
 
 - **No PHP.** The backend is Python (FastAPI). The frontend is a compiled Vue/Nuxt SPA.
-- **No per-user MySQL accounts.** User authentication is handled entirely by the application using bcrypt passwords and JWT tokens. A single MySQL service account is used for all database access.
-- **Single MySQL database.** All repositories live in one database (`ltpda_repo` by default), separated internally by a `repository_id` column. No `CREATE DATABASE` or `GRANT` required after initial setup.
-- **No Ruby or Gnuplot.** Plot generation uses Python/matplotlib inside the Docker container.
-- **First-run wizard.** On first visit the web UI shows a setup page where you enter MySQL credentials. The app creates the database, service account, and first admin user automatically — you never edit config files manually.
-- **MATLAB connects to MySQL directly** (unchanged from v2.5) — the MATLAB toolbox bypasses the web API entirely and talks to MySQL over JDBC on port 3306. See the MATLAB configuration section below.
+- **No Ruby or Gnuplot.** Plot generation uses Python/matplotlib (Phase 5).
+- **Same database structure as v2.5.** One MySQL database per repository. Each user gets a MySQL account. The application holds a privileged MySQL account (root or equivalent) to create databases and user accounts on demand.
+- **Two MySQL deployment options.** MySQL can run as a bundled container (simplest) or connect to an external dedicated MySQL server.
+- **First-run wizard.** On first visit the web UI shows a setup page. The wizard creates the admin database, sets up credentials, and creates the first admin user — you never edit config files manually.
+- **MATLAB connects to MySQL directly** (unchanged from v2.5) — the MATLAB toolbox bypasses the web API entirely and talks to MySQL over JDBC on port 3306.
+
+> **Shared hosting not supported.** The repository needs to create and drop MySQL databases and user accounts. It requires a dedicated MySQL server (or the bundled container). It is **not compatible** with shared hosting environments (cPanel, Plesk, shared MySQL servers).
+
+### Database structure
+
+The admin database (default name `ltpda_admin`, configurable at setup) stores the user registry, the list of repository databases, and global options. Each repository gets its own MySQL database with the v2.5 schema (`objs`, `bobjs`, `objmeta`, `transactions`, etc.). Each repo database also contains a `users` view that reads from the admin database, so MATLAB's internal queries work unchanged.
+
+Every application user has **two separate passwords**:
+
+| Password | Purpose | How it is stored |
+|----------|----------|-----------------|
+| **Web UI password** | Log in to the web interface | bcrypt hash — never stored in recoverable form |
+| **MySQL / MATLAB password** | MySQL account used by MATLAB over JDBC | Stored in the `users` table — must be recoverable to pass to MySQL `CREATE USER` |
+
+These are set independently and can be changed independently. You can make them the same value if you prefer, but they are managed separately.
+
+### Privileged MySQL account
+
+The admin MySQL account (root or any account with `CREATE DATABASE`, `CREATE USER`, and `GRANT`) is entered during the setup wizard and **stored in `config/config.json`**. It is not a one-time credential — the backend uses it continuously to:
+
+- Create a MySQL database when a new repository is added
+- Create a MySQL user account when a new user is created
+- Grant per-user permissions on each repository database
+- Drop a MySQL user account when a user is deleted
+
+This matches v2.5 behaviour, where `config.inc.php` held the privileged database credentials for all operations.
 
 ### Requirements
 
 **Server:**
 - Linux VPS or dedicated server
 - Docker Engine 24+ and Docker Compose v2 (`docker compose` command)
-- Apache 2.4+ (or Nginx) as the front-facing web server — your existing server works
-- MySQL 5.7+ or MariaDB 10.5+ running on the host (not in Docker)
+- Apache 2.4+ (or Nginx) as the front-facing web server
 - A domain or subdomain pointing to your server (e.g. `repo.yourdomain.com`)
-
-**MySQL privileges needed for setup:**
-- One MySQL account with enough privileges to `CREATE DATABASE`, `CREATE USER`, and `GRANT` — typically the MySQL root account or a dedicated admin account. This is used **once** during the setup wizard and the credentials are never stored by the application.
+- MySQL: either use the **bundled** MySQL container (no separate installation needed) or provide an **external dedicated** MySQL 5.7+ / MariaDB 10.5+ server
 
 **Build machine (to compile the frontend):**
-- Node.js 20+ and npm — required to build the Nuxt frontend into static files before deployment. This can be done on your local machine or on the server.
+- Node.js 20+ and npm — required to build the Nuxt frontend into static files. Can be done on your laptop or on the server.
 
 ### Installation
 
@@ -196,19 +222,16 @@ Verify: `docker compose version` should show v2.x.
 
 #### 3. Build the Nuxt frontend
 
-The frontend is a Vue/Nuxt application that must be compiled into static HTML/JS/CSS files before Docker can serve it. Run this on any machine that has Node.js 20+ installed (your laptop or the server).
-
 ```bash
 cd repository/frontend
 npm install
 npm run generate        # outputs static files to frontend/.output/public/
+cd ..
 ```
 
 > You must re-run `npm run generate` and restart Docker whenever the frontend source changes.
 
 #### 4. Configure the Apache vhost
-
-Add a new virtual host to your Apache configuration (replace `repo.yourdomain.com` with your actual subdomain):
 
 ```apache
 <VirtualHost *:80>
@@ -229,42 +252,57 @@ Add a new virtual host to your Apache configuration (replace `repo.yourdomain.co
 </VirtualHost>
 ```
 
-Enable the required Apache modules and reload:
-
 ```bash
 sudo a2enmod proxy proxy_http ssl
 sudo systemctl reload apache2
-```
-
-To obtain an SSL certificate with Let's Encrypt:
-
-```bash
-sudo certbot --apache -d repo.yourdomain.com
+sudo certbot --apache -d repo.yourdomain.com   # obtain SSL certificate
 ```
 
 #### 5. Start Docker
 
-From the `repository/` directory:
+**Option A — Bundled MySQL** (recommended for new deployments):
+
+Create a `.env` file in `repository/` with the MySQL root password:
+
+```bash
+echo "MYSQL_ROOT_PASSWORD=choose_a_strong_password" > .env
+```
+
+Then start all containers including the bundled MySQL service:
+
+```bash
+docker compose --profile bundled up -d
+```
+
+This starts three containers: `mysql`, `api`, and `nginx`.
+
+**Option B — External dedicated MySQL server:**
 
 ```bash
 docker compose up -d
 ```
 
-This starts two containers:
-- **api** — FastAPI backend (Python), connects to your host MySQL on `host.docker.internal:3306`
-- **nginx** — serves the Nuxt static build and proxies `/api/` requests to the FastAPI container
+This starts only `api` and `nginx`. You will point the app at your external MySQL server during the setup wizard. The `extra_hosts` entry in `docker-compose.yml` allows the API container to reach `host.docker.internal` (your server's host machine) if MySQL is running there.
 
-Check that both are running: `docker compose ps`
+> **External MySQL — allow Docker connections:** By default MySQL binds to `127.0.0.1` only. If your MySQL is on the same host as Docker, add `bind-address = 0.0.0.0` to `/etc/mysql/mysql.conf.d/mysqld.cnf` and restart MySQL. Keep port 3306 firewalled from external traffic.
+
+Check that containers are running: `docker compose ps`
 
 #### 6. Run the setup wizard
 
-Open `https://repo.yourdomain.com` in a browser. You will be redirected to the setup page. Fill in:
+Open `https://repo.yourdomain.com` in a browser. You will be redirected to the setup page.
 
-1. **MySQL connection** — hostname (`localhost` or your MySQL host), port (default 3306), desired database name (default `ltpda_repo`), and your MySQL admin username/password (e.g. `root`). These credentials are used once to create the database and service account and are never stored.
-2. **Service account** — a new MySQL username and password that the application will use for all ongoing database access. The account is created automatically with SELECT/INSERT/UPDATE/DELETE privileges only.
-3. **First admin user** — username and password for the first repository administrator.
+Choose a MySQL deployment mode:
 
-Click **Run Setup**. The wizard creates the database schema, service account, and admin user, then stores the service account credentials in `repository/config/config.json` (this file is excluded from git). You are redirected to the login page.
+**Bundled MySQL** — MySQL runs inside Docker. Enter the root password you set in `.env`. The admin database name defaults to `ltpda_admin`.
+
+**External MySQL** — Enter the host, port, and admin account credentials (needs `CREATE DATABASE`, `CREATE USER`, `GRANT` — does not need to be root). The wizard creates the admin database and first user.
+
+Both modes require a first admin user with:
+- **Web UI password** — used to log in to the web interface (bcrypt, not stored in MySQL)
+- **MySQL / MATLAB password** — used to create a MySQL account for this user; MATLAB connects via JDBC using these credentials
+
+Click **Run Setup**. The wizard creates the admin database schema, the first admin's MySQL user account, and stores the privileged MySQL credentials in `repository/config/config.json` (excluded from git). You are redirected to the login page.
 
 #### 7. Verify
 
@@ -274,18 +312,86 @@ Click **Run Setup**. The wizard creates the database schema, service account, an
 
 ### Updating
 
-To update the application:
-
 ```bash
 git pull
 cd repository/frontend && npm install && npm run generate  # rebuild frontend if changed
 cd ..
-docker compose up -d --build                               # rebuild and restart containers
+docker compose --profile bundled up -d --build   # (or without --profile bundled for external mode)
 ```
 
-### Configuring MATLAB to use Repository v3.0
+### Configuring MATLAB
 
-See [MATLAB toolbox — repository preferences](#toolbox-installation) (Phase 5, not yet implemented). In the current release, the MATLAB toolbox connects to the repository using the legacy v2.5 protocol (direct JDBC to a named MySQL database). Full v3.0 MATLAB integration is planned for the next release.
+MATLAB connects to the bundled MySQL container via JDBC. Because MySQL is inside Docker (not
+directly exposed to the internet), users connect through an **SSH tunnel**:
+
+1. **Create an SSH tunnel** on your local machine before launching MATLAB:
+   ```bash
+   ssh -L 3306:localhost:3307 your_linux_username@repo.yourdomain.com
+   ```
+   This forwards your local port 3306 to the host's port 3307, which Docker maps to the MySQL container.
+   Keep this terminal open while using MATLAB.
+
+2. **In `LTPDAprefs`**, set:
+   - **Hostname** — `localhost`
+   - **Port** — `3306`
+   - **Database** — the name of the repository database (e.g. `myrepo`)
+   - **Username / Password** — the MySQL credentials set when your user account was created
+
+3. **Linux account required.** You need a Linux account on the server to authenticate the SSH tunnel.
+   Ask your repository administrator to create one, or see the SSH sync daemon section below.
+
+---
+
+### SSH sync daemon (optional — bundled MySQL mode only)
+
+The SSH sync daemon automates Linux account management. When enabled in the setup wizard, it
+automatically creates and removes Linux SSH accounts whenever users are added or removed via the
+web UI — eliminating the manual `useradd`/`userdel` step.
+
+#### What it does
+
+- Runs on the host machine as a `root` systemd service
+- Listens for webhook calls from the FastAPI container on a configurable port (default: **9922**)
+- All webhooks are HMAC-SHA256 signed using a shared secret configured during setup
+- Creates tunnel-only accounts (`/usr/sbin/nologin` shell — no interactive access)
+
+#### Installation
+
+```bash
+# 1. Copy the daemon files to the host
+sudo mkdir -p /opt/ltpda-ssh-sync
+sudo cp repository/ssh-sync-daemon/ssh_sync_daemon.py /opt/ltpda-ssh-sync/
+
+# 2. Install the Python dependency
+sudo pip3 install flask
+
+# 3. Create the config file
+sudo cp repository/ssh-sync-daemon/config.example.json /etc/ltpda-ssh-sync.json
+# Edit /etc/ltpda-ssh-sync.json — paste the shared_secret shown in the setup wizard
+sudo nano /etc/ltpda-ssh-sync.json
+
+# 4. Install and start the systemd service
+sudo cp repository/ssh-sync-daemon/ltpda-ssh-sync.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable --now ltpda-ssh-sync
+
+# 5. Verify it is running
+sudo systemctl status ltpda-ssh-sync
+```
+
+#### Firewall
+
+The daemon binds to `0.0.0.0:9922`. Restrict access to the Docker bridge network only:
+
+```bash
+# Allow Docker bridge (172.16.0.0/12) to reach port 9922; block everything else
+sudo ufw allow from 172.16.0.0/12 to any port 9922
+```
+
+#### Testing the connection
+
+After logging in as an administrator, go to **Admin → Users**. A status bar at the top shows the
+daemon state. Click **Test** to verify the Docker container can reach the daemon.
 
 ---
 

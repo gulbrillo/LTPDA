@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { Plus, X, Eye, EyeOff, UserRound, Wifi, WifiOff } from 'lucide-vue-next'
+
 interface User {
   id: number
   username: string
-  given_name: string | null
-  family_name: string | null
+  first_name: string | null
+  last_name: string | null
   email: string | null
   institution: string | null
   is_admin: boolean
@@ -18,11 +20,13 @@ const error = ref('')
 
 const showDialog = ref(false)
 const editTarget = ref<User | null>(null)
+const showPw = ref(false)
+const saving = ref(false)
 const form = reactive({
   username: '',
   password: '',
-  given_name: '',
-  family_name: '',
+  first_name: '',
+  last_name: '',
   email: '',
   institution: '',
   is_admin: false,
@@ -41,35 +45,53 @@ async function loadUsers() {
 
 function openCreate() {
   editTarget.value = null
-  Object.assign(form, { username: '', password: '', given_name: '', family_name: '', email: '', institution: '', is_admin: false })
+  showPw.value = false
+  Object.assign(form, { username: '', password: '', first_name: '', last_name: '', email: '', institution: '', is_admin: false })
   showDialog.value = true
 }
 
 function openEdit(u: User) {
   editTarget.value = u
-  Object.assign(form, { username: u.username, password: '', given_name: u.given_name ?? '', family_name: u.family_name ?? '', email: u.email ?? '', institution: u.institution ?? '', is_admin: u.is_admin })
+  showPw.value = false
+  Object.assign(form, { username: u.username, password: '', first_name: u.first_name ?? '', last_name: u.last_name ?? '', email: u.email ?? '', institution: u.institution ?? '', is_admin: u.is_admin })
   showDialog.value = true
 }
 
 async function saveUser() {
+  saving.value = true
+  error.value = ''
   try {
+    type SaveResult = { user: unknown; ssh_sync: { ok: boolean; error?: string; skipped?: boolean } }
+    let result: SaveResult | null = null
     if (editTarget.value) {
-      const body: Record<string, unknown> = { given_name: form.given_name, family_name: form.family_name, email: form.email, institution: form.institution, is_admin: form.is_admin }
+      const body: Record<string, unknown> = {
+        first_name: form.first_name || null,
+        last_name: form.last_name || null,
+        email: form.email || null,
+        institution: form.institution || null,
+        is_admin: form.is_admin,
+      }
       if (form.password) body.password = form.password
-      await apiFetch(`/users/${editTarget.value.id}`, { method: 'PUT', body })
+      result = await apiFetch<SaveResult>(`/users/${editTarget.value.id}`, { method: 'PUT', body })
     } else {
-      await apiFetch('/users', { method: 'POST', body: { ...form } })
+      result = await apiFetch<SaveResult>('/users', { method: 'POST', body: { ...form } })
     }
     showDialog.value = false
     await loadUsers()
+    // Surface SSH sync failures as a non-blocking warning
+    if (result?.ssh_sync && !result.ssh_sync.ok && !result.ssh_sync.skipped) {
+      error.value = `User saved, but SSH sync failed: ${result.ssh_sync.error ?? 'unknown error'}. Create the Linux account manually or check the sync daemon.`
+    }
   } catch (e: unknown) {
     const err = e as { data?: { detail?: string } }
     error.value = err?.data?.detail ?? 'Save failed.'
+  } finally {
+    saving.value = false
   }
 }
 
 async function deleteUser(u: User) {
-  if (!confirm(`Delete user "${u.username}"?`)) return
+  if (!confirm(`Delete "${u.username}"? This cannot be undone.`)) return
   try {
     await apiFetch(`/users/${u.id}`, { method: 'DELETE' })
     await loadUsers()
@@ -78,148 +100,381 @@ async function deleteUser(u: User) {
   }
 }
 
-onMounted(loadUsers)
+function initials(u: User) {
+  if (u.first_name && u.last_name) return (u.first_name[0] + u.last_name[0]).toUpperCase()
+  return u.username[0].toUpperCase()
+}
+
+function fullName(u: User) {
+  return [u.first_name, u.last_name].filter(Boolean).join(' ')
+}
+
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+}
+
+// ── SSH sync status ───────────────────────────────────────────────────────────
+interface SyncStatus { enabled: boolean; mode: string; url: string | null }
+const syncStatus = ref<SyncStatus | null>(null)
+const syncTestResult = ref<{ ok: boolean; error?: string } | null>(null)
+const syncTesting = ref(false)
+
+async function loadSyncStatus() {
+  try {
+    syncStatus.value = await apiFetch<SyncStatus>('/sync/status')
+  } catch { /* non-critical */ }
+}
+
+async function testSync() {
+  syncTesting.value = true
+  syncTestResult.value = null
+  try {
+    syncTestResult.value = await apiFetch('/sync/test', { method: 'POST' })
+  } catch {
+    syncTestResult.value = { ok: false, error: 'Request failed' }
+  } finally {
+    syncTesting.value = false
+  }
+}
+
+onMounted(() => { loadUsers(); loadSyncStatus() })
 </script>
 
 <template>
   <div class="page">
-    <header class="topbar">
-      <div class="breadcrumb">
-        <NuxtLink to="/dashboard" class="nav-link">Dashboard</NuxtLink>
-        <span class="sep">›</span>
-        <span>Users</span>
-      </div>
-      <div class="user-area">
-        <span class="username">{{ currentUser?.username }}</span>
-        <button class="btn-logout" @click="logout">Sign out</button>
-      </div>
-    </header>
 
-    <main class="content">
-      <div class="panel">
-        <div class="panel-header">
-          <h2>Users</h2>
-          <button class="btn-primary" @click="openCreate">+ New user</button>
+    <!-- Topbar -->
+    <nav class="topbar">
+      <div class="breadcrumb">
+        <AppLogo :size="20" variant="dark" class="logo-mark" />
+        <NuxtLink to="/dashboard" class="bc-link">LTPDA Repository</NuxtLink>
+        <span class="bc-sep">/</span>
+        <span class="bc-current">Users</span>
+      </div>
+      <div class="nav-right">
+        <div class="user-chip">
+          <span class="avatar">{{ currentUser?.username?.[0]?.toUpperCase() }}</span>
+          <span class="uname">{{ currentUser?.username }}</span>
+          <span v-if="currentUser?.is_admin" class="admin-dot" title="Administrator"/>
+        </div>
+        <button class="btn-ghost" @click="logout">Sign out</button>
+      </div>
+    </nav>
+
+    <!-- Main -->
+    <main class="main">
+
+      <div class="page-head">
+        <div>
+          <h1>Users</h1>
+          <p class="page-sub">Manage who has access to this repository.</p>
+        </div>
+        <button class="btn-primary" @click="openCreate">
+          <Plus :size="13" />
+          New user
+        </button>
+      </div>
+
+      <!-- SSH sync status bar (only when enabled + bundled) -->
+      <div v-if="syncStatus?.enabled && syncStatus.mode === 'bundled'" class="sync-bar">
+        <div class="sync-bar-left">
+          <Wifi v-if="syncTestResult?.ok !== false" :size="14" class="sync-icon-ok" />
+          <WifiOff v-else :size="14" class="sync-icon-err" />
+          <span class="sync-label">SSH sync daemon</span>
+          <span v-if="syncTestResult === null" class="sync-state sync-state-unknown">not tested</span>
+          <span v-else-if="syncTestResult.ok" class="sync-state sync-state-ok">reachable</span>
+          <span v-else class="sync-state sync-state-err">unreachable — {{ syncTestResult.error }}</span>
+        </div>
+        <button class="btn-cancel sync-test-btn" :disabled="syncTesting" @click="testSync">
+          <span v-if="syncTesting" class="spin spin-sm" />
+          {{ syncTesting ? 'Testing…' : 'Test' }}
+        </button>
+      </div>
+
+      <div v-if="error" class="banner-error">
+        {{ error }}
+        <button @click="error = ''">✕</button>
+      </div>
+
+      <!-- Table -->
+      <div class="table-wrap">
+
+        <div v-if="loading" class="table-loading">
+          <div class="spin"/>
         </div>
 
-        <div v-if="error" class="error-msg">{{ error }}</div>
+        <template v-else-if="users.length">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Email</th>
+                <th>Institution</th>
+                <th>Role</th>
+                <th>Joined</th>
+                <th/>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="u in users" :key="u.id">
+                <td>
+                  <div class="user-cell">
+                    <div class="user-av">{{ initials(u) }}</div>
+                    <div class="user-meta">
+                      <span class="user-name">{{ u.username }}</span>
+                      <span v-if="fullName(u)" class="user-full">{{ fullName(u) }}</span>
+                    </div>
+                  </div>
+                </td>
+                <td>{{ u.email || '—' }}</td>
+                <td>{{ u.institution || '—' }}</td>
+                <td>
+                  <span class="badge" :class="u.is_admin ? 'badge-admin' : 'badge-user'">
+                    {{ u.is_admin ? 'Admin' : 'Member' }}
+                  </span>
+                </td>
+                <td>{{ formatDate(u.created_at) }}</td>
+                <td class="row-actions">
+                  <button class="act-btn" @click="openEdit(u)">Edit</button>
+                  <button
+                    class="act-btn act-danger"
+                    :disabled="u.id === currentUser?.id"
+                    @click="deleteUser(u)"
+                  >Remove</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </template>
 
-        <table v-if="users.length" class="user-table">
-          <thead>
-            <tr>
-              <th>Username</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Institution</th>
-              <th>Admin</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="u in users" :key="u.id">
-              <td>{{ u.username }}</td>
-              <td>{{ [u.given_name, u.family_name].filter(Boolean).join(' ') || '—' }}</td>
-              <td>{{ u.email || '—' }}</td>
-              <td>{{ u.institution || '—' }}</td>
-              <td>{{ u.is_admin ? 'Yes' : 'No' }}</td>
-              <td class="actions">
-                <button class="btn-sm" @click="openEdit(u)">Edit</button>
-                <button class="btn-sm btn-danger" :disabled="u.id === currentUser?.id" @click="deleteUser(u)">Delete</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <p v-else-if="!loading" class="empty">No users found.</p>
+        <div v-else class="empty-state">
+          <UserRound :size="52" />
+          <p>No users yet</p>
+        </div>
+
       </div>
     </main>
 
-    <!-- Create / Edit dialog -->
-    <div v-if="showDialog" class="dialog-overlay" @click.self="showDialog = false">
-      <div class="dialog">
-        <h3>{{ editTarget ? 'Edit user' : 'New user' }}</h3>
-        <form @submit.prevent="saveUser">
-          <div v-if="!editTarget" class="field">
-            <label>Username *</label>
-            <input v-model="form.username" required />
+    <!-- Dialog -->
+    <Teleport to="body">
+      <div v-if="showDialog" class="overlay" @click.self="showDialog = false">
+        <div class="dialog">
+
+          <div class="dialog-top">
+            <h2>{{ editTarget ? 'Edit user' : 'Create user' }}</h2>
+            <button class="close-btn" @click="showDialog = false" aria-label="Close">
+              <X :size="14" />
+            </button>
           </div>
-          <div class="field-row">
-            <div class="field grow">
-              <label>Given name</label>
-              <input v-model="form.given_name" />
+
+          <form @submit.prevent="saveUser">
+
+            <div v-if="!editTarget" class="field">
+              <label>Username <span class="req">*</span></label>
+              <input v-model="form.username" required autocomplete="off" placeholder="e.g. jsmith"/>
             </div>
-            <div class="field grow">
-              <label>Family name</label>
-              <input v-model="form.family_name" />
+
+            <div class="field-pair">
+              <div class="field">
+                <label>First name</label>
+                <input v-model="form.first_name" placeholder="Jane"/>
+              </div>
+              <div class="field">
+                <label>Last name</label>
+                <input v-model="form.last_name" placeholder="Smith"/>
+              </div>
             </div>
-          </div>
-          <div class="field">
-            <label>Email</label>
-            <input v-model="form.email" type="email" />
-          </div>
-          <div class="field">
-            <label>Institution</label>
-            <input v-model="form.institution" />
-          </div>
-          <div class="field">
-            <label>{{ editTarget ? 'New password (leave blank to keep current)' : 'Password *' }}</label>
-            <input v-model="form.password" type="password" :required="!editTarget" />
-          </div>
-          <div class="field check">
-            <input id="is_admin" v-model="form.is_admin" type="checkbox" />
-            <label for="is_admin">Administrator</label>
-          </div>
-          <div class="dialog-actions">
-            <button type="button" class="btn-secondary" @click="showDialog = false">Cancel</button>
-            <button type="submit" class="btn-primary">Save</button>
-          </div>
-        </form>
+
+            <div class="field">
+              <label>Email address</label>
+              <input v-model="form.email" type="email" placeholder="jane@example.com"/>
+            </div>
+
+            <div class="field">
+              <label>Institution</label>
+              <input v-model="form.institution" placeholder="University / organisation"/>
+            </div>
+
+            <div class="field">
+              <label>
+                {{ editTarget ? 'New password' : 'Password' }}
+                <span v-if="!editTarget" class="req">*</span>
+              </label>
+              <div class="pw-row">
+                <input
+                  v-model="form.password"
+                  :type="showPw ? 'text' : 'password'"
+                  :required="!editTarget"
+                  :placeholder="editTarget ? 'Leave blank to keep current' : ''"
+                  autocomplete="new-password"
+                  class="pw-input"
+                />
+                <button type="button" class="eye-btn" @click="showPw = !showPw">
+                  <EyeOff v-if="showPw" />
+                  <Eye v-else />
+                </button>
+              </div>
+            </div>
+
+            <!-- Admin toggle -->
+            <label class="toggle-row" :class="{ 'toggle-on': form.is_admin }">
+              <div class="toggle-text">
+                <span class="toggle-label">Administrator</span>
+                <span class="toggle-desc">Can manage users and repository settings</span>
+              </div>
+              <div class="toggle-track" :class="{ active: form.is_admin }">
+                <input v-model="form.is_admin" type="checkbox" class="sr-only"/>
+                <div class="toggle-thumb"/>
+              </div>
+            </label>
+
+            <div class="dialog-foot">
+              <button type="button" class="btn-cancel" @click="showDialog = false">Cancel</button>
+              <button type="submit" class="btn-primary" :disabled="saving">
+                <span v-if="saving" class="spin spin-sm"/>
+                {{ editTarget ? 'Save changes' : 'Create user' }}
+              </button>
+            </div>
+
+          </form>
+        </div>
       </div>
-    </div>
+    </Teleport>
+
   </div>
 </template>
 
 <style scoped>
-.page { min-height: 100vh; display: flex; flex-direction: column; background: #f8fafc; }
-.topbar {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 1.5rem; height: 56px; background: white; border-bottom: 1px solid #e5e7eb;
+/* ── Main content ── */
+.main { flex: 1; padding: 2.5rem 2rem; max-width: 1000px; margin: 0 auto; width: 100%; }
+.page-head {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 1rem; margin-bottom: 1.75rem;
 }
-.breadcrumb { display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; }
-.sep { color: #9ca3af; }
-.nav-link { color: #2563eb; text-decoration: none; }
-.nav-link:hover { text-decoration: underline; }
-.user-area { display: flex; align-items: center; gap: 1rem; font-size: 0.875rem; }
-.username { color: #374151; }
-.btn-logout { padding: 0.35rem 0.75rem; border: 1px solid #d1d5db; border-radius: 4px; background: white; cursor: pointer; font-size: 0.875rem; }
-.content { flex: 1; padding: 2rem; }
-.panel { background: white; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); overflow: hidden; }
-.panel-header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.5rem; border-bottom: 1px solid #e5e7eb; }
-h2 { margin: 0; font-size: 1rem; }
-.error-msg { color: #dc2626; font-size: 0.85rem; padding: 0.5rem 1.5rem; }
-.empty { color: #9ca3af; text-align: center; padding: 2rem; font-size: 0.9rem; }
-.user-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
-.user-table th { text-align: left; padding: 0.65rem 1.5rem; background: #f9fafb; color: #6b7280; font-weight: 500; border-bottom: 1px solid #e5e7eb; }
-.user-table td { padding: 0.65rem 1.5rem; border-bottom: 1px solid #f3f4f6; }
-.user-table tr:last-child td { border-bottom: none; }
-.actions { display: flex; gap: 0.5rem; }
-.btn-primary { padding: 0.45rem 1rem; background: #2563eb; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.875rem; }
-.btn-primary:hover { background: #1d4ed8; }
-.btn-secondary { padding: 0.45rem 1rem; background: white; color: #374151; border: 1px solid #d1d5db; border-radius: 4px; cursor: pointer; font-size: 0.875rem; }
-.btn-sm { padding: 0.25rem 0.6rem; border: 1px solid #d1d5db; border-radius: 4px; background: white; cursor: pointer; font-size: 0.8rem; }
-.btn-danger { border-color: #fca5a5; color: #dc2626; }
-.btn-danger:hover:not(:disabled) { background: #fef2f2; }
-.btn-sm:disabled { opacity: 0.4; cursor: not-allowed; }
-.dialog-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; z-index: 50; }
-.dialog { background: white; border-radius: 8px; padding: 1.75rem; width: 100%; max-width: 460px; box-shadow: 0 4px 24px rgba(0,0,0,0.15); }
-h3 { margin: 0 0 1.25rem; font-size: 1rem; }
-.field { display: flex; flex-direction: column; gap: 0.25rem; margin-bottom: 0.75rem; }
-.field-row { display: flex; gap: 1rem; }
-.grow { flex: 1; }
-.check { flex-direction: row; align-items: center; gap: 0.5rem; }
-label { font-size: 0.85rem; font-weight: 500; color: #444; }
-input[type="text"], input[type="email"], input[type="password"] {
-  padding: 0.45rem 0.6rem; border: 1px solid #d1d5db; border-radius: 4px; font-size: 0.875rem; width: 100%; box-sizing: border-box;
+h1 { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.025em; color: #1e3050; }
+.page-sub { font-size: 0.825rem; color: #6a84a0; margin-top: 0.25rem; }
+
+/* ── Table ── */
+.table-wrap { background: #ffffff; border: 1px solid #d0dcea; border-radius: 12px; overflow: hidden; }
+.table-loading { display: flex; justify-content: center; align-items: center; padding: 4rem; }
+.table { width: 100%; border-collapse: collapse; font-size: 0.825rem; }
+.table thead th {
+  padding: 0.75rem 1.25rem; text-align: left;
+  font-size: 0.68rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.09em;
+  color: #8aa0b8; background: #f4f7fb; border-bottom: 1px solid #d0dcea;
 }
-input:focus { outline: none; border-color: #2563eb; }
-.dialog-actions { display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.25rem; }
+.table tbody tr { transition: background 0.1s; }
+.table tbody tr:hover { background: #f8fafd; }
+.table tbody td { padding: 1rem 1.25rem; border-bottom: 1px solid #e8eef6; color: #4a6080; vertical-align: middle; }
+.table tbody tr:last-child td { border-bottom: none; }
+
+.user-cell { display: flex; align-items: center; gap: 0.75rem; }
+.user-av {
+  width: 32px; height: 32px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: #e8f0f8; color: #2f5596; border-radius: 50%; font-size: 0.72rem; font-weight: 700;
+}
+.user-meta { display: flex; flex-direction: column; gap: 0.1rem; }
+.user-name { font-weight: 600; color: #1e3050; }
+.user-full { font-size: 0.775rem; color: #8aa0b8; }
+
+.row-actions { display: flex; gap: 0.4rem; }
+.act-btn {
+  font-size: 0.775rem; font-weight: 500; color: #6a84a0;
+  background: none; border: 1px solid #d0dcea;
+  border-radius: 6px; padding: 0.3rem 0.65rem; cursor: pointer; white-space: nowrap;
+  transition: background 0.1s, color 0.1s, border-color 0.1s;
+}
+.act-btn:hover:not(:disabled) { background: #f0f5fb; color: #2f5596; border-color: #b8cce0; }
+.act-danger:hover:not(:disabled) { background: #fef2f2; color: #b91c1c; border-color: #fecaca; }
+.act-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+
+.empty-state {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 0.75rem; padding: 4rem; color: #b8cce0; font-size: 0.825rem;
+}
+
+/* ── Dialog overlay ── */
+.overlay {
+  position: fixed; inset: 0; background: rgba(30,48,80,0.4);
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 50; padding: 1.5rem;
+}
+.dialog {
+  background: #ffffff; border: 1px solid #d0dcea;
+  border-radius: 14px; width: 100%; max-width: 480px; padding: 2rem;
+  box-shadow: 0 8px 32px rgba(30,48,80,0.12);
+}
+.dialog-top {
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.75rem;
+}
+.dialog-top h2 { font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; color: #1e3050; }
+.close-btn {
+  width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
+  background: none; border: none; cursor: pointer;
+  color: #a8bdd0; border-radius: 6px; transition: background 0.1s, color 0.1s;
+}
+.close-btn:hover { background: #f0f5fb; color: #4a6080; }
+.close-btn svg { width: 12px; height: 12px; }
+
+/* ── Password row (dialog variant — horizontal, no gen button) ── */
+.pw-row {
+  display: flex; align-items: stretch;
+  background: #ffffff; border: 1px solid #c8d8ec;
+  border-radius: 8px; overflow: hidden;
+  transition: border-color 0.12s, box-shadow 0.12s;
+}
+.pw-row:focus-within { border-color: #2f5596; box-shadow: 0 0 0 3px rgba(47,85,150,0.12); }
+.eye-btn {
+  flex-shrink: 0; width: 38px; display: flex; align-items: center; justify-content: center;
+  background: none; border: none; cursor: pointer; color: #a8bdd0; transition: color 0.12s;
+}
+.eye-btn:hover { color: #4a6080; }
+.eye-btn svg { width: 15px; height: 15px; }
+
+/* ── Toggle ── */
+.toggle-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
+  padding: 1rem; background: #f8fafd; border: 1px solid #d0dcea;
+  border-radius: 10px; cursor: pointer; margin-bottom: 1.75rem;
+  transition: border-color 0.12s, background 0.12s;
+}
+.toggle-row.toggle-on { border-color: #f0a32a; background: #fffbee; }
+.toggle-text { display: flex; flex-direction: column; gap: 0.2rem; }
+.toggle-label { font-size: 0.825rem; font-weight: 600; color: #1e3050; }
+.toggle-desc { font-size: 0.775rem; color: #6a84a0; }
+.toggle-track {
+  flex-shrink: 0; width: 38px; height: 22px; background: #c8d8ec;
+  border-radius: 999px; position: relative; transition: background 0.18s;
+}
+.toggle-track.active { background: #f0a32a; }
+.toggle-thumb {
+  position: absolute; top: 3px; left: 3px; width: 16px; height: 16px;
+  background: #fff; border-radius: 50%; transition: transform 0.18s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+.toggle-track.active .toggle-thumb { transform: translateX(16px); }
+.sr-only { position: absolute; opacity: 0; pointer-events: none; width: 1px; height: 1px; overflow: hidden; }
+
+/* ── Dialog footer ── */
+.dialog-foot { display: flex; justify-content: flex-end; gap: 0.6rem; padding-top: 0.25rem; }
+
+/* ── SSH sync status bar ── */
+.sync-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: 0.6rem 1rem; margin-bottom: 1rem;
+  background: #f4f7fb; border: 1px solid #d0dcea; border-radius: 9px;
+  font-size: 0.8rem;
+}
+.sync-bar-left { display: flex; align-items: center; gap: 0.5rem; }
+.sync-icon-ok { color: #16a34a; flex-shrink: 0; }
+.sync-icon-err { color: #dc2626; flex-shrink: 0; }
+.sync-label { font-weight: 600; color: #1e3050; }
+.sync-state { color: #6a84a0; }
+.sync-state-ok { color: #16a34a; }
+.sync-state-err { color: #dc2626; }
+.sync-state-unknown { color: #a8bdd0; font-style: italic; }
+.sync-test-btn { padding: 0.3rem 0.75rem; font-size: 0.775rem; flex-shrink: 0; }
 </style>
