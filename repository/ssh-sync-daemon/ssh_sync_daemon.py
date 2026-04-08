@@ -28,6 +28,7 @@ from flask import Flask, abort, jsonify, request
 CONFIG_PATH = Path("/etc/ltpda-ssh-sync.json")
 VERSION = "1.0.0"
 LTPDA_MARKER = "ltpda-managed"
+LTPDA_GROUP = "ltpda-users"
 
 logging.basicConfig(
     level=logging.INFO,
@@ -170,9 +171,13 @@ def user_create():
             return jsonify({"ok": False, "error": f"Password update failed: {err}"}), 500
         return jsonify({"ok": True, "updated": True})
 
-    # Account does not exist — create it
+    # Ensure the shared LTPDA group exists
+    _run("groupadd", "--force", LTPDA_GROUP)
+
+    # Account does not exist — create it in the shared group
     ok, err = _run(
         "useradd", "-m",
+        "-g", LTPDA_GROUP,
         "-s", "/usr/sbin/nologin",
         "-c", LTPDA_MARKER,
         username,
