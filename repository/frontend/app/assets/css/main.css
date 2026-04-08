@@ -197,3 +197,38 @@ input:not([type="checkbox"]):focus {
 }
 .spin-sm { width: 13px; height: 13px; border-width: 1.5px; }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Page transitions ──────────────────────────── */
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.16s ease, transform 0.16s ease;
+}
+.page-enter-from { opacity: 0; transform: translateY(7px); }
+.page-leave-to   { opacity: 0; transform: translateY(-5px); }
+
+/* ── Modal (dialog) open / close transitions ───── */
+/* Overlay: fade */
+.modal-enter-active { transition: opacity 0.18s ease; }
+.modal-leave-active { transition: opacity 0.14s ease; }
+.modal-enter-from, .modal-leave-to { opacity: 0; }
+
+/* Dialog panel: spring up on enter, shrink away on leave */
+.modal-enter-active .dialog {
+  transition: transform 0.24s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.18s ease;
+}
+.modal-leave-active .dialog {
+  transition: transform 0.14s ease, opacity 0.14s ease;
+}
+.modal-enter-from .dialog { transform: scale(0.88) translateY(-14px); opacity: 0; }
+.modal-leave-to   .dialog { transform: scale(0.94) translateY(-6px);  opacity: 0; }
+
+/* ── Dialog shake (persistent — click outside) ─── */
+@keyframes dialog-shake {
+  0%, 100% { transform: translateX(0) scale(1); }
+  16%       { transform: translateX(-8px) scale(1.012); }
+  33%       { transform: translateX(8px)  scale(1.012); }
+  50%       { transform: translateX(-5px) scale(1.006); }
+  66%       { transform: translateX(5px)  scale(1.006); }
+  83%       { transform: translateX(-2px) scale(1); }
+}
+.dialog-shake { animation: dialog-shake 0.38s ease; }

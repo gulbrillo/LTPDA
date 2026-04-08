@@ -34,6 +34,13 @@ const form = reactive({ db_name: '', name: '', description: '' })
 const DB_NAME_RE = /^[a-z0-9_]+$/
 
 // ── Access panel ────────────────────────────────────────────────────────────
+const shaking = ref(false)
+function onOverlayClick() {
+  if (shaking.value) return
+  shaking.value = true
+  setTimeout(() => { shaking.value = false }, 420)
+}
+
 const expandedRepo = ref<string | null>(null)
 const accessData = ref<Record<string, AccessEntry[]>>({})
 const accessLoading = ref<Record<string, boolean>>({})
@@ -192,6 +199,10 @@ function onWriteToggle(db_name: string, entry: AccessEntry) {
         <span class="bc-current">Repositories</span>
       </div>
       <div class="nav-right">
+        <NuxtLink to="/admin/repos" class="nav-link">
+          <Database :size="14" />
+          Repositories
+        </NuxtLink>
         <NuxtLink to="/admin/users" class="nav-link">
           <Users :size="14" />
           Users
@@ -348,8 +359,9 @@ function onWriteToggle(db_name: string, entry: AccessEntry) {
 
     <!-- Create / Edit dialog -->
     <Teleport to="body">
-      <div v-if="showDialog" class="overlay" @click.self="showDialog = false">
-        <div class="dialog">
+      <Transition name="modal">
+        <div v-if="showDialog" class="overlay" @click.self="onOverlayClick">
+          <div class="dialog" :class="{ 'dialog-shake': shaking }">
 
           <div class="dialog-top">
             <h2>{{ editTarget ? 'Edit repository' : 'Create repository' }}</h2>
@@ -400,8 +412,9 @@ function onWriteToggle(db_name: string, entry: AccessEntry) {
             </div>
 
           </form>
+          </div>
         </div>
-      </div>
+      </Transition>
     </Teleport>
 
   </div>
@@ -415,6 +428,7 @@ function onWriteToggle(db_name: string, entry: AccessEntry) {
   transition: background 0.15s, color 0.15s;
 }
 .nav-link:hover { background: rgba(255,255,255,0.12); color: #fff; }
+.nav-link.router-link-exact-active { background: rgba(255,255,255,0.18); color: #fff; }
 
 .main { flex: 1; padding: 2.5rem 2rem; max-width: 1100px; margin: 0 auto; width: 100%; }
 .page-head {

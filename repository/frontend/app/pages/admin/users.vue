@@ -19,6 +19,13 @@ const loading = ref(false)
 const error = ref('')
 const notice = ref('')
 
+const shaking = ref(false)
+function onOverlayClick() {
+  if (shaking.value) return
+  shaking.value = true
+  setTimeout(() => { shaking.value = false }, 420)
+}
+
 const showDialog = ref(false)
 const editTarget = ref<User | null>(null)
 const showPw = ref(false)
@@ -140,6 +147,10 @@ onMounted(() => loadUsers())
           <Database :size="14" />
           Repositories
         </NuxtLink>
+        <NuxtLink to="/admin/users" class="nav-link">
+          <Users :size="14" />
+          Users
+        </NuxtLink>
         <NuxtLink to="/admin/settings" class="nav-link">
           <Settings :size="14" />
           Settings
@@ -234,8 +245,9 @@ onMounted(() => loadUsers())
 
     <!-- Dialog -->
     <Teleport to="body">
-      <div v-if="showDialog" class="overlay" @click.self="showDialog = false">
-        <div class="dialog">
+      <Transition name="modal">
+        <div v-if="showDialog" class="overlay" @click.self="onOverlayClick">
+          <div class="dialog" :class="{ 'dialog-shake': shaking }">
 
           <div class="dialog-top">
             <h2>{{ editTarget ? 'Edit user' : 'Create user' }}</h2>
@@ -317,8 +329,9 @@ onMounted(() => loadUsers())
             </div>
 
           </form>
+          </div>
         </div>
-      </div>
+      </Transition>
     </Teleport>
 
   </div>
@@ -333,6 +346,7 @@ onMounted(() => loadUsers())
   transition: background 0.15s, color 0.15s;
 }
 .nav-link:hover { background: rgba(255,255,255,0.12); color: #fff; }
+.nav-link.router-link-exact-active { background: rgba(255,255,255,0.18); color: #fff; }
 
 /* ── Main content ── */
 .main { flex: 1; padding: 2.5rem 2rem; max-width: 1000px; margin: 0 auto; width: 100%; }

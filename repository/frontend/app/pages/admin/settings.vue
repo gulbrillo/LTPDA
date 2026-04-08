@@ -63,6 +63,10 @@ async function loadSettings() {
           <Users :size="14" />
           Users
         </NuxtLink>
+        <NuxtLink to="/admin/settings" class="nav-link">
+          <Settings :size="14" />
+          Settings
+        </NuxtLink>
         <div class="user-chip">
           <span class="avatar">{{ currentUser?.username?.[0]?.toUpperCase() }}</span>
           <span class="uname">{{ currentUser?.username }}</span>
@@ -163,6 +167,7 @@ async function loadSettings() {
   transition: background 0.15s, color 0.15s;
 }
 .nav-link:hover { background: rgba(255,255,255,0.12); color: #fff; }
+.nav-link.router-link-exact-active { background: rgba(255,255,255,0.18); color: #fff; }
 
 /* ── Main ── */
 .main { flex: 1; padding: 2.5rem 2rem; max-width: 760px; margin: 0 auto; width: 100%; }

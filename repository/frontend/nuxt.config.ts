@@ -1,8 +1,15 @@
+import { readFileSync } from 'fs'
+const { version } = JSON.parse(readFileSync('./package.json', 'utf-8'))
+
 export default defineNuxtConfig({
   ssr: false,
 
   experimental: {
     payloadExtraction: false,
+  },
+
+  app: {
+    pageTransition: { name: 'page', mode: 'out-in' },
   },
 
   devtools: { enabled: true },
@@ -28,6 +35,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       apiBase: '/api',
+      version,
     },
   },
 })

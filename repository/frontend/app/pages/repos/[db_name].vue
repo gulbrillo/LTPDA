@@ -563,6 +563,7 @@ onMounted(async () => {
   transition: background 0.15s, color 0.15s;
 }
 .nav-link:hover { background: rgba(255,255,255,0.12); color: #fff; }
+.nav-link.router-link-exact-active { background: rgba(255,255,255,0.18); color: #fff; }
 
 .main { flex: 1; display: flex; flex-direction: column; padding: 1.5rem 1.5rem; gap: 1rem; overflow: hidden; }
 
