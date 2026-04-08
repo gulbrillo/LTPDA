@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { Plus, X, Eye, EyeOff, UserRound, Users, Settings, Database } from 'lucide-vue-next'
+import { Plus, X, Eye, EyeOff, UserRound } from 'lucide-vue-next'
+
+definePageMeta({ layout: 'default' })
 
 interface User {
   id: number
@@ -12,7 +14,9 @@ interface User {
   created_at: string
 }
 
-const { apiFetch, user: currentUser, logout } = useAuth()
+const { apiFetch, user: currentUser } = useAuth()
+const { setTitle } = useTopbar()
+setTitle('Users')
 
 const users = ref<User[]>([])
 const loading = ref(false)
@@ -132,40 +136,7 @@ onMounted(() => loadUsers())
 </script>
 
 <template>
-  <div class="page">
-
-    <!-- Topbar -->
-    <nav class="topbar">
-      <div class="breadcrumb">
-        <AppLogo :size="20" variant="dark" class="logo-mark" />
-        <NuxtLink to="/dashboard" class="bc-link">LTPDA Repository</NuxtLink>
-        <span class="bc-sep">/</span>
-        <span class="bc-current">Users</span>
-      </div>
-      <div class="nav-right">
-        <NuxtLink to="/admin/repos" class="nav-link">
-          <Database :size="14" />
-          Repositories
-        </NuxtLink>
-        <NuxtLink to="/admin/users" class="nav-link">
-          <Users :size="14" />
-          Users
-        </NuxtLink>
-        <NuxtLink to="/admin/settings" class="nav-link">
-          <Settings :size="14" />
-          Settings
-        </NuxtLink>
-        <div class="user-chip">
-          <span class="avatar">{{ currentUser?.username?.[0]?.toUpperCase() }}</span>
-          <span class="uname">{{ currentUser?.username }}</span>
-          <span v-if="currentUser?.is_admin" class="admin-dot" title="Administrator"/>
-        </div>
-        <button class="btn-ghost" @click="logout">Sign out</button>
-      </div>
-    </nav>
-
-    <!-- Main -->
-    <main class="main">
+  <main class="main">
 
       <div class="page-head">
         <div>
@@ -241,10 +212,10 @@ onMounted(() => loadUsers())
         </div>
 
       </div>
-    </main>
+  </main>
 
-    <!-- Dialog -->
-    <Teleport to="body">
+  <!-- Dialog -->
+  <Teleport to="body">
       <Transition name="modal">
         <div v-if="showDialog" class="overlay" @click.self="onOverlayClick">
           <div class="dialog" :class="{ 'dialog-shake': shaking }">
@@ -332,22 +303,10 @@ onMounted(() => loadUsers())
           </div>
         </div>
       </Transition>
-    </Teleport>
-
-  </div>
+  </Teleport>
 </template>
 
 <style scoped>
-/* ── Nav link ── */
-.nav-link {
-  display: flex; align-items: center; gap: 0.35rem;
-  font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.75);
-  text-decoration: none; padding: 0.3rem 0.6rem; border-radius: 6px;
-  transition: background 0.15s, color 0.15s;
-}
-.nav-link:hover { background: rgba(255,255,255,0.12); color: #fff; }
-.nav-link.router-link-exact-active { background: rgba(255,255,255,0.18); color: #fff; }
-
 /* ── Main content ── */
 .main { flex: 1; padding: 2.5rem 2rem; max-width: 1000px; margin: 0 auto; width: 100%; }
 .page-head {

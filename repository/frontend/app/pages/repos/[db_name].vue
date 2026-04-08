@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import {
   Search, X, Download, Trash2, ChevronLeft, ChevronRight,
-  FileText, FileCode, Users, Settings, Database, ArrowLeft
+  FileText, FileCode, ArrowLeft
 } from 'lucide-vue-next'
+
+definePageMeta({ layout: 'default' })
 
 const route = useRoute()
 const db_name = computed(() => route.params.db_name as string)
 const { apiFetch, user } = useAuth()
+const { setTitle } = useTopbar()
+setTitle(route.params.db_name as string) // updated to display name after loadRepoName()
 
 // ── Types ────────────────────────────────────────────────────────────────────
 interface ObjectListItem {
@@ -111,6 +115,7 @@ async function loadRepoName() {
   try {
     const r = await apiFetch<{ name: string }>(`/repos/${db_name.value}`)
     repoName.value = r.name
+    setTitle(r.name)
   } catch {
     repoName.value = db_name.value
   }
@@ -243,38 +248,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="page">
-
-    <!-- Topbar -->
-    <nav class="topbar">
-      <div class="breadcrumb">
-        <AppLogo :size="20" variant="dark" class="logo-mark" />
-        <NuxtLink to="/dashboard" class="bc-link">LTPDA Repository</NuxtLink>
-        <span class="bc-sep">/</span>
-        <span class="bc-current">{{ repoName || db_name }}</span>
-      </div>
-      <div class="nav-right">
-        <NuxtLink v-if="user?.is_admin" to="/admin/repos" class="nav-link">
-          <Database :size="14" />
-          Repositories
-        </NuxtLink>
-        <NuxtLink v-if="user?.is_admin" to="/admin/users" class="nav-link">
-          <Users :size="14" />
-          Users
-        </NuxtLink>
-        <NuxtLink v-if="user?.is_admin" to="/admin/settings" class="nav-link">
-          <Settings :size="14" />
-          Settings
-        </NuxtLink>
-        <div class="user-chip">
-          <span class="avatar">{{ user?.username?.[0]?.toUpperCase() }}</span>
-          <span class="uname">{{ user?.username }}</span>
-          <span v-if="user?.is_admin" class="admin-dot" title="Administrator" />
-        </div>
-      </div>
-    </nav>
-
-    <main class="main">
+  <main class="main">
 
       <!-- ── Filter bar ── -->
       <form class="filter-bar" @submit.prevent="applyFilters">
@@ -551,20 +525,10 @@ onMounted(async () => {
         </div>
 
       </div>
-    </main>
-  </div>
+  </main>
 </template>
 
 <style scoped>
-.nav-link {
-  display: flex; align-items: center; gap: 0.35rem;
-  font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.75);
-  text-decoration: none; padding: 0.3rem 0.6rem; border-radius: 6px;
-  transition: background 0.15s, color 0.15s;
-}
-.nav-link:hover { background: rgba(255,255,255,0.12); color: #fff; }
-.nav-link.router-link-exact-active { background: rgba(255,255,255,0.18); color: #fff; }
-
 .main { flex: 1; display: flex; flex-direction: column; padding: 1.5rem 1.5rem; gap: 1rem; overflow: hidden; }
 
 /* ── Filter bar ── */

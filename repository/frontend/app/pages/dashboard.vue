@@ -1,7 +1,11 @@
 <script setup lang="ts">
-import { Users, FolderOpen, Settings, Database, ArrowRight } from 'lucide-vue-next'
+import { FolderOpen, Database, ArrowRight } from 'lucide-vue-next'
 
-const { apiFetch, user, logout } = useAuth()
+definePageMeta({ layout: 'default' })
+
+const { apiFetch, user } = useAuth()
+const { setTitle } = useTopbar()
+setTitle(null) // brand mode
 
 interface Repo {
   id: number
@@ -33,106 +37,63 @@ onMounted(() => loadRepos())
 </script>
 
 <template>
-  <div class="page">
-    <nav class="topbar">
-      <div class="brand">
-        <AppLogo :size="22" variant="dark" />
-        <span>LTPDA Repository</span>
+  <main class="content">
+
+    <div class="page-head">
+      <h1>Repositories</h1>
+      <p class="page-sub">Browse your accessible data repositories.</p>
+    </div>
+
+    <div v-if="error" class="banner-error">
+      {{ error }}
+      <button @click="error = ''">✕</button>
+    </div>
+
+    <div v-if="loading" class="loading-wrap">
+      <div class="spin" />
+    </div>
+
+    <div v-else-if="repos.length === 0 && !error" class="empty">
+      <div class="empty-icon">
+        <FolderOpen :size="56" />
       </div>
-      <div class="nav-right">
-        <NuxtLink v-if="user?.is_admin" to="/admin/repos" class="nav-link">
-          <Database :size="14" />
-          Repositories
-        </NuxtLink>
-        <NuxtLink v-if="user?.is_admin" to="/admin/users" class="nav-link">
-          <Users :size="14" />
-          Users
-        </NuxtLink>
-        <NuxtLink v-if="user?.is_admin" to="/admin/settings" class="nav-link">
-          <Settings :size="14" />
-          Settings
-        </NuxtLink>
-        <div class="user-chip">
-          <span class="avatar">{{ user?.username?.[0]?.toUpperCase() }}</span>
-          <span class="uname">{{ user?.username }}</span>
-          <span v-if="user?.is_admin" class="admin-dot" title="Administrator" />
+      <h2>No repositories yet</h2>
+      <p v-if="user?.is_admin">
+        Create a repository from the
+        <NuxtLink to="/admin/repos">Repositories</NuxtLink> admin page.
+      </p>
+      <p v-else>You have not been granted access to any repositories yet.</p>
+    </div>
+
+    <div v-else class="repo-grid">
+      <NuxtLink
+        v-for="repo in repos"
+        :key="repo.db_name"
+        :to="`/repos/${repo.db_name}`"
+        class="repo-card"
+      >
+        <div class="repo-card-body">
+          <div class="repo-name">{{ repo.name }}</div>
+          <code class="repo-db">{{ repo.db_name }}</code>
+          <p v-if="repo.description" class="repo-desc">{{ repo.description }}</p>
         </div>
-        <button class="btn-ghost" @click="logout">Sign out</button>
-      </div>
-    </nav>
-
-    <main class="content">
-
-      <div class="page-head">
-        <h1>Repositories</h1>
-        <p class="page-sub">Browse your accessible data repositories.</p>
-      </div>
-
-      <div v-if="error" class="banner-error">
-        {{ error }}
-        <button @click="error = ''">✕</button>
-      </div>
-
-      <div v-if="loading" class="loading-wrap">
-        <div class="spin" />
-      </div>
-
-      <div v-else-if="repos.length === 0 && !error" class="empty">
-        <div class="empty-icon">
-          <FolderOpen :size="56" />
+        <div class="repo-card-foot">
+          <span class="obj-count">
+            <Database :size="12" />
+            {{ repo.obj_count.toLocaleString() }} object{{ repo.obj_count === 1 ? '' : 's' }}
+          </span>
+          <span class="browse-link">
+            Browse
+            <ArrowRight :size="13" />
+          </span>
         </div>
-        <h2>No repositories yet</h2>
-        <p v-if="user?.is_admin">
-          Create a repository from the
-          <NuxtLink to="/admin/repos">Repositories</NuxtLink> admin page.
-        </p>
-        <p v-else>You have not been granted access to any repositories yet.</p>
-      </div>
+      </NuxtLink>
+    </div>
 
-      <div v-else class="repo-grid">
-        <NuxtLink
-          v-for="repo in repos"
-          :key="repo.db_name"
-          :to="`/repos/${repo.db_name}`"
-          class="repo-card"
-        >
-          <div class="repo-card-body">
-            <div class="repo-name">{{ repo.name }}</div>
-            <code class="repo-db">{{ repo.db_name }}</code>
-            <p v-if="repo.description" class="repo-desc">{{ repo.description }}</p>
-          </div>
-          <div class="repo-card-foot">
-            <span class="obj-count">
-              <Database :size="12" />
-              {{ repo.obj_count.toLocaleString() }} object{{ repo.obj_count === 1 ? '' : 's' }}
-            </span>
-            <span class="browse-link">
-              Browse
-              <ArrowRight :size="13" />
-            </span>
-          </div>
-        </NuxtLink>
-      </div>
-
-    </main>
-  </div>
+  </main>
 </template>
 
 <style scoped>
-.topbar { padding: 0 1.25rem; }
-
-.brand {
-  display: flex; align-items: center; gap: 0.6rem;
-  font-size: 0.875rem; font-weight: 600; letter-spacing: -0.02em; color: #fff;
-}
-.nav-link {
-  display: flex; align-items: center; gap: 0.35rem;
-  font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.75);
-  text-decoration: none; padding: 0.3rem 0.6rem; border-radius: 6px;
-  transition: background 0.15s, color 0.15s;
-}
-.nav-link:hover { background: rgba(255,255,255,0.12); color: #fff; }
-
 .content { flex: 1; padding: 2.5rem 2rem; max-width: 1100px; margin: 0 auto; width: 100%; }
 
 .page-head { margin-bottom: 1.75rem; }

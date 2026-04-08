@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { Users, Database, Settings } from 'lucide-vue-next'
+definePageMeta({ layout: 'default' })
 
-const { apiFetch, user: currentUser, logout } = useAuth()
+const { apiFetch, user: currentUser } = useAuth()
 const router = useRouter()
+const { setTitle } = useTopbar()
+setTitle('Settings')
 
 // ── Auth guard ────────────────────────────────────────────────────────────────
 onMounted(async () => {
@@ -44,39 +46,7 @@ async function loadSettings() {
 </script>
 
 <template>
-  <div class="page">
-
-    <!-- Topbar -->
-    <nav class="topbar">
-      <div class="breadcrumb">
-        <AppLogo :size="20" variant="dark" class="logo-mark" />
-        <NuxtLink to="/dashboard" class="bc-link">LTPDA Repository</NuxtLink>
-        <span class="bc-sep">/</span>
-        <span class="bc-current">Settings</span>
-      </div>
-      <div class="nav-right">
-        <NuxtLink to="/admin/repos" class="nav-link">
-          <Database :size="14" />
-          Repositories
-        </NuxtLink>
-        <NuxtLink to="/admin/users" class="nav-link">
-          <Users :size="14" />
-          Users
-        </NuxtLink>
-        <NuxtLink to="/admin/settings" class="nav-link">
-          <Settings :size="14" />
-          Settings
-        </NuxtLink>
-        <div class="user-chip">
-          <span class="avatar">{{ currentUser?.username?.[0]?.toUpperCase() }}</span>
-          <span class="uname">{{ currentUser?.username }}</span>
-          <span v-if="currentUser?.is_admin" class="admin-dot" title="Administrator" />
-        </div>
-        <button class="btn-ghost" @click="logout">Sign out</button>
-      </div>
-    </nav>
-
-    <main class="main">
+  <main class="main">
 
       <div class="page-head">
         <div>
@@ -154,21 +124,10 @@ async function loadSettings() {
 
       </template>
 
-    </main>
-  </div>
+  </main>
 </template>
 
 <style scoped>
-/* ── Nav link ── */
-.nav-link {
-  display: flex; align-items: center; gap: 0.35rem;
-  font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.75);
-  text-decoration: none; padding: 0.3rem 0.6rem; border-radius: 6px;
-  transition: background 0.15s, color 0.15s;
-}
-.nav-link:hover { background: rgba(255,255,255,0.12); color: #fff; }
-.nav-link.router-link-exact-active { background: rgba(255,255,255,0.18); color: #fff; }
-
 /* ── Main ── */
 .main { flex: 1; padding: 2.5rem 2rem; max-width: 760px; margin: 0 auto; width: 100%; }
 .page-head { margin-bottom: 1.75rem; }
