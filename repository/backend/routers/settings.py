@@ -1,9 +1,12 @@
 import hashlib
 import hmac
+import logging
 
 import httpx
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
+
+log = logging.getLogger("ltpda.settings")
 
 from core.config import get_config, get_ssh_sync_config, update_ssh_sync_config
 from models.user import User
@@ -71,20 +74,27 @@ async def test_ssh_sync(body: TestSshSyncRequest, _: User = Depends(require_admi
         return {"ok": False, "error": "No shared secret configured — enter a secret and try again."}
 
     url = f"http://host.docker.internal:{body.port}/sync/health"
-    sig = _sign(secret, b"{}")
+    request_body = b"{}"
+    sig = _sign(secret, request_body)
+    log.info("Settings: testing SSH sync daemon at %s", url)
     try:
         async with httpx.AsyncClient(timeout=5.0) as client:
-            r = await client.get(url, headers={"X-LTPDA-Signature": sig, "Content-Type": "application/json"}, content=b"{}")
+            r = await client.get(url, headers={"X-LTPDA-Signature": sig, "Content-Type": "application/json"}, content=request_body)
+        log.info("Settings: daemon responded HTTP %d", r.status_code)
         if r.status_code == 200:
             data = r.json()
             return {"ok": True, "daemon_version": data.get("version")}
         if r.status_code == 403:
-            return {"ok": False, "error": "Daemon rejected the request — shared secret mismatch."}
+            return {"ok": False, "error": "Daemon rejected the request — shared secret mismatch"}
         return {"ok": False, "error": f"Daemon returned HTTP {r.status_code}: {r.text[:200]}"}
-    except httpx.ConnectError:
-        return {"ok": False, "error": f"Cannot reach daemon at {url} — is it running?"}
+    except httpx.ConnectError as e:
+        msg = str(e) or f"TCP connection refused on {url}"
+        log.warning("Settings: ConnectError reaching %s: %s", url, msg)
+        return {"ok": False, "error": f"Cannot reach daemon at {url} — is it running? ({msg})"}
     except httpx.TimeoutException:
-        return {"ok": False, "error": f"Connection timed out — daemon at {url} did not respond."}
+        log.warning("Settings: timeout reaching %s", url)
+        return {"ok": False, "error": f"Connection timed out after 5 s — daemon at {url} did not respond"}
     except Exception as e:
         msg = str(e) or type(e).__name__
-        return {"ok": False, "error": f"Unexpected error: {msg}"}
+        log.exception("Settings: unexpected error testing SSH sync: %s", msg)
+        return {"ok": False, "error": f"Unexpected error ({type(e).__name__}): {msg}"}
