@@ -282,6 +282,18 @@ function ltpda_startup
   setappdata(0, 'LTPDAROOT', ltpdaroot);
   
   
+  % ── Auto SSH tunnel ────────────────────────────────────────────────────
+  % If the user has configured an auto-tunnel (ltpda_ssh_setup enable),
+  % establish it now. Credentials are prompted via a dialog and stored in
+  % memory only (never on disk). Skip silently if not configured.
+  if ispref('LTPDA_SSH', 'enabled') && getpref('LTPDA_SSH', 'enabled')
+    try
+      ltpda_tunnel();
+    catch ex
+      warning('LTPDA:ssh', 'SSH tunnel failed at startup: %s', ex.message);
+    end
+  end
+
   % Show logo
   showLogo();
   

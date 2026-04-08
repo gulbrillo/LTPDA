@@ -128,13 +128,72 @@ LTPDAprefs
 ```
 
 Go to the **Repository** tab and set:
-- **Hostname** — `localhost` (if using an SSH tunnel) or the server hostname
-- **Port** — `3306` (or the forwarded port)
-- **Database** — the name of the repository database
-- **Username / Password** — your MySQL credentials (set by the repository administrator)
+- **Hostname** — `localhost` (when using any SSH tunnel)
+- **Port** — the local tunnel port (see below; default `13306`)
+- **Database** — the name of the repository database (e.g. `myrepo`)
+- **Username / Password** — your MySQL/MATLAB credentials (set by the administrator)
 
-For the Docker-based v3.0 repository, users connect via SSH tunnel. See
-`../repository/README.md` for details.
+### SSH tunnel options
+
+Because MySQL runs inside Docker and is not directly accessible from the internet, MATLAB connects
+through an SSH tunnel. Three options are supported — all use the same LTPDAprefs settings.
+
+#### Option 1 — Automatic tunnel from within MATLAB (recommended)
+
+Works on **Windows and Mac without PuTTY or any external tools**. Requires the SSH gateway
+container on the server (port 2222 must be open in the server firewall: `sudo ufw allow 2222/tcp`).
+
+**One-time setup:**
+```matlab
+ltpda_ssh_setup('server', 'repo.yourdomain.com')  % your repository server
+ltpda_ssh_setup enable
+% In LTPDAprefs: Hostname=localhost, Port=13306
+```
+
+The tunnel is established automatically each time `ltpda_startup` runs. If the tunnel drops
+(e.g. network interruption), reconnect without restarting MATLAB:
+```matlab
+ltpda_tunnel    % reconnects silently using stored credentials; prompts if needed
+```
+
+#### Option 2 — Manual tunnel via terminal or PuTTY (SSH gateway, port 2222)
+
+Run in a terminal (Mac/Linux) or configure in PuTTY (Windows), keep open while using MATLAB:
+
+```bash
+ssh -L 13306:db:3306 -p 2222 your_username@repo.yourdomain.com
+```
+
+In LTPDAprefs: `Hostname=localhost`, `Port=13306`.
+
+#### Option 3 — Manual tunnel via host SSH (port 22, fallback)
+
+Use this if port 2222 cannot be opened on the server. Requires a Linux account on the host
+server (created manually by the administrator).
+
+```bash
+ssh -L 13306:localhost:3307 your_linux_username@repo.yourdomain.com
+```
+
+In LTPDAprefs: `Hostname=localhost`, `Port=13306`.
+
+### LTPDAprefs summary
+
+All three options use identical MATLAB settings:
+
+| Setting | Value |
+|---------|-------|
+| Hostname | `localhost` |
+| Port | `13306` (or whatever local port you forwarded) |
+| Database | repository database name (e.g. `myrepo`) |
+| Username | your username |
+| Password | your **MySQL/MATLAB** password (not the web UI password) |
+
+> **Note:** The MySQL/MATLAB password is the one set when your account was created in the web UI —
+> separate from the web interface login password.
+
+For server-side setup (Docker stack, SSH gateway container, port 2222, user management), see
+`../repository/README.md`.
 
 ---
 
