@@ -466,7 +466,20 @@ GRANT INSERT ON `{db_name}`.* TO '{username}'@'%'
 
 ## Updating
 
-When a new version is released, update the containers and frontend in one sequence:
+Two update scripts are included that automate the full sequence: git pull → frontend rebuild → containers restart.
+
+```bash
+# Make the scripts executable (one-time, after first clone)
+chmod +x update-bundled.sh update-external.sh
+
+# Bundled MySQL:
+./update-bundled.sh
+
+# External MySQL:
+./update-external.sh
+```
+
+Or run the steps manually:
 
 ```bash
 # 1. Pull the latest code
@@ -477,9 +490,9 @@ cd frontend && npm install && npm run generate && cd ..
 
 # 3. Rebuild and restart containers
 #    Bundled MySQL:
-docker compose --profile bundled up -d --build
+docker compose --profile bundled down && docker compose --profile bundled up -d --build
 #    External MySQL:
-docker compose up -d --build
+docker compose down && docker compose up -d --build
 ```
 
 `--build` tells Compose to rebuild the `api` container image from the updated `Dockerfile` and
@@ -544,5 +557,7 @@ repository/
 ├── config/                 Runtime config volume (config.json — excluded from git)
 ├── docker-compose.yml
 ├── nginx.conf
+├── update-bundled.sh       One-command update script (bundled MySQL)
+├── update-external.sh      One-command update script (external MySQL)
 └── README.md
 ```
