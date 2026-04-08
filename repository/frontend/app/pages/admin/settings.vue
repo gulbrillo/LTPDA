@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Users, Database } from 'lucide-vue-next'
+import { Users, Database, Settings } from 'lucide-vue-next'
 
 const { apiFetch, user: currentUser, logout } = useAuth()
 const router = useRouter()

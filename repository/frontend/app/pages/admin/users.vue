@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Plus, X, Eye, EyeOff, UserRound, Settings, Database } from 'lucide-vue-next'
+import { Plus, X, Eye, EyeOff, UserRound, Users, Settings, Database } from 'lucide-vue-next'
 
 interface User {
   id: number
