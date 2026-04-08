@@ -98,7 +98,7 @@ function ltpda_startup
     s = jars(c);
     [path, name, ext] = fileparts(s.name);
     if strcmp(ext, '.jar')
-      javaaddpath(fullfile(jardir, s.name));
+      addJarIfNeeded(fullfile(jardir, s.name));
     end
   end
   % Add all jar files in 'ltpda_toolbox/ltpda/jar/lib' to path
@@ -108,16 +108,16 @@ function ltpda_startup
     s = jars(c);
     [path, name, ext] = fileparts(s.name);
     if strcmp(ext, '.jar')
-      javaaddpath(fullfile(jardir, s.name));
+      addJarIfNeeded(fullfile(jardir, s.name));
     end
   end
-  
+
   % add all jar files in ltpda_toolbox/extensions
   extdir = fullfile(fileparts(which('ltpda_startup')), '..', '..', '..', 'extensions');
   jars = utils.prog.filescan(extdir, '.jar');
   for c = 1:numel(jars)
     s = jars(c);
-    javaaddpath(s);
+    addJarIfNeeded(s);
   end
  
   % Add all jar files in extension modules to path
@@ -306,6 +306,18 @@ function ltpda_startup
   
 end
 
+function addJarIfNeeded(jarPath)
+% ADDJARIFNEEDED  Add a JAR to the dynamic Java classpath only if not already present.
+% Prevents "already specified on java path" warnings when ltpda_startup is called
+% more than once in a session (e.g. from startup.m and manually), since clear java
+% no longer resets the dynamic classpath in R2025a.
+  cp = javaclasspath('-dynamic');
+  if ~any(strcmp(cp, jarPath))
+    javaaddpath(jarPath);
+  end
+end
+
+
 function installExtensionJarFiles
   % Load JAR files from any user extension modules listed in preferences.
   % Silently skips if preferences are unavailable (e.g. first run or no
@@ -336,7 +348,7 @@ function installExtensionJarFiles
         f = files{ff};
         [~, ~, ext] = fileparts(f);
         if strcmp(ext, '.jar')
-          javaaddpath(f);
+          addJarIfNeeded(f);
         end
       end
     end

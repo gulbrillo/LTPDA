@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Plus, X, Eye, EyeOff, UserRound, Settings } from 'lucide-vue-next'
+import { Plus, X, Eye, EyeOff, UserRound, Settings, Database } from 'lucide-vue-next'
 
 interface User {
   id: number
@@ -136,6 +136,10 @@ onMounted(() => loadUsers())
         <span class="bc-current">Users</span>
       </div>
       <div class="nav-right">
+        <NuxtLink to="/admin/repos" class="nav-link">
+          <Database :size="14" />
+          Repositories
+        </NuxtLink>
         <NuxtLink to="/admin/settings" class="nav-link">
           <Settings :size="14" />
           Settings

@@ -3,7 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from core.config import is_configured
-from routers import auth, settings, setup, users
+from routers import auth, settings, setup, users, repos
+from routers.objects import router as objects_router
 
 app = FastAPI(title="LTPDA Repository API", version="3.0.0")
 
@@ -37,3 +38,5 @@ app.include_router(setup.router)
 app.include_router(auth.router)
 app.include_router(users.router)
 app.include_router(settings.router)
+app.include_router(repos.router)
+app.include_router(objects_router)

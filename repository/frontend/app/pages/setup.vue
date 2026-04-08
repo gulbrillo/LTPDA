@@ -89,7 +89,7 @@ async function runSetup() {
         <AppLogo :size="42" class="hd-logo" />
         <div>
           <h1>LTPDA Repository</h1>
-          <p class="hd-sub">v3.0 — Docker Image Initial Setup</p>
+          <p class="hd-sub">v3.0.0 — Docker Image Initial Setup</p>
         </div>
       </div>
 

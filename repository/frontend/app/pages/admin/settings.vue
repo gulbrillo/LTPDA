@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Users } from 'lucide-vue-next'
+import { Users, Database } from 'lucide-vue-next'
 
 const { apiFetch, user: currentUser, logout } = useAuth()
 const router = useRouter()
@@ -55,6 +55,10 @@ async function loadSettings() {
         <span class="bc-current">Settings</span>
       </div>
       <div class="nav-right">
+        <NuxtLink to="/admin/repos" class="nav-link">
+          <Database :size="14" />
+          Repositories
+        </NuxtLink>
         <NuxtLink to="/admin/users" class="nav-link">
           <Users :size="14" />
           Users
