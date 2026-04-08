@@ -167,7 +167,10 @@ async function testSync() {
   }
 }
 
-onMounted(() => { loadUsers(); loadSyncStatus() })
+onMounted(async () => {
+  await Promise.all([loadUsers(), loadSyncStatus()])
+  if (syncStatus.value?.enabled && syncStatus.value.mode === 'bundled') testSync()
+})
 </script>
 
 <template>
