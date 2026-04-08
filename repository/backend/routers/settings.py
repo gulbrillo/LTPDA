@@ -1,3 +1,7 @@
+import hashlib
+import hmac
+
+import httpx
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 
@@ -6,6 +10,10 @@ from models.user import User
 from routers.auth import require_admin
 
 router = APIRouter(prefix="/api/settings", tags=["settings"])
+
+
+def _sign(secret: str, body: bytes) -> str:
+    return "sha256=" + hmac.new(secret.encode(), body, hashlib.sha256).hexdigest()
 
 
 @router.get("")
@@ -46,3 +54,37 @@ async def update_ssh_sync(body: SshSyncUpdate, _: User = Depends(require_admin))
             raise HTTPException(400, "A shared secret is required to enable SSH sync.")
     update_ssh_sync_config(enabled=body.enabled, port=body.port, secret=body.secret)
     return {"ok": True}
+
+
+class TestSshSyncRequest(BaseModel):
+    port: int = 9922
+    secret: str | None = None  # None = use saved config secret
+
+
+@router.post("/test-ssh-sync")
+async def test_ssh_sync(body: TestSshSyncRequest, _: User = Depends(require_admin)):
+    """Test connectivity to the SSH sync daemon using the provided (or saved) credentials."""
+    secret = body.secret
+    if not secret:
+        secret = get_ssh_sync_config().get("secret", "")
+    if not secret:
+        return {"ok": False, "error": "No shared secret configured — enter a secret and try again."}
+
+    url = f"http://host.docker.internal:{body.port}/sync/health"
+    sig = _sign(secret, b"{}")
+    try:
+        async with httpx.AsyncClient(timeout=5.0) as client:
+            r = await client.get(url, headers={"X-LTPDA-Signature": sig, "Content-Type": "application/json"}, content=b"{}")
+        if r.status_code == 200:
+            data = r.json()
+            return {"ok": True, "daemon_version": data.get("version")}
+        if r.status_code == 403:
+            return {"ok": False, "error": "Daemon rejected the request — shared secret mismatch."}
+        return {"ok": False, "error": f"Daemon returned HTTP {r.status_code}: {r.text[:200]}"}
+    except httpx.ConnectError:
+        return {"ok": False, "error": f"Cannot reach daemon at {url} — is it running?"}
+    except httpx.TimeoutException:
+        return {"ok": False, "error": f"Connection timed out — daemon at {url} did not respond."}
+    except Exception as e:
+        msg = str(e) or type(e).__name__
+        return {"ok": False, "error": f"Unexpected error: {msg}"}

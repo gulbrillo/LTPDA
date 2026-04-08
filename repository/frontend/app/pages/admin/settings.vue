@@ -109,9 +109,19 @@ async function testSync() {
   syncTesting.value = true
   syncTestResult.value = null
   try {
-    syncTestResult.value = await apiFetch('/sync/test', { method: 'POST' })
-  } catch {
-    syncTestResult.value = { ok: false, error: 'Request failed' }
+    // Pass current form values so test works before saving.
+    // If secret field is untouched, send null → backend uses saved secret.
+    syncTestResult.value = await apiFetch('/settings/test-ssh-sync', {
+      method: 'POST',
+      body: {
+        port: form.port,
+        secret: form.secretDirty && form.secret ? form.secret : null,
+      },
+    })
+  } catch (e: unknown) {
+    const fe = e as { data?: { detail?: string; error?: string }; message?: string }
+    const msg = fe?.data?.detail || fe?.data?.error || fe?.message || 'Request failed'
+    syncTestResult.value = { ok: false, error: msg }
   } finally {
     syncTesting.value = false
   }
@@ -276,7 +286,7 @@ async function testSync() {
                   <WifiOff v-else :size="13" />
                   {{ syncTestResult.ok
                     ? `Reachable${syncTestResult.daemon_version ? ' (v' + syncTestResult.daemon_version + ')' : ''}`
-                    : (syncTestResult.error || 'Unknown error') }}
+                    : (syncTestResult.error || 'No error details returned') }}
                 </span>
               </div>
             </template>
