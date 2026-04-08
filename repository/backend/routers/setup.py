@@ -54,7 +54,7 @@ async def _call_daemon(port: int, secret: str, method: str, path: str, payload: 
     try:
         async with httpx.AsyncClient(timeout=5.0) as client:
             if method == "GET":
-                r = await client.get(url, headers=headers, content=body)
+                r = await client.request("GET", url, headers=headers, content=body)
             else:
                 r = await client.post(url, headers=headers, content=body)
         if r.status_code in (200, 201):

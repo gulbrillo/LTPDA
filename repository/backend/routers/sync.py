@@ -44,7 +44,7 @@ async def test_sync(_: User = Depends(require_admin)):
     log.info("Testing SSH sync daemon at %s", url)
     try:
         async with httpx.AsyncClient(timeout=5.0) as client:
-            r = await client.get(url, headers={"X-LTPDA-Signature": sig, "Content-Type": "application/json"}, content=body)
+            r = await client.request("GET", url, headers={"X-LTPDA-Signature": sig, "Content-Type": "application/json"}, content=body)
         log.info("Daemon responded: HTTP %d", r.status_code)
         if r.status_code == 200:
             data = r.json()
