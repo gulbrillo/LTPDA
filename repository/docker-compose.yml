@@ -12,11 +12,13 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_ROOT_HOST: "%"       # allow root login from any host (Docker network)
     ports:
-      - "127.0.0.1:3307:3306"   # localhost only (3306 taken by host MySQL) — MATLAB users access via SSH tunnel
+      - "127.0.0.1:3307:3306"   # localhost only — fallback: manual host SSH tunnel
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
-      - internal
+      internal:
+        aliases:
+          - db     # sshgateway validate_auth.py connects to MYSQL_HOST=db
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost",
              "-u", "root", "--password=${MYSQL_ROOT_PASSWORD}"]
@@ -29,13 +31,35 @@ services:
     build: ./backend
     restart: unless-stopped
     extra_hosts:
-      - "host.docker.internal:host-gateway"   # Linux: reach host machine (external MySQL or SSH sync daemon)
+      - "host.docker.internal:host-gateway"   # Linux: reach host machine (external MySQL)
     volumes:
       - ./config:/app/config                  # persists config.json across restarts
     depends_on:
       mysql:
         condition: service_healthy
         required: false   # optional: ignored in external-MySQL mode (no mysql service); waits in bundled mode
+    networks:
+      - internal
+
+  # ── SSH gateway (bundled mode only) ───────────────────────────────────────
+  # Allows MATLAB users to open an SSH tunnel into MySQL:
+  #   ssh -L 3306:db:3306 -p 2222 username@repo.yourdomain.com
+  # Auth is delegated entirely to MySQL — no Linux host accounts needed.
+  # Port 2222 must be open in the server firewall: sudo ufw allow 2222/tcp
+  sshgateway:
+    profiles: ["bundled"]
+    build: ./sshgateway
+    restart: unless-stopped
+    ports:
+      - "2222:22"
+    environment:
+      MYSQL_HOST: db
+      MYSQL_PORT: "3306"
+      MYSQL_DB: ${ADMIN_DB:-ltpda_admin}
+    depends_on:
+      mysql:
+        condition: service_healthy
+        required: false
     networks:
       - internal
 

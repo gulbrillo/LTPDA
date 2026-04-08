@@ -1,13 +1,7 @@
-import hashlib
-import hmac
-import json
-
-import httpx
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from core.config import get_ssh_sync_config
 from core.database import get_admin_connection, get_session
 from core.security import hash_password
 from models.user import User
@@ -15,47 +9,6 @@ from routers.auth import require_admin
 from schemas.user import UserCreate, UserOut, UserUpdate
 
 router = APIRouter(prefix="/api/users", tags=["users"])
-
-
-async def _call_ssh_sync(action: str, payload: dict) -> dict:
-    """Send a webhook to the SSH sync daemon. Returns {"ok": bool, "error": str|None}."""
-    cfg = get_ssh_sync_config()
-    if not cfg["enabled"] or cfg["mode"] != "bundled":
-        return {"ok": True, "skipped": True}
-
-    url = cfg["url"].rstrip("/")
-    secret = cfg["secret"]
-    body = json.dumps(payload).encode()
-    sig = "sha256=" + hmac.new(secret.encode(), body, hashlib.sha256).hexdigest()
-    headers = {"X-LTPDA-Signature": sig, "Content-Type": "application/json"}
-
-    try:
-        async with httpx.AsyncClient(timeout=5.0) as client:
-            if action == "delete":
-                r = await client.request(
-                    "DELETE", f"{url}/sync/user/{payload['username']}", headers=headers, content=body
-                )
-            elif action == "create":
-                r = await client.request("POST", f"{url}/sync/user/create", headers=headers, content=body)
-            else:  # update
-                r = await client.request("POST", f"{url}/sync/user/update", headers=headers, content=body)
-        if r.status_code in (200, 201, 204):
-            return {"ok": True}
-        # Try to extract the daemon's own error message from the JSON body
-        try:
-            data = r.json()
-            msg = data.get("error") or f"Daemon returned HTTP {r.status_code}"
-        except Exception:
-            msg = f"Daemon returned HTTP {r.status_code}: {r.text[:200]}"
-        return {"ok": False, "error": msg, "conflict": r.status_code == 409}
-    except httpx.ConnectError as e:
-        msg = str(e) or "TCP connection refused"
-        return {"ok": False, "error": f"Cannot reach SSH sync daemon — is it running? ({msg})"}
-    except httpx.TimeoutException:
-        return {"ok": False, "error": "SSH sync daemon did not respond within 5 s"}
-    except Exception as e:
-        msg = str(e) or type(e).__name__
-        return {"ok": False, "error": f"SSH sync error ({type(e).__name__}): {msg}"}
 
 
 @router.get("", response_model=list[UserOut])
@@ -77,12 +30,9 @@ async def create_user(
     if existing.scalar_one_or_none():
         raise HTTPException(status.HTTP_409_CONFLICT, "Username already exists")
 
-    # Capture plaintext password for SSH sync before hashing
-    plaintext_pw = body.password
-
     user = User(
         username=body.username,
-        password_hash=hash_password(plaintext_pw),
+        password_hash=hash_password(body.password),
         mysql_password=body.mysql_password,
         first_name=body.first_name,
         last_name=body.last_name,
@@ -111,8 +61,7 @@ async def create_user(
                 f"App user created but MySQL user creation failed: {e}",
             )
 
-    sync = await _call_ssh_sync("create", {"username": body.username, "password": plaintext_pw})
-    return {"user": UserOut.model_validate(user).model_dump(mode="json"), "ssh_sync": sync}
+    return UserOut.model_validate(user).model_dump(mode="json")
 
 
 @router.put("/{user_id}")
@@ -159,11 +108,7 @@ async def update_user(
 
     await session.commit()
     await session.refresh(user)
-
-    sync = {"ok": True, "skipped": True}
-    if body.password:
-        sync = await _call_ssh_sync("update", {"username": user.username, "password": body.password})
-    return {"user": UserOut.model_validate(user).model_dump(mode="json"), "ssh_sync": sync}
+    return UserOut.model_validate(user).model_dump(mode="json")
 
 
 @router.delete("/{user_id}")
@@ -194,5 +139,4 @@ async def delete_user(
     except Exception:
         pass
 
-    sync = await _call_ssh_sync("delete", {"username": username})
-    return {"ok": True, "ssh_sync": sync}
+    return {"ok": True}

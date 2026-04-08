@@ -106,8 +106,8 @@ echo "MYSQL_ROOT_PASSWORD=choose_a_strong_password" > .env
 docker compose --profile bundled up -d
 ```
 
-This starts three containers: `mysql`, `api`, and `nginx`. The `api` container waits for MySQL to
-pass its healthcheck before starting.
+This starts four containers: `mysql`, `api`, `nginx`, and `sshgateway`. The `api` and `sshgateway`
+containers wait for MySQL to pass its healthcheck before starting.
 
 **Option B — External dedicated MySQL server:**
 
@@ -190,8 +190,48 @@ curl -s https://repo.yourdomain.com/api/health   # {"status":"ok","configured":t
 
 ## Configuring MATLAB
 
-MATLAB connects to MySQL via JDBC. Because MySQL is inside Docker (not directly on the internet),
-users connect through an **SSH tunnel**:
+MATLAB connects to MySQL via JDBC through an **SSH tunnel**. There are two ways to set this up —
+both work simultaneously and you can use whichever suits your environment.
+
+---
+
+### Option A — SSH gateway container (recommended, port 2222)
+
+The `sshgateway` container starts automatically with `docker compose --profile bundled up`. Users
+authenticate using their existing MySQL/MATLAB credentials — no Linux host accounts needed.
+
+```bash
+# On your local machine — keep this open while using MATLAB
+ssh -L 3306:db:3306 -p 2222 your_username@repo.yourdomain.com
+```
+
+This forwards your local port 3306 → SSH gateway container → MySQL container.
+
+**Firewall:** port 2222 must be open on the server:
+
+```bash
+sudo ufw allow 2222/tcp
+```
+
+In **LTPDAprefs**, set:
+- **Hostname** — `localhost`
+- **Port** — `3306`
+- **Username / Password** — the MySQL/MATLAB credentials set when the account was created
+
+**Why port 2222?** SSH has no equivalent to HTTP's `Host` header — there is no way to route port
+22 by hostname the way a web server does with virtual hosts. Port 2222 avoids conflicts with the
+host's own SSH service. (GitHub uses port 443 as an SSH fallback for the same reason.)
+
+**How authentication works:** when a user connects, PAM calls `validate_auth.py` inside the
+container, which opens a MySQL connection as that user. If MySQL accepts it, SSH auth succeeds.
+User create/update/delete in the web UI immediately takes effect for SSH — no sync needed.
+
+---
+
+### Option B — Manual host SSH accounts (fallback, port 22)
+
+If port 2222 cannot be opened, you can use the host's existing SSH service (port 22) instead.
+MySQL container port 3306 is bound to `127.0.0.1:3307` on the host, so a host SSH tunnel reaches it.
 
 ```bash
 # On your local machine — keep this open while using MATLAB
@@ -200,125 +240,31 @@ ssh -L 3306:localhost:3307 your_linux_username@repo.yourdomain.com
 
 This forwards your local port 3306 → host port 3307 → MySQL container port 3306.
 
-In **LTPDAprefs**, set:
-- **Hostname** — `localhost`
-- **Port** — `3306`
-- **Database** — the name of the repository database (e.g. `myrepo`)
-- **Username / Password** — the MySQL credentials set when your user account was created
+In **LTPDAprefs**, the same settings apply — **Hostname** `localhost`, **Port** `3306`.
 
-**Linux account required.** You need a Linux account on the server to authenticate the SSH tunnel.
-Administrators can create one manually:
+**Linux account required.** Each user needs a tunnel-only account on the server host:
 
 ```bash
-sudo useradd -m -s /usr/sbin/nologin -c "ltpda-managed" username
-sudo passwd username
+sudo useradd -m -s /usr/sbin/nologin your_username
+sudo passwd your_username
 ```
 
-Or use the **SSH sync daemon** (see below) to have accounts created automatically whenever a user
-is added via the web UI.
+The `-s /usr/sbin/nologin` shell prevents interactive logins while still allowing SSH port forwarding.
+These accounts are managed manually — the web UI does not create or remove them.
 
 ---
 
-## SSH sync daemon (optional — bundled MySQL only)
+### LTPDAprefs summary
 
-The SSH sync daemon automates Linux account management on the host. When enabled in the setup
-wizard, it automatically creates, updates, and removes Linux SSH accounts whenever users are added,
-updated, or removed via the web UI.
+Both options use the same MATLAB settings:
 
-It runs as a `root` systemd service on the host machine (outside Docker) and receives HMAC-signed
-webhooks from the FastAPI container.
-
-### What it does
-
-- Creates tunnel-only accounts (`/usr/sbin/nologin` shell — port-forwarding only)
-- Tags accounts with a GECOS marker (`ltpda-managed`); refuses to modify or delete any account it
-  did not create
-- Returns a 409 conflict error if a requested username already exists as a system account
-
-### Prerequisites
-
-- Python 3.9+ and `pip3` on the host
-- Must be the same physical machine Docker is running on
-
-### Installation
-
-Install the daemon **before** running the setup wizard so you can test the connection during setup.
-
-```bash
-# 1. Copy daemon files to the host
-sudo mkdir -p /opt/ltpda-ssh-sync
-sudo cp ssh-sync-daemon/ssh_sync_daemon.py /opt/ltpda-ssh-sync/
-
-# 2. Install Python dependency
-sudo pip3 install flask
-
-# 3. Create the config file
-sudo cp ssh-sync-daemon/config.example.json /etc/ltpda-ssh-sync.json
-
-# 4. Set the shared secret (generate one: openssl rand -hex 32)
-sudo nano /etc/ltpda-ssh-sync.json
-```
-
-Config file format:
-
-```json
-{
-  "port": 9922,
-  "shared_secret": "your-strong-random-secret-here"
-}
-```
-
-```bash
-# 5. Install and enable the systemd service
-sudo cp ssh-sync-daemon/ltpda-ssh-sync.service /etc/systemd/system/
-sudo systemctl daemon-reload
-sudo systemctl enable --now ltpda-ssh-sync
-
-# 6. Verify
-sudo systemctl status ltpda-ssh-sync
-sudo journalctl -u ltpda-ssh-sync -n 20
-```
-
-### Firewall
-
-```bash
-# Allow Docker bridge only; block all other access to port 9922
-sudo ufw allow from 172.16.0.0/12 to any port 9922
-sudo ufw allow from 192.168.0.0/16 to any port 9922
-```
-
-### Enabling in the setup wizard
-
-1. Install and start the daemon (steps above).
-2. In the setup wizard, enable the **SSH sync daemon** toggle.
-3. Enter the port (default 9922) and the **same shared secret** as in `/etc/ltpda-ssh-sync.json`.
-4. Click **Test daemon connection** — the wizard contacts the daemon and shows a green confirmation
-   if the connection and secret are correct.
-5. Complete setup. The first admin user is synced to the daemon automatically.
-
-After setup, the sync status is visible in **Admin → Users**. Click **Test** to re-verify at any time.
-
-### Updating the daemon
-
-```bash
-sudo cp ssh-sync-daemon/ssh_sync_daemon.py /opt/ltpda-ssh-sync/
-sudo systemctl restart ltpda-ssh-sync
-```
-
-### Troubleshooting
-
-| Symptom | Likely cause |
-|---------|-------------|
-| "Cannot reach SSH sync daemon" | Daemon not running, or firewall blocking port 9922 |
-| "Invalid signature" | Shared secret mismatch between wizard and config file |
-| "Account conflict" | A system account with that username already exists on the host |
-| `useradd` errors in journal | Daemon not running as root |
-
-### Safety rules
-
-- Sync failures are **non-fatal**: user CRUD always succeeds in the web UI; a sync error is shown
-  as a warning.
-- The daemon never touches accounts it did not create.
+| Setting | Value |
+|---------|-------|
+| Hostname | `localhost` |
+| Port | `3306` |
+| Database | repository database name (e.g. `myrepo`) |
+| Username | the user's username |
+| Password | the user's **MySQL/MATLAB** password (not the web UI password) |
 
 ---
 
@@ -328,18 +274,18 @@ sudo systemctl restart ltpda-ssh-sync
 repository/
 ├── backend/            FastAPI application (Python)
 │   ├── core/           Config, database, security helpers
-│   ├── routers/        API route handlers (setup, auth, users, sync)
+│   ├── routers/        API route handlers (setup, auth, users, settings)
 │   └── Dockerfile
 ├── frontend/           Nuxt 4 SPA (Vue 3)
 │   └── app/
 │       ├── pages/      setup.vue, login.vue, dashboard.vue, admin/users.vue
 │       ├── components/ AppLogo.vue, StatusOk.vue, StatusWarn.vue
 │       └── composables/useAuth.ts
-├── ssh-sync-daemon/    Host-side SSH account sync daemon
-│   ├── ssh_sync_daemon.py
-│   ├── ltpda-ssh-sync.service
-│   ├── config.example.json
-│   └── requirements.txt
+├── sshgateway/         Docker SSH gateway container
+│   ├── Dockerfile      Alpine + OpenSSH + pam_exec + pymysql
+│   ├── sshd_config     Tunnel-only, PAM auth, PermitOpen db:3306
+│   ├── pam_ltpda       pam_exec calls validate_auth.py
+│   └── validate_auth.py  Authenticates via MySQL connection attempt
 ├── config/             Runtime config volume (config.json — excluded from git)
 ├── docker-compose.yml
 └── nginx.conf

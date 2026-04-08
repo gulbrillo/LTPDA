@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Plus, X, Eye, EyeOff, UserRound, Wifi, WifiOff, Settings } from 'lucide-vue-next'
+import { Plus, X, Eye, EyeOff, UserRound, Settings } from 'lucide-vue-next'
 
 interface User {
   id: number
@@ -69,8 +69,6 @@ async function saveUser() {
   dialogError.value = ''
   dialogSuccess.value = ''
   try {
-    type SaveResult = { user: unknown; ssh_sync: { ok: boolean; error?: string; skipped?: boolean; conflict?: boolean } }
-    let result: SaveResult | null = null
     if (editTarget.value) {
       const body: Record<string, unknown> = {
         first_name: form.first_name || null,
@@ -80,26 +78,13 @@ async function saveUser() {
         is_admin: form.is_admin,
       }
       if (form.password) body.password = form.password
-      result = await apiFetch<SaveResult>(`/users/${editTarget.value.id}`, { method: 'PUT', body })
+      await apiFetch(`/users/${editTarget.value.id}`, { method: 'PUT', body })
     } else {
-      result = await apiFetch<SaveResult>('/users', { method: 'POST', body: { ...form } })
+      await apiFetch('/users', { method: 'POST', body: { ...form } })
     }
     await loadUsers()
-    const sync = result?.ssh_sync
-    if (sync && !sync.ok && !sync.skipped) {
-      // User saved OK, but SSH sync failed — keep dialog open with warning
-      dialogError.value = `User saved, but SSH account sync failed: ${sync.error ?? 'unknown error'}`
-      if (sync.conflict) {
-        dialogError.value += ' — a system account with this username already exists on the host. Choose a different username or remove the conflicting account manually.'
-      } else {
-        dialogError.value += '. Create the Linux account manually or check the sync daemon.'
-      }
-    } else {
-      // Full success — show brief confirmation then close
-      const synced = sync && sync.ok && !sync.skipped
-      dialogSuccess.value = synced ? 'User saved and SSH account synced.' : 'User saved.'
-      setTimeout(() => { showDialog.value = false; dialogSuccess.value = '' }, 1500)
-    }
+    dialogSuccess.value = 'User saved.'
+    setTimeout(() => { showDialog.value = false; dialogSuccess.value = '' }, 1500)
   } catch (e: unknown) {
     const fe = e as { data?: { detail?: string; error?: string }; message?: string }
     dialogError.value = fe?.data?.detail || fe?.data?.error || fe?.message || 'Save failed.'
@@ -113,17 +98,10 @@ async function deleteUser(u: User) {
   error.value = ''
   notice.value = ''
   try {
-    type DeleteResult = { ok: boolean; ssh_sync: { ok: boolean; error?: string; skipped?: boolean } }
-    const result = await apiFetch<DeleteResult>(`/users/${u.id}`, { method: 'DELETE' })
+    await apiFetch(`/users/${u.id}`, { method: 'DELETE' })
     await loadUsers()
-    const sync = result?.ssh_sync
-    if (sync && !sync.ok && !sync.skipped) {
-      error.value = `"${u.username}" deleted, but SSH account removal failed: ${sync.error ?? 'unknown error'}. Remove the Linux account manually with: sudo userdel -r ${u.username}`
-    } else {
-      const synced = sync && sync.ok && !sync.skipped
-      notice.value = synced ? `"${u.username}" deleted and SSH account removed.` : `"${u.username}" deleted.`
-      setTimeout(() => { notice.value = '' }, 4000)
-    }
+    notice.value = `"${u.username}" deleted.`
+    setTimeout(() => { notice.value = '' }, 4000)
   } catch (e: unknown) {
     const fe = e as { data?: { detail?: string; error?: string }; message?: string }
     error.value = fe?.data?.detail || fe?.data?.error || fe?.message || 'Delete failed.'
@@ -143,34 +121,7 @@ function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
 }
 
-// ── SSH sync status ───────────────────────────────────────────────────────────
-interface SyncStatus { enabled: boolean; mode: string; url: string | null }
-const syncStatus = ref<SyncStatus | null>(null)
-const syncTestResult = ref<{ ok: boolean; error?: string } | null>(null)
-const syncTesting = ref(false)
-
-async function loadSyncStatus() {
-  try {
-    syncStatus.value = await apiFetch<SyncStatus>('/sync/status')
-  } catch { /* non-critical */ }
-}
-
-async function testSync() {
-  syncTesting.value = true
-  syncTestResult.value = null
-  try {
-    syncTestResult.value = await apiFetch('/sync/test', { method: 'POST' })
-  } catch {
-    syncTestResult.value = { ok: false, error: 'Request failed' }
-  } finally {
-    syncTesting.value = false
-  }
-}
-
-onMounted(async () => {
-  await Promise.all([loadUsers(), loadSyncStatus()])
-  if (syncStatus.value?.enabled && syncStatus.value.mode === 'bundled') testSync()
-})
+onMounted(() => loadUsers())
 </script>
 
 <template>
@@ -209,22 +160,6 @@ onMounted(async () => {
         <button class="btn-primary" @click="openCreate">
           <Plus :size="13" />
           New user
-        </button>
-      </div>
-
-      <!-- SSH sync status bar (only when enabled + bundled) -->
-      <div v-if="syncStatus?.enabled && syncStatus.mode === 'bundled'" class="sync-bar">
-        <div class="sync-bar-left">
-          <Wifi v-if="syncTestResult?.ok !== false" :size="14" class="sync-icon-ok" />
-          <WifiOff v-else :size="14" class="sync-icon-err" />
-          <span class="sync-label">SSH sync daemon</span>
-          <span v-if="syncTestResult === null" class="sync-state sync-state-unknown">not tested</span>
-          <span v-else-if="syncTestResult.ok" class="sync-state sync-state-ok">reachable</span>
-          <span v-else class="sync-state sync-state-err">unreachable — {{ syncTestResult.error }}</span>
-        </div>
-        <button class="btn-cancel sync-test-btn" :disabled="syncTesting" @click="testSync">
-          <span v-if="syncTesting" class="spin spin-sm" />
-          {{ syncTesting ? 'Testing…' : 'Test' }}
         </button>
       </div>
 
@@ -526,20 +461,5 @@ h1 { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.025em; color: #1e30
 /* ── Dialog footer ── */
 .dialog-foot { display: flex; justify-content: flex-end; gap: 0.6rem; padding-top: 0.25rem; }
 
-/* ── SSH sync status bar ── */
-.sync-bar {
-  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-  padding: 0.6rem 1rem; margin-bottom: 1rem;
-  background: #f4f7fb; border: 1px solid #d0dcea; border-radius: 9px;
-  font-size: 0.8rem;
-}
-.sync-bar-left { display: flex; align-items: center; gap: 0.5rem; }
-.sync-icon-ok { color: #16a34a; flex-shrink: 0; }
-.sync-icon-err { color: #dc2626; flex-shrink: 0; }
-.sync-label { font-weight: 600; color: #1e3050; }
-.sync-state { color: #6a84a0; }
-.sync-state-ok { color: #16a34a; }
-.sync-state-err { color: #dc2626; }
-.sync-state-unknown { color: #a8bdd0; font-style: italic; }
-.sync-test-btn { padding: 0.3rem 0.75rem; font-size: 0.775rem; flex-shrink: 0; }
+
 </style>

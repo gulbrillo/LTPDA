@@ -18,36 +18,7 @@ const error = ref('')
 const infoOpen = ref(false)
 const configOpen = ref(false)
 
-const show = reactive({ bundledPw: false, externalPw: false, appAdminPw: false, appAdminMysqlPw: false, sshSecret: false })
-
-const sshSync = reactive({ enabled: false, port: 9922, secret: '' })
-const sshSyncTest = ref<{ ok: boolean; error?: string; version?: string } | null>(null)
-const sshSyncTesting = ref(false)
-
-async function testSshSync() {
-  if (!sshSync.secret) {
-    sshSyncTest.value = { ok: false, error: 'Enter a shared secret first' }
-    return
-  }
-  sshSyncTesting.value = true
-  sshSyncTest.value = null
-  try {
-    sshSyncTest.value = await $fetch(`${config.public.apiBase}/setup/test-sync`, {
-      method: 'POST',
-      body: { ssh_sync_port: sshSync.port, ssh_sync_secret: sshSync.secret },
-    }) as { ok: boolean; error?: string; version?: string }
-  } catch (e: unknown) {
-    const fe = e as { data?: { detail?: string; error?: string }; message?: string }
-    const msg =
-      fe?.data?.detail ||
-      fe?.data?.error ||
-      fe?.message ||
-      'Request failed'
-    sshSyncTest.value = { ok: false, error: msg }
-  } finally {
-    sshSyncTesting.value = false
-  }
-}
+const show = reactive({ bundledPw: false, externalPw: false, appAdminPw: false, appAdminMysqlPw: false })
 
 function generatePassword(): string {
   const lower = 'abcdefghijklmnopqrstuvwxyz'
@@ -88,28 +59,13 @@ async function runSetup() {
       body.mysql_port = 3306
       body.mysql_admin_user = 'root'
       body.mysql_admin_password = bundled.root_password
-      body.ssh_sync_enabled = sshSync.enabled
-      if (sshSync.enabled) {
-        body.ssh_sync_port = sshSync.port
-        body.ssh_sync_secret = sshSync.secret
-      }
     } else {
       body.mysql_host = external.host
       body.mysql_port = external.port
       body.mysql_admin_user = external.admin_user
       body.mysql_admin_password = external.admin_password
     }
-    const result = await $fetch<{ ok: boolean; ssh_sync?: { ok: boolean; error?: string } }>(
-      `${config.public.apiBase}/setup/run`, { method: 'POST', body }
-    )
-    if (result.ssh_sync && !result.ssh_sync.ok) {
-      // Non-fatal: setup succeeded but first admin SSH account wasn't synced
-      error.value = `Setup complete, but the SSH sync daemon reported an error for the admin account: ${result.ssh_sync.error ?? 'unknown'}. Create the Linux account manually or use Admin → Users → Test after logging in.`
-      loading.value = false
-      // Still allow login — just warn the user
-      setTimeout(() => router.push('/login'), 4000)
-      return
-    }
+    await $fetch(`${config.public.apiBase}/setup/run`, { method: 'POST', body })
     await router.push('/login')
   } catch (e: unknown) {
     const fe = e as { data?: { detail?: string; error?: string }; message?: string }
@@ -243,32 +199,13 @@ async function runSetup() {
                   <StatusOk />
                   <div><strong>MySQL exposed on host port 3307</strong><p>Port 3307 (not 3306, which is taken by the host's own MySQL) is bound to <code>127.0.0.1</code> only — not reachable from the internet. This is set in <code>docker-compose.yml</code> and requires no other host configuration.</p></div>
                 </div>
-                <div class="config-item config-warn">
-                  <StatusWarn />
+                <div class="config-item config-ok">
+                  <StatusOk />
                   <div>
-                    <strong>MATLAB users must create an SSH tunnel</strong>
-                    <p>Each user runs this command to forward their local port 3306 to the server's port 3307:</p>
-                    <p class="step-paths"><code>ssh -L 3306:localhost:3307 user@yourserver.edu</code></p>
-                    <p>In LTPDA preferences, set <strong>hostname = localhost</strong>, <strong>port = 3306</strong>. The tunnel must be running whenever MATLAB accesses the repository.</p>
-                  </div>
-                </div>
-                <div class="config-item" :class="sshSync.enabled ? 'config-ok' : 'config-warn'">
-                  <StatusOk v-if="sshSync.enabled" />
-                  <StatusWarn v-else />
-                  <div>
-                    <strong>SSH accounts required on the host</strong>
-                    <p>Each repository user needs a Linux tunnel-only account on this host to authenticate their SSH tunnel. Create one manually with:</p>
-                    <p class="step-paths">
-                      <code>sudo useradd -m -s /usr/sbin/nologin -c "ltpda-managed" username</code><br/>
-                      <code>sudo passwd username</code>
-                    </p>
-                    <p>The <code>/usr/sbin/nologin</code> shell prevents interactive logins while still allowing SSH port forwarding.</p>
-                    <p v-if="sshSync.enabled" class="config-ok-note">
-                      SSH sync daemon enabled — accounts will be created and removed automatically. The manual commands above remain available as a fallback.
-                    </p>
-                    <p v-else class="config-future">
-                      Enable the <strong>SSH sync daemon</strong> section below to create and remove Linux accounts automatically whenever repository users are added or removed.
-                    </p>
+                    <strong>MATLAB SSH tunnel — no setup required</strong>
+                    <p>An SSH gateway container starts automatically with Docker on port 2222. MATLAB users tunnel using their MySQL/MATLAB credentials — no Linux accounts needed.</p>
+                    <p class="step-paths"><code>ssh -L 3306:db:3306 -p 2222 username@yourserver.edu</code></p>
+                    <p>In LTPDAprefs, set <strong>hostname = localhost</strong>, <strong>port = 3306</strong>. Open port 2222 in the server firewall: <code>sudo ufw allow 2222/tcp</code></p>
                   </div>
                 </div>
               </div>
@@ -331,72 +268,6 @@ async function runSetup() {
                 <button type="button" class="pw-gen" @click="bundled.root_password = generatePassword(); show.bundledPw = true">Generate</button>
               </div>
             </div>
-          </div>
-        </template>
-
-        <!-- ── Bundled: SSH sync daemon (opt-in) ── -->
-        <template v-if="mode === 'bundled'">
-          <div class="section">
-            <div class="section-title">
-              SSH sync daemon
-              <span class="badge badge-optional">optional</span>
-            </div>
-            <p class="note">
-              Automatically creates and removes Linux SSH accounts on this host whenever
-              repository users are added or removed. Users need these accounts to open SSH tunnels
-              for MATLAB access. Requires the <code class="inline-code">ltpda-ssh-sync</code> daemon
-              to be installed on the host before users can connect.
-            </p>
-
-            <label class="toggle-row" :class="{ 'toggle-on': sshSync.enabled }" @click="sshSync.enabled = !sshSync.enabled">
-              <div class="toggle-text">
-                <span class="toggle-label">Enable SSH account sync</span>
-                <span class="toggle-desc">Sync Linux accounts when users are created, updated, or deleted</span>
-              </div>
-              <div class="toggle-track" :class="{ active: sshSync.enabled }">
-                <div class="toggle-thumb"/>
-              </div>
-            </label>
-
-            <template v-if="sshSync.enabled">
-              <div class="field" style="max-width:180px;margin-top:1rem">
-                <label>Daemon port</label>
-                <input v-model.number="sshSync.port" type="number" min="1024" max="65535" required />
-              </div>
-              <div class="field">
-                <label>Shared secret <span class="req">*</span></label>
-                <div class="pw-wrap">
-                  <input v-model="sshSync.secret" :type="show.sshSecret ? 'text' : 'password'" required class="pw-input" placeholder="Generate or enter a strong secret"/>
-                  <button type="button" class="pw-eye" @click="show.sshSecret = !show.sshSecret"><EyeOff v-if="show.sshSecret" /><Eye v-else /></button>
-                  <button type="button" class="pw-gen" @click="sshSync.secret = generatePassword(); show.sshSecret = true">Generate</button>
-                </div>
-              </div>
-              <div class="ssh-install-note">
-                <strong>Install the daemon first.</strong> Copy <code>repository/ssh-sync-daemon/</code> to the host,
-                set the secret above in <code>/etc/ltpda-ssh-sync.json</code>, and start the service
-                before completing setup — the first admin account will be synced automatically.
-                See the README for full installation steps.
-              </div>
-
-              <!-- Test button -->
-              <div class="ssh-test-row">
-                <button
-                  type="button"
-                  class="btn-cancel"
-                  :disabled="sshSyncTesting"
-                  @click="testSshSync"
-                >
-                  <span v-if="sshSyncTesting" class="spin spin-sm"/>
-                  {{ sshSyncTesting ? 'Testing…' : 'Test daemon connection' }}
-                </button>
-                <span v-if="sshSyncTest !== null" class="ssh-test-result" :class="sshSyncTest.ok ? 'test-ok' : 'test-fail'">
-                  {{ sshSyncTest.ok
-                    ? `✓ Reachable${sshSyncTest.version ? ' (v' + sshSyncTest.version + ')' : ''}`
-                    : `✗ ${sshSyncTest.error || 'Unknown error'}`
-                  }}
-                </span>
-              </div>
-            </template>
           </div>
         </template>
 
@@ -693,30 +564,4 @@ h1 { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.03em; color: #1e30
 }
 .toggle-track.active .toggle-thumb { transform: translateX(16px); }
 
-/* ── SSH sync install note ── */
-.badge-optional {
-  font-size: 0.65rem; font-weight: 600; letter-spacing: 0.04em;
-  background: #f0f5fb; color: #6a84a0; border: 1px solid #d0dcea;
-  border-radius: 999px; padding: 0.15rem 0.5rem; vertical-align: middle; margin-left: 0.4rem;
-}
-.config-ok-note {
-  font-size: 0.775rem !important; color: #16a34a !important; margin-top: 0.25rem !important;
-}
-
-.ssh-install-note {
-  margin-top: 1rem; padding: 0.85rem 1rem;
-  background: #f8fafd; border: 1px solid #d0dcea; border-radius: 8px;
-  font-size: 0.8rem; color: #4a6080; line-height: 1.6;
-}
-.ssh-install-note strong { color: #1e3050; }
-.ssh-install-note code { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 0.8em; }
-
-.ssh-test-row {
-  display: flex; align-items: center; gap: 0.85rem; margin-top: 0.75rem; flex-wrap: wrap;
-}
-.ssh-test-result {
-  font-size: 0.8rem; font-weight: 500;
-}
-.test-ok { color: #16a34a; }
-.test-fail { color: #dc2626; }
 </style>

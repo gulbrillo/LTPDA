@@ -40,9 +40,6 @@ def write_config(
     mysql_admin_user: str,
     mysql_admin_password: str,
     secret_key: str,
-    ssh_sync_enabled: bool = False,
-    ssh_sync_url: str | None = None,
-    ssh_sync_secret: str | None = None,
 ) -> None:
     CONFIG_FILE.parent.mkdir(parents=True, exist_ok=True)
     data: dict = {
@@ -55,32 +52,7 @@ def write_config(
         "mysql_admin_password": mysql_admin_password,
         "secret_key": secret_key,
     }
-    if ssh_sync_enabled:
-        data["ssh_sync_enabled"] = True
-        data["ssh_sync_url"] = ssh_sync_url or "http://host.docker.internal:9922"
-        data["ssh_sync_secret"] = ssh_sync_secret or ""
     CONFIG_FILE.write_text(json.dumps(data, indent=2))
-
-
-def update_ssh_sync_config(enabled: bool, port: int, secret: str | None) -> None:
-    """Patch only the SSH sync fields in config.json, leaving everything else untouched."""
-    data = _load()
-    data["ssh_sync_enabled"] = enabled
-    if enabled:
-        data["ssh_sync_url"] = f"http://host.docker.internal:{port}"
-        if secret:
-            data["ssh_sync_secret"] = secret
-    CONFIG_FILE.write_text(json.dumps(data, indent=2))
-
-
-def get_ssh_sync_config() -> dict:
-    cfg = _load()
-    return {
-        "enabled": cfg.get("ssh_sync_enabled", False),
-        "url": cfg.get("ssh_sync_url", "http://host.docker.internal:9922"),
-        "secret": cfg.get("ssh_sync_secret", ""),
-        "mode": cfg.get("mysql_mode", "external"),
-    }
 
 
 ACCESS_TOKEN_EXPIRE_MINUTES = 8 * 60  # 8 hours

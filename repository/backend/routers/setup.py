@@ -1,11 +1,6 @@
-import hashlib
-import hmac
-import json
 import secrets
-from typing import Literal
 
 import aiomysql
-import httpx
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
@@ -16,7 +11,7 @@ router = APIRouter(prefix="/api/setup", tags=["setup"])
 
 
 class SetupRequest(BaseModel):
-    mode: Literal["bundled", "external"] = "bundled"
+    mode: str = "bundled"  # "bundled" | "external"
 
     # MySQL connection — host is "mysql" for bundled, user-supplied for external
     mysql_host: str = "mysql"
@@ -35,52 +30,10 @@ class SetupRequest(BaseModel):
     app_admin_last_name: str | None = None
     app_admin_email: str | None = None
 
-    # SSH sync daemon (optional, bundled mode only)
-    ssh_sync_enabled: bool = False
-    ssh_sync_port: int = 9922
-    ssh_sync_secret: str | None = None
-
-
-def _make_sig(secret: str, body: bytes) -> str:
-    return "sha256=" + hmac.new(secret.encode(), body, hashlib.sha256).hexdigest()
-
-
-async def _call_daemon(port: int, secret: str, method: str, path: str, payload: dict | None = None) -> dict:
-    """Make a signed call to the SSH sync daemon. Returns {"ok": bool, "error": str|None}."""
-    url = f"http://host.docker.internal:{port}{path}"
-    body = json.dumps(payload).encode() if payload is not None else b"{}"
-    sig = _make_sig(secret, body)
-    headers = {"X-LTPDA-Signature": sig, "Content-Type": "application/json"}
-    try:
-        async with httpx.AsyncClient(timeout=5.0) as client:
-            if method == "GET":
-                r = await client.request("GET", url, headers=headers, content=body)
-            else:
-                r = await client.post(url, headers=headers, content=body)
-        if r.status_code in (200, 201):
-            return {"ok": True, **r.json()}
-        return {"ok": False, "error": f"Daemon returned HTTP {r.status_code}: {r.text[:200]}"}
-    except httpx.ConnectError:
-        return {"ok": False, "error": f"Cannot reach SSH sync daemon at {url}"}
-    except Exception as e:
-        return {"ok": False, "error": str(e)}
-
 
 @router.get("/status")
 async def setup_status():
     return {"configured": is_configured()}
-
-
-class TestSyncRequest(BaseModel):
-    ssh_sync_port: int = 9922
-    ssh_sync_secret: str
-
-
-@router.post("/test-sync")
-async def test_sync(req: TestSyncRequest):
-    """Test connectivity to the SSH sync daemon. No auth required — used from setup wizard."""
-    result = await _call_daemon(req.ssh_sync_port, req.ssh_sync_secret, "GET", "/sync/health")
-    return result
 
 
 @router.post("/run")
@@ -148,7 +101,6 @@ async def run_setup(req: SetupRequest):
         raise HTTPException(400, f"Database setup failed: {e}")
 
     secret_key = secrets.token_hex(32)
-    ssh_url = f"http://host.docker.internal:{req.ssh_sync_port}" if req.ssh_sync_enabled else None
     try:
         write_config(
             mysql_mode=req.mode,
@@ -158,27 +110,11 @@ async def run_setup(req: SetupRequest):
             mysql_admin_user=req.mysql_admin_user,
             mysql_admin_password=req.mysql_admin_password,
             secret_key=secret_key,
-            ssh_sync_enabled=req.ssh_sync_enabled and req.mode == "bundled",
-            ssh_sync_url=ssh_url,
-            ssh_sync_secret=req.ssh_sync_secret,
         )
     except Exception as e:
         raise HTTPException(500, f"Config write failed: {e}")
 
-    # Sync first admin user to SSH daemon if enabled
-    ssh_sync_result = None
-    if req.ssh_sync_enabled and req.mode == "bundled" and req.ssh_sync_secret:
-        ssh_sync_result = await _call_daemon(
-            req.ssh_sync_port, req.ssh_sync_secret,
-            "POST", "/sync/user/create",
-            {"username": req.app_admin_username, "password": req.app_admin_password},
-        )
-
-    return {
-        "ok": True,
-        "message": "Setup complete. You can now log in.",
-        "ssh_sync": ssh_sync_result,
-    }
+    return {"ok": True, "message": "Setup complete. You can now log in."}
 
 
 async def _create_admin_schema(cur) -> None:
