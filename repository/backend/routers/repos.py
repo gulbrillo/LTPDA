@@ -15,7 +15,7 @@ from schemas.repo import AccessEntry, GrantRequest, RepoCreate, RepoOut, RepoUpd
 router = APIRouter(prefix="/api/repos", tags=["repos"])
 
 _DB_NAME_RE = re.compile(r"^[a-z0-9_]+$")
-_SCHEMA_FILE = Path("/app/backend/aorepo_db.sql")
+_SCHEMA_FILE = Path("/app/aorepo_db.sql")
 
 
 def _validate_db_name(db_name: str) -> None:

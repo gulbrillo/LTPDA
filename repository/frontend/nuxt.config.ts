@@ -1,6 +1,10 @@
 export default defineNuxtConfig({
   ssr: false,
 
+  experimental: {
+    payloadExtraction: false,
+  },
+
   devtools: { enabled: true },
 
   modules: ['@primevue/nuxt-module', '@pinia/nuxt'],
