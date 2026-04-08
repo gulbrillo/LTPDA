@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Plus, X, Eye, EyeOff, UserRound, Wifi, WifiOff } from 'lucide-vue-next'
+import { Plus, X, Eye, EyeOff, UserRound, Wifi, WifiOff, Settings } from 'lucide-vue-next'
 
 interface User {
   id: number
@@ -152,6 +152,10 @@ onMounted(() => { loadUsers(); loadSyncStatus() })
         <span class="bc-current">Users</span>
       </div>
       <div class="nav-right">
+        <NuxtLink to="/admin/settings" class="nav-link">
+          <Settings :size="14" />
+          Settings
+        </NuxtLink>
         <div class="user-chip">
           <span class="avatar">{{ currentUser?.username?.[0]?.toUpperCase() }}</span>
           <span class="uname">{{ currentUser?.username }}</span>
@@ -345,6 +349,15 @@ onMounted(() => { loadUsers(); loadSyncStatus() })
 </template>
 
 <style scoped>
+/* ── Nav link ── */
+.nav-link {
+  display: flex; align-items: center; gap: 0.35rem;
+  font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.75);
+  text-decoration: none; padding: 0.3rem 0.6rem; border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
+}
+.nav-link:hover { background: rgba(255,255,255,0.12); color: #fff; }
+
 /* ── Main content ── */
 .main { flex: 1; padding: 2.5rem 2rem; max-width: 1000px; margin: 0 auto; width: 100%; }
 .page-head {

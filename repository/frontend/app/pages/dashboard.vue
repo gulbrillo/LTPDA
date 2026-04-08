@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Users, FolderOpen } from 'lucide-vue-next'
+import { Users, FolderOpen, Settings } from 'lucide-vue-next'
 const { user, logout } = useAuth()
 </script>
 
@@ -14,6 +14,10 @@ const { user, logout } = useAuth()
         <NuxtLink v-if="user?.is_admin" to="/admin/users" class="nav-link">
           <Users :size="14" />
           Users
+        </NuxtLink>
+        <NuxtLink v-if="user?.is_admin" to="/admin/settings" class="nav-link">
+          <Settings :size="14" />
+          Settings
         </NuxtLink>
         <div class="user-chip">
           <span class="avatar">{{ user?.username?.[0]?.toUpperCase() }}</span>

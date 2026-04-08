@@ -62,6 +62,17 @@ def write_config(
     CONFIG_FILE.write_text(json.dumps(data, indent=2))
 
 
+def update_ssh_sync_config(enabled: bool, port: int, secret: str | None) -> None:
+    """Patch only the SSH sync fields in config.json, leaving everything else untouched."""
+    data = _load()
+    data["ssh_sync_enabled"] = enabled
+    if enabled:
+        data["ssh_sync_url"] = f"http://host.docker.internal:{port}"
+        if secret:
+            data["ssh_sync_secret"] = secret
+    CONFIG_FILE.write_text(json.dumps(data, indent=2))
+
+
 def get_ssh_sync_config() -> dict:
     cfg = _load()
     return {
