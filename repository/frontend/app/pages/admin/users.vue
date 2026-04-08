@@ -17,11 +17,14 @@ const { apiFetch, user: currentUser, logout } = useAuth()
 const users = ref<User[]>([])
 const loading = ref(false)
 const error = ref('')
+const notice = ref('')
 
 const showDialog = ref(false)
 const editTarget = ref<User | null>(null)
 const showPw = ref(false)
 const saving = ref(false)
+const dialogError = ref('')
+const dialogSuccess = ref('')
 const form = reactive({
   username: '',
   password: '',
@@ -46,6 +49,8 @@ async function loadUsers() {
 function openCreate() {
   editTarget.value = null
   showPw.value = false
+  dialogError.value = ''
+  dialogSuccess.value = ''
   Object.assign(form, { username: '', password: '', first_name: '', last_name: '', email: '', institution: '', is_admin: false })
   showDialog.value = true
 }
@@ -53,15 +58,18 @@ function openCreate() {
 function openEdit(u: User) {
   editTarget.value = u
   showPw.value = false
+  dialogError.value = ''
+  dialogSuccess.value = ''
   Object.assign(form, { username: u.username, password: '', first_name: u.first_name ?? '', last_name: u.last_name ?? '', email: u.email ?? '', institution: u.institution ?? '', is_admin: u.is_admin })
   showDialog.value = true
 }
 
 async function saveUser() {
   saving.value = true
-  error.value = ''
+  dialogError.value = ''
+  dialogSuccess.value = ''
   try {
-    type SaveResult = { user: unknown; ssh_sync: { ok: boolean; error?: string; skipped?: boolean } }
+    type SaveResult = { user: unknown; ssh_sync: { ok: boolean; error?: string; skipped?: boolean; conflict?: boolean } }
     let result: SaveResult | null = null
     if (editTarget.value) {
       const body: Record<string, unknown> = {
@@ -76,15 +84,25 @@ async function saveUser() {
     } else {
       result = await apiFetch<SaveResult>('/users', { method: 'POST', body: { ...form } })
     }
-    showDialog.value = false
     await loadUsers()
-    // Surface SSH sync failures as a non-blocking warning
-    if (result?.ssh_sync && !result.ssh_sync.ok && !result.ssh_sync.skipped) {
-      error.value = `User saved, but SSH sync failed: ${result.ssh_sync.error ?? 'unknown error'}. Create the Linux account manually or check the sync daemon.`
+    const sync = result?.ssh_sync
+    if (sync && !sync.ok && !sync.skipped) {
+      // User saved OK, but SSH sync failed — keep dialog open with warning
+      dialogError.value = `User saved, but SSH account sync failed: ${sync.error ?? 'unknown error'}`
+      if (sync.conflict) {
+        dialogError.value += ' — a system account with this username already exists on the host. Choose a different username or remove the conflicting account manually.'
+      } else {
+        dialogError.value += '. Create the Linux account manually or check the sync daemon.'
+      }
+    } else {
+      // Full success — show brief confirmation then close
+      const synced = sync && sync.ok && !sync.skipped
+      dialogSuccess.value = synced ? 'User saved and SSH account synced.' : 'User saved.'
+      setTimeout(() => { showDialog.value = false; dialogSuccess.value = '' }, 1500)
     }
   } catch (e: unknown) {
-    const err = e as { data?: { detail?: string } }
-    error.value = err?.data?.detail ?? 'Save failed.'
+    const fe = e as { data?: { detail?: string; error?: string }; message?: string }
+    dialogError.value = fe?.data?.detail || fe?.data?.error || fe?.message || 'Save failed.'
   } finally {
     saving.value = false
   }
@@ -92,11 +110,23 @@ async function saveUser() {
 
 async function deleteUser(u: User) {
   if (!confirm(`Delete "${u.username}"? This cannot be undone.`)) return
+  error.value = ''
+  notice.value = ''
   try {
-    await apiFetch(`/users/${u.id}`, { method: 'DELETE' })
+    type DeleteResult = { ok: boolean; ssh_sync: { ok: boolean; error?: string; skipped?: boolean } }
+    const result = await apiFetch<DeleteResult>(`/users/${u.id}`, { method: 'DELETE' })
     await loadUsers()
-  } catch {
-    error.value = 'Delete failed.'
+    const sync = result?.ssh_sync
+    if (sync && !sync.ok && !sync.skipped) {
+      error.value = `"${u.username}" deleted, but SSH account removal failed: ${sync.error ?? 'unknown error'}. Remove the Linux account manually with: sudo userdel -r ${u.username}`
+    } else {
+      const synced = sync && sync.ok && !sync.skipped
+      notice.value = synced ? `"${u.username}" deleted and SSH account removed.` : `"${u.username}" deleted.`
+      setTimeout(() => { notice.value = '' }, 4000)
+    }
+  } catch (e: unknown) {
+    const fe = e as { data?: { detail?: string; error?: string }; message?: string }
+    error.value = fe?.data?.detail || fe?.data?.error || fe?.message || 'Delete failed.'
   }
 }
 
@@ -195,6 +225,7 @@ onMounted(() => { loadUsers(); loadSyncStatus() })
         </button>
       </div>
 
+      <div v-if="notice" class="banner-ok">{{ notice }}</div>
       <div v-if="error" class="banner-error">
         {{ error }}
         <button @click="error = ''">✕</button>
@@ -331,6 +362,9 @@ onMounted(() => { loadUsers(); loadSyncStatus() })
                 <div class="toggle-thumb"/>
               </div>
             </label>
+
+            <div v-if="dialogError" class="dialog-banner dialog-banner-error">{{ dialogError }}</div>
+            <div v-if="dialogSuccess" class="dialog-banner dialog-banner-ok">{{ dialogSuccess }}</div>
 
             <div class="dialog-foot">
               <button type="button" class="btn-cancel" @click="showDialog = false">Cancel</button>
@@ -470,6 +504,21 @@ h1 { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.025em; color: #1e30
 }
 .toggle-track.active .toggle-thumb { transform: translateX(16px); }
 .sr-only { position: absolute; opacity: 0; pointer-events: none; width: 1px; height: 1px; overflow: hidden; }
+
+/* ── Page notice (success) ── */
+.banner-ok {
+  padding: 0.65rem 1rem; margin-bottom: 1rem;
+  background: #f0fdf4; border: 1px solid #bbf7d0;
+  border-radius: 8px; font-size: 0.825rem; color: #15803d;
+}
+
+/* ── Dialog banners ── */
+.dialog-banner {
+  padding: 0.6rem 0.85rem; border-radius: 8px;
+  font-size: 0.8rem; line-height: 1.5; margin-bottom: 1rem;
+}
+.dialog-banner-error { background: #fef2f2; border: 1px solid #fecaca; color: #b91c1c; }
+.dialog-banner-ok    { background: #f0fdf4; border: 1px solid #bbf7d0; color: #15803d; }
 
 /* ── Dialog footer ── */
 .dialog-foot { display: flex; justify-content: flex-end; gap: 0.6rem; padding-top: 0.25rem; }

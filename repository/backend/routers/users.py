@@ -41,11 +41,21 @@ async def _call_ssh_sync(action: str, payload: dict) -> dict:
                 r = await client.post(f"{url}/sync/user/update", headers=headers, content=body)
         if r.status_code in (200, 201, 204):
             return {"ok": True}
-        return {"ok": False, "error": f"Daemon returned HTTP {r.status_code}: {r.text[:200]}"}
-    except httpx.ConnectError:
-        return {"ok": False, "error": "Cannot reach SSH sync daemon"}
+        # Try to extract the daemon's own error message from the JSON body
+        try:
+            data = r.json()
+            msg = data.get("error") or f"Daemon returned HTTP {r.status_code}"
+        except Exception:
+            msg = f"Daemon returned HTTP {r.status_code}: {r.text[:200]}"
+        return {"ok": False, "error": msg, "conflict": r.status_code == 409}
+    except httpx.ConnectError as e:
+        msg = str(e) or "TCP connection refused"
+        return {"ok": False, "error": f"Cannot reach SSH sync daemon — is it running? ({msg})"}
+    except httpx.TimeoutException:
+        return {"ok": False, "error": "SSH sync daemon did not respond within 5 s"}
     except Exception as e:
-        return {"ok": False, "error": str(e)}
+        msg = str(e) or type(e).__name__
+        return {"ok": False, "error": f"SSH sync error ({type(e).__name__}): {msg}"}
 
 
 @router.get("", response_model=list[UserOut])
@@ -156,7 +166,7 @@ async def update_user(
     return {"user": UserOut.model_validate(user).model_dump(mode="json"), "ssh_sync": sync}
 
 
-@router.delete("/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{user_id}")
 async def delete_user(
     user_id: int,
     current: User = Depends(require_admin),
@@ -174,7 +184,7 @@ async def delete_user(
     await session.delete(user)
     await session.commit()
 
-    # Drop matching MySQL user account
+    # Drop matching MySQL user account (best-effort)
     try:
         conn = await get_admin_connection()
         async with conn:
@@ -182,6 +192,7 @@ async def delete_user(
                 await cur.execute(f"DROP USER IF EXISTS '{username}'@'%%'")
                 await cur.execute("FLUSH PRIVILEGES")
     except Exception:
-        pass  # MySQL user removal is best-effort; app record is already gone
+        pass
 
-    await _call_ssh_sync("delete", {"username": username})
+    sync = await _call_ssh_sync("delete", {"username": username})
+    return {"ok": True, "ssh_sync": sync}
