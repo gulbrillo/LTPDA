@@ -32,13 +32,13 @@ async def _call_ssh_sync(action: str, payload: dict) -> dict:
     try:
         async with httpx.AsyncClient(timeout=5.0) as client:
             if action == "delete":
-                r = await client.delete(
-                    f"{url}/sync/user/{payload['username']}", headers=headers, content=body
+                r = await client.request(
+                    "DELETE", f"{url}/sync/user/{payload['username']}", headers=headers, content=body
                 )
             elif action == "create":
-                r = await client.post(f"{url}/sync/user/create", headers=headers, content=body)
+                r = await client.request("POST", f"{url}/sync/user/create", headers=headers, content=body)
             else:  # update
-                r = await client.post(f"{url}/sync/user/update", headers=headers, content=body)
+                r = await client.request("POST", f"{url}/sync/user/update", headers=headers, content=body)
         if r.status_code in (200, 201, 204):
             return {"ok": True}
         # Try to extract the daemon's own error message from the JSON body
@@ -115,7 +115,7 @@ async def create_user(
     return {"user": UserOut.model_validate(user).model_dump(mode="json"), "ssh_sync": sync}
 
 
-@router.put("/{user_id}", response_model=UserOut)
+@router.put("/{user_id}")
 async def update_user(
     user_id: int,
     body: UserUpdate,
