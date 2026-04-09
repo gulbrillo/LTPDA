@@ -44,9 +44,7 @@ const { title } = useTopbar()
       </div>
     </nav>
 
-    <div class="page-slot">
-      <slot />
-    </div>
+    <slot />
 
   </div>
 </template>
@@ -64,7 +62,4 @@ const { title } = useTopbar()
 }
 .nav-link:hover { background: rgba(255,255,255,0.12); color: #fff; }
 .nav-link.router-link-exact-active { background: rgba(255,255,255,0.18); color: #fff; }
-
-/* Contain the absolute-positioned leaving page during transitions */
-.page-slot { position: relative; flex: 1; display: flex; flex-direction: column; overflow: hidden; }
 </style>

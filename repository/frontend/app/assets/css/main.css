@@ -203,13 +203,15 @@ input:not([type="checkbox"]):focus {
 /* ── Page transitions — Vuetify slide-y-reverse ──────────────────────────
    Leaving:  fades out + slides up   (-15px)
    Entering: starts above (-15px) + slides down to 0, fades in          */
-.page-leave-active { transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-                                 transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-                     position: absolute; top: 0; left: 0; width: 100%; }
-.page-enter-active { transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-                                 transform 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
-.page-leave-to   { opacity: 0; transform: translateY(-15px); }
-.page-enter-from { opacity: 0; transform: translateY(-15px); }
+/* slide-y-reverse: leave slides down+fade, enter slides up from below+fade
+   position:absolute is applied via JS onLeave hook (exact Vuetify leaveAbsolute) */
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.page-enter-from,
+.page-leave-to { opacity: 0; transform: translateY(15px); }
 
 /* ── Modal (dialog) open / close transitions ───── */
 /* Overlay: fade */
