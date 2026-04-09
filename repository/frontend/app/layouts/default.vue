@@ -39,12 +39,9 @@ const { title } = useTopbar()
             Settings
           </NuxtLink>
         </template>
-        <div class="user-pill">
-          <span class="avatar">{{ user?.username?.[0]?.toUpperCase() }}</span>
-          <span class="uname">{{ user?.username }}</span>
-          <span v-if="user?.is_admin" class="admin-dot" title="Administrator" />
-          <span class="pill-sep" />
-          <button class="pill-signout" @click="logout">Sign out</button>
+        <div class="user-field">
+          <span class="user-field-name">{{ (user?.first_name && user?.last_name) ? `${user.first_name} ${user.last_name}` : user?.username }}</span>
+          <button class="user-field-signout" @click="logout">Sign out</button>
         </div>
       </div>
     </nav>
@@ -68,22 +65,24 @@ const { title } = useTopbar()
 .nav-link:hover { background: rgba(255,255,255,0.12); color: #fff; }
 .nav-link.router-link-exact-active { background: rgba(255,255,255,0.18); color: #fff; }
 
-.user-pill {
-  display: flex; align-items: center; gap: 0.45rem;
-  padding: 0.22rem 0 0.22rem 0.28rem;
-  background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 999px; position: relative;
+.user-field {
+  display: flex; align-items: stretch;
+  border: 1px solid rgba(255,255,255,0.25); border-radius: 8px; overflow: hidden;
 }
-.pill-sep {
-  width: 1px; height: 16px;
-  background: rgba(255,255,255,0.25); flex-shrink: 0;
+.user-field-name {
+  display: flex; align-items: center;
+  padding: 0 0.75rem;
+  background: rgba(255,255,255,0.1);
+  font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.9);
+  white-space: nowrap; user-select: none; pointer-events: none;
 }
-.pill-signout {
-  font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.75);
-  background: none; border: none; cursor: pointer;
-  padding: 0.1rem 0.65rem 0.1rem 0.4rem;
-  border-radius: 0 999px 999px 0;
+.user-field-signout {
+  display: flex; align-items: center;
+  padding: 0 0.75rem;
+  background: rgba(255,255,255,0.18); border: none; border-left: 1px solid rgba(255,255,255,0.25);
+  font-size: 0.75rem; font-weight: 600; color: rgba(255,255,255,0.85);
+  cursor: pointer; white-space: nowrap;
   transition: background 0.12s, color 0.12s;
 }
-.pill-signout:hover { background: rgba(255,255,255,0.12); color: #fff; }
+.user-field-signout:hover { background: rgba(255,255,255,0.3); color: #fff; }
 </style>

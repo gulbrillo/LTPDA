@@ -30,10 +30,14 @@ async def create_user(
     if existing.scalar_one_or_none():
         raise HTTPException(status.HTTP_409_CONFLICT, "Username already exists")
 
+    # Use explicit mysql_password if given, otherwise fall back to the web password.
+    # Every user needs a MySQL account so MATLAB/JDBC access works.
+    mysql_pw = body.mysql_password or body.password
+
     user = User(
         username=body.username,
         password_hash=hash_password(body.password),
-        mysql_password=body.mysql_password,
+        mysql_password=mysql_pw,
         first_name=body.first_name,
         last_name=body.last_name,
         email=body.email,
@@ -44,22 +48,21 @@ async def create_user(
     await session.commit()
     await session.refresh(user)
 
-    # Create matching MySQL user account (for MATLAB JDBC access)
-    if body.mysql_password:
-        try:
-            conn = await get_admin_connection()
-            async with conn:
-                async with conn.cursor() as cur:
-                    await cur.execute(
-                        f"CREATE USER IF NOT EXISTS '{body.username}'@'%%' IDENTIFIED BY %s",
-                        (body.mysql_password,),
-                    )
-                    await cur.execute("FLUSH PRIVILEGES")
-        except Exception as e:
-            raise HTTPException(
-                status.HTTP_500_INTERNAL_SERVER_ERROR,
-                f"App user created but MySQL user creation failed: {e}",
-            )
+    # Always create a matching MySQL user account (required for MATLAB JDBC access)
+    try:
+        conn = await get_admin_connection()
+        async with conn:
+            async with conn.cursor() as cur:
+                await cur.execute(
+                    f"CREATE USER IF NOT EXISTS '{body.username}'@'%%' IDENTIFIED BY %s",
+                    (mysql_pw,),
+                )
+                await cur.execute("FLUSH PRIVILEGES")
+    except Exception as e:
+        raise HTTPException(
+            status.HTTP_500_INTERNAL_SERVER_ERROR,
+            f"App user created but MySQL user creation failed: {e}",
+        )
 
     return UserOut.model_validate(user).model_dump(mode="json")
 
@@ -88,22 +91,29 @@ async def update_user(
         user.is_admin = body.is_admin
     if body.password:
         user.password_hash = hash_password(body.password)
-    if body.mysql_password:
-        user.mysql_password = body.mysql_password
-        # Update MySQL account password as well
+    # Determine the new MySQL password (explicit override takes precedence; fall back to web password)
+    new_mysql_pw = body.mysql_password or (body.password if body.password else None)
+    if new_mysql_pw:
+        user.mysql_password = new_mysql_pw
+        # Create-or-update the MySQL account
         try:
             conn = await get_admin_connection()
             async with conn:
                 async with conn.cursor() as cur:
+                    # CREATE IF NOT EXISTS handles users who slipped through without a MySQL account
                     await cur.execute(
-                        f"ALTER USER IF EXISTS '{user.username}'@'%%' IDENTIFIED BY %s",
-                        (body.mysql_password,),
+                        f"CREATE USER IF NOT EXISTS '{user.username}'@'%%' IDENTIFIED BY %s",
+                        (new_mysql_pw,),
+                    )
+                    await cur.execute(
+                        f"ALTER USER '{user.username}'@'%%' IDENTIFIED BY %s",
+                        (new_mysql_pw,),
                     )
                     await cur.execute("FLUSH PRIVILEGES")
         except Exception as e:
             raise HTTPException(
                 status.HTTP_500_INTERNAL_SERVER_ERROR,
-                f"App user updated but MySQL password change failed: {e}",
+                f"App user updated but MySQL password sync failed: {e}",
             )
 
     await session.commit()

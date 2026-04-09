@@ -291,13 +291,32 @@ async def grant_access(
     user_result = await session.execute(
         select(UserModel).where(UserModel.username == username)
     )
-    if not user_result.scalar_one_or_none():
+    db_user = user_result.scalar_one_or_none()
+    if not db_user:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "User not found")
 
     try:
         conn = await get_admin_connection()
         async with conn:
             async with conn.cursor() as cur:
+                # Ensure the MySQL account exists before attempting any GRANT/REVOKE
+                await cur.execute(
+                    "SELECT COUNT(*) FROM mysql.user WHERE User = %s AND Host = '%%'",
+                    (username,),
+                )
+                row = await cur.fetchone()
+                if row[0] == 0:
+                    if not db_user.mysql_password:
+                        raise HTTPException(
+                            status.HTTP_400_BAD_REQUEST,
+                            f"User '{username}' has no MySQL/MATLAB account. "
+                            "Edit the user and save a password to create one.",
+                        )
+                    await cur.execute(
+                        f"CREATE USER '{username}'@'%%' IDENTIFIED BY %s",
+                        (db_user.mysql_password,),
+                    )
+
                 if body.can_read:
                     # SELECT on entire database (for MATLAB to browse objects)
                     await cur.execute(

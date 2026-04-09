@@ -60,12 +60,25 @@ onMounted(async () => {
   await loadRepos()
 })
 
+function apiErrorMessage(e: unknown): string {
+  const fe = e as { status?: number; statusCode?: number; data?: { detail?: string; error?: string }; message?: string }
+  const status = fe.status ?? fe.statusCode
+  if (!status) return 'Cannot reach the server. Check your connection or try again later.'
+  const detail = fe.data?.detail || fe.data?.error
+  if (detail) return detail
+  if (status === 401) return 'Session expired — please log in again.'
+  if (status === 403) return 'You do not have permission to do this.'
+  if (status === 409) return 'Conflict: a repository with that database name already exists.'
+  if (status >= 500) return `Server error (${status}). Check the server logs for details.`
+  return fe.message || `Unexpected error (${status}).`
+}
+
 async function loadRepos() {
   loading.value = true
   try {
     repos.value = await apiFetch<Repo[]>('/repos')
-  } catch {
-    error.value = 'Failed to load repositories.'
+  } catch (e: unknown) {
+    error.value = apiErrorMessage(e)
   } finally {
     loading.value = false
   }
@@ -114,8 +127,7 @@ async function saveRepo() {
     dialogSuccess.value = editTarget.value ? 'Repository updated.' : 'Repository created.'
     setTimeout(() => { showDialog.value = false; dialogSuccess.value = '' }, 1500)
   } catch (e: unknown) {
-    const fe = e as { data?: { detail?: string }; message?: string }
-    dialogError.value = fe?.data?.detail || fe?.message || 'Save failed.'
+    dialogError.value = apiErrorMessage(e)
   } finally {
     saving.value = false
   }
@@ -132,8 +144,7 @@ async function deleteRepo(r: Repo) {
     notice.value = `Repository "${r.name}" deleted.`
     setTimeout(() => { notice.value = '' }, 5000)
   } catch (e: unknown) {
-    const fe = e as { data?: { detail?: string }; message?: string }
-    error.value = fe?.data?.detail || fe?.message || 'Delete failed.'
+    error.value = apiErrorMessage(e)
   }
 }
 
@@ -153,8 +164,8 @@ async function loadAccess(db_name: string) {
   accessError.value[db_name] = ''
   try {
     accessData.value[db_name] = await apiFetch<AccessEntry[]>(`/repos/${db_name}/access`)
-  } catch {
-    accessError.value[db_name] = 'Failed to load access list.'
+  } catch (e: unknown) {
+    accessError.value[db_name] = apiErrorMessage(e)
   } finally {
     accessLoading.value[db_name] = false
   }
@@ -172,10 +183,7 @@ async function setAccess(db_name: string, username: string, can_read: boolean, c
     const entry = accessData.value[db_name]?.find(e => e.username === username)
     if (entry) { entry.can_read = can_read; entry.can_write = can_write }
   } catch (e: unknown) {
-    const fe = e as { data?: { detail?: string }; message?: string }
-    const msg = fe?.data?.detail || fe?.message || 'Failed to update access.'
-    console.error('setAccess error:', msg, e)
-    accessError.value[db_name] = msg
+    accessError.value[db_name] = apiErrorMessage(e)
     await loadAccess(db_name)
   } finally {
     toggleSaving.value[key] = false

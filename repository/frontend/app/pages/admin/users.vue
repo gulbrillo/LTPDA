@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Plus, X, Eye, EyeOff, UserRound } from 'lucide-vue-next'
+import { Plus, X, Eye, EyeOff, UserRound, RefreshCw } from 'lucide-vue-next'
 
 definePageMeta({ layout: 'default' })
 
@@ -33,12 +33,14 @@ function onOverlayClick() {
 const showDialog = ref(false)
 const editTarget = ref<User | null>(null)
 const showPw = ref(false)
+const showMysqlPw = ref(false)
 const saving = ref(false)
 const dialogError = ref('')
 const dialogSuccess = ref('')
 const form = reactive({
   username: '',
   password: '',
+  mysql_password: '',
   first_name: '',
   last_name: '',
   email: '',
@@ -46,12 +48,47 @@ const form = reactive({
   is_admin: false,
 })
 
+function generatePassword(): string {
+  const lower = 'abcdefghijklmnopqrstuvwxyz'
+  const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  const digits = '0123456789'
+  const symbols = '!@#$%^&*-_=+'
+  const all = lower + upper + digits + symbols
+  const bytes = new Uint8Array(24)
+  crypto.getRandomValues(bytes)
+  const pick = (charset: string, byte: number) => charset[byte % charset.length]
+  const chars = [
+    pick(lower, bytes[0]), pick(upper, bytes[1]), pick(digits, bytes[2]), pick(symbols, bytes[3]),
+    ...Array.from(bytes.slice(4), b => all[b % all.length]),
+  ]
+  for (let i = chars.length - 1; i > 0; i--) {
+    const j = bytes[i % bytes.length] % (i + 1)
+    ;[chars[i], chars[j]] = [chars[j], chars[i]]
+  }
+  return chars.join('')
+}
+
+// Converts a fetch/network error into a user-facing message.
+// Distinguishes between "server unreachable" (no status code) and "server returned an error".
+function apiErrorMessage(e: unknown): string {
+  const fe = e as { status?: number; statusCode?: number; data?: { detail?: string; error?: string }; message?: string }
+  const status = fe.status ?? fe.statusCode
+  if (!status) return 'Cannot reach the server. Check your connection or try again later.'
+  const detail = fe.data?.detail || fe.data?.error
+  if (detail) return detail
+  if (status === 401) return 'Session expired — please log in again.'
+  if (status === 403) return 'You do not have permission to do this.'
+  if (status === 409) return 'Conflict: that username already exists.'
+  if (status >= 500) return `Server error (${status}). Check the server logs for details.`
+  return fe.message || `Unexpected error (${status}).`
+}
+
 async function loadUsers() {
   loading.value = true
   try {
     users.value = await apiFetch<User[]>('/users')
-  } catch {
-    error.value = 'Failed to load users.'
+  } catch (e: unknown) {
+    error.value = apiErrorMessage(e)
   } finally {
     loading.value = false
   }
@@ -60,18 +97,20 @@ async function loadUsers() {
 function openCreate() {
   editTarget.value = null
   showPw.value = false
+  showMysqlPw.value = false
   dialogError.value = ''
   dialogSuccess.value = ''
-  Object.assign(form, { username: '', password: '', first_name: '', last_name: '', email: '', institution: '', is_admin: false })
+  Object.assign(form, { username: '', password: '', mysql_password: '', first_name: '', last_name: '', email: '', institution: '', is_admin: false })
   showDialog.value = true
 }
 
 function openEdit(u: User) {
   editTarget.value = u
   showPw.value = false
+  showMysqlPw.value = false
   dialogError.value = ''
   dialogSuccess.value = ''
-  Object.assign(form, { username: u.username, password: '', first_name: u.first_name ?? '', last_name: u.last_name ?? '', email: u.email ?? '', institution: u.institution ?? '', is_admin: u.is_admin })
+  Object.assign(form, { username: u.username, password: '', mysql_password: '', first_name: u.first_name ?? '', last_name: u.last_name ?? '', email: u.email ?? '', institution: u.institution ?? '', is_admin: u.is_admin })
   showDialog.value = true
 }
 
@@ -89,6 +128,7 @@ async function saveUser() {
         is_admin: form.is_admin,
       }
       if (form.password) body.password = form.password
+      if (form.mysql_password) body.mysql_password = form.mysql_password
       await apiFetch(`/users/${editTarget.value.id}`, { method: 'PUT', body })
     } else {
       await apiFetch('/users', { method: 'POST', body: { ...form } })
@@ -97,8 +137,7 @@ async function saveUser() {
     dialogSuccess.value = 'User saved.'
     setTimeout(() => { showDialog.value = false; dialogSuccess.value = '' }, 1500)
   } catch (e: unknown) {
-    const fe = e as { data?: { detail?: string; error?: string }; message?: string }
-    dialogError.value = fe?.data?.detail || fe?.data?.error || fe?.message || 'Save failed.'
+    dialogError.value = apiErrorMessage(e)
   } finally {
     saving.value = false
   }
@@ -114,8 +153,7 @@ async function deleteUser(u: User) {
     notice.value = `"${u.username}" deleted.`
     setTimeout(() => { notice.value = '' }, 4000)
   } catch (e: unknown) {
-    const fe = e as { data?: { detail?: string; error?: string }; message?: string }
-    error.value = fe?.data?.detail || fe?.data?.error || fe?.message || 'Delete failed.'
+    error.value = apiErrorMessage(e)
   }
 }
 
@@ -258,7 +296,7 @@ onMounted(() => loadUsers())
 
             <div class="field">
               <label>
-                {{ editTarget ? 'New password' : 'Password' }}
+                Web UI password
                 <span v-if="!editTarget" class="req">*</span>
               </label>
               <div class="pw-row">
@@ -271,10 +309,32 @@ onMounted(() => loadUsers())
                   class="pw-input"
                 />
                 <button type="button" class="eye-btn" @click="showPw = !showPw">
-                  <EyeOff v-if="showPw" />
-                  <Eye v-else />
+                  <EyeOff v-if="showPw" /><Eye v-else />
+                </button>
+                <button type="button" class="gen-btn" @click="form.password = generatePassword(); showPw = true">
+                  <RefreshCw :size="11" /> Generate
                 </button>
               </div>
+            </div>
+
+            <div class="field">
+              <label>MySQL / MATLAB password</label>
+              <div class="pw-row">
+                <input
+                  v-model="form.mysql_password"
+                  :type="showMysqlPw ? 'text' : 'password'"
+                  :placeholder="editTarget ? 'Leave blank to keep current' : 'Leave blank to use web UI password'"
+                  autocomplete="new-password"
+                  class="pw-input"
+                />
+                <button type="button" class="eye-btn" @click="showMysqlPw = !showMysqlPw">
+                  <EyeOff v-if="showMysqlPw" /><Eye v-else />
+                </button>
+                <button type="button" class="gen-btn" @click="form.mysql_password = generatePassword(); showMysqlPw = true">
+                  <RefreshCw :size="11" /> Generate
+                </button>
+              </div>
+              <p class="field-hint">Used by MATLAB to connect via JDBC. Can differ from the web UI password.</p>
             </div>
 
             <!-- Admin toggle -->
@@ -393,11 +453,21 @@ h1 { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.025em; color: #1e30
 }
 .pw-row:focus-within { border-color: #2f5596; box-shadow: 0 0 0 3px rgba(47,85,150,0.12); }
 .eye-btn {
-  flex-shrink: 0; width: 38px; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; width: 36px; display: flex; align-items: center; justify-content: center;
   background: none; border: none; cursor: pointer; color: #a8bdd0; transition: color 0.12s;
 }
 .eye-btn:hover { color: #4a6080; }
 .eye-btn svg { width: 15px; height: 15px; }
+
+.gen-btn {
+  flex-shrink: 0; display: flex; align-items: center; gap: 0.3rem;
+  padding: 0 0.65rem; background: #eef2f7; border: none; border-left: 1px solid #c8d8ec;
+  font-size: 0.72rem; font-weight: 600; color: #4a6080; cursor: pointer; white-space: nowrap;
+  transition: background 0.1s, color 0.1s;
+}
+.gen-btn:hover { background: #dce8f5; color: #2f5596; }
+
+.field-hint { font-size: 0.75rem; color: #8aa0b8; margin-top: 0.3rem; line-height: 1.5; }
 
 /* ── Toggle ── */
 .toggle-row {
