@@ -16,7 +16,7 @@ interface User {
 
 const { apiFetch, user: currentUser } = useAuth()
 const { setTitle } = useTopbar()
-setTitle('Users')
+onMounted(() => setTitle('Users'))
 
 const users = ref<User[]>([])
 const loading = ref(false)

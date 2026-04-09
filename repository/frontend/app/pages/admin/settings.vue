@@ -4,7 +4,7 @@ definePageMeta({ layout: 'default' })
 const { apiFetch, user: currentUser } = useAuth()
 const router = useRouter()
 const { setTitle } = useTopbar()
-setTitle('Settings')
+onMounted(() => setTitle('Settings'))
 
 // ── Auth guard ────────────────────────────────────────────────────────────────
 onMounted(async () => {

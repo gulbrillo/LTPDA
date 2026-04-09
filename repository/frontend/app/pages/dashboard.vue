@@ -5,7 +5,7 @@ definePageMeta({ layout: 'default' })
 
 const { apiFetch, user } = useAuth()
 const { setTitle } = useTopbar()
-setTitle(null) // brand mode
+onMounted(() => setTitle(null))
 
 interface Repo {
   id: number

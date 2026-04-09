@@ -10,7 +10,6 @@ const route = useRoute()
 const db_name = computed(() => route.params.db_name as string)
 const { apiFetch, user } = useAuth()
 const { setTitle } = useTopbar()
-setTitle(route.params.db_name as string) // updated to display name after loadRepoName()
 
 // ── Types ────────────────────────────────────────────────────────────────────
 interface ObjectListItem {
@@ -118,6 +117,7 @@ async function loadRepoName() {
     setTitle(r.name)
   } catch {
     repoName.value = db_name.value
+    setTitle(db_name.value)
   }
 }
 
@@ -242,6 +242,7 @@ function fmtDate(dt: string | null) {
 }
 
 onMounted(async () => {
+  setTitle(db_name.value)
   await loadRepoName()
   await loadObjects()
 })

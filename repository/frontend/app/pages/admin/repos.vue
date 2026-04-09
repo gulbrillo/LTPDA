@@ -21,7 +21,7 @@ interface AccessEntry {
 const { apiFetch, user: currentUser } = useAuth()
 const router = useRouter()
 const { setTitle } = useTopbar()
-setTitle('Repositories')
+onMounted(() => setTitle('Repositories'))
 
 const repos = ref<Repo[]>([])
 const loading = ref(false)
