@@ -14,6 +14,10 @@ interface Repo {
 
 interface AccessEntry {
   username: string
+  is_admin: boolean
+  first_name: string | null
+  last_name: string | null
+  institution: string | null
   can_read: boolean
   can_write: boolean
 }
@@ -133,18 +137,32 @@ async function saveRepo() {
   }
 }
 
-async function deleteRepo(r: Repo) {
-  if (!confirm(`Delete repository "${r.name}" (${r.db_name})?\n\nThis will permanently drop the MySQL database and all its data. This cannot be undone.`)) return
+// ── Delete confirmation dialog ───────────────────────────────────────────────
+const deleteTarget = ref<Repo | null>(null)
+const deleting = ref(false)
+
+function openDelete(r: Repo) {
+  deleteTarget.value = r
+}
+
+async function confirmDelete() {
+  if (!deleteTarget.value) return
+  const r = deleteTarget.value
+  deleting.value = true
   error.value = ''
   notice.value = ''
   try {
     await apiFetch(`/repos/${r.db_name}`, { method: 'DELETE' })
+    deleteTarget.value = null
     await loadRepos()
     if (expandedRepo.value === r.db_name) expandedRepo.value = null
     notice.value = `Repository "${r.name}" deleted.`
     setTimeout(() => { notice.value = '' }, 5000)
   } catch (e: unknown) {
     error.value = apiErrorMessage(e)
+    deleteTarget.value = null
+  } finally {
+    deleting.value = false
   }
 }
 
@@ -268,7 +286,7 @@ function onWriteToggle(db_name: string, entry: AccessEntry) {
                       <ChevronUp v-if="expandedRepo === repo.db_name" :size="11" />
                       <ChevronDown v-else :size="11" />
                     </button>
-                    <button class="act-btn act-danger" @click="deleteRepo(repo)">
+                    <button class="act-btn act-danger" @click="openDelete(repo)">
                       <Trash2 :size="12" />
                       Delete
                     </button>
@@ -296,13 +314,24 @@ function onWriteToggle(db_name: string, entry: AccessEntry) {
                           <thead>
                             <tr>
                               <th>Username</th>
+                              <th>Name</th>
                               <th class="toggle-th">Read</th>
                               <th class="toggle-th">Write</th>
                             </tr>
                           </thead>
                           <tbody>
                             <tr v-for="entry in accessData[repo.db_name]" :key="entry.username">
-                              <td class="access-user">{{ entry.username }}</td>
+                              <td class="access-user">
+                                {{ entry.username }}
+                                <span v-if="entry.is_admin" class="access-admin">(admin)</span>
+                              </td>
+                              <td class="access-name">
+                                <template v-if="entry.first_name || entry.last_name">
+                                  {{ [entry.first_name, entry.last_name].filter(Boolean).join(' ') }}
+                                  <span v-if="entry.institution" class="access-inst">({{ entry.institution }})</span>
+                                </template>
+                                <span v-else class="access-empty">—</span>
+                              </td>
                               <td class="toggle-td">
                                 <button
                                   class="mini-toggle"
@@ -402,6 +431,36 @@ function onWriteToggle(db_name: string, entry: AccessEntry) {
         </div>
       </Transition>
   </Teleport>
+
+  <!-- Delete confirmation dialog -->
+  <Teleport to="body">
+    <Transition name="modal">
+      <div v-if="deleteTarget" class="overlay" @click.self="deleteTarget = null">
+        <div class="dialog">
+          <div class="dialog-top">
+            <h2>Delete repository</h2>
+            <button class="close-btn" @click="deleteTarget = null" aria-label="Close">
+              <X :size="14" />
+            </button>
+          </div>
+          <p class="del-body">
+            Permanently delete <strong>{{ deleteTarget.name }}</strong>
+            (<code class="del-db">{{ deleteTarget.db_name }}</code>)?
+          </p>
+          <p class="del-warn">
+            This will drop the MySQL database and all its data. This cannot be undone.
+          </p>
+          <div class="dialog-foot">
+            <button type="button" class="btn-cancel" @click="deleteTarget = null">Cancel</button>
+            <button type="button" class="btn-danger" :disabled="deleting" @click="confirmDelete">
+              <span v-if="deleting" class="spin spin-sm" />
+              Delete permanently
+            </button>
+          </div>
+        </div>
+      </div>
+    </Transition>
+  </Teleport>
   </div>
 </template>
 
@@ -491,7 +550,11 @@ h1 { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.025em; color: #1e30
 .access-table tbody tr { border-bottom: 1px solid #e8eef6; }
 .access-table tbody tr:last-child { border-bottom: none; }
 .access-table tbody td { padding: 0.55rem 0.9rem; color: #4a6080; vertical-align: middle; }
-.access-user { font-weight: 500; color: #1e3050; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 0.78rem; }
+.access-user { font-weight: 500; color: #1e3050; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 0.78rem; white-space: nowrap; }
+.access-admin { font-family: inherit; font-size: 0.72rem; color: #f0a32a; font-weight: 600; margin-left: 0.3rem; }
+.access-name { font-size: 0.8rem; color: #4a6080; }
+.access-inst { font-size: 0.75rem; color: #8aa0b8; }
+.access-empty { color: #b8cce0; }
 .toggle-td { text-align: center; }
 
 .mini-toggle {
@@ -548,4 +611,22 @@ textarea { resize: vertical; min-height: 68px; }
 .dialog-banner-error { background: #fef2f2; border: 1px solid #fecaca; color: #b91c1c; }
 .dialog-banner-ok    { background: #f0fdf4; border: 1px solid #bbf7d0; color: #15803d; }
 .dialog-foot { display: flex; justify-content: flex-end; gap: 0.6rem; padding-top: 0.25rem; }
+
+.del-body { font-size: 0.875rem; color: #1e3050; margin-bottom: 0.6rem; line-height: 1.5; }
+.del-db { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 0.85em; background: #eef2f7; padding: 0.1em 0.35em; border-radius: 4px; }
+.del-warn {
+  font-size: 0.8rem; color: #b91c1c;
+  background: #fef2f2; border: 1px solid #fecaca;
+  border-radius: 8px; padding: 0.6rem 0.8rem;
+  margin-bottom: 1.5rem; line-height: 1.5;
+}
+
+.btn-danger {
+  display: flex; align-items: center; gap: 0.4rem;
+  padding: 0.5rem 1rem; background: #dc2626; color: #fff; border: none;
+  border-radius: 8px; font-size: 0.825rem; font-weight: 600;
+  cursor: pointer; transition: background 0.15s;
+}
+.btn-danger:hover:not(:disabled) { background: #b91c1c; }
+.btn-danger:disabled { opacity: 0.5; cursor: not-allowed; }
 </style>

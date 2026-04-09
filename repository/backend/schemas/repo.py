@@ -31,6 +31,10 @@ class RepoOut(BaseModel):
 
 class AccessEntry(BaseModel):
     username: str
+    is_admin: bool
+    first_name: str | None
+    last_name: str | None
+    institution: str | None
     can_read: bool
     can_write: bool
 

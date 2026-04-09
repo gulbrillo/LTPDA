@@ -17,12 +17,25 @@ router = APIRouter(prefix="/api/repos", tags=["repos"])
 _DB_NAME_RE = re.compile(r"^[a-z0-9_]+$")
 _SCHEMA_FILE = Path("/app/aorepo_db.sql")
 
+# MySQL built-in and reserved database names that must never be touched
+_RESERVED_DB_NAMES = frozenset({
+    "mysql",
+    "information_schema",
+    "performance_schema",
+    "sys",
+})
+
 
 def _validate_db_name(db_name: str) -> None:
     if not _DB_NAME_RE.match(db_name):
         raise HTTPException(
             status.HTTP_422_UNPROCESSABLE_ENTITY,
             "db_name must contain only lowercase letters, digits, and underscores",
+        )
+    if db_name in _RESERVED_DB_NAMES:
+        raise HTTPException(
+            status.HTTP_422_UNPROCESSABLE_ENTITY,
+            f"'{db_name}' is a reserved MySQL database name and cannot be used",
         )
 
 
@@ -249,6 +262,10 @@ async def list_access(
             await cur.execute(
                 f"""
                 SELECT u.username,
+                       u.is_admin,
+                       u.first_name,
+                       u.last_name,
+                       u.institution,
                        COALESCE(d.Select_priv, 'N') AS can_read,
                        COALESCE(d.Insert_priv, 'N') AS can_write
                 FROM `{admin_db}`.users u
@@ -263,8 +280,12 @@ async def list_access(
     return [
         AccessEntry(
             username=r[0],
-            can_read=(r[1] == "Y"),
-            can_write=(r[2] == "Y"),
+            is_admin=bool(r[1]),
+            first_name=r[2],
+            last_name=r[3],
+            institution=r[4],
+            can_read=(r[5] == "Y"),
+            can_write=(r[6] == "Y"),
         )
         for r in rows
     ]
