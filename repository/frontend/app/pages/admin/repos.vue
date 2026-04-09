@@ -161,9 +161,9 @@ async function toggleAccess(db_name: string) {
 
 async function loadAccess(db_name: string) {
   accessLoading.value[db_name] = true
-  accessError.value[db_name] = ''
   try {
     accessData.value[db_name] = await apiFetch<AccessEntry[]>(`/repos/${db_name}/access`)
+    accessError.value[db_name] = ''   // only clear on success
   } catch (e: unknown) {
     accessError.value[db_name] = apiErrorMessage(e)
   } finally {
@@ -173,18 +173,19 @@ async function loadAccess(db_name: string) {
 
 async function setAccess(db_name: string, username: string, can_read: boolean, can_write: boolean) {
   const key = `${db_name}:${username}`
+  accessError.value[db_name] = ''
   toggleSaving.value[key] = true
   try {
     await apiFetch(`/repos/${db_name}/access/${username}`, {
       method: 'POST',
       body: { can_read, can_write },
     })
-    // Update local state
+    // Update local state (only on success — no optimistic update)
     const entry = accessData.value[db_name]?.find(e => e.username === username)
     if (entry) { entry.can_read = can_read; entry.can_write = can_write }
   } catch (e: unknown) {
+    // Don't reload — toggle state is still correct since we only mutate on success above
     accessError.value[db_name] = apiErrorMessage(e)
-    await loadAccess(db_name)
   } finally {
     toggleSaving.value[key] = false
   }
@@ -286,10 +287,11 @@ function onWriteToggle(db_name: string, entry: AccessEntry) {
                       <div v-if="accessLoading[repo.db_name]" class="access-loading">
                         <div class="spin spin-sm" />
                       </div>
-                      <div v-else-if="accessError[repo.db_name]" class="access-error">
-                        {{ accessError[repo.db_name] }}
-                      </div>
                       <template v-else>
+                      <div v-if="accessError[repo.db_name]" class="access-error">
+                        {{ accessError[repo.db_name] }}
+                        <button class="access-error-dismiss" @click="accessError[repo.db_name] = ''">✕</button>
+                      </div>
                         <table class="access-table">
                           <thead>
                             <tr>
@@ -466,7 +468,18 @@ h1 { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.025em; color: #1e30
 .access-panel-head strong { color: #1e3050; }
 .access-hint { font-size: 0.73rem; color: #8aa0b8; }
 .access-loading { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; color: #6a84a0; padding: 0.5rem 0; }
-.access-error { font-size: 0.8rem; color: #b91c1c; padding: 0.4rem 0; }
+.access-error {
+  display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
+  font-size: 0.8rem; color: #b91c1c;
+  background: #fef2f2; border: 1px solid #fecaca; border-radius: 7px;
+  padding: 0.5rem 0.75rem; margin-bottom: 0.6rem;
+}
+.access-error-dismiss {
+  flex-shrink: 0; background: none; border: none; cursor: pointer;
+  color: #b91c1c; font-size: 0.75rem; padding: 0; line-height: 1;
+  opacity: 0.7; transition: opacity 0.1s;
+}
+.access-error-dismiss:hover { opacity: 1; }
 
 .access-table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid #d0dcea; border-radius: 8px; overflow: hidden; font-size: 0.8rem; }
 .access-table thead th {

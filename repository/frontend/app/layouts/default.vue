@@ -65,24 +65,19 @@ const { title } = useTopbar()
 .nav-link:hover { background: rgba(255,255,255,0.12); color: #fff; }
 .nav-link.router-link-exact-active { background: rgba(255,255,255,0.18); color: #fff; }
 
-.user-field {
-  display: flex; align-items: stretch;
-  border: 1px solid rgba(255,255,255,0.25); border-radius: 8px; overflow: hidden;
-}
+.user-field { display: flex; align-items: center; gap: 0.15rem; }
 .user-field-name {
-  display: flex; align-items: center;
-  padding: 0 0.75rem;
+  padding: 0.3rem 0.6rem; border-radius: 6px;
   background: rgba(255,255,255,0.1);
-  font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.9);
-  white-space: nowrap; user-select: none; pointer-events: none;
+  font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.75);
+  white-space: nowrap; user-select: none;
 }
 .user-field-signout {
-  display: flex; align-items: center;
-  padding: 0 0.75rem;
-  background: rgba(255,255,255,0.18); border: none; border-left: 1px solid rgba(255,255,255,0.25);
-  font-size: 0.75rem; font-weight: 600; color: rgba(255,255,255,0.85);
+  padding: 0.3rem 0.6rem; border-radius: 6px;
+  background: none; border: none;
+  font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.75);
   cursor: pointer; white-space: nowrap;
-  transition: background 0.12s, color 0.12s;
+  transition: background 0.15s, color 0.15s;
 }
-.user-field-signout:hover { background: rgba(255,255,255,0.3); color: #fff; }
+.user-field-signout:hover { background: rgba(255,255,255,0.12); color: #fff; }
 </style>
