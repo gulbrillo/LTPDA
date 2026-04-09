@@ -136,6 +136,7 @@ onMounted(() => loadUsers())
 </script>
 
 <template>
+  <div class="page-wrap">
   <main class="main">
 
       <div class="page-head">
@@ -304,10 +305,12 @@ onMounted(() => loadUsers())
         </div>
       </Transition>
   </Teleport>
+  </div>
 </template>
 
 <style scoped>
 /* ── Main content ── */
+.page-wrap { flex: 1; display: flex; flex-direction: column; }
 .main { flex: 1; padding: 2.5rem 2rem; max-width: 1000px; margin: 0 auto; width: 100%; }
 .page-head {
   display: flex; align-items: flex-start; justify-content: space-between;

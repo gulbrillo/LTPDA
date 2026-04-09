@@ -192,6 +192,7 @@ function onWriteToggle(db_name: string, entry: AccessEntry) {
 </script>
 
 <template>
+  <div class="page-wrap">
   <main class="main">
 
       <div class="page-head">
@@ -388,9 +389,11 @@ function onWriteToggle(db_name: string, entry: AccessEntry) {
         </div>
       </Transition>
   </Teleport>
+  </div>
 </template>
 
 <style scoped>
+.page-wrap { flex: 1; display: flex; flex-direction: column; }
 .main { flex: 1; padding: 2.5rem 2rem; max-width: 1100px; margin: 0 auto; width: 100%; }
 .page-head {
   display: flex; align-items: flex-start; justify-content: space-between;
