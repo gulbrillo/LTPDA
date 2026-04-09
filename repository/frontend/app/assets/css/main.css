@@ -205,7 +205,7 @@ input:not([type="checkbox"]):focus {
    Entering: starts above (-15px) + slides down to 0, fades in          */
 .page-leave-active { transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
                                  transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-                     position: absolute; width: 100%; }
+                     position: absolute; top: 0; left: 0; width: 100%; }
 .page-enter-active { transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
                                  transform 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
 .page-leave-to   { opacity: 0; transform: translateY(-15px); }
