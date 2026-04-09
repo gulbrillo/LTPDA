@@ -30,6 +30,9 @@ class SetupRequest(BaseModel):
     app_admin_last_name: str | None = None
     app_admin_email: str | None = None
 
+    # Public URL of this installation (no trailing slash) — used for phpMyAdmin sub-path routing
+    public_url: str | None = None
+
 
 @router.get("/status")
 async def setup_status():
@@ -110,6 +113,7 @@ async def run_setup(req: SetupRequest):
             mysql_admin_user=req.mysql_admin_user,
             mysql_admin_password=req.mysql_admin_password,
             secret_key=secret_key,
+            public_url=req.public_url,
         )
     except Exception as e:
         raise HTTPException(500, f"Config write failed: {e}")

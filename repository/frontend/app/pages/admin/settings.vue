@@ -26,12 +26,17 @@ interface Settings {
   mysql_port: number
   admin_db: string
   mysql_admin_user: string
+  public_url: string
 }
 
 const cfg = ref<Settings | null>(null)
 const loading = ref(true)
 const pageError = ref('')
 const pmaOpening = ref(false)
+const urlEditing = ref(false)
+const urlValue = ref('')
+const urlSaving = ref(false)
+const urlSuccess = ref('')
 
 async function openPhpMyAdmin() {
   pmaOpening.value = true
@@ -47,6 +52,30 @@ async function openPhpMyAdmin() {
       : (fe.data?.detail || `Error ${status} — could not open phpMyAdmin.`)
   } finally {
     pmaOpening.value = false
+  }
+}
+
+function startEditUrl() {
+  urlValue.value = cfg.value?.public_url ?? ''
+  urlEditing.value = true
+  urlSuccess.value = ''
+}
+
+async function saveUrl() {
+  urlSaving.value = true
+  pageError.value = ''
+  urlSuccess.value = ''
+  try {
+    await apiFetch('/settings/public-url', { method: 'PUT', body: { public_url: urlValue.value } })
+    cfg.value!.public_url = urlValue.value.replace(/\/$/, '')
+    urlEditing.value = false
+    urlSuccess.value = 'URL saved. Restart the API container for phpMyAdmin to pick it up if it was previously unconfigured.'
+    setTimeout(() => { urlSuccess.value = '' }, 6000)
+  } catch (e: unknown) {
+    const fe = e as { data?: { detail?: string }; message?: string }
+    pageError.value = fe?.data?.detail || fe?.message || 'Failed to save URL.'
+  } finally {
+    urlSaving.value = false
   }
 }
 
@@ -77,6 +106,7 @@ async function loadSettings() {
         {{ pageError }}
         <button @click="pageError = ''">✕</button>
       </div>
+      <div v-if="urlSuccess" class="banner-ok">{{ urlSuccess }}</div>
 
       <div v-if="loading" class="loading-wrap">
         <div class="spin" />
@@ -118,6 +148,23 @@ async function loadSettings() {
             MySQL credentials are stored in <code>config/config.json</code> on the server.
             To change them, re-run the setup wizard (delete <code>config/config.json</code> and restart).
           </p>
+
+        <!-- ── Public URL ── -->
+        <div class="url-row">
+          <div class="url-label-block">
+            <span class="info-label">Server public URL</span>
+            <span v-if="cfg.public_url" class="info-val"><code>{{ cfg.public_url }}</code></span>
+            <span v-else class="url-unset">Not set — phpMyAdmin AJAX will not work</span>
+          </div>
+          <div v-if="!urlEditing" class="url-actions">
+            <button class="act-btn" @click="startEditUrl">{{ cfg.public_url ? 'Edit' : 'Set URL' }}</button>
+          </div>
+          <form v-else class="url-edit-form" @submit.prevent="saveUrl">
+            <input v-model="urlValue" type="url" placeholder="https://repo.yourdomain.com" class="url-input" required />
+            <button type="submit" class="act-btn act-save" :disabled="urlSaving">Save</button>
+            <button type="button" class="act-btn" @click="urlEditing = false">Cancel</button>
+          </form>
+        </div>
         </section>
 
         <!-- ── SSH tunnel ─────────────────────────────────────────────────── -->
@@ -209,6 +256,38 @@ h2 { font-size: 0.9rem; font-weight: 700; letter-spacing: -0.02em; color: #1e305
 .info-val { color: #1e3050; }
 .info-val code { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 0.9em; background: #eef2f7; padding: 0.15em 0.4em; border-radius: 4px; }
 .info-masked { color: #a8bdd0; letter-spacing: 0.15em; }
+
+/* ── Public URL row ── */
+.url-row {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 0.75rem;
+  padding-top: 1rem; margin-top: 1rem; border-top: 1px solid #e8eef6;
+}
+.url-label-block { display: flex; align-items: baseline; gap: 1rem; flex: 1; min-width: 0; font-size: 0.825rem; }
+.url-unset { font-size: 0.8rem; color: #d97706; font-style: italic; }
+.url-actions { display: flex; gap: 0.4rem; }
+.url-edit-form { display: flex; align-items: center; gap: 0.5rem; flex: 1; flex-wrap: wrap; }
+.url-input {
+  flex: 1; min-width: 220px; padding: 0.4rem 0.65rem;
+  border: 1px solid #c8d8ec; border-radius: 7px; font-size: 0.825rem; color: #1e3050; outline: none;
+  transition: border-color 0.12s, box-shadow 0.12s;
+}
+.url-input:focus { border-color: #2f5596; box-shadow: 0 0 0 3px rgba(47,85,150,0.12); }
+.act-btn {
+  font-size: 0.775rem; font-weight: 500; color: #6a84a0;
+  background: none; border: 1px solid #d0dcea;
+  border-radius: 6px; padding: 0.3rem 0.65rem; cursor: pointer; white-space: nowrap;
+  transition: background 0.1s, color 0.1s, border-color 0.1s;
+}
+.act-btn:hover:not(:disabled) { background: #f0f5fb; color: #2f5596; border-color: #b8cce0; }
+.act-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.act-save:hover:not(:disabled) { background: #e8f0f8; color: #1e3050; border-color: #a8c0d8; }
+
+/* ── Banners ── */
+.banner-ok {
+  padding: 0.65rem 1rem; margin-bottom: 1rem;
+  background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px;
+  font-size: 0.825rem; color: #15803d;
+}
 
 /* ── Database manager button ── */
 .pma-btn {

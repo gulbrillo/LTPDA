@@ -40,6 +40,7 @@ def write_config(
     mysql_admin_user: str,
     mysql_admin_password: str,
     secret_key: str,
+    public_url: str | None = None,
 ) -> None:
     CONFIG_FILE.parent.mkdir(parents=True, exist_ok=True)
     data: dict = {
@@ -52,7 +53,20 @@ def write_config(
         "mysql_admin_password": mysql_admin_password,
         "secret_key": secret_key,
     }
+    if public_url:
+        data["public_url"] = public_url.rstrip("/")
     CONFIG_FILE.write_text(json.dumps(data, indent=2))
+
+
+def update_public_url(public_url: str) -> None:
+    """Update only the public_url field in an existing config."""
+    data = _load()
+    data["public_url"] = public_url.rstrip("/")
+    CONFIG_FILE.write_text(json.dumps(data, indent=2))
+
+
+def get_public_url() -> str | None:
+    return _load().get("public_url")
 
 
 ACCESS_TOKEN_EXPIRE_MINUTES = 8 * 60  # 8 hours

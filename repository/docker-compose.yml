@@ -34,6 +34,7 @@ services:
       - "host.docker.internal:host-gateway"   # Linux: reach host machine (external MySQL)
     volumes:
       - ./config:/app/config                  # persists config.json across restarts
+      - phpmyadmin_config:/app/phpmyadmin-config  # shared with phpMyAdmin for PHP config injection
     depends_on:
       mysql:
         condition: service_healthy
@@ -74,6 +75,8 @@ services:
       PMA_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       UPLOAD_LIMIT: 256M       # match MySQL max_allowed_packet
       PMA_SSL: "0"             # SSL not needed on internal Docker network; suppresses warning
+    volumes:
+      - phpmyadmin_config:/etc/phpmyadmin/conf.d  # receives PmaAbsoluteUri config from API
     depends_on:
       mysql:
         condition: service_healthy
@@ -100,3 +103,4 @@ networks:
 
 volumes:
   mysql_data:
+  phpmyadmin_config:    # shared between api (writes PHP config) and phpmyadmin (reads it)

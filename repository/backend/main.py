@@ -1,18 +1,27 @@
 import logging
 import traceback
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from core.config import is_configured
+from core.phpmyadmin import write_pma_config
 from routers import auth, settings, setup, users, repos
 from routers.objects import router as objects_router
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("ltpda")
 
-app = FastAPI(title="LTPDA Repository API", version="3.0.0")
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    write_pma_config()
+    yield
+
+
+app = FastAPI(title="LTPDA Repository API", version="3.0.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,

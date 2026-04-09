@@ -8,7 +8,7 @@ const router = useRouter()
 type Mode = 'bundled' | 'external'
 const mode = ref<Mode>('bundled')
 
-const bundled = reactive({ root_password: '' })
+const bundled = reactive({ root_password: '', public_url: '' })
 const external = reactive({ host: '', port: 3306, admin_user: 'root', admin_password: '' })
 const adminDb = ref('ltpda_admin')
 const adminUser = reactive({ username: 'admin', password: '', mysql_password: '', first_name: '', last_name: '', email: '' })
@@ -59,6 +59,7 @@ async function runSetup() {
       body.mysql_port = 3306
       body.mysql_admin_user = 'root'
       body.mysql_admin_password = bundled.root_password
+      if (bundled.public_url) body.public_url = bundled.public_url
     } else {
       body.mysql_host = external.host
       body.mysql_port = external.port
@@ -251,7 +252,7 @@ async function runSetup() {
           </div>
         </div>
 
-        <!-- ── Bundled: root password ── -->
+        <!-- ── Bundled: root password + public URL ── -->
         <template v-if="mode === 'bundled'">
           <div class="section">
             <div class="section-title">MySQL root password</div>
@@ -267,6 +268,11 @@ async function runSetup() {
                 <button type="button" class="pw-eye" @click="show.bundledPw = !show.bundledPw"><EyeOff v-if="show.bundledPw" /><Eye v-else /></button>
                 <button type="button" class="pw-gen" @click="bundled.root_password = generatePassword(); show.bundledPw = true">Generate</button>
               </div>
+            </div>
+            <div class="field" style="margin-top:0.5rem">
+              <label>Server public URL</label>
+              <input v-model="bundled.public_url" type="url" placeholder="https://repo.yourdomain.com"/>
+              <p class="field-hint">Required for phpMyAdmin (Admin → Settings). No trailing slash. Can be set later in Settings if you don't know it yet.</p>
             </div>
           </div>
         </template>

@@ -151,7 +151,9 @@ Check that containers are running: `docker compose ps`
 Open `https://repo.yourdomain.com` in a browser. You are redirected to the setup page.
 
 **Bundled MySQL** — Enter the root password from your `.env` file. Admin database defaults to
-`ltpda_admin`.
+`ltpda_admin`. Also enter the **Server public URL** (e.g. `https://repo.yourdomain.com`) — this
+is used by phpMyAdmin so its internal AJAX calls resolve correctly at `/pma/`. It can be set or
+updated later in **Admin → Settings** if you don't know it yet.
 
 **External MySQL** — Enter the host, port, and admin credentials (needs `CREATE DATABASE`,
 `CREATE USER`, `GRANT` — does not need to be root).
@@ -282,10 +284,16 @@ Open phpMyAdmin**. It opens in a new tab and is automatically logged in as the M
 first — this exchanges your active Bearer JWT for a short-lived HttpOnly cookie (`pma_access`,
 scoped to `Path=/pma/`, valid for 8 hours). nginx passes that cookie to the auth endpoint on every
 phpMyAdmin request. If you are not logged in as an admin, or the cookie has expired, nginx
-redirects to `/`.
+redirects to `/`. Logging out immediately invalidates the cookie via `DELETE /api/auth/pma-token`.
 
 The `pma_access` cookie is `HttpOnly` (no JavaScript access), `SameSite=Lax` (CSRF protection),
 and scoped to `Path=/pma/` only — the browser never sends it to the LTPDA API.
+
+**Server public URL:** phpMyAdmin requires knowing its public sub-path (`/pma/`) to generate
+correct AJAX URLs. The API writes this to a PHP config file in a shared Docker volume at startup.
+Set the URL during the setup wizard (bundled mode) or afterwards in **Admin → Settings →
+MySQL connection → Server public URL**. After saving via Settings, restart the API container:
+`docker compose --profile bundled restart api`.
 
 ---
 
@@ -389,6 +397,7 @@ All endpoints are prefixed with `/api/`. Authentication uses Bearer tokens obtai
 | POST | `/api/auth/login` | — | Login; returns JWT Bearer token |
 | GET | `/api/auth/me` | user | Current user info |
 | POST | `/api/auth/pma-token` | admin | Issues `pma_access` HttpOnly cookie granting nginx access to `/pma/` |
+| DELETE | `/api/auth/pma-token` | — | Clears `pma_access` cookie on logout |
 | GET | `/api/auth/pma-auth` | — (cookie) | nginx `auth_request` sub-endpoint; validates `pma_access` cookie; never called directly |
 
 ### Users (admin only)
@@ -397,14 +406,16 @@ All endpoints are prefixed with `/api/`. Authentication uses Bearer tokens obtai
 |--------|------|------|-------------|
 | GET | `/api/users` | admin | List all users |
 | POST | `/api/users` | admin | Create user (also creates MySQL account) |
-| PUT | `/api/users/{id}` | admin | Update user (also updates MySQL password if provided) |
+| PUT | `/api/users/me` | user | Update own profile and passwords (no admin promotion) |
+| PUT | `/api/users/{id}` | admin | Update any user (also updates MySQL password if provided) |
 | DELETE | `/api/users/{id}` | admin | Delete user (also drops MySQL account) |
 
 ### Settings (admin only)
 
 | Method | Path | Auth | Description |
 |--------|------|------|-------------|
-| GET | `/api/settings` | admin | MySQL connection config (passwords not exposed) |
+| GET | `/api/settings` | admin | MySQL connection config and public URL (passwords not exposed) |
+| PUT | `/api/settings/public-url` | admin | Update server public URL; rewrites phpMyAdmin PHP config immediately |
 
 ### Repositories
 
@@ -553,7 +564,7 @@ repository/
 │   │   ├── setup.py        First-run wizard
 │   │   ├── auth.py         Login, JWT, /me, phpMyAdmin cookie bridge
 │   │   ├── users.py        User CRUD (also manages MySQL accounts)
-│   │   ├── settings.py     Config overview (read-only)
+│   │   ├── settings.py     Config overview + public URL update
 │   │   ├── repos.py        Repository CRUD + access management
 │   │   └── objects.py      Object browsing + download endpoints
 │   ├── schemas/            Pydantic request/response models
