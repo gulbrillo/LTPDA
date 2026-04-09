@@ -260,7 +260,10 @@ onMounted(() => loadUsers())
           <div class="dialog" :class="{ 'dialog-shake': shaking }">
 
           <div class="dialog-top">
-            <h2>{{ editTarget ? 'Edit user' : 'Create user' }}</h2>
+            <div>
+              <h2>{{ editTarget ? 'Edit user' : 'Create user' }}</h2>
+              <p v-if="editTarget" class="dialog-sub">{{ editTarget.username }}</p>
+            </div>
             <button class="close-btn" @click="showDialog = false" aria-label="Close">
               <X :size="14" />
             </button>
@@ -436,6 +439,7 @@ h1 { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.025em; color: #1e30
   display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.75rem;
 }
 .dialog-top h2 { font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; color: #1e3050; }
+.dialog-sub { font-size: 0.775rem; color: #8aa0b8; margin-top: 0.2rem; }
 .close-btn {
   width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
   background: none; border: none; cursor: pointer;

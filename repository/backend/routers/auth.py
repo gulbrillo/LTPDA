@@ -89,6 +89,12 @@ async def issue_pma_token(
     )
 
 
+@router.delete("/pma-token", status_code=204)
+async def revoke_pma_token(response: Response):
+    """Clear the pma_access cookie on logout. No auth required — harmless if cookie absent."""
+    response.delete_cookie(key=_PMA_COOKIE, path="/pma/", httponly=True, samesite="lax")
+
+
 @router.get("/pma-auth")
 async def pma_auth_check(pma_access: str | None = Cookie(default=None)):
     """Internal endpoint called by nginx auth_request on every /pma/ request.

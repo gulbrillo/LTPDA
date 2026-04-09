@@ -45,7 +45,8 @@ export const useAuth = () => {
     await navigateTo('/dashboard')
   }
 
-  const logout = () => {
+  const logout = async () => {
+    try { await apiFetch('/auth/pma-token', { method: 'DELETE' }) } catch {}
     token.value = null
     user.value = null
     if (import.meta.client) localStorage.removeItem('auth_token')
