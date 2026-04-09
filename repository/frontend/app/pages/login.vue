@@ -3,6 +3,7 @@ import { Eye, EyeOff } from 'lucide-vue-next'
 definePageMeta({ layout: false, pageTransition: false })
 
 const { login } = useAuth()
+const { version } = useRuntimeConfig().public
 const username = ref('')
 const password = ref('')
 const showPw = ref(false)
@@ -26,7 +27,7 @@ async function submit() {
   <div class="page">
     <div class="card">
       <div class="logo">
-        <AppLogo :size="44" />
+        <AppLogo :size="44" :dark="true" />
       </div>
       <h1>LTPDA Repository</h1>
       <p class="tagline">Sign in to your account</p>
@@ -55,7 +56,7 @@ async function submit() {
         </button>
       </form>
 
-      <p class="footer">LTPDA Repository v3.0</p>
+      <p class="footer">LTPDA Repository v{{ version }}</p>
     </div>
   </div>
 </template>

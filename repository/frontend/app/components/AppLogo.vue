@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { CircuitBoard } from 'lucide-vue-next'
-withDefaults(defineProps<{ size?: number }>(), { size: 24 })
+import { DatabaseZap } from 'lucide-vue-next'
+withDefaults(defineProps<{ size?: number, dark?: boolean }>(), { size: 24, dark: false })
 </script>
 
 <template>
-  <CircuitBoard :size="size" color="white" />
+  <DatabaseZap :size="size" :color="dark ? '#2f5596' : 'white'" />
 </template>
