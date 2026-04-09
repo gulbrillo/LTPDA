@@ -122,6 +122,25 @@ async function loadSettings() {
           </p>
         </section>
 
+        <!-- ── Database manager ──────────────────────────────────────────── -->
+        <section v-if="cfg.mysql_mode === 'bundled'" class="card">
+          <div class="card-head">
+            <h2>Database manager</h2>
+            <span class="badge-mode badge-bundled">phpMyAdmin</span>
+          </div>
+          <p class="card-desc">
+            Browse tables, run queries, and inspect or repair data directly in MySQL.
+            Opens in a new tab and logs in automatically using the MySQL root account.
+          </p>
+          <a href="/pma/" target="_blank" rel="noopener" class="pma-btn">Open phpMyAdmin</a>
+          <p class="card-note">
+            <code>/pma/</code> is accessible to anyone who knows the URL — keep this
+            server behind a firewall or reverse-proxy authentication if internet-facing.
+            Requires <code>LTPDA_PUBLIC_URL</code> to be set in <code>.env</code> for
+            phpMyAdmin's internal page links to work correctly.
+          </p>
+        </section>
+
       </template>
 
   </main>
@@ -171,6 +190,15 @@ h2 { font-size: 0.9rem; font-weight: 700; letter-spacing: -0.02em; color: #1e305
 .info-val { color: #1e3050; }
 .info-val code { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 0.9em; background: #eef2f7; padding: 0.15em 0.4em; border-radius: 4px; }
 .info-masked { color: #a8bdd0; letter-spacing: 0.15em; }
+
+/* ── Database manager button ── */
+.pma-btn {
+  display: inline-flex; align-items: center;
+  padding: 0.5rem 1.1rem; background: #1e3050; color: #fff;
+  border-radius: 8px; font-size: 0.825rem; font-weight: 600;
+  text-decoration: none; transition: background 0.15s;
+}
+.pma-btn:hover { background: #2f5596; }
 
 /* ── Tunnel command ── */
 .tunnel-cmd {

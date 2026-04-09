@@ -63,6 +63,24 @@ services:
     networks:
       - internal
 
+  # ── phpMyAdmin — database management UI (bundled mode only) ─────────────
+  phpmyadmin:
+    profiles: ["bundled"]
+    image: phpmyadmin:latest
+    restart: unless-stopped
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      PMA_ABSOLUTE_URI: ${LTPDA_PUBLIC_URL}/pma/
+      UPLOAD_LIMIT: 256M       # match MySQL max_allowed_packet
+    depends_on:
+      mysql:
+        condition: service_healthy
+        required: false
+    networks:
+      - internal
+
   # ── nginx: serves Nuxt SPA + proxies /api/ to FastAPI ────────────────────
   nginx:
     image: nginx:alpine
