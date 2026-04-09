@@ -1,3 +1,6 @@
+import logging
+import traceback
+
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -5,6 +8,9 @@ from fastapi.responses import JSONResponse
 from core.config import is_configured
 from routers import auth, settings, setup, users, repos
 from routers.objects import router as objects_router
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("ltpda")
 
 app = FastAPI(title="LTPDA Repository API", version="3.0.0")
 
@@ -15,6 +21,16 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.exception_handler(Exception)
+async def unhandled_exception_handler(request: Request, exc: Exception):
+    tb = traceback.format_exc()
+    logger.error("Unhandled exception on %s %s:\n%s", request.method, request.url.path, tb)
+    return JSONResponse(
+        status_code=500,
+        content={"detail": f"{type(exc).__name__}: {exc}"},
+    )
 
 
 @app.middleware("http")

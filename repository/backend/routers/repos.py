@@ -294,45 +294,48 @@ async def grant_access(
     if not user_result.scalar_one_or_none():
         raise HTTPException(status.HTTP_404_NOT_FOUND, "User not found")
 
-    conn = await get_admin_connection()
-    async with conn:
-        async with conn.cursor() as cur:
-            if body.can_read:
-                # SELECT on entire database (for MATLAB to browse objects)
-                await cur.execute(
-                    f"GRANT SELECT ON `{db_name}`.* TO '{username}'@'%'"
-                )
-                # INSERT on transactions always granted alongside SELECT (legacy privs.inc.php behaviour)
-                await cur.execute(
-                    f"GRANT INSERT ON `{db_name}`.transactions TO '{username}'@'%'"
-                )
-                if body.can_write:
-                    # INSERT on entire database (for MATLAB to submit new objects)
+    try:
+        conn = await get_admin_connection()
+        async with conn:
+            async with conn.cursor() as cur:
+                if body.can_read:
+                    # SELECT on entire database (for MATLAB to browse objects)
                     await cur.execute(
-                        f"GRANT INSERT ON `{db_name}`.* TO '{username}'@'%'"
+                        f"GRANT SELECT ON `{db_name}`.* TO '{username}'@'%'"
                     )
-                else:
-                    # Revoke broad INSERT if was previously granted, keep transactions INSERT
-                    try:
-                        await cur.execute(
-                            f"REVOKE INSERT ON `{db_name}`.* FROM '{username}'@'%'"
-                        )
-                    except Exception:
-                        pass
-                    # Re-grant the transactions INSERT after the broad revoke
+                    # INSERT on transactions always granted alongside SELECT (legacy privs.inc.php behaviour)
                     await cur.execute(
                         f"GRANT INSERT ON `{db_name}`.transactions TO '{username}'@'%'"
                     )
-            else:
-                # Revoke all access
-                try:
-                    await cur.execute(
-                        f"REVOKE ALL PRIVILEGES ON `{db_name}`.* FROM '{username}'@'%'"
-                    )
-                except Exception:
-                    pass
+                    if body.can_write:
+                        # INSERT on entire database (for MATLAB to submit new objects)
+                        await cur.execute(
+                            f"GRANT INSERT ON `{db_name}`.* TO '{username}'@'%'"
+                        )
+                    else:
+                        # Revoke broad INSERT if was previously granted, keep transactions INSERT
+                        try:
+                            await cur.execute(
+                                f"REVOKE INSERT ON `{db_name}`.* FROM '{username}'@'%'"
+                            )
+                        except Exception:
+                            pass
+                        # Re-grant the transactions INSERT after the broad revoke
+                        await cur.execute(
+                            f"GRANT INSERT ON `{db_name}`.transactions TO '{username}'@'%'"
+                        )
+                else:
+                    # Revoke all access
+                    try:
+                        await cur.execute(
+                            f"REVOKE ALL PRIVILEGES ON `{db_name}`.* FROM '{username}'@'%'"
+                        )
+                    except Exception:
+                        pass
 
-            await cur.execute("FLUSH PRIVILEGES")
+                await cur.execute("FLUSH PRIVILEGES")
+    except Exception as e:
+        raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, f"MySQL error: {e}")
 
     return {"ok": True}
 
