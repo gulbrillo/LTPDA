@@ -1,11 +1,16 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from datetime import datetime, timedelta, timezone
+
+from fastapi import APIRouter, Cookie, Depends, HTTPException, Response, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from jose import JWTError
+from jose import jwt as jose_jwt
 from pydantic import BaseModel
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from core.config import ACCESS_TOKEN_EXPIRE_MINUTES, get_secret_key
 from core.database import get_session
-from core.security import create_access_token, decode_token, verify_password
+from core.security import ALGORITHM, create_access_token, decode_token, verify_password
 from models.user import User
 from schemas.user import UserOut
 
@@ -56,3 +61,44 @@ async def login(req: LoginRequest, session: AsyncSession = Depends(get_session))
 @router.get("/me", response_model=UserOut)
 async def me(user: User = Depends(get_current_user)):
     return user
+
+
+_PMA_COOKIE = "pma_access"
+
+
+@router.post("/pma-token", status_code=204)
+async def issue_pma_token(
+    response: Response,
+    user: User = Depends(require_admin),
+):
+    """Issue a short-lived HttpOnly cookie that grants nginx access to /pma/.
+    Called by the frontend immediately before opening /pma/ in a new tab."""
+    expire = datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    token = jose_jwt.encode(
+        {"sub": user.username, "exp": expire, "pma": True},
+        get_secret_key(),
+        algorithm=ALGORITHM,
+    )
+    response.set_cookie(
+        key=_PMA_COOKIE,
+        value=token,
+        httponly=True,
+        samesite="lax",
+        path="/pma/",
+        max_age=ACCESS_TOKEN_EXPIRE_MINUTES * 60,
+    )
+
+
+@router.get("/pma-auth")
+async def pma_auth_check(pma_access: str | None = Cookie(default=None)):
+    """Internal endpoint called by nginx auth_request on every /pma/ request.
+    Validates the pma_access cookie — no database query, pure JWT check."""
+    if not pma_access:
+        raise HTTPException(status_code=401, detail="No PMA access cookie")
+    try:
+        payload = jose_jwt.decode(pma_access, get_secret_key(), algorithms=[ALGORITHM])
+        if not payload.get("pma"):
+            raise HTTPException(status_code=401, detail="Not a PMA token")
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Invalid or expired PMA token")
+    return Response(status_code=200)

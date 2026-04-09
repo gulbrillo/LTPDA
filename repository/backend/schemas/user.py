@@ -27,6 +27,16 @@ class UserUpdate(BaseModel):
     mysql_password: str | None = None
 
 
+class UserSelfUpdate(BaseModel):
+    """Like UserUpdate but without is_admin — used by the /me endpoint."""
+    first_name: str | None = None
+    last_name: str | None = None
+    email: str | None = None
+    institution: str | None = None
+    password: str | None = None
+    mysql_password: str | None = None
+
+
 class UserOut(UserBase):
     id: int
     created_at: datetime

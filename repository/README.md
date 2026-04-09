@@ -16,6 +16,7 @@ schema — MATLAB connects via JDBC exactly as before, no toolbox changes requir
 - **User management** — create/edit/delete users; separate web UI password (bcrypt) and MySQL/MATLAB password; admin role assignment
 - **Setup wizard** — web-based first-run setup supporting bundled MySQL container or external dedicated MySQL server
 - **JWT authentication** — 8-hour Bearer tokens; global route protection in the SPA
+- **phpMyAdmin** — bundled in the Docker stack (bundled mode only); accessible from Admin → Settings; auto-logged in as MySQL root; gated behind an active admin session
 
 ---
 
@@ -25,11 +26,12 @@ schema — MATLAB connects via JDBC exactly as before, no toolbox changes requir
 Apache (your existing web server)
   └── reverse proxy → Docker (port 8088, localhost only)
         ├── nginx  →  Nuxt 4 SPA  (static files, client-side rendering)
-        └── nginx  →  FastAPI REST API  (Python 3, uvicorn)
-                           └── MySQL
-                                 ├── ltpda_admin        ← users, repo registry, options
-                                 ├── myrepo             ← per-repository database (v2.5 schema)
-                                 └── anotherrepo
+        ├── nginx  →  FastAPI REST API  (Python 3, uvicorn)
+        │                  └── MySQL
+        │                        ├── ltpda_admin        ← users, repo registry, options
+        │                        ├── myrepo             ← per-repository database (v2.5 schema)
+        │                        └── anotherrepo
+        └── nginx  →  phpMyAdmin  (bundled mode only; admin-session gated)
 ```
 
 MySQL can be **bundled** (a container in the same Compose stack) or **external** (a dedicated server
@@ -116,12 +118,19 @@ sudo certbot --apache -d repo.yourdomain.com
 **Option A — Bundled MySQL** (recommended for new deployments):
 
 ```bash
-echo "MYSQL_ROOT_PASSWORD=choose_a_strong_password" > .env
+cat > .env <<'EOF'
+MYSQL_ROOT_PASSWORD=choose_a_strong_password
+LTPDA_PUBLIC_URL=https://repo.yourdomain.com
+EOF
 docker compose --profile bundled up -d
 ```
 
-This starts four containers: `mysql`, `api`, `nginx`, and `sshgateway`. The `api` and `sshgateway`
-containers wait for MySQL to pass its healthcheck before starting.
+`MYSQL_ROOT_PASSWORD` is required for the bundled MySQL container. `LTPDA_PUBLIC_URL` is required
+for phpMyAdmin's internal page links to render correctly — set it to the public URL of your server
+(no trailing slash). An `.env.example` is included for reference.
+
+This starts five containers: `mysql`, `api`, `nginx`, `sshgateway`, and `phpmyadmin`. The `api`,
+`sshgateway`, and `phpmyadmin` containers wait for MySQL to pass its healthcheck before starting.
 
 **Option B — External dedicated MySQL server:**
 
@@ -175,6 +184,9 @@ Click **New repository**. Enter:
 - **Display name** — shown in the UI
 - **Database name** — the MySQL database name (lowercase letters, digits, underscores only; cannot be changed after creation)
 - **Description** (optional)
+
+> **Reserved names:** The following MySQL system database names are blocked and cannot be used as
+> repository names: `mysql`, `information_schema`, `performance_schema`, `sys`.
 
 Clicking **Create repository** creates the MySQL database, initialises it with the v2.5 schema
 (all standard LTPDA tables), creates the `users` VIEW for MATLAB compatibility, and registers the
@@ -259,6 +271,26 @@ Click **Edit** to update profile fields or change passwords. If a new MySQL pass
 ### Delete a user
 
 Click **Remove**. The app record is deleted and the MySQL account is dropped. You cannot delete your own account.
+
+---
+
+## phpMyAdmin (bundled mode only)
+
+phpMyAdmin is included in the bundled Docker stack and is accessible from **Admin → Settings →
+Open phpMyAdmin**. It opens in a new tab and is automatically logged in as the MySQL root account.
+
+**Security model:** `/pma/` is not directly accessible. Every request is checked by nginx against
+`GET /api/auth/pma-auth`. When you click the button, the frontend calls `POST /api/auth/pma-token`
+first — this exchanges your active Bearer JWT for a short-lived HttpOnly cookie (`pma_access`,
+scoped to `Path=/pma/`, valid for 8 hours). nginx passes that cookie to the auth endpoint on every
+phpMyAdmin request. If you are not logged in as an admin, or the cookie has expired, nginx
+redirects to `/`.
+
+The `pma_access` cookie is `HttpOnly` (no JavaScript access), `SameSite=Lax` (CSRF protection),
+and scoped to `Path=/pma/` only — the browser never sends it to the LTPDA API.
+
+**Requirement:** `LTPDA_PUBLIC_URL` must be set in `.env` for phpMyAdmin's internal page links
+(CSS, pagination, exports) to work correctly.
 
 ---
 
@@ -361,6 +393,8 @@ All endpoints are prefixed with `/api/`. Authentication uses Bearer tokens obtai
 |--------|------|------|-------------|
 | POST | `/api/auth/login` | — | Login; returns JWT Bearer token |
 | GET | `/api/auth/me` | user | Current user info |
+| POST | `/api/auth/pma-token` | admin | Issues `pma_access` HttpOnly cookie granting nginx access to `/pma/` |
+| GET | `/api/auth/pma-auth` | — (cookie) | nginx `auth_request` sub-endpoint; validates `pma_access` cookie; never called directly |
 
 ### Users (admin only)
 
@@ -522,7 +556,7 @@ repository/
 │   ├── models/             SQLAlchemy ORM models (user, repo)
 │   ├── routers/            API route handlers
 │   │   ├── setup.py        First-run wizard
-│   │   ├── auth.py         Login, JWT, /me
+│   │   ├── auth.py         Login, JWT, /me, phpMyAdmin cookie bridge
 │   │   ├── users.py        User CRUD (also manages MySQL accounts)
 │   │   ├── settings.py     Config overview (read-only)
 │   │   ├── repos.py        Repository CRUD + access management
@@ -555,6 +589,7 @@ repository/
 │   ├── config.example.json
 │   └── requirements.txt
 ├── config/                 Runtime config volume (config.json — excluded from git)
+├── .env.example            Template for required environment variables
 ├── docker-compose.yml
 ├── nginx.conf
 ├── update-bundled.sh       One-command update script (bundled MySQL)

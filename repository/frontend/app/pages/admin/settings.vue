@@ -31,6 +31,24 @@ interface Settings {
 const cfg = ref<Settings | null>(null)
 const loading = ref(true)
 const pageError = ref('')
+const pmaOpening = ref(false)
+
+async function openPhpMyAdmin() {
+  pmaOpening.value = true
+  pageError.value = ''
+  try {
+    await apiFetch('/auth/pma-token', { method: 'POST' })
+    window.open('/pma/', '_blank', 'noopener')
+  } catch (e: unknown) {
+    const fe = e as { status?: number; statusCode?: number; data?: { detail?: string }; message?: string }
+    const status = fe.status ?? fe.statusCode
+    pageError.value = !status
+      ? 'Cannot reach the server.'
+      : (fe.data?.detail || `Error ${status} — could not open phpMyAdmin.`)
+  } finally {
+    pmaOpening.value = false
+  }
+}
 
 async function loadSettings() {
   loading.value = true
@@ -132,7 +150,9 @@ async function loadSettings() {
             Browse tables, run queries, and inspect or repair data directly in MySQL.
             Opens in a new tab and logs in automatically using the MySQL root account.
           </p>
-          <a href="/pma/" target="_blank" rel="noopener" class="pma-btn">Open phpMyAdmin</a>
+          <button class="pma-btn" :disabled="pmaOpening" @click="openPhpMyAdmin">
+            {{ pmaOpening ? 'Opening…' : 'Open phpMyAdmin' }}
+          </button>
           <p class="card-note">
             <code>/pma/</code> is accessible to anyone who knows the URL — keep this
             server behind a firewall or reverse-proxy authentication if internet-facing.

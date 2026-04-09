@@ -5,8 +5,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from core.database import get_admin_connection, get_session
 from core.security import hash_password
 from models.user import User
-from routers.auth import require_admin
-from schemas.user import UserCreate, UserOut, UserUpdate
+from routers.auth import get_current_user, require_admin
+from schemas.user import UserCreate, UserOut, UserSelfUpdate, UserUpdate
 
 router = APIRouter(prefix="/api/users", tags=["users"])
 
@@ -64,6 +64,55 @@ async def create_user(
             f"App user created but MySQL user creation failed: {e}",
         )
 
+    return UserOut.model_validate(user).model_dump(mode="json")
+
+
+@router.put("/me")
+async def update_self(
+    body: UserSelfUpdate,
+    current: User = Depends(get_current_user),
+    session: AsyncSession = Depends(get_session),
+):
+    """Allow any authenticated user to update their own profile and passwords."""
+    result = await session.execute(select(User).where(User.id == current.id))
+    user = result.scalar_one_or_none()
+    if not user:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "User not found")
+
+    if body.first_name is not None:
+        user.first_name = body.first_name
+    if body.last_name is not None:
+        user.last_name = body.last_name
+    if body.email is not None:
+        user.email = body.email
+    if body.institution is not None:
+        user.institution = body.institution
+    if body.password:
+        user.password_hash = hash_password(body.password)
+    new_mysql_pw = body.mysql_password or (body.password if body.password else None)
+    if new_mysql_pw:
+        user.mysql_password = new_mysql_pw
+        try:
+            conn = await get_admin_connection()
+            async with conn:
+                async with conn.cursor() as cur:
+                    await cur.execute(
+                        f"CREATE USER IF NOT EXISTS '{user.username}'@'%%' IDENTIFIED BY %s",
+                        (new_mysql_pw,),
+                    )
+                    await cur.execute(
+                        f"ALTER USER '{user.username}'@'%%' IDENTIFIED BY %s",
+                        (new_mysql_pw,),
+                    )
+                    await cur.execute("FLUSH PRIVILEGES")
+        except Exception as e:
+            raise HTTPException(
+                status.HTTP_500_INTERNAL_SERVER_ERROR,
+                f"Profile updated but MySQL password sync failed: {e}",
+            )
+
+    await session.commit()
+    await session.refresh(user)
     return UserOut.model_validate(user).model_dump(mode="json")
 
 

@@ -1,8 +1,8 @@
 interface User {
   id: number
   username: string
-  given_name: string | null
-  family_name: string | null
+  first_name: string | null
+  last_name: string | null
   email: string | null
   institution: string | null
   is_admin: boolean
