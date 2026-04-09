@@ -200,12 +200,16 @@ input:not([type="checkbox"]):focus {
 .spin-sm { width: 13px; height: 13px; border-width: 1.5px; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ── Page transitions — Vuetify slide-y style ── */
-.page-leave-active,
-.page-enter-active { transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-                                 transform 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
-.page-leave-to   { opacity: 0; transform: translateY(15px);  }
-.page-enter-from { opacity: 0; transform: translateY(-15px); }
+/* ── Page transitions — simultaneous fade+slide (Vuetify slide-y style) ──
+   mode: out-in is broken with Nuxt's Suspense wrapper — use simultaneous.
+   Leaving page fades+slides up; entering page fades in from below. */
+.page-leave-active { transition: opacity 0.15s cubic-bezier(0.4, 0, 1, 1),
+                                 transform 0.15s cubic-bezier(0.4, 0, 1, 1);
+                     position: absolute; width: 100%; }
+.page-enter-active { transition: opacity 0.2s cubic-bezier(0, 0, 0.2, 1),
+                                 transform 0.2s cubic-bezier(0, 0, 0.2, 1); }
+.page-leave-to   { opacity: 0; transform: translateY(-12px); }
+.page-enter-from { opacity: 0; transform: translateY(12px);  }
 
 /* ── Modal (dialog) open / close transitions ───── */
 /* Overlay: fade */
