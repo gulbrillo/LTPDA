@@ -6,7 +6,7 @@ withDefaults(defineProps<{
 
 <template>
   <img
-    src="~/assets/img/logo.webp"
+    src="~/assets/img/logo.svg"
     :width="size"
     :height="size"
     alt="LTPDA"
