@@ -134,7 +134,7 @@ async def delete_user(
         conn = await get_admin_connection()
         async with conn:
             async with conn.cursor() as cur:
-                await cur.execute(f"DROP USER IF EXISTS '{username}'@'%%'")
+                await cur.execute(f"DROP USER IF EXISTS '{username}'@'%'")
                 await cur.execute("FLUSH PRIVILEGES")
     except Exception:
         pass
