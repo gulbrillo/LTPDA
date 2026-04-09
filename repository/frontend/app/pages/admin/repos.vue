@@ -171,8 +171,11 @@ async function setAccess(db_name: string, username: string, can_read: boolean, c
     // Update local state
     const entry = accessData.value[db_name]?.find(e => e.username === username)
     if (entry) { entry.can_read = can_read; entry.can_write = can_write }
-  } catch {
-    // Reload on failure
+  } catch (e: unknown) {
+    const fe = e as { data?: { detail?: string }; message?: string }
+    const msg = fe?.data?.detail || fe?.message || 'Failed to update access.'
+    console.error('setAccess error:', msg, e)
+    accessError.value[db_name] = msg
     await loadAccess(db_name)
   } finally {
     toggleSaving.value[key] = false
