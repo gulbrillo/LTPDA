@@ -74,7 +74,6 @@ services:
       PMA_USER: root
       PMA_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       UPLOAD_LIMIT: 256M       # match MySQL max_allowed_packet
-      PMA_SSL: "0"             # SSL not needed on internal Docker network; suppresses warning
     volumes:
       - phpmyadmin_config:/etc/phpmyadmin/conf.d  # receives PmaAbsoluteUri config from API
     depends_on:
