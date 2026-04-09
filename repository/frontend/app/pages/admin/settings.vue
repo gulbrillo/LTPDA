@@ -154,10 +154,9 @@ async function loadSettings() {
             {{ pmaOpening ? 'Opening…' : 'Open phpMyAdmin' }}
           </button>
           <p class="card-note">
-            <code>/pma/</code> is accessible to anyone who knows the URL — keep this
-            server behind a firewall or reverse-proxy authentication if internet-facing.
-            Requires <code>LTPDA_PUBLIC_URL</code> to be set in <code>.env</code> for
-            phpMyAdmin's internal page links to work correctly.
+            Access is gated behind your admin session — the button issues a short-lived cookie
+            that nginx validates on every request; logging out invalidates it immediately.
+            phpMyAdmin auto-detects its URL from the nginx proxy headers.
           </p>
         </section>
 

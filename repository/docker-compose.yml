@@ -72,7 +72,6 @@ services:
       PMA_HOST: db
       PMA_USER: root
       PMA_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      PMA_ABSOLUTE_URI: ${LTPDA_PUBLIC_URL}/pma/
       UPLOAD_LIMIT: 256M       # match MySQL max_allowed_packet
       PMA_SSL: "0"             # SSL not needed on internal Docker network; suppresses warning
     depends_on:

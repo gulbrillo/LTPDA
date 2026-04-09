@@ -120,14 +120,12 @@ sudo certbot --apache -d repo.yourdomain.com
 ```bash
 cat > .env <<'EOF'
 MYSQL_ROOT_PASSWORD=choose_a_strong_password
-LTPDA_PUBLIC_URL=https://repo.yourdomain.com
 EOF
 docker compose --profile bundled up -d
 ```
 
-`MYSQL_ROOT_PASSWORD` is required for the bundled MySQL container. `LTPDA_PUBLIC_URL` is required
-for phpMyAdmin's internal page links to render correctly — set it to the public URL of your server
-(no trailing slash). An `.env.example` is included for reference.
+`MYSQL_ROOT_PASSWORD` is required for the bundled MySQL container. An `.env.example` is included
+for reference.
 
 This starts five containers: `mysql`, `api`, `nginx`, `sshgateway`, and `phpmyadmin`. The `api`,
 `sshgateway`, and `phpmyadmin` containers wait for MySQL to pass its healthcheck before starting.
@@ -288,9 +286,6 @@ redirects to `/`.
 
 The `pma_access` cookie is `HttpOnly` (no JavaScript access), `SameSite=Lax` (CSRF protection),
 and scoped to `Path=/pma/` only — the browser never sends it to the LTPDA API.
-
-**Requirement:** `LTPDA_PUBLIC_URL` must be set in `.env` for phpMyAdmin's internal page links
-(CSS, pagination, exports) to work correctly.
 
 ---
 
