@@ -8,7 +8,9 @@ export default defineNuxtConfig({
     payloadExtraction: false,
   },
 
-  app: {},
+  app: {
+    pageTransition: { name: 'page' },
+  },
 
   devtools: { enabled: true },
 

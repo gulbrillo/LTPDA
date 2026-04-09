@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Eye, EyeOff } from 'lucide-vue-next'
-definePageMeta({ layout: false })
+definePageMeta({ layout: false, pageTransition: false })
 
 const { login } = useAuth()
 const username = ref('')

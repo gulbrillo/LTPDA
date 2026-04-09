@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Eye, EyeOff, Info, ChevronDown, Package, Database, Settings, TriangleAlert } from 'lucide-vue-next'
-definePageMeta({ layout: false })
+definePageMeta({ layout: false, pageTransition: false })
 
 const config = useRuntimeConfig()
 const router = useRouter()

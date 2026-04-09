@@ -10,11 +10,11 @@ const { title } = useTopbar()
     <nav class="topbar">
       <!-- Brand (dashboard) vs breadcrumb (all other pages) -->
       <div v-if="title === null" class="brand">
-        <AppLogo :size="22" variant="dark" />
+        <AppLogo :size="22" />
         <span>LTPDA Repository</span>
       </div>
       <div v-else class="breadcrumb">
-        <AppLogo :size="20" variant="dark" class="logo-mark" />
+        <AppLogo :size="20" class="logo-mark" />
         <NuxtLink to="/dashboard" class="bc-link">LTPDA Repository</NuxtLink>
         <span class="bc-sep">/</span>
         <span class="bc-current">{{ title }}</span>
