@@ -47,12 +47,7 @@ rawPath = [genpath(fullfile(toolboxRoot, 'classes')), pathsep, ...
 allAbsDirs = regexp(rawPath, pathsep, 'split');
 allAbsDirs(cellfun('isempty', allAbsDirs)) = [];
 
-% Convert absolute paths to paths relative to toolboxRoot (required by ToolboxOptions)
-relDirs = cellfun(@(d) strrep(d, [toolboxRoot, filesep], ''), allAbsDirs, ...
-                  'UniformOutput', false);
-relDirs(cellfun('isempty', relDirs)) = [];
-
-opts.ToolboxMatlabPath = relDirs;
+opts.ToolboxMatlabPath = allAbsDirs;
 
 matlab.addons.toolbox.packageToolbox(opts);
 fprintf('Done. Package written to:\n  %s\n', opts.OutputFile);
