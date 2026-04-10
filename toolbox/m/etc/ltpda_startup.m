@@ -98,11 +98,21 @@ function ltpda_startup
   jars = dir(jardir);
   for c = 1:numel(jars)
     s = jars(c);
-    [path, name, ext] = fileparts(s.name);
-    if strcmp(ext, '.jar')
+    [~, name, ext] = fileparts(s.name);
+    % Skip jsch — it is managed via the static classpath (javaclasspath.txt)
+    % to shadow MATLAB's own jsch.jar; adding it here causes a conflict warning.
+    if strcmp(ext, '.jar') && ~startsWith(lower(name), 'jsch')
       addJarIfNeeded(fullfile(jardir, s.name));
     end
   end
+
+  % Ensure these JARs are on the static classpath (prefdir/javaclasspath.txt).
+  %   jsch-0.2.21.jar  — shadows MATLAB's bundled JSch 0.1.54 (SHA-2 fix)
+  %   ltpda-ssh.jar    — LTPDAUserInfo class; must share classloader with jsch
+  % javaaddpath alone cannot shadow static entries. Both need to be in the same
+  % (static) classloader or Java interface resolution fails at runtime.
+  ensureStaticJars(jardir, {'jsch-0.2.21.jar', 'ltpda-ssh.jar'});
+
   % Add all jar files in 'ltpda_toolbox/ltpda/jar/lib' to path
   jardir = fullfile(fileparts(which('ltpda_startup')), '..', '..', 'jar', 'lib');
   jars = dir(jardir);
@@ -313,10 +323,69 @@ function addJarIfNeeded(jarPath)
 % Prevents "already specified on java path" warnings when ltpda_startup is called
 % more than once in a session (e.g. from startup.m and manually), since clear java
 % no longer resets the dynamic classpath in R2025a.
+%
+% Warning suppression: when jsch-0.2.21.jar is on the static classpath (to shadow
+% MATLAB's bundled jsch.jar), every javaaddpath call triggers a harmless "jsch.jar
+% is already specified" warning from javaclasspath.p. Suppress it here.
   cp = javaclasspath('-dynamic');
   if ~any(strcmp(cp, jarPath))
+    prevWarn = warning('off', 'all');
     javaaddpath(jarPath);
+    warning(prevWarn);
   end
+end
+
+
+function ensureStaticJars(jarDir, jarNames)
+% ENSURESTATICJARS  Ensure a list of JARs is in the <before> section of
+%   prefdir/javaclasspath.txt so they load on the static classpath at the
+%   next MATLAB startup.
+%
+%   jarDir   — directory containing the JARs (absolute path)
+%   jarNames — cell array of JAR filenames, e.g. {'jsch-0.2.21.jar','ltpda-ssh.jar'}
+%
+% Both jsch-0.2.21.jar and ltpda-ssh.jar must be on the STATIC classpath and in
+% the same classloader. javaaddpath cannot achieve this: the dynamic classpath is
+% searched after the static one, and classloader boundaries prevent Java interface
+% resolution between the two paths.
+%
+% This function is idempotent — it only modifies the file for missing entries.
+
+  cpFile = fullfile(prefdir, 'javaclasspath.txt');
+
+  if exist(cpFile, 'file')
+    raw   = fileread(cpFile);
+    lines = strtrim(strsplit(raw, newline));
+  else
+    lines = {};
+  end
+
+  added = {};
+  for k = 1:numel(jarNames)
+    jarPath = fullfile(jarDir, jarNames{k});
+    if ~exist(jarPath, 'file') || any(strcmpi(lines, jarPath))
+      continue;
+    end
+    % Insert after <before> marker; create section if absent
+    beforeIdx = find(strcmpi(lines, '<before>'), 1);
+    if isempty(beforeIdx)
+      lines = [{'<before>'}; {jarPath}; lines(:)];
+    else
+      lines = [lines(1:beforeIdx)'; {jarPath}; lines(beforeIdx+1:end)'];
+    end
+    added{end+1} = jarNames{k}; %#ok<AGROW>
+  end
+
+  if isempty(added)
+    return;
+  end
+
+  writelines(lines, cpFile);   % writelines requires R2022a+; LTPDA requires R2025a
+  fprintf('LTPDA: Added to static Java classpath (%s):\n', cpFile);
+  for k = 1:numel(added)
+    fprintf('         %s\n', added{k});
+  end
+  fprintf('       ** Restart MATLAB once for SSH tunnels to work. **\n');
 end
 
 

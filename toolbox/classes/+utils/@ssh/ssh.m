@@ -9,6 +9,10 @@
 % the duration of the MATLAB session. Credentials are held in memory only and
 % are never written to disk.
 %
+% Authentication uses com.ltpda.ssh.LTPDAUserInfo (bundled in ltpda-ssh.jar),
+% a compiled Java class implementing both UserInfo and UIKeyboardInteractive.
+% This supports plain password auth and keyboard-interactive MFA (e.g. Duo Push).
+%
 % TYPICAL USE (via ltpda_tunnel / ltpda_ssh_setup):
 %
 %   ltpda_ssh_setup('server', 'repo.yourdomain.com')
@@ -49,9 +53,10 @@ classdef ssh
     %   Authentication uses the user's MySQL/MATLAB password — no separate SSH
     %   credentials are needed when using the LTPDA SSH gateway container.
     %
-    %   NOTE: StrictHostKeyChecking is disabled. The server is the repository
-    %   server explicitly configured by the user. This is an acceptable trade-off
-    %   for this use case.
+    %   Authentication is delegated to utils.DuoHandler, which handles both plain
+    %   password and keyboard-interactive MFA (Duo Push). StrictHostKeyChecking is
+    %   set to 'ask': known_hosts entries are verified; unknown hosts are auto-accepted
+    %   because the server was explicitly configured by the user.
 
       if nargin < 6 || isempty(remoteHost)
         remoteHost = getpref('LTPDA_SSH', 'remote_host', 'db');
@@ -60,7 +65,7 @@ classdef ssh
         mysqlPort = getpref('LTPDA_SSH', 'mysql_port', 3306);
       end
 
-      key = utils.ssh.tunnelKey(sshHost);
+      key   = utils.ssh.tunnelKey(sshHost);
       state = getappdata(0, key);
 
       % Reuse existing tunnel if still connected
@@ -70,19 +75,55 @@ classdef ssh
 
       % Establish new JSch session
       try
-        jsch    = com.jcraft.jsch.JSch();
-        session = jsch.getSession(username, sshHost, sshPort);
-        session.setPassword(password);
+        jsch = com.jcraft.jsch.JSch();
 
-        % Disable host-key checking (user explicitly configured this server)
+        % Load known_hosts for fingerprint verification if the file exists
+        homeDir        = char(java.lang.System.getProperty('user.home'));
+        knownHostsFile = fullfile(homeDir, '.ssh', 'known_hosts');
+        if exist(knownHostsFile, 'file')
+          jsch.setKnownHosts(knownHostsFile);
+        end
+
+        session = jsch.getSession(username, sshHost, sshPort);
+
+        % LTPDAUserInfo handles plain-password and keyboard-interactive MFA (Duo Push)
+        session.setUserInfo(com.ltpda.ssh.LTPDAUserInfo(password));
+
         props = java.util.Properties();
-        props.put('StrictHostKeyChecking', 'no');
+        % StrictHostKeyChecking=ask: verifies fingerprint when known_hosts has an entry;
+        % prompts (via DuoHandler.promptYesNo) for unknown hosts. The user explicitly
+        % configured this server in ltpda_ssh_setup, so auto-accept is acceptable.
+        props.put('StrictHostKeyChecking', 'ask');
+        % Modern SHA-2 host-key algorithms — required when the server has disabled SHA-1
+        props.put('server_host_key',         'rsa-sha2-256,rsa-sha2-512,ssh-rsa,ecdsa-sha2-nistp256,ssh-ed25519');
+        props.put('PubkeyAcceptedAlgorithms', 'rsa-sha2-256,rsa-sha2-512,ssh-rsa,ecdsa-sha2-nistp256,ssh-ed25519');
+        % Allow keyboard-interactive first (needed for Duo); fall back to password
+        props.put('PreferredAuthentications', 'keyboard-interactive,password,publickey');
         session.setConfig(props);
 
-        session.connect(10000);  % 10 second connection timeout
+        fprintf('Connecting to %s:%d ...  (if MFA is enabled, approve the Duo Push on your phone)\n', sshHost, sshPort);
+        session.connect(30000);  % 30 s timeout — extra time for Duo Push approval
       catch ex
+        % SSH_MSG_DISCONNECT carries a human-readable reason from the server —
+        % extract and surface it directly (e.g. "Too many authentication failures",
+        % "User not allowed", custom banners, etc.)
+        tok = regexp(ex.message, 'SSH_MSG_DISCONNECT:\s*\d+\s+(.+?)(?:\s*$|\n)', 'tokens', 'once');
+        if ~isempty(tok)
+          error('LTPDA:ssh:disconnected', ...
+            'Server %s disconnected: %s', sshHost, strtrim(tok{1}));
+        end
+        if contains(ex.message, 'Auth fail') || contains(ex.message, 'Authentication failed')
+          error('LTPDA:ssh:authFailed', ...
+            'SSH authentication failed for %s@%s.\nCheck your username and password. For MFA servers: did you approve the Duo Push?', ...
+            username, sshHost);
+        end
+        if contains(ex.message, 'timed out') || contains(ex.message, 'ConnectException') || contains(ex.message, 'Connection refused')
+          error('LTPDA:ssh:timeout', ...
+            'Connection to %s:%d timed out.\nCheck that the server is reachable and that you are on the correct network (VPN may be required).', ...
+            sshHost, sshPort);
+        end
         error('LTPDA:ssh:connect', ...
-          'SSH connection to %s:%d failed: %s\n\nCheck the server address, port, and your credentials.', ...
+          'SSH connection to %s:%d failed: %s\n\nCheck the server address, port, and credentials.', ...
           sshHost, sshPort, ex.message);
       end
 

@@ -109,11 +109,84 @@ The following upstream API calls were removed or broken in R2025a and have been 
 ```
 toolbox/
 ├── classes/        LTPDA class definitions (@ao, @ltpda_uo, @plist, etc.)
+│   └── +utils/     Utility namespace: @ssh, @DuoHandler, @credentials, ...
 ├── m/              Helper functions, startup scripts, GUI code
 ├── examples/       Example scripts and test suite (run_tests.m)
-├── jar/            Bundled Java JARs (connection manager, pipeline, etc.)
+├── jar/            Bundled Java JARs
+│   ├── jsch-0.2.21.jar   Modern JSch (mwiede fork) — replaces MATLAB's bundled 0.1.54
+│   ├── ConnectionManager.jar
+│   ├── MPipeline.jar
+│   └── lib/
 ├── help/           HTML documentation
+├── java/           Java source for bundled helper classes
+│   └── com/ltpda/ssh/LTPDAUserInfo.java   JSch UserInfo + MFA handler
 └── src/            Java source (reference only — not needed at runtime)
+```
+
+---
+
+## SSH and Java library notes
+
+### Bundled JSch 0.2.x (mwiede fork)
+
+MATLAB ships with an ancient JSch 0.1.54 (2018, unmaintained). This causes a
+**"Signature Encoding Error"** when connecting to servers that require SHA-256/512 RSA
+signatures, and it lacks modern key-exchange algorithms (`curve25519`, `ed25519`).
+
+This fork bundles `jsch-0.2.21.jar` (the [mwiede/jsch](https://github.com/mwiede/jsch)
+drop-in replacement). On the **first `ltpda_startup`** after installing this fork, MATLAB
+will print:
+
+```
+LTPDA: Modern JSch (0.2.x) added to static Java classpath:
+       C:\...\javaclasspath.txt
+       ** Restart MATLAB once for SSH tunnels to work. **
+```
+
+Restart MATLAB once. After that you can verify:
+
+```matlab
+char(com.jcraft.jsch.JSch().VERSION)   % → '0.2.21'
+```
+
+The patch is idempotent — `ltpda_startup` will not print the message again.
+
+### MFA / Duo Push support
+
+The SSH tunnel (`ltpda_tunnel`) supports **keyboard-interactive multi-factor authentication**
+(e.g. Duo Push on HiPerGator or other institutional HPC clusters) in addition to plain
+password auth. When connecting to an MFA-enabled server, `ltpda_tunnel` prints:
+
+```
+Connecting SSH tunnel to hipergator.rc.ufl.edu:22 ...
+LTPDA SSH MFA: Duo two-factor login for alice
+Enter a passcode or select one of the following options:
+ 1. Duo Push to XXX-XXX-1234
+(1-1): — selecting 1 (Push)
+```
+
+Check your phone and approve the push. The 30-second connection timeout gives enough time.
+
+If your server uses plain password auth, the MFA path is never triggered — everything
+works the same as before.
+
+Authentication is handled by `com.ltpda.ssh.LTPDAUserInfo`, a compiled Java class bundled
+as `jar/ltpda-ssh.jar`. It implements JSch's `UserInfo` and `UIKeyboardInteractive`
+interfaces directly in Java — this is necessary because MATLAB's `classdef` inheritance from
+Java interfaces only works for JARs on the *dynamic* classpath, which conflicts with MATLAB's
+own bundled `jsch.jar`. The pre-compiled Java class has no such limitation.
+
+Source: `java/com/ltpda/ssh/LTPDAUserInfo.java`. To rebuild after editing:
+
+```bash
+# from toolbox/ directory — must target --release 8: MATLAB R2025a static classpath is Java 8
+javac --release 8 -cp jar/jsch-0.2.21.jar -d java java/com/ltpda/ssh/LTPDAUserInfo.java
+python3 -c "
+import zipfile
+with zipfile.ZipFile('jar/ltpda-ssh.jar','w') as z:
+    z.writestr('META-INF/MANIFEST.MF','Manifest-Version: 1.0\n')
+    z.write('java/com/ltpda/ssh/LTPDAUserInfo.class','com/ltpda/ssh/LTPDAUserInfo.class')
+"
 ```
 
 ---

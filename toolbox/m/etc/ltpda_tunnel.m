@@ -66,7 +66,26 @@ function ltpda_tunnel(username, password)
 
   % Establish tunnel
   fprintf('Connecting SSH tunnel to %s:%d ...\n', server, sshPort);
-  utils.ssh.ensureTunnel(server, sshPort, localPort, username, password, remoteHost, mysqlPort);
+  try
+    utils.ssh.ensureTunnel(server, sshPort, localPort, username, password, remoteHost, mysqlPort);
+  catch ex
+    switch ex.identifier
+      case 'LTPDA:ssh:disconnected'
+        fprintf('%s\n', ex.message);
+      case 'LTPDA:ssh:portBusy'
+        fprintf('Port conflict: local port %d is already in use.\n', localPort);
+        fprintf('Pick a free port and reconfigure:\n');
+        fprintf('  ltpda_ssh_setup(''local_port'', 13307)\n');
+        fprintf('Then update LTPDAprefs: Port = 13307\n');
+      case 'LTPDA:ssh:timeout'
+        fprintf('%s\n', ex.message);
+      case 'LTPDA:ssh:authFailed'
+        fprintf('%s\n', ex.message);
+      otherwise
+        fprintf('SSH tunnel error: %s\n', ex.message);
+    end
+    return;
+  end
   fprintf('SSH tunnel established: localhost:%d → %s:%d → %s:%d\n', ...
     localPort, server, sshPort, remoteHost, mysqlPort);
   fprintf('In LTPDAprefs: Hostname=localhost, Port=%d\n', localPort);
@@ -104,8 +123,8 @@ function answer = sshCredentialsDialog(server)
   uField = uieditfield(fig, 'text', 'Position', [102 110 220 22]);
 
   pField = uieditfield(fig, 'text', 'Position', [102 76  220 22]);
-  fig.UserData = '';                                 % stores raw password
-  pField.ValueChangedFcn = @(src,~) maskPassword(src, fig);
+  fig.UserData = struct('raw', '');          % holds raw password between events
+  pField.ValueChangingFcn = @(~, evt) trackPassword(evt, fig, pField);
 
   % ── Buttons ──────────────────────────────────────────────────────────────
   uibutton(fig, 'Text', 'Cancel', ...
@@ -127,7 +146,7 @@ function answer = sshCredentialsDialog(server)
 
   % 'Connect' stores the username in Tag before resuming; Cancel leaves it empty.
   if ~isempty(fig.Tag)
-    answer = {uField.Value, fig.UserData};
+    answer = {uField.Value, fig.UserData.raw};
   end
   delete(fig);
 end
@@ -139,17 +158,34 @@ function setOkAndResume(fig)
 end
 
 
-function maskPassword(src, fig)
-  % Replace displayed text with bullets; keep raw password in fig.UserData (string).
-  raw      = fig.UserData;           % plain string stored in UserData
-  val      = src.Value;
-  nBullets = sum(double(val) == 8226);
-  if numel(val) > nBullets
-    % Characters typed after the existing bullets
-    raw = [raw, val(nBullets+1:end)];
-  elseif numel(val) < numel(raw)
-    raw = raw(1:numel(val));
+function trackPassword(evt, fig, pField)
+% TRACKPASSWORD  Track raw password on each keystroke; replace with bullets after event.
+%
+% ValueChangingFcn fires on each keystroke but prohibits synchronous Value writes.
+% A 0-delay timer fires at the next event-loop iteration (after the event is processed),
+% at which point it is safe to replace the visible text with bullet characters.
+  state    = fig.UserData;
+  newVal   = evt.Value;
+  nBullets = sum(double(newVal) == 8226);
+  raw      = state.raw;
+  if numel(newVal) > nBullets
+    raw = [raw, newVal(nBullets+1:end)];
+  elseif numel(newVal) < numel(raw)
+    raw = raw(1:numel(newVal));
   end
-  fig.UserData = raw;
-  src.Value = repmat(char(8226), 1, numel(raw));
+  state.raw    = raw;
+  fig.UserData = state;
+  n = numel(raw);
+  t = timer('ExecutionMode', 'singleShot', 'StartDelay', 0, ...
+            'TimerFcn', @(t,~) maskField(t, pField, n));
+  start(t);
+end
+
+
+function maskField(t, pField, n)
+% MASKFIELD  Replace field text with n bullet characters; clean up timer.
+  stop(t); delete(t);
+  if isvalid(pField)
+    pField.Value = repmat(char(8226), 1, n);
+  end
 end

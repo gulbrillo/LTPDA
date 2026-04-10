@@ -61,6 +61,7 @@ configuration, SSL, MATLAB SSH tunnel setup, and the optional SSH sync daemon.
 | Repository server — SSH sync daemon | ✅ Complete |
 | Repository server — full content (objects, queries, plots) | 🔲 Planned (Phase 5) |
 | GUI rewrites (Java Swing → uifigure) | ✅ Complete |
+| SSH tunnel — modern JSch 0.2.x + MFA (Duo Push) support | ✅ Complete |
 
 ---
 
