@@ -200,6 +200,18 @@ classdef ssh
     end
 
 
+    function state = getState(sshHost)
+    % GETSTATE  Return stored tunnel state struct for sshHost, or [] if none.
+    %
+    %   state = utils.ssh.getState('repo.example.com')
+    %
+    %   Returned struct fields: session, localPort, host, remoteHost, mysqlPort,
+    %   username, password (credentials in memory only — never written to disk).
+
+      state = getappdata(0, utils.ssh.tunnelKey(sshHost));
+    end
+
+
     function tf = isActive(sshHost)
     % ISACTIVE  Returns true if there is an active tunnel to the given host.
     %

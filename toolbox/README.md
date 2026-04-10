@@ -223,10 +223,14 @@ ltpda_ssh_setup enable
 % In LTPDAprefs: Hostname=localhost, Port=13306
 ```
 
-The tunnel is established automatically each time `ltpda_startup` runs. If the tunnel drops
-(e.g. network interruption), reconnect without restarting MATLAB:
+The tunnel is established automatically each time `ltpda_startup` runs.
+
+Tunnel management:
+
 ```matlab
-ltpda_tunnel    % reconnects silently using stored credentials; prompts if needed
+ltpda_tunnel            % establish or reconnect (prompts if no stored credentials)
+ltpda_tunnel close      % disconnect the active tunnel
+ltpda_tunnel(u, pw)     % connect with explicit credentials
 ```
 
 #### Option 2 — Manual tunnel via terminal or PuTTY (SSH gateway, port 2222)

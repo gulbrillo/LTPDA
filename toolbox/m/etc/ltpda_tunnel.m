@@ -1,5 +1,5 @@
-function ltpda_tunnel(username, password)
-% LTPDA_TUNNEL  Establish, reconnect or check the LTPDA repository SSH tunnel.
+function ltpda_tunnel(varargin)
+% LTPDA_TUNNEL  Establish, reconnect, close, or check the LTPDA repository SSH tunnel.
 %
 % This command starts (or reconnects) the SSH tunnel that MATLAB needs to reach
 % the repository MySQL database. Run it after ltpda_startup, or any time the
@@ -8,10 +8,10 @@ function ltpda_tunnel(username, password)
 % USAGE:
 %
 %   ltpda_tunnel              % reconnect using stored credentials; no prompt
+%   ltpda_tunnel close        % disconnect the active tunnel
 %   ltpda_tunnel(u, pw)       % connect/reconnect with explicit credentials
 %
-% If the tunnel is already active, this command does nothing and prints the
-% current status.
+% If the tunnel is already active, this command prints the current status.
 %
 % If called with no arguments and credentials are stored in memory from a
 % previous connection, the tunnel is re-established silently without prompting.
@@ -27,7 +27,28 @@ function ltpda_tunnel(username, password)
 
   GROUP = 'LTPDA_SSH';
 
-  % Read settings
+  % ── Handle 'close' command ────────────────────────────────────────────────
+  if nargin == 1 && ischar(varargin{1}) && strcmpi(varargin{1}, 'close')
+    if ~ispref(GROUP, 'server')
+      fprintf('SSH tunnel: not configured.\n');
+      return;
+    end
+    server = getpref(GROUP, 'server');
+    if utils.ssh.isActive(server)
+      utils.ssh.closeTunnel(server);
+      fprintf('SSH tunnel to %s closed.\n', server);
+    else
+      fprintf('SSH tunnel to %s is not active.\n', server);
+    end
+    return;
+  end
+
+  % ── Decode username / password from varargin ──────────────────────────────
+  username = '';  password = '';
+  if nargin >= 1, username = varargin{1}; end
+  if nargin >= 2, password = varargin{2}; end
+
+  % ── Read settings ─────────────────────────────────────────────────────────
   if ~ispref(GROUP, 'server')
     error('LTPDA:ssh:notConfigured', ...
       'SSH tunnel server is not configured.\nRun: ltpda_ssh_setup(''server'', ''repo.yourdomain.com'')');
@@ -39,22 +60,31 @@ function ltpda_tunnel(username, password)
   remoteHost = getpref(GROUP, 'remote_host', 'db');
   mysqlPort  = getpref(GROUP, 'mysql_port',  3306);
 
-  % If tunnel is already active, just report and return
+  % ── If tunnel is already active, check it matches current settings ────────
   if utils.ssh.isActive(server)
-    fprintf('SSH tunnel to %s is active (localhost:%d → db:3306).\n', server, localPort);
+    state = utils.ssh.getState(server);
+    if ~isempty(state) && state.localPort ~= localPort
+      fprintf('Active tunnel uses port %d, but current settings specify port %d.\n', ...
+        state.localPort, localPort);
+      fprintf('Run: ltpda_tunnel close\n  then: ltpda_tunnel\nto reconnect on port %d.\n', localPort);
+    else
+      fprintf('SSH tunnel to %s is active (localhost:%d → %s:%d).\n', ...
+        server, localPort, remoteHost, mysqlPort);
+    end
     return;
   end
 
-  % Try silent reconnect with stored credentials
+  % ── Try silent reconnect with stored credentials ──────────────────────────
   if nargin == 0
     if utils.ssh.reconnectIfNeeded(server)
-      fprintf('SSH tunnel reconnected: localhost:%d → %s:2222 → db:3306\n', localPort, server);
+      fprintf('SSH tunnel reconnected: localhost:%d → %s:%d → %s:%d\n', ...
+        localPort, server, sshPort, remoteHost, mysqlPort);
       return;
     end
   end
 
-  % Need credentials — use supplied ones or prompt
-  if nargin < 2
+  % ── Need credentials — use supplied ones or prompt ────────────────────────
+  if isempty(password)
     answer = sshCredentialsDialog(server);
     if isempty(answer)
       fprintf('SSH tunnel: cancelled.\n');
@@ -64,7 +94,7 @@ function ltpda_tunnel(username, password)
     password = answer{2};
   end
 
-  % Establish tunnel
+  % ── Establish tunnel ──────────────────────────────────────────────────────
   fprintf('Connecting SSH tunnel to %s:%d ...\n', server, sshPort);
   try
     utils.ssh.ensureTunnel(server, sshPort, localPort, username, password, remoteHost, mysqlPort);
