@@ -203,7 +203,6 @@ async function loadSettings() {
           <p class="card-note">
             Access is gated behind your admin session — the button issues a short-lived cookie
             that nginx validates on every request; logging out invalidates it immediately.
-            phpMyAdmin auto-detects its URL from the nginx proxy headers.
           </p>
         </section>
 
@@ -281,13 +280,6 @@ h2 { font-size: 0.9rem; font-weight: 700; letter-spacing: -0.02em; color: #1e305
 .act-btn:hover:not(:disabled) { background: #f0f5fb; color: #2f5596; border-color: #b8cce0; }
 .act-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 .act-save:hover:not(:disabled) { background: #e8f0f8; color: #1e3050; border-color: #a8c0d8; }
-
-/* ── Banners ── */
-.banner-ok {
-  padding: 0.65rem 1rem; margin-bottom: 1rem;
-  background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px;
-  font-size: 0.825rem; color: #15803d;
-}
 
 /* ── Database manager button ── */
 .pma-btn {

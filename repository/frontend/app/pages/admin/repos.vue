@@ -573,60 +573,6 @@ h1 { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.025em; color: #1e30
 }
 .mini-toggle.active .mini-thumb { transform: translateX(14px); }
 
-/* ── Notice / error banners ── */
-.banner-ok {
-  padding: 0.65rem 1rem; margin-bottom: 1rem;
-  background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px;
-  font-size: 0.825rem; color: #15803d;
-}
-
-/* ── Dialog ── */
-.overlay {
-  position: fixed; inset: 0; background: rgba(30,48,80,0.4);
-  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
-  display: flex; align-items: center; justify-content: center; z-index: 50; padding: 1.5rem;
-}
-.dialog {
-  background: #fff; border: 1px solid #d0dcea; border-radius: 14px;
-  width: 100%; max-width: 480px; padding: 2rem;
-  box-shadow: 0 8px 32px rgba(30,48,80,0.12);
-}
-.dialog-top {
-  display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.75rem;
-}
-.dialog-top h2 { font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; color: #1e3050; }
-.close-btn {
-  width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
-  background: none; border: none; cursor: pointer; color: #a8bdd0; border-radius: 6px;
-  transition: background 0.1s, color 0.1s;
-}
-.close-btn:hover { background: #f0f5fb; color: #4a6080; }
-.close-btn svg { width: 12px; height: 12px; }
-
 textarea { resize: vertical; min-height: 68px; }
-.field-hint { font-size: 0.75rem; color: #8aa0b8; margin-top: 0.3rem; line-height: 1.5; }
 .field-hint code { font-family: 'JetBrains Mono', ui-monospace, monospace; background: #eef2f7; padding: 0.1em 0.3em; border-radius: 3px; font-size: 0.9em; }
-
-.dialog-banner { padding: 0.6rem 0.85rem; border-radius: 8px; font-size: 0.8rem; margin-bottom: 1rem; }
-.dialog-banner-error { background: #fef2f2; border: 1px solid #fecaca; color: #b91c1c; }
-.dialog-banner-ok    { background: #f0fdf4; border: 1px solid #bbf7d0; color: #15803d; }
-.dialog-foot { display: flex; justify-content: flex-end; gap: 0.6rem; padding-top: 0.25rem; }
-
-.del-body { font-size: 0.875rem; color: #1e3050; margin-bottom: 0.6rem; line-height: 1.5; }
-.del-db { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 0.85em; background: #eef2f7; padding: 0.1em 0.35em; border-radius: 4px; }
-.del-warn {
-  font-size: 0.8rem; color: #b91c1c;
-  background: #fef2f2; border: 1px solid #fecaca;
-  border-radius: 8px; padding: 0.6rem 0.8rem;
-  margin-bottom: 1.5rem; line-height: 1.5;
-}
-
-.btn-danger {
-  display: flex; align-items: center; gap: 0.4rem;
-  padding: 0.5rem 1rem; background: #dc2626; color: #fff; border: none;
-  border-radius: 8px; font-size: 0.825rem; font-weight: 600;
-  cursor: pointer; transition: background 0.15s;
-}
-.btn-danger:hover:not(:disabled) { background: #b91c1c; }
-.btn-danger:disabled { opacity: 0.5; cursor: not-allowed; }
 </style>

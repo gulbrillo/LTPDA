@@ -178,6 +178,13 @@ input:not([type="checkbox"]):focus {
 .badge-admin { background: #fff3d6; color: #b45309; border: 1px solid #fde68a; }
 .badge-user  { background: #f0f5fb; color: var(--text-3); border: 1px solid var(--border); }
 
+/* ── Success banner ────────────────────────────── */
+.banner-ok {
+  padding: 0.65rem 1rem; margin-bottom: 1rem;
+  background: #f0fdf4; border: 1px solid #bbf7d0;
+  border-radius: 8px; font-size: 0.825rem; color: #15803d;
+}
+
 /* ── Error banner ──────────────────────────────── */
 .banner-error {
   display: flex; align-items: center; justify-content: space-between;
@@ -228,6 +235,81 @@ input:not([type="checkbox"]):focus {
 }
 .modal-enter-from .dialog { transform: scale(0.88) translateY(-14px); opacity: 0; }
 .modal-leave-to   .dialog { transform: scale(0.94) translateY(-6px);  opacity: 0; }
+
+/* ── Overlay + Dialog shell ────────────────────── */
+.overlay {
+  position: fixed; inset: 0; background: rgba(30,48,80,0.4);
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 50; padding: 1.5rem;
+}
+.dialog {
+  background: #fff; border: 1px solid var(--border); border-radius: 14px;
+  width: 100%; max-width: 480px; padding: 2rem;
+  box-shadow: 0 8px 32px rgba(30,48,80,0.12);
+}
+.dialog-top {
+  display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1.75rem;
+}
+.dialog-top h2 { font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text); }
+.dialog-sub { font-size: 0.775rem; color: var(--text-4); margin-top: 0.2rem; }
+.close-btn {
+  width: 28px; height: 28px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: none; border: none; cursor: pointer; color: var(--text-5);
+  border-radius: 6px; transition: background 0.1s, color 0.1s;
+}
+.close-btn:hover { background: #f0f5fb; color: var(--text-2); }
+.close-btn svg { width: 12px; height: 12px; }
+.dialog-foot { display: flex; justify-content: flex-end; gap: 0.6rem; padding-top: 0.25rem; }
+.dialog-banner { padding: 0.6rem 0.85rem; border-radius: 8px; font-size: 0.8rem; line-height: 1.5; margin-bottom: 1rem; }
+.dialog-banner-error { background: #fef2f2; border: 1px solid #fecaca; color: #b91c1c; }
+.dialog-banner-ok    { background: #f0fdf4; border: 1px solid #bbf7d0; color: #15803d; }
+
+/* ── Delete confirmation ────────────────────────── */
+.del-body { font-size: 0.875rem; color: var(--text); margin-bottom: 0.6rem; line-height: 1.5; }
+.del-db { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 0.85em; background: #eef2f7; padding: 0.1em 0.35em; border-radius: 4px; }
+.del-warn {
+  font-size: 0.8rem; color: #b91c1c; background: #fef2f2; border: 1px solid #fecaca;
+  border-radius: 8px; padding: 0.6rem 0.8rem; margin-bottom: 1.5rem; line-height: 1.5;
+}
+.btn-danger {
+  display: flex; align-items: center; gap: 0.4rem;
+  padding: 0.5rem 1rem; background: #dc2626; color: #fff; border: none;
+  border-radius: 8px; font-size: 0.825rem; font-weight: 600;
+  cursor: pointer; transition: background 0.15s;
+}
+.btn-danger:hover:not(:disabled) { background: #b91c1c; }
+.btn-danger:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ── Password row (dialog variant — with icon generate button) ── */
+.pw-row {
+  display: flex; align-items: stretch; background: #fff;
+  border: 1px solid var(--border-2); border-radius: 8px; overflow: hidden;
+  transition: border-color 0.12s, box-shadow 0.12s;
+}
+.pw-row:focus-within { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(47,85,150,0.12); }
+.pw-row .pw-input {
+  flex: 1; min-width: 0; padding: 0.5rem 0.75rem;
+  border: none !important; box-shadow: none !important; border-radius: 0 !important; outline: none;
+  font-size: 0.825rem; color: var(--text); background: transparent;
+}
+.eye-btn {
+  flex-shrink: 0; width: 36px; display: flex; align-items: center; justify-content: center;
+  background: none; border: none; cursor: pointer; color: var(--text-5); transition: color 0.12s;
+}
+.eye-btn:hover { color: var(--text-2); }
+.eye-btn svg { width: 15px; height: 15px; }
+.gen-btn {
+  flex-shrink: 0; display: flex; align-items: center; gap: 0.3rem;
+  padding: 0 0.65rem; background: #eef2f7; border: none; border-left: 1px solid var(--border-2);
+  font-size: 0.72rem; font-weight: 600; color: var(--text-2); cursor: pointer; white-space: nowrap;
+  transition: background 0.1s, color 0.1s;
+}
+.gen-btn:hover { background: #dce8f5; color: var(--navy); }
+
+/* ── Field hint ─────────────────────────────────── */
+.field-hint { font-size: 0.75rem; color: var(--text-4); margin-top: 0.3rem; line-height: 1.5; }
 
 /* ── Dialog shake (persistent — click outside) ─── */
 @keyframes dialog-shake {

@@ -143,17 +143,30 @@ async function saveUser() {
   }
 }
 
-async function deleteUser(u: User) {
-  if (!confirm(`Delete "${u.username}"? This cannot be undone.`)) return
+const deleteTarget = ref<User | null>(null)
+const deleting = ref(false)
+
+function openDelete(u: User) {
+  deleteTarget.value = u
+}
+
+async function confirmDelete() {
+  if (!deleteTarget.value) return
+  const u = deleteTarget.value
+  deleting.value = true
   error.value = ''
   notice.value = ''
   try {
     await apiFetch(`/users/${u.id}`, { method: 'DELETE' })
+    deleteTarget.value = null
     await loadUsers()
     notice.value = `"${u.username}" deleted.`
     setTimeout(() => { notice.value = '' }, 4000)
   } catch (e: unknown) {
     error.value = apiErrorMessage(e)
+    deleteTarget.value = null
+  } finally {
+    deleting.value = false
   }
 }
 
@@ -237,7 +250,7 @@ onMounted(() => loadUsers())
                   <button
                     class="act-btn act-danger"
                     :disabled="u.id === currentUser?.id"
-                    @click="deleteUser(u)"
+                    @click="openDelete(u)"
                   >Remove</button>
                 </td>
               </tr>
@@ -368,6 +381,29 @@ onMounted(() => loadUsers())
         </div>
       </Transition>
   </Teleport>
+
+  <!-- Delete confirmation dialog -->
+  <Teleport to="body">
+    <Transition name="modal">
+      <div v-if="deleteTarget" class="overlay" @click.self="deleteTarget = null">
+        <div class="dialog">
+          <div class="dialog-top">
+            <h2>Delete user</h2>
+            <button class="close-btn" @click="deleteTarget = null" aria-label="Close"><X :size="14" /></button>
+          </div>
+          <p class="del-body">Permanently delete user <strong>{{ deleteTarget.username }}</strong>?</p>
+          <p class="del-warn">This will remove the app account and drop the MySQL user. This cannot be undone.</p>
+          <div class="dialog-foot">
+            <button type="button" class="btn-cancel" @click="deleteTarget = null">Cancel</button>
+            <button type="button" class="btn-danger" :disabled="deleting" @click="confirmDelete">
+              <span v-if="deleting" class="spin spin-sm" />
+              Delete permanently
+            </button>
+          </div>
+        </div>
+      </div>
+    </Transition>
+  </Teleport>
   </div>
 </template>
 
@@ -423,56 +459,6 @@ h1 { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.025em; color: #1e30
   gap: 0.75rem; padding: 4rem; color: #b8cce0; font-size: 0.825rem;
 }
 
-/* ── Dialog overlay ── */
-.overlay {
-  position: fixed; inset: 0; background: rgba(30,48,80,0.4);
-  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
-  display: flex; align-items: center; justify-content: center;
-  z-index: 50; padding: 1.5rem;
-}
-.dialog {
-  background: #ffffff; border: 1px solid #d0dcea;
-  border-radius: 14px; width: 100%; max-width: 480px; padding: 2rem;
-  box-shadow: 0 8px 32px rgba(30,48,80,0.12);
-}
-.dialog-top {
-  display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.75rem;
-}
-.dialog-top h2 { font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; color: #1e3050; }
-.dialog-sub { font-size: 0.775rem; color: #8aa0b8; margin-top: 0.2rem; }
-.close-btn {
-  width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
-  background: none; border: none; cursor: pointer;
-  color: #a8bdd0; border-radius: 6px; transition: background 0.1s, color 0.1s;
-}
-.close-btn:hover { background: #f0f5fb; color: #4a6080; }
-.close-btn svg { width: 12px; height: 12px; }
-
-/* ── Password row (dialog variant — horizontal, no gen button) ── */
-.pw-row {
-  display: flex; align-items: stretch;
-  background: #ffffff; border: 1px solid #c8d8ec;
-  border-radius: 8px; overflow: hidden;
-  transition: border-color 0.12s, box-shadow 0.12s;
-}
-.pw-row:focus-within { border-color: #2f5596; box-shadow: 0 0 0 3px rgba(47,85,150,0.12); }
-.eye-btn {
-  flex-shrink: 0; width: 36px; display: flex; align-items: center; justify-content: center;
-  background: none; border: none; cursor: pointer; color: #a8bdd0; transition: color 0.12s;
-}
-.eye-btn:hover { color: #4a6080; }
-.eye-btn svg { width: 15px; height: 15px; }
-
-.gen-btn {
-  flex-shrink: 0; display: flex; align-items: center; gap: 0.3rem;
-  padding: 0 0.65rem; background: #eef2f7; border: none; border-left: 1px solid #c8d8ec;
-  font-size: 0.72rem; font-weight: 600; color: #4a6080; cursor: pointer; white-space: nowrap;
-  transition: background 0.1s, color 0.1s;
-}
-.gen-btn:hover { background: #dce8f5; color: #2f5596; }
-
-.field-hint { font-size: 0.75rem; color: #8aa0b8; margin-top: 0.3rem; line-height: 1.5; }
-
 /* ── Toggle ── */
 .toggle-row {
   display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
@@ -497,23 +483,6 @@ h1 { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.025em; color: #1e30
 .toggle-track.active .toggle-thumb { transform: translateX(16px); }
 .sr-only { position: absolute; opacity: 0; pointer-events: none; width: 1px; height: 1px; overflow: hidden; }
 
-/* ── Page notice (success) ── */
-.banner-ok {
-  padding: 0.65rem 1rem; margin-bottom: 1rem;
-  background: #f0fdf4; border: 1px solid #bbf7d0;
-  border-radius: 8px; font-size: 0.825rem; color: #15803d;
-}
-
-/* ── Dialog banners ── */
-.dialog-banner {
-  padding: 0.6rem 0.85rem; border-radius: 8px;
-  font-size: 0.8rem; line-height: 1.5; margin-bottom: 1rem;
-}
-.dialog-banner-error { background: #fef2f2; border: 1px solid #fecaca; color: #b91c1c; }
-.dialog-banner-ok    { background: #f0fdf4; border: 1px solid #bbf7d0; color: #15803d; }
-
-/* ── Dialog footer ── */
-.dialog-foot { display: flex; justify-content: flex-end; gap: 0.6rem; padding-top: 0.25rem; }
 
 
 </style>
