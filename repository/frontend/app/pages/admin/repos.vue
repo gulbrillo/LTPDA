@@ -49,6 +49,13 @@ function onOverlayClick() {
   setTimeout(() => { shaking.value = false }, 420)
 }
 
+const deleteShaking = ref(false)
+function onDeleteOverlayClick() {
+  if (deleteShaking.value) return
+  deleteShaking.value = true
+  setTimeout(() => { deleteShaking.value = false }, 420)
+}
+
 const expandedRepo = ref<string | null>(null)
 const accessData = ref<Record<string, AccessEntry[]>>({})
 const accessLoading = ref<Record<string, boolean>>({})
@@ -435,8 +442,8 @@ function onWriteToggle(db_name: string, entry: AccessEntry) {
   <!-- Delete confirmation dialog -->
   <Teleport to="body">
     <Transition name="modal">
-      <div v-if="deleteTarget" class="overlay" @click.self="deleteTarget = null">
-        <div class="dialog">
+      <div v-if="deleteTarget" class="overlay" @click.self="onDeleteOverlayClick">
+        <div class="dialog" :class="{ 'dialog-shake': deleteShaking }">
           <div class="dialog-top">
             <h2>Delete repository</h2>
             <button class="close-btn" @click="deleteTarget = null" aria-label="Close">

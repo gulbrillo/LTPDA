@@ -30,6 +30,13 @@ function onOverlayClick() {
   setTimeout(() => { shaking.value = false }, 420)
 }
 
+const deleteShaking = ref(false)
+function onDeleteOverlayClick() {
+  if (deleteShaking.value) return
+  deleteShaking.value = true
+  setTimeout(() => { deleteShaking.value = false }, 420)
+}
+
 const showDialog = ref(false)
 const editTarget = ref<User | null>(null)
 const showPw = ref(false)
@@ -385,8 +392,8 @@ onMounted(() => loadUsers())
   <!-- Delete confirmation dialog -->
   <Teleport to="body">
     <Transition name="modal">
-      <div v-if="deleteTarget" class="overlay" @click.self="deleteTarget = null">
-        <div class="dialog">
+      <div v-if="deleteTarget" class="overlay" @click.self="onDeleteOverlayClick">
+        <div class="dialog" :class="{ 'dialog-shake': deleteShaking }">
           <div class="dialog-top">
             <h2>Delete user</h2>
             <button class="close-btn" @click="deleteTarget = null" aria-label="Close"><X :size="14" /></button>

@@ -28,20 +28,23 @@ classdef ssh
 
   methods(Static)
 
-    function ensureTunnel(sshHost, sshPort, localPort, username, password)
+    function ensureTunnel(sshHost, sshPort, localPort, username, password, remoteHost, mysqlPort)
     % ENSURETUNNEL  Establish an SSH port-forwarding tunnel (or reuse existing).
     %
     %   utils.ssh.ensureTunnel(sshHost, sshPort, localPort, username, password)
+    %   utils.ssh.ensureTunnel(sshHost, sshPort, localPort, username, password, remoteHost)
+    %   utils.ssh.ensureTunnel(sshHost, sshPort, localPort, username, password, remoteHost, mysqlPort)
     %
-    %   sshHost   — hostname of the SSH gateway (e.g. 'repo.yourdomain.com')
-    %   sshPort   — SSH port on the server (typically 2222 for LTPDA gateway)
-    %   localPort — local TCP port to listen on (e.g. 13306)
-    %   username  — SSH/MySQL username
-    %   password  — SSH/MySQL password (same credentials as for MySQL/MATLAB)
+    %   sshHost    — hostname of the SSH gateway (e.g. 'repo.yourdomain.com')
+    %   sshPort    — SSH port on the server (typically 2222 for LTPDA gateway)
+    %   localPort  — local TCP port to listen on (e.g. 13306)
+    %   username   — SSH/MySQL username
+    %   password   — SSH/MySQL password (same credentials as for MySQL/MATLAB)
+    %   remoteHost — Docker network alias of the MySQL container (default: 'db')
+    %   mysqlPort  — MySQL port on the remote host (default: 3306)
     %
     %   The tunnel forwards:
-    %     127.0.0.1:localPort  →  db:3306  (via sshHost:sshPort)
-    %   where 'db' is the MySQL container alias on the Docker internal network.
+    %     127.0.0.1:localPort  →  remoteHost:mysqlPort  (via sshHost:sshPort)
     %
     %   Authentication uses the user's MySQL/MATLAB password — no separate SSH
     %   credentials are needed when using the LTPDA SSH gateway container.
@@ -49,6 +52,13 @@ classdef ssh
     %   NOTE: StrictHostKeyChecking is disabled. The server is the repository
     %   server explicitly configured by the user. This is an acceptable trade-off
     %   for this use case.
+
+      if nargin < 6 || isempty(remoteHost)
+        remoteHost = getpref('LTPDA_SSH', 'remote_host', 'db');
+      end
+      if nargin < 7 || isempty(mysqlPort)
+        mysqlPort = getpref('LTPDA_SSH', 'mysql_port', 3306);
+      end
 
       key = utils.ssh.tunnelKey(sshHost);
       state = getappdata(0, key);
@@ -76,10 +86,9 @@ classdef ssh
           sshHost, sshPort, ex.message);
       end
 
-      % Set up local port forwarding: localhost:localPort -> db:3306
-      % 'db' is the MySQL container's Docker network alias (see docker-compose.yml)
+      % Set up local port forwarding: localhost:localPort -> remoteHost:mysqlPort
       try
-        session.setPortForwardingL(localPort, 'db', 3306);
+        session.setPortForwardingL(localPort, remoteHost, mysqlPort);
       catch ex
         session.disconnect();
         if contains(ex.message, 'Address already in use') || contains(ex.message, 'bind')
@@ -93,11 +102,13 @@ classdef ssh
 
       % Store session and credentials in appdata (memory only — never written to disk)
       state = struct( ...
-        'session',   session, ...
-        'localPort', localPort, ...
-        'host',      sshHost, ...
-        'username',  username, ...
-        'password',  password);
+        'session',    session, ...
+        'localPort',  localPort, ...
+        'host',       sshHost, ...
+        'remoteHost', remoteHost, ...
+        'mysqlPort',  mysqlPort, ...
+        'username',   username, ...
+        'password',   password);
       setappdata(0, key, state);
     end
 
@@ -125,11 +136,22 @@ classdef ssh
 
       % Session dropped — reconnect silently using stored credentials
       try
+        if isfield(state, 'remoteHost')
+          rh = state.remoteHost;
+        else
+          rh = getpref('LTPDA_SSH', 'remote_host', 'db');
+        end
+        if isfield(state, 'mysqlPort')
+          mp = state.mysqlPort;
+        else
+          mp = getpref('LTPDA_SSH', 'mysql_port', 3306);
+        end
         utils.ssh.ensureTunnel(state.host, ...
           getpref('LTPDA_SSH', 'port', 2222), ...
           state.localPort, ...
           state.username, ...
-          state.password);
+          state.password, ...
+          rh, mp);
         tf = true;
       catch
         tf = false;

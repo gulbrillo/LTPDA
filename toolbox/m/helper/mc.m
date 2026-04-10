@@ -23,9 +23,17 @@ function mc()
     rmappdata(0, 'LTPDADatabaseConnectionManager');
   end
   
-  % close windows
+  % Close any open LTPDA GUI windows.
+  % LTPDAprefs figures must be explicitly deleted before 'clear classes',
+  % otherwise MATLAB refuses to clear the handle class.
+  prefFigs = findall(groot, 'Type', 'figure', 'Name', 'LTPDA Preferences');
+  delete(prefFigs);
   close all;
-  
+
+  % Clear any dangling 'ans' variables that may hold handle-class objects.
+  evalin('base',   'clear ans');
+  evalin('caller', 'clear ans');
+
   % clear variables
   evalin('caller', 'clear');         % delete the timer-objects
   clear classes                      % delete the local variables

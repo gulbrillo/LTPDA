@@ -67,6 +67,15 @@ function ltpda_ssh_setup(varargin)
       case 'local_port'
         setpref(GROUP, 'local_port', double(val));
         fprintf('SSH local port set to: %d\n', double(val));
+      case 'remote_host'
+        if ~ischar(val) || isempty(val)
+          error('LTPDA:ssh:setup', 'remote_host must be a non-empty string.');
+        end
+        setpref(GROUP, 'remote_host', val);
+        fprintf('SSH remote MySQL host set to: %s\n', val);
+      case 'mysql_port'
+        setpref(GROUP, 'mysql_port', double(val));
+        fprintf('MySQL port set to: %d\n', double(val));
       otherwise
         error('LTPDA:ssh:setup', ...
           'Unknown setting: ''%s''. Valid keys: server, port, local_port.', key);
@@ -77,18 +86,22 @@ end
 
 
 function printSettings(GROUP)
-  enabled   = getpref(GROUP, 'enabled',    false);
-  server    = getpref(GROUP, 'server',     '(not set)');
-  port      = getpref(GROUP, 'port',       2222);
-  localPort = getpref(GROUP, 'local_port', 13306);
+  enabled    = getpref(GROUP, 'enabled',     false);
+  server     = getpref(GROUP, 'server',      '(not set)');
+  port       = getpref(GROUP, 'port',        2222);
+  localPort  = getpref(GROUP, 'local_port',  13306);
+  remoteHost = getpref(GROUP, 'remote_host', 'db');
+  mysqlPort  = getpref(GROUP, 'mysql_port',  3306);
 
   if enabled, enStr = 'yes'; else, enStr = 'no'; end
 
   fprintf('\nLTPDA SSH tunnel configuration:\n');
-  fprintf('  Enabled:    %s\n', enStr);
-  fprintf('  Server:     %s\n', server);
-  fprintf('  SSH port:   %d\n', port);
-  fprintf('  Local port: %d\n', localPort);
+  fprintf('  Enabled:      %s\n', enStr);
+  fprintf('  Server:       %s\n', server);
+  fprintf('  SSH port:     %d\n', port);
+  fprintf('  Local port:   %d\n', localPort);
+  fprintf('  Remote host:  %s\n', remoteHost);
+  fprintf('  MySQL port:   %d\n', mysqlPort);
   fprintf('\nIn LTPDAprefs, set: Hostname=localhost, Port=%d\n', localPort);
 
   if ~strcmp(server, '(not set)')
