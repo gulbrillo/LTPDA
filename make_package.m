@@ -36,18 +36,6 @@ opts.MaximumMatlabRelease = '';
 opts.ToolboxImageFile     = fullfile(toolboxRoot, 'help', 'ug', 'images', 'LTPDAlauncher.png');
 opts.OutputFile           = fullfile(repoRoot, 'LTPDA.mltbx');
 
-% Compute relative paths to add to MATLAB path when the toolbox is installed.
-% genpath recursively enumerates all subdirectories.
-% We include classes/ (all @class dirs + +utils package) and m/ (all function
-% subdirs: etc/, gui/, helper/, sigproc/, built_in_models/...).
-% Non-MATLAB content (java/, src/, jar/, resources/, help/) is excluded by
-% not calling genpath on those directories.
-rawPath = [genpath(fullfile(toolboxRoot, 'classes')), pathsep, ...
-           genpath(fullfile(toolboxRoot, 'm'))];
-allAbsDirs = regexp(rawPath, pathsep, 'split');
-allAbsDirs(cellfun('isempty', allAbsDirs)) = [];
-
-opts.ToolboxMatlabPath = allAbsDirs;
 
 matlab.addons.toolbox.packageToolbox(opts);
 fprintf('Done. Package written to:\n  %s\n', opts.OutputFile);
