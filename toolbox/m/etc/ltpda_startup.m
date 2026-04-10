@@ -304,7 +304,9 @@ function ltpda_startup
   end
   
   % Set LTPDA Root dir
-  ltpdaroot = strrep(which('ao'), fullfile('ltpda', 'classes', '@ao', 'ao.m'), '');
+  % Navigate up three levels from .../m/etc/ltpda_startup.m to reach the
+  % toolbox root — works for both addpath and .mltbx installs.
+  ltpdaroot = fileparts(fileparts(fileparts(which('ltpda_startup'))));
   setappdata(0, 'LTPDAROOT', ltpdaroot);
   
   
