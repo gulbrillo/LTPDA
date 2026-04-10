@@ -67,7 +67,7 @@ function varargout = mainFnc(inputs, modelFilename, getModelDescription, getMode
   % Build the object
   out = fcn(fpl);
   
-  % Set the method version string in the minfo object
+  % Set the method version string in the ltpda_minfo object
   if ~isempty(constructorInfo) && utils.helper.isSubclassOf(class(out), 'ltpda_uoh')
     % If this is a user-call via a constructor, then we add history
     out = addHistoryStep(out, constructorInfo, fpl);

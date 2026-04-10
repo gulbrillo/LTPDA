@@ -113,7 +113,7 @@ function out = eval(f, varargin)
     if isnumeric(out)
       out = ao(out);
     end
-    ii = minfo(mfilename, mfilename('class'), 'ltpda', utils.const.categories.sigproc, '', 'None', []);
+    ii = ltpda_minfo(mfilename, mfilename('class'), 'ltpda', utils.const.categories.sigproc, '', 'None', []);
     out.setName(f.name);
     out.addHistory(ii, hpl, [], hists);
   end

@@ -4,7 +4,7 @@
 % DESCRIPTION: MELEMENTOP applies the given matrix operator to the data.
 %
 % CALL:
-%              a = melementOp(callerIsMethod, op, opname, opsym, minfo, pl, a1, a2,...)
+%              a = melementOp(callerIsMethod, op, opname, opsym, ltpda_minfo, pl, a1, a2,...)
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

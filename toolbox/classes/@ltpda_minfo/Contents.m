@@ -1,0 +1,34 @@
+%%%%%%%%%%%%%%%%%%%%   class: ltpda_minfo   %%%%%%%%%%%%%%%%%%%%
+%
+%   <a href="matlab:help ltpda_minfo/addChildren">ltpda_minfo/addChildren</a>          -  Add children to this ltpda_minfo.
+%   <a href="matlab:help ltpda_minfo/addSupportedNumTypes">ltpda_minfo/addSupportedNumTypes</a> -  Add a value to the property 'supportedNumTypes'.
+%   <a href="matlab:help ltpda_minfo/attachToDom">ltpda_minfo/attachToDom</a>          - % Create empty ltpda_minfo node with the attribute 'shape'
+%   <a href="matlab:help ltpda_minfo/char">ltpda_minfo/char</a>                 -  convert an ltpda_minfo object into a string.
+%   <a href="matlab:help ltpda_minfo/clearSets">ltpda_minfo/clearSets</a>            -  Clear the sets and plists of the input ltpda_minfo objects.
+%   <a href="matlab:help ltpda_minfo/copy">ltpda_minfo/copy</a>                 -  makes a (deep) copy of the input ltpda_minfo objects.
+%   <a href="matlab:help ltpda_minfo/disp">ltpda_minfo/disp</a>                 -  display an ltpda_minfo object.
+%   <a href="matlab:help ltpda_minfo/fromDom">ltpda_minfo/fromDom</a>              - % there exist some possibilities.
+%   <a href="matlab:help ltpda_minfo/fromStruct">ltpda_minfo/fromStruct</a>           -  creates from a structure a MINFO object.
+%   <a href="matlab:help ltpda_minfo/getEncodedString">ltpda_minfo/getEncodedString</a>     - % Make some plausibility checks
+%   <a href="matlab:help ltpda_minfo/getInfoAxis">ltpda_minfo/getInfoAxis</a>          - % Build info object
+%   <a href="matlab:help ltpda_minfo/isequal">ltpda_minfo/isequal</a>              -  overloads the isequal operator for ltpda ltpda_minfo objects.
+%   <a href="matlab:help ltpda_minfo/loadobj">ltpda_minfo/loadobj</a>              -  is called by the load function for user objects.
+%   <a href="matlab:help ltpda_minfo/ltpda_minfo">ltpda_minfo/ltpda_minfo</a>                -  a helper class for LTPDA methods.
+%   <a href="matlab:help ltpda_minfo/modelOverview">ltpda_minfo/modelOverview</a>        -  prepares an html overview of a built-in model
+%   <a href="matlab:help ltpda_minfo/setArgsmax">ltpda_minfo/setArgsmax</a>           -  Set the property 'argsmax'.
+%   <a href="matlab:help ltpda_minfo/setArgsmin">ltpda_minfo/setArgsmin</a>           -  Set the property 'argsmin'.
+%   <a href="matlab:help ltpda_minfo/setDescription">ltpda_minfo/setDescription</a>       -  Set the property 'description'.
+%   <a href="matlab:help ltpda_minfo/setFromEncodedInfo">ltpda_minfo/setFromEncodedInfo</a>   - % info{1} is empty
+%   <a href="matlab:help ltpda_minfo/setMclass">ltpda_minfo/setMclass</a>            -  Set the property 'mclass'.
+%   <a href="matlab:help ltpda_minfo/setModifier">ltpda_minfo/setModifier</a>          -  Set the property 'modifier'.
+%   <a href="matlab:help ltpda_minfo/setMpackage">ltpda_minfo/setMpackage</a>          -  Set the property 'mpackage'.
+%   <a href="matlab:help ltpda_minfo/setMversion">ltpda_minfo/setMversion</a>          -  Set the property 'mversion'.
+%   <a href="matlab:help ltpda_minfo/setOutmax">ltpda_minfo/setOutmax</a>            -  Set the property 'outmax'.
+%   <a href="matlab:help ltpda_minfo/setOutmin">ltpda_minfo/setOutmin</a>            -  Set the property 'outmin'.
+%   <a href="matlab:help ltpda_minfo/setPlists">ltpda_minfo/setPlists</a>            -  Sets the property 'plists'.
+%   <a href="matlab:help ltpda_minfo/setSets">ltpda_minfo/setSets</a>              -  Sets the property 'sets'.
+%   <a href="matlab:help ltpda_minfo/setSupportedNumTypes">ltpda_minfo/setSupportedNumTypes</a> -  Set the property 'supportedNumTypes'.
+%   <a href="matlab:help ltpda_minfo/string">ltpda_minfo/string</a>               -  writes a command string that can be used to recreate the input ltpda_minfo object.
+%   <a href="matlab:help ltpda_minfo/tohtml">ltpda_minfo/tohtml</a>               -  convert an ltpda_minfo object to an html document
+%   <a href="matlab:help ltpda_minfo/tohtmlTable">ltpda_minfo/tohtmlTable</a>          -  convert an ltpda_minfo object to a html table without <HTML>, <BODY>, ... tags
+%   <a href="matlab:help ltpda_minfo/update_struct">ltpda_minfo/update_struct</a>        -  update the input structure to the current ltpda version

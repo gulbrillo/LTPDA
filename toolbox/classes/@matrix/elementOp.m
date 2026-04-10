@@ -8,7 +8,7 @@
 % PARAMETERS:  op       - MATLAB operation name
 %              opname   - Name for displaying
 %              opsym    - Operation symbol
-%              infoObj  - minfo object
+%              infoObj  - ltpda_minfo object
 %              pl       - default plist
 %              fcnArgIn - Input argument list of the calling fcn.
 %              varNames - Variable names of the input

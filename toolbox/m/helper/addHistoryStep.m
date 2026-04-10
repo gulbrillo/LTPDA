@@ -4,15 +4,15 @@
 % DESCRIPTION: Adds a history step of a non LTPDA method to  object with
 %              history.
 %
-% CALL:        obj = addHistoryStep(obj, minfo, h_pl, ver, var_name, inhists, ...);
+% CALL:        obj = addHistoryStep(obj, ltpda_minfo, h_pl, ver, var_name, inhists, ...);
 %
 % INPUT:       obj:      Object with histry like AOs, SSMs, MFIRs, MIIRs, ...
 %              h_pl:     Plist which should go into the history.
 %              ver:      cvs version of the user defined method. Only
-%                        necessary if no minfo is passed in.
-%              minfo:    Information object of the function. If not defined
+%                        necessary if no ltpda_minfo is passed in.
+%              ltpda_minfo:    Information object of the function. If not defined
 %                        this method will take the following:
-%                        minfo(CALLED_METHOD, 'none', '', 'User defined', ver, {'Default'}, h_pl);
+%                        ltpda_minfo(CALLED_METHOD, 'none', '', 'User defined', ver, {'Default'}, h_pl);
 %              var_name: Cell-array with the variable manes of the object(s)
 %              inhists:  History objects which should be add to the input
 %                        object. e.g. [a.hist b.hist]
@@ -34,7 +34,7 @@ function varargout = addHistoryStep(varargin)
   if nin > 4, invars   = varargin{5}; else invars = {}; end
   if nin > 5, in_hists = [varargin{6:end}]; else in_hists = []; end  
   
-  % addHistory(obj, minfo, h_pl, var_name, inhists, ...);
+  % addHistory(obj, ltpda_minfo, h_pl, var_name, inhists, ...);
   varargout{1} = addHistory(objs, mi, pls, invars, in_hists);
 end
 % END

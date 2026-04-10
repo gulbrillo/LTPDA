@@ -25,7 +25,7 @@ classdef prog
         VERSION  = '';
         CATEGORY = 'Constructor';        
         % Build info object
-        ii = minfo(mfilename, mfilename, 'ltpda', CATEGORY, VERSION, {''}, plist);
+        ii = ltpda_minfo(mfilename, mfilename, 'ltpda', CATEGORY, VERSION, {''}, plist);
       else
         if strcmp(varargin{1}, mfilename)
           ii = utils.prog.getInfo;

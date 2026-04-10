@@ -14,9 +14,9 @@ function res = test_history_empty_constructor(varargin)
     assert(strcmp(h.objectClass, utp.className));
     assert(~isempty(h.proctime));
     
-    % minfo
+    % ltpda_minfo
     ii = h.methodInfo;
-    assert(isa(ii, 'minfo'));
+    assert(isa(ii, 'ltpda_minfo'));
     assert(strcmp(ii.mname, utp.className));
     assert(strcmp(ii.mclass, utp.className));
     assert(strcmp(ii.mcategory, 'Constructor'));

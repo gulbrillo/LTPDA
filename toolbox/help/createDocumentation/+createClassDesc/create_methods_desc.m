@@ -45,7 +45,7 @@ function create_methods_desc(fid, meta_obj, html_filename, indentation_in)
     
     try
       
-      %%% Get minfo-object
+      %%% Get ltpda_minfo-object
       info = feval(sprintf('%s.getInfo',meta_obj.Name), method_names{ii});
       
       fcn_name = sprintf('%s/%s',public_fcn.(method_names{ii}), method_names{ii});

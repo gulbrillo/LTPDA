@@ -18,7 +18,7 @@ function ii = getInfo(varargin)
   pls = utils.models.getDefaultPlist(options{:});
   % Build info object
   parts = regexp(modelname, '_', 'split');
-  ii = minfo(modelname, parts{1}, package, utils.const.categories.constructor, getVersion(), {}, pls);
+  ii = ltpda_minfo(modelname, parts{1}, package, utils.const.categories.constructor, getVersion(), {}, pls);
   ii.setDescription(utils.models.getDescription(options{:}));
   fcn = utils.models.functionForVersion(options{:});
   ii.addChildren(fcn('info'));

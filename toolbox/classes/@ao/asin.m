@@ -47,7 +47,7 @@ end
 % Get Info Object
 %--------------------------------------------------------------------------
 function ii = getInfo(varargin)
-  ii = minfo.getInfoAxis(mfilename, @getDefaultPlist, mfilename('class'), 'ltpda', utils.const.categories.trig, '', varargin);
+  ii = ltpda_minfo.getInfoAxis(mfilename, @getDefaultPlist, mfilename('class'), 'ltpda', utils.const.categories.trig, '', varargin);
 end
 
 %--------------------------------------------------------------------------

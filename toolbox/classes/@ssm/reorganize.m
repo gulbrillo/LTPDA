@@ -160,7 +160,7 @@ function ii = getInfo(varargin)
     end
   end
   % Build info object
-  ii = minfo(mfilename, mfilename('class'), 'ltpda', utils.const.categories.op, '', sets, pl);
+  ii = ltpda_minfo(mfilename, mfilename('class'), 'ltpda', utils.const.categories.op, '', sets, pl);
 end
 
 function sets = getSets

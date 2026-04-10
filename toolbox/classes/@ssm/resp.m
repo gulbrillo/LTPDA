@@ -193,7 +193,7 @@ function oo = getInfo(varargin)
     pl   = getDefaultPlist;
   end
   % Build info object
-  oo = minfo(mfilename, mfilename('class'), 'ltpda', utils.const.categories.sigproc, '', sets, pl);
+  oo = ltpda_minfo(mfilename, mfilename('class'), 'ltpda', utils.const.categories.sigproc, '', sets, pl);
 end
 
 %--------------------------------------------------------------------------

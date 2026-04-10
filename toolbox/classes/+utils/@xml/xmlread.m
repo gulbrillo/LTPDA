@@ -656,13 +656,13 @@ function obj = getSpecialObjectAttributes(obj, node, update)
         obj = provenance.setFromEncodedInfo(obj, objStr);
       end
       
-    elseif strcmp(mchar(node.getAttribute('type')), 'minfo')
-      
-      % Get attributes for a minfo object
+    elseif strcmp(mchar(node.getAttribute('type')), 'minfo')  % XML type attr kept as 'minfo' for backward compat
+
+      % Get attributes for a ltpda_minfo object
       % Check if the attribute exist (necessary for backwards compability)
       if (node.hasAttribute('info'))
         objStr = mchar(node.getAttribute('info'));
-        obj = minfo.setFromEncodedInfo(obj, objStr);
+        obj = ltpda_minfo.setFromEncodedInfo(obj, objStr);
       end
       
     elseif strcmp(mchar(node.getAttribute('type')), 'param')

@@ -15,7 +15,7 @@
 %                       'tfe'      - estimate transfer function between inputs
 %                       'mscohere' - estimate magnitude-squared cross-coherence
 %                       'cohere'   - estimate complex cross-coherence
-%             mi     - minfo object for calling method
+%             mi     - ltpda_minfo object for calling method
 %             invars - invars variable from the calling higher level script
 %
 % OUTPUTS:    b  - output AO

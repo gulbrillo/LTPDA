@@ -9,20 +9,20 @@
 % CONSTRUCTORS:
 %
 %              h = history()
-%              h = history(proctime, minfo, plist)
-%              h = history(proctime, minfo, plist, in_names, oldUUID, in_hists)
+%              h = history(proctime, ltpda_minfo, plist)
+%              h = history(proctime, ltpda_minfo, plist, in_names, oldUUID, in_hists)
 %
 %              h = history(filename)
 %              h = history(structure)
 %              h = history(history-object)
 %              h = history('database', ...)
 %
-% INPUTS:      minfo:    Minfo-object which is created in the called method.
+% INPUTS:      ltpda_minfo:    Minfo-object which is created in the called method.
 %              plist:    Plist-object which is used in the called method.
 %              in_names: Variable names which are used for the called method.
 %              in_hist:  Older history-objects
 %
-% SEE ALSO:    ltpda_obj, ltpda_nuo, minfo, plist
+% SEE ALSO:    ltpda_obj, ltpda_nuo, ltpda_minfo, plist
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -38,7 +38,7 @@ classdef (Sealed = true, Hidden = true) history < ltpda_nuo
   
   %---------- Protected read-only Properties ----------
   properties (SetAccess = protected)
-    methodInfo   = []; % minfo-object which is created in the called method
+    methodInfo   = []; % ltpda_minfo-object which is created in the called method
     plistUsed    = []; % plist-object which is used in the called method
     methodInvars = {}; % variable names which are used for the called method
     inhists      = []; % the older history-objects
@@ -59,8 +59,8 @@ classdef (Sealed = true, Hidden = true) history < ltpda_nuo
   
   methods
     function set.methodInfo(obj, val)
-      if ~(isa(val, 'minfo') || isempty(val))
-        error('### The value for the property ''methodInfo''\n### must be a minfo-object or empty but\n### it is from the class %s', class(val));
+      if ~(isa(val, 'ltpda_minfo') || isempty(val))
+        error('### The value for the property ''methodInfo''\n### must be a ltpda_minfo-object or empty but\n### it is from the class %s', class(val));
       end
       obj.methodInfo = val;
     end
@@ -162,7 +162,7 @@ classdef (Sealed = true, Hidden = true) history < ltpda_nuo
           %%%%%%%%%%%%%%%%%%%%%%%%%%   three inputs   %%%%%%%%%%%%%%%%%%%%%%%%%
           %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
           
-          %%%%%%%%%%  h = history(proctime, minfo, plist)  %%%%
+          %%%%%%%%%%  h = history(proctime, ltpda_minfo, plist)  %%%%
           %%% Use default values
           if ~isempty(varargin{1})
             obj.proctime = varargin{1};
@@ -179,7 +179,7 @@ classdef (Sealed = true, Hidden = true) history < ltpda_nuo
           %%%%%%%%%%%%%%%%%%%%%%%%%%   five  inputs   %%%%%%%%%%%%%%%%%%%%%%%%%
           %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
           
-          %%%%%%%%%%  h = history(proctime, minfo, plist, in_names, oldUUID, in_hists)  %%%%
+          %%%%%%%%%%  h = history(proctime, ltpda_minfo, plist, in_names, oldUUID, in_hists)  %%%%
           
           %%% Use default values
           if ~isempty(varargin{1})

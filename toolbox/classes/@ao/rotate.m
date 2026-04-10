@@ -126,7 +126,7 @@ function ii = getInfo(varargin)
     pls   = getDefaultPlist;
   end
   % build info object
-  ii = minfo(mfilename, mfilename('class'), 'ltpda', utils.const.categories.op, '', sets, pls);
+  ii = ltpda_minfo(mfilename, mfilename('class'), 'ltpda', utils.const.categories.op, '', sets, pls);
   ii.setArgsmin(2);
   ii.setOutmin(2);
 end

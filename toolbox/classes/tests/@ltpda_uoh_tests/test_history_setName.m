@@ -12,7 +12,7 @@ function res = test_history_setName(varargin)
     
     h   = obj.hist;
 
-    % minfo
+    % ltpda_minfo
     ii = h.methodInfo;
     assert(strcmp(ii.mname, 'setName'), 'The method name in methodInfo was not %s', 'setName');
     assert(strcmp(ii.mclass, 'ltpda_uo'), 'The class in methodInfo was not %s', 'ltpda_uo');

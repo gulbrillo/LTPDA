@@ -5,18 +5,18 @@
 %              in the MATLAB browser.
 %
 % CALL:        displayMethodInfo(className, methodName)
-%              displayMethodInfo(minfo)
+%              displayMethodInfo(ltpda_minfo)
 %
 % INPUTS:       className: String of the class.  For example 'ao'
 %              methodName: String of the method. For example 'sin'
-%                   minfo: an minfo object
+%                   ltpda_minfo: an ltpda_minfo object
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function varargout = displayMethodInfo(varargin)
   
   % Check the inputs
-  if nargin == 1 && isa(varargin{1}, 'minfo')
+  if nargin == 1 && isa(varargin{1}, 'ltpda_minfo')
     m = varargin{1};
   else
     if nargin ~= 2

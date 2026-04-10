@@ -36,7 +36,7 @@ function varargout = update_struct(varargin)
       
       %%% methodInfo
       if isfield(obj_struct, 'name')
-        ii = minfo(obj_struct.name, 'history', 'ltpda', '', version, {''}, plist, 0, 0);
+        ii = ltpda_minfo(obj_struct.name, 'history', 'ltpda', '', version, {''}, plist, 0, 0);
         obj_struct.methodInfo = ii;
       end
       

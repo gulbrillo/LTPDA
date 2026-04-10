@@ -283,7 +283,7 @@ function ii = getInfo(varargin)
     pl   = getDefaultPlist;
   end
   % Build info object
-  ii = minfo(mfilename, 'ltpda_obj', 'ltpda', utils.const.categories.relop, '', sets, pl);
+  ii = ltpda_minfo(mfilename, 'ltpda_obj', 'ltpda', utils.const.categories.relop, '', sets, pl);
   ii.setModifier(false);
   ii.setArgsmin(2);
 end

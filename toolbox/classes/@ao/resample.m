@@ -152,7 +152,7 @@ function ii = getInfo(varargin)
     pl   = getDefaultPlist;
   end
   % Build info object
-  ii = minfo(mfilename, mfilename('class'), 'ltpda', utils.const.categories.sigproc, '', sets, pl);
+  ii = ltpda_minfo(mfilename, mfilename('class'), 'ltpda', utils.const.categories.sigproc, '', sets, pl);
   ii.addSupportedNumTypes('single', 'int8', 'int16', 'int32', 'int64', 'uint8', 'uint16', 'uint32', 'logical');
   
 end

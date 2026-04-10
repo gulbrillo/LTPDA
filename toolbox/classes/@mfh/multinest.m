@@ -206,7 +206,7 @@ function varargout = multinest(varargin)
   % Set Name
   p.setName(sprintf('multinest(%s)',llh.name));
   % Set history
-  ii = minfo(mfilename, mfilename('class'), 'ltpda', utils.const.categories.sigproc, '', 'None', []);
+  ii = ltpda_minfo(mfilename, mfilename('class'), 'ltpda', utils.const.categories.sigproc, '', 'None', []);
   p.addHistory(ii, pl, mfh_invars, [mfh_in.hist]);  
   
   % create output object
@@ -226,7 +226,7 @@ function ii = getInfo(varargin)
     pls  = getDefaultPlist;
   end
   % Build info object
-  ii = minfo(mfilename, mfilename('class'), 'ltpda', utils.const.categories.sigproc, '', sets, pls);
+  ii = ltpda_minfo(mfilename, mfilename('class'), 'ltpda', utils.const.categories.sigproc, '', sets, pls);
 end
 
 %--------------------------------------------------------------------------

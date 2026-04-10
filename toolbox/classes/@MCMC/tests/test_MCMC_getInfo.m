@@ -1,5 +1,5 @@
 %
-% Tests the minfo object
+% Tests the ltpda_minfo object
 %
 function test_MCMC_getInfo(~)
   

@@ -15,7 +15,7 @@ function sys = ssmFromss(varargin)
   
   utils.helper.msg(utils.const.msg.MNAME, ['running ', mfilename]);
   % get info
-  % Set the method version string in the minfo object
+  % Set the method version string in the ltpda_minfo object
   
   if nargin ~=2
     error('ssmFromss need 2 inputs : (obj, plist) ')

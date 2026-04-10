@@ -239,13 +239,13 @@ classdef (Hidden = true) ltpda_algorithm < ltpda_uoh
     
     function addHistory(varargin)
       
-      if ~isa(varargin{2}, 'minfo')
+      if ~isa(varargin{2}, 'ltpda_minfo')
         algo     = varargin{1};
         obj      = varargin{2};
         stepName = varargin{3};
         pl       = varargin{4};
         inhists  = [varargin{5:end}];
-        ii       = minfo(stepName, class(algo), algo.package, algo.category, '', [], []);
+        ii       = ltpda_minfo(stepName, class(algo), algo.package, algo.category, '', [], []);
         inhists  = [algo.hist inhists];
       else
         obj     = varargin{1};
@@ -362,11 +362,11 @@ classdef (Hidden = true) ltpda_algorithm < ltpda_uoh
     end
 
     function ii = info(algo)
-      ii = minfo(algo.name, class(algo), algo.package, algo.category, '', [], algo.getDefaultPlist('default'));
+      ii = ltpda_minfo(algo.name, class(algo), algo.package, algo.category, '', [], algo.getDefaultPlist('default'));
     end
     
     function ii = processInfo(algo)
-      ii = minfo('process', class(algo), algo.package, algo.category, '', [], []);
+      ii = ltpda_minfo('process', class(algo), algo.package, algo.category, '', [], []);
     end
     
   end

@@ -4,4 +4,6 @@
 /*.xml
 # Release zip files built by make_release.sh
 /*.zip
+# Add-On package built by make_package.m
+/*.mltbx
 /.claude

@@ -82,7 +82,7 @@ function ii = getInfo(varargin)
     pl   = getDefaultPlist();
   end
   % Build info object
-  ii = minfo(mfilename, mfilename('class'), '<MODULE>', utils.const.categories.sigproc, '', sets, pl);
+  ii = ltpda_minfo(mfilename, mfilename('class'), '<MODULE>', utils.const.categories.sigproc, '', sets, pl);
 end
 
 %--------------------------------------------------------------------------

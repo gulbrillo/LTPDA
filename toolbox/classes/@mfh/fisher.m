@@ -174,7 +174,7 @@ function varargout = fisher(varargin)
   % add history
   if ~callerIsMethod
     F = ao(F, plist('name', 'Fisher matrix'));
-    ii = minfo(mfilename, mfilename('class'), 'ltpda', utils.const.categories.sigproc, '', 'None', []);
+    ii = ltpda_minfo(mfilename, mfilename('class'), 'ltpda', utils.const.categories.sigproc, '', 'None', []);
     F.addHistory(ii, pl, mfh_invars, [h.hist]);
   end
   
@@ -195,7 +195,7 @@ function ii = getInfo(varargin)
     pls  = getDefaultPlist;
   end
   % Build info object
-  ii = minfo(mfilename, mfilename('class'), 'ltpda', utils.const.categories.sigproc, '', sets, pls);
+  ii = ltpda_minfo(mfilename, mfilename('class'), 'ltpda', utils.const.categories.sigproc, '', sets, pls);
 end
 
 %--------------------------------------------------------------------------

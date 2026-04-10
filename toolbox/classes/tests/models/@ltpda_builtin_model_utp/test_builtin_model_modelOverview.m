@@ -1,4 +1,4 @@
-% Test that the built-in model works with minfo/modelOverview and that the
+% Test that the built-in model works with ltpda_minfo/modelOverview and that the
 % link exists in the help text
 %
 
@@ -22,6 +22,6 @@ function varargout = test_builtin_model_modelOverview(varargin)
   assert(numel(matches) > 0)
   assert(~isempty(matches{1}));
   
-  varargout{1} = 'Model works with minfo/modelOverview';
+  varargout{1} = 'Model works with ltpda_minfo/modelOverview';
   
 end

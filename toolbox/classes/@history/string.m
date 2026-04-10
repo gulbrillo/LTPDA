@@ -24,7 +24,7 @@ function varargout = string(varargin)
     pl_used = hh.plistUsed;
     in_hist = hh.inhists;
 
-    %%% Create minfo string
+    %%% Create ltpda_minfo string
     if isempty(m_info)
       minfo_str = '[]';
     else

@@ -3,8 +3,8 @@
 %
 % DESCRIPTION: Add a history-object to the ltpda_uoh object.
 %
-% CALL:        obj = addHistory(obj, minfo, h_pl, var_name, inhists, ...);
-%              obj = addHistory(obj, minfo, h_pl, var_name, ismodifier, inhists, ...);
+% CALL:        obj = addHistory(obj, ltpda_minfo, h_pl, var_name, inhists, ...);
+%              obj = addHistory(obj, ltpda_minfo, h_pl, var_name, ismodifier, inhists, ...);
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -33,7 +33,7 @@ function varargout = addHistory(varargin)
       pl.prepareForHistory();      
     end
     
-    % Remove the 'sets' and the corresponding 'plists' from the minfo
+    % Remove the 'sets' and the corresponding 'plists' from the ltpda_minfo
     % object. They are not important for the history step.
     varargin{2}.clearSets();
     

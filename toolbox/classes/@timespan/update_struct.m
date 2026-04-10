@@ -24,7 +24,7 @@ function obj_struct = update_struct(obj_struct, version_str)
       else
         cn = 'unknown class. updater';
       end
-      ii = minfo('update_struct', cn, 'ltpda', '', '', ...
+      ii = ltpda_minfo('update_struct', cn, 'ltpda', '', '', ...
                  {'Default'}, plist(), 0, 0);
       obj_struct.hist = history(time().utc_epoch_milli, ii, obj_struct.plist);
     end

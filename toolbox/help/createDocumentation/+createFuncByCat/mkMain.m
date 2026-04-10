@@ -195,7 +195,7 @@ end
 function cat = getCategory(clName, mthName)
   cat = '';
   try
-    %%% Get minfo-object
+    %%% Get ltpda_minfo-object
     info = feval(sprintf('%s.getInfo',clName), mthName);
     cat = lower(strrep(info.mcategory, ' ', '_'));
   catch

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<toolset id="ltpda_toolset">
+
+    <!-- LTPDA Startup — initialise toolbox, load classes, start SSH tunnel -->
+    <tool id="ltpda_startup">
+        <icon filename="ltpda-startup-16.png" path="." />
+        <icon filename="ltpda-startup-24.png" path="." />
+        <callback>ltpda_startup</callback>
+        <parent_tool id="ltpda_products" toolset_id="apps_toolset" />
+    </tool>
+
+    <!-- LTPDA Preferences -->
+    <tool id="LTPDAprefs">
+        <icon filename="ltpda-prefs-16.png" path="." />
+        <icon filename="ltpda-prefs-24.png" path="." />
+        <callback>LTPDAprefs</callback>
+        <parent_tool id="ltpda_products" toolset_id="apps_toolset" />
+    </tool>
+
+    <!-- SSH Tunnel — connect/reconnect the repository tunnel -->
+    <tool id="ltpda_tunnel">
+        <icon filename="ltpda-tunnel-16.png" path="." />
+        <icon filename="ltpda-tunnel-24.png" path="." />
+        <callback>ltpda_tunnel</callback>
+        <parent_tool id="ltpda_products" toolset_id="apps_toolset" />
+    </tool>
+
+</toolset>

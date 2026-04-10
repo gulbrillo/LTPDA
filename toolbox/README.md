@@ -16,9 +16,17 @@ this fork removes the API calls that were removed in R2025a.
 
 ## Installation
 
-### 1. Add to MATLAB path
+Two installation paths are supported. **Do not use both at the same time** — having the
+toolbox on the path from two locations causes class-definition conflicts. `ltpda_startup`
+will warn if it detects this.
 
-In MATLAB:
+---
+
+### Option A — Manual (`addpath`)
+
+Suitable for development or when you want full control over which files are loaded.
+
+#### 1. Add to MATLAB path
 
 ```matlab
 addpath(genpath('/path/to/LTPDA/toolbox'));
@@ -27,36 +35,83 @@ savepath;
 
 Or use **HOME → Set Path → Add with Subfolders**, select this `toolbox/` directory, and save.
 
-### 2. Initialise
+#### 2. Auto-startup (recommended)
 
-```matlab
-ltpda_startup
-```
-
-This launches the LTPDA Launchbay and loads all toolbox classes.
-
-### 3. Build the documentation search index (optional)
-
-```matlab
-utils.helper.buildSearchDatabase()
-```
-
-### 4. Auto-startup (optional)
-
-Add `ltpda_startup` to your MATLAB `startup.m` file:
+Add `ltpda_startup` to your MATLAB `startup.m`:
 
 ```matlab
 % In ~/Documents/MATLAB/startup.m
 ltpda_startup
 ```
 
-### 5. Verify
+#### 3. Initialise manually (if not using startup.m)
+
+```matlab
+ltpda_startup
+```
+
+---
+
+### Option B — Add-On Manager (`.mltbx`)
+
+Recommended for end-users. Provides clean install/uninstall and version management.
+MATLAB adds the toolbox to the path automatically; three LTPDA buttons appear in the
+**APPS** tab of the ribbon.
+
+#### 1. Build the package (maintainer step — requires MATLAB)
+
+From the repository root:
+
+```matlab
+run make_package.m
+```
+
+This produces `LTPDA.mltbx` in the repository root. Distribute this file to users.
+
+#### 2. Install
+
+In MATLAB: **HOME → Add-Ons → Install Add-On**, select `LTPDA.mltbx`.
+
+The toolbox appears in **HOME → Add-Ons → Manage Add-Ons** and can be updated or
+uninstalled from there.
+
+#### 3. Auto-startup
+
+Add `ltpda_startup` to your MATLAB `startup.m` (still required — the Add-On Manager
+handles the path but does not run startup scripts automatically):
+
+```matlab
+% In ~/Documents/MATLAB/startup.m
+ltpda_startup
+```
+
+#### 4. APPS tab buttons
+
+After installation, three buttons appear in the MATLAB **APPS** tab under **LTPDA**:
+
+| Button | Action |
+|--------|--------|
+| LTPDA Startup | Run `ltpda_startup` |
+| LTPDA Prefs | Open preferences dialog |
+| SSH Tunnel | Connect/reconnect repository tunnel |
+
+---
+
+### Verify
 
 ```matlab
 run_tests
 ```
 
 All 108 tests should pass.
+
+---
+
+### Build the documentation search index (optional)
+
+```matlab
+utils.helper.buildSearchDatabase()
+```
 
 ---
 

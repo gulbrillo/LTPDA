@@ -169,7 +169,7 @@ function ii = getInfo(varargin)
     pl   = getDefaultPlist;
   end
   % Build info object
-  ii = minfo(mfilename, mfilename('class'), 'ltpda', utils.const.categories.internal, '', sets, pl);
+  ii = ltpda_minfo(mfilename, mfilename('class'), 'ltpda', utils.const.categories.internal, '', sets, pl);
   ii.setModifier(false);
   ii.setOutmin(0);
   ii.setOutmax(0);

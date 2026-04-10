@@ -3,7 +3,7 @@
 %
 % DESCRIPTION: Add a history-object to the ltpda_uoh object.
 %
-% CALL:        obj = addHistoryWoChangingUUID(obj, minfo, h_pl, var_name, inhists, ...);
+% CALL:        obj = addHistoryWoChangingUUID(obj, ltpda_minfo, h_pl, var_name, inhists, ...);
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

@@ -11,7 +11,7 @@ function varargout = test_builtin_model_info(varargin)
   mfilename = utp.modelFilename;
   
   info = feval(mfilename, 'info');
-  assert(isa(info, 'minfo'));
+  assert(isa(info, 'ltpda_minfo'));
   
   % build the model and check the history has the same info
   m = feval(clname, plist('built-in', mname).combine(utp.configPlist));

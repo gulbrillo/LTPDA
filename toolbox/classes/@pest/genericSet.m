@@ -26,7 +26,7 @@ function out = genericSet(varargin)
       values{1} = find_core(pls, pName);
     end
 
-    % Get minfo-object
+    % Get ltpda_minfo-object
     mi  = objs.getInfo(sprintf('set%s%s', upper(pName(1)), pName(2:end)));
     dpl = mi.plists;
     

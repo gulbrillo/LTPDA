@@ -33,7 +33,7 @@ function varargout = copy(new, old, deepcopy, addHist)
       end
       
       if addHist == 1
-        mi = minfo(mfilename(), class(new), 'ltpda', utils.const.categories.helper, '', {}, []);
+        mi = ltpda_minfo(mfilename(), class(new), 'ltpda', utils.const.categories.helper, '', {}, []);
         obj(kk).addHistory(mi, [], [], obj(kk).hist);
       end
       

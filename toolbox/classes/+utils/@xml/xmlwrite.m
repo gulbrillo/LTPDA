@@ -119,7 +119,7 @@ function varargout = xmlwrite(objs, xml, parent, property_name)
         obj_node.setAttribute('type', class(obj));
         obj_node.setAttribute('shape', shape);
         parent.appendChild(obj_node);
-        if isa(obj, 'minfo')
+        if isa(obj, 'ltpda_minfo')
           
           % we don't write all fields
           info = obj.getEncodedString;

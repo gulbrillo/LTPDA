@@ -115,7 +115,7 @@ function ii = getInfo(varargin)
     end
   end
   % Build info object
-  ii = minfo(mfilename, mfilename('class'), 'ltpda', utils.const.categories.aop, '', sets, pls);
+  ii = ltpda_minfo(mfilename, mfilename('class'), 'ltpda', utils.const.categories.aop, '', sets, pls);
   ii.setModifier(false);
 end
 

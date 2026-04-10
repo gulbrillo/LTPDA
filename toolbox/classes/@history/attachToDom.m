@@ -29,15 +29,15 @@ function collectedHist = attachToDom(histObjs, dom, parent, collectedHist)
         histNode.setAttribute('shape', sprintf('%dx%d', size(histObj)));
         
         % Add methodInfo
-        if isa(histObj.methodInfo, 'minfo')
+        if isa(histObj.methodInfo, 'ltpda_minfo')
           
           if numel(histObj.methodInfo) == 1 && isempty(histObj.methodInfo.children)
-            % Special case if the minfo-object doesn't have children.
-            % Store in this case the minfo-object as an attribute.
+            % Special case if the ltpda_minfo-object doesn't have children.
+            % Store in this case the ltpda_minfo-object as an attribute.
             histNode.setAttribute('methodInfo', histObj.methodInfo.getEncodedString());
           else
-            % Create an own minfo node if the minfo-object have children or
-            % there are more than one minfo-objects
+            % Create an own ltpda_minfo node if the ltpda_minfo-object have children or
+            % there are more than one ltpda_minfo-objects
             collectedHist = histObj.methodInfo.attachToDom(dom, histNode, collectedHist);
           end
         end

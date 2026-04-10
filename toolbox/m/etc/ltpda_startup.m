@@ -20,7 +20,21 @@ function ltpda_startup
   try
     rmappdata(0, 'LTPDADatabaseConnectionManager');
   end
-  
+
+  % Warn if LTPDA appears on the path from more than one location.
+  % This happens when the toolbox is both addpath'd manually AND installed
+  % via the Add-On Manager (.mltbx) — the two copies conflict.
+  allStartup = which('ltpda_startup', '-all');
+  if numel(allStartup) > 1
+    fprintf('LTPDA WARNING: multiple installations detected on the MATLAB path:\n');
+    for k = 1:numel(allStartup)
+      fprintf('  %d. %s\n', k, allStartup{k});
+    end
+    fprintf('Remove one installation to avoid class-definition conflicts:\n');
+    fprintf('  Add-On install : matlab.addons.uninstall(''LTPDA Toolbox'')\n');
+    fprintf('  Manual install : remove ltpda_startup from your startup.m and clear the path\n\n');
+  end
+
   % Note: 'clear java' is intentionally omitted.
   % In R2025a it refuses to run when any Java objects are alive and prints
   % spurious warnings. The dynamic classpath is managed by addJarIfNeeded
@@ -356,6 +370,8 @@ function ensureStaticJars(jarDir, jarNames)
   if exist(cpFile, 'file')
     raw   = fileread(cpFile);
     lines = strtrim(strsplit(raw, newline));
+    lines = lines(:);   % normalize to column; strsplit returns a row, and vertcat
+                        % fails on the 2nd JAR iteration if lines is still a row
   else
     lines = {};
   end
@@ -371,7 +387,7 @@ function ensureStaticJars(jarDir, jarNames)
     if isempty(beforeIdx)
       lines = [{'<before>'}; {jarPath}; lines(:)];
     else
-      lines = [lines(1:beforeIdx)'; {jarPath}; lines(beforeIdx+1:end)'];
+      lines = [lines(1:beforeIdx); {jarPath}; lines(beforeIdx+1:end)];
     end
     added{end+1} = jarNames{k}; %#ok<AGROW>
   end

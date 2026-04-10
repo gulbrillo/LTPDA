@@ -145,7 +145,7 @@ function ii = getInfo(varargin)
     pl   = getDefaultPlist;
   end
   % build info object
-  ii = minfo(mfilename, mfilename('class'), 'ltpda', utils.const.categories.sigproc, '', sets, pl);
+  ii = ltpda_minfo(mfilename, mfilename('class'), 'ltpda', utils.const.categories.sigproc, '', sets, pl);
   % set the default property of the method as modifier or not
   ii.setModifier(true);
   % set the minumum number of inputs and outputs for the block

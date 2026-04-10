@@ -178,7 +178,7 @@ end
 % GetInfo function
 %
 function ii = getInfo(varargin)
-  ii = minfo(mfilename, mfilename('class'), 'ltpda', utils.const.categories.helper, '', {}, plist.EMPTY_PLIST);
+  ii = ltpda_minfo(mfilename, mfilename('class'), 'ltpda', utils.const.categories.helper, '', {}, plist.EMPTY_PLIST);
 end
 
 %

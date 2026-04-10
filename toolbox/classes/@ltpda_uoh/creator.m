@@ -113,7 +113,7 @@ function ii = getInfo(varargin)
     pl   = getDefaultPlist;
   end
   % Build info object
-  ii = minfo(mfilename, mfilename('class'), 'ltpda', utils.const.categories.helper, '', sets, pl);
+  ii = ltpda_minfo(mfilename, mfilename('class'), 'ltpda', utils.const.categories.helper, '', sets, pl);
   ii.setModifier(false);
 end
 

@@ -8,9 +8,9 @@
 %
 % SUPER CLASSES: ltpda_obj
 %
-% SUB CLASSES:   specwin, time, pz, minfo, history, provenance, param, unit, ltpda_data
+% SUB CLASSES:   specwin, time, pz, ltpda_minfo, history, provenance, param, unit, ltpda_data
 %
-% SEE ALSO:    specwin, time, pz, minfo, history, provenance, param, unit, ltpda_data
+% SEE ALSO:    specwin, time, pz, ltpda_minfo, history, provenance, param, unit, ltpda_data
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

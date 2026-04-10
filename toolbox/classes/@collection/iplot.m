@@ -88,6 +88,6 @@ function ii = getInfo(varargin)
   aoii = ao.getInfo('iplot');  
   
   % Build info object
-  ii = minfo(mfilename, mfilename('class'), 'ltpda', utils.const.categories.output, '', aoii.sets, aoii.plists);
+  ii = ltpda_minfo(mfilename, mfilename('class'), 'ltpda', utils.const.categories.output, '', aoii.sets, aoii.plists);
 end
 

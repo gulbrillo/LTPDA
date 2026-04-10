@@ -41,7 +41,7 @@ function [mths, infos] = getPublicMethods(cl)
       infos = [infos ii];
     catch
       mths{kk} = '';
-      infos = [infos minfo];
+      infos = [infos ltpda_minfo];
       warning('### could not get info about: %s', m(kk).Name);
     end
     

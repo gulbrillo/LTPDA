@@ -8,7 +8,7 @@
 % INPUTS:      varargin:   Function inputs of the class version of getInfo
 %              class_name: Class name which calls this function.
 %
-% OUTPUT:      minfo-class of the method
+% OUTPUT:      ltpda_minfo-class of the method
 %
 % EXAMPLES:    Constructor call to get all sets
 %                specwin.getInfo()
@@ -38,7 +38,7 @@ function ii = generic_getInfo(varargin)
       (nargin == 2 && strcmp(varargin{1}, class_name)) || ...
       (nargin == 3 && strcmp(varargin{1}, class_name) && isempty(varargin{2}))
     
-    %%%%%%%%%% Get the minfo-object for the Constructor
+    %%%%%%%%%% Get the ltpda_minfo-object for the Constructor
     %%% specwin.getInfo()
     %%% specwin.getInfo('specwin')
     %%% specwin.getInfo('specwin', '')
@@ -51,7 +51,7 @@ function ii = generic_getInfo(varargin)
     else
       pls = plist;
     end
-    ii = minfo(class_name, class_name, 'ltpda', 'Constructor', verout, sets, pls);
+    ii = ltpda_minfo(class_name, class_name, 'ltpda', 'Constructor', verout, sets, pls);
     ii.setModifier(false);
     ii.setArgsmin(0);
     ii.setArgsmax(-1);
@@ -60,7 +60,7 @@ function ii = generic_getInfo(varargin)
     
   elseif nargin == 3 && (strcmp(varargin{1}, class_name))
     
-    %%%%%%%%%% Get the minfo-object for the Constructor with a specified set
+    %%%%%%%%%% Get the ltpda_minfo-object for the Constructor with a specified set
     %%% specwin.getInfo('specwin', 'None')
     %%% specwin.getInfo('specwin', 'set')
     if strcmpi(varargin{2}, 'None')
@@ -72,11 +72,11 @@ function ii = generic_getInfo(varargin)
       pls  = feval(cmd, varargin{2});
     end
     
-    ii = minfo(class_name, class_name, 'ltpda', 'Constructor', verout, sets, pls);
+    ii = ltpda_minfo(class_name, class_name, 'ltpda', 'Constructor', verout, sets, pls);
     ii.setModifier(false);
   else
     
-    %%%%%%%%%% Get the minfo-object for the class methods
+    %%%%%%%%%% Get the ltpda_minfo-object for the class methods
     %%% specwin.getInfo('char')
     %%% specwin.getInfo('char', 'None')
     if nargin == 2
@@ -108,14 +108,14 @@ function ii = generic_getInfo(varargin)
           end
         end
       end % FOR
-      %       error('### From the abstract class [%s] it is only possible to get the minfo class from the constructor.', class_name);
+      %       error('### From the abstract class [%s] it is only possible to get the ltpda_minfo class from the constructor.', class_name);
     end
     ii = feval(varargin{1}, obj, 'INFO', sets);
   end
   
-  % check we got an minfo object
-  if ~isa(ii, 'minfo')
-    error('### An minfo object was not retrieved.');
+  % check we got an ltpda_minfo object
+  if ~isa(ii, 'ltpda_minfo')
+    error('### An ltpda_minfo object was not retrieved.');
   end
 end
 

@@ -31,7 +31,7 @@ function varargout = diag(varargin)
     in_names = cell(size(varargin));
     try for ii = 1:nargin,in_names{ii} = inputname(ii); end; end
     
-    % Check if this is a call for the minfo object
+    % Check if this is a call for the ltpda_minfo object
     if utils.helper.isinfocall(varargin{:})
       varargout{1} = getInfo(varargin{3});
       return
@@ -60,7 +60,7 @@ end
 % Get Info Object
 %--------------------------------------------------------------------------
 function ii = getInfo(varargin)
-  ii = minfo.getInfoAxis(mfilename, @getDefaultPlist, mfilename('class'), 'ltpda', utils.const.categories.op, '', varargin);
+  ii = ltpda_minfo.getInfoAxis(mfilename, @getDefaultPlist, mfilename('class'), 'ltpda', utils.const.categories.op, '', varargin);
 end
 
 %--------------------------------------------------------------------------

@@ -5,7 +5,7 @@ function hists = fromDom(obj, node, inhists)
   %     <history UUID="1111" ...>
   %         ...
   %     </history>
-  %     <history UUID="2222" methodInfo="#setDescription#ltpda_uoh#Helper#(ID): setDescription.m,v 1.8 2009/09/10 10:05:00 ingo Exp $#[1 -1 1 -1]#true#(ID): minfo.m,v 1.31 2010/04/27 15:49:26 ingo Exp $" methodInvars="{'a'}" proctime="1272392086974" shape="1x1">
+  %     <history UUID="2222" methodInfo="#setDescription#ltpda_uoh#Helper#(ID): setDescription.m,v 1.8 2009/09/10 10:05:00 ingo Exp $#[1 -1 1 -1]#true#(ID): ltpda_minfo.m,v 1.31 2010/04/27 15:49:26 ingo Exp $" methodInvars="{'a'}" proctime="1272392086974" shape="1x1">
   %         ...
   %        <inhists UUID="1111"/>
   %     </history>
@@ -65,7 +65,7 @@ function obj = getHistoryObj(obj, node, hists)
     
     % Get methodInfo
     if node.hasAttribute('methodInfo')
-      obj.methodInfo = minfo.setFromEncodedInfo(minfo(), utils.xml.mchar(node.getAttribute('methodInfo')));
+      obj.methodInfo = ltpda_minfo.setFromEncodedInfo(ltpda_minfo(), utils.xml.mchar(node.getAttribute('methodInfo')));
     end
     
     % Get methodInvars
@@ -105,10 +105,10 @@ function obj = getHistoryObj(obj, node, hists)
       obj.plistUsed = plist(plistUsedNode, hists);
     end
     
-    % Get minfo
-    minfoNode = utils.xml.getChildByName(node, 'minfo');
+    % Get ltpda_minfo
+    minfoNode = utils.xml.getChildByName(node, 'minfo');  % XML tag kept as 'minfo' for backward compat
     if ~isempty(minfoNode)
-      obj.methodInfo = minfo(minfoNode, hists);
+      obj.methodInfo = ltpda_minfo(minfoNode, hists);
     end
     
     % Get inhists

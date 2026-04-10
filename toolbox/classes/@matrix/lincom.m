@@ -95,7 +95,7 @@ function ii = getInfo(varargin)
     end
   end
   % Build info object
-  ii = minfo(mfilename, mfilename('class'), 'ltpda', utils.const.categories.sigproc, '', sets, pls);
+  ii = ltpda_minfo(mfilename, mfilename('class'), 'ltpda', utils.const.categories.sigproc, '', sets, pls);
   ii.setArgsmin(2);
   ii.setModifier(false);
 end
