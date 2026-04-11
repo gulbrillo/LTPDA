@@ -53,35 +53,7 @@ services:
     restart: unless-stopped
     ports:
       - "2222:22"
-    environment:
-      MYSQL_HOST: db
-      MYSQL_PORT: "3306"
-      MYSQL_DB: ${ADMIN_DB:-ltpda_admin}
-    depends_on:
-      mysql:
-        condition: service_healthy
-        required: false
-    networks:
-      - internal
-
-  # ── SSH sync daemon (bundled mode only) ────────────────────────────────────
-  # Receives webhooks from backend to create/update/delete SSH accounts
-  # Runs inside Docker but executes useradd/chpasswd on the host via mounted /etc
-  ssh-sync-daemon:
-    profiles: ["bundled"]
-    build: ./ssh-sync-daemon
-    restart: unless-stopped
-    ports:
-      - "9922:9922"  # exposed to host for backend to reach via host.docker.internal
-    volumes:
-      - ./config:/app/config:ro                    # read shared config (ssh_sync_secret)
-      - /etc/passwd:/etc/passwd:ro
-      - /etc/group:/etc/group:ro
-      - /etc/shadow:/etc/shadow:ro                 # read-only — daemon uses chpasswd
-      - /etc/gshadow:/etc/gshadow:ro
-      - /var/run:/var/run                          # for nscd/socket communication
-    depends_on:
-      - api
+      - "9922:9922"
     networks:
       - internal
 
