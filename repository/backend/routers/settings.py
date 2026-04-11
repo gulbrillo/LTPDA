@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 
-from core.config import get_config, update_public_url
+from core import ssh_sync
+from core.config import get_config, get_ssh_sync_config, update_public_url
 from core.phpmyadmin import write_pma_config
 from models.user import User
 from routers.auth import require_admin
@@ -30,4 +31,19 @@ class PublicUrlUpdate(BaseModel):
 async def set_public_url(body: PublicUrlUpdate, _: User = Depends(require_admin)):
     update_public_url(body.public_url)
     write_pma_config()
+
+
+@router.get("/ssh-sync/health")
+async def ssh_sync_health(_: User = Depends(require_admin)):
+    """Ping the SSH sync daemon and return its health status."""
+    cfg = get_ssh_sync_config()
+    if not cfg.get("enabled"):
+        return {"enabled": False}
+    result = await ssh_sync._call("GET", "/sync/health")
+    return {
+        "enabled": True,
+        "ok": result.get("ok", False),
+        "version": result.get("version"),
+        "error": result.get("error"),
+    }
 

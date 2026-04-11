@@ -38,6 +38,26 @@ const urlValue = ref('')
 const urlSaving = ref(false)
 const urlSuccess = ref('')
 
+interface SshHealth {
+  enabled: boolean
+  ok?: boolean
+  version?: string
+  error?: string
+}
+const sshHealth = ref<SshHealth | null>(null)
+const sshHealthLoading = ref(false)
+
+async function checkSshHealth() {
+  sshHealthLoading.value = true
+  try {
+    sshHealth.value = await apiFetch<SshHealth>('/settings/ssh-sync/health')
+  } catch {
+    sshHealth.value = { enabled: true, ok: false, error: 'Could not reach backend' }
+  } finally {
+    sshHealthLoading.value = false
+  }
+}
+
 async function openPhpMyAdmin() {
   pmaOpening.value = true
   pageError.value = ''
@@ -83,6 +103,7 @@ async function loadSettings() {
   loading.value = true
   try {
     cfg.value = await apiFetch<Settings>('/settings')
+    if (cfg.value?.mysql_mode === 'bundled') checkSshHealth()
   } catch (e: unknown) {
     const fe = e as { data?: { detail?: string }; message?: string }
     pageError.value = fe?.data?.detail || fe?.message || 'Failed to load settings.'
@@ -171,19 +192,32 @@ async function loadSettings() {
         <section v-if="cfg.mysql_mode === 'bundled'" class="card">
           <div class="card-head">
             <h2>MATLAB SSH tunnel</h2>
-            <span class="badge-mode badge-bundled">Active</span>
+            <!-- Live sync daemon health indicator -->
+            <span v-if="sshHealthLoading" class="ssh-status ssh-checking">
+              <span class="spin spin-xs" /> Checking…
+            </span>
+            <span v-else-if="sshHealth?.ok" class="ssh-status ssh-ok">
+              ● Sync daemon responding<span v-if="sshHealth.version"> (v{{ sshHealth.version }})</span>
+            </span>
+            <span v-else-if="sshHealth && !sshHealth.ok" class="ssh-status ssh-err" :title="sshHealth.error">
+              ● Sync daemon unreachable
+            </span>
+            <button class="recheck-btn" :disabled="sshHealthLoading" @click="checkSshHealth" title="Re-check">↺</button>
           </div>
+          <p v-if="sshHealth && !sshHealth.ok && sshHealth.error" class="ssh-err-detail">
+            {{ sshHealth.error }}
+          </p>
           <p class="card-desc">
-            An SSH gateway container runs on port 2222 of this server. MATLAB users connect
-            using their MySQL/MATLAB credentials — no extra accounts or configuration needed.
+            An SSH gateway container runs on port 2222. User accounts are synced automatically
+            from the web UI — SSH uses each user's <strong>web UI login password</strong>.
           </p>
           <div class="tunnel-cmd">
-            <code>ssh -L 3306:db:3306 -p 2222 username@repo.yourdomain.com</code>
+            <code>ssh -N -L 3306:db:3306 -p 2222 username@repo.yourdomain.com</code>
           </div>
           <p class="card-note">
             In LTPDAprefs, set <strong>hostname = localhost</strong>, <strong>port = 3306</strong>,
-            and use the user's MySQL/MATLAB password. Port 2222 must be open in the server firewall
-            (<code>sudo ufw allow 2222/tcp</code>).
+            and use the user's <strong>MySQL/MATLAB password</strong> for JDBC. Port 2222 must be
+            open in the server firewall (<code>sudo ufw allow 2222/tcp</code>).
           </p>
         </section>
 
@@ -289,6 +323,30 @@ h2 { font-size: 0.9rem; font-weight: 700; letter-spacing: -0.02em; color: #1e305
   text-decoration: none; transition: background 0.15s;
 }
 .pma-btn:hover { background: #2f5596; }
+
+/* ── SSH sync health indicator ── */
+.ssh-status {
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.02em;
+  display: flex; align-items: center; gap: 0.35rem;
+  padding: 0.2rem 0.6rem; border-radius: 999px;
+}
+.ssh-checking { background: #f0f5fb; color: #6a84a0; }
+.ssh-ok  { background: #e8f5e9; color: #2e7d32; }
+.ssh-err { background: #fef2f2; color: #b91c1c; cursor: help; }
+.ssh-err-detail {
+  font-size: 0.775rem; color: #b91c1c; background: #fef2f2;
+  border: 1px solid #fecaca; border-radius: 7px;
+  padding: 0.5rem 0.75rem; margin-bottom: 1rem;
+  word-break: break-word;
+}
+.recheck-btn {
+  margin-left: auto; font-size: 0.9rem; line-height: 1;
+  background: none; border: none; cursor: pointer; color: #8aa0b8;
+  padding: 0.1rem 0.3rem; border-radius: 4px; transition: color 0.12s;
+}
+.recheck-btn:hover:not(:disabled) { color: #2f5596; }
+.recheck-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.spin-xs { width: 10px; height: 10px; border-width: 1.5px; }
 
 /* ── Tunnel command ── */
 .tunnel-cmd {

@@ -154,10 +154,10 @@ async function saveUser() {
       setTimeout(() => { showDialog.value = false; dialogSuccess.value = ''; dialogWarning.value = '' }, 6000)
     } else if (isCreate) {
       dialogSuccess.value = 'User created — SSH account provisioned.'
-      setTimeout(() => { showDialog.value = false; dialogSuccess.value = '' }, 1500)
+      setTimeout(() => { showDialog.value = false; dialogSuccess.value = '' }, 3000)
     } else if (passwordChanged) {
       dialogSuccess.value = 'Changes saved — SSH password updated.'
-      setTimeout(() => { showDialog.value = false; dialogSuccess.value = '' }, 1500)
+      setTimeout(() => { showDialog.value = false; dialogSuccess.value = '' }, 3000)
     } else {
       dialogSuccess.value = 'Changes saved.'
       setTimeout(() => { showDialog.value = false; dialogSuccess.value = '' }, 1500)
@@ -484,7 +484,6 @@ h1 { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.025em; color: #1e30
 .act-btn:hover:not(:disabled) { background: #f0f5fb; color: #2f5596; border-color: #b8cce0; }
 .act-danger:hover:not(:disabled) { background: #fef2f2; color: #b91c1c; border-color: #fecaca; }
 .act-btn:disabled { opacity: 0.25; cursor: not-allowed; }
-.dialog-banner-warn { background: #fffbeb; color: #78450f; border: 1px solid #fde68a; }
 
 .empty-state {
   display: flex; flex-direction: column; align-items: center;

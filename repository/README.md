@@ -12,7 +12,7 @@ schema — MATLAB connects via JDBC exactly as before, no toolbox changes requir
 - **Data browsing** — search and filter objects by name, type, author, and date; paginated object list; per-object detail view with full metadata
 - **Data downloads** — download stored XML representations or binary `.mat` files directly from the browser
 - **MATLAB compatibility** — identical v2.5 database schema; `users` VIEW per repository; per-user MySQL grants with `SELECT` + `INSERT on transactions` matching the legacy privilege model; JDBC connections work without any MATLAB-side changes
-- **SSH tunnel gateway** — built-in SSH container on port 2222 authenticates MATLAB users with their MySQL credentials; no Linux host accounts needed; stub accounts created automatically inside the container on first connect
+- **SSH tunnel gateway** — built-in SSH container on port 2222 for MATLAB tunneling; user accounts are automatically provisioned inside the container and kept in sync with the web UI (account creation, password changes, and deletion all propagate immediately); users authenticate with their web UI login password
 - **User management** — create/edit/delete users; separate web UI password (bcrypt) and MySQL/MATLAB password; admin role assignment
 - **Setup wizard** — web-based first-run setup supporting bundled MySQL container or external dedicated MySQL server
 - **JWT authentication** — 8-hour Bearer tokens; global route protection in the SPA
@@ -260,17 +260,19 @@ Navigate to **Admin → Users**.
 
 Click **New user**. Enter:
 - **Username** — alphanumeric, hyphens, underscores
-- **Password** — web UI login password (stored as bcrypt hash)
+- **Password** — web UI login password (stored as bcrypt hash); also used for SSH tunnel authentication
 - **MySQL / MATLAB password** — creates a MySQL account (`username`@`%`); MATLAB uses this password for JDBC
 - Optional profile: first/last name, email, institution
 
+In bundled mode, creating a user also provisions a matching Linux account inside the `sshgateway` container, so the user can immediately open SSH tunnels with their web UI password. The admin UI shows a confirmation ("SSH account provisioned") or a warning if the sync daemon was unreachable.
+
 ### Edit a user
 
-Click **Edit** to update profile fields or change passwords. If a new MySQL password is entered, the MySQL account is updated via `ALTER USER`.
+Click **Edit** to update profile fields or change passwords. If a new web UI password is entered, the SSH account password inside the `sshgateway` container is updated at the same time. If a new MySQL password is entered, the MySQL account is updated via `ALTER USER`.
 
 ### Delete a user
 
-Click **Remove**. The app record is deleted and the MySQL account is dropped. You cannot delete your own account.
+Click **Remove**. The app record is deleted, the MySQL account is dropped, and the SSH account inside the `sshgateway` container is removed. You cannot delete your own account.
 
 ---
 
@@ -306,10 +308,22 @@ both work simultaneously and you can use whichever suits your environment.
 
 ### Option A — SSH gateway container (recommended, port 2222)
 
-The `sshgateway` container starts automatically with `docker compose --profile bundled up`. Users
-authenticate using their existing MySQL/MATLAB credentials — no Linux host accounts needed. On the
-first successful connection, a minimal stub account is created **inside the container** — no
-changes to the host machine.
+The `sshgateway` container starts automatically with `docker compose --profile bundled up`. It runs
+two processes managed by `tini`:
+
+- **`sshd`** — OpenSSH server on port 22 (mapped to host port 2222). Accepts only password
+  authentication against `/etc/shadow`. Tunnel-only: no shell, no TTY, port forwarding restricted
+  to `db:3306`.
+- **`ssh_sync_daemon.py`** — Flask HTTP API on port 9922 (internal only, not reachable from the
+  internet). The FastAPI backend calls this daemon whenever a user is created, has their password
+  changed, or is deleted — keeping Linux accounts inside the container in sync with the web UI.
+  All requests are signed with HMAC-SHA256.
+
+**Account lifecycle:** when an admin creates a user in **Admin → Users**, the backend
+automatically calls the sync daemon to create a matching Linux account inside the container. That
+account is tagged `ltpda-managed` in its GECOS field so the daemon never modifies system accounts
+it didn't create. Password changes and deletions propagate the same way — no manual SSH key or
+account management needed.
 
 ```bash
 # On your local machine — keep this open while using MATLAB
@@ -317,6 +331,10 @@ ssh -L 3306:db:3306 -p 2222 your_username@repo.yourdomain.com
 ```
 
 This forwards your local port 3306 → SSH gateway container → MySQL container.
+
+**Password:** users authenticate with their **web UI login password** (not the MySQL/MATLAB
+password). The two passwords are independent — users can change either one without affecting the
+other, but changing the web UI password also updates the SSH account password automatically.
 
 **Firewall:** port 2222 must be open on the server:
 
@@ -327,11 +345,8 @@ sudo ufw allow 2222/tcp
 In **LTPDAprefs**, set:
 - **Hostname** — `localhost`
 - **Port** — `3306`
-- **Username / Password** — the MySQL/MATLAB credentials set when the account was created
-
-**How authentication works:** when a user connects, PAM calls `validate_auth.py` inside the
-container, which opens a MySQL connection as that user to `ltpda_admin`. If MySQL accepts it, SSH
-auth succeeds immediately — no pre-registration or host account creation needed.
+- **Username** — the user's username
+- **Password** — the user's **MySQL/MATLAB** password (used for JDBC; separate from the SSH password)
 
 **Why port 2222?** SSH has no equivalent to HTTP's `Host` header — there is no way to route port
 22 by hostname the way a web server does with virtual hosts. Port 2222 avoids conflicts with the
@@ -358,16 +373,15 @@ sudo passwd your_username
 
 These accounts are managed manually — the web UI does not create or remove them.
 
-**Optional — ssh-sync-daemon:** An optional host daemon (`ssh-sync-daemon/`) can automate host
-account creation/deletion in sync with the web UI. It exposes a local webhook API secured with
-HMAC-SHA256. See `ssh-sync-daemon/README` for installation instructions. This is only needed for
-Option B; Option A does not require it.
+**Note:** host accounts are managed manually for Option B. Account sync (automatic creation and
+deletion from the web UI) is only available for Option A, where it is handled by the sync daemon
+running inside the `sshgateway` container.
 
 ---
 
 ### LTPDAprefs summary
 
-Both options use the same MATLAB settings:
+Both options use the same MATLAB JDBC settings:
 
 | Setting | Value |
 |---------|-------|
@@ -375,7 +389,12 @@ Both options use the same MATLAB settings:
 | Port | `3306` |
 | Database | repository database name (e.g. `myrepo`) |
 | Username | the user's username |
-| Password | the user's **MySQL/MATLAB** password (not the web UI password) |
+| Password | the user's **MySQL/MATLAB** password (used for JDBC; not the web UI password) |
+
+> **SSH vs JDBC passwords:** the SSH tunnel (Option A) uses the **web UI password**; MATLAB's JDBC
+> connection uses the **MySQL/MATLAB password**. These are set independently in **Admin → Users**.
+> If the MySQL/MATLAB password is left blank when creating a user, the web UI password is used for
+> both, keeping them in sync.
 
 ---
 
@@ -584,16 +603,10 @@ repository/
 │       │       └── settings.vue  Config overview
 │       ├── components/     AppLogo, StatusOk, StatusWarn
 │       └── composables/    useAuth.ts (JWT + apiFetch)
-├── sshgateway/             SSH tunnel gateway container (port 2222)
-│   ├── Dockerfile          Alpine + OpenSSH + PAM + pymysql
-│   ├── sshd_config         Tunnel-only; PermitOpen db:3306
-│   ├── pam_ltpda           PAM module — calls validate_auth.py
-│   └── validate_auth.py    Authenticates via MySQL; auto-creates stub accounts
-├── ssh-sync-daemon/        Optional host daemon for Option B (port 22 tunneling)
-│   ├── ssh_sync_daemon.py  Flask webhook API (HMAC-signed)
-│   ├── ltpda-ssh-sync.service  systemd unit
-│   ├── config.example.json
-│   └── requirements.txt
+├── sshgateway/             SSH tunnel gateway container (bundled mode, ports 2222 + 9922)
+│   ├── Dockerfile          Alpine + OpenSSH + Flask; runs sshd + ssh_sync_daemon via tini
+│   ├── sshd_config         Password auth against /etc/shadow; tunnel-only; PermitOpen db:3306
+│   └── ssh_sync_daemon.py  Flask API on port 9922; HMAC-signed; manages Linux accounts in-container
 ├── config/                 Runtime config volume (config.json — excluded from git)
 ├── .env.example            Template for required environment variables
 ├── docker-compose.yml

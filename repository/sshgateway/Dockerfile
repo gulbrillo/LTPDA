@@ -1,8 +1,9 @@
 FROM alpine:3.19
 
-RUN apk add --no-cache openssh python3 py3-pip tini && \
+RUN apk add --no-cache openssh python3 py3-pip tini shadow && \
     pip3 install --no-cache-dir flask --break-system-packages && \
-    ssh-keygen -A
+    ssh-keygen -A && \
+    echo '/usr/sbin/nologin' >> /etc/shells
 
 # SSH server config
 COPY sshd_config /etc/ssh/sshd_config
