@@ -17,6 +17,7 @@ const loading = ref(false)
 const error = ref('')
 const infoOpen = ref(false)
 const configOpen = ref(false)
+const success = ref<{ sshSync: boolean } | null>(null)
 
 const show = reactive({ bundledPw: false, externalPw: false, appAdminPw: false, appAdminMysqlPw: false })
 
@@ -66,8 +67,9 @@ async function runSetup() {
       body.mysql_admin_user = external.admin_user
       body.mysql_admin_password = external.admin_password
     }
-    await $fetch(`${config.public.apiBase}/setup/run`, { method: 'POST', body })
-    await router.push('/login')
+    const data = await $fetch(`${config.public.apiBase}/setup/run`, { method: 'POST', body }) as { ok: boolean; ssh_sync_verified?: boolean }
+    success.value = { sshSync: !!data.ssh_sync_verified }
+    setTimeout(() => router.push('/login'), 2500)
   } catch (e: unknown) {
     const fe = e as { data?: { detail?: string; error?: string }; message?: string }
     error.value =
@@ -374,7 +376,15 @@ async function runSetup() {
         <!-- ── Submit ── -->
         <div v-if="error" class="err-banner">{{ error }}</div>
 
-        <button type="submit" :disabled="loading" class="btn-submit">
+        <div v-if="success" class="success-panel">
+          <div class="success-item success-ok">✓ Database configured and admin user created</div>
+          <div class="success-item" :class="success.sshSync ? 'success-ok' : 'success-warn'">
+            {{ success.sshSync ? '✓ SSH sync daemon verified — tunnel login is active' : '⚠ SSH sync not verified' }}
+          </div>
+          <p class="success-redirect">Redirecting to login…</p>
+        </div>
+
+        <button v-else type="submit" :disabled="loading" class="btn-submit">
           <span v-if="loading" class="spin"/>
           {{ loading ? 'Setting up…' : 'Run Setup' }}
         </button>
@@ -546,6 +556,18 @@ h1 { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.03em; color: #1e30
   border-left: 2px solid #c8d8ec; padding-left: 0.6rem !important;
   margin-top: 0.4rem !important; font-style: italic;
 }
+
+/* ── Setup success panel ── */
+.success-panel {
+  background: #f0fdf4; border: 1px solid #bbf7d0;
+  border-radius: 10px; padding: 1.25rem 1.5rem;
+  display: flex; flex-direction: column; gap: 0.6rem;
+  margin-bottom: 0.75rem;
+}
+.success-item { font-size: 0.85rem; font-weight: 600; }
+.success-ok { color: #15803d; }
+.success-warn { color: #b45309; }
+.success-redirect { font-size: 0.775rem; color: #6a84a0; margin: 0.25rem 0 0; }
 
 /* ── Toggle (reused from admin/users, scoped to setup) ── */
 .toggle-row {

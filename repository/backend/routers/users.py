@@ -1,12 +1,17 @@
+import logging
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from core import ssh_sync
 from core.database import get_admin_connection, get_session
 from core.security import hash_password
 from models.user import User
 from routers.auth import get_current_user, require_admin
 from schemas.user import UserCreate, UserOut, UserSelfUpdate, UserUpdate
+
+log = logging.getLogger("ltpda.users")
 
 router = APIRouter(prefix="/api/users", tags=["users"])
 
@@ -64,7 +69,12 @@ async def create_user(
             f"App user created but MySQL user creation failed: {e}",
         )
 
-    return UserOut.model_validate(user).model_dump(mode="json")
+    result = UserOut.model_validate(user).model_dump(mode="json")
+    ssh = await ssh_sync.sync_create(body.username, body.password)
+    if not ssh.get("ok") and not ssh.get("skipped"):
+        log.warning("SSH sync failed for new user %s: %s", body.username, ssh.get("error"))
+        result["ssh_sync_warning"] = ssh.get("error")
+    return result
 
 
 @router.put("/me")
@@ -113,7 +123,13 @@ async def update_self(
 
     await session.commit()
     await session.refresh(user)
-    return UserOut.model_validate(user).model_dump(mode="json")
+    result = UserOut.model_validate(user).model_dump(mode="json")
+    if body.password:
+        ssh = await ssh_sync.sync_create(user.username, body.password)
+        if not ssh.get("ok") and not ssh.get("skipped"):
+            log.warning("SSH sync failed for user %s: %s", user.username, ssh.get("error"))
+            result["ssh_sync_warning"] = ssh.get("error")
+    return result
 
 
 @router.put("/{user_id}")
@@ -167,7 +183,13 @@ async def update_user(
 
     await session.commit()
     await session.refresh(user)
-    return UserOut.model_validate(user).model_dump(mode="json")
+    result = UserOut.model_validate(user).model_dump(mode="json")
+    if body.password:
+        ssh = await ssh_sync.sync_create(user.username, body.password)
+        if not ssh.get("ok") and not ssh.get("skipped"):
+            log.warning("SSH sync failed for user %s: %s", user.username, ssh.get("error"))
+            result["ssh_sync_warning"] = ssh.get("error")
+    return result
 
 
 @router.delete("/{user_id}")
@@ -198,4 +220,9 @@ async def delete_user(
     except Exception:
         pass
 
-    return {"ok": True}
+    result: dict = {"ok": True}
+    ssh = await ssh_sync.sync_delete(username)
+    if not ssh.get("ok") and not ssh.get("skipped"):
+        log.warning("SSH sync delete failed for %s: %s", username, ssh.get("error"))
+        result["ssh_sync_warning"] = ssh.get("error")
+    return result

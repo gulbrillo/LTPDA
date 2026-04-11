@@ -90,7 +90,7 @@ async def run_setup(req: SetupRequest):
     # Try to connect to the SSH sync daemon if enabled
     daemon_ok = False
     if ssh_sync_enabled:
-        result = await _call_daemon(ssh_sync_port, ssh_sync_secret, "GET", "/status", None)
+        result = await _call_daemon(ssh_sync_port, ssh_sync_secret, "GET", "/sync/health", None)
         if not result["ok"]:
             raise HTTPException(400, f"Cannot connect to SSH sync daemon: {result['error']}")
         daemon_ok = True
@@ -151,12 +151,14 @@ async def run_setup(req: SetupRequest):
     except Exception as e:
         raise HTTPException(400, f"Database setup failed: {e}")
 
-    # Sync admin user to SSH daemon
+    # Sync admin user to SSH daemon (use web UI password — that's what SSH auth uses)
     if daemon_ok:
-        await _call_daemon(
-            ssh_sync_port, ssh_sync_secret, "POST", "/users",
-            {"username": req.app_admin_username, "password": req.app_admin_mysql_password, "admin": True}
+        sync_result = await _call_daemon(
+            ssh_sync_port, ssh_sync_secret, "POST", "/sync/user/create",
+            {"username": req.app_admin_username, "password": req.app_admin_password}
         )
+        if not sync_result["ok"]:
+            raise HTTPException(400, f"SSH sync daemon rejected admin user creation: {sync_result.get('error')}")
 
     secret_key = secrets.token_hex(32)
     try:
@@ -176,7 +178,7 @@ async def run_setup(req: SetupRequest):
     except Exception as e:
         raise HTTPException(500, f"Config write failed: {e}")
 
-    return {"ok": True, "message": "Setup complete. You can now log in."}
+    return {"ok": True, "message": "Setup complete. You can now log in.", "ssh_sync_verified": daemon_ok}
 
 
 async def _create_admin_schema(cur) -> None:

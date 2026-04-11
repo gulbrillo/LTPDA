@@ -44,6 +44,7 @@ const showMysqlPw = ref(false)
 const saving = ref(false)
 const dialogError = ref('')
 const dialogSuccess = ref('')
+const dialogWarning = ref('')
 const form = reactive({
   username: '',
   password: '',
@@ -107,6 +108,7 @@ function openCreate() {
   showMysqlPw.value = false
   dialogError.value = ''
   dialogSuccess.value = ''
+  dialogWarning.value = ''
   Object.assign(form, { username: '', password: '', mysql_password: '', first_name: '', last_name: '', email: '', institution: '', is_admin: false })
   showDialog.value = true
 }
@@ -117,6 +119,7 @@ function openEdit(u: User) {
   showMysqlPw.value = false
   dialogError.value = ''
   dialogSuccess.value = ''
+  dialogWarning.value = ''
   Object.assign(form, { username: u.username, password: '', mysql_password: '', first_name: u.first_name ?? '', last_name: u.last_name ?? '', email: u.email ?? '', institution: u.institution ?? '', is_admin: u.is_admin })
   showDialog.value = true
 }
@@ -125,7 +128,11 @@ async function saveUser() {
   saving.value = true
   dialogError.value = ''
   dialogSuccess.value = ''
+  dialogWarning.value = ''
   try {
+    const isCreate = !editTarget.value
+    const passwordChanged = !!form.password
+    let res: Record<string, unknown>
     if (editTarget.value) {
       const body: Record<string, unknown> = {
         first_name: form.first_name || null,
@@ -136,13 +143,25 @@ async function saveUser() {
       }
       if (form.password) body.password = form.password
       if (form.mysql_password) body.mysql_password = form.mysql_password
-      await apiFetch(`/users/${editTarget.value.id}`, { method: 'PUT', body })
+      res = await apiFetch<Record<string, unknown>>(`/users/${editTarget.value.id}`, { method: 'PUT', body })
     } else {
-      await apiFetch('/users', { method: 'POST', body: { ...form } })
+      res = await apiFetch<Record<string, unknown>>('/users', { method: 'POST', body: { ...form } })
     }
     await loadUsers()
-    dialogSuccess.value = 'User saved.'
-    setTimeout(() => { showDialog.value = false; dialogSuccess.value = '' }, 1500)
+    if (res?.ssh_sync_warning) {
+      dialogSuccess.value = isCreate ? 'User created.' : 'Changes saved.'
+      dialogWarning.value = `SSH sync warning: ${res.ssh_sync_warning}`
+      setTimeout(() => { showDialog.value = false; dialogSuccess.value = ''; dialogWarning.value = '' }, 6000)
+    } else if (isCreate) {
+      dialogSuccess.value = 'User created — SSH account provisioned.'
+      setTimeout(() => { showDialog.value = false; dialogSuccess.value = '' }, 1500)
+    } else if (passwordChanged) {
+      dialogSuccess.value = 'Changes saved — SSH password updated.'
+      setTimeout(() => { showDialog.value = false; dialogSuccess.value = '' }, 1500)
+    } else {
+      dialogSuccess.value = 'Changes saved.'
+      setTimeout(() => { showDialog.value = false; dialogSuccess.value = '' }, 1500)
+    }
   } catch (e: unknown) {
     dialogError.value = apiErrorMessage(e)
   } finally {
@@ -164,11 +183,15 @@ async function confirmDelete() {
   error.value = ''
   notice.value = ''
   try {
-    await apiFetch(`/users/${u.id}`, { method: 'DELETE' })
+    const res = await apiFetch<Record<string, unknown>>(`/users/${u.id}`, { method: 'DELETE' })
     deleteTarget.value = null
     await loadUsers()
-    notice.value = `"${u.username}" deleted.`
-    setTimeout(() => { notice.value = '' }, 4000)
+    if (res?.ssh_sync_warning) {
+      notice.value = `"${u.username}" deleted. SSH sync warning: ${res.ssh_sync_warning}`
+    } else {
+      notice.value = `"${u.username}" deleted — SSH account removed.`
+    }
+    setTimeout(() => { notice.value = '' }, 5000)
   } catch (e: unknown) {
     error.value = apiErrorMessage(e)
     deleteTarget.value = null
@@ -374,6 +397,7 @@ onMounted(() => loadUsers())
 
             <div v-if="dialogError" class="dialog-banner dialog-banner-error">{{ dialogError }}</div>
             <div v-if="dialogSuccess" class="dialog-banner dialog-banner-ok">{{ dialogSuccess }}</div>
+            <div v-if="dialogWarning" class="dialog-banner dialog-banner-warn">{{ dialogWarning }}</div>
 
             <div class="dialog-foot">
               <button type="button" class="btn-cancel" @click="showDialog = false">Cancel</button>
@@ -399,7 +423,7 @@ onMounted(() => loadUsers())
             <button class="close-btn" @click="deleteTarget = null" aria-label="Close"><X :size="14" /></button>
           </div>
           <p class="del-body">Permanently delete user <strong>{{ deleteTarget.username }}</strong>?</p>
-          <p class="del-warn">This will remove the app account and drop the MySQL user. This cannot be undone.</p>
+          <p class="del-warn">This will remove the app account, drop the MySQL user, and delete the SSH account. This cannot be undone.</p>
           <div class="dialog-foot">
             <button type="button" class="btn-cancel" @click="deleteTarget = null">Cancel</button>
             <button type="button" class="btn-danger" :disabled="deleting" @click="confirmDelete">
@@ -460,6 +484,7 @@ h1 { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.025em; color: #1e30
 .act-btn:hover:not(:disabled) { background: #f0f5fb; color: #2f5596; border-color: #b8cce0; }
 .act-danger:hover:not(:disabled) { background: #fef2f2; color: #b91c1c; border-color: #fecaca; }
 .act-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+.dialog-banner-warn { background: #fffbeb; color: #78450f; border: 1px solid #fde68a; }
 
 .empty-state {
   display: flex; flex-direction: column; align-items: center;
