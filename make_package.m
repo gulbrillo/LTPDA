@@ -9,10 +9,10 @@
 % The toolbox identifier UUID is fixed so the Add-On Manager recognises
 % successive builds as updates to the same toolbox rather than new installs.
 %
-% See also: toolbox/README.md (Installation section)
+% See also: matlab/README.md (Installation section)
 
 repoRoot    = fileparts(mfilename('fullpath'));
-toolboxRoot = fullfile(repoRoot, 'toolbox');
+toolboxRoot = fullfile(repoRoot, 'matlab');
 
 % Need ltpda_ver on the path to read the version string
 addpath(fullfile(toolboxRoot, 'm', 'etc'));

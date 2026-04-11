@@ -29,11 +29,11 @@ Suitable for development or when you want full control over which files are load
 #### 1. Add to MATLAB path
 
 ```matlab
-addpath(genpath('/path/to/LTPDA/toolbox'));
+addpath(genpath('/path/to/LTPDA/matlab'));
 savepath;
 ```
 
-Or use **HOME → Set Path → Add with Subfolders**, select this `toolbox/` directory, and save.
+Or use **HOME → Set Path → Add with Subfolders**, select this `matlab/` directory, and save.
 
 #### 2. Auto-startup (recommended)
 
@@ -162,7 +162,7 @@ The following upstream API calls were removed or broken in R2025a and have been 
 ## Directory layout
 
 ```
-toolbox/
+matlab/
 ├── classes/        LTPDA class definitions (@ao, @ltpda_uo, @plist, etc.)
 │   └── +utils/     Utility namespace: @ssh, @DuoHandler, @credentials, ...
 ├── m/              Helper functions, startup scripts, GUI code
@@ -234,7 +234,7 @@ own bundled `jsch.jar`. The pre-compiled Java class has no such limitation.
 Source: `java/com/ltpda/ssh/LTPDAUserInfo.java`. To rebuild after editing:
 
 ```bash
-# from toolbox/ directory — must target --release 8: MATLAB R2025a static classpath is Java 8
+# from matlab/ directory — must target --release 8: MATLAB R2025a static classpath is Java 8
 javac --release 8 -cp jar/jsch-0.2.21.jar -d java java/com/ltpda/ssh/LTPDAUserInfo.java
 python3 -c "
 import zipfile

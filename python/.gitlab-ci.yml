@@ -1,0 +1,104 @@
+#file: noinspection SpellCheckingInspection
+---
+stages:
+  - test
+  - package
+  - package-test
+  - deploy
+  - deploy-test
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.pip"
+
+image: gwdiexp/$CI_PROJECT_NAME:develop
+
+## test
+
+test:
+  stage: test
+  script:
+    - make test
+  artifacts:
+    paths:
+      - htmlcov
+    expire_in: 30 days
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.xml
+
+
+test-3.7:
+  image: gwdiexp/$CI_PROJECT_NAME:develop-3.7
+  stage: test
+  script:
+    - make test
+  only:
+    - main
+
+mypy:
+  stage: test
+  script:
+    - make mypy
+  needs: []
+  allow_failure: true
+  cache:
+    key: $CI_PROJECT_NAME:mypy
+    paths:
+      - .mypy_cache/
+
+pylint:
+  stage: test
+  allow_failure: true
+  script:
+    - make pylint
+  needs: []
+
+black:
+  stage: test
+  script:
+    - black --check $CI_PROJECT_NAME tests
+  needs: []
+
+## package
+
+package:
+  stage: package
+  script:
+    - make package
+  artifacts:
+    paths:
+      - dist
+    expire_in: 1 week
+
+## test package
+
+test-package:
+  image: python:3.10
+  stage: package-test
+  script:
+    - pip3 install `ls dist/*.whl`
+    - python3 -c "import pyda; print(pyda.__path__)"
+    - python3 -c "import pyda; print(pyda.__version__)"
+    - python3 -c "from lpsd import *"
+  cache:
+    key: $CI_PROJECT_NAME:pip
+    paths:
+      - .pip/
+  needs:
+    - [package]
+
+## deploy
+
+deploy production:
+  stage: deploy
+  script:
+    # Official PyPi server
+    - poetry config pypi-token.pypi $POETRY_PYPI_TOKEN_PYPI
+    - poetry publish
+  only:
+    - tags
+
+## deploy test
+
+# TODO

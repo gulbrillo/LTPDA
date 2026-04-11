@@ -12,7 +12,7 @@
 # What it does:
 #   1. Warns if there are uncommitted changes and offers to commit them.
 #   2. Pushes the current branch to origin.
-#   3. Creates LTPDA_Toolbox-v4.0.0_PSSL.zip  from toolbox/
+#   3. Creates LTPDA_Toolbox-v4.0.0_PSSL.zip  from matlab/
 #   4. Creates LTPDA_Repository-v2.5_PSSL.zip  from repository/
 #   5. Creates GitHub release v1.0.0 with both zips attached.
 #   6. Optionally deletes the local zip files.
@@ -120,8 +120,8 @@ fi
 # ---------------------------------------------------------------------------
 # Create zip files
 # ---------------------------------------------------------------------------
-info "Creating ${TOOLBOX_ZIP} from toolbox/ ..."
-make_zip "$TOOLBOX_ZIP" "toolbox"
+info "Creating ${TOOLBOX_ZIP} from matlab/ ..."
+make_zip "$TOOLBOX_ZIP" "matlab"
 
 info "Creating ${REPO_ZIP} from repository/ ..."
 make_zip "$REPO_ZIP" "repository"
@@ -153,7 +153,7 @@ Precision Space Systems Lab (PSSL) at the University of Florida.
 
 | File | Contents |
 |------|----------|
-| `LTPDA_Toolbox-v4.0.0_PSSL.zip` | MATLAB toolbox, R2025a compatible. Unzip and add the `toolbox/` directory to your MATLAB path, then run `ltpda_startup`. |
+| `LTPDA_Toolbox-v4.0.0_PSSL.zip` | MATLAB toolbox, R2025a compatible. Unzip and add the `matlab/` directory to your MATLAB path, then run `ltpda_startup`. |
 | `LTPDA_Repository-v2.5_PSSL.zip` | Repository server (unchanged from upstream v2.5). See the README for installation instructions. |
 
 ---

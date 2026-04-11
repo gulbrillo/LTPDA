@@ -1,0 +1,11 @@
+*.so
+*.o
+*.a
+__pycache__/
+*.pyc
+dist/
+.coverage
+.isort.cfg
+coverage.xml
+.ipynb_checkpoints/
+test_tsdata.txt
