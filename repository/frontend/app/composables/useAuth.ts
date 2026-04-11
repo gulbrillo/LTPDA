@@ -75,7 +75,9 @@ export const useAuth = () => {
     try {
       user.value = await apiFetch<User>('/auth/me')
     } catch {
-      user.value = null
+      // Preserve user.value when a 401 triggered the re-auth dialog — the username
+      // is needed to pre-fill the dialog. Only clear it on other errors (e.g. network).
+      if (!reAuthVisible.value) user.value = null
     }
   }
 

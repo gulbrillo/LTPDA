@@ -34,15 +34,19 @@ watch(reAuthVisible, (visible) => {
 <template>
   <Teleport to="body">
     <Transition name="modal">
-      <div v-if="reAuthVisible" class="overlay">
-        <div class="dialog">
+      <div v-if="reAuthVisible" class="overlay reauth-overlay">
+        <div class="dialog reauth-dialog">
 
+          <!-- dialog-top needs an inner <div> wrapping title+sub so they stack vertically
+               (global .dialog-top is display:flex justify-content:space-between) -->
           <div class="dialog-top">
-            <h2>Session expired</h2>
-            <p class="dialog-sub">You have been inactive for 15 minutes.</p>
+            <div>
+              <h2>Session expired</h2>
+              <p class="dialog-sub">You have been inactive for 15 minutes.</p>
+            </div>
           </div>
 
-          <p class="dialog-desc">Enter your password to continue where you left off.</p>
+          <p class="reauth-desc">Enter your password to continue where you left off.</p>
 
           <form @submit.prevent="submit">
             <div class="field">
@@ -67,12 +71,12 @@ watch(reAuthVisible, (visible) => {
               </div>
             </div>
 
-            <div v-if="error" class="error">{{ error }}</div>
+            <div v-if="error" class="banner-error reauth-error">{{ error }}</div>
 
-            <div class="dialog-foot">
+            <div class="dialog-foot reauth-foot">
               <button type="button" class="btn-signout" @click="logout">Sign out instead</button>
               <button type="submit" class="btn-continue" :disabled="loading">
-                <span v-if="loading" class="spin" />
+                <span v-if="loading" class="spin spin-sm" />
                 {{ loading ? 'Verifying…' : 'Continue' }}
               </button>
             </div>
@@ -85,96 +89,36 @@ watch(reAuthVisible, (visible) => {
 </template>
 
 <style scoped>
-.overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background: rgba(15, 28, 54, 0.65);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1.5rem;
-}
-.dialog {
-  background: #fff;
-  border-radius: 14px;
-  box-shadow: 0 24px 60px rgba(10, 20, 50, 0.22);
-  width: 100%;
-  max-width: 360px;
-  padding: 2rem;
-}
-.dialog-top {
-  margin-bottom: 0.75rem;
-}
-.dialog-top h2 {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #1e3050;
-  margin: 0 0 0.2rem;
-}
-.dialog-sub {
-  font-size: 0.8rem;
-  color: #6a84a0;
-  margin: 0;
-}
-.dialog-desc {
+/* Sit above all other overlays (global .overlay is z-index:50) */
+.reauth-overlay { z-index: 9999; }
+
+/* Narrower than the default 480px dialog */
+.reauth-dialog { max-width: 360px; }
+
+/* Description line between header and fields */
+.reauth-desc {
   font-size: 0.825rem;
-  color: #374151;
+  color: var(--text-2);
+  margin-top: -1rem;      /* pull up under the dialog-top margin */
   margin-bottom: 1.5rem;
 }
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  margin-bottom: 0.85rem;
-}
+
+/* Disabled username input */
 .input-disabled {
-  background: #f4f6f9;
-  color: #6a84a0;
+  background: #f4f6f9 !important;
+  color: var(--text-3) !important;
   cursor: default;
 }
-.pw-wrap {
-  display: flex;
-  align-items: stretch;
-}
-.pw-input {
-  flex: 1;
-  border-radius: 8px 0 0 8px !important;
-}
-.pw-eye {
-  padding: 0 0.65rem;
-  border: 1px solid #d0dcea;
-  border-left: none;
-  border-radius: 0 8px 8px 0;
-  background: #f4f6f9;
-  color: #6a84a0;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  transition: background 0.1s;
-}
-.pw-eye:hover {
-  background: #e8edf4;
-}
-.error {
-  font-size: 0.8rem;
-  color: #b91c1c;
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  border-radius: 8px;
-  padding: 0.5rem 0.7rem;
-  margin-bottom: 0.85rem;
-}
-.dialog-foot {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 1.5rem;
-  gap: 0.75rem;
-}
+
+/* Error banner: remove the bottom margin the global .banner-error doesn't add */
+.reauth-error { margin-bottom: 1rem; }
+
+/* Footer: sign-out on the left, continue on the right */
+.reauth-foot { justify-content: space-between; }
+
 .btn-signout {
   font-size: 0.8rem;
-  color: #6a84a0;
+  color: var(--text-3);
   background: none;
   border: none;
   cursor: pointer;
@@ -183,9 +127,8 @@ watch(reAuthVisible, (visible) => {
   text-underline-offset: 2px;
   transition: color 0.1s;
 }
-.btn-signout:hover {
-  color: #374151;
-}
+.btn-signout:hover { color: var(--text); }
+
 .btn-continue {
   display: inline-flex;
   align-items: center;
@@ -200,32 +143,6 @@ watch(reAuthVisible, (visible) => {
   cursor: pointer;
   transition: background 0.15s;
 }
-.btn-continue:hover:not(:disabled) {
-  background: #2f5596;
-}
-.btn-continue:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-.spin {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  border: 2px solid rgba(255, 255, 255, 0.4);
-  border-top-color: #fff;
-  border-radius: 50%;
-  animation: spin 0.6s linear infinite;
-}
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-.modal-enter-active,
-.modal-leave-active {
-  transition: opacity 0.2s ease;
-}
-.modal-enter-from,
-.modal-leave-to {
-  opacity: 0;
-}
+.btn-continue:hover:not(:disabled) { background: #2f5596; }
+.btn-continue:disabled { opacity: 0.6; cursor: not-allowed; }
 </style>
