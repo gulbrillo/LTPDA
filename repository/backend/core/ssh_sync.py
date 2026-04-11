@@ -46,7 +46,7 @@ async def _call(method: str, path: str, payload: dict | None = None) -> dict:
     except httpx.ConnectError:
         return {"ok": False, "error": f"Cannot reach SSH sync daemon at {url}"}
     except Exception as e:
-        return {"ok": False, "error": str(e)}
+        return {"ok": False, "error": str(e) or f"{type(e).__name__} (no detail)"}
 
 
 async def sync_create(username: str, password: str) -> dict:

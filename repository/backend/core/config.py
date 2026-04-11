@@ -94,8 +94,10 @@ def ensure_ssh_sync_config() -> None:
     if not data.get("ssh_sync_enabled"):
         data["ssh_sync_enabled"] = True
         changed = True
-    if not data.get("ssh_sync_url"):
-        # Direct container-to-container on the shared Docker network
+    # Rewrite host.docker.internal URLs — hairpin NAT is unreliable on Linux Docker.
+    # Direct container-to-container via the shared Docker network always works.
+    _url = data.get("ssh_sync_url", "")
+    if not _url or "host.docker.internal" in _url:
         data["ssh_sync_url"] = "http://sshgateway:9922"
         changed = True
     if not data.get("ssh_sync_secret"):

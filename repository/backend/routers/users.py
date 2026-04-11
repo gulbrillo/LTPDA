@@ -75,7 +75,7 @@ async def create_user(
         result["ssh_synced"] = True
     elif not ssh.get("skipped"):
         log.warning("SSH sync failed for new user %s: %s", body.username, ssh.get("error"))
-        result["ssh_sync_warning"] = ssh.get("error")
+        result["ssh_sync_warning"] = ssh.get("error") or "SSH sync failed (no detail)"
     return result
 
 
@@ -132,7 +132,7 @@ async def update_self(
             result["ssh_synced"] = True
         elif not ssh.get("skipped"):
             log.warning("SSH sync failed for user %s: %s", user.username, ssh.get("error"))
-            result["ssh_sync_warning"] = ssh.get("error")
+            result["ssh_sync_warning"] = ssh.get("error") or "SSH sync failed (no detail)"
     return result
 
 
@@ -194,7 +194,7 @@ async def update_user(
             result["ssh_synced"] = True
         elif not ssh.get("skipped"):
             log.warning("SSH sync failed for user %s: %s", user.username, ssh.get("error"))
-            result["ssh_sync_warning"] = ssh.get("error")
+            result["ssh_sync_warning"] = ssh.get("error") or "SSH sync failed (no detail)"
     return result
 
 
@@ -232,5 +232,5 @@ async def delete_user(
         result["ssh_synced"] = True
     elif not ssh.get("skipped"):
         log.warning("SSH sync delete failed for %s: %s", username, ssh.get("error"))
-        result["ssh_sync_warning"] = ssh.get("error")
+        result["ssh_sync_warning"] = ssh.get("error") or "SSH sync failed (no detail)"
     return result
