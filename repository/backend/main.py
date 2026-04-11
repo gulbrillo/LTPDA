@@ -6,7 +6,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from core.config import is_configured
+from core.config import ensure_ssh_sync_config, is_configured
 from core.phpmyadmin import write_pma_config
 from routers import auth, settings, setup, users, repos
 from routers.objects import router as objects_router
@@ -17,6 +17,7 @@ logger = logging.getLogger("ltpda")
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
+    ensure_ssh_sync_config()   # fills in missing SSH sync credentials for old installs
     write_pma_config()
     yield
 

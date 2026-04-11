@@ -50,7 +50,7 @@ def _make_sig(secret: str, body: bytes) -> str:
 
 async def _call_daemon(port: int, secret: str, method: str, path: str, payload: dict | None = None) -> dict:
     """Make a signed call to the SSH sync daemon. Returns {"ok": bool, "error": str|None}."""
-    url = f"http://host.docker.internal:{port}{path}"
+    url = f"http://sshgateway:{port}{path}"
     body = json.dumps(payload).encode() if payload is not None else b"{}"
     sig = _make_sig(secret, body)
     headers = {"X-LTPDA-Signature": sig, "Content-Type": "application/json"}
@@ -172,7 +172,7 @@ async def run_setup(req: SetupRequest):
             secret_key=secret_key,
             public_url=req.public_url,
             ssh_sync_enabled=ssh_sync_enabled,
-            ssh_sync_url=f"http://host.docker.internal:{ssh_sync_port}" if ssh_sync_enabled else None,
+            ssh_sync_url=f"http://sshgateway:{ssh_sync_port}" if ssh_sync_enabled else None,
             ssh_sync_secret=ssh_sync_secret,
         )
     except Exception as e:

@@ -77,6 +77,34 @@ def get_public_url() -> str | None:
     return _load().get("public_url")
 
 
+def ensure_ssh_sync_config() -> None:
+    """
+    Auto-generate missing SSH sync credentials for bundled-mode installations that
+    were set up before SSH sync support was added. Writes to config.json if anything
+    was missing. The sshgateway daemon's wait loop picks up the new secret
+    automatically within ~5 seconds — no manual container restart needed.
+    """
+    data = _load()
+    if not data.get("configured"):
+        return  # Setup hasn't run yet
+    if data.get("mysql_mode") != "bundled":
+        return  # External mode — no SSH gateway container
+
+    changed = False
+    if not data.get("ssh_sync_enabled"):
+        data["ssh_sync_enabled"] = True
+        changed = True
+    if not data.get("ssh_sync_url"):
+        # Direct container-to-container on the shared Docker network
+        data["ssh_sync_url"] = "http://sshgateway:9922"
+        changed = True
+    if not data.get("ssh_sync_secret"):
+        data["ssh_sync_secret"] = secrets.token_hex(32)
+        changed = True
+    if changed:
+        CONFIG_FILE.write_text(json.dumps(data, indent=2))
+
+
 def get_ssh_sync_config() -> dict:
     """Return SSH sync configuration if enabled."""
     data = _load()
