@@ -444,6 +444,7 @@ python/
 │   │   └── noisegen.py   Franklin noise generator
 │   ├── mixins/           Composable mixins (operators, plotting, diff, DSP)
 │   └── Examples/         Jupyter notebooks (26 examples)
+├── docker/               Dockerfile for CI / containerised testing
 └── tests/                pytest test suite (~54% coverage)
 ```
 
@@ -460,6 +461,22 @@ poetry run pytest
 ```
 
 All tests must pass and coverage must not drop below 54 %.
+
+### Docker
+
+A `docker/Dockerfile` builds a self-contained Python environment with pyda installed (Python 3.10 by default, also tested against 3.7). The Makefile provides helpers:
+
+```bash
+make docker         # build gwdiexp/pyda:develop (and :develop-3.10)
+make docker-push    # push both tags to Docker Hub
+make test-docker    # run the test suite inside the container
+```
+
+The Docker image is primarily used for CI. To run tests in the container locally:
+
+```bash
+docker run -v $(pwd):/code --rm -it gwdiexp/pyda:develop make test
+```
 
 ### Code style
 

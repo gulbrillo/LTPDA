@@ -2,7 +2,7 @@ BRANCH ?= develop
 DOCKER ?= docker
 PACKAGE = pyda
 DOCKER_IMAGE = gwdiexp/${PACKAGE}:${BRANCH}
-OLD_PY_VERSION = 3.7
+OLD_PY_VERSION = 3.10
 
 all: mypy test package
 
