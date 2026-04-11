@@ -70,6 +70,301 @@ Check for `long double` uses throughout if contributing performance fixes for M1
 
 ---
 
+## Repository connectivity
+
+pyda can connect directly to an LTPDA repository database using the same credential and schema
+conventions as the MATLAB toolbox — plain MySQL via PyMySQL, no REST API involved. If the MySQL
+server is on a remote host, establish an SSH tunnel externally and point pyda at the local
+forwarded port (see [SSH tunnelling](#ssh-tunnelling) below).
+
+### Quick connect
+
+```python
+from pyda.repo import LTPDARepository
+
+# Explicit credentials
+repo = LTPDARepository('db.host.com', 'my_repo', 'alice', 'mysql_secret')
+
+# Non-standard port (or local SSH tunnel endpoint)
+repo = LTPDARepository('localhost', 'my_repo', 'alice', 'mysql_secret', port=3307)
+
+# From environment variables
+repo = LTPDARepository.from_env()
+
+# Context manager — connection is always closed on exit
+with LTPDARepository('db.host.com', 'my_repo', 'alice', 'mysql_secret') as repo:
+    ts = repo.retrieve(42)
+```
+
+### Credentials
+
+Two separate credentials are required:
+
+| Credential | What it is | Where to find it |
+|-----------|------------|------------------|
+| **username** | MySQL username | Same as the LTPDA web UI login name |
+| **password** | MySQL password | The **`mysql_password`** field in the web UI user settings — *not* the web login password |
+
+These are the same credentials the MATLAB toolbox uses to connect via JDBC.
+
+### Environment variables
+
+`LTPDARepository.from_env()` reads connection parameters from five environment variables:
+
+| Variable | Meaning | Required |
+|----------|---------|---------|
+| `LTPDA_HOST` | MySQL hostname — use `localhost` when an SSH tunnel is running | yes |
+| `LTPDA_PORT` | MySQL port — use the local tunnel port when tunnelling | no (default `3306`) |
+| `LTPDA_DB` | Database (schema) name | yes |
+| `LTPDA_USER` | MySQL username (web UI login name) | yes |
+| `LTPDA_PASS` | MySQL password (`mysql_password` from the web UI) | yes |
+
+If any required variable is missing, `from_env()` raises `EnvironmentError` listing every
+absent variable.
+
+**Setting env vars — Option A: shell rc file (Linux / macOS / Git Bash)**
+
+Add to `~/.bashrc`, `~/.zshrc`, or `~/.bash_profile` and then reload:
+
+```bash
+export LTPDA_HOST=db.host.com
+export LTPDA_DB=my_repo
+export LTPDA_USER=alice
+export LTPDA_PASS=mysql_secret   # the mysql_password from the web UI
+# optional:
+export LTPDA_PORT=3306
+
+source ~/.bashrc   # or open a new terminal
+```
+
+**Setting env vars — Option B: `.env` file + `python-dotenv` (recommended for notebooks)**
+
+Create a `.env` file next to your notebook or script (add it to `.gitignore`; never commit credentials):
+
+```
+# .env — do NOT commit this file
+LTPDA_HOST=db.host.com
+LTPDA_DB=my_repo
+LTPDA_USER=alice
+LTPDA_PASS=mysql_secret
+```
+
+Then load it before calling `from_env()`:
+
+```python
+from dotenv import load_dotenv   # pip install python-dotenv
+load_dotenv()
+
+from pyda.repo import LTPDARepository
+repo = LTPDARepository.from_env()
+```
+
+**Setting env vars — Option C: notebook cell (quick interactive use)**
+
+```python
+import os
+os.environ['LTPDA_HOST'] = 'db.host.com'
+os.environ['LTPDA_DB']   = 'my_repo'
+os.environ['LTPDA_USER'] = 'alice'
+os.environ['LTPDA_PASS'] = 'mysql_secret'
+
+from pyda.repo import LTPDARepository
+repo = LTPDARepository.from_env()
+```
+
+Credentials in saved notebooks can be exposed unintentionally — passing them directly to the
+constructor is often safer:
+
+```python
+repo = LTPDARepository('db.host.com', 'my_repo', 'alice', 'mysql_secret')
+```
+
+**Setting env vars — Option D: Windows PowerShell (permanent user variable)**
+
+```powershell
+[System.Environment]::SetEnvironmentVariable('LTPDA_HOST', 'db.host.com', 'User')
+[System.Environment]::SetEnvironmentVariable('LTPDA_DB',   'my_repo',     'User')
+[System.Environment]::SetEnvironmentVariable('LTPDA_USER', 'alice',       'User')
+[System.Environment]::SetEnvironmentVariable('LTPDA_PASS', 'mysql_secret','User')
+```
+
+Restart any terminals or IDE sessions after setting them.
+
+**Setting env vars — Option E: CI/CD (GitHub Actions / GitLab CI)**
+
+Store secrets in the platform secret store, not in the repository:
+
+```yaml
+# GitHub Actions example
+env:
+  LTPDA_HOST: ${{ secrets.LTPDA_HOST }}
+  LTPDA_DB:   ${{ secrets.LTPDA_DB }}
+  LTPDA_USER: ${{ secrets.LTPDA_USER }}
+  LTPDA_PASS: ${{ secrets.LTPDA_PASS }}
+```
+
+### SSH tunnelling
+
+pyda does not manage SSH tunnels. If MySQL is behind a firewall, create the tunnel externally
+before connecting:
+
+```bash
+# Forward local port 3307 → MySQL on db.internal:3306 via gateway.host
+ssh -L 3307:db.internal:3306 gateway.host -N &
+```
+
+Then pass `hostname='localhost', port=3307` to pyda:
+
+```python
+repo = LTPDARepository('localhost', 'my_repo', 'alice', 'mysql_secret', port=3307)
+```
+
+### Submit
+
+```python
+from datetime import datetime
+from pyda.tsdata import TSData
+from pyda.repo import LTPDARepository
+
+ts = TSData.randn(nsecs=3600, fs=10, name='ACC_X', yunits='m/s^2')
+ts.t0 = datetime(2024, 1, 15, 0, 0)   # absolute UTC start time
+
+with LTPDARepository('db.host.com', 'my_repo', 'alice', 'secret') as repo:
+    result = repo.submit(
+        ts,
+        experiment_title='Noise floor run',
+        experiment_desc='Accelerometer noise at rest on optical bench',
+        analysis_desc='No processing applied — raw data submission',
+        quantity='acceleration',
+        keywords='noise, accelerometer',
+    )
+    print(result.id, result.uuid)   # assigned DB id and UUID
+```
+
+Submit multiple objects in one transaction — a collection is created automatically:
+
+```python
+results = repo.submit(
+    ts1, ts2, ts3,
+    experiment_title='Three-axis measurement',
+    experiment_desc='Simultaneous X Y Z accelerometer data',
+    analysis_desc='Raw data, no filtering',
+)
+print(results[0].cid)   # collection ID shared by all three
+```
+
+**Mandatory field minimum lengths** (mirrors the MATLAB web UI validation):
+
+| Field | Minimum |
+|-------|---------|
+| `experiment_title` | 5 characters |
+| `experiment_desc` | 10 characters |
+| `analysis_desc` | 10 characters |
+
+### Retrieve by ID
+
+```python
+# Single object
+ts = repo.retrieve(42)
+
+# Multiple objects
+ts1, ts2 = repo.retrieve(42, 43)
+
+# All objects in a collection
+objects = repo.retrieve(cid=7)
+```
+
+### Time-range retrieval
+
+Retrieve all time-series segments overlapping a window, then concatenate and crop:
+
+```python
+from datetime import datetime
+
+ts = repo.get(
+    'ACC_X',                           # SQL LIKE pattern on object name
+    t0=datetime(2024, 1, 15, 0, 0),
+    t1=datetime(2024, 1, 15, 6, 0),
+    author='alice',                    # optional author filter
+)
+# ts is a single TSData spanning exactly [t0, t1]
+```
+
+This is the primary method for retrieving long continuous time-series stored as multiple
+shorter segments — the same pattern the MATLAB toolbox uses internally.
+
+### Search
+
+```python
+# All objects
+results = repo.find()
+
+# By name pattern
+results = repo.find(name='ACC%')
+
+# By author and time range
+results = repo.find(
+    name='ACC_X',
+    author='alice',
+    date_from='2024-01-01',
+    date_to='2024-02-01',
+)
+
+# Objects whose stored timespan overlaps [t0, t1]
+from datetime import datetime
+results = repo.find(
+    name='ACC_X',
+    timespan=(datetime(2024, 1, 15), datetime(2024, 1, 16)),
+)
+
+for r in results:
+    print(r.id, r.name, r.submitted, r.t_start, r.t_stop)
+```
+
+### Utility methods
+
+```python
+# Full metadata (no binary download)
+metas = repo.get_metadata(42, 43, 44)
+print(metas[0].fs, metas[0].nsecs, metas[0].t0)
+
+# Most recent segment for a channel
+latest = repo.get_latest('ACC_X')
+
+# ID ↔ UUID
+uuid  = repo.get_uuid(42)
+obj_id = repo.get_id(uuid)
+
+# Collection membership
+ids = repo.get_collection_ids(7)
+
+# Duplicate detection
+dupes = repo.find_duplicates()   # list of (id, uuid) pairs
+
+# CSV report
+repo.report('repo_dump.csv', date_from='2024-01-01')
+
+# All accessible schemas
+databases = repo.list_databases()
+
+# Without opening a persistent connection
+databases = LTPDARepository.available_databases('db.host.com', 'alice', 'secret')
+```
+
+### Format compatibility
+
+pyda-submitted objects store their binary payload as HDF5 (`.pyda` format) in the `bobjs`
+table. The `objs.xml` field is set to the sentinel value `binary_pyda`.
+
+- **MATLAB**: can see pyda-submitted objects in the web UI (all metadata fields are populated).
+  MATLAB **cannot** reconstruct the data itself (`binary_pyda` is not a valid LTPDA XML
+  serialization).
+- **pyda**: can fully retrieve both pyda-submitted HDF5 objects and MATLAB-submitted binary
+  `.mat` objects (best-effort via `scipy.io.loadmat`; complex LTPDA class hierarchies may not
+  parse correctly). XML-only MATLAB objects (`binary=False`) raise `NotImplementedError`.
+
+---
+
 ## Quick start
 
 ```python
@@ -429,10 +724,18 @@ python/
 ├── pyda/
 │   ├── ydata.py          YData base class
 │   ├── xydata.py         XYData (general 2-D data)
-│   ├── tsdata.py         TSData (time-series)
+│   ├── tsdata.py         TSData (time-series, with absolute t0 support)
 │   ├── fsdata.py         FSData (frequency-series)
 │   ├── pzmodel.py        PZModel + PZ (pole/zero transfer functions)
 │   ├── functions.py      Module-level function wrappers
+│   ├── repo/             Repository connectivity (direct MySQL / PyMySQL)
+│   │   ├── __init__.py   Exports LTPDARepository
+│   │   ├── client.py     LTPDARepository — main public API class
+│   │   ├── models.py     SubmitResult, ObjectMeta, SearchResult dataclasses
+│   │   ├── _connection.py  MySQL connection wrapper (RepoConnection)
+│   │   ├── _submit.py    Submit logic (mirrors MATLAB submit.m)
+│   │   ├── _retrieve.py  Retrieve / time-range / HDF5 deserialization
+│   │   └── _search.py    Search, find, metadata, report utilities
 │   ├── utils/
 │   │   ├── axis.py       Axis — numpy array with units and errors
 │   │   ├── unit.py       Unit — symbolic algebra and SI conversion
@@ -443,7 +746,7 @@ python/
 │   │   ├── spectral.py   PSD, ASD, CSD, coherence, TFE estimators
 │   │   └── noisegen.py   Franklin noise generator
 │   ├── mixins/           Composable mixins (operators, plotting, diff, DSP)
-│   └── Examples/         Jupyter notebooks (26 examples)
+│   └── Examples/         Jupyter notebooks (submit, retrieve, time-range examples)
 ├── docker/               Dockerfile for CI / containerised testing
 └── tests/                pytest test suite (~54% coverage)
 ```

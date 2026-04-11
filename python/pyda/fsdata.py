@@ -58,6 +58,19 @@ class FSData(XYData):
         )
         self.name = name
 
+    def _add_to_hd5f_structure(self, hd5f_file=None):
+        super()._add_to_hd5f_structure(hd5f_file=hd5f_file)
+        hd5f_file["XYData"].attrs["pyda_class"] = "FSData"
+
+    @classmethod
+    def _from_hd5f_structure(cls, hd5f_file=None):
+        from pyda.xydata import XYData
+        xy = XYData._from_hd5f_structure(hd5f_file=hd5f_file)
+        fs = FSData(xaxis=xy.xaxis, yaxis=xy.yaxis, name=xy.name)
+        fs.id = xy.id
+        fs.description = xy.description
+        return fs
+
     @classmethod
     def from_function(cls, name="", f=[], fcn="f", yunits=""):
         """

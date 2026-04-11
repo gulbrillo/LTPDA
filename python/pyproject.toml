@@ -15,6 +15,7 @@ matplotlib = ">=3.0,<5.0"
 h5py = ">=3,<4"
 #lpsd = ">=0.2,<0.3"
 lpsd = ">=1.0.2,<2.0"
+PyMySQL = ">=1.1,<2.0"
 
 [tool.poetry.dev-dependencies]
 black = "^22.1"

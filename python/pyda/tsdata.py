@@ -14,6 +14,7 @@
 
 import h5py
 import numpy
+from datetime import datetime
 
 from pyda.utils.axis import Axis
 from pyda.xydata import XYData
@@ -37,6 +38,7 @@ class TSData(XYData, TSDataDSP):
         yunits: str = "",
         xname: str = "Time",
         yname: str = "Amplitude",
+        t0: datetime = None,
     ) -> None:
         """
 
@@ -51,6 +53,8 @@ class TSData(XYData, TSDataDSP):
         :param yunits:
         :param xname:
         :param yname:
+        :param t0: absolute UTC start time of the time-series (datetime or None).
+                   Used when submitting to / retrieving from the LTPDA repository.
         """
 
         if isinstance(xaxis, Axis):
@@ -81,6 +85,7 @@ class TSData(XYData, TSDataDSP):
             yname=yname,
         )
         self.name = name
+        self.t0 = t0  # absolute UTC start time; None means "unknown"
 
     # ----------------------------------------------------
     # Constructors
@@ -280,6 +285,24 @@ class TSData(XYData, TSDataDSP):
 
         return output
 
+    def _add_to_hd5f_structure(self, hd5f_file=None):
+        super()._add_to_hd5f_structure(hd5f_file=hd5f_file)
+        g = hd5f_file["XYData"]
+        g.attrs["pyda_class"] = "TSData"
+        g.attrs["t0"] = self.t0.isoformat() if self.t0 is not None else ""
+
+    @classmethod
+    def _from_hd5f_structure(cls, hd5f_file=None):
+        from pyda.xydata import XYData
+        xy = XYData._from_hd5f_structure(hd5f_file=hd5f_file)
+        ts = TSData(xaxis=xy.xaxis, yaxis=xy.yaxis, name=xy.name)
+        ts.id = xy.id
+        ts.description = xy.description
+        t0_str = hd5f_file["XYData"].attrs.get("t0", "")
+        if t0_str:
+            ts.t0 = datetime.fromisoformat(t0_str)
+        return ts
+
     @classmethod
     def load(cls, filename=""):
         """
@@ -296,19 +319,7 @@ class TSData(XYData, TSDataDSP):
         with h5py.File(filename, "r") as f:
             if not f:
                 raise Exception("Failed to load file at " + filename)
-
-            xy = cls._from_hd5f_structure(hd5f_file=f)
-            ts = TSData(
-                xaxis=xy.xaxis,
-                yaxis=xy.yaxis,
-                name=xy.name,
-                xunits=xy.xunits(),
-                yunits=xy.yunits(),
-            )
-            ts.id = xy.id
-            ts.description = xy.description
-
-            return ts
+            return cls._from_hd5f_structure(hd5f_file=f)
 
     def nsecs(self):
         """
@@ -357,6 +368,8 @@ class TSData(XYData, TSDataDSP):
         s += "  uuid: " + str(self.id) + "\n"
         s += "    fs: " + str(self.fs()) + "\n"
         s += " nsecs: " + str(self.nsecs()) + "\n"
+        if self.t0 is not None:
+            s += "    t0: " + self.t0.isoformat() + "\n"
         s += (
             " xaxis: "
             + self.xaxis.name
