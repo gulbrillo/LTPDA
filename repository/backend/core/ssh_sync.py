@@ -32,10 +32,12 @@ async def _call(method: str, path: str, payload: dict | None = None) -> dict:
     # Always send a body so the HMAC can be computed consistently on both sides.
     # The daemon reads request.get_data() regardless of HTTP method.
     body = json.dumps(payload).encode() if payload is not None else b"{}"
-    sig = _make_sig(cfg["secret"], body)
-    headers = {"X-LTPDA-Signature": sig, "Content-Type": "application/json"}
 
     try:
+        # _make_sig is inside try so a missing/None secret returns {"ok": False} rather
+        # than propagating an AttributeError up to the FastAPI exception handler.
+        sig = _make_sig(cfg["secret"], body)
+        headers = {"X-LTPDA-Signature": sig, "Content-Type": "application/json"}
         async with httpx.AsyncClient(timeout=5.0) as client:
             r = await client.request(method, url, headers=headers, content=body)
         if r.status_code in (200, 201):

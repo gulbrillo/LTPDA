@@ -45,25 +45,48 @@ log = logging.getLogger("ltpda-ssh-sync")
 
 def load_config() -> dict:
     """Block until config.json is present and contains the SSH sync secret."""
+    first_missing = True
+    first_no_secret = True
     while True:
         if not CONFIG_PATH.exists():
-            log.info("Waiting for config.json at %s ...", CONFIG_PATH)
+            if first_missing:
+                log.info("config.json not found at %s — waiting for API to write it ...", CONFIG_PATH)
+                first_missing = False
             time.sleep(5)
             continue
+        first_missing = True  # reset so re-disappearance is logged again
         try:
             cfg = json.loads(CONFIG_PATH.read_text())
         except Exception as e:
             log.error("Cannot parse config.json: %s — retrying in 5s", e)
             time.sleep(5)
             continue
+
         secret = cfg.get("ssh_sync_secret")
         if not secret:
-            log.info("ssh_sync_secret not present in config yet, waiting...")
+            if first_no_secret:
+                log.info(
+                    "config.json found but ssh_sync_secret is missing — "
+                    "waiting for the backend to generate it (this happens automatically on API startup)"
+                )
+                first_no_secret = False
             time.sleep(5)
             continue
-        if not cfg.get("ssh_sync_enabled"):
-            log.warning("SSH sync is disabled in config (ssh_sync_enabled is false/missing)")
-        return {"secret": secret, "enabled": cfg.get("ssh_sync_enabled", False)}
+
+        enabled = cfg.get("ssh_sync_enabled", False)
+        log.info(
+            "Config loaded — ssh_sync_enabled=%s  mysql_mode=%s  secret=%.8s…(%d chars)",
+            enabled,
+            cfg.get("mysql_mode", "unknown"),
+            secret,
+            len(secret),
+        )
+        if not enabled:
+            log.warning(
+                "ssh_sync_enabled is false — daemon will run but the LTPDA backend "
+                "won't call it. Re-run setup or set ssh_sync_enabled=true in config.json."
+            )
+        return {"secret": secret, "enabled": enabled}
 
 
 cfg = load_config()
@@ -73,6 +96,16 @@ SECRET: str = cfg["secret"]
 # ── Flask app ─────────────────────────────────────────────────────────────────
 
 app = Flask(__name__)
+
+# Suppress Werkzeug's ANSI-coloured startup banner and per-request noise.
+# We provide our own after_request logger so requests still appear in the log.
+logging.getLogger("werkzeug").disabled = True
+
+
+@app.after_request
+def _log_request(response):
+    log.info("%-6s %s  ->  %d", request.method, request.path, response.status_code)
+    return response
 
 
 def _verify_signature(body: bytes) -> bool:
@@ -282,6 +315,17 @@ def user_delete(username: str):
 
 if __name__ == "__main__":
     if os.geteuid() != 0:
-        log.warning("Not running as root — useradd/userdel will fail")
-    log.info("LTPDA SSH Sync Daemon v%s starting on port %d", VERSION, PORT)
-    app.run(host="0.0.0.0", port=PORT, debug=False)
+        log.warning("Not running as root — useradd/userdel/chpasswd will fail")
+    log.info(
+        "LTPDA SSH Sync Daemon v%s starting on :%d  "
+        "(ssh_sync_enabled=%s)",
+        VERSION, PORT, cfg["enabled"],
+    )
+    try:
+        app.run(host="0.0.0.0", port=PORT, debug=False)
+    except OSError as exc:
+        log.error("Cannot bind to port %d: %s", PORT, exc)
+    except Exception as exc:
+        log.error("Flask crashed: %s", exc)
+    finally:
+        log.warning("Daemon process exiting — entrypoint.sh will restart it in 5 s")
