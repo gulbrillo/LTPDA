@@ -10,8 +10,13 @@ The daemon will refuse to modify or delete accounts it did not create.
 
 Config: /app/config/config.json (shared with backend)
   { "ssh_sync_enabled": true, "ssh_sync_secret": "..." }
+
+Persistence: /app/config/ssh_users.json stores a username→pw_hash map.
+  On startup _restore_users() recreates any accounts missing from the
+  container filesystem (e.g. after a docker compose up --build).
 """
 
+import crypt  # SHA-512 crypt; available on Python 3.11/3.12 (Alpine 3.19)
 import hashlib
 import hmac
 import json
@@ -27,8 +32,9 @@ from flask import Flask, abort, jsonify, request
 # ── Config ────────────────────────────────────────────────────────────────────
 
 CONFIG_PATH = Path("/app/config/config.json")  # Shared with backend
-LOG_PATH = Path("/app/config/sshgateway.log")   # Accessible from host via volume mount
-VERSION = "1.0.0"
+USERS_DB    = Path("/app/config/ssh_users.json")  # Persistent user store
+LOG_PATH    = Path("/app/config/sshgateway.log")  # Accessible from host via volume mount
+VERSION = "1.1.0"
 LTPDA_MARKER = "ltpda-managed"
 LTPDA_GROUP = "ltpda-users"
 
@@ -92,6 +98,74 @@ def load_config() -> dict:
 cfg = load_config()
 PORT: int = 9922  # Fixed port
 SECRET: str = cfg["secret"]
+
+# ── Persistent user store ─────────────────────────────────────────────────────
+
+def _hash_password(password: str) -> str:
+    """Hash a password with SHA-512 crypt for persistent storage."""
+    return crypt.crypt(password, crypt.mksalt(crypt.METHOD_SHA512))
+
+
+def _load_users_db() -> dict:
+    """Load the persistent user database (username → pw_hash)."""
+    if USERS_DB.exists():
+        try:
+            return json.loads(USERS_DB.read_text())
+        except Exception as e:
+            log.error("Cannot parse ssh_users.json: %s", e)
+    return {}
+
+
+def _save_users_db(db: dict) -> None:
+    """Persist the user database."""
+    try:
+        USERS_DB.write_text(json.dumps(db, indent=2))
+    except Exception as e:
+        log.error("Failed to write ssh_users.json: %s", e)
+
+
+def _restore_users() -> None:
+    """
+    Recreate SSH accounts from the persistent database after a container restart.
+    Called once at daemon startup before the Flask server begins accepting requests.
+    """
+    db = _load_users_db()
+    if not db:
+        log.info("No persistent users to restore.")
+        return
+    log.info("Restoring %d SSH user(s) from %s ...", len(db), USERS_DB)
+    _run("groupadd", "--force", LTPDA_GROUP)
+    restored = 0
+    for username, pw_hash in db.items():
+        exists, _ = _account_status(username)
+        if exists:
+            log.info("  %s already exists — skipping", username)
+            continue
+        ok, err = _run(
+            "useradd", "-m",
+            "-g", LTPDA_GROUP,
+            "-s", "/bin/false",
+            "-c", LTPDA_MARKER,
+            username,
+        )
+        if not ok:
+            log.error("  Failed to restore %s: %s", username, err)
+            continue
+        try:
+            proc = subprocess.run(
+                ["chpasswd", "-e"],
+                input=f"{username}:{pw_hash}\n",
+                capture_output=True, text=True, timeout=10,
+            )
+            if proc.returncode != 0:
+                log.error("  chpasswd -e failed for %s: %s", username, (proc.stderr or proc.stdout).strip())
+            else:
+                log.info("  Restored: %s", username)
+                restored += 1
+        except Exception as e:
+            log.error("  chpasswd -e exception for %s: %s", username, e)
+    log.info("Restore complete — %d/%d account(s) recreated.", restored, len(db))
+
 
 # ── Flask app ─────────────────────────────────────────────────────────────────
 
@@ -215,6 +289,10 @@ def user_create():
         if not ok:
             log.error("chpasswd failed for %s: %s", username, err)
             return jsonify({"ok": False, "error": f"Password update failed: {err}"}), 500
+        # Update the persistent store with the new password hash
+        db = _load_users_db()
+        db[username] = _hash_password(password)
+        _save_users_db(db)
         return jsonify({"ok": True, "updated": True})
 
     # Ensure the shared LTPDA group exists
@@ -240,6 +318,11 @@ def user_create():
             "ok": False,
             "error": f"Account created but password could not be set: {err}",
         }), 500
+
+    # Persist so account survives container restarts
+    db = _load_users_db()
+    db[username] = _hash_password(password)
+    _save_users_db(db)
 
     log.info("Created SSH account: %s", username)
     return jsonify({"ok": True})
@@ -277,6 +360,10 @@ def user_update():
         log.error("chpasswd failed for %s: %s", username, err)
         return jsonify({"ok": False, "error": err}), 500
 
+    db = _load_users_db()
+    db[username] = _hash_password(password)
+    _save_users_db(db)
+
     log.info("Updated SSH password: %s", username)
     return jsonify({"ok": True})
 
@@ -292,6 +379,10 @@ def user_delete(username: str):
 
     if not exists:
         log.info("Delete requested for non-existent account %s — already gone", username)
+        # Remove from persistent store in case the record is stale
+        db = _load_users_db()
+        db.pop(username, None)
+        _save_users_db(db)
         return jsonify({"ok": True})
 
     if not is_managed:
@@ -307,6 +398,11 @@ def user_delete(username: str):
         log.error("userdel failed for %s: %s", username, err)
         return jsonify({"ok": False, "error": f"userdel failed: {err}"}), 500
 
+    # Remove from persistent store
+    db = _load_users_db()
+    db.pop(username, None)
+    _save_users_db(db)
+
     log.info("Deleted SSH account: %s", username)
     return jsonify({"ok": True})
 
@@ -321,6 +417,7 @@ if __name__ == "__main__":
         "(ssh_sync_enabled=%s)",
         VERSION, PORT, cfg["enabled"],
     )
+    _restore_users()
     try:
         app.run(host="0.0.0.0", port=PORT, debug=False)
     except OSError as exc:
