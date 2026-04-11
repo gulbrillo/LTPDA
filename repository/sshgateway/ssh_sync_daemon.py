@@ -224,7 +224,7 @@ def user_create():
     ok, err = _run(
         "useradd", "-m",
         "-g", LTPDA_GROUP,
-        "-s", "/usr/sbin/nologin",
+        "-s", "/bin/false",
         "-c", LTPDA_MARKER,
         username,
     )

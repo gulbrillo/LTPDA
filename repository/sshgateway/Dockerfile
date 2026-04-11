@@ -2,7 +2,7 @@ FROM alpine:3.19
 
 RUN apk add --no-cache openssh python3 py3-pip tini shadow && \
     pip3 install --no-cache-dir flask --break-system-packages && \
-    echo '/usr/sbin/nologin' >> /etc/shells
+    echo '/bin/false' >> /etc/shells
 # NOTE: host keys are NOT generated here — entrypoint.sh generates them at
 # runtime and stores them in the ./config volume so they persist across rebuilds.
 
