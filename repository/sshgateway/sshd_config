@@ -6,12 +6,10 @@ ListenAddress 0.0.0.0
 HostKey /etc/ssh/ssh_host_rsa_key
 HostKey /etc/ssh/ssh_host_ed25519_key
 
-# Authentication: keyboard-interactive via PAM only (no pubkey, no password)
+# Authentication: standard password (/etc/passwd:/etc/shadow), no PAM
 PasswordAuthentication yes
 PubkeyAuthentication no
-KbdInteractiveAuthentication yes
-UsePAM yes
-AuthenticationMethods keyboard-interactive:pam
+UsePAM no
 
 # Tunnel-only: no shell, no TTY, no X11
 PermitTTY no

@@ -1,5 +1,0 @@
-# PAM config for LTPDA SSH gateway
-# pam_exec calls validate_auth.py with PAM_USER env var set and password on stdin
-auth    required    pam_exec.so expose_authtok quiet /usr/local/bin/validate_auth.py
-account required    pam_permit.so
-session required    pam_permit.so

@@ -1,4 +1,0 @@
-{
-  "port": 9922,
-  "shared_secret": "REPLACE_WITH_SECRET_FROM_SETUP_WIZARD"
-}

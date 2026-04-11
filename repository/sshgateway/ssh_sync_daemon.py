@@ -8,8 +8,8 @@ accounts on the host machine. Run as root via systemd.
 Accounts created by this daemon are tagged with GECOS comment "ltpda-managed".
 The daemon will refuse to modify or delete accounts it did not create.
 
-Config: /etc/ltpda-ssh-sync.json
-  { "port": 9922, "shared_secret": "..." }
+Config: /app/config/config.json (shared with backend)
+  { "ssh_sync_enabled": true, "ssh_sync_secret": "..." }
 """
 
 import hashlib
@@ -25,7 +25,7 @@ from flask import Flask, abort, jsonify, request
 
 # ── Config ────────────────────────────────────────────────────────────────────
 
-CONFIG_PATH = Path("/etc/ltpda-ssh-sync.json")
+CONFIG_PATH = Path("/app/config/config.json")  # Shared with backend
 VERSION = "1.0.0"
 LTPDA_MARKER = "ltpda-managed"
 LTPDA_GROUP = "ltpda-users"
@@ -47,15 +47,19 @@ def load_config() -> dict:
     except Exception as e:
         log.error("Cannot parse config: %s", e)
         sys.exit(1)
-    if not cfg.get("shared_secret"):
-        log.error("shared_secret must be set in %s", CONFIG_PATH)
+    # Extract SSH sync settings
+    if not cfg.get("ssh_sync_enabled"):
+        log.warning("SSH sync is disabled in config")
+    secret = cfg.get("ssh_sync_secret")
+    if not secret:
+        log.error("ssh_sync_secret must be set in %s", CONFIG_PATH)
         sys.exit(1)
-    return cfg
+    return {"secret": secret, "enabled": cfg.get("ssh_sync_enabled", False)}
 
 
 cfg = load_config()
-PORT: int = cfg.get("port", 9922)
-SECRET: str = cfg["shared_secret"]
+PORT: int = 9922  # Fixed port
+SECRET: str = cfg["secret"]
 
 # ── Flask app ─────────────────────────────────────────────────────────────────
 

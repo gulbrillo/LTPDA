@@ -41,6 +41,9 @@ def write_config(
     mysql_admin_password: str,
     secret_key: str,
     public_url: str | None = None,
+    ssh_sync_enabled: bool = False,
+    ssh_sync_url: str | None = None,
+    ssh_sync_secret: str | None = None,
 ) -> None:
     CONFIG_FILE.parent.mkdir(parents=True, exist_ok=True)
     data: dict = {
@@ -55,6 +58,11 @@ def write_config(
     }
     if public_url:
         data["public_url"] = public_url.rstrip("/")
+    data["ssh_sync_enabled"] = ssh_sync_enabled
+    if ssh_sync_url:
+        data["ssh_sync_url"] = ssh_sync_url
+    if ssh_sync_secret:
+        data["ssh_sync_secret"] = ssh_sync_secret
     CONFIG_FILE.write_text(json.dumps(data, indent=2))
 
 
@@ -67,6 +75,18 @@ def update_public_url(public_url: str) -> None:
 
 def get_public_url() -> str | None:
     return _load().get("public_url")
+
+
+def get_ssh_sync_config() -> dict:
+    """Return SSH sync configuration if enabled."""
+    data = _load()
+    if not data.get("ssh_sync_enabled"):
+        return {}
+    return {
+        "enabled": True,
+        "url": data.get("ssh_sync_url"),
+        "secret": data.get("ssh_sync_secret"),
+    }
 
 
 ACCESS_TOKEN_EXPIRE_MINUTES = 8 * 60  # 8 hours
