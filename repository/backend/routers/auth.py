@@ -63,6 +63,13 @@ async def me(user: User = Depends(get_current_user)):
     return user
 
 
+@router.post("/refresh", response_model=TokenResponse)
+async def refresh_token(user: User = Depends(get_current_user)):
+    """Issue a fresh token for an active session. Called automatically by the
+    frontend when the current token is within 5 minutes of expiry."""
+    return TokenResponse(access_token=create_access_token(user.username))
+
+
 _PMA_COOKIE = "pma_access"
 
 

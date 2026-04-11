@@ -119,4 +119,4 @@ def get_ssh_sync_config() -> dict:
     }
 
 
-ACCESS_TOKEN_EXPIRE_MINUTES = 8 * 60  # 8 hours
+ACCESS_TOKEN_EXPIRE_MINUTES = 20  # 15-min idle timeout; auto-refreshed by frontend on activity
