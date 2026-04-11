@@ -71,7 +71,9 @@ async def create_user(
 
     result = UserOut.model_validate(user).model_dump(mode="json")
     ssh = await ssh_sync.sync_create(body.username, body.password)
-    if not ssh.get("ok") and not ssh.get("skipped"):
+    if ssh.get("ok") and not ssh.get("skipped"):
+        result["ssh_synced"] = True
+    elif not ssh.get("skipped"):
         log.warning("SSH sync failed for new user %s: %s", body.username, ssh.get("error"))
         result["ssh_sync_warning"] = ssh.get("error")
     return result
@@ -126,7 +128,9 @@ async def update_self(
     result = UserOut.model_validate(user).model_dump(mode="json")
     if body.password:
         ssh = await ssh_sync.sync_create(user.username, body.password)
-        if not ssh.get("ok") and not ssh.get("skipped"):
+        if ssh.get("ok") and not ssh.get("skipped"):
+            result["ssh_synced"] = True
+        elif not ssh.get("skipped"):
             log.warning("SSH sync failed for user %s: %s", user.username, ssh.get("error"))
             result["ssh_sync_warning"] = ssh.get("error")
     return result
@@ -186,7 +190,9 @@ async def update_user(
     result = UserOut.model_validate(user).model_dump(mode="json")
     if body.password:
         ssh = await ssh_sync.sync_create(user.username, body.password)
-        if not ssh.get("ok") and not ssh.get("skipped"):
+        if ssh.get("ok") and not ssh.get("skipped"):
+            result["ssh_synced"] = True
+        elif not ssh.get("skipped"):
             log.warning("SSH sync failed for user %s: %s", user.username, ssh.get("error"))
             result["ssh_sync_warning"] = ssh.get("error")
     return result
@@ -222,7 +228,9 @@ async def delete_user(
 
     result: dict = {"ok": True}
     ssh = await ssh_sync.sync_delete(username)
-    if not ssh.get("ok") and not ssh.get("skipped"):
+    if ssh.get("ok") and not ssh.get("skipped"):
+        result["ssh_synced"] = True
+    elif not ssh.get("skipped"):
         log.warning("SSH sync delete failed for %s: %s", username, ssh.get("error"))
         result["ssh_sync_warning"] = ssh.get("error")
     return result

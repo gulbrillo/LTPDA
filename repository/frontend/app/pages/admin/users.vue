@@ -153,11 +153,15 @@ async function saveUser() {
       dialogWarning.value = `SSH sync warning: ${res.ssh_sync_warning}`
       setTimeout(() => { showDialog.value = false; dialogSuccess.value = ''; dialogWarning.value = '' }, 6000)
     } else if (isCreate) {
-      dialogSuccess.value = 'User created — SSH account provisioned.'
+      dialogSuccess.value = res?.ssh_synced
+        ? 'User created — SSH account provisioned.'
+        : 'User created.'
       setTimeout(() => { showDialog.value = false; dialogSuccess.value = '' }, 3000)
     } else if (passwordChanged) {
-      dialogSuccess.value = 'Changes saved — SSH password updated.'
-      setTimeout(() => { showDialog.value = false; dialogSuccess.value = '' }, 3000)
+      dialogSuccess.value = res?.ssh_synced
+        ? 'Changes saved — SSH password updated.'
+        : 'Changes saved.'
+      setTimeout(() => { showDialog.value = false; dialogSuccess.value = '' }, 1500)
     } else {
       dialogSuccess.value = 'Changes saved.'
       setTimeout(() => { showDialog.value = false; dialogSuccess.value = '' }, 1500)
@@ -188,8 +192,10 @@ async function confirmDelete() {
     await loadUsers()
     if (res?.ssh_sync_warning) {
       notice.value = `"${u.username}" deleted. SSH sync warning: ${res.ssh_sync_warning}`
-    } else {
+    } else if (res?.ssh_synced) {
       notice.value = `"${u.username}" deleted — SSH account removed.`
+    } else {
+      notice.value = `"${u.username}" deleted.`
     }
     setTimeout(() => { notice.value = '' }, 5000)
   } catch (e: unknown) {
