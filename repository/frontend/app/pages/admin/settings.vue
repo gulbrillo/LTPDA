@@ -46,15 +46,38 @@ interface SshHealth {
 }
 const sshHealth = ref<SshHealth | null>(null)
 const sshHealthLoading = ref(false)
+const sshLogs = ref<string[]>([])
+const sshLogsNote = ref('')
+const sshLogsLoading = ref(false)
 
 async function checkSshHealth() {
   sshHealthLoading.value = true
+  sshLogs.value = []
+  sshLogsNote.value = ''
   try {
     sshHealth.value = await apiFetch<SshHealth>('/settings/ssh-sync/health')
   } catch {
     sshHealth.value = { enabled: true, ok: false, error: 'Could not reach backend' }
   } finally {
     sshHealthLoading.value = false
+  }
+  // If daemon is unreachable, automatically fetch logs for diagnostics
+  if (sshHealth.value && !sshHealth.value.ok) {
+    await loadSshLogs()
+  }
+}
+
+async function loadSshLogs() {
+  sshLogsLoading.value = true
+  try {
+    const res = await apiFetch<{ lines: string[]; note?: string }>('/settings/ssh-sync/logs')
+    sshLogs.value = res.lines ?? []
+    sshLogsNote.value = res.note ?? ''
+  } catch {
+    sshLogs.value = []
+    sshLogsNote.value = 'Could not fetch log file.'
+  } finally {
+    sshLogsLoading.value = false
   }
 }
 
@@ -207,6 +230,19 @@ async function loadSettings() {
           <p v-if="sshHealth && !sshHealth.ok && sshHealth.error" class="ssh-err-detail">
             {{ sshHealth.error }}
           </p>
+
+          <!-- Daemon log (shown when unreachable) -->
+          <div v-if="sshHealth && !sshHealth.ok" class="ssh-log-wrap">
+            <div class="ssh-log-head">
+              <span>Daemon log</span>
+              <span v-if="sshLogsLoading" class="ssh-log-loading"><span class="spin spin-xs" /> fetching…</span>
+              <button v-else class="recheck-btn" title="Refresh log" @click="loadSshLogs">↺</button>
+            </div>
+            <pre v-if="sshLogs.length" class="ssh-log-body">{{ sshLogs.join('\n') }}</pre>
+            <p v-else-if="sshLogsNote" class="ssh-log-note">{{ sshLogsNote }}</p>
+            <p v-else-if="!sshLogsLoading" class="ssh-log-note">No log lines yet.</p>
+          </div>
+
           <p class="card-desc">
             An SSH gateway container runs on port 2222. User accounts are synced automatically
             from the web UI — SSH uses each user's <strong>web UI login password</strong>.
@@ -347,6 +383,27 @@ h2 { font-size: 0.9rem; font-weight: 700; letter-spacing: -0.02em; color: #1e305
 .recheck-btn:hover:not(:disabled) { color: #2f5596; }
 .recheck-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 .spin-xs { width: 10px; height: 10px; border-width: 1.5px; }
+
+/* ── Daemon log block ── */
+.ssh-log-wrap {
+  margin-bottom: 1.25rem; border: 1px solid #e8eef6; border-radius: 8px; overflow: hidden;
+}
+.ssh-log-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.4rem 0.75rem; background: #f5f8fc;
+  border-bottom: 1px solid #e8eef6; font-size: 0.72rem; font-weight: 600;
+  color: #4a6080; letter-spacing: 0.03em; text-transform: uppercase;
+}
+.ssh-log-loading { display: flex; align-items: center; gap: 0.3rem; font-weight: 400; color: #8aa0b8; }
+.ssh-log-body {
+  margin: 0; padding: 0.6rem 0.75rem; background: #1e3050;
+  color: #c8e0f8; font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.72rem; line-height: 1.55; white-space: pre-wrap; word-break: break-all;
+  max-height: 260px; overflow-y: auto;
+}
+.ssh-log-note {
+  margin: 0; padding: 0.5rem 0.75rem; font-size: 0.775rem; color: #8aa0b8; font-style: italic;
+}
 
 /* ── Tunnel command ── */
 .tunnel-cmd {

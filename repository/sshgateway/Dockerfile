@@ -14,6 +14,8 @@ RUN chmod +x /app/ssh_sync_daemon.py
 
 EXPOSE 22 9922
 
-# Use tini as init to run both sshd and ssh_sync_daemon.py
+# Use tini as init to run both sshd and the sync daemon.
+# The daemon restarts automatically if it exits (e.g. unexpected crash).
+# It also waits internally for config.json to appear, so startup order is safe.
 CMD ["/sbin/tini", "--", "/bin/sh", "-c", \
-    "python3 /app/ssh_sync_daemon.py &\n/usr/sbin/sshd -D -e"]
+    "while true; do python3 /app/ssh_sync_daemon.py; echo 'Sync daemon exited, restarting in 5s...'; sleep 5; done &\n/usr/sbin/sshd -D -e"]

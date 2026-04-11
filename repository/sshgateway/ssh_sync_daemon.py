@@ -19,6 +19,7 @@ import logging
 import os
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 from flask import Flask, abort, jsonify, request
@@ -26,6 +27,7 @@ from flask import Flask, abort, jsonify, request
 # ── Config ────────────────────────────────────────────────────────────────────
 
 CONFIG_PATH = Path("/app/config/config.json")  # Shared with backend
+LOG_PATH = Path("/app/config/sshgateway.log")   # Accessible from host via volume mount
 VERSION = "1.0.0"
 LTPDA_MARKER = "ltpda-managed"
 LTPDA_GROUP = "ltpda-users"
@@ -33,28 +35,35 @@ LTPDA_GROUP = "ltpda-users"
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
-    handlers=[logging.StreamHandler(sys.stdout)],
+    handlers=[
+        logging.StreamHandler(sys.stdout),
+        logging.FileHandler(LOG_PATH, encoding="utf-8"),
+    ],
 )
 log = logging.getLogger("ltpda-ssh-sync")
 
 
 def load_config() -> dict:
-    if not CONFIG_PATH.exists():
-        log.error("Config file not found: %s", CONFIG_PATH)
-        sys.exit(1)
-    try:
-        cfg = json.loads(CONFIG_PATH.read_text())
-    except Exception as e:
-        log.error("Cannot parse config: %s", e)
-        sys.exit(1)
-    # Extract SSH sync settings
-    if not cfg.get("ssh_sync_enabled"):
-        log.warning("SSH sync is disabled in config")
-    secret = cfg.get("ssh_sync_secret")
-    if not secret:
-        log.error("ssh_sync_secret must be set in %s", CONFIG_PATH)
-        sys.exit(1)
-    return {"secret": secret, "enabled": cfg.get("ssh_sync_enabled", False)}
+    """Block until config.json is present and contains the SSH sync secret."""
+    while True:
+        if not CONFIG_PATH.exists():
+            log.info("Waiting for config.json at %s ...", CONFIG_PATH)
+            time.sleep(5)
+            continue
+        try:
+            cfg = json.loads(CONFIG_PATH.read_text())
+        except Exception as e:
+            log.error("Cannot parse config.json: %s — retrying in 5s", e)
+            time.sleep(5)
+            continue
+        secret = cfg.get("ssh_sync_secret")
+        if not secret:
+            log.info("ssh_sync_secret not present in config yet, waiting...")
+            time.sleep(5)
+            continue
+        if not cfg.get("ssh_sync_enabled"):
+            log.warning("SSH sync is disabled in config (ssh_sync_enabled is false/missing)")
+        return {"secret": secret, "enabled": cfg.get("ssh_sync_enabled", False)}
 
 
 cfg = load_config()

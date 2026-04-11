@@ -44,8 +44,8 @@ services:
 
   # ── SSH gateway (bundled mode only) ───────────────────────────────────────
   # Allows MATLAB users to open an SSH tunnel into MySQL:
-  #   ssh -L 3306:db:3306 -p 2222 username@repo.yourdomain.com
-  # Auth is delegated entirely to MySQL — no Linux host accounts needed.
+  #   ssh -N -L 3306:db:3306 -p 2222 username@repo.yourdomain.com
+  # User SSH accounts are managed by ssh_sync_daemon.py (port 9922, internal only).
   # Port 2222 must be open in the server firewall: sudo ufw allow 2222/tcp
   sshgateway:
     profiles: ["bundled"]
@@ -54,6 +54,8 @@ services:
     ports:
       - "2222:22"
       - "9922:9922"
+    volumes:
+      - ./config:/app/config   # shares config.json (SSH sync secret) and daemon log with api
     networks:
       - internal
 
